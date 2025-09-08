@@ -1,11 +1,5 @@
-import baseEN from '../data/kinks.en.json';
-import baseES from '../data/kinks.es.json';
-
-// Optional extras (exist in EN now; ES can be added later)
-let extraEN: any[] = [];
-let extraES: any[] = [];
-try { extraEN = require('../data/kinks.extra.en.json'); } catch {}
-try { extraES = require('../data/kinks.extra.es.json'); } catch {}
+import kinksEN from '../data/kinks.en.json';
+import kinksES from '../data/kinks.es.json';
 
 export type Tier = 'romance'|'soft'|'naughty'|'xxx';
 
@@ -29,21 +23,9 @@ function defaultTier(k: any): Tier {
   return 'romance';
 }
 
-function dedupeById(arr: any[]) {
-  const seen = new Set<string>();
-  const out: any[] = [];
-  for (const it of arr) {
-    if (!seen.has(it.id)) { seen.add(it.id); out.push(it); }
-  }
-  return out;
-}
-
-export function useKinks(lang:'en'|'es'='en') {
-  const base = (lang==='es' ? (baseES as any) : (baseEN as any)) as any[];
-  const extra = (lang==='es' ? extraES : extraEN) as any[];
-
-  const merged = dedupeById([...base, ...extra]);
-  const kinks: KinkItem[] = merged.map(k => ({ ...k, tier: defaultTier(k) }));
-  const kinksById = Object.fromEntries(kinks.map(k=>[k.id, k]));
+export function useKinks(lang: 'en' | 'es' = 'en') {
+  const base = (lang === 'es' ? (kinksES as any) : (kinksEN as any)) as any[];
+  const kinks: KinkItem[] = base.map(k => ({ ...k, tier: defaultTier(k) }));
+  const kinksById = Object.fromEntries(kinks.map(k => [k.id, k]));
   return { kinks, kinksById };
 }

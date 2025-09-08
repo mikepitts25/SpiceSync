@@ -1,867 +1,20 @@
 [
   {
-    "id": "sys-001",
-    "slug": "soft-kiss",
-    "title": "Soft kissing",
-    "description": "Gentle, affectionate kissing focused on connection and comfort.",
+    "id": "0000",
+    "slug": "aftercare-bath",
+    "title": "Aftercare: warm bath",
+    "description": "Warm soak with gentle conversation to unwind together.",
     "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-002",
-    "slug": "slow-dance",
-    "title": "Slow dancing",
-    "description": "Swaying together to music in a cozy space, focusing on presence.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-003",
-    "slug": "candlelight",
-    "title": "Candlelight ambience",
-    "description": "Setting warm lighting and calming scents to shape a relaxing mood.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-004",
-    "slug": "playlist-curation",
-    "title": "Shared playlist",
-    "description": "Curating a soundtrack together to set the tone for the evening.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-005",
-    "slug": "guided-breathing",
-    "title": "Guided breathing",
-    "description": "Breathing in sync to relax, connect, and stay present together.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-006",
-    "slug": "gratitude-notes",
-    "title": "Gratitude notes",
-    "description": "Sharing kind words or notes about what you appreciate in each other.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-007",
-    "slug": "massage-hands",
-    "title": "Hand massage",
-    "description": "Using oil or lotion to gently massage hands and fingers.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-008",
-    "slug": "massage-shoulders",
-    "title": "Shoulder massage",
-    "description": "Loosening tension with a slow, mindful shoulder massage.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-009",
-    "slug": "blindfold-soft",
-    "title": "Soft blindfold",
-    "description": "Light sensory play by gently covering eyes to heighten other senses.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-010",
-    "slug": "ice-cube-play",
-    "title": "Cool touch (ice)",
-    "description": "Temperature contrast using a wrapped ice cube for a brief cool touch.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-011",
-    "slug": "warm-towel",
-    "title": "Warm towel wrap",
-    "description": "Wrapping a warm, fresh towel around shoulders or back.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-012",
-    "slug": "feather-tickle",
-    "title": "Feather touch",
-    "description": "Light, teasing touches with a clean feather.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-013",
-    "slug": "silk-scarf-hold",
-    "title": "Silk scarf hold",
-    "description": "A soft scarf to guide hands with gentle, consensual restraint.",
-    "tags": [
-      "safety-first",
-      "quick-release"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-014",
-    "slug": "cuddle-cocoon",
-    "title": "Cuddle cocoon",
-    "description": "Bundling up under blankets to feel safe and close.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
+      "aftercare"
     ],
     "category": "aftercare",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-015",
-    "slug": "check-in",
-    "title": "Check-in ritual",
-    "description": "A brief pre- and post-activity talk about boundaries and comfort.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-016",
-    "slug": "roleplay-date",
-    "title": "First-date roleplay",
-    "description": "Playfully recreating the feel of a first meeting at home.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-017",
-    "slug": "costume-cosplay",
-    "title": "Simple cosplay",
-    "description": "Light, playful costumes chosen together; consent-first improv.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-018",
-    "slug": "chef-apron",
-    "title": "Chef apron scene",
-    "description": "Cooking together with playful apron vibes and compliments.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-019",
-    "slug": "spa-night",
-    "title": "Home spa night",
-    "description": "DIY spa: face masks, warm water, soft robes, and calm music.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-020",
-    "slug": "shower-together",
-    "title": "Shared warm shower",
-    "description": "A relaxing, respectful shower together with gentle care.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-021",
-    "slug": "bubble-bath",
-    "title": "Bubble bath unwind",
-    "description": "A warm bath with bubbles and calm conversation.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-022",
-    "slug": "scarf-wrist-guide",
-    "title": "Wrist guide (scarf)",
-    "description": "A scarf guiding hand placement with easy release and constant consent.",
-    "tags": [
-      "safety-first",
-      "quick-release"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-023",
-    "slug": "pillow-talk",
-    "title": "Pillow talk",
-    "description": "Quiet conversation about hopes, ideas, and what feels good.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-024",
-    "slug": "compliments",
-    "title": "Compliment exchange",
-    "description": "Taking turns sharing affirming words.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-025",
-    "slug": "lights-dim",
-    "title": "Dim lights + soft glow",
-    "description": "Dimming main lights; adding a soft lamp or string lights.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-026",
-    "slug": "aroma",
-    "title": "Room scent",
-    "description": "Light, clean scent via diffuser or candle (non-irritating).",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-027",
-    "slug": "mocktail",
-    "title": "Mocktail tasting",
-    "description": "Mixing and tasting non-alcoholic drinks together.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-028",
-    "slug": "chocolate-tasting",
-    "title": "Chocolate tasting",
-    "description": "Sampling small pieces of chocolate and discussing flavors.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-029",
-    "slug": "fruit-tasting",
-    "title": "Fruit tasting",
-    "description": "Trying bite-sized fruit selections and noting textures.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-030",
-    "slug": "eye-contact",
-    "title": "Gentle eye contact",
-    "description": "Holding soft eye contact for brief moments to feel connected.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-031",
-    "slug": "hand-holding",
-    "title": "Interlaced hand holding",
-    "description": "Holding hands in different ways and noticing the feeling.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-032",
-    "slug": "guided-stretch",
-    "title": "Guided stretching",
-    "description": "Slow, mindful stretches together for comfort and body awareness.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-033",
-    "slug": "soft-brush",
-    "title": "Soft brush strokes",
-    "description": "Using a clean, soft brush for gentle strokes on arms or back.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-034",
-    "slug": "lotion-trace",
-    "title": "Lotion tracing",
-    "description": "Drawing simple shapes with lotion on shoulders or back.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-035",
-    "slug": "ear-whisper",
-    "title": "Ear whisper",
-    "description": "Soft, kind words near the ear in a calm voice.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-036",
-    "slug": "temperature-stone",
-    "title": "Warm stone touch",
-    "description": "Brief warm stone touch on shoulders or hands.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-037",
-    "slug": "scalp-massage",
-    "title": "Scalp massage",
-    "description": "Gentle fingertip massage of the scalp and temples.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-038",
-    "slug": "hand-warmers",
-    "title": "Pocket hand warmers",
-    "description": "Placing warm packs near hands (not too hot) for comfort.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-039",
-    "slug": "cool-breeze-fan",
-    "title": "Hand fan breeze",
-    "description": "A soft breeze with a handheld fan to create calming sensations.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-040",
-    "slug": "bookstore-meet",
-    "title": "Bookstore meet-cute",
-    "description": "Pretend to meet while browsing favorite books.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-041",
-    "slug": "dance-lesson",
-    "title": "Dance lesson",
-    "description": "One person teaches a simple dance step; switch roles.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-042",
-    "slug": "travel-planners",
-    "title": "Travel planners",
-    "description": "Pretend to plan a dream trip with roles like planner and guide.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-043",
-    "slug": "gallery-tour",
-    "title": "Art gallery tour",
-    "description": "One person is the guide describing 'exhibits' at home.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-044",
-    "slug": "coffee-date",
-    "title": "Coffee date at home",
-    "description": "Pretend café with compliments and playful banter.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-045",
-    "slug": "spa-attendant",
-    "title": "Spa attendant + guest",
-    "description": "One plays attentive host with comfy robe and tea.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-046",
-    "slug": "velcro-cuffs",
-    "title": "Velcro cuffs (quick release)",
-    "description": "Soft, purpose-made cuffs that release quickly; constant consent.",
-    "tags": [
-      "safety-first",
-      "quick-release"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-047",
-    "slug": "door-anchor-band",
-    "title": "Door anchor band",
-    "description": "A safe, low-tension band for gentle guidance with quick removal.",
-    "tags": [
-      "safety-first",
-      "quick-release"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-048",
-    "slug": "soft-ankle-guide",
-    "title": "Soft ankle guide",
-    "description": "Cushioned fabric to gently guide foot placement (easy out).",
-    "tags": [
-      "safety-first",
-      "quick-release"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-049",
-    "slug": "stargaze",
-    "title": "Stargazing",
-    "description": "Looking at the night sky together if available, sharing thoughts.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-050",
-    "slug": "sunrise-watch",
-    "title": "Sunrise watch",
-    "description": "Enjoying early light with warm drinks and calm talk.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-051",
-    "slug": "indoor-fort",
-    "title": "Indoor blanket fort",
-    "description": "Building a cozy space with pillows and soft lights.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-052",
-    "slug": "projector-movie",
-    "title": "Projector movie night",
-    "description": "Watching a comforting film with a blanket and snacks.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-053",
-    "slug": "silicone-massager",
-    "title": "Handheld massager",
-    "description": "A body-safe, handheld massager for back or legs (non-intimate).",
-    "tags": [
-      "clean",
-      "body-safe"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-054",
-    "slug": "satin-ribbon",
-    "title": "Satin ribbon guide",
-    "description": "A short ribbon to guide movement gently; never tight; easy release.",
-    "tags": [
-      "clean",
-      "body-safe"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-055",
-    "slug": "sleep-mask",
-    "title": "Sleep mask",
-    "description": "A comfy mask to soften light and invite relaxation.",
-    "tags": [
-      "clean",
-      "body-safe"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-056",
-    "slug": "soft-rope-decor",
-    "title": "Soft rope (decorative)",
-    "description": "Loose, decorative wraps with two-finger space and scissor safety.",
-    "tags": [
-      "clean",
-      "body-safe"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-057",
-    "slug": "yes-no-maybe",
-    "title": "Yes/No/Maybe list",
-    "description": "A simple list to mark interests before activities.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-058",
-    "slug": "traffic-light",
-    "title": "Traffic-light system",
-    "description": "Green = go, Yellow = slow/check, Red = stop immediately.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-059",
+    "id": "0001",
     "slug": "aftercare-menu",
     "title": "Aftercare menu",
     "description": "Choose comfort options for winding down together.",
@@ -873,13 +26,429 @@
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-060",
-    "slug": "debrief-ritual",
-    "title": "Debrief ritual",
-    "description": "Talk calmly about what felt good and what to adjust.",
+    "id": "0002",
+    "slug": "aftercare-weighted-blanket",
+    "title": "Aftercare: weighted blanket",
+    "description": "Cozy pressure and warmth to decompress after intense scenes.",
+    "tags": [
+      "aftercare"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0003",
+    "slug": "anal-play-advanced",
+    "title": "Backdoor play (advanced)",
+    "description": "Advanced exploration for experienced partners; go slow and prioritize comfort.",
+    "tags": [
+      "prep",
+      "comfort"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0004",
+    "slug": "anal-play-beginner",
+    "title": "Backdoor play (beginner)",
+    "description": "Beginner-friendly exploration with preparation, comfort, and patience.",
+    "tags": [
+      "prep",
+      "comfort"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [
+      "anal beginner"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0005",
+    "slug": "anal-training-set",
+    "title": "Anal training set",
+    "description": "Progressive sizes, ample lube, slow pacing, and communication.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0006",
+    "slug": "anal-training-step-1",
+    "title": "Anal training step #1",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0007",
+    "slug": "anal-training-step-2",
+    "title": "Anal training step #2",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0008",
+    "slug": "anal-training-step-3",
+    "title": "Anal training step #3",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0009",
+    "slug": "anal-training-step-4",
+    "title": "Anal training step #4",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0010",
+    "slug": "anal-training-step-5",
+    "title": "Anal training step #5",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0011",
+    "slug": "anal-training-step-6",
+    "title": "Anal training step #6",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0012",
+    "slug": "anal-training-step-7",
+    "title": "Anal training step #7",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0013",
+    "slug": "anal-training-step-8",
+    "title": "Anal training step #8",
+    "description": "Next size in a well-lubed training plan; patience and breath.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0014",
+    "slug": "aroma",
+    "title": "Room scent",
+    "description": "Light, clean scent via diffuser or candle (non-irritating).",
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0015",
+    "slug": "audio-erotica-listen",
+    "title": "Listen to audio erotica",
+    "description": "Narrative audio chosen together; pause if anything feels off.",
+    "tags": [
+      "media"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0016",
+    "slug": "blindfold-deep",
+    "title": "Deeper sensory deprivation",
+    "description": "Layered blindfold/earplugs to emphasize other senses; constant consent.",
+    "tags": [
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0017",
+    "slug": "blindfold-soft",
+    "title": "Soft blindfold",
+    "description": "Light sensory play by gently covering eyes to heighten other senses.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0018",
+    "slug": "body-worship",
+    "title": "Body worship",
+    "description": "Focused attention on admired body areas (e.g., chest, legs) with praise and consent.",
+    "tags": [
+      "aesthetic",
+      "praise"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0019",
+    "slug": "bookstore-meet",
+    "title": "Bookstore meet-cute",
+    "description": "Pretend to meet while browsing favorite books.",
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0020",
+    "slug": "boot-shoe-care",
+    "title": "Boot/shoe care (aesthetic)",
+    "description": "Polishing or caring for footwear as a ritual; style and presentation focused.",
+    "tags": [
+      "ritual",
+      "aesthetic"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "footwear ritual"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0021",
+    "slug": "boss-employee",
+    "title": "Boss/employee roleplay",
+    "description": "Fictional workplace dynamic with explicit consent and pause signals.",
+    "tags": [
+      "roleplay",
+      "power-exchange"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0022",
+    "slug": "breath-safe-hood",
+    "title": "Breath-safe hood (sensory)",
+    "description": "Mesh/vented hood for visual focus; no airway restriction; clear stop signals.",
+    "tags": [
+      "sensory",
+      "safety"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "sensory hood"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0023",
+    "slug": "bubble-bath",
+    "title": "Bubble bath unwind",
+    "description": "A warm bath with bubbles and calm conversation.",
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0024",
+    "slug": "bukkake-topic",
+    "title": "Semen-focused group — topic",
+    "description": "Group interest centered on semen; privacy and health plans required.",
+    "tags": [
+      "cnm",
+      "fluids"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0025",
+    "slug": "candlelight",
+    "title": "Candlelight ambience",
+    "description": "Setting warm lighting and calming scents to shape a relaxing mood.",
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0026",
+    "slug": "card-prompts",
+    "title": "Card prompts",
+    "description": "Shuffle neutral prompt cards about comfort and mood.",
+    "tags": [
+      "fun",
+      "playful"
+    ],
+    "category": "games_and_challenges",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0027",
+    "slug": "chastity-keyholder",
+    "title": "Chastity keyholder dynamic",
+    "description": "Consensual control of release timing and toy access; frequent check-ins.",
+    "tags": [
+      "control",
+      "ritual"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0028",
+    "slug": "chastity-play",
+    "title": "Chastity play (consensual control)",
+    "description": "Agreed control over sexual release with check-ins and aftercare; safety and comfort prioritized.",
+    "tags": [
+      "control",
+      "timing"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [
+      "chastity"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0029",
+    "slug": "check-in",
+    "title": "Check-in ritual",
+    "description": "A brief pre- and post-activity talk about boundaries and comfort.",
     "tags": [
       "check-in",
       "boundaries",
@@ -888,25 +457,425 @@
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-061",
-    "slug": "tea-time",
-    "title": "Warm tea time",
-    "description": "Sharing a warm drink and soft blanket for comfort.",
+    "id": "0030",
+    "slug": "chef-apron",
+    "title": "Chef apron scene",
+    "description": "Cooking together with playful apron vibes and compliments.",
     "tags": [
-      "care",
-      "comfort",
-      "warmth"
+      "costume-optional",
+      "improv",
+      "consent-talk"
     ],
-    "category": "aftercare",
+    "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-062",
+    "id": "0031",
+    "slug": "chocolate-tasting",
+    "title": "Chocolate tasting",
+    "description": "Sampling small pieces of chocolate and discussing flavors.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0032",
+    "slug": "cnm-dates-separate",
+    "title": "Consensual non-monogamy: separate dates",
+    "description": "Exploring separate dates by agreement; debrief and aftercare afterward.",
+    "tags": [
+      "cnm"
+    ],
+    "category": "group",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0033",
+    "slug": "cnm-same-room",
+    "title": "CNM: same-room experience",
+    "description": "Being in the same room during another’s encounter, with consent and signals.",
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0034",
+    "slug": "coffee-date",
+    "title": "Coffee date at home",
+    "description": "Pretend café with compliments and playful banter.",
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0035",
+    "slug": "coin-flip-choose",
+    "title": "Coin flip chooser",
+    "description": "Flip a coin to pick a gentle idea from a safe list.",
+    "tags": [
+      "fun",
+      "playful"
+    ],
+    "category": "games_and_challenges",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0036",
+    "slug": "collar-consensual-symbol",
+    "title": "Collar (consensual symbol)",
+    "description": "A collar worn as a consensual symbol or for gentle guidance.",
+    "tags": [
+      "symbol",
+      "roles"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0037",
+    "slug": "collar-ritual",
+    "title": "Collar ritual",
+    "description": "Collar as a consensual symbol with comfort checks.",
+    "tags": [
+      "ritual",
+      "symbol"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0038",
+    "slug": "collar-ritual-var-1",
+    "title": "Collar protocols #1",
+    "description": "Agreed rituals around wearing/removing a collar.",
+    "tags": [
+      "ritual",
+      "symbol"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0039",
+    "slug": "collar-ritual-var-2",
+    "title": "Collar protocols #2",
+    "description": "Agreed rituals around wearing/removing a collar.",
+    "tags": [
+      "ritual",
+      "symbol"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0040",
+    "slug": "collar-ritual-var-3",
+    "title": "Collar protocols #3",
+    "description": "Agreed rituals around wearing/removing a collar.",
+    "tags": [
+      "ritual",
+      "symbol"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0041",
+    "slug": "collar-ritual-var-4",
+    "title": "Collar protocols #4",
+    "description": "Agreed rituals around wearing/removing a collar.",
+    "tags": [
+      "ritual",
+      "symbol"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0042",
+    "slug": "compliments",
+    "title": "Compliment exchange",
+    "description": "Taking turns sharing affirming words.",
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0043",
+    "slug": "consensual-consequences-game",
+    "title": "Consensual consequences (game)",
+    "description": "Playful, pre-agreed consequences for missed tasks (e.g., extra chores, timed tease).",
+    "tags": [
+      "game",
+      "planning"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "task stakes"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0044",
+    "slug": "consensual-degradation",
+    "title": "Consensual degradation (pre-agreed)",
+    "description": "Pre-agreed spicy put-downs within a scene; confirm words and aftercare.",
+    "tags": [
+      "language",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0045",
+    "slug": "cool-breeze-fan",
+    "title": "Hand fan breeze",
+    "description": "A soft breeze with a handheld fan to create calming sensations.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0046",
+    "slug": "cosplay-celebrity-character",
+    "title": "Cosplay or character roleplay",
+    "description": "Dressing as fictional or public characters (adults), keeping it playful and respectful.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "character play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0047",
+    "slug": "cosplay-var-1",
+    "title": "Sexy cosplay (adults) #1",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0048",
+    "slug": "cosplay-var-2",
+    "title": "Sexy cosplay (adults) #2",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0049",
+    "slug": "cosplay-var-3",
+    "title": "Sexy cosplay (adults) #3",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0050",
+    "slug": "cosplay-var-4",
+    "title": "Sexy cosplay (adults) #4",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0051",
+    "slug": "cosplay-var-5",
+    "title": "Sexy cosplay (adults) #5",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0052",
+    "slug": "cosplay-var-6",
+    "title": "Sexy cosplay (adults) #6",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0053",
+    "slug": "cosplay-var-7",
+    "title": "Sexy cosplay (adults) #7",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0054",
+    "slug": "cosplay-var-8",
+    "title": "Sexy cosplay (adults) #8",
+    "description": "Fictional characters with clear boundaries and consent.",
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0055",
+    "slug": "costume-cosplay",
+    "title": "Simple cosplay",
+    "description": "Light, playful costumes chosen together; consent-first improv.",
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0056",
+    "slug": "counting-commands",
+    "title": "Counting and commands",
+    "description": "Playful counting tasks or responses that reinforce a role dynamic.",
+    "tags": [
+      "ritual",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0057",
     "slug": "cozy-hoodie",
     "title": "Cozy hoodie",
     "description": "Offering a comfy hoodie or robe to feel grounded.",
@@ -918,10 +887,1554 @@
     "category": "aftercare",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-063",
+    "id": "0058",
+    "slug": "cross-dressing",
+    "title": "Cross-dressing",
+    "description": "Exploring clothing and presentation traditionally linked to another gender, with support and respect.",
+    "tags": [
+      "expression",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "gender expression play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0059",
+    "slug": "crossdressing-style",
+    "title": "Cross-dressing style play",
+    "description": "Trying styles linked to another gender with support and compliments.",
+    "tags": [
+      "expression",
+      "style"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0060",
+    "slug": "cuckolding-consensual",
+    "title": "Cuckolding (consensual, no degradation)",
+    "description": "Observer partner consents to watching their partner with another; no humiliation or derogatory language.",
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "voyeur partner play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0061",
+    "slug": "cuckolding-consent",
+    "title": "Cuckolding (consensual)",
+    "description": "Observer watches partner with another by prior agreement; language pre-agreed.",
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0062",
+    "slug": "cuddle-cocoon",
+    "title": "Cuddle cocoon",
+    "description": "Bundling up under blankets to feel safe and close.",
+    "tags": [
+      "care",
+      "comfort",
+      "warmth"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0063",
+    "slug": "d-s-dynamic",
+    "title": "Dominance & submission (consensual)",
+    "description": "Agreed power exchange with clear boundaries, safe signals, and check-ins.",
+    "tags": [
+      "power-exchange",
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "D/s"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0064",
+    "slug": "dance-lesson",
+    "title": "Dance lesson",
+    "description": "One person teaches a simple dance step; switch roles.",
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0065",
+    "slug": "debrief-ritual",
+    "title": "Debrief ritual",
+    "description": "Talk calmly about what felt good and what to adjust.",
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0066",
+    "slug": "degradation-phrase-var-1",
+    "title": "Pre-agreed phrases #1",
+    "description": "Using ONLY listed words; stop immediately on signal.",
+    "tags": [
+      "language",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0067",
+    "slug": "degradation-phrase-var-2",
+    "title": "Pre-agreed phrases #2",
+    "description": "Using ONLY listed words; stop immediately on signal.",
+    "tags": [
+      "language",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0068",
+    "slug": "degradation-phrase-var-3",
+    "title": "Pre-agreed phrases #3",
+    "description": "Using ONLY listed words; stop immediately on signal.",
+    "tags": [
+      "language",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0069",
+    "slug": "degradation-phrase-var-4",
+    "title": "Pre-agreed phrases #4",
+    "description": "Using ONLY listed words; stop immediately on signal.",
+    "tags": [
+      "language",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0070",
+    "slug": "degradation-phrase-var-5",
+    "title": "Pre-agreed phrases #5",
+    "description": "Using ONLY listed words; stop immediately on signal.",
+    "tags": [
+      "language",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0071",
+    "slug": "degradation-phrase-var-6",
+    "title": "Pre-agreed phrases #6",
+    "description": "Using ONLY listed words; stop immediately on signal.",
+    "tags": [
+      "language",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0072",
+    "slug": "dice-low-stakes",
+    "title": "Low-stakes dice",
+    "description": "Roll a die to pick a simple, cozy activity.",
+    "tags": [
+      "fun",
+      "playful"
+    ],
+    "category": "games_and_challenges",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0073",
+    "slug": "dirty-talk",
+    "title": "Dirty talk (consensual)",
+    "description": "Spicy language agreed in advance; avoid unagreed slurs.",
+    "tags": [
+      "language"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0074",
+    "slug": "dirty-talk-consensual",
+    "title": "Dirty talk (consensual, non-degrading)",
+    "description": "Spicy language agreed in advance; avoid derogatory or demeaning terms.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0075",
+    "slug": "door-anchor-band",
+    "title": "Door anchor band",
+    "description": "A safe, low-tension band for gentle guidance with quick removal.",
+    "tags": [
+      "safety-first",
+      "quick-release"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0076",
+    "slug": "double-penetration-topic",
+    "title": "Double penetration (topic)",
+    "description": "Interest in DP as a concept; negotiate specifics, safety, and comfort.",
+    "tags": [
+      "group",
+      "toys"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "DP (topic)"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0077",
+    "slug": "double-strap-harness",
+    "title": "Double-strap harness",
+    "description": "Two-strap harness configuration with hygiene prep.",
+    "tags": [
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0078",
+    "slug": "dp-topic",
+    "title": "Double penetration — topic",
+    "description": "Interest in DP as a negotiated topic; plan safety and boundaries.",
+    "tags": [
+      "group",
+      "topic"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0079",
+    "slug": "dress-up-wardrobe",
+    "title": "Dress-up wardrobe session",
+    "description": "Picking outfits together (lingerie, latex-look, leather) and doing a mini runway at home.",
+    "tags": [
+      "costume",
+      "aesthetic"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0080",
+    "slug": "ear-whisper",
+    "title": "Ear whisper",
+    "description": "Soft, kind words near the ear in a calm voice.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0081",
+    "slug": "edging",
+    "title": "Edging",
+    "description": "Staying near climax intentionally with planned pauses and communication.",
+    "tags": [
+      "timing",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "tease & edge"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0082",
+    "slug": "edging-advanced",
+    "title": "Edging (advanced)",
+    "description": "Extended tease near climax with timers and signals.",
+    "tags": [
+      "timing",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0083",
+    "slug": "electro-tens-low",
+    "title": "TENS (low setting)",
+    "description": "Medical-grade TENS unit for tingling sensations on safe areas only.",
+    "tags": [
+      "electro",
+      "safety"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "electro play (TENS)"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0084",
+    "slug": "exhibition-legal-discreet",
+    "title": "Exhibitionism (legal & discreet)",
+    "description": "Being seen in legal, private or semi-private contexts with consent and caution.",
+    "tags": [
+      "exhibition",
+      "privacy"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0085",
+    "slug": "exhibition-soft-var-1",
+    "title": "Discreet exhibition (legal) #1",
+    "description": "Subtle reveal in legal/private spaces; plan signals.",
+    "tags": [
+      "privacy",
+      "exhibition"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0086",
+    "slug": "exhibition-soft-var-2",
+    "title": "Discreet exhibition (legal) #2",
+    "description": "Subtle reveal in legal/private spaces; plan signals.",
+    "tags": [
+      "privacy",
+      "exhibition"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0087",
+    "slug": "exhibition-soft-var-3",
+    "title": "Discreet exhibition (legal) #3",
+    "description": "Subtle reveal in legal/private spaces; plan signals.",
+    "tags": [
+      "privacy",
+      "exhibition"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0088",
+    "slug": "exhibition-soft-var-4",
+    "title": "Discreet exhibition (legal) #4",
+    "description": "Subtle reveal in legal/private spaces; plan signals.",
+    "tags": [
+      "privacy",
+      "exhibition"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0089",
+    "slug": "exhibition-soft-var-5",
+    "title": "Discreet exhibition (legal) #5",
+    "description": "Subtle reveal in legal/private spaces; plan signals.",
+    "tags": [
+      "privacy",
+      "exhibition"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0090",
+    "slug": "eye-contact",
+    "title": "Gentle eye contact",
+    "description": "Holding soft eye contact for brief moments to feel connected.",
+    "tags": [
+      "affection",
+      "connection",
+      "soft"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0091",
+    "slug": "face-sitting-consensual",
+    "title": "Face-sitting (safety-first)",
+    "description": "Consensual positioning with clear breathing safety and signals.",
+    "tags": [
+      "positioning",
+      "safety"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0092",
+    "slug": "face-slap-light",
+    "title": "Light face slaps (consensual)",
+    "description": "Pre-agreed light slaps with frequent check-ins and opt-out.",
+    "tags": [
+      "impact"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0093",
+    "slug": "feather-tickle",
+    "title": "Feather touch",
+    "description": "Light, teasing touches with a clean feather.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0094",
+    "slug": "feminization-guided",
+    "title": "Feminization coaching",
+    "description": "Guided makeup/voice/mannerism practice in a respectful scene.",
+    "tags": [
+      "expression",
+      "style"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0095",
+    "slug": "feminization-play",
+    "title": "Feminization (expression play)",
+    "description": "Consensual exploration of feminine presentation or roles; affirming, non-degrading.",
+    "tags": [
+      "expression",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0096",
+    "slug": "food-play-non-messy",
+    "title": "Food play (non-messy, hygienic)",
+    "description": "Small, safe foods with clear hygiene rules and cleanup plan.",
+    "tags": [
+      "sensory",
+      "taste"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [
+      "edible accents"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0097",
+    "slug": "foot-focus",
+    "title": "Foot focus",
+    "description": "Attention to feet (massage, adornments) as a comfort or aesthetic focus.",
+    "tags": [
+      "sensory",
+      "aesthetic"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "foot play (non-graphic)"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0098",
+    "slug": "fruit-tasting",
+    "title": "Fruit tasting",
+    "description": "Trying bite-sized fruit selections and noting textures.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0099",
+    "slug": "gag-soft",
+    "title": "Soft gag (safety-first)",
+    "description": "Breath-safe, removable gag with clear stop signals and frequent breaks.",
+    "tags": [
+      "restraint",
+      "signals"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0100",
+    "slug": "gallery-tour",
+    "title": "Art gallery tour",
+    "description": "One person is the guide describing 'exhibits' at home.",
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0101",
+    "slug": "gangbang-topic",
+    "title": "Gangbang (topic)",
+    "description": "Interest in multiple partners focused on one person; strong consent planning required.",
+    "tags": [
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "GB (topic)"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0102",
+    "slug": "glass-metal",
+    "title": "Glass/metal toys (temp)",
+    "description": "Using toy temperature safely with checks and lube.",
+    "tags": [
+      "toys",
+      "temperature"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0103",
+    "slug": "gratitude-notes",
+    "title": "Gratitude notes",
+    "description": "Sharing kind words or notes about what you appreciate in each other.",
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0104",
+    "slug": "group-4plus-topic",
+    "title": "Group play (4+) — topic",
+    "description": "Interest in a multi-partner scene; strong consent planning and safer-sex.",
+    "tags": [
+      "cnm",
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0105",
+    "slug": "group-play",
+    "title": "Group play (4+)",
+    "description": "Consensual group encounter with four or more adults; align on consent signals and safer-sex plans.",
+    "tags": [
+      "cnm",
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "orgy"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0106",
+    "slug": "guided-breathing",
+    "title": "Guided breathing",
+    "description": "Breathing in sync to relax, connect, and stay present together.",
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0107",
+    "slug": "guided-stretch",
+    "title": "Guided stretching",
+    "description": "Slow, mindful stretches together for comfort and body awareness.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0108",
+    "slug": "hair-pulling",
+    "title": "Hair pulling (consensual)",
+    "description": "Guided hair pulls with hand placement and verbal signals.",
+    "tags": [
+      "impact"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0109",
+    "slug": "hand-holding",
+    "title": "Interlaced hand holding",
+    "description": "Holding hands in different ways and noticing the feeling.",
+    "tags": [
+      "affection",
+      "connection",
+      "soft"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0110",
+    "slug": "hand-restraint-behind",
+    "title": "Hands behind (guided)",
+    "description": "Guided posture with soft restraint and quick release.",
+    "tags": [
+      "restraint"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0111",
+    "slug": "hand-warmers",
+    "title": "Pocket hand warmers",
+    "description": "Placing warm packs near hands (not too hot) for comfort.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0112",
+    "slug": "heels-boots-worship",
+    "title": "Heel/boot appreciation",
+    "description": "Admiring footwear aesthetics; massage and compliments by consent.",
+    "tags": [
+      "aesthetic",
+      "worship"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0113",
+    "slug": "hood-sensory",
+    "title": "Sensory hood (breath-safe)",
+    "description": "Mesh/vented hood for visual focus; no airway restriction.",
+    "tags": [
+      "sensory",
+      "safety"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0114",
+    "slug": "hotwife-consensual",
+    "title": "Hot-wife (consensual non-monogamy)",
+    "description": "One partner engages with others by agreement; the other may observe or participate; no humiliation.",
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "stag-and-vixen"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0115",
+    "slug": "hotwife-consent",
+    "title": "Hot-wife (consensual)",
+    "description": "One partner dates/plays by agreement; the other may watch or join.",
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0116",
+    "slug": "ice-cube-play",
+    "title": "Cool touch (ice)",
+    "description": "Temperature contrast using a wrapped ice cube for a brief cool touch.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0117",
+    "slug": "ice-hot-contrast",
+    "title": "Temperature contrast (cold/heat packs)",
+    "description": "Alternating safe cold/heat packs for sensation contrast with skin checks.",
+    "tags": [
+      "temperature"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0118",
+    "slug": "impact-cane-topic",
+    "title": "Cane — topic",
+    "description": "Interest in light-to-medium caning; negotiation and progressive testing.",
+    "tags": [
+      "impact",
+      "topic"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0119",
+    "slug": "impact-crop",
+    "title": "Riding crop (stingy)",
+    "description": "Light, targeted taps to agreed areas with clear stop signals.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0120",
+    "slug": "impact-crop-var-1",
+    "title": "Crop precision #1",
+    "description": "Target marks on agreed areas; light-to-medium only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0121",
+    "slug": "impact-crop-var-2",
+    "title": "Crop precision #2",
+    "description": "Target marks on agreed areas; light-to-medium only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0122",
+    "slug": "impact-crop-var-3",
+    "title": "Crop precision #3",
+    "description": "Target marks on agreed areas; light-to-medium only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0123",
+    "slug": "impact-crop-var-4",
+    "title": "Crop precision #4",
+    "description": "Target marks on agreed areas; light-to-medium only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0124",
+    "slug": "impact-crop-var-5",
+    "title": "Crop precision #5",
+    "description": "Target marks on agreed areas; light-to-medium only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0125",
+    "slug": "impact-crop-var-6",
+    "title": "Crop precision #6",
+    "description": "Target marks on agreed areas; light-to-medium only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0126",
+    "slug": "impact-flogger",
+    "title": "Flogger (thuddy)",
+    "description": "Soft or suede flogger for thuddy sensations; aim for safe zones only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0127",
+    "slug": "impact-flogger-var-1",
+    "title": "Flogger patterns #1",
+    "description": "Rhythms and counts on safe zones only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0128",
+    "slug": "impact-flogger-var-2",
+    "title": "Flogger patterns #2",
+    "description": "Rhythms and counts on safe zones only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0129",
+    "slug": "impact-flogger-var-3",
+    "title": "Flogger patterns #3",
+    "description": "Rhythms and counts on safe zones only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0130",
+    "slug": "impact-flogger-var-4",
+    "title": "Flogger patterns #4",
+    "description": "Rhythms and counts on safe zones only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0131",
+    "slug": "impact-flogger-var-5",
+    "title": "Flogger patterns #5",
+    "description": "Rhythms and counts on safe zones only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0132",
+    "slug": "impact-flogger-var-6",
+    "title": "Flogger patterns #6",
+    "description": "Rhythms and counts on safe zones only.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0133",
+    "slug": "impact-hand",
+    "title": "Spanking (hand)",
+    "description": "Hand spanking on agreed areas; warm-up and aftercare.",
+    "tags": [
+      "impact"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0134",
+    "slug": "impact-hand-spanking",
+    "title": "Spanking (hand)",
+    "description": "Light to moderate impact with agreed areas, intensity scale, and aftercare.",
+    "tags": [
+      "impact",
+      "aftercare"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0135",
+    "slug": "impact-paddle",
+    "title": "Impact with paddle (light)",
+    "description": "Flat paddle used with warm-up and limits; frequent check-ins.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0136",
+    "slug": "impact-paddle-var-1",
+    "title": "Paddle set #1",
+    "description": "Exploring paddle sizes and materials with check-ins.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0137",
+    "slug": "impact-paddle-var-2",
+    "title": "Paddle set #2",
+    "description": "Exploring paddle sizes and materials with check-ins.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0138",
+    "slug": "impact-paddle-var-3",
+    "title": "Paddle set #3",
+    "description": "Exploring paddle sizes and materials with check-ins.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0139",
+    "slug": "impact-paddle-var-4",
+    "title": "Paddle set #4",
+    "description": "Exploring paddle sizes and materials with check-ins.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0140",
+    "slug": "impact-paddle-var-5",
+    "title": "Paddle set #5",
+    "description": "Exploring paddle sizes and materials with check-ins.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0141",
+    "slug": "impact-paddle-var-6",
+    "title": "Paddle set #6",
+    "description": "Exploring paddle sizes and materials with check-ins.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0142",
+    "slug": "indoor-fort",
+    "title": "Indoor blanket fort",
+    "description": "Building a cozy space with pillows and soft lights.",
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0143",
+    "slug": "interrogation-lite",
+    "title": "Interrogation-lite roleplay",
+    "description": "Dramatic questioning with gentle restraint/props; clear limits and safe words.",
+    "tags": [
+      "roleplay",
+      "props"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0144",
+    "slug": "kneeling-posture",
+    "title": "Posture & kneeling (consensual)",
+    "description": "Agreed postures that reinforce a role, always comfortable and optional.",
+    "tags": [
+      "roles",
+      "ritual"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0145",
+    "slug": "latex-look-var-1",
+    "title": "Latex-look outfit #1",
+    "description": "Shiny outfit play with comfort and temperature checks.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0146",
+    "slug": "latex-look-var-2",
+    "title": "Latex-look outfit #2",
+    "description": "Shiny outfit play with comfort and temperature checks.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0147",
+    "slug": "latex-look-var-3",
+    "title": "Latex-look outfit #3",
+    "description": "Shiny outfit play with comfort and temperature checks.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0148",
+    "slug": "latex-look-var-4",
+    "title": "Latex-look outfit #4",
+    "description": "Shiny outfit play with comfort and temperature checks.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0149",
+    "slug": "latex-look-var-5",
+    "title": "Latex-look outfit #5",
+    "description": "Shiny outfit play with comfort and temperature checks.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0150",
+    "slug": "latex-look-var-6",
+    "title": "Latex-look outfit #6",
+    "description": "Shiny outfit play with comfort and temperature checks.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0151",
+    "slug": "leash-gentle",
+    "title": "Leash (gentle guidance)",
+    "description": "Decorative leash for gentle, consensual guidance.",
+    "tags": [
+      "restraint",
+      "aesthetic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0152",
+    "slug": "leash-light-guidance",
+    "title": "Leash (light guidance)",
+    "description": "Decorative leash for gentle guidance with easy release and consent.",
+    "tags": [
+      "aesthetic",
+      "guidance"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0153",
+    "slug": "leather-look-var-1",
+    "title": "Leather-look outfit #1",
+    "description": "Confident leather aesthetics; care and comfort talk.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0154",
+    "slug": "leather-look-var-2",
+    "title": "Leather-look outfit #2",
+    "description": "Confident leather aesthetics; care and comfort talk.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0155",
+    "slug": "leather-look-var-3",
+    "title": "Leather-look outfit #3",
+    "description": "Confident leather aesthetics; care and comfort talk.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0156",
+    "slug": "leather-look-var-4",
+    "title": "Leather-look outfit #4",
+    "description": "Confident leather aesthetics; care and comfort talk.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0157",
+    "slug": "leather-look-var-5",
+    "title": "Leather-look outfit #5",
+    "description": "Confident leather aesthetics; care and comfort talk.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0158",
+    "slug": "leather-look-var-6",
+    "title": "Leather-look outfit #6",
+    "description": "Confident leather aesthetics; care and comfort talk.",
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0159",
     "slug": "light-snack",
     "title": "Light snack",
     "description": "A small snack and water to recharge gently.",
@@ -933,143 +2446,14 @@
     "category": "aftercare",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-064",
-    "slug": "warm-shower",
-    "title": "Warm shower after",
-    "description": "A relaxing, respectful shower to wind down.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-065",
-    "slug": "coin-flip-choose",
-    "title": "Coin flip chooser",
-    "description": "Flip a coin to pick a gentle idea from a safe list.",
-    "tags": [
-      "fun",
-      "playful"
-    ],
-    "category": "games_and_challenges",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-066",
-    "slug": "card-prompts",
-    "title": "Card prompts",
-    "description": "Shuffle neutral prompt cards about comfort and mood.",
-    "tags": [
-      "fun",
-      "playful"
-    ],
-    "category": "games_and_challenges",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-067",
-    "slug": "dice-low-stakes",
-    "title": "Low-stakes dice",
-    "description": "Roll a die to pick a simple, cozy activity.",
-    "tags": [
-      "fun",
-      "playful"
-    ],
-    "category": "games_and_challenges",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-068",
-    "slug": "timed-hug",
-    "title": "Timed hug",
-    "description": "Hug for 30–90 seconds to feel connected; pause if needed.",
-    "tags": [
-      "fun",
-      "playful"
-    ],
-    "category": "games_and_challenges",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-069",
-    "slug": "soft-play-1",
-    "title": "Soft play #1",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-070",
-    "slug": "soft-play-2",
-    "title": "Soft play #2",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-071",
-    "slug": "soft-play-3",
-    "title": "Soft play #3",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "safety-first",
-      "quick-release"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-072",
-    "slug": "soft-play-4",
-    "title": "Soft play #4",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-073",
-    "slug": "soft-play-5",
-    "title": "Soft play #5",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0160",
+    "slug": "lights-dim",
+    "title": "Dim lights + soft glow",
+    "description": "Dimming main lights; adding a soft lamp or string lights.",
     "tags": [
       "mood",
       "lighting",
@@ -1078,27 +2462,123 @@
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-074",
-    "slug": "soft-play-6",
-    "title": "Soft play #6",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0161",
+    "slug": "lotion-trace",
+    "title": "Lotion tracing",
+    "description": "Drawing simple shapes with lotion on shoulders or back.",
     "tags": [
-      "safety-first",
-      "quick-release"
+      "touch",
+      "sound",
+      "scent"
     ],
-    "category": "light_restraint",
+    "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-075",
-    "slug": "soft-play-7",
-    "title": "Soft play #7",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0162",
+    "slug": "maid-service-adults",
+    "title": "Maid/service outfit (adults)",
+    "description": "Service-themed outfit and playful etiquette with clear limits.",
+    "tags": [
+      "costume",
+      "roles"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0163",
+    "slug": "massage-hands",
+    "title": "Hand massage",
+    "description": "Using oil or lotion to gently massage hands and fingers.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0164",
+    "slug": "massage-shoulders",
+    "title": "Shoulder massage",
+    "description": "Loosening tension with a slow, mindful shoulder massage.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0165",
+    "slug": "medical-roleplay-adults",
+    "title": "Medical roleplay (adults)",
+    "description": "Consenting adults explore clinic-themed scenes with respectful boundaries.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "doctor/nurse (adults)"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0166",
+    "slug": "mirror-commands",
+    "title": "Mirror with guided commands",
+    "description": "Watching in a mirror while following gentle, consensual directions.",
+    "tags": [
+      "voyeur",
+      "roles"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0167",
+    "slug": "mirror-play",
+    "title": "Mirror play",
+    "description": "Using a mirror to watch movements and reactions together.",
+    "tags": [
+      "voyeur",
+      "aesthetic"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0168",
+    "slug": "mocktail",
+    "title": "Mocktail tasting",
+    "description": "Mixing and tasting non-alcoholic drinks together.",
     "tags": [
       "mood",
       "lighting",
@@ -1107,58 +2587,181 @@
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-076",
-    "slug": "soft-play-8",
-    "title": "Soft play #8",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0169",
+    "slug": "name-calling-preagreed",
+    "title": "Name-calling (pre-agreed)",
+    "description": "Labels used only if explicitly agreed; can stop anytime.",
     "tags": [
-      "touch",
-      "sound",
-      "scent"
+      "language"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0170",
+    "slug": "nipple-clamps",
+    "title": "Nipple clamps (light)",
+    "description": "Light clamps with time limits; release if numbness.",
+    "tags": [
+      "sensory",
+      "tools"
     ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
-    "id": "sys-077",
-    "slug": "soft-play-9",
-    "title": "Soft play #9",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0171",
+    "slug": "nipple-play-gentle",
+    "title": "Nipple play (gentle)",
+    "description": "Gentle, consensual focus on chest sensitivity with check-ins.",
     "tags": [
-      "care",
-      "comfort",
-      "warmth"
+      "sensory"
     ],
-    "category": "aftercare",
+    "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-078",
-    "slug": "soft-play-10",
-    "title": "Soft play #10",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0172",
+    "slug": "nipple-suction-cups",
+    "title": "Nipple suction (cups)",
+    "description": "Gentle suction with time limits and skin checks; release if any numbness.",
     "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
+      "sensory",
+      "tools"
     ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "nipple pumps"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
-    "id": "sys-079",
-    "slug": "soft-play-11",
-    "title": "Soft play #11",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0173",
+    "slug": "obedience-training-affirming",
+    "title": "Obedience training (affirming)",
+    "description": "Following agreed cues and tasks that reinforce roles without put-downs.",
+    "tags": [
+      "roles",
+      "ritual"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "cue training"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0174",
+    "slug": "orgasm-denial",
+    "title": "Orgasm denial (consensual)",
+    "description": "Agreed delay of release within a negotiated scene; aftercare included.",
+    "tags": [
+      "control",
+      "timing"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0175",
+    "slug": "orgasm-denial-scene",
+    "title": "Orgasm denial (scene)",
+    "description": "Negotiated delay of release within a scene with aftercare.",
+    "tags": [
+      "control",
+      "timing"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0176",
+    "slug": "partial-suspension-feet-down",
+    "title": "Partial suspension (feet on floor)",
+    "description": "Supported rope work where feet stay grounded; safety shears and frequent checks.",
+    "tags": [
+      "rope",
+      "restraint"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0177",
+    "slug": "pegging",
+    "title": "Pegging",
+    "description": "Consensual strap-on play with preparation, communication, and comfort as priorities.",
+    "tags": [
+      "toys",
+      "role"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0178",
+    "slug": "pegging-strapon",
+    "title": "Pegging (strap-on)",
+    "description": "Harness play with prep, hygiene, and communication.",
+    "tags": [
+      "toys",
+      "role"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0179",
+    "slug": "photo-capture-consensual",
+    "title": "Consensual photo capture (private)",
+    "description": "Taking private photos with agreed rules; store securely or delete.",
+    "tags": [
+      "privacy",
+      "media"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0180",
+    "slug": "pillow-talk",
+    "title": "Pillow talk",
+    "description": "Quiet conversation about hopes, ideas, and what feels good.",
     "tags": [
       "check-in",
       "boundaries",
@@ -1167,132 +2770,795 @@
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-080",
-    "slug": "soft-play-12",
-    "title": "Soft play #12",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0181",
+    "slug": "playlist-curation",
+    "title": "Shared playlist",
+    "description": "Curating a soundtrack together to set the tone for the evening.",
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0182",
+    "slug": "position-bondage-var-1",
+    "title": "Positioning ties #1",
+    "description": "Short holds in comfy positions with support and breaks.",
+    "tags": [
+      "rope",
+      "position"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0183",
+    "slug": "position-bondage-var-2",
+    "title": "Positioning ties #2",
+    "description": "Short holds in comfy positions with support and breaks.",
+    "tags": [
+      "rope",
+      "position"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0184",
+    "slug": "position-bondage-var-3",
+    "title": "Positioning ties #3",
+    "description": "Short holds in comfy positions with support and breaks.",
+    "tags": [
+      "rope",
+      "position"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0185",
+    "slug": "position-bondage-var-4",
+    "title": "Positioning ties #4",
+    "description": "Short holds in comfy positions with support and breaks.",
+    "tags": [
+      "rope",
+      "position"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0186",
+    "slug": "position-bondage-var-5",
+    "title": "Positioning ties #5",
+    "description": "Short holds in comfy positions with support and breaks.",
+    "tags": [
+      "rope",
+      "position"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0187",
+    "slug": "position-bondage-var-6",
+    "title": "Positioning ties #6",
+    "description": "Short holds in comfy positions with support and breaks.",
+    "tags": [
+      "rope",
+      "position"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0188",
+    "slug": "positions-creative",
+    "title": "Creative positions (discussion)",
+    "description": "Talking through creative positions you’d like to try; align on comfort.",
+    "tags": [
+      "planning"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0189",
+    "slug": "positions-guidance",
+    "title": "Guided positioning",
+    "description": "One person guides positions with consent and comfort checks.",
+    "tags": [
+      "roles",
+      "guidance"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0190",
+    "slug": "private-cam-scene",
+    "title": "Private cam scene (no sharing)",
+    "description": "Live video together with strict privacy rules; nothing recorded or shared.",
+    "tags": [
+      "privacy",
+      "media"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [
+      "private cam"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0191",
+    "slug": "progressive-toy-sizes",
+    "title": "Progressive toy sizes",
+    "description": "Gradual size changes with ample lube, patience, and stop signals.",
+    "tags": [
+      "toys",
+      "training"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [
+      "size training"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0192",
+    "slug": "projector-movie",
+    "title": "Projector movie night",
+    "description": "Watching a comforting film with a blanket and snacks.",
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0193",
+    "slug": "prostate-massage",
+    "title": "Prostate massage — topic",
+    "description": "Interest in prostate stimulation with plenty of lube and patience.",
+    "tags": [
+      "toys",
+      "topic"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0194",
+    "slug": "prostate-pattern-var-1",
+    "title": "Prostate patterns #1",
+    "description": "Experimenting with angles and rhythm; stop if discomfort.",
+    "tags": [
+      "toys",
+      "topic"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0195",
+    "slug": "prostate-pattern-var-2",
+    "title": "Prostate patterns #2",
+    "description": "Experimenting with angles and rhythm; stop if discomfort.",
+    "tags": [
+      "toys",
+      "topic"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0196",
+    "slug": "prostate-pattern-var-3",
+    "title": "Prostate patterns #3",
+    "description": "Experimenting with angles and rhythm; stop if discomfort.",
+    "tags": [
+      "toys",
+      "topic"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0197",
+    "slug": "prostate-pattern-var-4",
+    "title": "Prostate patterns #4",
+    "description": "Experimenting with angles and rhythm; stop if discomfort.",
+    "tags": [
+      "toys",
+      "topic"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0198",
+    "slug": "prostate-pattern-var-5",
+    "title": "Prostate patterns #5",
+    "description": "Experimenting with angles and rhythm; stop if discomfort.",
+    "tags": [
+      "toys",
+      "topic"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0199",
+    "slug": "protocol-lite",
+    "title": "Light protocol",
+    "description": "Simple agreed etiquettes or rituals that reinforce a shared role dynamic.",
+    "tags": [
+      "ritual",
+      "roles"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "etiquette play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0200",
+    "slug": "remote-toy",
+    "title": "Remote/app-controlled toy",
+    "description": "App or remote toy within agreed windows and signals.",
+    "tags": [
+      "toys",
+      "remote"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0201",
+    "slug": "remote-toy-control",
+    "title": "Remote toy control",
+    "description": "Controlling a device for a partner locally or at a distance, with agreed signals and limits.",
+    "tags": [
+      "toys",
+      "remote"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [
+      "app control"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0202",
+    "slug": "remote-toy-var-1",
+    "title": "Remote toy routine #1",
+    "description": "Pre-agreed windows and intensity ladders via app.",
+    "tags": [
+      "remote",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0203",
+    "slug": "remote-toy-var-2",
+    "title": "Remote toy routine #2",
+    "description": "Pre-agreed windows and intensity ladders via app.",
+    "tags": [
+      "remote",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0204",
+    "slug": "remote-toy-var-3",
+    "title": "Remote toy routine #3",
+    "description": "Pre-agreed windows and intensity ladders via app.",
+    "tags": [
+      "remote",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0205",
+    "slug": "remote-toy-var-4",
+    "title": "Remote toy routine #4",
+    "description": "Pre-agreed windows and intensity ladders via app.",
+    "tags": [
+      "remote",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0206",
+    "slug": "remote-toy-var-5",
+    "title": "Remote toy routine #5",
+    "description": "Pre-agreed windows and intensity ladders via app.",
+    "tags": [
+      "remote",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0207",
+    "slug": "remote-toy-var-6",
+    "title": "Remote toy routine #6",
+    "description": "Pre-agreed windows and intensity ladders via app.",
+    "tags": [
+      "remote",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0208",
+    "slug": "restraint-cuffs",
+    "title": "Cuffs (quick-release)",
+    "description": "Purpose-made cuffs with quick release and frequent check-ins.",
+    "tags": [
+      "restraint",
+      "safety"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [
+      "bondage cuffs"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0209",
+    "slug": "restraint-rope-basic",
+    "title": "Rope (basic)",
+    "description": "Simple, comfortable ties with safety shears and two-finger space at all times.",
+    "tags": [
+      "rope",
+      "safety"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [
+      "intro rope"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0210",
+    "slug": "restraint-rope-decorative",
+    "title": "Rope (decorative harness)",
+    "description": "Loose, decorative harnesses for aesthetics and gentle guidance.",
+    "tags": [
+      "rope",
+      "aesthetic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [
+      "chest harness"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0211",
+    "slug": "role-labels",
+    "title": "Role labels & titles",
+    "description": "Opt-in titles (e.g., leader/follower) used respectfully within a scene.",
+    "tags": [
+      "roles",
+      "ritual"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0212",
+    "slug": "role-swap",
+    "title": "Role swap",
+    "description": "Temporarily switching roles to explore different perspectives.",
+    "tags": [
+      "roles"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0213",
+    "slug": "roleplay-artist-muse",
+    "title": "Artist & muse",
+    "description": "One poses, the other directs, focusing on aesthetics and connection.",
+    "tags": [
+      "roleplay",
+      "aesthetic"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0214",
+    "slug": "roleplay-date",
+    "title": "First-date roleplay",
+    "description": "Playfully recreating the feel of a first meeting at home.",
     "tags": [
       "costume-optional",
       "improv",
       "consent-talk"
     ],
     "category": "roleplay",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-081",
-    "slug": "soft-play-13",
-    "title": "Soft play #13",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-082",
-    "slug": "soft-play-14",
-    "title": "Soft play #14",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0215",
+    "slug": "roleplay-late-night-bar",
+    "title": "Strangers at a bar (adults)",
+    "description": "Consenting adults act like strangers meeting for the first time.",
     "tags": [
-      "affection",
-      "connection",
-      "soft"
+      "roleplay"
     ],
-    "category": "romance",
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "pickup roleplay"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0216",
+    "slug": "rope-basic",
+    "title": "Rope bondage (basic)",
+    "description": "Simple ties with two-finger space and safety shears.",
+    "tags": [
+      "rope",
+      "safety"
+    ],
+    "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
-    "id": "sys-083",
-    "slug": "soft-play-15",
-    "title": "Soft play #15",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0217",
+    "slug": "rope-harness",
+    "title": "Decorative rope harness",
+    "description": "Loose harness for aesthetics and gentle guidance.",
     "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
+      "rope",
+      "aesthetic"
     ],
-    "category": "communication",
+    "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-084",
-    "slug": "soft-play-16",
-    "title": "Soft play #16",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0218",
+    "slug": "rope-harness-var-1",
+    "title": "Rope harness style #1",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
     "tags": [
-      "fun",
-      "playful"
+      "rope",
+      "aesthetic"
     ],
-    "category": "games_and_challenges",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-085",
-    "slug": "soft-play-17",
-    "title": "Soft play #17",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
+    "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
-    "id": "sys-086",
-    "slug": "soft-play-18",
-    "title": "Soft play #18",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0219",
+    "slug": "rope-harness-var-2",
+    "title": "Rope harness style #2",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
     "tags": [
-      "affection",
-      "connection",
-      "soft"
+      "rope",
+      "aesthetic"
     ],
-    "category": "romance",
-    "intensityScale": 1,
+    "category": "light_restraint",
+    "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
-    "id": "sys-087",
-    "slug": "soft-play-19",
-    "title": "Soft play #19",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0220",
+    "slug": "rope-harness-var-3",
+    "title": "Rope harness style #3",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
     "tags": [
-      "care",
-      "comfort",
-      "warmth"
+      "rope",
+      "aesthetic"
     ],
-    "category": "aftercare",
-    "intensityScale": 1,
+    "category": "light_restraint",
+    "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
-    "id": "sys-088",
-    "slug": "soft-play-20",
-    "title": "Soft play #20",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0221",
+    "slug": "rope-harness-var-4",
+    "title": "Rope harness style #4",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
+    "tags": [
+      "rope",
+      "aesthetic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0222",
+    "slug": "rope-harness-var-5",
+    "title": "Rope harness style #5",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
+    "tags": [
+      "rope",
+      "aesthetic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0223",
+    "slug": "rope-harness-var-6",
+    "title": "Rope harness style #6",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
+    "tags": [
+      "rope",
+      "aesthetic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0224",
+    "slug": "rope-harness-var-7",
+    "title": "Rope harness style #7",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
+    "tags": [
+      "rope",
+      "aesthetic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0225",
+    "slug": "rope-harness-var-8",
+    "title": "Rope harness style #8",
+    "description": "Different chest/leg patterns; two-finger space; photos optional (private).",
+    "tags": [
+      "rope",
+      "aesthetic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0226",
+    "slug": "rope-partial-suspension",
+    "title": "Partial suspension (feet grounded)",
+    "description": "Supported rope with feet on floor; advanced safety.",
+    "tags": [
+      "rope",
+      "advanced"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0227",
+    "slug": "saliva-play-topic",
+    "title": "Spit play — topic",
+    "description": "Interest in saliva exchange; hygiene and consent rules set first.",
+    "tags": [
+      "fluids",
+      "hygiene"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0228",
+    "slug": "saliva-topic-var-1",
+    "title": "Spit exchange — topic #1",
+    "description": "Guidelines for spitting/kissing exchange; consent and hygiene first.",
+    "tags": [
+      "fluids",
+      "hygiene"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0229",
+    "slug": "saliva-topic-var-2",
+    "title": "Spit exchange — topic #2",
+    "description": "Guidelines for spitting/kissing exchange; consent and hygiene first.",
+    "tags": [
+      "fluids",
+      "hygiene"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0230",
+    "slug": "saliva-topic-var-3",
+    "title": "Spit exchange — topic #3",
+    "description": "Guidelines for spitting/kissing exchange; consent and hygiene first.",
+    "tags": [
+      "fluids",
+      "hygiene"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0231",
+    "slug": "saliva-topic-var-4",
+    "title": "Spit exchange — topic #4",
+    "description": "Guidelines for spitting/kissing exchange; consent and hygiene first.",
+    "tags": [
+      "fluids",
+      "hygiene"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0232",
+    "slug": "satin-ribbon",
+    "title": "Satin ribbon guide",
+    "description": "A short ribbon to guide movement gently; never tight; easy release.",
     "tags": [
       "clean",
       "body-safe"
@@ -1300,43 +3566,14 @@
     "category": "props_and_toys",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-089",
-    "slug": "soft-play-21",
-    "title": "Soft play #21",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-090",
-    "slug": "soft-play-22",
-    "title": "Soft play #22",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-091",
-    "slug": "soft-play-23",
-    "title": "Soft play #23",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0233",
+    "slug": "scalp-massage",
+    "title": "Scalp massage",
+    "description": "Gentle fingertip massage of the scalp and temples.",
     "tags": [
       "touch",
       "sound",
@@ -1345,472 +3582,14 @@
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-092",
-    "slug": "soft-play-24",
-    "title": "Soft play #24",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-093",
-    "slug": "soft-play-25",
-    "title": "Soft play #25",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-094",
-    "slug": "soft-play-26",
-    "title": "Soft play #26",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-095",
-    "slug": "soft-play-27",
-    "title": "Soft play #27",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-096",
-    "slug": "soft-play-28",
-    "title": "Soft play #28",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "clean",
-      "body-safe"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-097",
-    "slug": "soft-play-29",
-    "title": "Soft play #29",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "clean",
-      "body-safe"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-098",
-    "slug": "soft-play-30",
-    "title": "Soft play #30",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-099",
-    "slug": "soft-play-31",
-    "title": "Soft play #31",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-100",
-    "slug": "soft-play-32",
-    "title": "Soft play #32",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "fun",
-      "playful"
-    ],
-    "category": "games_and_challenges",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-101",
-    "slug": "soft-play-33",
-    "title": "Soft play #33",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-102",
-    "slug": "soft-play-34",
-    "title": "Soft play #34",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-103",
-    "slug": "soft-play-35",
-    "title": "Soft play #35",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-104",
-    "slug": "soft-play-36",
-    "title": "Soft play #36",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-105",
-    "slug": "soft-play-37",
-    "title": "Soft play #37",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "touch",
-      "sound",
-      "scent"
-    ],
-    "category": "sensory",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-106",
-    "slug": "soft-play-38",
-    "title": "Soft play #38",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-107",
-    "slug": "soft-play-39",
-    "title": "Soft play #39",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-108",
-    "slug": "soft-play-40",
-    "title": "Soft play #40",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-109",
-    "slug": "soft-play-41",
-    "title": "Soft play #41",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-110",
-    "slug": "soft-play-42",
-    "title": "Soft play #42",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-111",
-    "slug": "soft-play-43",
-    "title": "Soft play #43",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-112",
-    "slug": "soft-play-44",
-    "title": "Soft play #44",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-113",
-    "slug": "soft-play-45",
-    "title": "Soft play #45",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-114",
-    "slug": "soft-play-46",
-    "title": "Soft play #46",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "safety-first",
-      "quick-release"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-115",
-    "slug": "soft-play-47",
-    "title": "Soft play #47",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "clean",
-      "body-safe"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-116",
-    "slug": "soft-play-48",
-    "title": "Soft play #48",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "fun",
-      "playful"
-    ],
-    "category": "games_and_challenges",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-117",
-    "slug": "soft-play-49",
-    "title": "Soft play #49",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-118",
-    "slug": "soft-play-50",
-    "title": "Soft play #50",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-119",
-    "slug": "soft-play-51",
-    "title": "Soft play #51",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "care",
-      "comfort",
-      "warmth"
-    ],
-    "category": "aftercare",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-120",
-    "slug": "soft-play-52",
-    "title": "Soft play #52",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-121",
-    "slug": "soft-play-53",
-    "title": "Soft play #53",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "check-in",
-      "boundaries",
-      "safe-word"
-    ],
-    "category": "communication",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-122",
-    "slug": "soft-play-54",
-    "title": "Soft play #54",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "affection",
-      "connection",
-      "soft"
-    ],
-    "category": "romance",
-    "intensityScale": 2,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-123",
-    "slug": "soft-play-55",
-    "title": "Soft play #55",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0234",
+    "slug": "scarf-wrist-guide",
+    "title": "Wrist guide (scarf)",
+    "description": "A scarf guiding hand placement with easy release and constant consent.",
     "tags": [
       "safety-first",
       "quick-release"
@@ -1818,187 +3597,232 @@
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "soft"
   },
   {
-    "id": "sys-124",
-    "slug": "soft-play-56",
-    "title": "Soft play #56",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0235",
+    "slug": "scripted-surrender",
+    "title": "Scripted surrender roleplay (consensual)",
+    "description": "Planned fantasy of power imbalance with clear signals and opt-out.",
     "tags": [
-      "mood",
-      "lighting",
-      "music"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-125",
-    "slug": "soft-play-57",
-    "title": "Soft play #57",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
-    ],
-    "category": "roleplay",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system"
-  },
-  {
-    "id": "sys-126",
-    "slug": "soft-play-58",
-    "title": "Soft play #58",
-    "description": "A consensual, neutral, light activity chosen together.",
-    "tags": [
-      "costume-optional",
-      "improv",
-      "consent-talk"
+      "roles",
+      "signals"
     ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
-    "id": "sys-127",
-    "slug": "soft-play-59",
-    "title": "Soft play #59",
-    "description": "A consensual, neutral, light activity chosen together.",
+    "id": "0236",
+    "slug": "scripted-surrender-var-1",
+    "title": "Scripted surrender beat #1",
+    "description": "Short scene beats with clear opt-out; debrief after.",
     "tags": [
-      "mood",
-      "lighting",
-      "music"
+      "roles",
+      "signals"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0237",
+    "slug": "scripted-surrender-var-2",
+    "title": "Scripted surrender beat #2",
+    "description": "Short scene beats with clear opt-out; debrief after.",
+    "tags": [
+      "roles",
+      "signals"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0238",
+    "slug": "scripted-surrender-var-3",
+    "title": "Scripted surrender beat #3",
+    "description": "Short scene beats with clear opt-out; debrief after.",
+    "tags": [
+      "roles",
+      "signals"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0239",
+    "slug": "scripted-surrender-var-4",
+    "title": "Scripted surrender beat #4",
+    "description": "Short scene beats with clear opt-out; debrief after.",
+    "tags": [
+      "roles",
+      "signals"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0240",
+    "slug": "scripted-surrender-var-5",
+    "title": "Scripted surrender beat #5",
+    "description": "Short scene beats with clear opt-out; debrief after.",
+    "tags": [
+      "roles",
+      "signals"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0241",
+    "slug": "scripted-surrender-var-6",
+    "title": "Scripted surrender beat #6",
+    "description": "Short scene beats with clear opt-out; debrief after.",
+    "tags": [
+      "roles",
+      "signals"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0242",
+    "slug": "semen-marking-topic-1",
+    "title": "Semen marking — topic #1",
+    "description": "Discuss where/when is okay; hygiene, testing, and cleanup plans.",
+    "tags": [
+      "fluids",
+      "health"
     ],
     "category": "environment",
-    "intensityScale": 1,
+    "intensityScale": 3,
     "aliases": [],
-    "createdBy": "system"
+    "createdBy": "system",
+    "tier": "xxx"
   },
   {
-    "id":"sys-900",
-    "slug":"threesome-mmf",
-    "title":"Threesome (MMF)",
-    "description":"Consensual encounter with two men and one woman; clear boundaries and safer-sex planning.",
-    "tags":["cnm","group"],
-    "category":"group",
-    "intensityScale":3,
-    "aliases":["MFM"],
-    "createdBy":"system",
-    "tier":"naughty"
+    "id": "0243",
+    "slug": "semen-marking-topic-2",
+    "title": "Semen marking — topic #2",
+    "description": "Discuss where/when is okay; hygiene, testing, and cleanup plans.",
+    "tags": [
+      "fluids",
+      "health"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
   },
   {
-    "id":"sys-901",
-    "slug":"threesome-mff",
-    "title":"Threesome (MFF)",
-    "description":"Consensual encounter with one man and two women; agree roles and check-ins beforehand.",
-    "tags":["cnm","group"],
-    "category":"group",
-    "intensityScale":3,
-    "aliases":[],
-    "createdBy":"system",
-    "tier":"naughty"
+    "id": "0244",
+    "slug": "semen-marking-topic-3",
+    "title": "Semen marking — topic #3",
+    "description": "Discuss where/when is okay; hygiene, testing, and cleanup plans.",
+    "tags": [
+      "fluids",
+      "health"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
   },
   {
-    "id":"sys-902",
-    "slug":"threesome-fff",
-    "title":"Threesome (FFF)",
-    "description":"Consensual encounter among three women; plan boundaries, privacy, and aftercare.",
-    "tags":["cnm","group"],
-    "category":"group",
-    "intensityScale":3,
-    "aliases":[],
-    "createdBy":"system",
-    "tier":"naughty"
+    "id": "0245",
+    "slug": "semen-marking-topic-4",
+    "title": "Semen marking — topic #4",
+    "description": "Discuss where/when is okay; hygiene, testing, and cleanup plans.",
+    "tags": [
+      "fluids",
+      "health"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
   },
   {
-    "id":"sys-903",
-    "slug":"group-play",
-    "title":"Group play (4+)",
-    "description":"Consensual group encounter with four or more adults; align on consent signals and safer-sex plans.",
-    "tags":["cnm","group"],
-    "category":"group",
-    "intensityScale":3,
-    "aliases":["orgy"],
-    "createdBy":"system",
-    "tier":"xxx"
+    "id": "0246",
+    "slug": "semen-marking-topic-5",
+    "title": "Semen marking — topic #5",
+    "description": "Discuss where/when is okay; hygiene, testing, and cleanup plans.",
+    "tags": [
+      "fluids",
+      "health"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
   },
   {
-    "id":"sys-904",
-    "slug":"pegging",
-    "title":"Pegging",
-    "description":"Consensual strap-on play with preparation, communication, and comfort as priorities.",
-    "tags":["toys","role"],
-    "category":"props_and_toys",
-    "intensityScale":3,
-    "aliases":[],
-    "createdBy":"system",
-    "tier":"xxx"
+    "id": "0247",
+    "slug": "semen-marking-topic-6",
+    "title": "Semen marking — topic #6",
+    "description": "Discuss where/when is okay; hygiene, testing, and cleanup plans.",
+    "tags": [
+      "fluids",
+      "health"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
   },
   {
-    "id":"sys-905",
-    "slug":"cross-dressing",
-    "title":"Cross-dressing",
-    "description":"Exploring clothing and presentation traditionally linked to another gender, with support and respect.",
-    "tags":["expression","roleplay"],
-    "category":"roleplay",
-    "intensityScale":2,
-    "aliases":["gender expression play"],
-    "createdBy":"system",
-    "tier":"soft"
+    "id": "0248",
+    "slug": "semen-play-topic",
+    "title": "Cum play — topic",
+    "description": "Interest in semen as part of play; align on testing, barriers, and cleanup.",
+    "tags": [
+      "fluids",
+      "health"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
   },
   {
-    "id":"sys-906",
-    "slug":"feminization-play",
-    "title":"Feminization (expression play)",
-    "description":"Consensual exploration of feminine presentation or roles; affirming, non-degrading.",
-    "tags":["expression","roleplay"],
-    "category":"roleplay",
-    "intensityScale":2,
-    "aliases":[],
-    "createdBy":"system",
-    "tier":"soft"
-  },
-  {
-    "id":"sys-907",
-    "slug":"hotwife-consensual",
-    "title":"Hot-wife (consensual non-monogamy)",
-    "description":"One partner engages with others by agreement; the other may observe or participate; no humiliation.",
-    "tags":["cnm","voyeur"],
-    "category":"group",
-    "intensityScale":3,
-    "aliases":["stag-and-vixen"],
-    "createdBy":"system",
-    "tier":"naughty"
-  },
-  {
-    "id":"sys-908",
-    "slug":"cuckolding-consensual",
-    "title":"Cuckolding (consensual, no degradation)",
-    "description":"Observer partner consents to watching their partner with another; no humiliation or derogatory language.",
-    "tags":["cnm","voyeur"],
-    "category":"group",
-    "intensityScale":3,
-    "aliases":["voyeur partner play"],
-    "createdBy":"system",
-    "tier":"naughty"
-  },
-  {
-    "id":"sys-909",
-    "slug":"chastity-play",
-    "title":"Chastity play (consensual control)",
-    "description":"Agreed control over sexual release with check-ins and aftercare; safety and comfort prioritized.",
-    "tags":["control","timing"],
-    "category":"light_restraint",
-    "intensityScale":2,
-    "aliases":["chastity"],
-    "createdBy":"system",
-    "tier":"naughty"
+    "id": "0249",
+    "slug": "semen-sharing-topic",
+    "title": "Cum swap — topic",
+    "description": "Discuss sharing semen (e.g., between partners) with safer-sex planning.",
+    "tags": [
+      "fluids",
+      "privacy"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
   }
 ]
-

@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "e2e:build": "detox build -c ios.sim.release",
-    "e2e:test": "detox test -c ios.sim.release"
+    "e2e:test": "detox test -c ios.sim.release",
+    "build:kinks": "node scripts/build-kinks.js"
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",
