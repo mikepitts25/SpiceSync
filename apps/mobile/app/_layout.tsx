@@ -1,18 +1,19 @@
-import 'react-native-gesture-handler';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+// apps/mobile/app/_layout.tsx
+import 'react-native-gesture-handler'; // keep FIRST
+
+import React from 'react';
 import { Slot } from 'expo-router';
-import { I18nProvider } from '../lib/i18n';
-import { ThemeProvider } from '../lib/theme/ThemeProvider';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 
 export default function RootLayout() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <I18nProvider>
-        <ThemeProvider>
-          {/* Slot ensures a navigator is present on the very first render */}
-          <Slot />
-        </ThemeProvider>
-      </I18nProvider>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#0b0f14' }}>
+      <SafeAreaProvider>
+        <StatusBar style="light" />
+        <Slot />
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }

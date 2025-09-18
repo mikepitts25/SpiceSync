@@ -1,0 +1,152 @@
+<!-- tools/kink-studio/public/index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <title>Kink Studio — Local Admin</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <h1>Kink Studio</h1>
+      <div class="spacer"></div>
+      <label>Language:
+        <select id="lang">
+          <option value="en">English (en)</option>
+          <option value="es">Español (es)</option>
+        </select>
+      </label>
+      <button id="btn-load">Load</button>
+      <button id="btn-save" class="primary">Save</button>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="section">
+          <input id="search" type="search" placeholder="Search title/slug/tags…" />
+        </div>
+
+        <div class="section">
+          <label>Tier:
+            <select id="tier">
+              <option value="">(all)</option>
+              <option value="romance">romance</option>
+              <option value="soft">soft</option>
+              <option value="naughty">naughty</option>
+              <option value="xxx">xxx</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="section tools">
+          <h3>Tools</h3>
+          <button id="tool-collapse">Collapse step/phase series</button>
+          <button id="tool-dedupe">Deduplicate by normalized title/slug</button>
+          <button id="tool-slugify">Slugify all titles</button>
+          <button id="tool-reseq" title="Reassign IDs 0000..">Reassign IDs (0000…)</button>
+          <button id="tool-sort">Sort by title (asc)</button>
+          <hr/>
+          <button id="btn-add" class="success">+ Add new</button>
+          <button id="btn-delete" class="danger">Delete selected</button>
+          <p class="muted">Unsaved changes are local until you press <b>Save</b>.</p>
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="list-header">
+          <div>Showing <span id="count">0</span> items</div>
+          <div class="spacer"></div>
+          <button id="prev">Prev</button>
+          <span id="pageinfo">Page 1/1</span>
+          <button id="next">Next</button>
+          <label style="margin-left:12px">Page size:
+            <input id="pagesize" type="number" min="10" max="500" value="50" />
+          </label>
+        </div>
+
+        <table class="grid" id="grid">
+          <thead>
+            <tr>
+              <th style="width:60px;">ID</th>
+              <th style="width:180px;">Slug</th>
+              <th>Title</th>
+              <th style="width:110px;">Tier</th>
+              <th style="width:90px;">Intensity</th>
+              <th style="width:160px;">Category</th>
+              <th style="width:200px;">Tags</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </section>
+
+      <aside class="editor">
+        <h3 id="edit-title">Edit</h3>
+        <form id="form" class="form">
+          <label>ID
+            <input name="id" id="f-id" type="text" readonly />
+          </label>
+          <label>Slug
+            <input name="slug" id="f-slug" type="text" />
+          </label>
+          <label>Title
+            <input name="title" id="f-title" type="text" />
+          </label>
+          <label>Description
+            <textarea name="description" id="f-description" rows="5"></textarea>
+          </label>
+          <label>Tier
+            <select name="tier" id="f-tier">
+              <option value="">(auto/default)</option>
+              <option value="romance">romance</option>
+              <option value="soft">soft</option>
+              <option value="naughty">naughty</option>
+              <option value="xxx">xxx</option>
+            </select>
+          </label>
+          <label>Intensity (1–3)
+            <input name="intensityScale" id="f-intensity" type="number" min="1" max="3" />
+          </label>
+          <label>Category
+            <input name="category" id="f-category" type="text" />
+          </label>
+          <label>Tags (comma separated)
+            <input name="tags" id="f-tags" type="text" />
+          </label>
+          <label>Aliases (comma separated)
+            <input name="aliases" id="f-aliases" type="text" />
+          </label>
+          <label>Created By
+            <select name="createdBy" id="f-createdBy">
+              <option value="system">system</option>
+              <option value="user">user</option>
+            </select>
+          </label>
+
+          <div class="form-actions">
+            <button type="button" id="btn-apply" class="primary">Apply changes</button>
+            <button type="button" id="btn-reset">Reset form</button>
+          </div>
+        </form>
+        <div class="preview">
+          <h4>Card Preview</h4>
+          <div class="card" id="preview">
+            <div class="card-title">—</div>
+            <div class="card-desc muted">—</div>
+            <div class="chiprow">
+              <span class="chip" id="pv-tier">tier: —</span>
+              <span class="chip" id="pv-int">intensity: —</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>

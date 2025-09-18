@@ -1,0 +1,12 @@
+{
+  "name": "kink-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Local admin UI to curate SpiceSync kinks JSON packs (EN/ES).",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,5 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useFilters } from '../../lib/state/filters'; // <-- from (tabs)/categories it's two levels up
+
 
 type Tier = 'romance'|'soft'|'naughty'|'xxx';
 
