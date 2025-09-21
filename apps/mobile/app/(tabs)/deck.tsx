@@ -2,19 +2,19 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
 import SwipeDeck from '../../components/SwipeDeck';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
+import { useProfiles } from '../../lib/state/profiles';
+import { useVotes, VoteValue } from '../../lib/state/votes';
 import { useSettings } from '../../lib/state/useStore';
 
-type VoteValue = 'yes' | 'no' | 'maybe';
-
 export default function DeckScreen() {
-  const router = useRouter();
   const { language } = (useSettings() as any) || { language: 'en' };
-  const { selectedTier, clearTier } = useFilters();
+  const { selectedTier } = useFilters();
+  const { currentUserId, profiles } = useProfiles();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const setVote = useVotes(s => s.setVote);
 
   const source = useMemo(
     () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
@@ -24,84 +24,50 @@ export default function DeckScreen() {
   const [index, setIndex] = useState(0);
   const current = source[index] || null;
 
-  const saveVote = useCallback((kinkId: string, value: VoteValue) => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const store = require('../../lib/state/useStore');
-      const votes = (store.useVotes ? store.useVotes() : store.default?.useVotes?.()) || {};
-      if (typeof votes.setVote === 'function') votes.setVote(null, kinkId, value);
-      else if (typeof votes.vote === 'function') votes.vote({ kinkId, value });
-      else if (typeof votes.upsertVote === 'function') votes.upsertVote({ userId: null, kinkId, value });
-    } catch {}
-  }, []);
-
   const onSwipe = useCallback(
-    (dir: 'left' | 'right' | 'down') => {
-      if (!current) return;
+    (dir: 'left'|'right'|'down') => {
+      if (!current || !currentUserId) return;
       const map: Record<typeof dir, VoteValue> = { left: 'no', right: 'yes', down: 'maybe' };
-      saveVote(current.id, map[dir]);
+      setVote(currentUserId, current.id, map[dir]);
       setIndex(i => Math.min(source.length, i + 1));
     },
-    [current, saveVote, source.length]
+    [current, currentUserId, setVote, source.length]
   );
 
-  const goCategories = () => router.replace('/(tabs)/categories');
+  if (!currentUserId) {
+    return (
+      <SafeAreaView style={styles.wrap} edges={['top','left','right']}>
+        <Text style={styles.h1}>Choose a profile</Text>
+        <Text style={styles.p}>You need to select who is swiping. Go to the Profiles tab to switch or create one.</Text>
+        <View style={styles.row}>
+          <Pressable style={styles.primary} onPress={() => { /* user can tap bottom tab */ }}>
+            <Text style={styles.btnStrong}>Open Profiles tab</Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   if (!source.length) {
     return (
-      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>No items in this category</Text>
-        {selectedTier ? (
-          <Text style={styles.p}>
-            The “{selectedTier}” category has no items right now. You can clear the filter or go back to categories.
-          </Text>
-        ) : (
-          <Text style={styles.p}>No content found. Try switching language or refreshing your pack.</Text>
-        )}
-        <View style={styles.row}>
-          {selectedTier ? (
-            <Pressable style={styles.secondary} onPress={clearTier} accessibilityRole="button">
-              <Text style={styles.btnText}>Clear filter</Text>
-            </Pressable>
-          ) : null}
-          <Pressable style={styles.primary} onPress={goCategories} accessibilityRole="button">
-            <Text style={styles.btnTextStrong}>Back to Categories</Text>
-          </Pressable>
-        </View>
+      <SafeAreaView style={styles.wrap} edges={['top','left','right']}>
+        <Text style={styles.h1}>No items to swipe</Text>
+        <Text style={styles.p}>Try another category or add content.</Text>
       </SafeAreaView>
     );
   }
 
-  if (!current) {
-    return (
-      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>You’re all caught up 🎉</Text>
-        <Text style={styles.p}>You’ve reviewed everything{selectedTier ? ` in “${selectedTier}”` : ''}.</Text>
-        <View style={styles.row}>
-          {selectedTier ? (
-            <Pressable style={styles.secondary} onPress={clearTier} accessibilityRole="button">
-              <Text style={styles.btnText}>Clear filter</Text>
-            </Pressable>
-          ) : null}
-          <Pressable style={styles.primary} onPress={goCategories} accessibilityRole="button">
-            <Text style={styles.btnTextStrong}>Back to Categories</Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
+  const leftCount = Math.max(0, source.length - index);
   return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']} accessibilityLabel="Swipe deck screen">
+    <SafeAreaView style={styles.screen} edges={['top','left','right']}>
       <View style={styles.topBar}>
-        <Text style={styles.count}>
-          {index + 1}/{source.length}
+        <Text style={styles.count}>{leftCount} left</Text>
+        {selectedTier ? <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text> : null}
+        <Text style={styles.user}>
+          {profiles.find(p=>p.id===currentUserId)?.emoji} {profiles.find(p=>p.id===currentUserId)?.displayName}
         </Text>
-        {selectedTier ? <Text style={styles.tier}>• {selectedTier.toUpperCase()}</Text> : null}
       </View>
-
       <View style={styles.deckArea}>
-        {/* Swipe-only deck (no extra buttons at bottom) */}
         <SwipeDeck item={current} onSwipe={onSwipe} onUndo={() => setIndex(i => Math.max(0, i - 1))} />
       </View>
     </SafeAreaView>
@@ -115,11 +81,10 @@ const styles = StyleSheet.create({
   p: { fontSize: 16, color: '#94a3b8' },
   row: { flexDirection: 'row', gap: 10, marginTop: 8 },
   primary: { backgroundColor: '#3b82f6', paddingVertical: 12, paddingHorizontal: 16, borderRadius: 12 },
-  secondary: { backgroundColor: '#1f2937', paddingVertical: 12, paddingHorizontal: 16, borderRadius: 12 },
-  btnText: { color: 'white', fontWeight: '600' },
-  btnTextStrong: { color: 'white', fontWeight: '800' },
+  btnStrong: { color: 'white', fontWeight: '800' },
   topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 4, marginBottom: 6 },
   count: { fontWeight: '700', color: 'white' },
   tier: { color: '#9ca3af', fontWeight: '600' },
+  user: { marginLeft:'auto', color:'#93c5fd', fontWeight:'800' },
   deckArea: { flex: 1, paddingBottom: 8 },
 });

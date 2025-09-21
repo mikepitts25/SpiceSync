@@ -1,4 +1,4 @@
-// apps/mobile/app/(tabs)/_layout.tsx
+// apps/mobile/app/(tabs)/_layout.tsx  (add a Profiles tab)
 import React from 'react';
 import { Tabs } from 'expo-router';
 
@@ -19,6 +19,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="deck" options={{ title: 'Deck' }} />
       <Tabs.Screen name="browse" options={{ title: 'Browse' }} />
       <Tabs.Screen name="matches" options={{ title: 'Matches' }} />
+      <Tabs.Screen name="profiles" options={{ title: 'Profiles' }} />
       <Tabs.Screen name="settings" options={{ title: 'Settings' }} />
     </Tabs>
   );
