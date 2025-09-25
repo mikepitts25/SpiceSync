@@ -1887,16 +1887,5 @@
     "aliases": [],
     "createdBy": "system",
     "tier": "xxx"
-  },
-  {
-    "id": "0122",
-    "slug": "",
-    "title": "",
-    "description": "",
-    "tags": [],
-    "category": "",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "user"
   }
 ]

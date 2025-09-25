@@ -37,7 +37,17 @@ export default function CategoriesScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <Text style={styles.h1}>Choose a category</Text>
+      <View style={styles.headerRow}>
+        <Text style={styles.h1}>Choose a category</Text>
+        <Pressable
+          onPress={() => router.navigate('/settings')}
+          style={styles.menuButton}
+          accessibilityRole="button"
+          accessibilityLabel="Open settings"
+        >
+          <Text style={styles.menuText}>☰</Text>
+        </Pressable>
+      </View>
       <View style={styles.grid}>
         {TIERS.map(t => (
           <Pressable key={t.key} style={styles.card} onPress={() => onPick(t.key)} accessibilityRole="button">
@@ -57,7 +67,18 @@ export default function CategoriesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 12, backgroundColor: '#0b0f14' },
-  h1: { fontSize: 22, fontWeight: '800', color: 'white', marginBottom: 8 },
+  headerRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
+  h1: { fontSize: 22, fontWeight: '800', color: 'white' },
+  menuButton: {
+    marginLeft: 'auto',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+  },
+  menuText: { color: 'white', fontSize: 20, fontWeight: '700' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   card: { flexBasis: '47%', padding: 14, borderRadius: 14, backgroundColor: '#1f2937' },
   title: { color: 'white', fontSize: 16, fontWeight: '700' },

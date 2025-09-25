@@ -1,37 +1,59 @@
 // apps/mobile/app/index.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRouter, useRootNavigationState } from 'expo-router';
 import { useSettings } from '../lib/state/useStore';
+import { useProfiles } from '../lib/state/profiles';
 
-export default function Welcome() {
+export default function EntryGate() {
   const router = useRouter();
-  const rootState = useRootNavigationState();
-  const { ageConfirmed, setAgeConfirmed } = (useSettings() as any) || { ageConfirmed: false, setAgeConfirmed: () => {} };
+  const nav = useRootNavigationState();
+
+  // Age gate from your settings store
+  const { ageConfirmed, setAgeConfirmed } =
+    (useSettings() as any) || { ageConfirmed: false, setAgeConfirmed: () => {} };
+
+  // Profiles (same-device couple mode)
+  const { profiles } = useProfiles();
+
   const [ready, setReady] = useState(false);
+  useEffect(() => { if (nav?.key) setReady(true); }, [nav?.key]);
 
-  useEffect(() => { if (rootState?.key) setReady(true); }, [rootState?.key]);
-
+  // When router is ready and age is confirmed, decide destination based on profiles
   useEffect(() => {
-    if (ready && ageConfirmed) {
-      router.replace('/(tabs)/categories');
-    }
-  }, [ready, ageConfirmed, router]);
+    if (!ready) return;
+    if (!ageConfirmed) return;
 
+    if (profiles.length === 0) {
+      router.replace('/welcome'); // create first profile
+    } else {
+      router.replace('/(tabs)/categories'); // normal home
+    }
+  }, [ready, ageConfirmed, profiles.length, router]);
+
+  // While waiting for router
   if (!ready) {
     return <View style={styles.center}><Text style={styles.h1}>Loading…</Text></View>;
   }
 
+  // If already confirmed, show a small status (the effect above will redirect)
   if (ageConfirmed) {
-    return <View style={styles.center}><Text style={styles.p}>Taking you to Categories…</Text></View>;
+    return (
+      <View style={styles.center}>
+        <Text style={styles.p}>
+          {profiles.length === 0 ? 'Preparing profile setup…' : 'Taking you to Categories…'}
+        </Text>
+      </View>
+    );
   }
 
+  // Age gate screen
   return (
     <ScrollView contentContainerStyle={styles.wrap}>
       <Text style={styles.h1}>Adults Only (18+)</Text>
       <Text style={styles.p}>
-        This app is for adults exploring consensual intimacy. By continuing, you confirm you are at least 18 years old
-        and agree to use it for legal, consensual, non-exploitative content.
+        This app is for adults exploring consensual intimacy. By continuing, you confirm you are at
+        least 18 years old and agree to use it for legal, consensual, non-exploitative content.
       </Text>
       <View style={styles.card}>
         <Text style={styles.h2}>Safety & Consent</Text>
@@ -40,12 +62,15 @@ export default function Welcome() {
         <Text style={styles.li}>• We disallow minors, non-consent, and unsafe acts.</Text>
       </View>
       <View style={styles.row}>
-        <Pressable style={[styles.btn, styles.secondary]} onPress={() => {}}>
+        <Pressable
+          style={[styles.btn, styles.secondary]}
+          onPress={() => Alert.alert('Notice', 'You must be 18+ to use this app.')}
+        >
           <Text style={styles.btnText}>I’m not 18</Text>
         </Pressable>
         <Pressable
           style={[styles.btn, styles.primary]}
-          onPress={() => { setAgeConfirmed(true); router.replace('/(tabs)/categories'); }}
+          onPress={() => { setAgeConfirmed(true); /* nav will route in effect above */ }}
         >
           <Text style={styles.btnStrong}>I’m 18 or older</Text>
         </Pressable>

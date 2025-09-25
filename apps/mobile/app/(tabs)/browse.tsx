@@ -9,7 +9,7 @@ import { useSettings } from '../../lib/state/useStore';
 
 export default function BrowseScreen() {
   const router = useRouter();
-  const { language } = (useSettings() as any) || { language: 'en' };
+  const { language } = useSettings();
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 

@@ -11,7 +11,7 @@ type VoteValue = 'yes' | 'no' | 'maybe';
 
 export default function DeckScreen() {
   const router = useRouter();
-  const { language } = (useSettings() as any) || { language: 'en' };
+  const { language } = useSettings();
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 
