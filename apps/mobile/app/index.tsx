@@ -4,6 +4,7 @@ import { View, Text, Pressable, StyleSheet, ScrollView, Alert } from 'react-nati
 import { useRouter, useRootNavigationState } from 'expo-router';
 import { useSettings } from '../lib/state/useStore';
 import { useProfilesStore } from '../lib/state/profiles';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function EntryGate() {
   const router = useRouter();
@@ -14,9 +15,13 @@ export default function EntryGate() {
     (useSettings() as any) || { ageConfirmed: false, setAgeConfirmed: () => {} };
 
   // Profiles (same-device couple mode)
-  const hydrated = useProfilesStore((state) => state.isHydrated());
-  const hasActiveProfile = useProfilesStore((state) => state.hasActiveProfile());
-  const profileCount = useProfilesStore((state) => state.getProfiles().length);
+  const { hydrated, hasActiveProfile, profileCount } = useProfilesStore(
+    useShallow((state) => ({
+      hydrated: state.isHydrated(),
+      hasActiveProfile: state.hasActiveProfile(),
+      profileCount: state.getProfiles().length,
+    }))
+  );
 
   const [ready, setReady] = useState(false);
   useEffect(() => { if (nav?.key) setReady(true); }, [nav?.key]);

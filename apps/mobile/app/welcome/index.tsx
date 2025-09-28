@@ -7,23 +7,28 @@ import EmojiMenu from '../../components/EmojiMenu';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { EMOJI_CHOICES } from '../../src/constants/emojis';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function WelcomeCreateProfile() {
   const router = useRouter();
-  const hydrated = useProfilesStore((state) => state.isHydrated());
-  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
-  const createProfile = useProfilesStore((state) => state.createProfile);
-  const totalProfiles = useProfilesStore((state) => state.getProfiles().length);
+  const { isHydrated, hasActive, createProfile, totalProfiles } = useProfilesStore(
+    useShallow((state) => ({
+      isHydrated: state.isHydrated(),
+      hasActive: state.hasActiveProfile(),
+      createProfile: state.createProfile,
+      totalProfiles: state.getProfiles().length,
+    }))
+  );
 
   useEffect(() => {
-    if (hydrated && hasActive) {
+    if (isHydrated && hasActive) {
       router.replace('/(tabs)/categories');
     }
-  }, [hydrated, hasActive, router]);
+  }, [isHydrated, hasActive, router]);
 
   const [name, setName] = useState('');
   const [menuVisible, setMenuVisible] = useState(false);
-  const [emoji, setEmoji] = useState(EMOJI_CHOICES[0]);
+  const [emoji, setEmoji] = useState<string>(EMOJI_CHOICES[0]);
   const [pinEnabled, setPinEnabled] = useState(false);
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -80,7 +85,7 @@ export default function WelcomeCreateProfile() {
     }
   };
 
-  if (!hydrated) {
+  if (!isHydrated) {
     return (
       <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
         <SettingsButton />

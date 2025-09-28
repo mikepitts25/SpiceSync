@@ -7,6 +7,7 @@ import { useFilters } from '../../lib/state/filters';
 import { useKinks } from '../../lib/data';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useShallow } from 'zustand/react/shallow';
 
 const TIERS: { key: 'romance'|'soft'|'naughty'|'xxx'; label: string; desc: string }[] = [
   { key: 'romance', label: 'Romance', desc: 'sweet, caring' },
@@ -19,14 +20,18 @@ export default function CategoriesScreen() {
   const router = useRouter();
   const { setTier } = useFilters();
   const { kinks } = useKinks(); // defaults EN
-  const hydrated = useProfilesStore((state) => state.isHydrated());
-  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
+  const { isHydrated, hasActive } = useProfilesStore(
+    useShallow((state) => ({
+      isHydrated: state.isHydrated(),
+      hasActive: state.hasActiveProfile(),
+    }))
+  );
 
   useEffect(() => {
-    if (hydrated && !hasActive) {
+    if (isHydrated && !hasActive) {
       router.replace('/welcome');
     }
-  }, [hydrated, hasActive, router]);
+  }, [isHydrated, hasActive, router]);
 
   const counts = kinks.reduce<Record<string, number>>((acc, k) => {
     const t = k.tier || 'soft';
@@ -45,12 +50,8 @@ export default function CategoriesScreen() {
     router.push('/(tabs)/deck');
   };
 
-  if (!hydrated) {
-    return (
-      <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-        <SettingsButton />
-      </SafeAreaView>
-    );
+  if (!isHydrated || !hasActive) {
+    return null;
   }
 
   return (

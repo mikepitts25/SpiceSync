@@ -28,7 +28,7 @@ type ProfilesState = {
   hydrate: () => void;
   getProfiles: () => Profile[];
   getActiveProfileId: () => string | undefined;
-  setActiveProfile: (id: string) => void;
+  setActiveProfile: (id: string | undefined) => void;
   createProfile: (input: CreateProfileInput) => Profile;
   updateProfile: (id: string, patch: Partial<Pick<Profile, 'name' | 'emoji' | 'color'>>) => void;
   deleteProfile: (id: string) => void;
@@ -165,8 +165,18 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
   setActiveProfile: (id) => {
     const { profiles, hydrated } = get();
     if (!hydrated) return;
+
+    if (!id) {
+      set({ activeProfileId: null, currentUserId: null });
+      storage.delete(ACTIVE_ID_KEY);
+      storage.delete(LEGACY_ACTIVE_KEY);
+      return;
+    }
+
     const exists = profiles.some((profile) => profile.id === id);
-    if (!exists) return;
+    if (!exists) {
+      return;
+    }
 
     set({ activeProfileId: id, currentUserId: id });
     save(ACTIVE_ID_KEY, id);
@@ -269,24 +279,33 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
 
   deleteProfile: (id) => {
     set((state) => {
-      const next = state.profiles.filter((profile) => profile.id !== id);
-      let nextActive = state.activeProfileId;
+      const nextProfiles = state.profiles.filter((profile) => profile.id !== id);
 
-      if (state.activeProfileId === id) {
-        nextActive = next[0]?.id ?? null;
+      if (nextProfiles.length === state.profiles.length) {
+        // no change
+        return state;
       }
 
-      save(PROFILES_KEY, next);
+      let nextActiveId: string | null = state.activeProfileId;
+      if (state.activeProfileId === id) {
+        nextActiveId = nextProfiles[0]?.id ?? null;
+      }
 
-      if (nextActive) {
-        save(ACTIVE_ID_KEY, nextActive);
+      save(PROFILES_KEY, nextProfiles);
+
+      if (nextActiveId) {
+        save(ACTIVE_ID_KEY, nextActiveId);
       } else {
         storage.delete(ACTIVE_ID_KEY);
       }
 
       storage.delete(LEGACY_ACTIVE_KEY);
 
-      return { profiles: next, activeProfileId: nextActive, currentUserId: nextActive };
+      return {
+        profiles: nextProfiles,
+        activeProfileId: nextActiveId,
+        currentUserId: nextActiveId,
+      };
     });
   },
 
@@ -370,7 +389,7 @@ export function isHydrated(): boolean {
   return useProfilesStore.getState().isHydrated();
 }
 
-export function setActiveProfile(id: string): void {
+export function setActiveProfile(id: string | undefined): void {
   useProfilesStore.getState().setActiveProfile(id);
 }
 

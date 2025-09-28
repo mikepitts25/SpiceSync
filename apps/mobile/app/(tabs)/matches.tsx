@@ -9,36 +9,39 @@ import { useVotes } from '../../lib/state/votes';
 import { useKinks } from '../../lib/data';
 import { computeMatchBuckets, VoteValue } from '../../lib/match/compute';
 import { useRouter } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function MatchesScreen() {
   const router = useRouter();
-  const hydrated = useProfilesStore((state) => state.isHydrated());
-  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
-  const profiles = useProfilesStore((state) => state.profiles);
-  const activeProfileId = useProfilesStore((state) => state.activeProfileId);
+  const { isHydrated, hasActive, profiles, activeProfileId } = useProfilesStore(
+    useShallow((state) => ({
+      isHydrated: state.isHydrated(),
+      hasActive: state.hasActiveProfile(),
+      profiles: state.getProfiles(),
+      activeProfileId: state.getActiveProfileId(),
+    }))
+  );
 
   useEffect(() => {
-    if (hydrated && !hasActive) {
+    if (isHydrated && !hasActive) {
       router.replace('/welcome');
     }
-  }, [hydrated, hasActive, router]);
-  const activeProfile = useMemo(() =>
-    profiles.find((profile) => profile.id === activeProfileId) ?? null,
-  [profiles, activeProfileId]);
-  const partnerProfile = useMemo(() =>
-    profiles.find((profile) => profile.id !== activeProfileId) ?? null,
-  [profiles, activeProfileId]);
+  }, [isHydrated, hasActive, router]);
+  const activeProfile = useMemo(
+    () => profiles.find((profile) => profile.id === activeProfileId) ?? null,
+    [profiles, activeProfileId]
+  );
+  const partnerProfile = useMemo(
+    () => profiles.find((profile) => profile.id !== activeProfileId) ?? null,
+    [profiles, activeProfileId]
+  );
 
   const { language } = useSettings();
   const votesStore = useVotes();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en'); // UI language only; matching uses ids
 
-  if (!hydrated) {
-    return (
-      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <SettingsButton />
-      </SafeAreaView>
-    );
+  if (!isHydrated || !hasActive) {
+    return null;
   }
 
   if (!activeProfile) {

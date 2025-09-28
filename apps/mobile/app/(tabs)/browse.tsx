@@ -9,32 +9,33 @@ import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useRouter } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function BrowseScreen() {
   const router = useRouter();
   const { language } = useSettings();
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const hydrated = useProfilesStore((state) => state.isHydrated());
-  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
+  const { isHydrated, hasActive } = useProfilesStore(
+    useShallow((state) => ({
+      isHydrated: state.isHydrated(),
+      hasActive: state.hasActiveProfile(),
+    }))
+  );
 
   useEffect(() => {
-    if (hydrated && !hasActive) {
+    if (isHydrated && !hasActive) {
       router.replace('/welcome');
     }
-  }, [hydrated, hasActive, router]);
+  }, [isHydrated, hasActive, router]);
 
   const rows = useMemo(
     () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
     [kinks, selectedTier]
   );
 
-  if (!hydrated) {
-    return (
-      <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-        <SettingsButton />
-      </SafeAreaView>
-    );
+  if (!isHydrated || !hasActive) {
+    return null;
   }
 
   return (
