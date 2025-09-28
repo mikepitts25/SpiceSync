@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { useSettings } from '../../lib/state/useStore';
 import { useProfiles } from '../../lib/state/profiles';
 import { useVotes } from '../../lib/state/votes';
+import ResetAgeGateButton from '../../src/components/ResetAgeGateButton';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -112,6 +113,8 @@ export default function SettingsScreen() {
           This app is for adults (18+) exploring consensual intimacy. Keep it legal, consensual, and respectful.
         </Text>
       </View>
+
+      <ResetAgeGateButton />
     </SafeAreaView>
   );
 }
