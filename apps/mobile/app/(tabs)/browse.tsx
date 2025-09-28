@@ -1,22 +1,41 @@
 // apps/mobile/app/(tabs)/browse.tsx
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+
+import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
+import { useProfilesStore } from '../../lib/state/profiles';
+import { useRouter } from 'expo-router';
 
 export default function BrowseScreen() {
   const router = useRouter();
   const { language } = useSettings();
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
+
+  useEffect(() => {
+    if (hydrated && !hasActive) {
+      router.replace('/welcome');
+    }
+  }, [hydrated, hasActive, router]);
 
   const rows = useMemo(
     () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
     [kinks, selectedTier]
   );
+
+  if (!hydrated) {
+    return (
+      <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+        <SettingsButton />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']} accessibilityLabel="Browse list screen">
@@ -51,6 +70,7 @@ export default function BrowseScreen() {
           </View>
         }
       />
+      <SettingsButton />
     </SafeAreaView>
   );
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRouter, useRootNavigationState } from 'expo-router';
 import { useSettings } from '../lib/state/useStore';
-import { useProfiles } from '../lib/state/profiles';
+import { useProfilesStore } from '../lib/state/profiles';
 
 export default function EntryGate() {
   const router = useRouter();
@@ -14,7 +14,9 @@ export default function EntryGate() {
     (useSettings() as any) || { ageConfirmed: false, setAgeConfirmed: () => {} };
 
   // Profiles (same-device couple mode)
-  const { profiles } = useProfiles();
+  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hasActiveProfile = useProfilesStore((state) => state.hasActiveProfile());
+  const profileCount = useProfilesStore((state) => state.profiles.length);
 
   const [ready, setReady] = useState(false);
   useEffect(() => { if (nav?.key) setReady(true); }, [nav?.key]);
@@ -22,14 +24,14 @@ export default function EntryGate() {
   // When router is ready and age is confirmed, decide destination based on profiles
   useEffect(() => {
     if (!ready) return;
-    if (!ageConfirmed) return;
+    if (!ageConfirmed || !hydrated) return;
 
-    if (profiles.length === 0) {
+    if (!hasActiveProfile) {
       router.replace('/welcome'); // create first profile
     } else {
       router.replace('/(tabs)/categories'); // normal home
     }
-  }, [ready, ageConfirmed, profiles.length, router]);
+  }, [ready, ageConfirmed, hydrated, hasActiveProfile, router]);
 
   // While waiting for router
   if (!ready) {
@@ -41,7 +43,7 @@ export default function EntryGate() {
     return (
       <View style={styles.center}>
         <Text style={styles.p}>
-          {profiles.length === 0 ? 'Preparing profile setup…' : 'Taking you to Categories…'}
+          {profileCount === 0 ? 'Preparing profile setup…' : 'Taking you to Categories…'}
         </Text>
       </View>
     );

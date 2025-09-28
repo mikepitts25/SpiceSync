@@ -25,7 +25,6 @@ export default function SettingsStackLayout() {
         headerTitleStyle: { color: 'white' },
         headerTintColor: 'white',
         headerShadowVisible: false,
-        headerBackTitleVisible: false,
       }}
     >
       <Stack.Screen
@@ -35,7 +34,7 @@ export default function SettingsStackLayout() {
           headerLeft: () => <BackBtn />,
         }}
       />
-      <Stack.Screen name="profiles" options={{ title: 'Profiles' }} />
+      <Stack.Screen name="profiles/index" options={{ title: 'Profiles' }} />
     </Stack>
   );
 }

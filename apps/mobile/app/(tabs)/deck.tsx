@@ -3,19 +3,34 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeDeck from '../../components/SwipeDeck';
+import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
-import { useProfiles } from '../../lib/state/profiles';
+import { useProfilesStore } from '../../lib/state/profiles';
 import { useVotes, VoteValue } from '../../lib/state/votes';
 import { useSettings } from '../../lib/state/useStore';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
 export default function DeckScreen() {
+  const router = useRouter();
   const { language } = useSettings();
   const { selectedTier } = useFilters();
-  const { currentUserId, profiles } = useProfiles();
+  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
+  const profiles = useProfilesStore((state) => state.profiles);
+  const activeProfileId = useProfilesStore((state) => state.activeProfileId);
+
+  useEffect(() => {
+    if (hydrated && !hasActive) {
+      router.replace('/welcome');
+    }
+  }, [hydrated, hasActive, router]);
+  const activeProfile = useMemo(() =>
+    profiles.find((profile) => profile.id === activeProfileId) ?? null,
+  [profiles, activeProfileId]);
+  const activeProfileIdValue = activeProfile?.id ?? null;
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const setVote = useVotes(s => s.setVote);
 
@@ -26,7 +41,7 @@ export default function DeckScreen() {
   );
 
   // Index is stored per (user, tier)
-  const key = `${currentUserId ?? 'none'}::${selectedTier ?? 'all'}`;
+  const key = `${activeProfileIdValue ?? 'none'}::${selectedTier ?? 'all'}`;
   const [indexByKey, setIndexByKey] = useState<Record<string, number>>({});
   const index = indexByKey[key] ?? 0;
   const current = source[index] ?? null;
@@ -61,19 +76,28 @@ export default function DeckScreen() {
 
   const onSwipe = useCallback(
     (dir: 'left' | 'right' | 'down') => {
-      if (!current || !currentUserId) return;
+      if (!current || !activeProfileIdValue) return;
       const map: Record<typeof dir, VoteValue> = { left: 'no', right: 'yes', down: 'maybe' };
-      setVote(currentUserId, current.id, map[dir]);
+      setVote(activeProfileIdValue, current.id, map[dir]);
       setIndex(index + 1);
     },
-    [current, currentUserId, index, setVote]
+    [current, activeProfileIdValue, index, setVote]
   );
 
-  if (!currentUserId) {
+  if (!hydrated) {
+    return (
+      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
+        <SettingsButton />
+      </SafeAreaView>
+    );
+  }
+
+  if (!activeProfile) {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>Choose a profile</Text>
         <Text style={styles.p}>Open Settings → Profiles to select who is swiping.</Text>
+        <SettingsButton />
       </SafeAreaView>
     );
   }
@@ -83,18 +107,19 @@ export default function DeckScreen() {
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>No items in this category</Text>
         <Text style={styles.p}>Try another category or add content.</Text>
+        <SettingsButton />
       </SafeAreaView>
     );
   }
 
   // Finished state — safe UI, no null passed to SwipeDeck
   if (!current) {
-    const me = profiles.find(p => p.id === currentUserId);
+    const me = activeProfile;
     return (
       <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
         <View style={styles.topBar}>
           <Text style={styles.user}>
-            {me?.emoji} {me?.displayName}
+            {me?.emoji} {me?.displayName ?? me?.name}
           </Text>
           {selectedTier ? <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text> : null}
         </View>
@@ -107,12 +132,13 @@ export default function DeckScreen() {
             </Pressable>
           </View>
         </View>
+        <SettingsButton />
       </SafeAreaView>
     );
   }
 
   const leftCount = Math.max(0, source.length - index);
-  const me = profiles.find(p => p.id === currentUserId);
+  const me = activeProfile;
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
@@ -120,7 +146,7 @@ export default function DeckScreen() {
         <Text style={styles.count}>{leftCount} left</Text>
         {selectedTier ? <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text> : null}
         <Text style={styles.user}>
-          {me?.emoji} {me?.displayName}
+          {me?.emoji} {me?.displayName ?? me?.name}
         </Text>
       </View>
       <View style={styles.deckArea}>
@@ -128,6 +154,7 @@ export default function DeckScreen() {
           <SwipeDeck item={current} onSwipe={onSwipe} onUndo={() => setIndex(index - 1)} />
         </View>
       </View>
+      <SettingsButton />
     </SafeAreaView>
   );
 }

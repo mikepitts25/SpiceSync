@@ -1,10 +1,12 @@
 // apps/mobile/app/(tabs)/categories.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useFilters } from '../../lib/state/filters';
 import { useKinks } from '../../lib/data';
+import SettingsButton from '../../src/components/SettingsButton';
+import { useProfilesStore } from '../../lib/state/profiles';
 
 const TIERS: { key: 'romance'|'soft'|'naughty'|'xxx'; label: string; desc: string }[] = [
   { key: 'romance', label: 'Romance', desc: 'sweet, caring' },
@@ -17,6 +19,14 @@ export default function CategoriesScreen() {
   const router = useRouter();
   const { setTier } = useFilters();
   const { kinks } = useKinks(); // defaults EN
+  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
+
+  useEffect(() => {
+    if (hydrated && !hasActive) {
+      router.replace('/welcome');
+    }
+  }, [hydrated, hasActive, router]);
 
   const counts = kinks.reduce<Record<string, number>>((acc, k) => {
     const t = k.tier || 'soft';
@@ -35,19 +45,17 @@ export default function CategoriesScreen() {
     router.push('/(tabs)/deck');
   };
 
+  if (!hydrated) {
+    return (
+      <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+        <SettingsButton />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <View style={styles.headerRow}>
-        <Text style={styles.h1}>Choose a category</Text>
-        <Pressable
-          onPress={() => router.navigate('/settings')}
-          style={styles.menuButton}
-          accessibilityRole="button"
-          accessibilityLabel="Open settings"
-        >
-          <Text style={styles.menuText}>☰</Text>
-        </Pressable>
-      </View>
+      <Text style={styles.h1}>Choose a category</Text>
       <View style={styles.grid}>
         {TIERS.map(t => (
           <Pressable key={t.key} style={styles.card} onPress={() => onPick(t.key)} accessibilityRole="button">
@@ -61,24 +69,14 @@ export default function CategoriesScreen() {
       <Pressable style={styles.primary} onPress={() => { setTier(null); router.push('/(tabs)/deck'); }}>
         <Text style={styles.primaryText}>Skip category → Start Swiping</Text>
       </Pressable>
+      <SettingsButton />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 12, backgroundColor: '#0b0f14' },
-  headerRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
-  h1: { fontSize: 22, fontWeight: '800', color: 'white' },
-  menuButton: {
-    marginLeft: 'auto',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#1f2937',
-    backgroundColor: '#111827',
-  },
-  menuText: { color: 'white', fontSize: 20, fontWeight: '700' },
+  h1: { fontSize: 22, fontWeight: '800', color: 'white', marginBottom: 4 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   card: { flexBasis: '47%', padding: 14, borderRadius: 14, backgroundColor: '#1f2937' },
   title: { color: 'white', fontSize: 16, fontWeight: '700' },

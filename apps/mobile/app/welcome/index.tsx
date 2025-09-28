@@ -1,37 +1,51 @@
-
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, StyleSheet, TextInput, Pressable, Alert, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useProfiles, EMOJI_OPTIONS, EmojiOption } from '../../lib/state/profiles';
+import { useProfilesStore } from '../../lib/state/profiles';
+import SettingsButton from '../../src/components/SettingsButton';
+import { EMOJI_CHOICES } from '../../src/constants/emojis';
+
+type EmojiChoice = (typeof EMOJI_CHOICES)[number];
 
 export default function WelcomeCreateProfile() {
   const router = useRouter();
-  const { profiles, createProfile } = useProfiles();
+  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hasActive = useProfilesStore((state) => state.hasActiveProfile());
+  const createProfileState = useProfilesStore((state) => state.createProfile);
 
   // If somehow profiles exist already, bounce to tabs
   useEffect(() => {
-    if (profiles.length > 0) {
+    if (hydrated && hasActive) {
       router.replace('/(tabs)/categories');
     }
-  }, [profiles.length]);
+  }, [hydrated, hasActive, router]);
 
   const [name, setName] = useState('');
-  const [emoji, setEmoji] = useState<EmojiOption>('👨🏻');
-  const [pin, setPin] = useState('');
+  const [emoji, setEmoji] = useState<EmojiChoice>(EMOJI_CHOICES[0]);
 
   const onCreate = () => {
-    if (!name.trim()) {
+    const safeName = name.trim();
+    if (!safeName) {
       Alert.alert('Name required', 'Please enter a display name.');
       return;
     }
-    if (pin && !/^\d{4,6}$/.test(pin)) {
-      Alert.alert('Invalid PIN', 'PIN must be 4–6 digits or leave it blank.');
-      return;
+    try {
+      createProfileState({ name: safeName, emoji });
+      router.replace('/(tabs)/categories');
+    } catch (error) {
+      console.error('create profile failed', error);
+      Alert.alert('Could not create profile', 'Please try again.');
     }
-    createProfile(name.trim(), emoji, pin || null);
-    router.replace('/(tabs)/categories');
   };
+
+  if (!hydrated) {
+    return (
+      <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+        <SettingsButton />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
@@ -41,7 +55,7 @@ export default function WelcomeCreateProfile() {
       <View style={styles.card}>
         <Text style={styles.h2}>Choose an emoji</Text>
         <FlatList
-          data={EMOJI_OPTIONS as readonly EmojiOption[]}
+          data={EMOJI_CHOICES as readonly EmojiChoice[]}
           keyExtractor={(item) => item}
           numColumns={5}
           columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 8 }}
@@ -65,17 +79,6 @@ export default function WelcomeCreateProfile() {
           placeholder="Display name"
           placeholderTextColor="#64748b"
         />
-        <TextInput
-          style={styles.input}
-          value={pin}
-          onChangeText={setPin}
-          placeholder="Optional PIN (4–6 digits)"
-          placeholderTextColor="#64748b"
-          keyboardType="number-pad"
-          secureTextEntry
-          maxLength={6}
-        />
-
         <Pressable onPress={onCreate} style={styles.primary}>
           <Text style={styles.btnStrong}>Create profile</Text>
         </Pressable>
@@ -84,6 +87,7 @@ export default function WelcomeCreateProfile() {
       <Text style={styles.hint}>
         You can add more profiles later in Settings → Profiles.
       </Text>
+      <SettingsButton />
     </SafeAreaView>
   );
 }
