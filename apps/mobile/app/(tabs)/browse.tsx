@@ -15,7 +15,7 @@ export default function BrowseScreen() {
   const { language } = useSettings();
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hydrated = useProfilesStore((state) => state.isHydrated());
   const hasActive = useProfilesStore((state) => state.hasActiveProfile());
 
   useEffect(() => {

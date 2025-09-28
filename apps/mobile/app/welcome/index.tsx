@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, StyleSheet, TextInput, Pressable, Alert, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Pressable, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useProfilesStore } from '../../lib/state/profiles';
-import SettingsButton from '../../src/components/SettingsButton';
-import { EMOJI_CHOICES } from '../../src/constants/emojis';
 
-type EmojiChoice = (typeof EMOJI_CHOICES)[number];
+import EmojiMenu from '../../components/EmojiMenu';
+import SettingsButton from '../../src/components/SettingsButton';
+import { useProfilesStore } from '../../lib/state/profiles';
+import { EMOJI_CHOICES } from '../../src/constants/emojis';
 
 export default function WelcomeCreateProfile() {
   const router = useRouter();
-  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hydrated = useProfilesStore((state) => state.isHydrated());
   const hasActive = useProfilesStore((state) => state.hasActiveProfile());
-  const createProfileState = useProfilesStore((state) => state.createProfile);
+  const createProfile = useProfilesStore((state) => state.createProfile);
+  const totalProfiles = useProfilesStore((state) => state.getProfiles().length);
 
-  // If somehow profiles exist already, bounce to tabs
   useEffect(() => {
     if (hydrated && hasActive) {
       router.replace('/(tabs)/categories');
@@ -22,20 +22,61 @@ export default function WelcomeCreateProfile() {
   }, [hydrated, hasActive, router]);
 
   const [name, setName] = useState('');
-  const [emoji, setEmoji] = useState<EmojiChoice>(EMOJI_CHOICES[0]);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [emoji, setEmoji] = useState(EMOJI_CHOICES[0]);
+  const [pinEnabled, setPinEnabled] = useState(false);
+  const [pin, setPin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
+  const [pinError, setPinError] = useState<string | null>(null);
 
-  const onCreate = () => {
+  const pinOptional = totalProfiles === 0;
+
+  const togglePin = () => {
+    setPinEnabled((prev) => {
+      const next = !prev;
+      if (!next) {
+        setPin('');
+        setConfirmPin('');
+        setPinError(null);
+      }
+      return next;
+    });
+  };
+
+  const pinCtaLabel = useMemo(() => {
+    if (!pinEnabled) {
+      return pinOptional ? 'Set a PIN (optional)' : 'Set a PIN';
+    }
+    return 'Remove PIN';
+  }, [pinEnabled, pinOptional]);
+
+  const handleCreate = () => {
     const safeName = name.trim();
     if (!safeName) {
       Alert.alert('Name required', 'Please enter a display name.');
       return;
     }
+
+    let pinToSave: string | undefined;
+    if (pinEnabled) {
+      if (pin.length !== 4) {
+        setPinError('PIN must be 4 digits');
+        return;
+      }
+      if (pin !== confirmPin) {
+        setPinError('PINs do not match');
+        return;
+      }
+      pinToSave = pin;
+    }
+
     try {
-      createProfileState({ name: safeName, emoji });
+      createProfile({ name: safeName, emoji, pin: pinToSave });
       router.replace('/(tabs)/categories');
     } catch (error) {
       console.error('create profile failed', error);
-      Alert.alert('Could not create profile', 'Please try again.');
+      const message = error instanceof Error ? error.message : 'Please try again.';
+      Alert.alert('Could not create profile', message);
     }
   };
 
@@ -53,21 +94,16 @@ export default function WelcomeCreateProfile() {
       <Text style={styles.p}>Let’s create your first profile.</Text>
 
       <View style={styles.card}>
-        <Text style={styles.h2}>Choose an emoji</Text>
-        <FlatList
-          data={EMOJI_CHOICES as readonly EmojiChoice[]}
-          keyExtractor={(item) => item}
-          numColumns={5}
-          columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 8 }}
-          renderItem={({ item }) => {
-            const active = item === emoji;
-            return (
-              <Pressable onPress={() => setEmoji(item)} style={[styles.emojiBtn, active && styles.emojiBtnActive]}>
-                <Text style={styles.emoji}>{item}</Text>
-              </Pressable>
-            );
-          }}
-        />
+        <Text style={styles.h2}>Emoji</Text>
+        <Pressable
+          onPress={() => setMenuVisible(true)}
+          style={styles.emojiSelector}
+          accessibilityRole="button"
+          accessibilityLabel="Choose emoji"
+        >
+          <Text style={styles.selectedEmoji}>{emoji}</Text>
+          <Text style={styles.emojiHint}>Tap to choose</Text>
+        </Pressable>
       </View>
 
       <View style={styles.card}>
@@ -79,15 +115,60 @@ export default function WelcomeCreateProfile() {
           placeholder="Display name"
           placeholderTextColor="#64748b"
         />
-        <Pressable onPress={onCreate} style={styles.primary}>
+
+        <Pressable style={styles.pinToggle} onPress={togglePin} accessibilityRole="button">
+          <Text style={styles.pinToggleText}>{pinCtaLabel}</Text>
+        </Pressable>
+
+        {pinEnabled ? (
+          <View style={styles.pinGroup}>
+            <TextInput
+              style={styles.pinInput}
+              value={pin}
+              onChangeText={(value) => {
+                setPin(value.replace(/\D/g, '').slice(0, 4));
+                setPinError(null);
+              }}
+              placeholder="PIN"
+              placeholderTextColor="#475569"
+              keyboardType="number-pad"
+              secureTextEntry
+              maxLength={4}
+            />
+            <TextInput
+              style={styles.pinInput}
+              value={confirmPin}
+              onChangeText={(value) => {
+                setConfirmPin(value.replace(/\D/g, '').slice(0, 4));
+                setPinError(null);
+              }}
+              placeholder="Confirm PIN"
+              placeholderTextColor="#475569"
+              keyboardType="number-pad"
+              secureTextEntry
+              maxLength={4}
+            />
+            {pinError ? <Text style={styles.pinError}>{pinError}</Text> : null}
+          </View>
+        ) : null}
+
+        <Pressable onPress={handleCreate} style={styles.primary} accessibilityRole="button">
           <Text style={styles.btnStrong}>Create profile</Text>
         </Pressable>
       </View>
 
-      <Text style={styles.hint}>
-        You can add more profiles later in Settings → Profiles.
-      </Text>
+      <Text style={styles.hint}>You can add more profiles later in Settings → Profiles.</Text>
       <SettingsButton />
+
+      <EmojiMenu
+        visible={menuVisible}
+        selected={emoji}
+        onSelect={(value) => {
+          setEmoji(value);
+          setMenuVisible(false);
+        }}
+        onClose={() => setMenuVisible(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -98,20 +179,65 @@ const styles = StyleSheet.create({
   h2: { color: 'white', fontWeight: '800', marginBottom: 8, fontSize: 16 },
   p: { color: '#cbd5e1' },
   hint: { color: '#94a3b8' },
-
-  card: { backgroundColor: '#0e1526', borderWidth: 1, borderColor: '#111827', borderRadius: 14, padding: 14 },
-
-  emojiBtn: {
-    width: 56, height: 56, borderRadius: 12, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: '#111827', borderWidth: 1, borderColor: '#1f2937', marginBottom: 8,
+  card: {
+    backgroundColor: '#0e1526',
+    borderWidth: 1,
+    borderColor: '#111827',
+    borderRadius: 14,
+    padding: 14,
+    gap: 12,
   },
-  emojiBtnActive: { borderColor: '#2563eb', backgroundColor: '#0b1222' },
-  emoji: { fontSize: 28 },
-
+  emojiSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+  },
+  selectedEmoji: { fontSize: 28 },
+  emojiHint: { color: '#64748b', fontWeight: '600' },
   input: {
-    backgroundColor: '#111827', borderWidth: 1, borderColor: '#1f2937',
-    borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10, color: 'white', marginBottom: 8,
+    backgroundColor: '#111827',
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: 'white',
   },
-  primary: { backgroundColor: '#2563eb', borderRadius: 12, paddingVertical: 12, alignItems: 'center', marginTop: 6 },
+  pinToggle: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+  },
+  pinToggleText: { color: '#93c5fd', fontWeight: '700' },
+  pinGroup: { gap: 10 },
+  pinInput: {
+    backgroundColor: '#111827',
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: 'white',
+    fontSize: 18,
+    letterSpacing: 8,
+  },
+  pinError: { color: '#f87171', fontWeight: '600' },
+  primary: {
+    backgroundColor: '#2563eb',
+    borderRadius: 12,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginTop: 4,
+  },
   btnStrong: { color: 'white', fontWeight: '900' },
 });

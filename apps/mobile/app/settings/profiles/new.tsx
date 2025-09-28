@@ -24,7 +24,7 @@ const PIN_LENGTH = 4;
 
 export default function NewProfileScreen() {
   const router = useRouter();
-  const profileCount = useProfilesStore((state) => state.profiles.length);
+  const profileCount = useProfilesStore((state) => state.getProfiles().length);
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState<string>(EMOJI_CHOICES[0]);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -34,6 +34,7 @@ export default function NewProfileScreen() {
   const [isSaving, setIsSaving] = useState(false);
 
   const requiresPin = profileCount === 1;
+  const [pinEnabled, setPinEnabled] = useState(requiresPin);
 
   const emojiLabel = useMemo(() => emoji || EMOJI_CHOICES[0], [emoji]);
 
@@ -62,16 +63,43 @@ export default function NewProfileScreen() {
     }
   };
 
-  const pinValid = !requiresPin || (pin.length === PIN_LENGTH && confirmPin === pin && !pinError);
+  const pinActive = requiresPin || pinEnabled;
+  const pinValid = !pinActive || (pin.length === PIN_LENGTH && confirmPin === pin && !pinError);
   const nameValid = name.trim().length > 0;
   const canSubmit = nameValid && pinValid && !isSaving;
+
+  const togglePin = () => {
+    if (requiresPin) return;
+    setPinEnabled((prev) => {
+      const next = !prev;
+      if (!next) {
+        setPin('');
+        setConfirmPin('');
+        setPinError(null);
+      }
+      return next;
+    });
+  };
 
   const handleSave = async () => {
     if (!canSubmit) return;
 
     try {
       setIsSaving(true);
-      const inputPin = requiresPin ? pin : undefined;
+      if (pinActive) {
+        if (pin.length !== PIN_LENGTH) {
+          setPinError('PIN must be 4 digits');
+          setIsSaving(false);
+          return;
+        }
+        if (pin !== confirmPin) {
+          setPinError('PINs do not match');
+          setIsSaving(false);
+          return;
+        }
+      }
+
+      const inputPin = pinActive ? pin : undefined;
       createProfileAction({
         name: name.trim(),
         emoji: emojiLabel,
@@ -80,7 +108,8 @@ export default function NewProfileScreen() {
       router.back();
     } catch (error) {
       console.error('create profile failed', error);
-      Alert.alert('Could not create profile', 'Please try again.');
+      const message = error instanceof Error ? error.message : 'Please try again.';
+      Alert.alert('Could not create profile', message);
     } finally {
       setIsSaving(false);
     }
@@ -121,35 +150,54 @@ export default function NewProfileScreen() {
             </Pressable>
           </View>
 
-          {requiresPin ? (
-            <View style={styles.section}>
-              <Text style={styles.label}>Step 1 · Create a 4-digit PIN</Text>
-              <TextInput
-                style={styles.pinInput}
-                value={pin}
-                onChangeText={onPinChange}
-                keyboardType="number-pad"
-                secureTextEntry
-                maxLength={PIN_LENGTH}
-                placeholder="••••"
-                placeholderTextColor="#475569"
-              />
-
-              <Text style={[styles.label, { marginTop: 16 }]}>Step 2 · Confirm PIN</Text>
-              <TextInput
-                style={styles.pinInput}
-                value={confirmPin}
-                onChangeText={onConfirmPinChange}
-                keyboardType="number-pad"
-                secureTextEntry
-                maxLength={PIN_LENGTH}
-                placeholder="••••"
-                placeholderTextColor="#475569"
-              />
-              <Text style={styles.hint}>Digits only. You’ll need this PIN to switch profiles.</Text>
-              {pinError ? <Text style={styles.error}>{pinError}</Text> : null}
+          <View style={styles.section}>
+            <View style={styles.pinHeader}>
+              <Text style={styles.label}>
+                {requiresPin ? 'Set a 4-digit PIN' : 'PIN (optional)'}
+              </Text>
+              {!requiresPin ? (
+                <Pressable
+                  style={styles.pinToggle}
+                  onPress={togglePin}
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.pinToggleText}>
+                    {pinEnabled ? 'Remove PIN' : 'Set a PIN (optional)'}
+                  </Text>
+                </Pressable>
+              ) : null}
             </View>
-          ) : null}
+
+            {pinActive ? (
+              <View style={styles.pinFields}>
+                <TextInput
+                  style={styles.pinInput}
+                  value={pin}
+                  onChangeText={onPinChange}
+                  keyboardType="number-pad"
+                  secureTextEntry
+                  maxLength={PIN_LENGTH}
+                  placeholder="••••"
+                  placeholderTextColor="#475569"
+                />
+
+                <TextInput
+                  style={styles.pinInput}
+                  value={confirmPin}
+                  onChangeText={onConfirmPinChange}
+                  keyboardType="number-pad"
+                  secureTextEntry
+                  maxLength={PIN_LENGTH}
+                  placeholder="••••"
+                  placeholderTextColor="#475569"
+                />
+                <Text style={styles.hint}>Digits only. You’ll need this PIN to switch profiles.</Text>
+                {pinError ? <Text style={styles.error}>{pinError}</Text> : null}
+              </View>
+            ) : (
+              <Text style={styles.hint}>You can keep this profile open or secure it with a PIN.</Text>
+            )}
+          </View>
 
           <Pressable
             style={[styles.primaryButton, (!canSubmit || isSaving) && styles.primaryDisabled]}
@@ -204,6 +252,21 @@ const styles = StyleSheet.create({
   },
   emoji: { fontSize: 30 },
   emojiHint: { color: '#94a3b8', fontSize: 14 },
+  pinHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  pinToggle: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+  },
+  pinToggleText: { color: '#93c5fd', fontWeight: '700' },
+  pinFields: { gap: 12 },
   pinInput: {
     backgroundColor: '#111827',
     borderRadius: 12,

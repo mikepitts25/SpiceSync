@@ -14,9 +14,9 @@ export default function EntryGate() {
     (useSettings() as any) || { ageConfirmed: false, setAgeConfirmed: () => {} };
 
   // Profiles (same-device couple mode)
-  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hydrated = useProfilesStore((state) => state.isHydrated());
   const hasActiveProfile = useProfilesStore((state) => state.hasActiveProfile());
-  const profileCount = useProfilesStore((state) => state.profiles.length);
+  const profileCount = useProfilesStore((state) => state.getProfiles().length);
 
   const [ready, setReady] = useState(false);
   useEffect(() => { if (nav?.key) setReady(true); }, [nav?.key]);

@@ -17,7 +17,7 @@ export default function DeckScreen() {
   const router = useRouter();
   const { language } = useSettings();
   const { selectedTier } = useFilters();
-  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hydrated = useProfilesStore((state) => state.isHydrated());
   const hasActive = useProfilesStore((state) => state.hasActiveProfile());
   const profiles = useProfilesStore((state) => state.profiles);
   const activeProfileId = useProfilesStore((state) => state.activeProfileId);

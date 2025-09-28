@@ -19,7 +19,7 @@ export default function CategoriesScreen() {
   const router = useRouter();
   const { setTier } = useFilters();
   const { kinks } = useKinks(); // defaults EN
-  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hydrated = useProfilesStore((state) => state.isHydrated());
   const hasActive = useProfilesStore((state) => state.hasActiveProfile());
 
   useEffect(() => {

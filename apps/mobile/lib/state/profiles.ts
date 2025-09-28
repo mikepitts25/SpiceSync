@@ -24,8 +24,10 @@ type ProfilesState = {
   profiles: Profile[];
   activeProfileId: string | null;
   currentUserId: string | null;
-  isHydrated: boolean;
+  hydrated: boolean;
   hydrate: () => void;
+  getProfiles: () => Profile[];
+  getActiveProfileId: () => string | undefined;
   setActiveProfile: (id: string) => void;
   createProfile: (input: CreateProfileInput) => Profile;
   updateProfile: (id: string, patch: Partial<Pick<Profile, 'name' | 'emoji' | 'color'>>) => void;
@@ -36,6 +38,7 @@ type ProfilesState = {
   verifyPin: (id: string, pin: string) => boolean;
   hasActiveProfile: () => boolean;
   getActiveProfile: () => Profile | undefined;
+  isHydrated: () => boolean;
 };
 
 const storage = new MMKV({ id: 'spicesync', encryptionKey: 'device-bound-key' });
@@ -46,9 +49,11 @@ const LEGACY_ACTIVE_KEY = 'currentUserId';
 
 const ALLOWED_EMOJI = new Set<string>(EMOJI_CHOICES);
 
+const isDigits4 = (value?: string | null): boolean => !!value && /^[0-9]{4}$/.test(value);
+
 function ensureEmoji(input: string | null | undefined): string {
   if (typeof input !== 'string' || !ALLOWED_EMOJI.has(input)) {
-    throw new Error('Profile emoji must be one of the preset choices.');
+    throw new Error('Invalid emoji');
   }
   return input;
 }
@@ -113,18 +118,18 @@ function generateId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-const defaultState: Pick<ProfilesState, 'profiles' | 'activeProfileId' | 'currentUserId' | 'isHydrated'> = {
-  profiles: [],
-  activeProfileId: null,
-  currentUserId: null,
-  isHydrated: false,
+const defaultState = {
+  profiles: [] as Profile[],
+  activeProfileId: null as string | null,
+  currentUserId: null as string | null,
+  hydrated: false,
 };
 
 export const useProfilesStore = create<ProfilesState>((set, get) => ({
   ...defaultState,
 
   hydrate: () => {
-    if (get().isHydrated) return;
+    if (get().hydrated) return;
 
     const persistedProfiles = migrateProfiles(load<PersistedProfile[]>(PROFILES_KEY, []));
 
@@ -141,7 +146,7 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
       profiles: persistedProfiles,
       activeProfileId: nextActive,
       currentUserId: nextActive,
-      isHydrated: true,
+      hydrated: true,
     });
 
     if (nextActive) {
@@ -153,9 +158,13 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
     storage.delete(LEGACY_ACTIVE_KEY);
   },
 
+  getProfiles: () => get().profiles,
+
+  getActiveProfileId: () => get().activeProfileId ?? undefined,
+
   setActiveProfile: (id) => {
-    const { profiles, isHydrated } = get();
-    if (!isHydrated) return;
+    const { profiles, hydrated } = get();
+    if (!hydrated) return;
     const exists = profiles.some((profile) => profile.id === id);
     if (!exists) return;
 
@@ -171,14 +180,29 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
     }
 
     const safeEmoji = ensureEmoji(input.emoji ?? null);
-
+    const totalProfiles = get().profiles.length;
+    const rawPin = typeof input.pin === 'string' ? input.pin.trim() : '';
     let safePin: string | undefined;
-    if (typeof input.pin === 'string' && input.pin.trim()) {
-      const digits = input.pin.replace(/\D/g, '');
-      if (digits.length !== 4) {
-        throw new Error('PIN must be a 4-digit code');
+
+    if (totalProfiles === 0) {
+      if (rawPin) {
+        if (!isDigits4(rawPin)) {
+          throw new Error('PIN must be 4 digits');
+        }
+        safePin = rawPin;
       }
-      safePin = digits;
+    } else if (totalProfiles === 1) {
+      if (!isDigits4(rawPin)) {
+        throw new Error('PIN required and must be 4 digits');
+      }
+      safePin = rawPin;
+    } else {
+      if (rawPin) {
+        if (!isDigits4(rawPin)) {
+          throw new Error('PIN must be 4 digits');
+        }
+        safePin = rawPin;
+      }
     }
 
     const now = Date.now();
@@ -224,10 +248,8 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
         }
 
         let nextEmoji = profile.emoji;
-        if (typeof patch.emoji === 'string') {
-          if (ALLOWED_EMOJI.has(patch.emoji)) {
-            nextEmoji = patch.emoji;
-          }
+        if (typeof patch.emoji === 'string' && ALLOWED_EMOJI.has(patch.emoji)) {
+          nextEmoji = patch.emoji;
         }
 
         return {
@@ -269,8 +291,10 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
   },
 
   setPin: (id, pin) => {
-    const digits = pin.replace(/\D/g, '').slice(0, 4);
-    if (digits.length !== 4) return;
+    const digits = pin.replace(/\D/g, '');
+    if (!isDigits4(digits)) {
+      throw new Error('PIN must be 4 digits');
+    }
 
     set((state) => {
       const next = state.profiles.map((profile) =>
@@ -306,8 +330,8 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
   },
 
   hasActiveProfile: () => {
-    const { isHydrated, activeProfileId, profiles } = get();
-    if (!isHydrated || !activeProfileId) return false;
+    const { hydrated, activeProfileId, profiles } = get();
+    if (!hydrated || !activeProfileId) return false;
     return profiles.some((profile) => profile.id === activeProfileId);
   },
 
@@ -316,6 +340,8 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
     if (!activeProfileId) return undefined;
     return profiles.find((profile) => profile.id === activeProfileId);
   },
+
+  isHydrated: () => get().hydrated,
 }));
 
 export const useProfiles = useProfilesStore;
@@ -325,12 +351,11 @@ useProfilesStore.getState().hydrate();
 export const EMOJI_OPTIONS = EMOJI_CHOICES;
 
 export function getProfiles(): Profile[] {
-  return useProfilesStore.getState().profiles;
+  return useProfilesStore.getState().getProfiles();
 }
 
 export function getActiveProfileId(): string | undefined {
-  const id = useProfilesStore.getState().activeProfileId;
-  return id ?? undefined;
+  return useProfilesStore.getState().getActiveProfileId();
 }
 
 export function getActiveProfile(): Profile | undefined {
@@ -342,7 +367,7 @@ export function hasActiveProfile(): boolean {
 }
 
 export function isHydrated(): boolean {
-  return useProfilesStore.getState().isHydrated;
+  return useProfilesStore.getState().isHydrated();
 }
 
 export function setActiveProfile(id: string): void {
@@ -368,4 +393,3 @@ export function hasPin(id: string): boolean {
 export function verifyPin(id: string, pin: string): boolean {
   return useProfilesStore.getState().verifyPin(id, pin);
 }
-

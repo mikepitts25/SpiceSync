@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router';
 
 export default function MatchesScreen() {
   const router = useRouter();
-  const hydrated = useProfilesStore((state) => state.isHydrated);
+  const hydrated = useProfilesStore((state) => state.isHydrated());
   const hasActive = useProfilesStore((state) => state.hasActiveProfile());
   const profiles = useProfilesStore((state) => state.profiles);
   const activeProfileId = useProfilesStore((state) => state.activeProfileId);
