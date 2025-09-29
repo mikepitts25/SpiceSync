@@ -1,8 +1,8 @@
 
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SwipeDeck from '../../components/SwipeDeck';
+import SwipeDeck, { type SwipeDeckHandle, type SwipeDirection } from '../../components/SwipeDeck';
 import VoteButtons from '../../components/VoteButtons';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
@@ -51,6 +51,9 @@ export default function DeckScreen() {
   // Index is stored per (user, tier)
   const key = `${activeProfileIdValue ?? 'none'}::${selectedTier ?? 'all'}`;
   const [indexByKey, setIndexByKey] = useState<Record<string, number>>({});
+  const [cardAnimating, setCardAnimating] = useState(false);
+  const queuedVoteRef = useRef<VoteValue | null>(null);
+  const topCardRef = useRef<SwipeDeckHandle>(null);
   const index = indexByKey[key] ?? 0;
   const current = source[index] ?? null;
 
@@ -96,35 +99,45 @@ export default function DeckScreen() {
     updateIndex(() => n);
   };
 
-  const handleDirectionalVote = useCallback(
-    (dir: 'left' | 'right' | 'down') => {
-      if (!current || !activeProfileIdValue) return;
-      const map: Record<typeof dir, VoteValue> = { left: 'no', right: 'yes', down: 'maybe' };
-      setVote(activeProfileIdValue, current.id, map[dir]);
+  const handleSwipeResult = useCallback(
+    (dir: SwipeDirection) => {
+      if (!current || !activeProfileIdValue) {
+        queuedVoteRef.current = null;
+        setCardAnimating(false);
+        return;
+      }
+
+      const directionToVote: Record<SwipeDirection, VoteValue> = {
+        left: 'no',
+        right: 'yes',
+        down: 'maybe',
+      };
+
+      const voteValue = queuedVoteRef.current ?? directionToVote[dir];
+      queuedVoteRef.current = null;
+
+      setVote(activeProfileIdValue, current.id, voteValue);
       updateIndex((prevIndex) => prevIndex + 1);
+      setCardAnimating(false);
     },
     [current, activeProfileIdValue, setVote, updateIndex]
   );
 
-  const onSwipe = useCallback(
-    (dir: 'left' | 'right' | 'down') => {
-      handleDirectionalVote(dir);
-    },
-    [handleDirectionalVote]
-  );
-
   const handleButtonVote = useCallback(
     (value: VoteValue) => {
-      if (!current) return;
-      if (value === 'yes') {
-        handleDirectionalVote('right');
-      } else if (value === 'no') {
-        handleDirectionalVote('left');
-      } else {
-        handleDirectionalVote('down');
-      }
+      if (!current || cardAnimating) return;
+      const handle = topCardRef.current;
+      if (!handle || handle.isAnimating()) return;
+      const valueToDirection: Record<VoteValue, SwipeDirection> = {
+        yes: 'right',
+        no: 'left',
+        maybe: 'down',
+      };
+
+      queuedVoteRef.current = value;
+      handle.programmaticSwipe(valueToDirection[value]);
     },
-    [current, handleDirectionalVote]
+    [cardAnimating, current]
   );
 
   if (!isHydrated || !hasActive) {
@@ -190,13 +203,24 @@ export default function DeckScreen() {
       </View>
       <View style={styles.deckArea}>
         <View style={styles.cardMaxW}>
-          <SwipeDeck item={current} onSwipe={onSwipe} onUndo={() => updateIndex((prev) => prev - 1)} />
+          <SwipeDeck
+            ref={topCardRef}
+            item={current}
+            onSwipe={handleSwipeResult}
+            onUndo={() => updateIndex((prev) => prev - 1)}
+            onSwipeStart={() => setCardAnimating(true)}
+            onSwipeEnd={() => setCardAnimating(false)}
+          />
         </View>
       </View>
       <View style={styles.settingsFooter}>
         <SettingsButton />
       </View>
-      <VoteButtons currentKinkId={current?.id} onVote={handleButtonVote} />
+      <VoteButtons
+        currentKinkId={current?.id}
+        onVote={handleButtonVote}
+        disabled={cardAnimating || !current}
+      />
     </SafeAreaView>
   );
 }

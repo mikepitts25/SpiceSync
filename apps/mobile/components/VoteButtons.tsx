@@ -7,14 +7,15 @@ type VoteValue = 'yes' | 'maybe' | 'no';
 type Props = {
   currentKinkId?: string | null;
   onVote: (value: VoteValue) => void;
+  disabled?: boolean;
 };
 
-export default function VoteButtons({ currentKinkId, onVote }: Props) {
+export default function VoteButtons({ currentKinkId, onVote, disabled = false }: Props) {
   const insets = useSafeAreaInsets();
-  const disabled = !currentKinkId;
+  const isDisabled = disabled || !currentKinkId;
 
   const handlePress = (value: VoteValue) => {
-    if (disabled) return;
+    if (isDisabled) return;
     onVote(value);
   };
 
@@ -25,9 +26,9 @@ export default function VoteButtons({ currentKinkId, onVote }: Props) {
         pointerEvents="box-none"
       >
         <View style={styles.row}>
-          <VoteButton label="No" tone="no" disabled={disabled} onPress={() => handlePress('no')} />
-          <VoteButton label="Maybe" tone="maybe" disabled={disabled} onPress={() => handlePress('maybe')} />
-          <VoteButton label="Yes" tone="yes" disabled={disabled} onPress={() => handlePress('yes')} />
+          <VoteButton label="No" tone="no" disabled={isDisabled} onPress={() => handlePress('no')} />
+          <VoteButton label="Maybe" tone="maybe" disabled={isDisabled} onPress={() => handlePress('maybe')} />
+          <VoteButton label="Yes" tone="yes" disabled={isDisabled} onPress={() => handlePress('yes')} />
         </View>
       </View>
     </View>

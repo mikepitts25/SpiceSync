@@ -1,13 +1,13 @@
-
 // apps/mobile/components/SwipeDeck.tsx
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Animated, {
-  useSharedValue,
+  Easing,
+  runOnJS,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
   withTiming,
-  runOnJS,
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 
@@ -17,29 +17,35 @@ const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 //  - height ≈ 54% (min 320, max 520)
 const CARD_W = Math.min(Math.max(SCREEN_W * 0.72, 280), 380);
 const CARD_H = Math.min(Math.max(SCREEN_H * 0.54, 320), 520);
+const OFFSCREEN_X = SCREEN_W * 1.4;
+const OFFSCREEN_Y = SCREEN_H * 1.2;
 
-type Dir = 'left' | 'right' | 'down';
+export type SwipeDirection = 'left' | 'right' | 'down';
 
-export default function SwipeDeck({
-  item,
-  onSwipe,
-  onUndo,
-}: {
+export type SwipeDeckHandle = {
+  programmaticSwipe: (dir: SwipeDirection) => void;
+  isAnimating: () => boolean;
+};
+
+type Props = {
   item: any | null;
-  onSwipe: (d: Dir) => void;
+  onSwipe: (dir: SwipeDirection) => void;
   onUndo: () => void;
-}) {
-  if (!item) {
-    return (
-      <View style={[styles.card, styles.emptyCard, { width: CARD_W, height: 220 }]}>
-        <Text style={styles.emptyText}>No more cards</Text>
-      </View>
-    );
-  }
+  onSwipeStart?: () => void;
+  onSwipeEnd?: () => void;
+};
 
+const TIMING_CONFIG = {
+  duration: 220,
+  easing: Easing.out(Easing.quad),
+};
+
+const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
+  ({ item, onSwipe, onUndo, onSwipeStart, onSwipeEnd }, ref) => {
   const x = useSharedValue(0);
   const y = useSharedValue(0);
   const gone = useSharedValue(false);
+  const animating = useSharedValue(false);
 
   const thresholdX = 80;
   const thresholdY = 70;
@@ -53,9 +59,49 @@ export default function SwipeDeck({
     opacity: gone.value ? withTiming(0) : 1,
   }));
 
+  const performSwipe = (dir: SwipeDirection) => {
+    'worklet';
+    const targetX = dir === 'right' ? OFFSCREEN_X : dir === 'left' ? -OFFSCREEN_X : 0;
+    const targetY = dir === 'down' ? OFFSCREEN_Y : 0;
+
+    gone.value = true;
+
+    const finish = (finished: boolean) => {
+      if (!finished) {
+        animating.value = false;
+        gone.value = false;
+        if (onSwipeEnd) runOnJS(onSwipeEnd)();
+        return;
+      }
+
+      x.value = 0;
+      y.value = 0;
+      gone.value = false;
+      animating.value = false;
+      if (onSwipeEnd) runOnJS(onSwipeEnd)();
+      runOnJS(onSwipe)(dir);
+    };
+
+    if (targetY !== 0) {
+      y.value = withTiming(targetY, TIMING_CONFIG, finish);
+      x.value = withTiming(targetX, TIMING_CONFIG);
+    } else {
+      x.value = withTiming(targetX, TIMING_CONFIG, finish);
+      y.value = withTiming(targetY, TIMING_CONFIG);
+    }
+  };
+
+  const triggerSwipe = (dir: SwipeDirection) => {
+    if (!item) return;
+    if (animating.value) return;
+    animating.value = true;
+    onSwipeStart?.();
+    performSwipe(dir);
+  };
+
   const handleEnd = (dx: number, dy: number) => {
     'worklet';
-    let dir: Dir | null = null;
+    let dir: SwipeDirection | null = null;
     if (Math.abs(dx) > Math.abs(dy)) {
       if (dx > thresholdX) dir = 'right';
       else if (dx < -thresholdX) dir = 'left';
@@ -64,19 +110,27 @@ export default function SwipeDeck({
     }
 
     if (dir) {
-      gone.value = true;
-      x.value = withTiming(dx * 2);
-      y.value = withTiming(dy * 2, {}, () => {
-        runOnJS(onSwipe)(dir as Dir);
-        x.value = 0;
-        y.value = 0;
-        gone.value = false;
-      });
+      runOnJS(triggerSwipe)(dir);
     } else {
       x.value = withSpring(0);
       y.value = withSpring(0);
     }
   };
+
+  useImperativeHandle(ref, () => ({
+    programmaticSwipe: (dir: SwipeDirection) => {
+      triggerSwipe(dir);
+    },
+    isAnimating: () => animating.value,
+  }));
+
+  if (!item) {
+    return (
+      <View style={[styles.card, styles.emptyCard, { width: CARD_W, height: 220 }]}>
+        <Text style={styles.emptyText}>No more cards</Text>
+      </View>
+    );
+  }
 
   return (
     <PanGestureHandler
@@ -106,7 +160,10 @@ export default function SwipeDeck({
       </Animated.View>
     </PanGestureHandler>
   );
-}
+  }
+);
+
+export default SwipeDeck;
 
 const styles = StyleSheet.create({
   card: {
