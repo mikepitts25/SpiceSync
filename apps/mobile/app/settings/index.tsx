@@ -5,14 +5,17 @@ import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSettings } from '../../lib/state/useStore';
 import { useProfiles } from '../../lib/state/profiles';
-import { useVotes } from '../../lib/state/votes';
+import { useVotesStore } from '../../src/stores/votes';
+import { useKinks } from '../../lib/data';
 import ResetAgeGateButton from '../../src/components/ResetAgeGateButton';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { language, setLanguage } = useSettings();
   const { profiles, currentUserId } = (useProfiles() as any) || {};
-  const clearUser = useVotes(s => s.clearUser);
+  const clearUser = useVotesStore(s => s.clearProfile);
+  const setVote = useVotesStore(s => s.setVote);
+  const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 
   const me = profiles?.find((p: any) => p.id === currentUserId) || null;
 
@@ -114,6 +117,72 @@ export default function SettingsScreen() {
         </Text>
       </View>
 
+      {__DEV__ ? (
+        <Pressable
+          onPress={() => {
+            if (!me) {
+              Alert.alert('No active profile', 'Select an active profile first.');
+              return;
+            }
+            const others = (profiles || []).filter((p: any) => p.id !== me.id);
+            if (!others.length) {
+              Alert.alert('Need another profile', 'Create a second profile to seed matches.');
+              return;
+            }
+
+            const partner = others[0];
+            const pool = [...kinks];
+            if (!pool.length) {
+              Alert.alert('No content', 'Unable to seed matches without kink data.');
+              return;
+            }
+
+            function shuffle<T>(arr: T[]): T[] {
+              const copy = [...arr];
+              for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+              }
+              return copy;
+            }
+
+            const sampleIds = shuffle(pool).slice(0, Math.min(30, pool.length)).map((item) => String(item.id));
+            const mutualYes = sampleIds.slice(0, 4);
+            const partial = sampleIds.slice(4, 10);
+            const mutualMaybe = sampleIds.slice(10, 16);
+
+            clearUser(me.id);
+            clearUser(partner.id);
+
+            mutualYes.forEach((id) => {
+              setVote(me.id, id, 'yes');
+              setVote(partner.id, id, 'yes');
+            });
+
+            partial.forEach((id, index) => {
+              if (index % 2 === 0) {
+                setVote(me.id, id, 'yes');
+                setVote(partner.id, id, 'maybe');
+              } else {
+                setVote(me.id, id, 'maybe');
+                setVote(partner.id, id, 'yes');
+              }
+            });
+
+            mutualMaybe.forEach((id) => {
+              setVote(me.id, id, 'maybe');
+              setVote(partner.id, id, 'maybe');
+            });
+
+            Alert.alert('Seeded votes', 'Generated demo matches for quick testing.');
+          }}
+          style={styles.devButton}
+          accessibilityRole="button"
+        >
+          <Text style={styles.devButtonLabel}>Dev: Seed Votes</Text>
+        </Pressable>
+      ) : null}
+
       <ResetAgeGateButton />
     </SafeAreaView>
   );
@@ -141,4 +210,15 @@ const styles = StyleSheet.create({
   primary: { backgroundColor: '#2563eb', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, alignItems: 'center', marginTop: 6 },
   btnDanger: { backgroundColor: '#ef4444', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, alignItems: 'center', marginTop: 8 },
   btnStrong: { color: 'white', fontWeight: '900' },
+  devButton: {
+    marginTop: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+    alignItems: 'center',
+  },
+  devButtonLabel: { color: '#34d399', fontWeight: '800' },
 });

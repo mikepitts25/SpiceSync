@@ -41,3 +41,6 @@ export const useSettings = create<SettingsState>()(
     }
   )
 );
+
+export { useVotesStore as useVotes } from '../../src/stores/votes';
+export type { VoteValue } from '../../src/stores/votes';

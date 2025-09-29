@@ -3,11 +3,12 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeDeck from '../../components/SwipeDeck';
+import VoteButtons from '../../components/VoteButtons';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useProfilesStore } from '../../lib/state/profiles';
-import { useVotes, VoteValue } from '../../lib/state/votes';
+import { useVotesStore, VoteValue } from '../../src/stores/votes';
 import { useSettings } from '../../lib/state/useStore';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
@@ -39,7 +40,7 @@ export default function DeckScreen() {
   );
   const activeProfileIdValue = activeProfile?.id ?? null;
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const setVote = useVotes(s => s.setVote);
+  const setVote = useVotesStore(s => s.setVote);
 
   // Source deck for current filter
   const source = useMemo(
@@ -74,21 +75,56 @@ export default function DeckScreen() {
     }, [])
   );
 
+  const updateIndex = useCallback(
+    (updater: (current: number) => number) => {
+      setIndexByKey((prev) => {
+        const currentValue = prev[key] ?? 0;
+        const nextValue = Math.max(0, Math.min(source.length, updater(currentValue)));
+        if (nextValue === currentValue) {
+          return prev;
+        }
+        return {
+          ...prev,
+          [key]: nextValue,
+        };
+      });
+    },
+    [key, source.length]
+  );
+
   const setIndex = (n: number) => {
-    setIndexByKey(prev => ({
-      ...prev,
-      [key]: Math.max(0, Math.min(source.length, n)),
-    }));
+    updateIndex(() => n);
   };
 
-  const onSwipe = useCallback(
+  const handleDirectionalVote = useCallback(
     (dir: 'left' | 'right' | 'down') => {
       if (!current || !activeProfileIdValue) return;
       const map: Record<typeof dir, VoteValue> = { left: 'no', right: 'yes', down: 'maybe' };
       setVote(activeProfileIdValue, current.id, map[dir]);
-      setIndex(index + 1);
+      updateIndex((prevIndex) => prevIndex + 1);
     },
-    [current, activeProfileIdValue, index, setVote]
+    [current, activeProfileIdValue, setVote, updateIndex]
+  );
+
+  const onSwipe = useCallback(
+    (dir: 'left' | 'right' | 'down') => {
+      handleDirectionalVote(dir);
+    },
+    [handleDirectionalVote]
+  );
+
+  const handleButtonVote = useCallback(
+    (value: VoteValue) => {
+      if (!current) return;
+      if (value === 'yes') {
+        handleDirectionalVote('right');
+      } else if (value === 'no') {
+        handleDirectionalVote('left');
+      } else {
+        handleDirectionalVote('down');
+      }
+    },
+    [current, handleDirectionalVote]
   );
 
   if (!isHydrated || !hasActive) {
@@ -154,10 +190,13 @@ export default function DeckScreen() {
       </View>
       <View style={styles.deckArea}>
         <View style={styles.cardMaxW}>
-          <SwipeDeck item={current} onSwipe={onSwipe} onUndo={() => setIndex(index - 1)} />
+          <SwipeDeck item={current} onSwipe={onSwipe} onUndo={() => updateIndex((prev) => prev - 1)} />
         </View>
       </View>
-      <SettingsButton />
+      <View style={styles.settingsFooter}>
+        <SettingsButton />
+      </View>
+      <VoteButtons currentKinkId={current?.id} onVote={handleButtonVote} />
     </SafeAreaView>
   );
 }
@@ -177,6 +216,7 @@ const styles = StyleSheet.create({
 
   deckArea: { flex: 1, paddingBottom: 8, alignItems: 'center', justifyContent: 'center' },
   cardMaxW: { maxWidth: Math.min(SCREEN_W, 520), alignSelf: 'center' },
+  settingsFooter: { marginTop: 12, paddingBottom: 84 },
 
   doneCard: {
     flex: 1,
