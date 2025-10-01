@@ -6,12 +6,15 @@ import { useShallow } from 'zustand/react/shallow';
 
 import SettingsButton from '../../src/components/SettingsButton';
 import PinVerifyModal from '../../components/PinVerifyModal';
+import MatchesDebug from '../../components/MatchesDebug';
 import { useProfilesStore } from '../../src/stores/profiles';
 import type { Profile } from '../../src/stores/profiles';
-import { useVotesStore, type VoteBuckets } from '../../src/stores/votes';
+import { useVotesStore, type VoteBuckets, type VoteValue } from '../../src/stores/votes';
 import { useSettings } from '../../lib/state/useStore';
 import { useKinks } from '../../lib/data';
 import { usePrivacyGate } from '../../src/stores/privacyGate';
+
+const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, VoteValue>;
 
 const EMPTY_VISIBLE_BUCKETS: VoteBuckets = {
   mutualYes: [],
@@ -36,6 +39,11 @@ type MatchRow = {
   category?: string;
 };
 
+type PartnerOption = {
+  id: string;
+  label: string;
+};
+
 export default function MatchesScreen() {
   const router = useRouter();
   const { language } = useSettings();
@@ -47,20 +55,6 @@ export default function MatchesScreen() {
       profiles: state.getProfiles(),
     }))
   );
-
-  const getBuckets = useVotesStore((state) => state.getBuckets);
-
-  const { verified, isExpired, verify: verifyProfile, clear, closeForPair } = usePrivacyGate(
-    useShallow((state) => ({
-      verified: state.verified,
-      isExpired: state.isExpired,
-      verify: state.verify,
-      clear: state.clear,
-      closeForPair: state.closeForPair,
-    }))
-  );
-
-  const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
 
   const [partnerPickerOpen, setPartnerPickerOpen] = useState(false);
   const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
@@ -98,6 +92,28 @@ export default function MatchesScreen() {
   }, [partners, selectedPartnerId]);
 
   const partnerId = partnerProfile?.id ?? null;
+
+  const activeKey = activeId ? String(activeId) : null;
+  const partnerKey = partnerId ? String(partnerId) : null;
+
+  const [activeVotes, partnerVotes] = useVotesStore(
+    useShallow((state) => [
+      activeKey ? state.votesByProfile[activeKey] ?? EMPTY_PROFILE_VOTES : EMPTY_PROFILE_VOTES,
+      partnerKey ? state.votesByProfile[partnerKey] ?? EMPTY_PROFILE_VOTES : EMPTY_PROFILE_VOTES,
+    ])
+  );
+
+  const { verified, isExpired, verify: verifyProfile, clear, closeForPair } = usePrivacyGate(
+    useShallow((state) => ({
+      verified: state.verified,
+      isExpired: state.isExpired,
+      verify: state.verify,
+      clear: state.clear,
+      closeForPair: state.closeForPair,
+    }))
+  );
+
+  const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
 
   useEffect(() => {
     if (hydrated && !activeId) {
@@ -148,8 +164,43 @@ export default function MatchesScreen() {
 
   const rawBuckets = useMemo<VoteBuckets>(() => {
     if (!activeId || !partnerId) return EMPTY_VISIBLE_BUCKETS;
-    return getBuckets(activeId, partnerId);
-  }, [activeId, partnerId, getBuckets]);
+    const mutualYes: string[] = [];
+    const mutualNo: string[] = [];
+    const mutualMaybe: string[] = [];
+    const partialYes: string[] = [];
+
+    const keys = new Set<string>();
+    for (const key of Object.keys(activeVotes)) {
+      if (partnerVotes[key] !== undefined) {
+        keys.add(key);
+      }
+    }
+
+    keys.forEach((kinkId) => {
+      const aVote = activeVotes[kinkId];
+      const bVote = partnerVotes[kinkId];
+      if (!aVote || !bVote) return;
+
+      if (aVote === 'yes' && bVote === 'yes') {
+        mutualYes.push(kinkId);
+        return;
+      }
+      if (aVote === 'no' && bVote === 'no') {
+        mutualNo.push(kinkId);
+        return;
+      }
+      if (aVote === 'maybe' && bVote === 'maybe') {
+        mutualMaybe.push(kinkId);
+        return;
+      }
+
+      if ((aVote === 'yes' && bVote === 'maybe') || (aVote === 'maybe' && bVote === 'yes')) {
+        partialYes.push(kinkId);
+      }
+    });
+
+    return { mutualYes, mutualNo, mutualMaybe, partialYes };
+  }, [activeId, partnerId, activeVotes, partnerVotes]);
 
   const visibleBuckets = useMemo(() => {
     if (gateOpen) return rawBuckets;
@@ -511,6 +562,15 @@ export default function MatchesScreen() {
         onClose={handlePinModalClose}
         onSuccess={handlePinModalSuccess}
         onVerifyProfile={handleVerifyProfilePin}
+      />
+
+      <MatchesDebug
+        activeId={activeId ?? null}
+        partnerId={partnerId}
+        aVotes={activeVotes}
+        bVotes={partnerVotes}
+        buckets={rawBuckets}
+        gateOpen={gateOpen}
       />
     </SafeAreaView>
   );

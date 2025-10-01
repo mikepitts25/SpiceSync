@@ -28,6 +28,8 @@ type VotesState = {
   getProfileVotes: (profileId: string) => Record<string, VoteValue>;
   getMutuals: (aId: string | undefined | null, bId: string | undefined | null) => MutualBuckets;
   getBuckets: (aId: string | undefined | null, bId: string | undefined | null) => VoteBuckets;
+  hasVoted: (profileId: string, kinkId: string) => boolean;
+  clearVotesForKinks: (profileId: string, kinkIds: string[]) => void;
 };
 
 type PersistedVotes = {
@@ -85,6 +87,11 @@ const normalizeVotesByProfile = (persisted: unknown): VotesByProfile => {
   return output;
 };
 
+const normalizeRuntimeVotes = (votes: VotesByProfile): VotesByProfile => {
+  const normalized = normalizeVotesByProfile(votes);
+  return Object.keys(normalized).length ? normalized : {};
+};
+
 const migrateLegacyVotes = (persisted: PersistedVotes): VotesByProfile => {
   if (!persisted || typeof persisted !== 'object') {
     return {};
@@ -95,7 +102,7 @@ const migrateLegacyVotes = (persisted: PersistedVotes): VotesByProfile => {
   }
 
   if (persisted.byUser && typeof persisted.byUser === 'object') {
-    const mapped: Record<string, Record<string, unknown>> = {};
+    const mapped: Record<string, Record<string, VoteValue>> = {};
     for (const [profileKey, votes] of Object.entries(persisted.byUser as Record<string, unknown>)) {
       if (!votes || typeof votes !== 'object') continue;
       const normalizedProfileKey = normalizeKey(profileKey);
@@ -300,14 +307,63 @@ export const useVotesStore = create<VotesState>()(
 
         return { mutualYes, mutualNo, mutualMaybe, partialYes };
       },
+
+      hasVoted: (profileId, kinkId) => {
+        const id = normalizeKey(profileId);
+        const key = normalizeKey(kinkId);
+        if (!id || !key) return false;
+        const profileVotes = get().votesByProfile[id];
+        return profileVotes ? profileVotes[key] !== undefined : false;
+      },
+
+      clearVotesForKinks: (profileId, kinkIds) => {
+        const normalizedProfile = normalizeKey(profileId);
+        if (!normalizedProfile || !Array.isArray(kinkIds) || kinkIds.length === 0) {
+          return;
+        }
+
+        set((state) => {
+          const currentVotes = state.votesByProfile[normalizedProfile];
+          if (!currentVotes) {
+            return state;
+          }
+
+          let changed = false;
+          const nextProfileVotes: Record<string, VoteValue> = { ...currentVotes };
+          for (const kinkId of kinkIds) {
+            const key = normalizeKey(kinkId);
+            if (!key) continue;
+            if (nextProfileVotes[key] !== undefined) {
+              delete nextProfileVotes[key];
+              changed = true;
+            }
+          }
+
+          if (!changed) {
+            return state;
+          }
+
+          const nextVotes = { ...state.votesByProfile };
+          if (Object.keys(nextProfileVotes).length === 0) {
+            delete nextVotes[normalizedProfile];
+          } else {
+            nextVotes[normalizedProfile] = nextProfileVotes;
+          }
+
+          return { votesByProfile: nextVotes };
+        });
+      },
     }),
     {
       name: 'votes',
       storage: createJSONStorage(() => mmkvStorage),
-      version: 2,
-      migrate: (persistedState: PersistedVotes | undefined) => ({
-        votesByProfile: migrateLegacyVotes(persistedState || {}),
-      }),
+      version: 3,
+      migrate: (persistedState: unknown, _version: number) => {
+        const legacy = migrateLegacyVotes((persistedState as PersistedVotes | undefined) || {});
+        return {
+          votesByProfile: normalizeRuntimeVotes(legacy),
+        };
+      },
       partialize: (state) => ({ votesByProfile: state.votesByProfile }),
     }
   )

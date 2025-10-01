@@ -4,11 +4,12 @@ import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeDeck, { type SwipeDeckHandle, type SwipeDirection } from '../../components/SwipeDeck';
 import VoteButtons from '../../components/VoteButtons';
+import EndOfDeck from '../../components/EndOfDeck';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useProfilesStore } from '../../lib/state/profiles';
-import { useVotesStore, VoteValue } from '../../src/stores/votes';
+import { useVotesStore, type VoteValue } from '../../src/stores/votes';
 import { useSettings } from '../../lib/state/useStore';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
@@ -40,13 +41,29 @@ export default function DeckScreen() {
   );
   const activeProfileIdValue = activeProfile?.id ?? null;
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const setVote = useVotesStore(s => s.setVote);
+  const setVote = useVotesStore((state) => state.setVote);
+  const clearVotesForKinks = useVotesStore((state) => state.clearVotesForKinks);
 
   // Source deck for current filter
-  const source = useMemo(
+  const filteredKinks = useMemo(
     () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
     [kinks, selectedTier]
   );
+
+  const allKinkIdsInFilter = useMemo(
+    () => filteredKinks.map((k) => k.id),
+    [filteredKinks]
+  );
+
+  const activeProfileVotes = useVotesStore(
+    (state) => (activeProfileIdValue ? state.votesByProfile[activeProfileIdValue] : undefined)
+  );
+
+  const queue = useMemo(() => {
+    if (!activeProfileIdValue) return filteredKinks;
+    const voted = activeProfileVotes || {};
+    return filteredKinks.filter((kink) => voted[kink.id] === undefined);
+  }, [filteredKinks, activeProfileIdValue, activeProfileVotes]);
 
   // Index is stored per (user, tier)
   const key = `${activeProfileIdValue ?? 'none'}::${selectedTier ?? 'all'}`;
@@ -55,21 +72,21 @@ export default function DeckScreen() {
   const queuedVoteRef = useRef<VoteValue | null>(null);
   const topCardRef = useRef<SwipeDeckHandle>(null);
   const index = indexByKey[key] ?? 0;
-  const current = source[index] ?? null;
+  const current = queue[index] ?? null;
 
   // ✅ HARD RESET when profile or category changes
   useEffect(() => {
     setIndexByKey(prev => ({ ...prev, [key]: 0 }));
   }, [key]);
 
-  // Guard if source length shrinks (e.g., after edits)
+  // Guard if queue length shrinks (e.g., after votes reset)
   useEffect(() => {
-    const max = Math.max(0, source.length - 1);
+    const max = Math.max(0, queue.length - 1);
     if (index > max) {
-      setIndexByKey(prev => ({ ...prev, [key]: 0 }));
+      setIndexByKey((prev) => ({ ...prev, [key]: Math.max(0, Math.min(index, max)) }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [source.length]);
+  }, [queue.length, index, key]);
 
   // Optional: on refocus we could validate index (kept as no-op)
   useFocusEffect(
@@ -82,7 +99,7 @@ export default function DeckScreen() {
     (updater: (current: number) => number) => {
       setIndexByKey((prev) => {
         const currentValue = prev[key] ?? 0;
-        const nextValue = Math.max(0, Math.min(source.length, updater(currentValue)));
+        const nextValue = Math.max(0, Math.min(queue.length, updater(currentValue)));
         if (nextValue === currentValue) {
           return prev;
         }
@@ -92,12 +109,8 @@ export default function DeckScreen() {
         };
       });
     },
-    [key, source.length]
+    [key, queue.length]
   );
-
-  const setIndex = (n: number) => {
-    updateIndex(() => n);
-  };
 
   const handleSwipeResult = useCallback(
     (dir: SwipeDirection) => {
@@ -117,10 +130,9 @@ export default function DeckScreen() {
       queuedVoteRef.current = null;
 
       setVote(activeProfileIdValue, current.id, voteValue);
-      updateIndex((prevIndex) => prevIndex + 1);
       setCardAnimating(false);
     },
-    [current, activeProfileIdValue, setVote, updateIndex]
+    [current, activeProfileIdValue, setVote]
   );
 
   const handleButtonVote = useCallback(
@@ -154,7 +166,7 @@ export default function DeckScreen() {
     );
   }
 
-  if (!source.length) {
+  if (!filteredKinks.length) {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>No items in this category</Text>
@@ -164,32 +176,23 @@ export default function DeckScreen() {
     );
   }
 
-  // Finished state — safe UI, no null passed to SwipeDeck
-  if (!current) {
-    const me = activeProfile;
+  if (!queue.length || !current) {
     return (
       <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-        <View style={styles.topBar}>
-          <Text style={styles.user}>
-            {me?.emoji} {me?.displayName ?? me?.name}
-          </Text>
-          {selectedTier ? <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text> : null}
-        </View>
-        <View style={[styles.doneCard, styles.cardMaxW]}>
-          <Text style={styles.h1}>All done!</Text>
-          <Text style={styles.p}>You’ve reached the end of this deck.</Text>
-          <View style={styles.row}>
-            <Pressable style={styles.secondary} onPress={() => setIndex(0)}>
-              <Text style={styles.btnStrong}>Restart deck</Text>
-            </Pressable>
-          </View>
-        </View>
+        <EndOfDeck
+          onReset={() => {
+            if (!activeProfileIdValue) return;
+            clearVotesForKinks(activeProfileIdValue, allKinkIdsInFilter);
+            setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
+          }}
+          onViewMatches={() => router.navigate('/matches')}
+        />
         <SettingsButton />
       </SafeAreaView>
     );
   }
 
-  const leftCount = Math.max(0, source.length - index);
+  const leftCount = queue.length;
   const me = activeProfile;
 
   return (
@@ -230,9 +233,6 @@ const styles = StyleSheet.create({
   wrap: { flex: 1, padding: 16, gap: 12, justifyContent: 'center', backgroundColor: '#0b0f14' },
   h1: { fontSize: 22, fontWeight: '800', color: 'white' },
   p: { fontSize: 16, color: '#94a3b8' },
-  row: { flexDirection: 'row', gap: 10, marginTop: 10 },
-  secondary: { backgroundColor: '#1f2937', paddingVertical: 12, paddingHorizontal: 16, borderRadius: 12 },
-  btnStrong: { color: 'white', fontWeight: '900' },
   topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 4, marginBottom: 6 },
   count: { fontWeight: '700', color: 'white' },
   tier: { color: '#9ca3af', fontWeight: '600' },
@@ -241,16 +241,4 @@ const styles = StyleSheet.create({
   deckArea: { flex: 1, paddingBottom: 8, alignItems: 'center', justifyContent: 'center' },
   cardMaxW: { maxWidth: Math.min(SCREEN_W, 520), alignSelf: 'center' },
   settingsFooter: { marginTop: 12, paddingBottom: 84 },
-
-  doneCard: {
-    flex: 1,
-    borderRadius: 16,
-    backgroundColor: '#1f2937',
-    borderWidth: 1,
-    borderColor: '#111827',
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
 });

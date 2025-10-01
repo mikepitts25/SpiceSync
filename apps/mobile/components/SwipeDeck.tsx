@@ -66,7 +66,7 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
 
     gone.value = true;
 
-    const finish = (finished: boolean) => {
+    const finish = (finished?: boolean) => {
       if (!finished) {
         animating.value = false;
         gone.value = false;
