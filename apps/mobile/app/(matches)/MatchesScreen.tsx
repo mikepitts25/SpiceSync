@@ -6,6 +6,7 @@ import { useShallow } from 'zustand/react/shallow';
 
 import SettingsButton from '../../src/components/SettingsButton';
 import PinVerifyModal from '../../components/PinVerifyModal';
+import MatchRow from '../../components/MatchRow';
 import MatchesDebug from '../../components/MatchesDebug';
 import { useProfilesStore } from '../../src/stores/profiles';
 import type { Profile } from '../../src/stores/profiles';
@@ -32,11 +33,13 @@ type TabOption = {
   locked?: boolean;
 };
 
-type MatchRow = {
+type MatchRowItem = {
   id: string;
   title: string;
-  tier?: string;
-  category?: string;
+  subtitle?: string | null;
+  aVote: VoteValue | undefined;
+  bVote: VoteValue | undefined;
+  sortCategory: string;
 };
 
 type PartnerOption = {
@@ -213,33 +216,29 @@ export default function MatchesScreen() {
   }, [rawBuckets, gateOpen]);
 
   const mapKinksToRows = useCallback(
-    (ids: string[]): MatchRow[] => {
+    (ids: string[]): MatchRowItem[] => {
       const mapped = ids.map((id) => {
         const item = kinksById[id];
-        if (!item) {
-          return {
-            id,
-            title: id,
-            category: 'Other',
-          } satisfies MatchRow;
-        }
+        const category = item?.category ?? 'Other';
+        const tier = item?.tier ? item.tier.toUpperCase() : null;
+        const subtitle = tier && category ? `${category} • ${tier}` : tier ?? category ?? null;
         return {
-          id: item.id,
-          title: item.title,
-          tier: item.tier,
-          category: item.category,
-        } satisfies MatchRow;
+          id: item?.id ?? id,
+          title: item?.title ?? id,
+          subtitle,
+          aVote: activeVotes[id],
+          bVote: partnerVotes[id],
+          sortCategory: category.toLowerCase(),
+        } satisfies MatchRowItem;
       });
       return mapped.sort((a, b) => {
-        const catA = (a.category ?? '').toLowerCase();
-        const catB = (b.category ?? '').toLowerCase();
-        if (catA === catB) {
+        if (a.sortCategory === b.sortCategory) {
           return a.title.localeCompare(b.title);
         }
-        return catA.localeCompare(catB);
+        return a.sortCategory.localeCompare(b.sortCategory);
       });
     },
-    [kinksById]
+    [activeVotes, kinksById, partnerVotes]
   );
 
   const tabOptions: TabOption[] = useMemo(() => {
@@ -278,7 +277,7 @@ export default function MatchesScreen() {
     return options;
   }, [gateOpen, rawBuckets.partialYes.length, visibleBuckets.mutualMaybe.length, visibleBuckets.mutualNo.length, visibleBuckets.mutualYes.length]);
 
-  const rows: MatchRow[] = useMemo(() => {
+  const rows: MatchRowItem[] = useMemo(() => {
     switch (selectedTab) {
       case 'mutualYes':
         return mapKinksToRows(visibleBuckets.mutualYes);
@@ -530,13 +529,14 @@ export default function MatchesScreen() {
             data={rows}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={styles.row}>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.rowTitle}>{item.title}</Text>
-                  {item.category ? <Text style={styles.rowMeta}>{item.category}</Text> : null}
-                </View>
-                {item.tier ? <Text style={styles.rowTier}>{item.tier.toUpperCase()}</Text> : null}
-              </View>
+              <MatchRow
+                title={item.title}
+                subtitle={item.subtitle}
+                aEmoji={activeProfile?.emoji}
+                bEmoji={partnerProfile?.emoji}
+                aVote={item.aVote}
+                bVote={item.bVote}
+              />
             )}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             contentContainerStyle={styles.listContent}
@@ -662,15 +662,6 @@ const styles = StyleSheet.create({
   },
   lockButtonLabel: { color: '#f97316', fontWeight: '700' },
   listContent: { paddingBottom: 24, paddingHorizontal: 16 },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    gap: 12,
-  },
-  rowTitle: { color: 'white', fontWeight: '700', fontSize: 16 },
-  rowMeta: { color: '#a1a1aa', fontSize: 13, marginTop: 4 },
-  rowTier: { color: '#f97316', fontWeight: '800' },
   separator: { height: 1, backgroundColor: '#111827' },
   emptyState: {
     marginTop: 32,
