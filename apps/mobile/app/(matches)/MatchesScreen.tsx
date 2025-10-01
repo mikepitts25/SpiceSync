@@ -1,44 +1,623 @@
-import { View, Text, SectionList } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
+
+import SettingsButton from '../../src/components/SettingsButton';
+import PinVerifyModal from '../../components/PinVerifyModal';
+import { useProfilesStore } from '../../src/stores/profiles';
+import type { Profile } from '../../src/stores/profiles';
+import { useVotesStore, type VoteBuckets } from '../../src/stores/votes';
+import { useSettings } from '../../lib/state/useStore';
 import { useKinks } from '../../lib/data';
-import { useVotes } from '../../lib/state/useStore';
+import { usePrivacyGate } from '../../src/stores/privacyGate';
+
+const EMPTY_VISIBLE_BUCKETS: VoteBuckets = {
+  mutualYes: [],
+  mutualNo: [],
+  mutualMaybe: [],
+  partialYes: [],
+};
+
+type TabKey = 'mutualYes' | 'mutualNo' | 'mutualMaybe' | 'partialYes';
+
+type TabOption = {
+  key: TabKey;
+  label: string;
+  count?: number;
+  locked?: boolean;
+};
+
+type MatchRow = {
+  id: string;
+  title: string;
+  tier?: string;
+  category?: string;
+};
 
 export default function MatchesScreen() {
-  const { kinksById } = useKinks();
-  const { votesA, votesB } = useVotes();
+  const router = useRouter();
+  const { language } = useSettings();
 
-  function sectionData() {
-    const yesYes:any[] = [];
-    const oneSided:any[] = [];
-    const noNo:any[] = [];
-    for (const id of Object.keys(kinksById)) {
-      const a = votesA[id];
-      const b = votesB[id];
-      if (a==='yes' && b==='yes') yesYes.push(kinksById[id]);
-      else if (a==='no' && b==='no') noNo.push(kinksById[id]);
-      else if ((a && b) && !(a==='no'&&b==='no')) oneSided.push({ ...kinksById[id], combo:`You ${a} / They ${b}`});
+  const { hydrated, activeId, profiles } = useProfilesStore(
+    useShallow((state) => ({
+      hydrated: state.isHydrated(),
+      activeId: state.getActiveProfileId(),
+      profiles: state.getProfiles(),
+    }))
+  );
+
+  const getBuckets = useVotesStore((state) => state.getBuckets);
+
+  const { verified, isExpired, verify: verifyProfile, clear, closeForPair } = usePrivacyGate(
+    useShallow((state) => ({
+      verified: state.verified,
+      isExpired: state.isExpired,
+      verify: state.verify,
+      clear: state.clear,
+      closeForPair: state.closeForPair,
+    }))
+  );
+
+  const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
+
+  const [partnerPickerOpen, setPartnerPickerOpen] = useState(false);
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
+  const [selectedTab, setSelectedTab] = useState<TabKey>('mutualYes');
+  const [pinModalVisible, setPinModalVisible] = useState(false);
+  const [pinModalProfiles, setPinModalProfiles] = useState<Profile[]>([]);
+  const [pendingReveal, setPendingReveal] = useState<'partial' | 'unlock' | null>(null);
+  const previousPartnerId = useRef<string | null>(null);
+
+  const partners = useMemo(() => {
+    if (!activeId) return [] as Profile[];
+    return profiles.filter((profile) => profile.id !== activeId);
+  }, [profiles, activeId]);
+
+  const activeProfile = useMemo(
+    () => profiles.find((profile) => profile.id === activeId) ?? null,
+    [profiles, activeId]
+  );
+
+  useEffect(() => {
+    if (!partners.length) {
+      setSelectedPartnerId(null);
+      setPartnerPickerOpen(false);
+      return;
     }
-    return [
-      { title:'Mutual Yes', data: yesYes.sort((x,y)=>x.title.localeCompare(y.title)) },
-      { title:'One-Sided', data: oneSided },
-      { title:'Mutual No (collapsed)', data: [] },
+    if (!selectedPartnerId || !partners.some((p) => p.id === selectedPartnerId)) {
+      setSelectedPartnerId(partners[0].id);
+    }
+  }, [partners, selectedPartnerId]);
+
+  const partnerProfile = useMemo<Profile | null>(() => {
+    if (!partners.length) return null;
+    if (!selectedPartnerId) return partners[0] ?? null;
+    return partners.find((profile) => profile.id === selectedPartnerId) ?? partners[0] ?? null;
+  }, [partners, selectedPartnerId]);
+
+  const partnerId = partnerProfile?.id ?? null;
+
+  useEffect(() => {
+    if (hydrated && !activeId) {
+      router.replace('/welcome');
+    }
+  }, [hydrated, activeId, router]);
+
+  useEffect(() => {
+    if (isExpired?.()) {
+      clear();
+      setSelectedTab('mutualYes');
+      setPendingReveal(null);
+      setPinModalProfiles([]);
+    }
+  }, [isExpired, clear]);
+
+  useEffect(() => {
+    if (!activeId || !partnerId) {
+      previousPartnerId.current = partnerId;
+      return;
+    }
+
+    if (previousPartnerId.current && previousPartnerId.current !== partnerId) {
+      closeForPair?.(activeId, previousPartnerId.current);
+      setSelectedTab('mutualYes');
+      setPendingReveal(null);
+      setPinModalProfiles([]);
+    }
+
+    previousPartnerId.current = partnerId;
+  }, [activeId, partnerId, closeForPair]);
+
+  const gateOpen = useMemo(() => {
+    if (!activeId || !partnerId) return false;
+    if (isExpired?.()) return false;
+    return !!verified[activeId] && !!verified[partnerId];
+  }, [verified, activeId, partnerId, isExpired]);
+
+  useEffect(() => {
+    if (!gateOpen && selectedTab === 'partialYes') {
+      setSelectedTab('mutualYes');
+    }
+  }, [gateOpen, selectedTab]);
+
+  useEffect(() => {
+    setSelectedTab('mutualYes');
+  }, [partnerId]);
+
+  const rawBuckets = useMemo<VoteBuckets>(() => {
+    if (!activeId || !partnerId) return EMPTY_VISIBLE_BUCKETS;
+    return getBuckets(activeId, partnerId);
+  }, [activeId, partnerId, getBuckets]);
+
+  const visibleBuckets = useMemo(() => {
+    if (gateOpen) return rawBuckets;
+    return {
+      mutualYes: rawBuckets.mutualYes,
+      mutualNo: rawBuckets.mutualNo,
+      mutualMaybe: rawBuckets.mutualMaybe,
+      partialYes: [],
+    };
+  }, [rawBuckets, gateOpen]);
+
+  const mapKinksToRows = useCallback(
+    (ids: string[]): MatchRow[] => {
+      const mapped = ids.map((id) => {
+        const item = kinksById[id];
+        if (!item) {
+          return {
+            id,
+            title: id,
+            category: 'Other',
+          } satisfies MatchRow;
+        }
+        return {
+          id: item.id,
+          title: item.title,
+          tier: item.tier,
+          category: item.category,
+        } satisfies MatchRow;
+      });
+      return mapped.sort((a, b) => {
+        const catA = (a.category ?? '').toLowerCase();
+        const catB = (b.category ?? '').toLowerCase();
+        if (catA === catB) {
+          return a.title.localeCompare(b.title);
+        }
+        return catA.localeCompare(catB);
+      });
+    },
+    [kinksById]
+  );
+
+  const tabOptions: TabOption[] = useMemo(() => {
+    const options: TabOption[] = [
+      {
+        key: 'mutualYes',
+        label: 'Mutual Yes',
+        count: visibleBuckets.mutualYes.length,
+      },
+      {
+        key: 'mutualNo',
+        label: 'Mutual No',
+        count: visibleBuckets.mutualNo.length,
+      },
+      {
+        key: 'mutualMaybe',
+        label: 'Mutual Maybe',
+        count: visibleBuckets.mutualMaybe.length,
+      },
     ];
+
+    if (gateOpen) {
+      options.push({
+        key: 'partialYes',
+        label: 'Partial Yes',
+        count: rawBuckets.partialYes.length,
+      });
+    } else {
+      options.push({
+        key: 'partialYes',
+        label: 'Partial Yes',
+        locked: true,
+      });
+    }
+
+    return options;
+  }, [gateOpen, rawBuckets.partialYes.length, visibleBuckets.mutualMaybe.length, visibleBuckets.mutualNo.length, visibleBuckets.mutualYes.length]);
+
+  const rows: MatchRow[] = useMemo(() => {
+    switch (selectedTab) {
+      case 'mutualYes':
+        return mapKinksToRows(visibleBuckets.mutualYes);
+      case 'mutualNo':
+        return mapKinksToRows(visibleBuckets.mutualNo);
+      case 'mutualMaybe':
+        return mapKinksToRows(visibleBuckets.mutualMaybe);
+      case 'partialYes':
+        return gateOpen ? mapKinksToRows(visibleBuckets.partialYes) : [];
+      default:
+        return [];
+    }
+  }, [gateOpen, mapKinksToRows, selectedTab, visibleBuckets]);
+
+  const hasAnyMatches = useMemo(() => {
+    if (
+      visibleBuckets.mutualYes.length ||
+      visibleBuckets.mutualNo.length ||
+      visibleBuckets.mutualMaybe.length
+    ) {
+      return true;
+    }
+    if (gateOpen && visibleBuckets.partialYes.length) {
+      return true;
+    }
+    return false;
+  }, [gateOpen, visibleBuckets]);
+
+  const verificationQueue = useMemo<Profile[]>(() => {
+    if (!activeProfile || !partnerProfile) return [];
+    return [activeProfile, partnerProfile];
+  }, [activeProfile, partnerProfile]);
+
+  const openPinModal = useCallback(
+    (mode: 'partial' | 'unlock') => {
+      if (!verificationQueue.length) return;
+      const missingPinProfile = verificationQueue.find((profile) => !profile.pin);
+      if (missingPinProfile) {
+        const name = missingPinProfile.displayName ?? missingPinProfile.name;
+        Alert.alert(
+          'PIN required',
+          `${name} needs a PIN to unlock Partial Yes matches. Set a PIN in Settings.`,
+          [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Open Settings', onPress: () => router.push('/settings') },
+          ]
+        );
+        return;
+      }
+      setPendingReveal(mode);
+      setPinModalProfiles(verificationQueue);
+      setPinModalVisible(true);
+    },
+    [verificationQueue, router]
+  );
+
+  const handlePartnerToggle = useCallback(() => {
+    setPartnerPickerOpen((prev) => !prev);
+  }, []);
+
+  const handlePartnerSelect = useCallback((id: string) => {
+    setSelectedPartnerId(id);
+    setPartnerPickerOpen(false);
+  }, []);
+
+  const handleLockSensitive = useCallback(() => {
+    clear();
+    setSelectedTab('mutualYes');
+    setPendingReveal(null);
+    setPinModalProfiles([]);
+  }, [clear]);
+
+  const handlePinModalClose = useCallback(() => {
+    setPinModalVisible(false);
+    setPendingReveal(null);
+    setPinModalProfiles([]);
+  }, []);
+
+  const handleVerifyProfilePin = useCallback(
+    (profile: Profile, pin: string) => {
+      if (!profile.pin) {
+        return { success: false, error: 'PIN not set for this profile.' };
+      }
+      if (profile.pin !== pin) {
+        return { success: false, error: 'Incorrect PIN' };
+      }
+      verifyProfile(profile.id);
+      return { success: true };
+    },
+    [verifyProfile]
+  );
+
+  const handlePinModalSuccess = useCallback(() => {
+    setPinModalVisible(false);
+    if (pendingReveal === 'partial') {
+      setSelectedTab('partialYes');
+    }
+    setPendingReveal(null);
+    setPinModalProfiles([]);
+  }, [pendingReveal]);
+
+  const handleTabPress = useCallback(
+    (option: TabOption) => {
+      if (option.locked && !gateOpen) {
+        openPinModal('partial');
+        return;
+      }
+      setSelectedTab(option.key);
+    },
+    [gateOpen, openPinModal]
+  );
+
+  const handleUnlockPress = useCallback(() => {
+    if (!gateOpen) {
+      openPinModal('unlock');
+    }
+  }, [gateOpen, openPinModal]);
+
+  if (!hydrated || !activeId) {
+    return null;
   }
 
+  if (!profiles.length) {
+    return (
+      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
+        <Text style={styles.h1}>No profiles yet</Text>
+        <Text style={styles.p}>Create a profile to start swiping and build matches.</Text>
+        <SettingsButton />
+      </SafeAreaView>
+    );
+  }
+
+  if (!partners.length || !partnerProfile || !activeProfile) {
+    return (
+      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
+        <Text style={styles.h1}>Need two profiles</Text>
+        <Text style={styles.p}>Create another profile in Settings → Profiles to compare matches.</Text>
+        <SettingsButton />
+      </SafeAreaView>
+    );
+  }
+
+  const partnerOptions: PartnerOption[] = partners.map((profile) => ({
+    id: profile.id,
+    label: `${profile.emoji} ${profile.displayName ?? profile.name}`,
+  }));
+
   return (
-    <View style={{ flex:1, backgroundColor:'#0B0B0E', paddingTop:48 }}>
-      <Text style={{ color:'#fff', fontSize:20, fontWeight:'700', paddingHorizontal:16, marginBottom:8 }}>Matches</Text>
-      <SectionList
-        sections={sectionData()}
-        keyExtractor={(i, idx)=> (i.id || i.title) + idx}
-        renderSectionHeader={({section})=> <Text style={{ color:'#8FA3FF', padding:16, fontWeight:'700' }}>{section.title}</Text>}
-        renderItem={({item})=> (
-          <View style={{ backgroundColor:'#151521', marginHorizontal:16, marginBottom:8, padding:12, borderRadius:12 }}>
-            <Text style={{ color:'#fff', fontWeight:'700' }}>{item.title}</Text>
-            <Text style={{ color:'#C8C8D0' }}>{item.description}</Text>
-            {'combo' in item ? <Text style={{ color:'#8FA3FF', marginTop:4 }}>{item.combo}</Text> : null}
+    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Matches</Text>
+        <Text style={styles.subtitle}>
+          {activeProfile.emoji} {activeProfile.displayName ?? activeProfile.name} • {partnerProfile.emoji}{' '}
+          {partnerProfile.displayName ?? partnerProfile.name}
+        </Text>
+      </View>
+
+      {partners.length > 1 ? (
+        <View style={styles.partnerPicker}>
+          <Pressable
+            style={styles.partnerButton}
+            accessibilityRole="button"
+            accessibilityLabel="Choose partner to compare"
+            onPress={handlePartnerToggle}
+          >
+            <Text style={styles.partnerButtonLabel}>
+              Viewing with {partnerProfile.emoji} {partnerProfile.displayName ?? partnerProfile.name}
+            </Text>
+          </Pressable>
+          {partnerPickerOpen ? (
+            <View style={styles.partnerDropdown}>
+              {partnerOptions.map((option) => (
+                <Pressable
+                  key={option.id}
+                  style={[
+                    styles.partnerOption,
+                    option.id === partnerProfile.id && styles.partnerOptionActive,
+                  ]}
+                  onPress={() => handlePartnerSelect(option.id)}
+                  accessibilityRole="button"
+                >
+                  <Text
+                    style={[
+                      styles.partnerOptionLabel,
+                      option.id === partnerProfile.id && styles.partnerOptionLabelActive,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          ) : null}
+        </View>
+      ) : null}
+
+      <View style={styles.tabs}>
+        {tabOptions.map((option) => (
+          <Pressable
+            key={option.key}
+            style={[styles.tabButton, selectedTab === option.key && styles.tabButtonActive]}
+            accessibilityRole="button"
+            accessibilityState={{ selected: selectedTab === option.key }}
+            onPress={() => handleTabPress(option)}
+          >
+            <Text style={[styles.tabLabel, selectedTab === option.key && styles.tabLabelActive]}>
+              {option.label}
+              {typeof option.count === 'number' ? ` (${option.count})` : option.locked ? ' 🔒' : ''}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
+      <View style={styles.sensitiveBanner}>
+        {gateOpen ? (
+          <View style={{ gap: 8 }}>
+            <Text style={styles.sensitiveTitle}>Partial Yes unlocked</Text>
+            <Text style={styles.sensitiveCopy}>
+              They will lock again after inactivity or when you choose to hide them.
+            </Text>
+            <Pressable
+              style={styles.lockButton}
+              onPress={handleLockSensitive}
+              accessibilityRole="button"
+            >
+              <Text style={styles.lockButtonLabel}>Lock Partial Yes</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <View style={{ gap: 8 }}>
+            <Text style={styles.sensitiveTitle}>Partial Yes locked</Text>
+            <Text style={styles.sensitiveCopy}>
+              Unlock to reveal "Yes + Maybe" matches. Both profiles must enter their PIN.
+            </Text>
+            <Pressable
+              style={styles.unlockButton}
+              onPress={handleUnlockPress}
+              accessibilityRole="button"
+            >
+              <Text style={styles.unlockButtonLabel}>Unlock Partial Yes</Text>
+            </Pressable>
           </View>
         )}
+      </View>
+
+      {hasAnyMatches ? (
+        rows.length ? (
+          <FlatList
+            data={rows}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.row}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.rowTitle}>{item.title}</Text>
+                  {item.category ? <Text style={styles.rowMeta}>{item.category}</Text> : null}
+                </View>
+                {item.tier ? <Text style={styles.rowTier}>{item.tier.toUpperCase()}</Text> : null}
+              </View>
+            )}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            contentContainerStyle={styles.listContent}
+          />
+        ) : (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>No {tabOptions.find((tab) => tab.key === selectedTab)?.label.toLowerCase()} yet</Text>
+            <Text style={styles.emptyCopy}>Keep swiping to uncover more.</Text>
+          </View>
+        )
+      ) : (
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyTitle}>No matches yet</Text>
+          <Text style={styles.emptyCopy}>Keep swiping together—only shared interest shows up here.</Text>
+        </View>
+      )}
+
+      <SettingsButton />
+
+      <PinVerifyModal
+        open={pinModalVisible}
+        profiles={pinModalProfiles}
+        onClose={handlePinModalClose}
+        onSuccess={handlePinModalSuccess}
+        onVerifyProfile={handleVerifyProfilePin}
       />
-    </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: '#0b0f14', paddingBottom: 12 },
+  wrap: {
+    flex: 1,
+    backgroundColor: '#0b0f14',
+    padding: 16,
+    gap: 12,
+    justifyContent: 'center',
+  },
+  h1: { color: 'white', fontWeight: '900', fontSize: 22 },
+  p: { color: '#94a3b8' },
+  header: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 12, gap: 6 },
+  title: { color: 'white', fontSize: 24, fontWeight: '900' },
+  subtitle: { color: '#93c5fd', fontWeight: '600' },
+  partnerPicker: { paddingHorizontal: 16, marginBottom: 8 },
+  partnerButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+  },
+  partnerButtonLabel: { color: 'white', fontWeight: '700' },
+  partnerDropdown: {
+    marginTop: 6,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+    overflow: 'hidden',
+  },
+  partnerOption: { paddingVertical: 10, paddingHorizontal: 14 },
+  partnerOptionActive: { backgroundColor: '#1d4ed8' },
+  partnerOptionLabel: { color: 'white', fontWeight: '600' },
+  partnerOptionLabelActive: { color: 'white' },
+  tabs: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    gap: 8,
+    marginBottom: 12,
+  },
+  tabButton: {
+    flex: 1,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#111827',
+    alignItems: 'center',
+  },
+  tabButtonActive: {
+    backgroundColor: '#1d4ed8',
+    borderColor: '#1d4ed8',
+  },
+  tabLabel: { color: '#cbd5e1', fontWeight: '700' },
+  tabLabelActive: { color: 'white' },
+  sensitiveBanner: {
+    marginHorizontal: 16,
+    marginBottom: 16,
+    padding: 14,
+    borderRadius: 14,
+    backgroundColor: '#111827',
+    borderWidth: 1,
+    borderColor: '#1f2937',
+  },
+  sensitiveTitle: { color: 'white', fontWeight: '800', fontSize: 16 },
+  sensitiveCopy: { color: '#94a3b8' },
+  unlockButton: {
+    marginTop: 10,
+    paddingVertical: 10,
+    borderRadius: 12,
+    alignItems: 'center',
+    backgroundColor: '#2563eb',
+  },
+  unlockButtonLabel: { color: 'white', fontWeight: '800' },
+  lockButton: {
+    marginTop: 10,
+    paddingVertical: 10,
+    borderRadius: 12,
+    alignItems: 'center',
+    backgroundColor: '#1f2937',
+  },
+  lockButtonLabel: { color: '#f97316', fontWeight: '700' },
+  listContent: { paddingBottom: 24, paddingHorizontal: 16 },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    gap: 12,
+  },
+  rowTitle: { color: 'white', fontWeight: '700', fontSize: 16 },
+  rowMeta: { color: '#a1a1aa', fontSize: 13, marginTop: 4 },
+  rowTier: { color: '#f97316', fontWeight: '800' },
+  separator: { height: 1, backgroundColor: '#111827' },
+  emptyState: {
+    marginTop: 32,
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 16,
+  },
+  emptyTitle: { color: 'white', fontWeight: '800', fontSize: 18 },
+  emptyCopy: { color: '#94a3b8', textAlign: 'center' },
+});

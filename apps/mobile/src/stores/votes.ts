@@ -12,6 +12,13 @@ export type MutualBuckets = {
   mutualMaybe: string[];
 };
 
+export type VoteBuckets = {
+  mutualYes: string[];
+  mutualNo: string[];
+  mutualMaybe: string[];
+  partialYes: string[];
+};
+
 type VotesState = {
   votesByProfile: VotesByProfile;
   setVote: (profileId: string, kinkId: string, value: VoteValue) => void;
@@ -20,6 +27,7 @@ type VotesState = {
   getVote: (profileId: string, kinkId: string) => VoteValue | undefined;
   getProfileVotes: (profileId: string) => Record<string, VoteValue>;
   getMutuals: (aId: string | undefined | null, bId: string | undefined | null) => MutualBuckets;
+  getBuckets: (aId: string | undefined | null, bId: string | undefined | null) => VoteBuckets;
 };
 
 type PersistedVotes = {
@@ -31,6 +39,13 @@ const EMPTY_BUCKETS: MutualBuckets = {
   mutualYes: [],
   partialYesMaybe: [],
   mutualMaybe: [],
+};
+
+const EMPTY_BUCKETS_FULL: VoteBuckets = {
+  mutualYes: [],
+  mutualNo: [],
+  mutualMaybe: [],
+  partialYes: [],
 };
 
 const normalizeKey = (value: string | number | null | undefined): string | null => {
@@ -232,6 +247,58 @@ export const useVotesStore = create<VotesState>()(
           partialYesMaybe,
           mutualMaybe,
         };
+      },
+
+      getBuckets: (aId, bId) => {
+        const idA = normalizeKey(aId as any);
+        const idB = normalizeKey(bId as any);
+        if (!idA || !idB || idA === idB) {
+          return EMPTY_BUCKETS_FULL;
+        }
+
+        const aVotes = get().votesByProfile[idA] || {};
+        const bVotes = get().votesByProfile[idB] || {};
+
+        const mutualYes: string[] = [];
+        const mutualNo: string[] = [];
+        const mutualMaybe: string[] = [];
+        const partialYes: string[] = [];
+
+        const keys = new Set<string>();
+        for (const key of Object.keys(aVotes)) {
+          if (bVotes[key] !== undefined) {
+            keys.add(key);
+          }
+        }
+
+        keys.forEach((kinkId) => {
+          const aVote = aVotes[kinkId];
+          const bVote = bVotes[kinkId];
+          if (!aVote || !bVote) return;
+
+          if (aVote === 'yes' && bVote === 'yes') {
+            mutualYes.push(kinkId);
+            return;
+          }
+          if (aVote === 'no' && bVote === 'no') {
+            mutualNo.push(kinkId);
+            return;
+          }
+          if (aVote === 'maybe' && bVote === 'maybe') {
+            mutualMaybe.push(kinkId);
+            return;
+          }
+
+          const isPartialYes =
+            (aVote === 'yes' && bVote === 'maybe') ||
+            (aVote === 'maybe' && bVote === 'yes');
+
+          if (isPartialYes) {
+            partialYes.push(kinkId);
+          }
+        });
+
+        return { mutualYes, mutualNo, mutualMaybe, partialYes };
       },
     }),
     {
