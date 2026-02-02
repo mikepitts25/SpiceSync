@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
 import { usePremium } from '../src/stores/premium';
+import { useSettings } from '../lib/state/useStore';
 import {
   filterTruthDareDeck,
   getTruthDareDeck,
@@ -29,11 +30,13 @@ const TYPES: Array<{ key: TruthDareType | 'both'; label: string }> = [
 export default function TruthDareScreen() {
   const router = useRouter();
   const { isPro } = usePremium();
+  const { language } = useSettings();
 
   const [level, setLevel] = useState<TruthDareLevel | 'all'>('all');
   const [type, setType] = useState<TruthDareType | 'both'>('both');
 
-  const allCards = useMemo(() => getTruthDareDeck(), []);
+  // NOTE: UI strings are still EN for now; this switches the content pack.
+  const allCards = useMemo(() => getTruthDareDeck(language === 'es' ? 'es' : 'en'), [language]);
   const deck = useMemo(() => filterTruthDareDeck(allCards, { level, type }), [allCards, level, type]);
 
   const [currentId, setCurrentId] = useState<string | null>(null);

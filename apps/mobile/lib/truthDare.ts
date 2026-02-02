@@ -1,4 +1,5 @@
 import truthDareEn from '../data/truthDare.en.json';
+import truthDareEs from '../data/truthDare.es.json';
 
 export type TruthDareType = 'truth' | 'dare';
 export type TruthDareLevel = 'romantic' | 'flirty' | 'spicy' | 'kinky';
@@ -10,9 +11,9 @@ export type TruthDareCard = {
   prompt: string;
 };
 
-export function getTruthDareDeck(): TruthDareCard[] {
-  // For now, EN only. (Easy to add ES by mirroring the JSON file.)
-  return truthDareEn as unknown as TruthDareCard[];
+export function getTruthDareDeck(lang: 'en' | 'es' = 'en'): TruthDareCard[] {
+  const src = lang === 'es' ? truthDareEs : truthDareEn;
+  return src as unknown as TruthDareCard[];
 }
 
 export function filterTruthDareDeck(
