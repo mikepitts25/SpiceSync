@@ -15,7 +15,7 @@ export default function SettingsScreen() {
   const { profiles, currentUserId } = (useProfiles() as any) || {};
   const clearUser = useVotesStore(s => s.clearProfile);
   const setVote = useVotesStore(s => s.setVote);
-  const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const { kinks } = useKinks(language === 'en' ? 'en' : 'es');
 
   const me = profiles?.find((p: any) => p.id === currentUserId) || null;
 
@@ -38,7 +38,7 @@ export default function SettingsScreen() {
     );
   };
 
-  const LangButton = ({ code, label }: { code: 'en'|'es'; label: string }) => (
+  const LangButton = ({ code, label }: { code: 'en'|'es'|'es-CO'; label: string }) => (
     <Pressable
       onPress={() => setLanguage(code)}
       style={[
@@ -76,6 +76,7 @@ export default function SettingsScreen() {
         <View style={styles.langRow}>
           <LangButton code="en" label="English" />
           <LangButton code="es" label="Español" />
+          <LangButton code="es-CO" label="Español (Colombia)" />
         </View>
       </View>
 
