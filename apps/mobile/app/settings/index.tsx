@@ -188,13 +188,22 @@ export default function SettingsScreen() {
       <View style={styles.card}>
         <Text style={styles.h2}>SpiceSync Pro</Text>
         <Text style={styles.p}>Extra packs + couple games + advanced tools.</Text>
-        <Pressable
-          style={styles.primary}
-          onPress={() => router.push('/paywall')}
-          accessibilityRole="button"
-        >
-          <Text style={styles.btnStrong}>View Pro</Text>
-        </Pressable>
+        <View style={{ flexDirection: 'row', gap: 10 }}>
+          <Pressable
+            style={[styles.primary, { flex: 1 }]}
+            onPress={() => router.push('/paywall')}
+            accessibilityRole="button"
+          >
+            <Text style={styles.btnStrong}>View Pro</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.primary, { flex: 1, backgroundColor: '#111827', borderWidth: 1, borderColor: '#1f2937' }]}
+            onPress={() => router.push('/truth-dare')}
+            accessibilityRole="button"
+          >
+            <Text style={styles.btnStrong}>Truth/Dare</Text>
+          </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );
