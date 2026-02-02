@@ -1,8 +1,12 @@
-import { act } from '@testing-library/react-native';
-import { useVotes } from '../lib/state/useStore';
+import { useVotesStore } from '../src/stores/votes';
 
-test('vote persistence', () => {
-  const { vote } = useVotes.getState() as any;
-  act(()=> vote('sys-001', 'yes'));
-  expect(useVotes.getState().votesA['sys-001']).toBe('yes');
+test('vote persistence (by profile)', () => {
+  const profileId = 'test-profile';
+  const kinkId = 'sys-001';
+
+  // Ensure clean slate
+  useVotesStore.getState().clearProfile(profileId);
+
+  useVotesStore.getState().setVote(profileId, kinkId, 'yes');
+  expect(useVotesStore.getState().getVote(profileId, kinkId)).toBe('yes');
 });
