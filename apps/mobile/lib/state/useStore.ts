@@ -9,12 +9,12 @@ type SettingsState = {
   discreteMode: boolean;
 
   // NEW: language for content/UI
-  language: 'en' | 'es';
+  language: 'en' | 'es' | 'es-CO';
 
   // Setters
   setAgeConfirmed: (v: boolean) => void;
   setDiscreteMode: (v: boolean) => void;
-  setLanguage: (lang: 'en' | 'es') => void;
+  setLanguage: (lang: 'en' | 'es' | 'es-CO') => void;
 };
 
 // Persistent settings store

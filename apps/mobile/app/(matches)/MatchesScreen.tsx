@@ -116,7 +116,7 @@ export default function MatchesScreen() {
     }))
   );
 
-  const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
+  const { kinksById } = useKinks(language === 'en' ? 'en' : 'es');
 
   useEffect(() => {
     if (hydrated && !activeId) {

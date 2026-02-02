@@ -36,7 +36,10 @@ export default function TruthDareScreen() {
   const [type, setType] = useState<TruthDareType | 'both'>('both');
 
   // NOTE: UI strings are still EN for now; this switches the content pack.
-  const allCards = useMemo(() => getTruthDareDeck(language === 'es' ? 'es' : 'en'), [language]);
+  const allCards = useMemo(
+    () => getTruthDareDeck(language === 'en' ? 'en' : 'es'),
+    [language]
+  );
   const deck = useMemo(() => filterTruthDareDeck(allCards, { level, type }), [allCards, level, type]);
 
   const [currentId, setCurrentId] = useState<string | null>(null);

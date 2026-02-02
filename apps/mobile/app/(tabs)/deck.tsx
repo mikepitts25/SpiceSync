@@ -40,7 +40,7 @@ export default function DeckScreen() {
     [profiles, activeProfileId]
   );
   const activeProfileIdValue = activeProfile?.id ?? null;
-  const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const { kinks } = useKinks(language === 'en' ? 'en' : 'es');
   const setVote = useVotesStore((state) => state.setVote);
   const clearVotesForKinks = useVotesStore((state) => state.clearVotesForKinks);
 

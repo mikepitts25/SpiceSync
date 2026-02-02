@@ -13,7 +13,7 @@ export default function DeckScreen() {
   const router = useRouter();
   const { language } = useSettings();
   const { selectedTier, clearTier } = useFilters();
-  const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const { kinks } = useKinks(language === 'en' ? 'en' : 'es');
 
   const source = useMemo(
     () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
