@@ -1,0 +1,50 @@
+[
+  {
+    "id": "td-0001",
+    "type": "truth",
+    "level": "romantic",
+    "prompt": "¿Qué cosa pequeña hago que te hace sentir querido/a?"
+  },
+  {
+    "id": "td-0002",
+    "type": "truth",
+    "level": "flirty",
+    "prompt": "¿Cuál es tu forma favorita de que yo te coquetee?"
+  },
+  {
+    "id": "td-0003",
+    "type": "truth",
+    "level": "spicy",
+    "prompt": "¿Luces encendidas o apagadas… y por qué?"
+  },
+  {
+    "id": "td-0004",
+    "type": "truth",
+    "level": "kinky",
+    "prompt": "¿Qué límite quieres que mantengamos clarísimo siempre?"
+  },
+  {
+    "id": "td-0101",
+    "type": "dare",
+    "level": "romantic",
+    "prompt": "Dile a tu pareja cumplidos durante 30 segundos (sin bromas, solo cariño)."
+  },
+  {
+    "id": "td-0102",
+    "type": "dare",
+    "level": "flirty",
+    "prompt": "Mándale a tu pareja un mensaje de coqueteo estando en la misma habitación… y luego léelo en voz alta."
+  },
+  {
+    "id": "td-0103",
+    "type": "dare",
+    "level": "spicy",
+    "prompt": "Besa a tu pareja lentamente por 20 segundos y pregunta: ‘¿Más… o más despacio?’"
+  },
+  {
+    "id": "td-0104",
+    "type": "dare",
+    "level": "kinky",
+    "prompt": "Elijan una palabra de seguridad y una palabra ‘amarilla’, y practíquenlas una vez en broma."
+  }
+]
