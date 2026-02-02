@@ -184,6 +184,18 @@ export default function SettingsScreen() {
       ) : null}
 
       <ResetAgeGateButton />
+
+      <View style={styles.card}>
+        <Text style={styles.h2}>SpiceSync Pro</Text>
+        <Text style={styles.p}>Extra packs + couple games + advanced tools.</Text>
+        <Pressable
+          style={styles.primary}
+          onPress={() => router.push('/paywall')}
+          accessibilityRole="button"
+        >
+          <Text style={styles.btnStrong}>View Pro</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
