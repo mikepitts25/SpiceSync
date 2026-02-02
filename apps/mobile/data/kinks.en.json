@@ -1887,5 +1887,26 @@
     "aliases": [],
     "createdBy": "system",
     "tier": "xxx"
+  },
+  {
+    "id": "0122",
+    "slug": "consent-checklist-teasing-fluids",
+    "title": "Consent checklist: teasing + fluids",
+    "description": "A quick YES/NO checklist to agree on tone, words, privacy, safety, and fluid boundaries (e.g., semen and spit only).",
+    "tags": [
+      "consent",
+      "boundaries",
+      "communication",
+      "safety",
+      "fluids"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [
+      "yes/no checklist",
+      "consent checklist"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
   }
 ]
