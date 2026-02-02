@@ -1,0 +1,50 @@
+[
+  {
+    "id": "td-0001",
+    "type": "truth",
+    "level": "romantic",
+    "prompt": "What’s a small thing I do that makes you feel loved?"
+  },
+  {
+    "id": "td-0002",
+    "type": "truth",
+    "level": "flirty",
+    "prompt": "What’s your favorite way for me to flirt with you?"
+  },
+  {
+    "id": "td-0003",
+    "type": "truth",
+    "level": "spicy",
+    "prompt": "Lights on or lights off — and why?"
+  },
+  {
+    "id": "td-0004",
+    "type": "truth",
+    "level": "kinky",
+    "prompt": "What’s one boundary you want us to keep crystal-clear every time?"
+  },
+  {
+    "id": "td-0101",
+    "type": "dare",
+    "level": "romantic",
+    "prompt": "Give your partner a 30-second compliment avalanche (no teasing, just hype)."
+  },
+  {
+    "id": "td-0102",
+    "type": "dare",
+    "level": "flirty",
+    "prompt": "Text your partner a one-line flirt while they’re in the same room — then read it out loud."
+  },
+  {
+    "id": "td-0103",
+    "type": "dare",
+    "level": "spicy",
+    "prompt": "Kiss your partner slowly for 20 seconds, then ask: ‘More or slower?’"
+  },
+  {
+    "id": "td-0104",
+    "type": "dare",
+    "level": "kinky",
+    "prompt": "Pick a safeword and a ‘yellow’ word together, then practice using them once as a joke."
+  }
+]
