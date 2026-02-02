@@ -1,6 +1,6 @@
 // apps/mobile/components/SwipeDeck.tsx
-import React, { forwardRef, useImperativeHandle } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
 import Animated, {
   Easing,
   runOnJS,
@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
+import { useSettings } from '../lib/state/useStore';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 // Make the card visibly smaller:
@@ -42,6 +43,16 @@ const TIMING_CONFIG = {
 
 const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
   ({ item, onSwipe, onUndo, onSwipeStart, onSwipeEnd }, ref) => {
+  const { discreteMode } = useSettings();
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    // Reset reveal state when card changes.
+    setRevealed(false);
+  }, [item?.id]);
+
+  const shouldMask = useMemo(() => discreteMode && !revealed, [discreteMode, revealed]);
+
   const x = useSharedValue(0);
   const y = useSharedValue(0);
   const gone = useSharedValue(false);
@@ -146,10 +157,41 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       }}
     >
       <Animated.View style={[styles.card, { width: CARD_W, height: CARD_H }, style]}>
-        <Text style={styles.title}>{String(item.title || '')}</Text>
-        {!!item.description && (
-          <Text style={styles.desc} numberOfLines={8}>{item.description}</Text>
+        {discreteMode ? (
+          <View style={styles.discreteBadgeRow}>
+            <Text style={styles.discreteBadge}>DISCREET</Text>
+            {shouldMask ? (
+              <Text style={styles.discreteHint}>• tap to reveal</Text>
+            ) : (
+              <Pressable onPress={() => setRevealed(false)} accessibilityRole="button">
+                <Text style={styles.discreteHide}>hide</Text>
+              </Pressable>
+            )}
+          </View>
+        ) : null}
+
+        {shouldMask ? (
+          <Pressable
+            onPress={() => setRevealed(true)}
+            accessibilityRole="button"
+            style={styles.maskWrap}
+          >
+            <Text style={styles.maskTitle}>Tap to reveal</Text>
+            <Text style={styles.maskDesc}>
+              Discreet mode is on. Content is hidden until you tap.
+            </Text>
+          </Pressable>
+        ) : (
+          <>
+            <Text style={styles.title}>{String(item.title || '')}</Text>
+            {!!item.description && (
+              <Text style={styles.desc} numberOfLines={8}>
+                {item.description}
+              </Text>
+            )}
+          </>
         )}
+
         <View style={styles.metaRow}>
           {!!item.tier && <Text style={styles.meta}>Tier: {String(item.tier).toUpperCase()}</Text>}
           {!!item.intensityScale && <Text style={styles.meta}>Intensity: {item.intensityScale}</Text>}
@@ -186,6 +228,27 @@ const styles = StyleSheet.create({
   meta: { color: '#93c5fd', fontWeight: '700', fontSize: 12 },
   hintRow: { marginTop: 'auto' },
   hint: { color: '#64748b', fontSize: 12 },
+  discreteBadgeRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
+  discreteBadge: {
+    color: '#34d399',
+    fontWeight: '900',
+    fontSize: 12,
+    letterSpacing: 1,
+  },
+  discreteHint: { color: '#64748b', fontSize: 12, fontWeight: '700' },
+  discreteHide: { color: '#60a5fa', fontSize: 12, fontWeight: '800' },
+
+  maskWrap: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#1f2937',
+    backgroundColor: '#0b1220',
+    padding: 14,
+    marginBottom: 8,
+  },
+  maskTitle: { color: 'white', fontWeight: '900', fontSize: 18 },
+  maskDesc: { color: '#94a3b8', marginTop: 8, lineHeight: 18 },
+
   emptyCard: { alignItems: 'center', justifyContent: 'center' },
   emptyText: { color: '#94a3b8', fontWeight: '700' },
 });
