@@ -160,8 +160,7 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       </Animated.View>
     </PanGestureHandler>
   );
-  }
-);
+});
 
 export default SwipeDeck;
 
