@@ -1,19 +1,24 @@
 // apps/mobile/app/(deck)/DeckScreen.tsx
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import SwipeDeck from '../../components/SwipeDeck';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
-import { useSettings } from '../../lib/state/useStore';
+import { useSettings, useVotes } from '../../lib/state/useStore';
+import { useProfilesStore } from '../../lib/state/profiles';
 
 type VoteValue = 'yes' | 'no' | 'maybe';
 
 export default function DeckScreen() {
   const router = useRouter();
   const { language } = useSettings();
+  const votes = useVotes();
+  const activeProfileId = useProfilesStore((s) => s.activeProfileId);
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'en' ? 'en' : 'es');
+
+  const historyRef = useRef<Array<{ kinkId: string; prevVote?: VoteValue }>>([]);
 
   const source = useMemo(
     () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
@@ -23,30 +28,39 @@ export default function DeckScreen() {
   const [index, setIndex] = useState(0);
   const current = source[index] || null;
 
-  const saveVote = useCallback((kinkId: string, value: VoteValue) => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const store = require('../../lib/state/useStore');
-      const votes = (store.useVotes ? store.useVotes() : store.default?.useVotes?.()) || {};
-      if (typeof votes.setVote === 'function') {
-        votes.setVote(null, kinkId, value);
-      } else if (typeof votes.vote === 'function') {
-        votes.vote({ kinkId, value });
-      } else if (typeof votes.upsertVote === 'function') {
-        votes.upsertVote({ userId: null, kinkId, value });
-      }
-    } catch {}
-  }, []);
+  const saveVote = useCallback(
+    (kinkId: string, value: VoteValue) => {
+      if (!activeProfileId) return;
+      const prevVote = votes.getVote(activeProfileId, kinkId);
+      historyRef.current.push({ kinkId, prevVote });
+      votes.setVote(activeProfileId, kinkId, value);
+    },
+    [activeProfileId, votes]
+  );
 
   const onSwipe = useCallback(
     (dir: 'left' | 'right' | 'down') => {
       if (!current) return;
       const map: Record<typeof dir, VoteValue> = { left: 'no', right: 'yes', down: 'maybe' };
       saveVote(current.id, map[dir]);
-      setIndex(i => Math.min(source.length, i + 1));
+      setIndex((i) => Math.min(source.length, i + 1));
     },
     [current, saveVote, source.length]
   );
+
+  const onUndo = useCallback(() => {
+    if (!activeProfileId) return;
+    const last = historyRef.current.pop();
+    if (!last) return;
+
+    if (last.prevVote) {
+      votes.setVote(activeProfileId, last.kinkId, last.prevVote);
+    } else {
+      votes.clearVote(activeProfileId, last.kinkId);
+    }
+
+    setIndex((i) => Math.max(0, i - 1));
+  }, [activeProfileId, votes]);
 
   const goCategories = () => router.replace('/(tabs)/categories');
 
@@ -101,6 +115,9 @@ export default function DeckScreen() {
           {index + 1}/{source.length}
         </Text>
         {selectedTier ? <Text style={styles.tier}>• {selectedTier.toUpperCase()}</Text> : null}
+        <Pressable style={styles.undo} onPress={onUndo} accessibilityRole="button">
+          <Text style={styles.undoText}>Undo</Text>
+        </Pressable>
         <Pressable style={styles.link} onPress={goCategories} accessibilityRole="button">
           <Text style={styles.linkText}>Categories</Text>
         </Pressable>
@@ -108,7 +125,7 @@ export default function DeckScreen() {
 
       {/* Swipe-only deck (no extra buttons at bottom) */}
       <View style={styles.deckArea}>
-        <SwipeDeck item={current} onSwipe={onSwipe} onUndo={() => setIndex(i => Math.max(0, i - 1))} />
+        <SwipeDeck item={current} onSwipe={onSwipe} onUndo={onUndo} />
       </View>
     </View>
   );
@@ -127,7 +144,9 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 4, marginBottom: 6 },
   count: { fontWeight: '700', color: 'white' },
   tier: { color: '#9ca3af', fontWeight: '600' },
-  link: { marginLeft: 'auto', padding: 8 },
+  undo: { marginLeft: 'auto', paddingVertical: 8, paddingHorizontal: 10, borderRadius: 10, backgroundColor: '#111827' },
+  undoText: { color: '#e2e8f0', fontWeight: '800' },
+  link: { padding: 8 },
   linkText: { color: '#60a5fa', fontWeight: '700' },
   deckArea: { flex: 1, paddingBottom: 8 },
 });
