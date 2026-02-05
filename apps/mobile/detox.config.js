@@ -6,8 +6,10 @@ module.exports = {
     'ios.sim.release': {
       type: 'ios.simulator',
       name: 'iPhone 15',
-      binaryPath: 'ios/build/Build/Products/Release-iphonesimulator/SpiceSync.app',
-      build: 'xcodebuild -workspace ios/SpiceSync.xcworkspace -scheme SpiceSync -configuration Release -sdk iphonesimulator -derivedDataPath ios/build',
-    }
-  }
+      binaryPath:
+        'ios/build/Build/Products/Release-iphonesimulator/SpiceSync.app',
+      build:
+        'xcodebuild -workspace ios/SpiceSync.xcworkspace -scheme SpiceSync -configuration Release -sdk iphonesimulator -derivedDataPath ios/build',
+    },
+  },
 };

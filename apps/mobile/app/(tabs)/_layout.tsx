@@ -14,10 +14,22 @@ export default function TabsLayout() {
         tabBarLabelStyle: { fontWeight: '700' },
       }}
     >
-      <Tabs.Screen name="categories" options={{ title: 'Categories', tabBarLabel: 'Categories' }} />
-      <Tabs.Screen name="deck" options={{ title: 'Deck', tabBarLabel: 'Deck' }} />
-      <Tabs.Screen name="browse" options={{ title: 'Browse', tabBarLabel: 'Browse' }} />
-      <Tabs.Screen name="matches" options={{ title: 'Matches', tabBarLabel: 'Matches' }} />
+      <Tabs.Screen
+        name="categories"
+        options={{ title: 'Categories', tabBarLabel: 'Categories' }}
+      />
+      <Tabs.Screen
+        name="deck"
+        options={{ title: 'Deck', tabBarLabel: 'Deck' }}
+      />
+      <Tabs.Screen
+        name="browse"
+        options={{ title: 'Browse', tabBarLabel: 'Browse' }}
+      />
+      <Tabs.Screen
+        name="matches"
+        options={{ title: 'Matches', tabBarLabel: 'Matches' }}
+      />
     </Tabs>
   );
 }

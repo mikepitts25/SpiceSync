@@ -1,8 +1,16 @@
-
-import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SwipeDeck, { type SwipeDeckHandle, type SwipeDirection } from '../../components/SwipeDeck';
+import SwipeDeck, {
+  type SwipeDeckHandle,
+  type SwipeDirection,
+} from '../../components/SwipeDeck';
 import VoteButtons from '../../components/VoteButtons';
 import EndOfDeck from '../../components/EndOfDeck';
 import SettingsButton from '../../src/components/SettingsButton';
@@ -46,7 +54,7 @@ export default function DeckScreen() {
 
   // Source deck for current filter
   const filteredKinks = useMemo(
-    () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
+    () => (selectedTier ? kinks.filter((k) => k.tier === selectedTier) : kinks),
     [kinks, selectedTier]
   );
 
@@ -55,8 +63,10 @@ export default function DeckScreen() {
     [filteredKinks]
   );
 
-  const activeProfileVotes = useVotesStore(
-    (state) => (activeProfileIdValue ? state.votesByProfile[activeProfileIdValue] : undefined)
+  const activeProfileVotes = useVotesStore((state) =>
+    activeProfileIdValue
+      ? state.votesByProfile[activeProfileIdValue]
+      : undefined
   );
 
   const queue = useMemo(() => {
@@ -76,14 +86,17 @@ export default function DeckScreen() {
 
   // ✅ HARD RESET when profile or category changes
   useEffect(() => {
-    setIndexByKey(prev => ({ ...prev, [key]: 0 }));
+    setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
   }, [key]);
 
   // Guard if queue length shrinks (e.g., after votes reset)
   useEffect(() => {
     const max = Math.max(0, queue.length - 1);
     if (index > max) {
-      setIndexByKey((prev) => ({ ...prev, [key]: Math.max(0, Math.min(index, max)) }));
+      setIndexByKey((prev) => ({
+        ...prev,
+        [key]: Math.max(0, Math.min(index, max)),
+      }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queue.length, index, key]);
@@ -99,7 +112,10 @@ export default function DeckScreen() {
     (updater: (current: number) => number) => {
       setIndexByKey((prev) => {
         const currentValue = prev[key] ?? 0;
-        const nextValue = Math.max(0, Math.min(queue.length, updater(currentValue)));
+        const nextValue = Math.max(
+          0,
+          Math.min(queue.length, updater(currentValue))
+        );
         if (nextValue === currentValue) {
           return prev;
         }
@@ -160,7 +176,9 @@ export default function DeckScreen() {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>Choose a profile</Text>
-        <Text style={styles.p}>Open Settings → Profiles to select who is swiping.</Text>
+        <Text style={styles.p}>
+          Open Settings → Profiles to select who is swiping.
+        </Text>
         <SettingsButton />
       </SafeAreaView>
     );
@@ -199,7 +217,9 @@ export default function DeckScreen() {
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <View style={styles.topBar}>
         <Text style={styles.count}>{leftCount} left</Text>
-        {selectedTier ? <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text> : null}
+        {selectedTier ? (
+          <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text>
+        ) : null}
         <Text style={styles.user}>
           {me?.emoji} {me?.displayName ?? me?.name}
         </Text>
@@ -230,15 +250,32 @@ export default function DeckScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, padding: 12, backgroundColor: '#0b0f14' },
-  wrap: { flex: 1, padding: 16, gap: 12, justifyContent: 'center', backgroundColor: '#0b0f14' },
+  wrap: {
+    flex: 1,
+    padding: 16,
+    gap: 12,
+    justifyContent: 'center',
+    backgroundColor: '#0b0f14',
+  },
   h1: { fontSize: 22, fontWeight: '800', color: 'white' },
   p: { fontSize: 16, color: '#94a3b8' },
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 4, marginBottom: 6 },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingHorizontal: 4,
+    marginBottom: 6,
+  },
   count: { fontWeight: '700', color: 'white' },
   tier: { color: '#9ca3af', fontWeight: '600' },
   user: { marginLeft: 'auto', color: '#93c5fd', fontWeight: '800' },
 
-  deckArea: { flex: 1, paddingBottom: 8, alignItems: 'center', justifyContent: 'center' },
+  deckArea: {
+    flex: 1,
+    paddingBottom: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   cardMaxW: { maxWidth: Math.min(SCREEN_W, 520), alignSelf: 'center' },
   settingsFooter: { marginTop: 12, paddingBottom: 84 },
 });

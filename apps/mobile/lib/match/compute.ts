@@ -1,4 +1,3 @@
-
 // apps/mobile/lib/match/compute.ts
 export type VoteValue = 'yes' | 'no' | 'maybe' | undefined;
 
@@ -12,8 +11,8 @@ export type Kink = {
 
 export type Buckets = {
   mutualYes: Kink[];
-  partial: Kink[];       // any (yes + maybe) in either direction
-  mutualMaybe: Kink[];   // maybe + maybe
+  partial: Kink[]; // any (yes + maybe) in either direction
+  mutualMaybe: Kink[]; // maybe + maybe
 };
 
 export function computeMatchBuckets(
@@ -24,7 +23,7 @@ export function computeMatchBuckets(
 ): Buckets {
   const aVotes = getVotesFor(userA) || {};
   const bVotes = getVotesFor(userB) || {};
-  const byId = Object.fromEntries(kinks.map(k => [k.id, k]));
+  const byId = Object.fromEntries(kinks.map((k) => [k.id, k]));
 
   const mutualYes: Kink[] = [];
   const partial: Kink[] = [];
@@ -36,7 +35,10 @@ export function computeMatchBuckets(
 
     if (va === 'yes' && vb === 'yes') {
       mutualYes.push(byId[k.id]);
-    } else if ((va === 'yes' && vb === 'maybe') || (va === 'maybe' && vb === 'yes')) {
+    } else if (
+      (va === 'yes' && vb === 'maybe') ||
+      (va === 'maybe' && vb === 'yes')
+    ) {
       partial.push(byId[k.id]);
     } else if (va === 'maybe' && vb === 'maybe') {
       mutualMaybe.push(byId[k.id]);

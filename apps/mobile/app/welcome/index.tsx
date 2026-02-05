@@ -1,6 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { View, Text, StyleSheet, TextInput, Pressable, Alert, ScrollView } from 'react-native';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 
 import EmojiMenu from '../../components/EmojiMenu';
@@ -17,14 +28,15 @@ export default function WelcomeCreateProfile() {
   const bottomInset = Math.max(insets.bottom, 24);
   const ageGateAccepted = useSettingsStore((state) => state.ageGateAccepted);
   const acceptAgeGate = useSettingsStore((state) => state.acceptAgeGate);
-  const { isHydrated, hasActive, createProfile, totalProfiles } = useProfilesStore(
-    useShallow((state) => ({
-      isHydrated: state.isHydrated(),
-      hasActive: state.hasActiveProfile(),
-      createProfile: state.createProfile,
-      totalProfiles: state.getProfiles().length,
-    }))
-  );
+  const { isHydrated, hasActive, createProfile, totalProfiles } =
+    useProfilesStore(
+      useShallow((state) => ({
+        isHydrated: state.isHydrated(),
+        hasActive: state.hasActiveProfile(),
+        createProfile: state.createProfile,
+        totalProfiles: state.getProfiles().length,
+      }))
+    );
 
   useEffect(() => {
     if (isHydrated && hasActive && ageGateAccepted) {
@@ -86,7 +98,8 @@ export default function WelcomeCreateProfile() {
       router.replace('/(tabs)/categories');
     } catch (error) {
       console.error('create profile failed', error);
-      const message = error instanceof Error ? error.message : 'Please try again.';
+      const message =
+        error instanceof Error ? error.message : 'Please try again.';
       Alert.alert('Could not create profile', message);
     }
   };
@@ -105,8 +118,8 @@ export default function WelcomeCreateProfile() {
               <Text style={styles.ageGateTitle}>SpiceSync</Text>
               <Text style={styles.ageGateBadge}>(18+)</Text>
               <Text style={styles.ageGateCopy}>
-                SpiceSync is for consenting adults only. By continuing you confirm you are at least 18
-                years old.
+                SpiceSync is for consenting adults only. By continuing you
+                confirm you are at least 18 years old.
               </Text>
               <Pressable
                 onPress={acceptAgeGate}
@@ -129,7 +142,12 @@ export default function WelcomeCreateProfile() {
   if (!isHydrated) {
     return (
       <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
-        <View style={[styles.loadingShell, { paddingTop: topInset, paddingBottom: bottomInset }]}>
+        <View
+          style={[
+            styles.loadingShell,
+            { paddingTop: topInset, paddingBottom: bottomInset },
+          ]}
+        >
           <SettingsButton />
         </View>
       </SafeAreaView>
@@ -139,7 +157,10 @@ export default function WelcomeCreateProfile() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <ScrollView
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: bottomInset }]}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: bottomInset },
+        ]}
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.h1}>Welcome</Text>
@@ -168,7 +189,11 @@ export default function WelcomeCreateProfile() {
             placeholderTextColor="#64748b"
           />
 
-          <Pressable style={styles.pinToggle} onPress={togglePin} accessibilityRole="button">
+          <Pressable
+            style={styles.pinToggle}
+            onPress={togglePin}
+            accessibilityRole="button"
+          >
             <Text style={styles.pinToggleText}>{pinCtaLabel}</Text>
           </Pressable>
 
@@ -200,16 +225,24 @@ export default function WelcomeCreateProfile() {
                 secureTextEntry
                 maxLength={4}
               />
-              {pinError ? <Text style={styles.pinError}>{pinError}</Text> : null}
+              {pinError ? (
+                <Text style={styles.pinError}>{pinError}</Text>
+              ) : null}
             </View>
           ) : null}
 
-          <Pressable onPress={handleCreate} style={styles.primary} accessibilityRole="button">
+          <Pressable
+            onPress={handleCreate}
+            style={styles.primary}
+            accessibilityRole="button"
+          >
             <Text style={styles.btnStrong}>Create profile</Text>
           </Pressable>
         </View>
 
-        <Text style={styles.hint}>You can add more profiles later in Settings → Profiles.</Text>
+        <Text style={styles.hint}>
+          You can add more profiles later in Settings → Profiles.
+        </Text>
         <SettingsButton />
       </ScrollView>
 
@@ -232,9 +265,26 @@ const styles = StyleSheet.create({
   loadingShell: { flex: 1, paddingHorizontal: 16 },
   ageGateWrapper: { flex: 1, width: '100%' },
   ageGateCenter: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  ageGateContent: { width: '100%', maxWidth: 360, alignItems: 'center', gap: 16, paddingHorizontal: 24, alignSelf: 'center' },
-  ageGateTitle: { fontSize: 28, fontWeight: '900', color: 'white', textAlign: 'center' },
-  ageGateBadge: { fontSize: 20, fontWeight: '800', color: '#f97316', textAlign: 'center' },
+  ageGateContent: {
+    width: '100%',
+    maxWidth: 360,
+    alignItems: 'center',
+    gap: 16,
+    paddingHorizontal: 24,
+    alignSelf: 'center',
+  },
+  ageGateTitle: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: 'white',
+    textAlign: 'center',
+  },
+  ageGateBadge: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#f97316',
+    textAlign: 'center',
+  },
   ageGateCopy: { color: '#cbd5e1', textAlign: 'center' },
   ageGateCta: { alignSelf: 'stretch', marginTop: 12 },
   ageGateFooter: { alignItems: 'flex-end', paddingHorizontal: 16 },

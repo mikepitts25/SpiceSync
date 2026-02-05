@@ -13,8 +13,8 @@ export default function SettingsScreen() {
   const router = useRouter();
   const { language, setLanguage } = useSettings();
   const { profiles, currentUserId } = (useProfiles() as any) || {};
-  const clearUser = useVotesStore(s => s.clearProfile);
-  const setVote = useVotesStore(s => s.setVote);
+  const clearUser = useVotesStore((s) => s.clearProfile);
+  const setVote = useVotesStore((s) => s.setVote);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 
   const me = profiles?.find((p: any) => p.id === currentUserId) || null;
@@ -31,24 +31,34 @@ export default function SettingsScreen() {
           style: 'destructive',
           onPress: () => {
             clearUser(me.id);
-            Alert.alert('Selections cleared', `${me.displayName}'s votes have been removed.`);
+            Alert.alert(
+              'Selections cleared',
+              `${me.displayName}'s votes have been removed.`
+            );
           },
         },
-      ],
+      ]
     );
   };
 
-  const LangButton = ({ code, label }: { code: 'en'|'es'; label: string }) => (
+  const LangButton = ({
+    code,
+    label,
+  }: {
+    code: 'en' | 'es';
+    label: string;
+  }) => (
     <Pressable
       onPress={() => setLanguage(code)}
-      style={[
-        styles.langBtn,
-        language === code && styles.langBtnActive,
-      ]}
+      style={[styles.langBtn, language === code && styles.langBtnActive]}
       accessibilityRole="button"
       accessibilityState={{ selected: language === code }}
     >
-      <Text style={[styles.langText, language === code && styles.langTextActive]}>{label}</Text>
+      <Text
+        style={[styles.langText, language === code && styles.langTextActive]}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 
@@ -72,7 +82,9 @@ export default function SettingsScreen() {
       {/* Language card */}
       <View style={styles.card}>
         <Text style={styles.h2}>Language</Text>
-        <Text style={styles.p}>Choose your app language. Content and UI will switch instantly.</Text>
+        <Text style={styles.p}>
+          Choose your app language. Content and UI will switch instantly.
+        </Text>
         <View style={styles.langRow}>
           <LangButton code="en" label="English" />
           <LangButton code="es" label="Español" />
@@ -89,22 +101,27 @@ export default function SettingsScreen() {
               <Text style={styles.strong}>{me.displayName}</Text>
             </Text>
             <Text style={styles.meta}>
-              ID: {me.id.slice(0, 8)} • Created {new Date(me.createdAt).toLocaleDateString()}
+              ID: {me.id.slice(0, 8)} • Created{' '}
+              {new Date(me.createdAt).toLocaleDateString()}
             </Text>
             <Pressable
               onPress={onReset}
               style={styles.btnDanger}
               accessibilityRole="button"
             >
-              <Text style={styles.btnStrong}>Reset selections for this profile</Text>
+              <Text style={styles.btnStrong}>
+                Reset selections for this profile
+              </Text>
             </Pressable>
             <Text style={styles.hint}>
-              This removes all YES/NO/MAYBE votes made by {me.displayName}. The other profile’s votes are unaffected.
+              This removes all YES/NO/MAYBE votes made by {me.displayName}. The
+              other profile’s votes are unaffected.
             </Text>
           </View>
         ) : (
           <Text style={styles.p}>
-            No active profile selected. Open “Manage profiles” above to create or select one.
+            No active profile selected. Open “Manage profiles” above to create
+            or select one.
           </Text>
         )}
       </View>
@@ -113,7 +130,8 @@ export default function SettingsScreen() {
       <View style={styles.card}>
         <Text style={styles.h2}>About & Safety</Text>
         <Text style={styles.p}>
-          This app is for adults (18+) exploring consensual intimacy. Keep it legal, consensual, and respectful.
+          This app is for adults (18+) exploring consensual intimacy. Keep it
+          legal, consensual, and respectful.
         </Text>
       </View>
 
@@ -121,19 +139,28 @@ export default function SettingsScreen() {
         <Pressable
           onPress={() => {
             if (!me) {
-              Alert.alert('No active profile', 'Select an active profile first.');
+              Alert.alert(
+                'No active profile',
+                'Select an active profile first.'
+              );
               return;
             }
             const others = (profiles || []).filter((p: any) => p.id !== me.id);
             if (!others.length) {
-              Alert.alert('Need another profile', 'Create a second profile to seed matches.');
+              Alert.alert(
+                'Need another profile',
+                'Create a second profile to seed matches.'
+              );
               return;
             }
 
             const partner = others[0];
             const pool = [...kinks];
             if (!pool.length) {
-              Alert.alert('No content', 'Unable to seed matches without kink data.');
+              Alert.alert(
+                'No content',
+                'Unable to seed matches without kink data.'
+              );
               return;
             }
 
@@ -146,7 +173,9 @@ export default function SettingsScreen() {
               return copy;
             }
 
-            const sampleIds = shuffle(pool).slice(0, Math.min(30, pool.length)).map((item) => String(item.id));
+            const sampleIds = shuffle(pool)
+              .slice(0, Math.min(30, pool.length))
+              .map((item) => String(item.id));
             const mutualYes = sampleIds.slice(0, 4);
             const partial = sampleIds.slice(4, 10);
             const mutualMaybe = sampleIds.slice(10, 16);
@@ -174,7 +203,10 @@ export default function SettingsScreen() {
               setVote(partner.id, id, 'maybe');
             });
 
-            Alert.alert('Seeded votes', 'Generated demo matches for quick testing.');
+            Alert.alert(
+              'Seeded votes',
+              'Generated demo matches for quick testing.'
+            );
           }}
           style={styles.devButton}
           accessibilityRole="button"
@@ -197,18 +229,46 @@ const styles = StyleSheet.create({
   meta: { color: '#94a3b8' },
   hint: { color: '#9ca3af', marginTop: 6 },
 
-  card: { backgroundColor: '#0e1526', borderWidth: 1, borderColor: '#111827', borderRadius: 14, padding: 14, gap: 6 },
+  card: {
+    backgroundColor: '#0e1526',
+    borderWidth: 1,
+    borderColor: '#111827',
+    borderRadius: 14,
+    padding: 14,
+    gap: 6,
+  },
 
   // Language
   langRow: { flexDirection: 'row', gap: 10, marginTop: 6 },
-  langBtn: { paddingVertical: 10, paddingHorizontal: 14, borderRadius: 12, backgroundColor: '#1f2937', borderWidth: 1, borderColor: '#111827' },
+  langBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    backgroundColor: '#1f2937',
+    borderWidth: 1,
+    borderColor: '#111827',
+  },
   langBtnActive: { backgroundColor: '#1d4ed8', borderColor: '#1d4ed8' },
   langText: { color: 'white', fontWeight: '700' },
   langTextActive: { color: 'white' },
 
   // Buttons
-  primary: { backgroundColor: '#2563eb', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, alignItems: 'center', marginTop: 6 },
-  btnDanger: { backgroundColor: '#ef4444', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, alignItems: 'center', marginTop: 8 },
+  primary: {
+    backgroundColor: '#2563eb',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    alignItems: 'center',
+    marginTop: 6,
+  },
+  btnDanger: {
+    backgroundColor: '#ef4444',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    alignItems: 'center',
+    marginTop: 8,
+  },
   btnStrong: { color: 'white', fontWeight: '900' },
   devButton: {
     marginTop: 12,

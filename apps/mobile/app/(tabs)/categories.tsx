@@ -9,7 +9,11 @@ import SettingsButton from '../../src/components/SettingsButton';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useShallow } from 'zustand/react/shallow';
 
-const TIERS: { key: 'romance'|'soft'|'naughty'|'xxx'; label: string; desc: string }[] = [
+const TIERS: {
+  key: 'romance' | 'soft' | 'naughty' | 'xxx';
+  label: string;
+  desc: string;
+}[] = [
   { key: 'romance', label: 'Romance', desc: 'sweet, caring' },
   { key: 'soft', label: 'Soft Kinks', desc: 'gentle spice' },
   { key: 'naughty', label: 'Naughty Kinks', desc: 'bolder play' },
@@ -39,10 +43,13 @@ export default function CategoriesScreen() {
     return acc;
   }, {});
 
-  const onPick = (tier: 'romance'|'soft'|'naughty'|'xxx') => {
+  const onPick = (tier: 'romance' | 'soft' | 'naughty' | 'xxx') => {
     const count = counts[tier] || 0;
     if (count <= 0) {
-      Alert.alert('No items yet', `No ${tier} items available right now. Try a different category or add your own.`);
+      Alert.alert(
+        'No items yet',
+        `No ${tier} items available right now. Try a different category or add your own.`
+      );
       return;
     }
     setTier(tier);
@@ -58,8 +65,13 @@ export default function CategoriesScreen() {
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <Text style={styles.h1}>Choose a category</Text>
       <View style={styles.grid}>
-        {TIERS.map(t => (
-          <Pressable key={t.key} style={styles.card} onPress={() => onPick(t.key)} accessibilityRole="button">
+        {TIERS.map((t) => (
+          <Pressable
+            key={t.key}
+            style={styles.card}
+            onPress={() => onPick(t.key)}
+            accessibilityRole="button"
+          >
             <Text style={styles.title}>{t.label}</Text>
             <Text style={styles.desc}>{t.desc}</Text>
             <Text style={styles.count}>{counts[t.key] || 0} items</Text>
@@ -67,7 +79,13 @@ export default function CategoriesScreen() {
         ))}
       </View>
       <View style={{ height: 12 }} />
-      <Pressable style={styles.primary} onPress={() => { setTier(null); router.push('/(tabs)/deck'); }}>
+      <Pressable
+        style={styles.primary}
+        onPress={() => {
+          setTier(null);
+          router.push('/(tabs)/deck');
+        }}
+      >
         <Text style={styles.primaryText}>Skip category → Start Swiping</Text>
       </Pressable>
       <SettingsButton />
@@ -79,10 +97,20 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 12, backgroundColor: '#0b0f14' },
   h1: { fontSize: 22, fontWeight: '800', color: 'white', marginBottom: 4 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  card: { flexBasis: '47%', padding: 14, borderRadius: 14, backgroundColor: '#1f2937' },
+  card: {
+    flexBasis: '47%',
+    padding: 14,
+    borderRadius: 14,
+    backgroundColor: '#1f2937',
+  },
   title: { color: 'white', fontSize: 16, fontWeight: '700' },
   desc: { color: '#cbd5e1', marginTop: 4 },
   count: { color: '#93c5fd', marginTop: 8, fontWeight: '700' },
-  primary: { padding: 14, borderRadius: 14, backgroundColor: '#3b82f6', alignItems: 'center' },
+  primary: {
+    padding: 14,
+    borderRadius: 14,
+    backgroundColor: '#3b82f6',
+    alignItems: 'center',
+  },
   primaryText: { color: 'white', fontWeight: '800' },
 });

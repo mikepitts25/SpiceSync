@@ -42,124 +42,141 @@ const TIMING_CONFIG = {
 
 const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
   ({ item, onSwipe, onUndo, onSwipeStart, onSwipeEnd }, ref) => {
-  const x = useSharedValue(0);
-  const y = useSharedValue(0);
-  const gone = useSharedValue(false);
-  const animating = useSharedValue(false);
+    const x = useSharedValue(0);
+    const y = useSharedValue(0);
+    const gone = useSharedValue(false);
+    const animating = useSharedValue(false);
 
-  const thresholdX = 80;
-  const thresholdY = 70;
+    const thresholdX = 80;
+    const thresholdY = 70;
 
-  const style = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: x.value },
-      { translateY: y.value },
-      { rotate: `${(x.value / 18).toFixed(2)}deg` },
-    ],
-    opacity: gone.value ? withTiming(0) : 1,
-  }));
+    const style = useAnimatedStyle(() => ({
+      transform: [
+        { translateX: x.value },
+        { translateY: y.value },
+        { rotate: `${(x.value / 18).toFixed(2)}deg` },
+      ],
+      opacity: gone.value ? withTiming(0) : 1,
+    }));
 
-  const performSwipe = (dir: SwipeDirection) => {
-    'worklet';
-    const targetX = dir === 'right' ? OFFSCREEN_X : dir === 'left' ? -OFFSCREEN_X : 0;
-    const targetY = dir === 'down' ? OFFSCREEN_Y : 0;
+    const performSwipe = (dir: SwipeDirection) => {
+      'worklet';
+      const targetX =
+        dir === 'right' ? OFFSCREEN_X : dir === 'left' ? -OFFSCREEN_X : 0;
+      const targetY = dir === 'down' ? OFFSCREEN_Y : 0;
 
-    gone.value = true;
+      gone.value = true;
 
-    const finish = (finished?: boolean) => {
-      if (!finished) {
-        animating.value = false;
+      const finish = (finished?: boolean) => {
+        if (!finished) {
+          animating.value = false;
+          gone.value = false;
+          if (onSwipeEnd) runOnJS(onSwipeEnd)();
+          return;
+        }
+
+        x.value = 0;
+        y.value = 0;
         gone.value = false;
+        animating.value = false;
         if (onSwipeEnd) runOnJS(onSwipeEnd)();
-        return;
-      }
+        runOnJS(onSwipe)(dir);
+      };
 
-      x.value = 0;
-      y.value = 0;
-      gone.value = false;
-      animating.value = false;
-      if (onSwipeEnd) runOnJS(onSwipeEnd)();
-      runOnJS(onSwipe)(dir);
+      if (targetY !== 0) {
+        y.value = withTiming(targetY, TIMING_CONFIG, finish);
+        x.value = withTiming(targetX, TIMING_CONFIG);
+      } else {
+        x.value = withTiming(targetX, TIMING_CONFIG, finish);
+        y.value = withTiming(targetY, TIMING_CONFIG);
+      }
     };
 
-    if (targetY !== 0) {
-      y.value = withTiming(targetY, TIMING_CONFIG, finish);
-      x.value = withTiming(targetX, TIMING_CONFIG);
-    } else {
-      x.value = withTiming(targetX, TIMING_CONFIG, finish);
-      y.value = withTiming(targetY, TIMING_CONFIG);
+    const triggerSwipe = (dir: SwipeDirection) => {
+      if (!item) return;
+      if (animating.value) return;
+      animating.value = true;
+      onSwipeStart?.();
+      performSwipe(dir);
+    };
+
+    const handleEnd = (dx: number, dy: number) => {
+      'worklet';
+      let dir: SwipeDirection | null = null;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > thresholdX) dir = 'right';
+        else if (dx < -thresholdX) dir = 'left';
+      } else {
+        if (dy > thresholdY) dir = 'down';
+      }
+
+      if (dir) {
+        runOnJS(triggerSwipe)(dir);
+      } else {
+        x.value = withSpring(0);
+        y.value = withSpring(0);
+      }
+    };
+
+    useImperativeHandle(ref, () => ({
+      programmaticSwipe: (dir: SwipeDirection) => {
+        triggerSwipe(dir);
+      },
+      isAnimating: () => animating.value,
+    }));
+
+    if (!item) {
+      return (
+        <View
+          style={[
+            styles.card,
+            styles.emptyCard,
+            { width: CARD_W, height: 220 },
+          ]}
+        >
+          <Text style={styles.emptyText}>No more cards</Text>
+        </View>
+      );
     }
-  };
 
-  const triggerSwipe = (dir: SwipeDirection) => {
-    if (!item) return;
-    if (animating.value) return;
-    animating.value = true;
-    onSwipeStart?.();
-    performSwipe(dir);
-  };
-
-  const handleEnd = (dx: number, dy: number) => {
-    'worklet';
-    let dir: SwipeDirection | null = null;
-    if (Math.abs(dx) > Math.abs(dy)) {
-      if (dx > thresholdX) dir = 'right';
-      else if (dx < -thresholdX) dir = 'left';
-    } else {
-      if (dy > thresholdY) dir = 'down';
-    }
-
-    if (dir) {
-      runOnJS(triggerSwipe)(dir);
-    } else {
-      x.value = withSpring(0);
-      y.value = withSpring(0);
-    }
-  };
-
-  useImperativeHandle(ref, () => ({
-    programmaticSwipe: (dir: SwipeDirection) => {
-      triggerSwipe(dir);
-    },
-    isAnimating: () => animating.value,
-  }));
-
-  if (!item) {
     return (
-      <View style={[styles.card, styles.emptyCard, { width: CARD_W, height: 220 }]}>
-        <Text style={styles.emptyText}>No more cards</Text>
-      </View>
+      <PanGestureHandler
+        onGestureEvent={(e) => {
+          const { translationX, translationY } = e.nativeEvent;
+          x.value = translationX;
+          y.value = translationY;
+        }}
+        onEnded={(e) => {
+          const translationX = (e.nativeEvent as any).translationX ?? 0;
+          const translationY = (e.nativeEvent as any).translationY ?? 0;
+          handleEnd(translationX, translationY);
+        }}
+      >
+        <Animated.View
+          style={[styles.card, { width: CARD_W, height: CARD_H }, style]}
+        >
+          <Text style={styles.title}>{String(item.title || '')}</Text>
+          {!!item.description && (
+            <Text style={styles.desc} numberOfLines={8}>
+              {item.description}
+            </Text>
+          )}
+          <View style={styles.metaRow}>
+            {!!item.tier && (
+              <Text style={styles.meta}>
+                Tier: {String(item.tier).toUpperCase()}
+              </Text>
+            )}
+            {!!item.intensityScale && (
+              <Text style={styles.meta}>Intensity: {item.intensityScale}</Text>
+            )}
+          </View>
+          <View style={styles.hintRow}>
+            <Text style={styles.hint}>Swipe → Yes • ← No • ↓ Maybe</Text>
+          </View>
+        </Animated.View>
+      </PanGestureHandler>
     );
-  }
-
-  return (
-    <PanGestureHandler
-      onGestureEvent={(e) => {
-        const { translationX, translationY } = e.nativeEvent;
-        x.value = translationX;
-        y.value = translationY;
-      }}
-      onEnded={(e) => {
-        const translationX = (e.nativeEvent as any).translationX ?? 0;
-        const translationY = (e.nativeEvent as any).translationY ?? 0;
-        handleEnd(translationX, translationY);
-      }}
-    >
-      <Animated.View style={[styles.card, { width: CARD_W, height: CARD_H }, style]}>
-        <Text style={styles.title}>{String(item.title || '')}</Text>
-        {!!item.description && (
-          <Text style={styles.desc} numberOfLines={8}>{item.description}</Text>
-        )}
-        <View style={styles.metaRow}>
-          {!!item.tier && <Text style={styles.meta}>Tier: {String(item.tier).toUpperCase()}</Text>}
-          {!!item.intensityScale && <Text style={styles.meta}>Intensity: {item.intensityScale}</Text>}
-        </View>
-        <View style={styles.hintRow}>
-          <Text style={styles.hint}>Swipe → Yes • ← No • ↓ Maybe</Text>
-        </View>
-      </Animated.View>
-    </PanGestureHandler>
-  );
   }
 );
 

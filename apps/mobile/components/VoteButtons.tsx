@@ -10,7 +10,11 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function VoteButtons({ currentKinkId, onVote, disabled = false }: Props) {
+export default function VoteButtons({
+  currentKinkId,
+  onVote,
+  disabled = false,
+}: Props) {
   const insets = useSafeAreaInsets();
   const isDisabled = disabled || !currentKinkId;
 
@@ -26,9 +30,24 @@ export default function VoteButtons({ currentKinkId, onVote, disabled = false }:
         pointerEvents="box-none"
       >
         <View style={styles.row}>
-          <VoteButton label="No" tone="no" disabled={isDisabled} onPress={() => handlePress('no')} />
-          <VoteButton label="Maybe" tone="maybe" disabled={isDisabled} onPress={() => handlePress('maybe')} />
-          <VoteButton label="Yes" tone="yes" disabled={isDisabled} onPress={() => handlePress('yes')} />
+          <VoteButton
+            label="No"
+            tone="no"
+            disabled={isDisabled}
+            onPress={() => handlePress('no')}
+          />
+          <VoteButton
+            label="Maybe"
+            tone="maybe"
+            disabled={isDisabled}
+            onPress={() => handlePress('maybe')}
+          />
+          <VoteButton
+            label="Yes"
+            tone="yes"
+            disabled={isDisabled}
+            onPress={() => handlePress('yes')}
+          />
         </View>
       </View>
     </View>
@@ -47,7 +66,11 @@ function VoteButton({ label, tone, disabled, onPress }: VoteButtonProps) {
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
-      style={[styles.button, styles[`tone_${tone}`], disabled && styles.disabled]}
+      style={[
+        styles.button,
+        styles[`tone_${tone}`],
+        disabled && styles.disabled,
+      ]}
       onPress={onPress}
       disabled={disabled}
     >

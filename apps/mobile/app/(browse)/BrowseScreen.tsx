@@ -13,7 +13,7 @@ export default function BrowseScreen() {
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 
   const rows = useMemo(
-    () => (selectedTier ? kinks.filter(k => k.tier === selectedTier) : kinks),
+    () => (selectedTier ? kinks.filter((k) => k.tier === selectedTier) : kinks),
     [kinks, selectedTier]
   );
 
@@ -23,14 +23,25 @@ export default function BrowseScreen() {
     <View style={styles.screen} accessibilityLabel="Browse list screen">
       <View style={styles.topBar}>
         <Text style={styles.h1}>Browse</Text>
-        {selectedTier ? <Text style={styles.tier}>• {selectedTier.toUpperCase()}</Text> : null}
-        <Pressable style={styles.link} onPress={goCategories} accessibilityRole="button">
+        {selectedTier ? (
+          <Text style={styles.tier}>• {selectedTier.toUpperCase()}</Text>
+        ) : null}
+        <Pressable
+          style={styles.link}
+          onPress={goCategories}
+          accessibilityRole="button"
+        >
           <Text style={styles.linkText}>Categories</Text>
         </Pressable>
       </View>
 
       {selectedTier ? (
-        <Pressable style={styles.chip} onPress={clearTier} accessibilityRole="button" accessibilityLabel="Clear filter">
+        <Pressable
+          style={styles.chip}
+          onPress={clearTier}
+          accessibilityRole="button"
+          accessibilityLabel="Clear filter"
+        >
           <Text style={styles.chipText}>Clear filter</Text>
         </Pressable>
       ) : null}
@@ -43,7 +54,9 @@ export default function BrowseScreen() {
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Text style={styles.title}>{item.title}</Text>
-            {!!item.description && <Text style={styles.desc}>{item.description}</Text>}
+            {!!item.description && (
+              <Text style={styles.desc}>{item.description}</Text>
+            )}
             <View style={styles.metaRow}>
               <Text style={styles.meta}>Tier: {item.tier?.toUpperCase()}</Text>
               <Text style={styles.meta}>Intensity: {item.intensityScale}</Text>
@@ -62,12 +75,23 @@ export default function BrowseScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, padding: 12, backgroundColor: '#0b0f14' },
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
   h1: { fontSize: 22, fontWeight: '800', color: 'white' },
   tier: { color: '#9ca3af', fontWeight: '600' },
   link: { marginLeft: 'auto', padding: 8 },
   linkText: { color: '#60a5fa', fontWeight: '700' },
-  chip: { alignSelf: 'flex-start', backgroundColor: '#111827', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999 },
+  chip: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#111827',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 999,
+  },
   chipText: { color: 'white', fontWeight: '600' },
   card: { padding: 14, borderRadius: 14, backgroundColor: '#1f2937' },
   title: { color: 'white', fontWeight: '700', fontSize: 16 },

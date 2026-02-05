@@ -6,6 +6,9 @@ test('blocks minors term', () => {
 });
 
 test('allows neutral idea', () => {
-  const res = validateCustom('Warm cocoa', 'Sharing a warm cocoa drink together while talking.');
+  const res = validateCustom(
+    'Warm cocoa',
+    'Sharing a warm cocoa drink together while talking.'
+  );
   expect(res.ok).toBe(true);
 });

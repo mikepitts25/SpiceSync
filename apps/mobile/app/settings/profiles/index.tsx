@@ -14,7 +14,11 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
-import { setActiveProfile, useProfilesStore, type Profile } from '../../../lib/state/profiles';
+import {
+  setActiveProfile,
+  useProfilesStore,
+  type Profile,
+} from '../../../lib/state/profiles';
 
 type FlatListProfile = Profile;
 
@@ -26,7 +30,8 @@ type PinModalState = {
 
 export default function ProfilesScreen() {
   const router = useRouter();
-  const { profiles, activeProfileId, updateProfile, deleteProfile, verifyPin } = useProfilesStore();
+  const { profiles, activeProfileId, updateProfile, deleteProfile, verifyPin } =
+    useProfilesStore();
 
   const activeProfile = useMemo(
     () => profiles.find((profile) => profile.id === activeProfileId) ?? null,
@@ -46,7 +51,11 @@ export default function ProfilesScreen() {
   };
 
   const openPinPrompt = (profile: FlatListProfile) => {
-    setPinPrompt({ id: profile.id, name: profile.name, pin: profile.pin ?? '' });
+    setPinPrompt({
+      id: profile.id,
+      name: profile.name,
+      pin: profile.pin ?? '',
+    });
     setEnteredPin('');
     setPinError(null);
   };
@@ -148,13 +157,17 @@ export default function ProfilesScreen() {
           <Text style={styles.newButtonText}>New Profile</Text>
         </Pressable>
       </View>
-      <Text style={styles.subtitle}>Tap a profile to switch. Protected profiles require a PIN.</Text>
+      <Text style={styles.subtitle}>
+        Tap a profile to switch. Protected profiles require a PIN.
+      </Text>
 
       <FlatList
         data={profiles}
         keyExtractor={(item) => item.id}
         renderItem={renderProfile}
-        contentContainerStyle={profiles.length ? styles.listContent : styles.emptyListContent}
+        contentContainerStyle={
+          profiles.length ? styles.listContent : styles.emptyListContent
+        }
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         ListEmptyComponent={
           <View style={styles.emptyState}>
@@ -189,12 +202,20 @@ export default function ProfilesScreen() {
               placeholder="••••"
               placeholderTextColor="#475569"
             />
-            {pinError ? <Text style={styles.modalError}>{pinError}</Text> : null}
+            {pinError ? (
+              <Text style={styles.modalError}>{pinError}</Text>
+            ) : null}
             <View style={styles.modalButtons}>
-              <Pressable style={styles.modalButtonSecondary} onPress={closePinPrompt}>
+              <Pressable
+                style={styles.modalButtonSecondary}
+                onPress={closePinPrompt}
+              >
                 <Text style={styles.modalButtonText}>Cancel</Text>
               </Pressable>
-              <Pressable style={styles.modalButtonPrimary} onPress={handleUnlock}>
+              <Pressable
+                style={styles.modalButtonPrimary}
+                onPress={handleUnlock}
+              >
                 <Text style={styles.modalButtonPrimaryText}>Unlock</Text>
               </Pressable>
             </View>
@@ -207,7 +228,12 @@ export default function ProfilesScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#0b0f14' },
-  headerRow: { flexDirection: 'row', alignItems: 'center', padding: 16, gap: 12 },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    gap: 12,
+  },
   title: { flex: 1, fontSize: 22, fontWeight: '800', color: 'white' },
   subtitle: { paddingHorizontal: 16, color: '#94a3b8', marginBottom: 12 },
   newButton: {
@@ -218,7 +244,11 @@ const styles = StyleSheet.create({
   },
   newButtonText: { color: 'white', fontWeight: '800' },
   listContent: { paddingHorizontal: 16, paddingBottom: 32 },
-  emptyListContent: { flexGrow: 1, paddingHorizontal: 16, justifyContent: 'center' },
+  emptyListContent: {
+    flexGrow: 1,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+  },
   emptyState: { alignItems: 'center', gap: 8 },
   emptyTitle: { color: 'white', fontSize: 18, fontWeight: '700' },
   emptyBody: { color: '#94a3b8' },
@@ -269,7 +299,12 @@ const styles = StyleSheet.create({
     padding: 20,
     gap: 16,
   },
-  modalTitle: { color: 'white', fontSize: 18, fontWeight: '800', textAlign: 'center' },
+  modalTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
   modalBody: { color: '#94a3b8', textAlign: 'center' },
   modalInput: {
     backgroundColor: '#111827',

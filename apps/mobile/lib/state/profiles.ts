@@ -30,7 +30,10 @@ type ProfilesState = {
   getActiveProfileId: () => string | undefined;
   setActiveProfile: (id: string | undefined) => void;
   createProfile: (input: CreateProfileInput) => Profile;
-  updateProfile: (id: string, patch: Partial<Pick<Profile, 'name' | 'emoji' | 'color'>>) => void;
+  updateProfile: (
+    id: string,
+    patch: Partial<Pick<Profile, 'name' | 'emoji' | 'color'>>
+  ) => void;
   deleteProfile: (id: string) => void;
   setPin: (id: string, pin: string) => void;
   clearPin: (id: string) => void;
@@ -41,7 +44,10 @@ type ProfilesState = {
   isHydrated: () => boolean;
 };
 
-const storage = new MMKV({ id: 'spicesync', encryptionKey: 'device-bound-key' });
+const storage = new MMKV({
+  id: 'spicesync',
+  encryptionKey: 'device-bound-key',
+});
 
 const PROFILES_KEY = 'profiles';
 const ACTIVE_ID_KEY = 'activeProfileId';
@@ -49,7 +55,8 @@ const LEGACY_ACTIVE_KEY = 'currentUserId';
 
 const ALLOWED_EMOJI = new Set<string>(EMOJI_CHOICES);
 
-const isDigits4 = (value?: string | null): boolean => !!value && /^[0-9]{4}$/.test(value);
+const isDigits4 = (value?: string | null): boolean =>
+  !!value && /^[0-9]{4}$/.test(value);
 
 function ensureEmoji(input: string | null | undefined): string {
   if (typeof input !== 'string' || !ALLOWED_EMOJI.has(input)) {
@@ -95,11 +102,17 @@ function migrateProfiles(raw: PersistedProfile[]): Profile[] {
   if (!Array.isArray(raw)) return [];
   return raw.map((item) => {
     const id = typeof item.id === 'string' ? item.id : generateId();
-    const fallbackName = item.displayName && item.displayName.trim() ? item.displayName.trim() : 'Partner';
+    const fallbackName =
+      item.displayName && item.displayName.trim()
+        ? item.displayName.trim()
+        : 'Partner';
     const nameRaw = typeof item.name === 'string' ? item.name : fallbackName;
     const name = nameRaw.trim() || 'Partner';
     const emoji = sanitizeEmoji(item.emoji);
-    const pin = typeof item.pin === 'string' && item.pin.length === 4 ? item.pin : undefined;
+    const pin =
+      typeof item.pin === 'string' && item.pin.length === 4
+        ? item.pin
+        : undefined;
 
     return {
       id,
@@ -107,8 +120,10 @@ function migrateProfiles(raw: PersistedProfile[]): Profile[] {
       displayName: item.displayName ?? name,
       emoji,
       pin,
-      createdAt: typeof item.createdAt === 'number' ? item.createdAt : Date.now(),
-      updatedAt: typeof item.updatedAt === 'number' ? item.updatedAt : Date.now(),
+      createdAt:
+        typeof item.createdAt === 'number' ? item.createdAt : Date.now(),
+      updatedAt:
+        typeof item.updatedAt === 'number' ? item.updatedAt : Date.now(),
       color: item.color,
     } satisfies Profile;
   });
@@ -131,14 +146,20 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
   hydrate: () => {
     if (get().hydrated) return;
 
-    const persistedProfiles = migrateProfiles(load<PersistedProfile[]>(PROFILES_KEY, []));
+    const persistedProfiles = migrateProfiles(
+      load<PersistedProfile[]>(PROFILES_KEY, [])
+    );
 
     const legacyActiveRaw = storage.getString(LEGACY_ACTIVE_KEY);
     const legacyActive = legacyActiveRaw ? JSON.parse(legacyActiveRaw) : null;
     const storedActive = load<string | null>(ACTIVE_ID_KEY, legacyActive);
 
-    let nextActive: string | null = typeof storedActive === 'string' ? storedActive : null;
-    if (nextActive && !persistedProfiles.some((profile) => profile.id === nextActive)) {
+    let nextActive: string | null =
+      typeof storedActive === 'string' ? storedActive : null;
+    if (
+      nextActive &&
+      !persistedProfiles.some((profile) => profile.id === nextActive)
+    ) {
       nextActive = persistedProfiles[0]?.id ?? null;
     }
 
@@ -279,7 +300,9 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
 
   deleteProfile: (id) => {
     set((state) => {
-      const nextProfiles = state.profiles.filter((profile) => profile.id !== id);
+      const nextProfiles = state.profiles.filter(
+        (profile) => profile.id !== id
+      );
 
       if (nextProfiles.length === state.profiles.length) {
         // no change
@@ -317,7 +340,9 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
 
     set((state) => {
       const next = state.profiles.map((profile) =>
-        profile.id === id ? { ...profile, pin: digits, updatedAt: Date.now() } : profile
+        profile.id === id
+          ? { ...profile, pin: digits, updatedAt: Date.now() }
+          : profile
       );
 
       save(PROFILES_KEY, next);
@@ -328,7 +353,9 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
   clearPin: (id) => {
     set((state) => {
       const next = state.profiles.map((profile) =>
-        profile.id === id ? { ...profile, pin: undefined, updatedAt: Date.now() } : profile
+        profile.id === id
+          ? { ...profile, pin: undefined, updatedAt: Date.now() }
+          : profile
       );
 
       save(PROFILES_KEY, next);
@@ -338,7 +365,9 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
 
   hasPin: (id) => {
     const { profiles } = get();
-    return profiles.some((profile) => profile.id === id && typeof profile.pin === 'string');
+    return profiles.some(
+      (profile) => profile.id === id && typeof profile.pin === 'string'
+    );
   },
 
   verifyPin: (id, pin) => {

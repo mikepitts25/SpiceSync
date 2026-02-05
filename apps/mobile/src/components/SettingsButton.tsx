@@ -8,7 +8,10 @@ export default function SettingsButton() {
   const router = useRouter();
 
   return (
-    <View pointerEvents="box-none" style={[styles.wrapper, { top: insets.top + 8 }]}>
+    <View
+      pointerEvents="box-none"
+      style={[styles.wrapper, { top: insets.top + 8 }]}
+    >
       <Pressable
         onPress={() => router.navigate('/settings')}
         accessibilityRole="button"

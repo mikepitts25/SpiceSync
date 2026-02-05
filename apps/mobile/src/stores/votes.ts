@@ -26,8 +26,14 @@ type VotesState = {
   clearProfile: (profileId: string) => void;
   getVote: (profileId: string, kinkId: string) => VoteValue | undefined;
   getProfileVotes: (profileId: string) => Record<string, VoteValue>;
-  getMutuals: (aId: string | undefined | null, bId: string | undefined | null) => MutualBuckets;
-  getBuckets: (aId: string | undefined | null, bId: string | undefined | null) => VoteBuckets;
+  getMutuals: (
+    aId: string | undefined | null,
+    bId: string | undefined | null
+  ) => MutualBuckets;
+  getBuckets: (
+    aId: string | undefined | null,
+    bId: string | undefined | null
+  ) => VoteBuckets;
   hasVoted: (profileId: string, kinkId: string) => boolean;
   clearVotesForKinks: (profileId: string, kinkIds: string[]) => void;
 };
@@ -50,7 +56,9 @@ const EMPTY_BUCKETS_FULL: VoteBuckets = {
   partialYes: [],
 };
 
-const normalizeKey = (value: string | number | null | undefined): string | null => {
+const normalizeKey = (
+  value: string | number | null | undefined
+): string | null => {
   if (value === null || value === undefined) return null;
   const str = String(value).trim();
   return str.length ? str : null;
@@ -60,7 +68,9 @@ const normalizeVotesByProfile = (persisted: unknown): VotesByProfile => {
   const output: VotesByProfile = {};
   if (!persisted || typeof persisted !== 'object') return output;
 
-  for (const [profileKey, votes] of Object.entries(persisted as Record<string, unknown>)) {
+  for (const [profileKey, votes] of Object.entries(
+    persisted as Record<string, unknown>
+  )) {
     const normalizedProfileKey = normalizeKey(profileKey);
     if (!normalizedProfileKey) continue;
 
@@ -69,7 +79,9 @@ const normalizeVotesByProfile = (persisted: unknown): VotesByProfile => {
     }
 
     const nextVotes: Record<string, VoteValue> = {};
-    for (const [kinkKey, rawValue] of Object.entries(votes as Record<string, unknown>)) {
+    for (const [kinkKey, rawValue] of Object.entries(
+      votes as Record<string, unknown>
+    )) {
       const normalizedKinkKey = normalizeKey(kinkKey);
       if (!normalizedKinkKey) continue;
 
@@ -103,13 +115,17 @@ const migrateLegacyVotes = (persisted: PersistedVotes): VotesByProfile => {
 
   if (persisted.byUser && typeof persisted.byUser === 'object') {
     const mapped: Record<string, Record<string, VoteValue>> = {};
-    for (const [profileKey, votes] of Object.entries(persisted.byUser as Record<string, unknown>)) {
+    for (const [profileKey, votes] of Object.entries(
+      persisted.byUser as Record<string, unknown>
+    )) {
       if (!votes || typeof votes !== 'object') continue;
       const normalizedProfileKey = normalizeKey(profileKey);
       if (!normalizedProfileKey) continue;
 
       const nextVotes: Record<string, VoteValue> = {};
-      for (const [kinkKey, voteRecord] of Object.entries(votes as Record<string, any>)) {
+      for (const [kinkKey, voteRecord] of Object.entries(
+        votes as Record<string, any>
+      )) {
         const normalizedKinkKey = normalizeKey(kinkKey);
         if (!normalizedKinkKey) continue;
 
@@ -318,7 +334,11 @@ export const useVotesStore = create<VotesState>()(
 
       clearVotesForKinks: (profileId, kinkIds) => {
         const normalizedProfile = normalizeKey(profileId);
-        if (!normalizedProfile || !Array.isArray(kinkIds) || kinkIds.length === 0) {
+        if (
+          !normalizedProfile ||
+          !Array.isArray(kinkIds) ||
+          kinkIds.length === 0
+        ) {
           return;
         }
 
@@ -329,7 +349,9 @@ export const useVotesStore = create<VotesState>()(
           }
 
           let changed = false;
-          const nextProfileVotes: Record<string, VoteValue> = { ...currentVotes };
+          const nextProfileVotes: Record<string, VoteValue> = {
+            ...currentVotes,
+          };
           for (const kinkId of kinkIds) {
             const key = normalizeKey(kinkId);
             if (!key) continue;
@@ -359,7 +381,9 @@ export const useVotesStore = create<VotesState>()(
       storage: createJSONStorage(() => mmkvStorage),
       version: 3,
       migrate: (persistedState: unknown, _version: number) => {
-        const legacy = migrateLegacyVotes((persistedState as PersistedVotes | undefined) || {});
+        const legacy = migrateLegacyVotes(
+          (persistedState as PersistedVotes | undefined) || {}
+        );
         return {
           votesByProfile: normalizeRuntimeVotes(legacy),
         };

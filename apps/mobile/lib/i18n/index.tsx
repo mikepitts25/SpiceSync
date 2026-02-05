@@ -13,4 +13,4 @@ i18n.use(initReactI18next).init({
 });
 
 export const I18nProvider = ({ children }: any) => <>{children}</>;
-export const useT = () => (k:string)=> i18n.t(k);
+export const useT = () => (k: string) => i18n.t(k);

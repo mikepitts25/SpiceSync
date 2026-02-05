@@ -1,5 +1,18 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import {
+  Alert,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
@@ -10,7 +23,11 @@ import MatchRow from '../../components/MatchRow';
 import MatchesDebug from '../../components/MatchesDebug';
 import { useProfilesStore } from '../../src/stores/profiles';
 import type { Profile } from '../../src/stores/profiles';
-import { useVotesStore, type VoteBuckets, type VoteValue } from '../../src/stores/votes';
+import {
+  useVotesStore,
+  type VoteBuckets,
+  type VoteValue,
+} from '../../src/stores/votes';
 import { useSettings } from '../../lib/state/useStore';
 import { useKinks } from '../../lib/data';
 import { usePrivacyGate } from '../../src/stores/privacyGate';
@@ -60,11 +77,15 @@ export default function MatchesScreen() {
   );
 
   const [partnerPickerOpen, setPartnerPickerOpen] = useState(false);
-  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(
+    null
+  );
   const [selectedTab, setSelectedTab] = useState<TabKey>('mutualYes');
   const [pinModalVisible, setPinModalVisible] = useState(false);
   const [pinModalProfiles, setPinModalProfiles] = useState<Profile[]>([]);
-  const [pendingReveal, setPendingReveal] = useState<'partial' | 'unlock' | null>(null);
+  const [pendingReveal, setPendingReveal] = useState<
+    'partial' | 'unlock' | null
+  >(null);
   const previousPartnerId = useRef<string | null>(null);
 
   const partners = useMemo(() => {
@@ -83,7 +104,10 @@ export default function MatchesScreen() {
       setPartnerPickerOpen(false);
       return;
     }
-    if (!selectedPartnerId || !partners.some((p) => p.id === selectedPartnerId)) {
+    if (
+      !selectedPartnerId ||
+      !partners.some((p) => p.id === selectedPartnerId)
+    ) {
       setSelectedPartnerId(partners[0].id);
     }
   }, [partners, selectedPartnerId]);
@@ -91,7 +115,11 @@ export default function MatchesScreen() {
   const partnerProfile = useMemo<Profile | null>(() => {
     if (!partners.length) return null;
     if (!selectedPartnerId) return partners[0] ?? null;
-    return partners.find((profile) => profile.id === selectedPartnerId) ?? partners[0] ?? null;
+    return (
+      partners.find((profile) => profile.id === selectedPartnerId) ??
+      partners[0] ??
+      null
+    );
   }, [partners, selectedPartnerId]);
 
   const partnerId = partnerProfile?.id ?? null;
@@ -101,12 +129,22 @@ export default function MatchesScreen() {
 
   const [activeVotes, partnerVotes] = useVotesStore(
     useShallow((state) => [
-      activeKey ? state.votesByProfile[activeKey] ?? EMPTY_PROFILE_VOTES : EMPTY_PROFILE_VOTES,
-      partnerKey ? state.votesByProfile[partnerKey] ?? EMPTY_PROFILE_VOTES : EMPTY_PROFILE_VOTES,
+      activeKey
+        ? (state.votesByProfile[activeKey] ?? EMPTY_PROFILE_VOTES)
+        : EMPTY_PROFILE_VOTES,
+      partnerKey
+        ? (state.votesByProfile[partnerKey] ?? EMPTY_PROFILE_VOTES)
+        : EMPTY_PROFILE_VOTES,
     ])
   );
 
-  const { verified, isExpired, verify: verifyProfile, clear, closeForPair } = usePrivacyGate(
+  const {
+    verified,
+    isExpired,
+    verify: verifyProfile,
+    clear,
+    closeForPair,
+  } = usePrivacyGate(
     useShallow((state) => ({
       verified: state.verified,
       isExpired: state.isExpired,
@@ -197,7 +235,10 @@ export default function MatchesScreen() {
         return;
       }
 
-      if ((aVote === 'yes' && bVote === 'maybe') || (aVote === 'maybe' && bVote === 'yes')) {
+      if (
+        (aVote === 'yes' && bVote === 'maybe') ||
+        (aVote === 'maybe' && bVote === 'yes')
+      ) {
         partialYes.push(kinkId);
       }
     });
@@ -221,7 +262,10 @@ export default function MatchesScreen() {
         const item = kinksById[id];
         const category = item?.category ?? 'Other';
         const tier = item?.tier ? item.tier.toUpperCase() : null;
-        const subtitle = tier && category ? `${category} • ${tier}` : tier ?? category ?? null;
+        const subtitle =
+          tier && category
+            ? `${category} • ${tier}`
+            : (tier ?? category ?? null);
         return {
           id: item?.id ?? id,
           title: item?.title ?? id,
@@ -275,7 +319,13 @@ export default function MatchesScreen() {
     }
 
     return options;
-  }, [gateOpen, rawBuckets.partialYes.length, visibleBuckets.mutualMaybe.length, visibleBuckets.mutualNo.length, visibleBuckets.mutualYes.length]);
+  }, [
+    gateOpen,
+    rawBuckets.partialYes.length,
+    visibleBuckets.mutualMaybe.length,
+    visibleBuckets.mutualNo.length,
+    visibleBuckets.mutualYes.length,
+  ]);
 
   const rows: MatchRowItem[] = useMemo(() => {
     switch (selectedTab) {
@@ -314,7 +364,9 @@ export default function MatchesScreen() {
   const openPinModal = useCallback(
     (mode: 'partial' | 'unlock') => {
       if (!verificationQueue.length) return;
-      const missingPinProfile = verificationQueue.find((profile) => !profile.pin);
+      const missingPinProfile = verificationQueue.find(
+        (profile) => !profile.pin
+      );
       if (missingPinProfile) {
         const name = missingPinProfile.displayName ?? missingPinProfile.name;
         Alert.alert(
@@ -404,7 +456,9 @@ export default function MatchesScreen() {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>No profiles yet</Text>
-        <Text style={styles.p}>Create a profile to start swiping and build matches.</Text>
+        <Text style={styles.p}>
+          Create a profile to start swiping and build matches.
+        </Text>
         <SettingsButton />
       </SafeAreaView>
     );
@@ -414,7 +468,9 @@ export default function MatchesScreen() {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>Need two profiles</Text>
-        <Text style={styles.p}>Create another profile in Settings → Profiles to compare matches.</Text>
+        <Text style={styles.p}>
+          Create another profile in Settings → Profiles to compare matches.
+        </Text>
         <SettingsButton />
       </SafeAreaView>
     );
@@ -430,7 +486,9 @@ export default function MatchesScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Matches</Text>
         <Text style={styles.subtitle}>
-          {activeProfile.emoji} {activeProfile.displayName ?? activeProfile.name} • {partnerProfile.emoji}{' '}
+          {activeProfile.emoji}{' '}
+          {activeProfile.displayName ?? activeProfile.name} •{' '}
+          {partnerProfile.emoji}{' '}
           {partnerProfile.displayName ?? partnerProfile.name}
         </Text>
       </View>
@@ -444,7 +502,8 @@ export default function MatchesScreen() {
             onPress={handlePartnerToggle}
           >
             <Text style={styles.partnerButtonLabel}>
-              Viewing with {partnerProfile.emoji} {partnerProfile.displayName ?? partnerProfile.name}
+              Viewing with {partnerProfile.emoji}{' '}
+              {partnerProfile.displayName ?? partnerProfile.name}
             </Text>
           </Pressable>
           {partnerPickerOpen ? (
@@ -454,7 +513,8 @@ export default function MatchesScreen() {
                   key={option.id}
                   style={[
                     styles.partnerOption,
-                    option.id === partnerProfile.id && styles.partnerOptionActive,
+                    option.id === partnerProfile.id &&
+                      styles.partnerOptionActive,
                   ]}
                   onPress={() => handlePartnerSelect(option.id)}
                   accessibilityRole="button"
@@ -462,7 +522,8 @@ export default function MatchesScreen() {
                   <Text
                     style={[
                       styles.partnerOptionLabel,
-                      option.id === partnerProfile.id && styles.partnerOptionLabelActive,
+                      option.id === partnerProfile.id &&
+                        styles.partnerOptionLabelActive,
                     ]}
                   >
                     {option.label}
@@ -478,14 +539,26 @@ export default function MatchesScreen() {
         {tabOptions.map((option) => (
           <Pressable
             key={option.key}
-            style={[styles.tabButton, selectedTab === option.key && styles.tabButtonActive]}
+            style={[
+              styles.tabButton,
+              selectedTab === option.key && styles.tabButtonActive,
+            ]}
             accessibilityRole="button"
             accessibilityState={{ selected: selectedTab === option.key }}
             onPress={() => handleTabPress(option)}
           >
-            <Text style={[styles.tabLabel, selectedTab === option.key && styles.tabLabelActive]}>
+            <Text
+              style={[
+                styles.tabLabel,
+                selectedTab === option.key && styles.tabLabelActive,
+              ]}
+            >
               {option.label}
-              {typeof option.count === 'number' ? ` (${option.count})` : option.locked ? ' 🔒' : ''}
+              {typeof option.count === 'number'
+                ? ` (${option.count})`
+                : option.locked
+                  ? ' 🔒'
+                  : ''}
             </Text>
           </Pressable>
         ))}
@@ -496,7 +569,8 @@ export default function MatchesScreen() {
           <View style={{ gap: 8 }}>
             <Text style={styles.sensitiveTitle}>Partial Yes unlocked</Text>
             <Text style={styles.sensitiveCopy}>
-              They will lock again after inactivity or when you choose to hide them.
+              They will lock again after inactivity or when you choose to hide
+              them.
             </Text>
             <Pressable
               style={styles.lockButton}
@@ -510,7 +584,8 @@ export default function MatchesScreen() {
           <View style={{ gap: 8 }}>
             <Text style={styles.sensitiveTitle}>Partial Yes locked</Text>
             <Text style={styles.sensitiveCopy}>
-              Unlock to reveal "Yes + Maybe" matches. Both profiles must enter their PIN.
+              Unlock to reveal "Yes + Maybe" matches. Both profiles must enter
+              their PIN.
             </Text>
             <Pressable
               style={styles.unlockButton}
@@ -543,14 +618,22 @@ export default function MatchesScreen() {
           />
         ) : (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>No {tabOptions.find((tab) => tab.key === selectedTab)?.label.toLowerCase()} yet</Text>
+            <Text style={styles.emptyTitle}>
+              No{' '}
+              {tabOptions
+                .find((tab) => tab.key === selectedTab)
+                ?.label.toLowerCase()}{' '}
+              yet
+            </Text>
             <Text style={styles.emptyCopy}>Keep swiping to uncover more.</Text>
           </View>
         )
       ) : (
         <View style={styles.emptyState}>
           <Text style={styles.emptyTitle}>No matches yet</Text>
-          <Text style={styles.emptyCopy}>Keep swiping together—only shared interest shows up here.</Text>
+          <Text style={styles.emptyCopy}>
+            Keep swiping together—only shared interest shows up here.
+          </Text>
         </View>
       )}
 

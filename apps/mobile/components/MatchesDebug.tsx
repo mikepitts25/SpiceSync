@@ -24,18 +24,21 @@ const MatchesDebug: React.FC<Props> = ({
     return null;
   }
 
-  const countKeys = (map: Record<string, unknown>) => Object.keys(map ?? {}).length;
+  const countKeys = (map: Record<string, unknown>) =>
+    Object.keys(map ?? {}).length;
 
   return (
     <View style={styles.wrap} pointerEvents="none">
       <Text style={styles.text}>
-        A: {activeId ?? '—'} | B: {partnerId ?? '—'} | gateOpen: {String(gateOpen)}
+        A: {activeId ?? '—'} | B: {partnerId ?? '—'} | gateOpen:{' '}
+        {String(gateOpen)}
       </Text>
       <Text style={styles.text}>
         aVotes: {countKeys(aVotes)} | bVotes: {countKeys(bVotes)}
       </Text>
       <Text style={styles.text}>
-        MY:{buckets.mutualYes.length} MN:{buckets.mutualNo.length} MM:{buckets.mutualMaybe.length} PY:{buckets.partialYes.length}
+        MY:{buckets.mutualYes.length} MN:{buckets.mutualNo.length} MM:
+        {buckets.mutualMaybe.length} PY:{buckets.partialYes.length}
       </Text>
     </View>
   );

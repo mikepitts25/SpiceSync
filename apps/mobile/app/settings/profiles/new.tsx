@@ -64,7 +64,9 @@ export default function NewProfileScreen() {
   };
 
   const pinActive = requiresPin || pinEnabled;
-  const pinValid = !pinActive || (pin.length === PIN_LENGTH && confirmPin === pin && !pinError);
+  const pinValid =
+    !pinActive ||
+    (pin.length === PIN_LENGTH && confirmPin === pin && !pinError);
   const nameValid = name.trim().length > 0;
   const canSubmit = nameValid && pinValid && !isSaving;
 
@@ -108,7 +110,8 @@ export default function NewProfileScreen() {
       router.back();
     } catch (error) {
       console.error('create profile failed', error);
-      const message = error instanceof Error ? error.message : 'Please try again.';
+      const message =
+        error instanceof Error ? error.message : 'Please try again.';
       Alert.alert('Could not create profile', message);
     } finally {
       setIsSaving(false);
@@ -121,7 +124,10 @@ export default function NewProfileScreen() {
       style={styles.flex}
     >
       <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+        >
           <Text style={styles.title}>New Profile</Text>
 
           <View style={styles.section}>
@@ -191,16 +197,23 @@ export default function NewProfileScreen() {
                   placeholder="••••"
                   placeholderTextColor="#475569"
                 />
-                <Text style={styles.hint}>Digits only. You’ll need this PIN to switch profiles.</Text>
+                <Text style={styles.hint}>
+                  Digits only. You’ll need this PIN to switch profiles.
+                </Text>
                 {pinError ? <Text style={styles.error}>{pinError}</Text> : null}
               </View>
             ) : (
-              <Text style={styles.hint}>You can keep this profile open or secure it with a PIN.</Text>
+              <Text style={styles.hint}>
+                You can keep this profile open or secure it with a PIN.
+              </Text>
             )}
           </View>
 
           <Pressable
-            style={[styles.primaryButton, (!canSubmit || isSaving) && styles.primaryDisabled]}
+            style={[
+              styles.primaryButton,
+              (!canSubmit || isSaving) && styles.primaryDisabled,
+            ]}
             onPress={handleSave}
             disabled={!canSubmit}
             accessibilityRole="button"

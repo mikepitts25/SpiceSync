@@ -20,7 +20,12 @@ type EmojiMenuProps = {
 
 const columns = 3;
 
-export default function EmojiMenu({ visible, selected, onSelect, onClose }: EmojiMenuProps) {
+export default function EmojiMenu({
+  visible,
+  selected,
+  onSelect,
+  onClose,
+}: EmojiMenuProps) {
   return (
     <Modal
       visible={visible}
@@ -44,7 +49,10 @@ export default function EmojiMenu({ visible, selected, onSelect, onClose }: Emoj
                   accessibilityRole="button"
                   accessibilityLabel={`Emoji ${item}`}
                   onPress={() => onSelect(item)}
-                  style={[styles.emojiButton, isSelected && styles.emojiSelected]}
+                  style={[
+                    styles.emojiButton,
+                    isSelected && styles.emojiSelected,
+                  ]}
                 >
                   <Text style={styles.emoji}>{item}</Text>
                 </Pressable>

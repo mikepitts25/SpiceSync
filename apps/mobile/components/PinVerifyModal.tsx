@@ -21,7 +21,13 @@ type PinVerifyModalProps = {
   onVerifyProfile: (profile: Profile, pin: string) => VerifyResult;
 };
 
-export default function PinVerifyModal({ open, profiles, onClose, onSuccess, onVerifyProfile }: PinVerifyModalProps) {
+export default function PinVerifyModal({
+  open,
+  profiles,
+  onClose,
+  onSuccess,
+  onVerifyProfile,
+}: PinVerifyModalProps) {
   const [step, setStep] = useState(0);
   const [pin, setPin] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +40,10 @@ export default function PinVerifyModal({ open, profiles, onClose, onSuccess, onV
     }
   }, [open, profiles]);
 
-  const currentProfile = useMemo(() => profiles[step] ?? null, [profiles, step]);
+  const currentProfile = useMemo(
+    () => profiles[step] ?? null,
+    [profiles, step]
+  );
 
   const handleChange = (value: string) => {
     setPin(value.replace(/\D/g, '').slice(0, 4));
@@ -71,7 +80,12 @@ export default function PinVerifyModal({ open, profiles, onClose, onSuccess, onV
   };
 
   return (
-    <Modal visible={open} animationType="fade" transparent onRequestClose={onClose}>
+    <Modal
+      visible={open}
+      animationType="fade"
+      transparent
+      onRequestClose={onClose}
+    >
       <View style={styles.modalBackdrop}>
         <KeyboardAvoidingView
           style={styles.modalContainer}
@@ -82,7 +96,8 @@ export default function PinVerifyModal({ open, profiles, onClose, onSuccess, onV
             {currentProfile ? (
               <>
                 <Text style={styles.modalSubtitle}>
-                  Enter the PIN for {currentProfile.displayName ?? currentProfile.name}
+                  Enter the PIN for{' '}
+                  {currentProfile.displayName ?? currentProfile.name}
                 </Text>
                 <TextInput
                   value={pin}
@@ -148,7 +163,12 @@ const styles = StyleSheet.create({
     borderColor: '#1f2937',
     gap: 14,
   },
-  modalTitle: { color: 'white', fontWeight: '900', fontSize: 20, textAlign: 'center' },
+  modalTitle: {
+    color: 'white',
+    fontWeight: '900',
+    fontSize: 20,
+    textAlign: 'center',
+  },
   modalSubtitle: { color: '#94a3b8', textAlign: 'center' },
   pinInput: {
     backgroundColor: '#111827',
@@ -163,7 +183,11 @@ const styles = StyleSheet.create({
     borderColor: '#1f2937',
   },
   pinError: { color: '#f87171', textAlign: 'center', fontWeight: '600' },
-  modalActions: { flexDirection: 'row', justifyContent: 'space-between', gap: 10 },
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
   modalButton: {
     flex: 1,
     paddingVertical: 12,
