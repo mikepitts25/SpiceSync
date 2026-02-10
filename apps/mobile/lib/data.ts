@@ -66,8 +66,8 @@ function baseSlug(s: string) {
   return s.replace(STEP_IN_SLUG, '').trim();
 }
 
-function collapseSequences(items: any[]): any[] {
-  const map = new Map<string, any>();
+function collapseSequences(items: KinkItem[]): KinkItem[] {
+  const map = new Map<string, KinkItem>();
   for (const it of items) {
     const key = (
       it.slug ? baseSlug(it.slug) : baseTitle(it.title || '')
@@ -95,7 +95,7 @@ function collapseSequences(items: any[]): any[] {
   return Array.from(map.values());
 }
 
-function defaultTier(k: any): Tier {
+function defaultTier(k: KinkItem): Tier {
   if (k.tier) return k.tier as Tier;
 
   const intensity = Number(k.intensityScale ?? 1);
