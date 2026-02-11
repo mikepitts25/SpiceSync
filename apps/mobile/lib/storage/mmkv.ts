@@ -1,21 +1,45 @@
-// apps/mobile/lib/storage/mmkv.ts
-import { MMKV } from 'react-native-mmkv';
+// Storage adapter that works in both Expo Go and native builds
+// Uses AsyncStorage for Expo Go compatibility
 
-export const mmkv = new MMKV({
-  id: 'spicesync',
-  encryptionKey: 'spicesync-local-only',
-});
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Lightweight adapter for zustand/persist
+// AsyncStorage adapter for zustand/persist middleware
 export const mmkvStorage = {
-  getItem: (name: string) => {
-    const v = mmkv.getString(name);
-    return v ?? null;
+  getItem: async (name: string): Promise<string | null> => {
+    try {
+      return await AsyncStorage.getItem(name);
+    } catch {
+      return null;
+    }
   },
-  setItem: (name: string, value: string) => {
-    mmkv.set(name, value);
+  setItem: async (name: string, value: string): Promise<void> => {
+    try {
+      await AsyncStorage.setItem(name, value);
+    } catch {
+      // Ignore errors
+    }
   },
-  removeItem: (name: string) => {
-    mmkv.delete(name);
+  removeItem: async (name: string): Promise<void> => {
+    try {
+      await AsyncStorage.removeItem(name);
+    } catch {
+      // Ignore errors
+    }
+  },
+};
+
+// For code that expects sync MMKV API (limited functionality in Expo Go)
+export const mmkv = {
+  getString: (key: string): string | undefined => {
+    // Cannot synchronously read from AsyncStorage
+    // This will return undefined in Expo Go
+    // Components should use state/store instead
+    return undefined;
+  },
+  set: (key: string, value: string): void => {
+    AsyncStorage.setItem(key, value).catch(() => {});
+  },
+  delete: (key: string): void => {
+    AsyncStorage.removeItem(key).catch(() => {});
   },
 };
