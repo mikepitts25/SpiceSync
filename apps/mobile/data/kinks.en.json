@@ -4,7 +4,9 @@
     "slug": "aftercare-bath",
     "title": "Aftercare: warm bath",
     "description": "Warm soak with gentle conversation to unwind together.",
-    "tags": ["aftercare"],
+    "tags": [
+      "aftercare"
+    ],
     "category": "aftercare",
     "intensityScale": 1,
     "aliases": [],
@@ -16,7 +18,10 @@
     "slug": "anal-play-advanced",
     "title": "Backdoor play (advanced)",
     "description": "Advanced exploration with more fingers, fist, bigger toys, etc.) for experienced partners; go slow and prioritize comfort.",
-    "tags": ["prep", "comfort"],
+    "tags": [
+      "prep",
+      "comfort"
+    ],
     "category": "props_and_toys",
     "intensityScale": 3,
     "aliases": [],
@@ -28,10 +33,15 @@
     "slug": "anal-play-beginner",
     "title": "Backdoor play (beginner)",
     "description": "Beginner-friendly exploration with finger or small object (like small butt plug).",
-    "tags": ["prep", "comfort"],
+    "tags": [
+      "prep",
+      "comfort"
+    ],
     "category": "props_and_toys",
     "intensityScale": 2,
-    "aliases": ["anal beginner"],
+    "aliases": [
+      "anal beginner"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -40,7 +50,10 @@
     "slug": "anal-training-set",
     "title": "Anal training set",
     "description": "Progressive sizes with the goal of stretching; ample lube, slow pacing, and communication.",
-    "tags": ["toys", "training"],
+    "tags": [
+      "toys",
+      "training"
+    ],
     "category": "props_and_toys",
     "intensityScale": 3,
     "aliases": [],
@@ -52,7 +65,11 @@
     "slug": "aroma",
     "title": "Room scent",
     "description": "Light, clean scent via diffuser or candle (non-irritating).",
-    "tags": ["mood", "lighting", "music"],
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -64,7 +81,9 @@
     "slug": "audio-erotica-listen",
     "title": "Listen to audio erotica",
     "description": "Narrative audio chosen together; pause if anything feels off.",
-    "tags": ["media"],
+    "tags": [
+      "media"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -76,7 +95,9 @@
     "slug": "blindfold-deep",
     "title": "Deeper sensory deprivation",
     "description": "Layered blindfold/earplugs to emphasize other senses; constant consent.",
-    "tags": ["sensory"],
+    "tags": [
+      "sensory"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -88,7 +109,11 @@
     "slug": "blindfold-soft",
     "title": "Soft blindfold",
     "description": "Light sensory play by gently covering eyes to heighten other senses.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -100,7 +125,10 @@
     "slug": "body-worship",
     "title": "Body worship",
     "description": "Focused attention on admired body areas (e.g., chest, legs) with praise and consent.",
-    "tags": ["aesthetic", "praise"],
+    "tags": [
+      "aesthetic",
+      "praise"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -112,7 +140,11 @@
     "slug": "bookstore-meet",
     "title": "Bookstore meet-cute",
     "description": "Pretend to meet while browsing favorite books.",
-    "tags": ["costume-optional", "improv", "consent-talk"],
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -124,7 +156,10 @@
     "slug": "boss-employee",
     "title": "Boss/employee roleplay",
     "description": "Fictional workplace dynamic with explicit consent and pause signals.",
-    "tags": ["roleplay", "power-exchange"],
+    "tags": [
+      "roleplay",
+      "power-exchange"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -136,7 +171,11 @@
     "slug": "bubble-bath",
     "title": "Bubble bath unwind",
     "description": "A warm bath with bubbles and calm conversation.",
-    "tags": ["mood", "lighting", "music"],
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -148,7 +187,11 @@
     "slug": "candlelight",
     "title": "Candlelight ambience",
     "description": "Setting warm lighting and calming scents to shape a relaxing mood.",
-    "tags": ["mood", "lighting", "music"],
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -160,7 +203,10 @@
     "slug": "card-prompts",
     "title": "Card prompts",
     "description": "Shuffle neutral prompt cards about comfort and mood.",
-    "tags": ["fun", "playful"],
+    "tags": [
+      "fun",
+      "playful"
+    ],
     "category": "games_and_challenges",
     "intensityScale": 1,
     "aliases": [],
@@ -172,7 +218,10 @@
     "slug": "chastity-keyholder",
     "title": "Chastity keyholder dynamic",
     "description": "One partner holds the key to the other's chastity device and decides when they will be set free or allowed to orgasm.",
-    "tags": ["control", "ritual"],
+    "tags": [
+      "control",
+      "ritual"
+    ],
     "category": "communication",
     "intensityScale": 2,
     "aliases": [],
@@ -184,10 +233,15 @@
     "slug": "chastity-play-shortterm",
     "title": "Chastity play (short duration)",
     "description": "Agree to be locked away in a chastity device for a short duration to control/deny orgasm.",
-    "tags": ["control", "timing"],
+    "tags": [
+      "control",
+      "timing"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
-    "aliases": ["chastity"],
+    "aliases": [
+      "chastity"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -196,7 +250,11 @@
     "slug": "check-in",
     "title": "Check-in ritual",
     "description": "A brief pre- and post-activity talk about boundaries and comfort.",
-    "tags": ["check-in", "boundaries", "safe-word"],
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -208,7 +266,11 @@
     "slug": "chef-apron",
     "title": "Chef apron scene",
     "description": "Cooking together with playful apron vibes and compliments.",
-    "tags": ["costume-optional", "improv", "consent-talk"],
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -220,7 +282,11 @@
     "slug": "chocolate-tasting",
     "title": "Chocolate tasting",
     "description": "Sampling small pieces of chocolate and discussing flavors.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -232,7 +298,9 @@
     "slug": "cnm-dates-separate",
     "title": "Consensual non-monogamy: separate dates",
     "description": "Exploring separate dates by agreement; debrief and aftercare afterward.",
-    "tags": ["cnm"],
+    "tags": [
+      "cnm"
+    ],
     "category": "group",
     "intensityScale": 2,
     "aliases": [],
@@ -244,7 +312,10 @@
     "slug": "cnm-same-room",
     "title": "Consensual Non-Monogamy (same room)",
     "description": "Being in the same room during your partner's sexual encounter with another, but not actively participating.",
-    "tags": ["cnm", "voyeur"],
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
     "category": "group",
     "intensityScale": 3,
     "aliases": [],
@@ -256,7 +327,11 @@
     "slug": "coffee-date",
     "title": "Coffee date at home",
     "description": "Pretend café with compliments and playful banter.",
-    "tags": ["costume-optional", "improv", "consent-talk"],
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -268,7 +343,10 @@
     "slug": "coin-flip-choose",
     "title": "Coin flip chooser",
     "description": "Flip a coin to pick a gentle idea from a safe list.",
-    "tags": ["fun", "playful"],
+    "tags": [
+      "fun",
+      "playful"
+    ],
     "category": "games_and_challenges",
     "intensityScale": 1,
     "aliases": [],
@@ -280,7 +358,10 @@
     "slug": "collar-symbol",
     "title": "Collar Wearing",
     "description": "A collar worn as a submissive symbol.",
-    "tags": ["symbol", "roles"],
+    "tags": [
+      "symbol",
+      "roles"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
@@ -292,7 +373,11 @@
     "slug": "compliments",
     "title": "Compliment exchange",
     "description": "Taking turns sharing affirming words.",
-    "tags": ["check-in", "boundaries", "safe-word"],
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -304,10 +389,15 @@
     "slug": "consensual-consequences-game",
     "title": "Consensual consequences (game)",
     "description": "Playful, pre-agreed consequences for missed tasks (e.g., extra chores, timed tease).",
-    "tags": ["game", "planning"],
+    "tags": [
+      "game",
+      "planning"
+    ],
     "category": "communication",
     "intensityScale": 2,
-    "aliases": ["task stakes"],
+    "aliases": [
+      "task stakes"
+    ],
     "createdBy": "system",
     "tier": "soft"
   },
@@ -316,7 +406,10 @@
     "slug": "degradation",
     "title": "Degradation",
     "description": "Spicy put-downs during sex; confirm words and aftercare.",
-    "tags": ["language", "roles"],
+    "tags": [
+      "language",
+      "roles"
+    ],
     "category": "communication",
     "intensityScale": 2,
     "aliases": [],
@@ -328,7 +421,11 @@
     "slug": "cool-breeze-fan",
     "title": "Hand fan breeze",
     "description": "A soft breeze with a handheld fan to create calming sensations.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -340,7 +437,10 @@
     "slug": "cosplay-var-1",
     "title": "Sexy cosplay (adults) #1",
     "description": "Sexy or revealing costume (or lingerie); one or more partners dress up.",
-    "tags": ["costume", "roleplay"],
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -352,7 +452,10 @@
     "slug": "cosplay-var-2",
     "title": "Sexy cosplay (adults) #2",
     "description": "Sexy or revealing costume (or lingerie), but this time you choose each other's costume. (gender swap is allowed)",
-    "tags": ["costume", "roleplay"],
+    "tags": [
+      "costume",
+      "roleplay"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -364,7 +467,11 @@
     "slug": "costume-cosplay",
     "title": "Dress-up/Cosplay",
     "description": "Light, playful costumes chosen together; sexy or not.",
-    "tags": ["costume-optional", "improv", "consent-talk"],
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -376,10 +483,15 @@
     "slug": "cross-dressing",
     "title": "Cross-dressing",
     "description": "Exploring clothing and presentation traditionally linked to another gender, with support and respect.",
-    "tags": ["expression", "roleplay"],
+    "tags": [
+      "expression",
+      "roleplay"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
-    "aliases": ["gender expression play"],
+    "aliases": [
+      "gender expression play"
+    ],
     "createdBy": "system",
     "tier": "soft"
   },
@@ -388,7 +500,10 @@
     "slug": "cuckolding-consent",
     "title": "Cuckolding",
     "description": "Engage in sexual acts with another person in front of your partner (with their consent). Sometimes accompanied with humiliation or degradation.",
-    "tags": ["cnm", "voyeur"],
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
     "category": "group",
     "intensityScale": 3,
     "aliases": [],
@@ -400,7 +515,11 @@
     "slug": "cuddle-cocoon",
     "title": "Cuddle cocoon",
     "description": "Bundling up under blankets to feel safe and close.",
-    "tags": ["care", "comfort", "warmth"],
+    "tags": [
+      "care",
+      "comfort",
+      "warmth"
+    ],
     "category": "aftercare",
     "intensityScale": 1,
     "aliases": [],
@@ -412,10 +531,15 @@
     "slug": "d-s-dynamic",
     "title": "Dominance & submission",
     "description": "Agreed power exchange with clear boundaries, safe signals, and check-ins.",
-    "tags": ["power-exchange", "communication"],
+    "tags": [
+      "power-exchange",
+      "communication"
+    ],
     "category": "communication",
     "intensityScale": 2,
-    "aliases": ["D/s"],
+    "aliases": [
+      "D/s"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -424,7 +548,11 @@
     "slug": "dance-lesson",
     "title": "Dance lesson",
     "description": "One person teaches a simple dance step; switch roles.",
-    "tags": ["costume-optional", "improv", "consent-talk"],
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -436,7 +564,11 @@
     "slug": "debrief-ritual",
     "title": "Debrief ritual",
     "description": "Talk calmly about what felt good and what to adjust.",
-    "tags": ["check-in", "boundaries", "safe-word"],
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -448,7 +580,10 @@
     "slug": "chastity-play-longterm",
     "title": "Chastity play (long duration)",
     "description": "Being locked in chastity for a longer period of time to control/deny orgasm.",
-    "tags": ["control", "timing"],
+    "tags": [
+      "control",
+      "timing"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
@@ -460,7 +595,10 @@
     "slug": "dice-low-stakes",
     "title": "Low-stakes dice",
     "description": "Roll a die to pick a simple, cozy activity.",
-    "tags": ["fun", "playful"],
+    "tags": [
+      "fun",
+      "playful"
+    ],
     "category": "games_and_challenges",
     "intensityScale": 1,
     "aliases": [],
@@ -472,7 +610,9 @@
     "slug": "dirty-talk",
     "title": "Dirty talk ",
     "description": "Spicy language with any limitations agreed upon.",
-    "tags": ["language"],
+    "tags": [
+      "language"
+    ],
     "category": "communication",
     "intensityScale": 2,
     "aliases": [],
@@ -484,7 +624,10 @@
     "slug": "door-anchor-band",
     "title": "Door anchor band",
     "description": "A safe, low-tension band for gentle guidance with quick removal.",
-    "tags": ["safety-first", "quick-release"],
+    "tags": [
+      "safety-first",
+      "quick-release"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
@@ -496,10 +639,15 @@
     "slug": "double-penetration",
     "title": "Double penetration",
     "description": "Interest in DP; negotiate specifics, safety, and comfort.",
-    "tags": ["group", "toys"],
+    "tags": [
+      "group",
+      "toys"
+    ],
     "category": "group",
     "intensityScale": 3,
-    "aliases": ["DP (topic)"],
+    "aliases": [
+      "DP (topic)"
+    ],
     "createdBy": "system",
     "tier": "xxx"
   },
@@ -508,7 +656,9 @@
     "slug": "double-strap-harness",
     "title": "Double-strap harness",
     "description": "Two-strap harness configuration with hygiene prep.",
-    "tags": ["toys"],
+    "tags": [
+      "toys"
+    ],
     "category": "props_and_toys",
     "intensityScale": 3,
     "aliases": [],
@@ -520,7 +670,11 @@
     "slug": "ear-whisper",
     "title": "Ear whisper",
     "description": "Soft, kind words near the ear in a calm voice.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -532,10 +686,15 @@
     "slug": "edging",
     "title": "Edging",
     "description": "Staying near climax intentionally with planned pauses and communication.",
-    "tags": ["timing", "control"],
+    "tags": [
+      "timing",
+      "control"
+    ],
     "category": "communication",
     "intensityScale": 2,
-    "aliases": ["tease & edge"],
+    "aliases": [
+      "tease & edge"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -544,10 +703,15 @@
     "slug": "electro-tens",
     "title": "Electro-stimulation",
     "description": "Electro-stimulation for tingling sensations on safe areas only.",
-    "tags": ["electro", "safety"],
+    "tags": [
+      "electro",
+      "safety"
+    ],
     "category": "sensory",
     "intensityScale": 2,
-    "aliases": ["electro play (TENS)"],
+    "aliases": [
+      "electro play (TENS)"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -556,7 +720,10 @@
     "slug": "exhibition-legal-discreet",
     "title": "Exhibitionism",
     "description": "Being seen performing sexual acts in public, private or semi-private contexts with consent and caution.",
-    "tags": ["exhibition", "privacy"],
+    "tags": [
+      "exhibition",
+      "privacy"
+    ],
     "category": "environment",
     "intensityScale": 2,
     "aliases": [],
@@ -568,7 +735,11 @@
     "slug": "eye-contact",
     "title": "Gentle eye contact",
     "description": "Holding soft eye contact for brief moments to feel connected.",
-    "tags": ["affection", "connection", "soft"],
+    "tags": [
+      "affection",
+      "connection",
+      "soft"
+    ],
     "category": "romance",
     "intensityScale": 1,
     "aliases": [],
@@ -580,7 +751,10 @@
     "slug": "face-sitting",
     "title": "Face-sitting",
     "description": "The act of sitting on your partner's face or them sitting on yours.",
-    "tags": ["positioning", "safety"],
+    "tags": [
+      "positioning",
+      "safety"
+    ],
     "category": "environment",
     "intensityScale": 3,
     "aliases": [],
@@ -592,7 +766,9 @@
     "slug": "face-slap-light",
     "title": "Light face slaps",
     "description": "One partner slaps the other partner's face.",
-    "tags": ["impact"],
+    "tags": [
+      "impact"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -604,7 +780,11 @@
     "slug": "feather-tickle",
     "title": "Feather touch",
     "description": "Light, teasing touches with a clean feather.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -616,7 +796,10 @@
     "slug": "feminization-play",
     "title": "Feminization (expression play)",
     "description": "Consensual exploration of feminine presentation or roles.",
-    "tags": ["expression", "roleplay"],
+    "tags": [
+      "expression",
+      "roleplay"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -628,10 +811,15 @@
     "slug": "food-play-non-messy",
     "title": "Food play (non-messy, hygienic)",
     "description": "Small, safe foods with clear hygiene rules and cleanup plan.",
-    "tags": ["sensory", "taste"],
+    "tags": [
+      "sensory",
+      "taste"
+    ],
     "category": "environment",
     "intensityScale": 1,
-    "aliases": ["edible accents"],
+    "aliases": [
+      "edible accents"
+    ],
     "createdBy": "system",
     "tier": "soft"
   },
@@ -640,10 +828,15 @@
     "slug": "foot-focus",
     "title": "Foot focus",
     "description": "Attention to feet (massage, adornments) as a comfort or aesthetic focus.",
-    "tags": ["sensory", "aesthetic"],
+    "tags": [
+      "sensory",
+      "aesthetic"
+    ],
     "category": "sensory",
     "intensityScale": 1,
-    "aliases": ["foot play (non-graphic)"],
+    "aliases": [
+      "foot play (non-graphic)"
+    ],
     "createdBy": "system",
     "tier": "soft"
   },
@@ -652,7 +845,11 @@
     "slug": "fruit-tasting",
     "title": "Fruit tasting",
     "description": "Trying bite-sized fruit selections and noting textures.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -664,7 +861,10 @@
     "slug": "gag-soft",
     "title": "Soft gag",
     "description": "Breath-safe, removable gag with clear stop signals and frequent breaks.",
-    "tags": ["restraint", "signals"],
+    "tags": [
+      "restraint",
+      "signals"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
@@ -676,7 +876,11 @@
     "slug": "gallery-tour",
     "title": "Art gallery tour",
     "description": "One person is the guide describing 'exhibits' at home.",
-    "tags": ["costume-optional", "improv", "consent-talk"],
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -688,10 +892,14 @@
     "slug": "gangbang",
     "title": "Gangbang",
     "description": "Interest in multiple partners focused on one person.",
-    "tags": ["group"],
+    "tags": [
+      "group"
+    ],
     "category": "group",
     "intensityScale": 3,
-    "aliases": ["GB (topic)"],
+    "aliases": [
+      "GB (topic)"
+    ],
     "createdBy": "system",
     "tier": "xxx"
   },
@@ -700,7 +908,11 @@
     "slug": "gratitude-notes",
     "title": "Gratitude notes",
     "description": "Sharing kind words or notes about what you appreciate in each other.",
-    "tags": ["check-in", "boundaries", "safe-word"],
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -712,10 +924,15 @@
     "slug": "group-play",
     "title": "Group play (4+)",
     "description": "Consensual group encounter with four or more adults.",
-    "tags": ["cnm", "group"],
+    "tags": [
+      "cnm",
+      "group"
+    ],
     "category": "group",
     "intensityScale": 3,
-    "aliases": ["orgy"],
+    "aliases": [
+      "orgy"
+    ],
     "createdBy": "system",
     "tier": "xxx"
   },
@@ -724,7 +941,11 @@
     "slug": "guided-breathing",
     "title": "Guided breathing",
     "description": "Breathing in sync to relax, connect, and stay present together.",
-    "tags": ["check-in", "boundaries", "safe-word"],
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -736,7 +957,11 @@
     "slug": "guided-stretch",
     "title": "Guided stretching",
     "description": "Slow, mindful stretches together for comfort and body awareness.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -748,7 +973,9 @@
     "slug": "hair-pulling",
     "title": "Hair pulling",
     "description": "Guided hair pulls with hand placement and verbal signals.",
-    "tags": ["impact"],
+    "tags": [
+      "impact"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -760,7 +987,11 @@
     "slug": "hand-holding",
     "title": "Interlaced hand holding",
     "description": "Holding hands in different ways and noticing the feeling.",
-    "tags": ["affection", "connection", "soft"],
+    "tags": [
+      "affection",
+      "connection",
+      "soft"
+    ],
     "category": "romance",
     "intensityScale": 1,
     "aliases": [],
@@ -772,7 +1003,9 @@
     "slug": "hand-restraint-behind",
     "title": "Hands behind (guided)",
     "description": "Guided posture with soft restraint and quick release.",
-    "tags": ["restraint"],
+    "tags": [
+      "restraint"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
@@ -784,7 +1017,10 @@
     "slug": "heels-boots-worship",
     "title": "Heel/boot Worship",
     "description": "Worshiping footwear while being worn; massage, kissing, compliments, etc.",
-    "tags": ["aesthetic", "worship"],
+    "tags": [
+      "aesthetic",
+      "worship"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -796,10 +1032,15 @@
     "slug": "hotwife-consensual",
     "title": "Hot-wife (consensual non-monogamy)",
     "description": "One partner engages with others by agreement; the other may observe or participate.",
-    "tags": ["cnm", "voyeur"],
+    "tags": [
+      "cnm",
+      "voyeur"
+    ],
     "category": "group",
     "intensityScale": 3,
-    "aliases": ["stag-and-vixen"],
+    "aliases": [
+      "stag-and-vixen"
+    ],
     "createdBy": "system",
     "tier": "xxx"
   },
@@ -808,7 +1049,11 @@
     "slug": "ice-cube-play",
     "title": "Cool touch (ice)",
     "description": "Temperature contrast using a wrapped ice cube for a brief cool touch.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -820,7 +1065,9 @@
     "slug": "ice-hot-contrast",
     "title": "Temperature contrast (cold/heat packs)",
     "description": "Alternating safe cold/heat packs for sensation contrast with skin checks.",
-    "tags": ["temperature"],
+    "tags": [
+      "temperature"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -832,7 +1079,10 @@
     "slug": "impact-crop",
     "title": "Riding crop (stingy)",
     "description": "Targeted taps with a riding crop or whip to agreed areas with clear stop signals.",
-    "tags": ["impact", "tools"],
+    "tags": [
+      "impact",
+      "tools"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -844,7 +1094,10 @@
     "slug": "impact-hand-spanking",
     "title": "Spanking (hand)",
     "description": "Light to moderate impact with agreed areas, intensity scale, and aftercare.",
-    "tags": ["impact", "aftercare"],
+    "tags": [
+      "impact",
+      "aftercare"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -856,7 +1109,10 @@
     "slug": "impact-paddle",
     "title": "Impact with paddle (light)",
     "description": "Flat paddle used with warm-up and limits; frequent check-ins.",
-    "tags": ["impact", "tools"],
+    "tags": [
+      "impact",
+      "tools"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -868,7 +1124,10 @@
     "slug": "interrogation-lite",
     "title": "Interrogation-lite roleplay",
     "description": "Dramatic questioning with gentle restraint/props.",
-    "tags": ["roleplay", "props"],
+    "tags": [
+      "roleplay",
+      "props"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -880,7 +1139,10 @@
     "slug": "kneeling-posture",
     "title": "Posture & kneeling (consensual)",
     "description": "Agreed postures that reinforce a role, always comfortable and optional.",
-    "tags": ["roles", "ritual"],
+    "tags": [
+      "roles",
+      "ritual"
+    ],
     "category": "communication",
     "intensityScale": 2,
     "aliases": [],
@@ -892,7 +1154,10 @@
     "slug": "latex-look-var-1",
     "title": "Latex Outfit (Self)",
     "description": "Shiny latex outfit play for you",
-    "tags": ["aesthetic", "costume"],
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -904,7 +1169,10 @@
     "slug": "latex-look-var-2",
     "title": "Latex Outfit (Partner)",
     "description": "Shiny latex outfit play for your partner",
-    "tags": ["aesthetic", "costume"],
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -916,7 +1184,10 @@
     "slug": "leash-light-guidance",
     "title": "Leash Play",
     "description": "Decorative leash for gentle guidance with easy release and consent.",
-    "tags": ["aesthetic", "guidance"],
+    "tags": [
+      "aesthetic",
+      "guidance"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
@@ -928,7 +1199,10 @@
     "slug": "leather-outfit",
     "title": "Leather-look outfit ",
     "description": "Wearing a sexy leather outfit",
-    "tags": ["aesthetic", "costume"],
+    "tags": [
+      "aesthetic",
+      "costume"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -940,7 +1214,11 @@
     "slug": "lights-dim",
     "title": "Dim lights + soft glow",
     "description": "Dimming main lights; adding a soft lamp or string lights.",
-    "tags": ["mood", "lighting", "music"],
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -952,7 +1230,11 @@
     "slug": "skin-trace",
     "title": "Skin tracing",
     "description": "Drawing simple shapes with lotion or oil on the body.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -964,7 +1246,10 @@
     "slug": "maid-service-adults",
     "title": "Maid/service outfit (adults)",
     "description": "Service-themed outfit and playful etiquette.",
-    "tags": ["costume", "roles"],
+    "tags": [
+      "costume",
+      "roles"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -976,7 +1261,11 @@
     "slug": "massage-hands",
     "title": "Hand massage",
     "description": "Using oil or lotion to gently massage hands and fingers.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -988,7 +1277,11 @@
     "slug": "massage-shoulders",
     "title": "Shoulder massage",
     "description": "Loosening tension with a slow, mindful shoulder massage.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -1000,10 +1293,14 @@
     "slug": "medical-roleplay-adults",
     "title": "Medical roleplay (adults)",
     "description": "Consenting adults explore clinic-themed scenes with respectful boundaries.",
-    "tags": ["roleplay"],
+    "tags": [
+      "roleplay"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
-    "aliases": ["doctor/nurse (adults)"],
+    "aliases": [
+      "doctor/nurse (adults)"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -1012,7 +1309,10 @@
     "slug": "mirror-commands",
     "title": "Mirror with guided commands",
     "description": "Watching in a mirror while following gentle, consensual directions.",
-    "tags": ["voyeur", "roles"],
+    "tags": [
+      "voyeur",
+      "roles"
+    ],
     "category": "environment",
     "intensityScale": 2,
     "aliases": [],
@@ -1024,7 +1324,10 @@
     "slug": "mirror-play",
     "title": "Mirror play",
     "description": "Using a mirror to watch movements and reactions together.",
-    "tags": ["voyeur", "aesthetic"],
+    "tags": [
+      "voyeur",
+      "aesthetic"
+    ],
     "category": "environment",
     "intensityScale": 2,
     "aliases": [],
@@ -1036,7 +1339,11 @@
     "slug": "cocktail",
     "title": "cocktail tasting",
     "description": "Mixing and tasting alcoholic drinks together.",
-    "tags": ["mood", "lighting", "music"],
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -1048,7 +1355,9 @@
     "slug": "name-calling-preagreed",
     "title": "Name-calling (pre-agreed)",
     "description": "Labels used only if explicitly agreed; can stop anytime.",
-    "tags": ["language"],
+    "tags": [
+      "language"
+    ],
     "category": "communication",
     "intensityScale": 2,
     "aliases": [],
@@ -1060,7 +1369,10 @@
     "slug": "nipple-clamps",
     "title": "Nipple clamps",
     "description": "Stimulating the nipples through clamps.",
-    "tags": ["sensory", "tools"],
+    "tags": [
+      "sensory",
+      "tools"
+    ],
     "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
@@ -1072,7 +1384,9 @@
     "slug": "nipple-play-gentle",
     "title": "Nipple play (gentle)",
     "description": "Gentle, consensual focus on chest sensitivity with check-ins.",
-    "tags": ["sensory"],
+    "tags": [
+      "sensory"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -1084,10 +1398,15 @@
     "slug": "nipple-suction-cups",
     "title": "Nipple suction (cups)",
     "description": "Gentle suction with cups.",
-    "tags": ["sensory", "tools"],
+    "tags": [
+      "sensory",
+      "tools"
+    ],
     "category": "sensory",
     "intensityScale": 2,
-    "aliases": ["nipple pumps"],
+    "aliases": [
+      "nipple pumps"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -1096,10 +1415,15 @@
     "slug": "obedience-training-affirming",
     "title": "Obedience training",
     "description": "Following agreed cues and tasks that reinforce roles.",
-    "tags": ["roles", "ritual"],
+    "tags": [
+      "roles",
+      "ritual"
+    ],
     "category": "communication",
     "intensityScale": 2,
-    "aliases": ["cue training"],
+    "aliases": [
+      "cue training"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -1108,7 +1432,10 @@
     "slug": "orgasm-denial",
     "title": "Orgasm denial",
     "description": "One partner denies orgasm to the other.",
-    "tags": ["control", "timing"],
+    "tags": [
+      "control",
+      "timing"
+    ],
     "category": "communication",
     "intensityScale": 3,
     "aliases": [],
@@ -1120,7 +1447,10 @@
     "slug": "pegging",
     "title": "Pegging",
     "description": "Consensual strap-on play with preparation, communication, and comfort as priorities.",
-    "tags": ["toys", "role"],
+    "tags": [
+      "toys",
+      "role"
+    ],
     "category": "props_and_toys",
     "intensityScale": 3,
     "aliases": [],
@@ -1132,7 +1462,10 @@
     "slug": "photo-capture-consensual",
     "title": "Consensual photo capture (private)",
     "description": "Taking private photos with agreed rules; store securely or delete.",
-    "tags": ["privacy", "media"],
+    "tags": [
+      "privacy",
+      "media"
+    ],
     "category": "environment",
     "intensityScale": 2,
     "aliases": [],
@@ -1144,7 +1477,11 @@
     "slug": "pillow-talk",
     "title": "Pillow talk",
     "description": "Quiet conversation about hopes, ideas, and what feels good.",
-    "tags": ["check-in", "boundaries", "safe-word"],
+    "tags": [
+      "check-in",
+      "boundaries",
+      "safe-word"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -1156,7 +1493,11 @@
     "slug": "playlist-curation",
     "title": "Shared playlist",
     "description": "Curating a soundtrack together to set the tone for the evening.",
-    "tags": ["mood", "lighting", "music"],
+    "tags": [
+      "mood",
+      "lighting",
+      "music"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -1168,7 +1509,9 @@
     "slug": "positions-creative",
     "title": "Creative positions (discussion)",
     "description": "Talking through creative positions you’d like to try; align on comfort.",
-    "tags": ["planning"],
+    "tags": [
+      "planning"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -1180,7 +1523,10 @@
     "slug": "positions-guidance",
     "title": "Guided positioning",
     "description": "One person guides positions with consent and comfort checks.",
-    "tags": ["roles", "guidance"],
+    "tags": [
+      "roles",
+      "guidance"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -1192,10 +1538,15 @@
     "slug": "private-cam-scene",
     "title": "Private cam scene",
     "description": "Live video together with strict privacy rules.",
-    "tags": ["privacy", "media"],
+    "tags": [
+      "privacy",
+      "media"
+    ],
     "category": "environment",
     "intensityScale": 2,
-    "aliases": ["private cam"],
+    "aliases": [
+      "private cam"
+    ],
     "createdBy": "system",
     "tier": "naughty"
   },
@@ -1204,10 +1555,15 @@
     "slug": "progressive-toy-sizes",
     "title": "Progressive toy sizes",
     "description": "Gradual size changes with ample lube, patience, and stop signals.",
-    "tags": ["toys", "training"],
+    "tags": [
+      "toys",
+      "training"
+    ],
     "category": "props_and_toys",
     "intensityScale": 3,
-    "aliases": ["size training"],
+    "aliases": [
+      "size training"
+    ],
     "createdBy": "system",
     "tier": "xxx"
   },
@@ -1216,7 +1572,10 @@
     "slug": "prostate-massage",
     "title": "Prostate massage ",
     "description": "Prostate stimulation with plenty of lube and patience. Experiment with different angles and speeds.",
-    "tags": ["toys", "topic"],
+    "tags": [
+      "toys",
+      "topic"
+    ],
     "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
@@ -1228,10 +1587,15 @@
     "slug": "protocol-lite",
     "title": "Light protocol",
     "description": "Simple agreed etiquettes or rituals that reinforce a shared role dynamic.",
-    "tags": ["ritual", "roles"],
+    "tags": [
+      "ritual",
+      "roles"
+    ],
     "category": "communication",
     "intensityScale": 2,
-    "aliases": ["etiquette play"],
+    "aliases": [
+      "etiquette play"
+    ],
     "createdBy": "system",
     "tier": "soft"
   },
@@ -1240,7 +1604,10 @@
     "slug": "remote-toy",
     "title": "Remote/app-controlled toy",
     "description": "App or remote toy within agreed windows and signals.",
-    "tags": ["toys", "remote"],
+    "tags": [
+      "toys",
+      "remote"
+    ],
     "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
@@ -1252,7 +1619,10 @@
     "slug": "remote-toy-var-1",
     "title": "Remote toy (Give)",
     "description": "Use a remote toy on your partner and control the intensity. Includes public play.",
-    "tags": ["remote", "toys"],
+    "tags": [
+      "remote",
+      "toys"
+    ],
     "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
@@ -1264,7 +1634,10 @@
     "slug": "remote-toy-var-2",
     "title": "Remote toy (Receive)",
     "description": "Your partner uses a remote toy on you and controls the intensity. Includes public play.",
-    "tags": ["remote", "toys"],
+    "tags": [
+      "remote",
+      "toys"
+    ],
     "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
@@ -1276,10 +1649,15 @@
     "slug": "restraint-cuffs",
     "title": "Cuffs (quick-release)",
     "description": "Purpose-made cuffs with quick release and frequent check-ins.",
-    "tags": ["restraint", "safety"],
+    "tags": [
+      "restraint",
+      "safety"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
-    "aliases": ["bondage cuffs"],
+    "aliases": [
+      "bondage cuffs"
+    ],
     "createdBy": "system",
     "tier": "soft"
   },
@@ -1288,7 +1666,10 @@
     "slug": "role-labels",
     "title": "Role labels & titles",
     "description": "Opt-in titles (e.g., goddess/mistress/master/bitch/etc.) used respectfully within a scene.",
-    "tags": ["roles", "ritual"],
+    "tags": [
+      "roles",
+      "ritual"
+    ],
     "category": "communication",
     "intensityScale": 1,
     "aliases": [],
@@ -1300,7 +1681,9 @@
     "slug": "role-swap",
     "title": "Role swap",
     "description": "Temporarily switching roles to explore different perspectives.",
-    "tags": ["roles"],
+    "tags": [
+      "roles"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -1312,7 +1695,10 @@
     "slug": "roleplay-artist-muse",
     "title": "Artist & muse",
     "description": "One poses, the other directs, focusing on aesthetics and connection.",
-    "tags": ["roleplay", "aesthetic"],
+    "tags": [
+      "roleplay",
+      "aesthetic"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -1324,7 +1710,11 @@
     "slug": "roleplay-date",
     "title": "First-date roleplay",
     "description": "Playfully recreating the feel of a first meeting at home.",
-    "tags": ["costume-optional", "improv", "consent-talk"],
+    "tags": [
+      "costume-optional",
+      "improv",
+      "consent-talk"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
     "aliases": [],
@@ -1336,10 +1726,14 @@
     "slug": "roleplay-late-night-bar",
     "title": "Strangers at a bar (adults)",
     "description": "Consenting adults act like strangers meeting for the first time.",
-    "tags": ["roleplay"],
+    "tags": [
+      "roleplay"
+    ],
     "category": "roleplay",
     "intensityScale": 1,
-    "aliases": ["pickup roleplay"],
+    "aliases": [
+      "pickup roleplay"
+    ],
     "createdBy": "system",
     "tier": "soft"
   },
@@ -1348,7 +1742,10 @@
     "slug": "rope-basic",
     "title": "Rope bondage",
     "description": "Simple ties with two-finger space to restrict hand, feet, arms, legs, etc.",
-    "tags": ["rope", "safety"],
+    "tags": [
+      "rope",
+      "safety"
+    ],
     "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
@@ -1360,7 +1757,10 @@
     "slug": "saliva-topic-var-1",
     "title": "Spit (Receive)",
     "description": "Your partner spits in your mouth or in agreed upon areas on you.",
-    "tags": ["fluids", "hygiene"],
+    "tags": [
+      "fluids",
+      "hygiene"
+    ],
     "category": "environment",
     "intensityScale": 2,
     "aliases": [],
@@ -1372,7 +1772,10 @@
     "slug": "saliva-topic-var-2",
     "title": "Spit (Give)",
     "description": "You spit into your partners mouth or on agreed upon areas on their body.",
-    "tags": ["fluids", "hygiene"],
+    "tags": [
+      "fluids",
+      "hygiene"
+    ],
     "category": "environment",
     "intensityScale": 2,
     "aliases": [],
@@ -1384,7 +1787,10 @@
     "slug": "satin-ribbon",
     "title": "Satin ribbon guide",
     "description": "A short ribbon to guide movement gently like a lead/leash; never tight; easy release.",
-    "tags": ["clean", "body-safe"],
+    "tags": [
+      "clean",
+      "body-safe"
+    ],
     "category": "props_and_toys",
     "intensityScale": 1,
     "aliases": [],
@@ -1396,7 +1802,11 @@
     "slug": "scalp-massage",
     "title": "Scalp massage",
     "description": "Gentle fingertip massage of the scalp and temples.",
-    "tags": ["touch", "sound", "scent"],
+    "tags": [
+      "touch",
+      "sound",
+      "scent"
+    ],
     "category": "sensory",
     "intensityScale": 1,
     "aliases": [],
@@ -1408,7 +1818,10 @@
     "slug": "scripted-surrender",
     "title": "Scripted surrender roleplay (consensual)",
     "description": "Planned fantasy of power imbalance with clear signals and opt-out.",
-    "tags": ["roles", "signals"],
+    "tags": [
+      "roles",
+      "signals"
+    ],
     "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
@@ -1420,7 +1833,10 @@
     "slug": "semen-marking-topic-1",
     "title": "Cum On (Give)",
     "description": "Cumming on your partner in agreed upon areas or into their mouth.",
-    "tags": ["fluids", "health"],
+    "tags": [
+      "fluids",
+      "health"
+    ],
     "category": "environment",
     "intensityScale": 3,
     "aliases": [],
@@ -1432,7 +1848,10 @@
     "slug": "semen-marking-topic-2",
     "title": "Cum On (Receive)",
     "description": "Your partner cums on you in agreed upon areas or into your mouth.",
-    "tags": ["fluids", "health"],
+    "tags": [
+      "fluids",
+      "health"
+    ],
     "category": "environment",
     "intensityScale": 3,
     "aliases": [],
@@ -1444,7 +1863,10 @@
     "slug": "semen-play-topic",
     "title": "Cum play",
     "description": "Interest in playing with semen (massaging onto skin, touching, playing with fingers, etc.).",
-    "tags": ["fluids", "health"],
+    "tags": [
+      "fluids",
+      "health"
+    ],
     "category": "environment",
     "intensityScale": 3,
     "aliases": [],
@@ -1456,11 +1878,2706 @@
     "slug": "semen-sharing-topic",
     "title": "Cum swap",
     "description": "Sharing cum with your partner, typically through mouth to mouth contact.",
-    "tags": ["fluids", "privacy"],
+    "tags": [
+      "fluids",
+      "privacy"
+    ],
     "category": "environment",
     "intensityScale": 3,
     "aliases": [],
     "createdBy": "system",
     "tier": "xxx"
+  },
+  {
+    "id": "rom-001",
+    "slug": "slow-dancing",
+    "title": "Slow Dancing",
+    "description": "Hold each other close and sway to romantic music. Focus on breathing together and enjoying the moment.",
+    "tags": [
+      "romance",
+      "intimacy",
+      "music"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "dancing",
+      "holding close"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-002",
+    "slug": "eye-gazing",
+    "title": "Intimate Eye Gazing",
+    "description": "Sit facing each other and gaze into each other's eyes for 5+ minutes without speaking. Builds deep connection.",
+    "tags": [
+      "intimacy",
+      "connection",
+      "tantra"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "soul gazing",
+      "eye contact"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-003",
+    "slug": "synchronized-breathing",
+    "title": "Synchronized Breathing",
+    "description": "Sit close and match your breathing patterns. Inhale and exhale together to create energetic harmony.",
+    "tags": [
+      "tantra",
+      "breathwork",
+      "connection"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "breath sync",
+      "harmonic breathing"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-004",
+    "slug": "love-letter-exchange",
+    "title": "Love Letter Exchange",
+    "description": "Write and read heartfelt letters to each other expressing desires, appreciation, and fantasies.",
+    "tags": [
+      "communication",
+      "romance",
+      "intimacy"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "letter writing",
+      "expressing desires"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-005",
+    "slug": "feeding-each-other",
+    "title": "Feeding Each Other",
+    "description": "Share a meal feeding each other bites. Sensual and intimate way to connect.",
+    "tags": [
+      "sensual",
+      "food",
+      "intimacy"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "food play",
+      "feeding"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-006",
+    "slug": "bubble-bath-together",
+    "title": "Bubble Bath for Two",
+    "description": "Share a warm bubble bath with candles and soft music. Wash each other gently.",
+    "tags": [
+      "bath",
+      "water",
+      "sensual"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "bathing together",
+      "tub time"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-007",
+    "slug": "full-body-massage",
+    "title": "Full Body Massage",
+    "description": "Take turns giving each other slow, sensual full-body massages with warm oil.",
+    "tags": [
+      "massage",
+      "touch",
+      "sensual"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "body rub",
+      "oil massage"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-009",
+    "slug": "foot-massage",
+    "title": "Foot Massage",
+    "description": "Massage each other's feet with lotion or oil. A caring, intimate act of service.",
+    "tags": [
+      "massage",
+      "feet",
+      "service"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "foot rub",
+      "foot worship"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-010",
+    "slug": "cuddling-naked",
+    "title": "Skin-to-Skin Cuddling",
+    "description": "Cuddle naked together under soft blankets. Feel each other's warmth and heartbeat.",
+    "tags": [
+      "cuddling",
+      "intimacy",
+      "nudity"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "naked cuddles",
+      "skin contact"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-011",
+    "slug": "spooning",
+    "title": "Extended Spooning",
+    "description": "Spoon together for an extended period. Enjoy the closeness and gentle caresses.",
+    "tags": [
+      "cuddling",
+      "intimacy",
+      "comfort"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "spoons",
+      "holding"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-012",
+    "slug": "holding-hands",
+    "title": "Intentional Hand Holding",
+    "description": "Spend time simply holding hands while talking, walking, or watching something.",
+    "tags": [
+      "touch",
+      "connection",
+      "simple"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "hand holding",
+      "palm to palm"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-013",
+    "slug": "forehead-kisses",
+    "title": "Sweet Forehead Kisses",
+    "description": "Exchange gentle forehead kisses. A tender, affectionate gesture of care.",
+    "tags": [
+      "kissing",
+      "tender",
+      "affection"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "temple kisses",
+      "gentle kisses"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-014",
+    "slug": "ear-whispers",
+    "title": "Soft Ear Whispers",
+    "description": "Whisper sweet nothings, compliments, or desires softly into each other's ears.",
+    "tags": [
+      "whispering",
+      "communication",
+      "sensual"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "whispering",
+      "breath in ear"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-015",
+    "slug": "tickling-playful",
+    "title": "Playful Tickling",
+    "description": "Light, playful tickling in safe zones. Stop immediately if requested.",
+    "tags": [
+      "playful",
+      "laughter",
+      "touch"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "tickle fight",
+      "light tickles"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-016",
+    "slug": "candlelit-dinner",
+    "title": "Candlelit Dinner",
+    "description": "Prepare and enjoy a romantic candlelit dinner together. Dress up and make it special.",
+    "tags": [
+      "romance",
+      "food",
+      "date night"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "romantic dinner",
+      "date night"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-017",
+    "slug": "stargazing",
+    "title": "Stargazing Together",
+    "description": "Lie outside together and look at the stars. Share dreams and intimate thoughts.",
+    "tags": [
+      "outdoor",
+      "romance",
+      "talking"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "star watching",
+      "night sky"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-018",
+    "slug": "reading-together",
+    "title": "Reading to Each Other",
+    "description": "Read romantic or erotic literature to each other. Take turns with chapters.",
+    "tags": [
+      "literature",
+      "voyeuristic",
+      "audio"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "story time",
+      "reading aloud"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-019",
+    "slug": "aromatherapy",
+    "title": "Aromatherapy Session",
+    "description": "Use essential oils and diffusers to create a sensual atmosphere. Lavender, ylang-ylang, or sandalwood.",
+    "tags": [
+      "scent",
+      "atmosphere",
+      "sensual"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "essential oils",
+      "scent play"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-020",
+    "slug": "silk-sheets",
+    "title": "Luxurious Silk Sheets",
+    "description": "Make the bed with silky soft sheets and enjoy the sensation against your skin.",
+    "tags": [
+      "sensory",
+      "luxury",
+      "texture"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "satin sheets",
+      "soft bedding"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "sense-001",
+    "slug": "blindfold-silk",
+    "title": "Silk Blindfold",
+    "description": "Use a soft silk scarf as a blindfold. Heightens other senses and builds anticipation.",
+    "tags": [
+      "sensory deprivation",
+      "blindfold",
+      "anticipation"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "soft blindfold",
+      "silk scarf"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-002",
+    "slug": "feather-teasing",
+    "title": "Feather Teasing",
+    "description": "Gently trace a feather over your partner's body. Focus on erogenous zones.",
+    "tags": [
+      "feather",
+      "teasing",
+      "light touch"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "feather play",
+      "feather tickling"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-004",
+    "slug": "warm-oil-pour",
+    "title": "Warm Oil Pour",
+    "description": "Gently pour warmed massage oil onto your partner's back and massage it in.",
+    "tags": [
+      "oil",
+      "warmth",
+      "massage"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "oil massage",
+      "warm oil"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-005",
+    "slug": "earplugs-sensory",
+    "title": "Earplug Sensory Focus",
+    "description": "Wear earplugs to focus entirely on touch and sensation. Removes auditory distractions.",
+    "tags": [
+      "sensory deprivation",
+      "hearing",
+      "focus"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "deaf play",
+      "sound deprivation"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-006",
+    "slug": "sensation-wheel",
+    "title": "Wartenberg Wheel",
+    "description": "Use a Wartenberg pinwheel for light, prickly sensation across the skin. Not as scary as it looks!",
+    "tags": [
+      "pinwheel",
+      "sensation",
+      "prickly"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "pinwheel",
+      "neurological wheel"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "sense-007",
+    "slug": "wax-play-low",
+    "title": "Low-Temperature Wax Play",
+    "description": "Use massage candles designed for body wax play. Warm wax sensation on skin.",
+    "tags": [
+      "wax",
+      "temperature",
+      "sensation"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "wax drips",
+      "candle wax"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "sense-008",
+    "slug": "scratching-gentle",
+    "title": "Gentle Back Scratching",
+    "description": "Use fingernails to lightly scratch your partner's back. Vary pressure from soft to firm.",
+    "tags": [
+      "scratching",
+      "nails",
+      "sensation"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "back scratch",
+      "nail play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-009",
+    "slug": "fur-mitt-play",
+    "title": "Fur Mitt Sensation",
+    "description": "Use soft fur mitts or gloves to create luxurious tactile sensations on skin.",
+    "tags": [
+      "fur",
+      "texture",
+      "soft"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "furry gloves",
+      "soft texture"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-010",
+    "slug": "vibrator-tease",
+    "title": "Vibrator Teasing",
+    "description": "Use a vibrator on low settings to tease erogenous zones without direct stimulation.",
+    "tags": [
+      "vibrator",
+      "teasing",
+      "toys"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "buzz tease",
+      "vibration play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "sense-011",
+    "slug": "temperature-contrast",
+    "title": "Hot and Cold Contrast",
+    "description": "Alternate between warm and cold sensations - ice followed by warm breath, etc.",
+    "tags": [
+      "temperature",
+      "contrast",
+      "sensation"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "hot cold",
+      "temperature play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "sense-012",
+    "slug": "breath-play-light",
+    "title": "Breath Sensation Play",
+    "description": "Breathe warmly or coolly on your partner's skin. Very intimate and arousing.",
+    "tags": [
+      "breath",
+      "sensation",
+      "intimate"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "breath on skin",
+      "warm breath"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-013",
+    "slug": "mouth-sensation",
+    "title": "Mouth-Only Sensation",
+    "description": "Use only lips, tongue, and breath to create sensations. No hands allowed.",
+    "tags": [
+      "mouth",
+      "lips",
+      "restriction"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "mouth play",
+      "no hands"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "sense-014",
+    "slug": "texture-exploration",
+    "title": "Texture Exploration",
+    "description": "Use various textures - silk, fur, leather, metal, wood - to stimulate different sensations.",
+    "tags": [
+      "texture",
+      "materials",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "material play",
+      "texture play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-015",
+    "slug": "bondage-rope-sensation",
+    "title": "Rope Sensation Play",
+    "description": "Drag rope across skin for texture sensation. Not tied, just sensation.",
+    "tags": [
+      "rope",
+      "texture",
+      "sensation"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "rope drag",
+      "cord sensation"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "bdsm-001",
+    "slug": "handcuffs-velvet",
+    "title": "Velvet Handcuffs",
+    "description": "Soft, padded handcuffs for light restraint play. Comfortable and secure.",
+    "tags": [
+      "bondage",
+      "handcuffs",
+      "restraint"
+    ],
+    "category": "bondage",
+    "intensityScale": 1,
+    "aliases": [
+      "soft cuffs",
+      "padded cuffs"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "bdsm-002",
+    "slug": "scarf-bondage",
+    "title": "Scarf Wrist Binding",
+    "description": "Use silk scarves to gently bind wrists. Soft, sensual, and easy to escape.",
+    "tags": [
+      "bondage",
+      "scarf",
+      "soft"
+    ],
+    "category": "bondage",
+    "intensityScale": 1,
+    "aliases": [
+      "scarf tie",
+      "fabric bondage"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "bdsm-003",
+    "slug": "under-bed-restraints",
+    "title": "Under-Bed Restraint System",
+    "description": "Straps that go under the mattress to restrain wrists and ankles to the bed.",
+    "tags": [
+      "bondage",
+      "restraints",
+      "bed"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "bed straps",
+      "mattress restraints"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-004",
+    "slug": "spanking-hand",
+    "title": "Hand Spanking",
+    "description": "Gentle to firm spanking with an open hand. Start light and communicate.",
+    "tags": [
+      "impact",
+      "spanking",
+      "discipline"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "over the knee",
+      "OTK",
+      "hand spank"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-005",
+    "slug": "spanking-paddle",
+    "title": "Paddle Spanking",
+    "description": "Use a soft paddle for impact play. More thud than sting.",
+    "tags": [
+      "impact",
+      "paddle",
+      "spanking"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "paddling",
+      "impact play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-006",
+    "slug": "flogger-gentle",
+    "title": "Gentle Flogging",
+    "description": "Use a soft flogger with light strikes. Sensual and rhythmic.",
+    "tags": [
+      "impact",
+      "flogger",
+      "sensation"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "flogging",
+      "soft flogger"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-007",
+    "slug": "dominant-commands",
+    "title": "Dominant Commands",
+    "description": "One partner gives simple commands for the other to follow. Build trust and excitement.",
+    "tags": [
+      "D/s",
+      "dominance",
+      "commands"
+    ],
+    "category": "power_exchange",
+    "intensityScale": 2,
+    "aliases": [
+      "command play",
+      "domination"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-008",
+    "slug": "submissive-positions",
+    "title": "Submissive Positions",
+    "description": "Practice formal submissive positions - kneeling, presenting, etc.",
+    "tags": [
+      "D/s",
+      "positions",
+      "submission"
+    ],
+    "category": "power_exchange",
+    "intensityScale": 2,
+    "aliases": [
+      "positions",
+      "presenting"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-009",
+    "slug": "collar-symbolic",
+    "title": "Symbolic Collar",
+    "description": "A special necklace or collar worn to symbolize submission or commitment during play.",
+    "tags": [
+      "D/s",
+      "collar",
+      "symbolism"
+    ],
+    "category": "power_exchange",
+    "intensityScale": 1,
+    "aliases": [
+      "collaring",
+      "submission symbol"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "bdsm-010",
+    "slug": "leash-play",
+    "title": "Leash Play",
+    "description": "Use a leash attached to a collar for guided movement. High trust required.",
+    "tags": [
+      "D/s",
+      "leash",
+      "control"
+    ],
+    "category": "power_exchange",
+    "intensityScale": 2,
+    "aliases": [
+      "leading",
+      "leash and collar"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-012",
+    "slug": "forced-orgasm",
+    "title": "Forced Orgasm",
+    "description": "Use toys to make partner orgasm repeatedly beyond their control.",
+    "tags": [
+      "control",
+      "orgasm",
+      "toys"
+    ],
+    "category": "orgasm_control",
+    "intensityScale": 2,
+    "aliases": [
+      "multiple orgasms",
+      "overstimulation"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "bdsm-013",
+    "slug": "rope-bondage-simple",
+    "title": "Simple Rope Bondage",
+    "description": "Learn basic knots to tie wrists or ankles. Always keep safety scissors nearby.",
+    "tags": [
+      "bondage",
+      "rope",
+      "shibari"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "rope play",
+      "basic ties"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-014",
+    "slug": "hogtie-light",
+    "title": "Light Hogtie",
+    "description": "Gentle hogtie position with wrists and ankles connected behind the back. Short duration only.",
+    "tags": [
+      "bondage",
+      "position",
+      "restraint"
+    ],
+    "category": "bondage",
+    "intensityScale": 3,
+    "aliases": [
+      "hog tie",
+      "ball tie"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "bdsm-015",
+    "slug": "spreader-bar",
+    "title": "Spreader Bar",
+    "description": "A bar that keeps ankles or wrists spread apart. Creates vulnerability and access.",
+    "tags": [
+      "bondage",
+      "position",
+      "spread"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "spreader",
+      "leg spreader"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-017",
+    "slug": "ball-gag",
+    "title": "Ball Gag",
+    "description": "A gag that restricts speech. Establish non-verbal safe signals first.",
+    "tags": [
+      "gag",
+      "silence",
+      "restraint"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "mouth gag",
+      "silencing"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-018",
+    "slug": "blindfold-restraint-combo",
+    "title": "Blindfold + Restraint Combo",
+    "description": "Combine blindfold with wrist restraints for total sensory control.",
+    "tags": [
+      "bondage",
+      "blindfold",
+      "sensory deprivation"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "sensory control",
+      "deprivation play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-019",
+    "slug": "riding-crop",
+    "title": "Riding Crop Play",
+    "description": "Use a riding crop for precise, sharp impact. Start very light.",
+    "tags": [
+      "impact",
+      "crop",
+      "discipline"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "crop",
+      "equestrian whip"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-020",
+    "slug": "candle-wax-play",
+    "title": "Intense Wax Play",
+    "description": "Use proper BDSM wax candles for temperature play. Test temperature first.",
+    "tags": [
+      "wax",
+      "temperature",
+      "intense"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "aliases": [
+      "hot wax",
+      "wax dripping"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "role-001",
+    "slug": "stranger-roleplay",
+    "title": "Strangers at a Bar",
+    "description": "Pretend to meet as strangers at a bar or coffee shop. Flirt like it's the first time.",
+    "tags": [
+      "roleplay",
+      "strangers",
+      "meeting"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "pickup play",
+      "stranger fantasy"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "role-002",
+    "slug": "massage-therapist",
+    "title": "Massage Therapist & Client",
+    "description": "One plays a professional masseuse, the other a client. Let the massage get progressively more intimate.",
+    "tags": [
+      "roleplay",
+      "professional",
+      "massage"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "happy ending massage",
+      "therapist fantasy"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "role-003",
+    "slug": "teacher-student",
+    "title": "Teacher & Student",
+    "description": "Classic roleplay with one as the instructor and one as the eager student. Keep it consensual and adult.",
+    "tags": [
+      "roleplay",
+      "authority",
+      "school"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "professor",
+      "tutor",
+      "lessons"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-004",
+    "slug": "doctor-exam",
+    "title": "Doctor & Patient Examination",
+    "description": "A thorough medical examination that gets increasingly intimate. Use props like a white coat.",
+    "tags": [
+      "roleplay",
+      "medical",
+      "examination"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "physical exam",
+      "nurse play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-005",
+    "slug": "boss-secretary",
+    "title": "Boss & Secretary",
+    "description": "Workplace power dynamic roleplay. One gives orders, the other complies... with benefits.",
+    "tags": [
+      "roleplay",
+      "office",
+      "power"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "office affair",
+      "workplace"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-006",
+    "slug": "maid-service",
+    "title": "French Maid Service",
+    "description": "One dresses as a maid and 'cleans' while the other watches and eventually intervenes.",
+    "tags": [
+      "roleplay",
+      "costume",
+      "service"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "maid",
+      "cleaning service"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-007",
+    "slug": "police-officer",
+    "title": "Police Officer & Suspect",
+    "description": "Playful arrest and interrogation scenario. Handcuffs optional but recommended.",
+    "tags": [
+      "roleplay",
+      "authority",
+      "handcuffs"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "cop",
+      "arrest",
+      "interrogation"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-008",
+    "slug": "personal-trainer",
+    "title": "Personal Trainer & Client",
+    "description": "A workout session that turns flirtatious and physical. Use gym clothes as costumes.",
+    "tags": [
+      "roleplay",
+      "fitness",
+      "physical"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "gym trainer",
+      "workout partner"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "role-009",
+    "slug": "photographer-model",
+    "title": "Photographer & Model",
+    "description": "One directs sexy poses while the other models. Can progress to intimate 'private' shots.",
+    "tags": [
+      "roleplay",
+      "photography",
+      "posing"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "photo shoot",
+      "modeling"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "role-010",
+    "slug": "vampire-prey",
+    "title": "Vampire & Victim",
+    "description": "Gothic roleplay with biting, neck kissing, and seduction. Use fake fangs if desired.",
+    "tags": [
+      "roleplay",
+      "fantasy",
+      "biting"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "vampire bite",
+      "gothic"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-011",
+    "slug": "repair-person",
+    "title": "Repair Person & Homeowner",
+    "description": "Classic 'plumber/pizza delivery' scenario. One needs service, the other provides it.",
+    "tags": [
+      "roleplay",
+      "service",
+      "classic"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "plumber",
+      "delivery",
+      "maintenance"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-012",
+    "slug": "royalty-servant",
+    "title": "Royalty & Servant",
+    "description": "One is a king/queen, the other a devoted servant. Commands and service expected.",
+    "tags": [
+      "roleplay",
+      "power",
+      "service"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "king and servant",
+      "royalty"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-013",
+    "slug": "roommates",
+    "title": "Roommates Crossing Boundaries",
+    "description": "Live out the 'roommates who finally give in' fantasy. Casual and relatable.",
+    "tags": [
+      "roleplay",
+      "domestic",
+      "casual"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "housemates",
+      "shared apartment"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "role-014",
+    "slug": "ex-lovers",
+    "title": "Ex-Lovers Reunion",
+    "description": "Meet as exes who can't resist each other. Passionate and slightly forbidden.",
+    "tags": [
+      "roleplay",
+      "passion",
+      "reunion"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "exes",
+      "former lovers"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "role-015",
+    "slug": "superhero-villain",
+    "title": "Superhero & Villain",
+    "description": "Play as enemies who finally give in to their attraction. Costumes optional.",
+    "tags": [
+      "roleplay",
+      "comic",
+      "costumes"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "hero",
+      "villain",
+      "cosplay"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-001",
+    "slug": "vibrator-bullet",
+    "title": "Bullet Vibrator",
+    "description": "Small, powerful vibrator for clitoral or perineum stimulation. Great for beginners.",
+    "tags": [
+      "toys",
+      "vibrator",
+      "clitoral"
+    ],
+    "category": "toys",
+    "intensityScale": 1,
+    "aliases": [
+      "bullet",
+      "mini vibrator"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "toy-002",
+    "slug": "vibrator-wand",
+    "title": "Magic Wand Massager",
+    "description": "Powerful wand vibrator for intense external stimulation. Can be used on any body part.",
+    "tags": [
+      "toys",
+      "vibrator",
+      "powerful"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "hitachi",
+      "wand",
+      "massager"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-003",
+    "slug": "dildo-play",
+    "title": "Dildo Play",
+    "description": "Use a dildo for penetration play. Various sizes and shapes available for different preferences.",
+    "tags": [
+      "toys",
+      "dildo",
+      "penetration"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "fake cock",
+      "dildo penetration"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-004",
+    "slug": "butt-plug-beginner",
+    "title": "Beginner Butt Plug",
+    "description": "Small, smooth plug for anal play beginners. Use plenty of lube and go slow.",
+    "tags": [
+      "toys",
+      "anal",
+      "plug"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "small plug",
+      "anal toy"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-005",
+    "slug": "prostate-massager",
+    "title": "Prostate Massager",
+    "description": "Curved toy designed to stimulate the prostate. Can create intense orgasms for those with prostates.",
+    "tags": [
+      "toys",
+      "prostate",
+      "anal"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "p-spot",
+      "prostate toy"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-006",
+    "slug": "cock-ring",
+    "title": "Cock Ring",
+    "description": "Ring worn at the base of the penis to maintain erections and increase sensitivity.",
+    "tags": [
+      "toys",
+      "penis",
+      "erection"
+    ],
+    "category": "toys",
+    "intensityScale": 1,
+    "aliases": [
+      "penis ring",
+      "erection ring"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "toy-007",
+    "slug": "vibrating-ring",
+    "title": "Vibrating Cock Ring",
+    "description": "Cock ring with vibrator attached. Provides stimulation for both partners during penetration.",
+    "tags": [
+      "toys",
+      "vibrator",
+      "couples"
+    ],
+    "category": "toys",
+    "intensityScale": 1,
+    "aliases": [
+      "vibrating ring",
+      "couples vibrator"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "toy-008",
+    "slug": "nipple-suckers",
+    "title": "Nipple Suckers",
+    "description": "Suction devices that increase nipple sensitivity. Can create intense sensations.",
+    "tags": [
+      "toys",
+      "nipples",
+      "suction"
+    ],
+    "category": "toys",
+    "intensityScale": 1,
+    "aliases": [
+      "nipple pumps",
+      "suction cups"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "toy-009",
+    "slug": "masturbation-sleeve",
+    "title": "Masturbation Sleeve",
+    "description": "Soft sleeve that simulates penetration sensations. Use with lube.",
+    "tags": [
+      "toys",
+      "penis",
+      "masturbation"
+    ],
+    "category": "toys",
+    "intensityScale": 1,
+    "aliases": [
+      "stroker",
+      "fleshlight",
+      "pocket pussy"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "toy-010",
+    "slug": "remote-vibrator",
+    "title": "Remote Control Vibrator",
+    "description": "Vibrator controlled by a remote or app. Great for power exchange and public play fantasies.",
+    "tags": [
+      "toys",
+      "remote",
+      "control"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "app controlled",
+      "remote vibe"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-011",
+    "slug": "strap-on-harness",
+    "title": "Strap-On Harness",
+    "description": "Harness worn to hold a dildo for penetrating a partner. Can be used by any gender.",
+    "tags": [
+      "toys",
+      "strapon",
+      "penetration"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "harness",
+      "strap on",
+      "pegging"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-012",
+    "slug": "anal-beads",
+    "title": "Anal Beads",
+    "description": "String of beads for anal insertion. Removal during orgasm creates intense sensations.",
+    "tags": [
+      "toys",
+      "anal",
+      "beads"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "beads",
+      "anal chain"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-013",
+    "slug": "double-dildo",
+    "title": "Double-Ended Dildo",
+    "description": "Long dildo with ends for simultaneous penetration. Great for vulva-to-vulva play.",
+    "tags": [
+      "toys",
+      "dildo",
+      "couples"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "double dong",
+      "double ended"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-014",
+    "slug": "sex-swing",
+    "title": "Sex Swing",
+    "description": "Hanging swing that supports various positions. Requires secure installation.",
+    "tags": [
+      "toys",
+      "swing",
+      "positions"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "door swing",
+      "harness swing"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "toy-015",
+    "slug": "suction-dildo",
+    "title": "Suction Cup Dildo",
+    "description": "Dildo with suction base for hands-free use on smooth surfaces like walls or floors.",
+    "tags": [
+      "toys",
+      "dildo",
+      "hands free"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "suction dildo",
+      "wall mount"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-016",
+    "slug": "vibrator-rabbit",
+    "title": "Rabbit Vibrator",
+    "description": "Dual stimulation vibrator for G-spot and clitoris simultaneously. Very popular design.",
+    "tags": [
+      "toys",
+      "vibrator",
+      "dual"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "rabbit",
+      "dual vibrator"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-017",
+    "slug": "cock-cage",
+    "title": "Chastity Cage",
+    "description": "Device worn over penis to prevent erections. Used in orgasm denial and control play.",
+    "tags": [
+      "toys",
+      "chastity",
+      "control"
+    ],
+    "category": "toys",
+    "intensityScale": 3,
+    "aliases": [
+      "penis cage",
+      "chastity device"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "toy-018",
+    "slug": "butt-plug-tail",
+    "title": "Tail Butt Plug",
+    "description": "Butt plug with decorative tail attached. Popular for pet play fantasies.",
+    "tags": [
+      "toys",
+      "anal",
+      "pet play"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "pony tail",
+      "fox tail"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-019",
+    "slug": "electro-stimulation",
+    "title": "E-Stim Play",
+    "description": "Use electrical stimulation devices for unique sensations. Start at lowest settings.",
+    "tags": [
+      "toys",
+      "electric",
+      "intense"
+    ],
+    "category": "toys",
+    "intensityScale": 3,
+    "aliases": [
+      "electro",
+      "tens unit"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "toy-020",
+    "slug": "fucking-machine",
+    "title": "Sex Machine",
+    "description": "Mechanical device that provides automated thrusting. High intensity experience.",
+    "tags": [
+      "toys",
+      "machine",
+      "automated"
+    ],
+    "category": "toys",
+    "intensityScale": 3,
+    "aliases": [
+      "thruster",
+      "f-machine"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "loc-001",
+    "slug": "shower-sex",
+    "title": "Steamy Shower Sex",
+    "description": "Intimate activities in the shower. Use non-slip mats and be careful of water washing away natural lubrication.",
+    "tags": [
+      "location",
+      "shower",
+      "water"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "shower play",
+      "bathroom sex"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-002",
+    "slug": "bathtub-play",
+    "title": "Bathtub Intimacy",
+    "description": "Romantic bath together with intimate touching. More comfortable than shower for extended play.",
+    "tags": [
+      "location",
+      "bath",
+      "water"
+    ],
+    "category": "locations",
+    "intensityScale": 1,
+    "aliases": [
+      "tub sex",
+      "bath play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "loc-003",
+    "slug": "kitchen-counter",
+    "title": "Kitchen Counter Quickie",
+    "description": "Spontaneous fun on the kitchen counter. Watch out for sharp edges and breakable items.",
+    "tags": [
+      "location",
+      "kitchen",
+      "spontaneous"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "counter sex",
+      "kitchen play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-004",
+    "slug": "couch-sex",
+    "title": "Couch Play",
+    "description": "Comfortable and convenient location. Various positions possible.",
+    "tags": [
+      "location",
+      "living room",
+      "comfortable"
+    ],
+    "category": "locations",
+    "intensityScale": 1,
+    "aliases": [
+      "sofa sex",
+      "lounge play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "loc-005",
+    "slug": "car-play",
+    "title": "Car Intimacy",
+    "description": "Fun in a parked car. Reclined seats and windows for steamy windows. Choose private location.",
+    "tags": [
+      "location",
+      "car",
+      "semi-public"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "auto erotic",
+      "car sex"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-006",
+    "slug": "balcony-play",
+    "title": "Balcony/Deck Play",
+    "description": "Outdoor play on a private balcony or deck. Risk of being seen adds excitement.",
+    "tags": [
+      "location",
+      "outdoor",
+      "exhibition"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "deck sex",
+      "outdoor balcony"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-007",
+    "slug": "hotel-room",
+    "title": "Hotel Room Rendezvous",
+    "description": "Book a hotel room specifically for intimate time. Clean sheets and no distractions.",
+    "tags": [
+      "location",
+      "hotel",
+      "getaway"
+    ],
+    "category": "locations",
+    "intensityScale": 1,
+    "aliases": [
+      "hotel sex",
+      "staycation"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "loc-008",
+    "slug": "stairs-play",
+    "title": "Staircase Play",
+    "description": "Use stairs for angled positions. Ensure stable footing and watch for hard surfaces.",
+    "tags": [
+      "location",
+      "stairs",
+      "angles"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "stair sex",
+      "step play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-009",
+    "slug": "floor-play",
+    "title": "Floor Intimacy",
+    "description": "Spread blankets on the floor for a different experience. More space than bed.",
+    "tags": [
+      "location",
+      "floor",
+      "space"
+    ],
+    "category": "locations",
+    "intensityScale": 1,
+    "aliases": [
+      "rug sex",
+      "carpet play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "loc-010",
+    "slug": "laundry-room",
+    "title": "Laundry Room Fun",
+    "description": "Use the washing machine for vibrations. Spontaneous and exciting location.",
+    "tags": [
+      "location",
+      "laundry",
+      "vibration"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "washer play",
+      "utility room"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-012",
+    "slug": "office-chair",
+    "title": "Office Chair Play",
+    "description": "Swivel chair adds fun movement. Great for roleplay scenarios.",
+    "tags": [
+      "location",
+      "office",
+      "chair"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "desk chair",
+      "office sex"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-013",
+    "slug": "outdoor-camping",
+    "title": "Camping Tent Intimacy",
+    "description": "Intimate activities in a tent while camping. Nature sounds and fresh air.",
+    "tags": [
+      "location",
+      "outdoor",
+      "nature"
+    ],
+    "category": "locations",
+    "intensityScale": 1,
+    "aliases": [
+      "tent sex",
+      "camping"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "loc-014",
+    "slug": "pool-hot-tub",
+    "title": "Pool or Hot Tub Play",
+    "description": "Water play in pool or hot tub. Water reduces friction - use silicone lube.",
+    "tags": [
+      "location",
+      "water",
+      "pool"
+    ],
+    "category": "locations",
+    "intensityScale": 2,
+    "aliases": [
+      "jacuzzi",
+      "pool sex"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "loc-015",
+    "slug": "elevator-fantasy",
+    "title": "Elevator Quickie Fantasy",
+    "description": "Roleplay or quick fun in an elevator. Risky and exciting. Ensure privacy first.",
+    "tags": [
+      "location",
+      "elevator",
+      "public"
+    ],
+    "category": "locations",
+    "intensityScale": 3,
+    "aliases": [
+      "lift sex",
+      "elevator play"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "oral-001",
+    "slug": "cunnilingus-gentle",
+    "title": "Gentle Oral on Her",
+    "description": "Slow, gentle oral stimulation with focus on the clitoris. Ask for feedback on pressure and rhythm.",
+    "tags": [
+      "oral",
+      "cunnilingus",
+      "clitoral"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "eating out",
+      "going down"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "oral-002",
+    "slug": "cunnilingus-intense",
+    "title": "Intense Oral on Her",
+    "description": "More vigorous oral with penetration and clitoral stimulation combined.",
+    "tags": [
+      "oral",
+      "cunnilingus",
+      "intense"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "intense eating",
+      "devouring"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-003",
+    "slug": "blowjob-slow",
+    "title": "Slow Sensual Blowjob",
+    "description": "Take your time with licking, teasing, and slow sucking. Build anticipation.",
+    "tags": [
+      "oral",
+      "blowjob",
+      "sensual"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "slow suck",
+      "sensual head"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "oral-004",
+    "slug": "blowjob-deep",
+    "title": "Deep Throat Attempt",
+    "description": "Try taking more of him into your mouth/throat. Go slowly and breathe through nose.",
+    "tags": [
+      "oral",
+      "blowjob",
+      "deep"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "deepthroat",
+      "throat"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-005",
+    "slug": "rimming-receiving",
+    "title": "Receiving Rimming",
+    "description": "Oral stimulation of the anal area. Very sensitive nerve endings. Ensure cleanliness first.",
+    "tags": [
+      "oral",
+      "rimming",
+      "anal"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "analingus",
+      "ass eating"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-006",
+    "slug": "rimming-giving",
+    "title": "Giving Rimming",
+    "description": "Use your tongue on your partner's anal area. Shower first and use dental dam if concerned.",
+    "tags": [
+      "oral",
+      "rimming",
+      "giving"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "eating ass",
+      "rim job"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-008",
+    "slug": "sixty-nine",
+    "title": "69 Position",
+    "description": "Mutual oral pleasure in a circular position. Can be distracting - take turns focusing.",
+    "tags": [
+      "oral",
+      "mutual",
+      "position"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "69",
+      "sixtynine"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-009",
+    "slug": "teabagging",
+    "title": "Teabagging",
+    "description": "Gentle sucking/licking of the scrotum. Very pleasurable for many with testicles.",
+    "tags": [
+      "oral",
+      "balls",
+      "sucking"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "ball sucking",
+      "sack play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "oral-010",
+    "slug": "oral-edging",
+    "title": "Oral Edging",
+    "description": "Use mouth to bring partner close to orgasm repeatedly without letting them finish.",
+    "tags": [
+      "oral",
+      "edging",
+      "control"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "suck and stop",
+      "oral denial"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-011",
+    "slug": "licking-everywhere",
+    "title": "Full Body Licking",
+    "description": "Use tongue to explore entire body. Erogenous zones, neck, nipples, everywhere.",
+    "tags": [
+      "oral",
+      "licking",
+      "exploration"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "body lick",
+      "tongue bath"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "oral-012",
+    "slug": "finger-sucking",
+    "title": "Finger Sucking",
+    "description": "Suck on each other's fingers suggestively. Very erotic and intimate.",
+    "tags": [
+      "oral",
+      "fingers",
+      "sensual"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "finger licking",
+      "sucking fingers"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "talk-001",
+    "slug": "praise-dirty-talk",
+    "title": "Praise Kink",
+    "description": "Give enthusiastic compliments during intimacy. 'You're so beautiful,' 'You feel amazing,' etc.",
+    "tags": [
+      "talk",
+      "praise",
+      "affirmation"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [
+      "good girl",
+      "good boy",
+      "praise"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "talk-002",
+    "slug": "degradation-light",
+    "title": "Light Degradation",
+    "description": "Consensual name-calling and mild humiliation. 'Slut,' 'Whore' - only if both enjoy it.",
+    "tags": [
+      "talk",
+      "degradation",
+      "humiliation"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "name calling",
+      "dirty names"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "talk-003",
+    "slug": "commands-obey",
+    "title": "Command & Obey",
+    "description": "One gives commands, the other obeys. 'Get on your knees,' 'Touch yourself,' etc.",
+    "tags": [
+      "talk",
+      "commands",
+      "D/s"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "orders",
+      "commands"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "talk-004",
+    "slug": "begging",
+    "title": "Begging for It",
+    "description": "Make your partner beg for what they want. Build desperation and desire.",
+    "tags": [
+      "talk",
+      "begging",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "pleading",
+      "asking nicely"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "talk-005",
+    "slug": "moaning-loud",
+    "title": "Loud Vocalizations",
+    "description": "Let yourself be loud. Moan, gasp, and express pleasure vocally.",
+    "tags": [
+      "sounds",
+      "moaning",
+      "vocal"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [
+      "loud sex",
+      "vocalizing"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "talk-006",
+    "slug": "silent-play",
+    "title": "Silent Challenge",
+    "description": "Try to stay completely silent during intimacy. Forced quiet intensifies sensations.",
+    "tags": [
+      "silence",
+      "challenge",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "quiet play",
+      "no noise"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "talk-007",
+    "slug": "fantasy-storytelling",
+    "title": "Erotic Storytelling",
+    "description": "Take turns telling erotic stories or fantasies while touching each other.",
+    "tags": [
+      "talk",
+      "stories",
+      "imagination"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [
+      "narrative",
+      "story time"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "talk-008",
+    "slug": "ownership-words",
+    "title": "Possessive Language",
+    "description": "Use possessive terms: 'You're mine,' 'This is my pussy/cock,' etc. Consensual ownership dynamic.",
+    "tags": [
+      "talk",
+      "ownership",
+      "possessive"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "mine",
+      "belong to me"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "talk-009",
+    "slug": "orgasm-announce",
+    "title": "Announce Your Orgasm",
+    "description": "Must announce when close to cumming. 'I'm going to cum' or ask permission first.",
+    "tags": [
+      "talk",
+      "orgasm",
+      "announcement"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [
+      "declaration",
+      "cumming"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "talk-010",
+    "slug": "phone-sex",
+    "title": "Phone Sex",
+    "description": "Have intimate conversation and masturbation over phone or video call when apart.",
+    "tags": [
+      "talk",
+      "remote",
+      "masturbation"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "video sex",
+      "virtual play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "exhib-001",
+    "slug": "window-exhibition",
+    "title": "Window Exhibition",
+    "description": "Be intimate near an open window where you might be seen. Risk adds excitement.",
+    "tags": [
+      "exhibition",
+      "window",
+      "risk"
+    ],
+    "category": "exhibition",
+    "intensityScale": 2,
+    "aliases": [
+      "window sex",
+      "being watched"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "exhib-002",
+    "slug": "filming-yourselves",
+    "title": "Filming Yourselves",
+    "description": "Record your intimate moments to watch later. Ensure secure storage and consent.",
+    "tags": [
+      "exhibition",
+      "video",
+      "recording"
+    ],
+    "category": "exhibition",
+    "intensityScale": 2,
+    "aliases": [
+      "home video",
+      "sex tape"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "exhib-003",
+    "slug": "nude-photos",
+    "title": "Nude Photography",
+    "description": "Take artistic or erotic nude photos of each other. Build confidence and intimacy.",
+    "tags": [
+      "exhibition",
+      "photos",
+      "art"
+    ],
+    "category": "exhibition",
+    "intensityScale": 2,
+    "aliases": [
+      "boudoir photos",
+      "nude pics"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "exhib-004",
+    "slug": "sex-club-visit",
+    "title": "Visit a Sex Club",
+    "description": "Visit a swingers club or sex club together. Can watch, be watched, or participate.",
+    "tags": [
+      "exhibition",
+      "club",
+      "public"
+    ],
+    "category": "exhibition",
+    "intensityScale": 3,
+    "aliases": [
+      "swingers club",
+      "sex party"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "exhib-005",
+    "slug": "webcam-play",
+    "title": "Webcam Exhibition",
+    "description": "Perform for each other on webcam from different rooms, or for consenting online audiences.",
+    "tags": [
+      "exhibition",
+      "webcam",
+      "online"
+    ],
+    "category": "exhibition",
+    "intensityScale": 2,
+    "aliases": [
+      "camming",
+      "online show"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "group-001",
+    "slug": "threesome-mmf",
+    "title": "Threesome: MMF",
+    "description": "Two men, one woman. Requires extensive communication and boundaries.",
+    "tags": [
+      "group",
+      "threesome",
+      "MMF"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "two guys",
+      "double male"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "group-002",
+    "slug": "threesome-ffm",
+    "title": "Threesome: FFM",
+    "description": "Two women, one man. Discuss boundaries and comfort levels thoroughly.",
+    "tags": [
+      "group",
+      "threesome",
+      "FFM"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "two girls",
+      "double female"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "group-003",
+    "slug": "soft-swap",
+    "title": "Soft Swap Swinging",
+    "description": "Play with others but no penetration. Kissing, touching, oral only.",
+    "tags": [
+      "group",
+      "swinging",
+      "swap"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "soft swinging",
+      "partial swap"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "group-004",
+    "slug": "full-swap",
+    "title": "Full Swap Swinging",
+    "description": "Exchange partners for full penetration. Requires strong relationship and communication.",
+    "tags": [
+      "group",
+      "swinging",
+      "full swap"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "full swap",
+      "partner exchange"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "group-005",
+    "slug": "voyeurism-consensual",
+    "title": "Consensual Voyeurism",
+    "description": "Watch others have sex. At clubs, parties, or arranged with friends.",
+    "tags": [
+      "voyeur",
+      "watching",
+      "consensual"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "watching others",
+      "voyeur play"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "taboo-001",
+    "slug": "age-play",
+    "title": "Age Play",
+    "description": "Roleplay different ages. Adult baby, little, daddy/mommy dynamics. All adults involved.",
+    "tags": [
+      "roleplay",
+      "age",
+      "dynamic"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "DDLG",
+      "ABDL",
+      "little"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "taboo-002",
+    "slug": "pet-play",
+    "title": "Pet Play",
+    "description": "Roleplay as animals - puppy, kitty, pony. Collars, leashes, petting.",
+    "tags": [
+      "roleplay",
+      "pet",
+      "animal"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "puppy play",
+      "kitten play",
+      "pony"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "taboo-003",
+    "slug": "watersports",
+    "title": "Watersports/Pee Play",
+    "description": "Incorporating urine into play. Shower first. Discuss boundaries clearly.",
+    "tags": [
+      "watersports",
+      "pee",
+      "taboo"
+    ],
+    "category": "taboo",
+    "intensityScale": 3,
+    "aliases": [
+      "golden shower",
+      "pee play"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "taboo-004",
+    "slug": " CNC",
+    "title": "Consensual Non-Consent (CNC)",
+    "description": "Roleplay resistance scenarios. Requires extensive negotiation, safewords, and aftercare.",
+    "tags": [
+      "CNC",
+      "roleplay",
+      "intense"
+    ],
+    "category": "taboo",
+    "intensityScale": 3,
+    "aliases": [
+      "rape play",
+      "forced fantasy"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "anal-001",
+    "slug": "anal-fingering",
+    "title": "Anal Fingering",
+    "description": "Use fingers for anal stimulation. Lots of lube and go slow. Trim nails short.",
+    "tags": [
+      "anal",
+      "fingers",
+      "beginner"
+    ],
+    "category": "anal",
+    "intensityScale": 2,
+    "aliases": [
+      "finger ass",
+      "anal play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "anal-003",
+    "slug": "anal-fisting",
+    "title": "Anal Fisting",
+    "description": "Advanced: entire hand inserted anally. Requires extensive training and relaxation.",
+    "tags": [
+      "anal",
+      "fisting",
+      "extreme"
+    ],
+    "category": "anal",
+    "intensityScale": 3,
+    "aliases": [
+      "hand in ass",
+      "anal hand"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "fetish-001",
+    "slug": "foot-fetish-play",
+    "title": "Foot Fetish Play",
+    "description": "Incorporate feet into intimacy. Kissing, licking, massaging, or using for stimulation.",
+    "tags": [
+      "fetish",
+      "feet",
+      "foot"
+    ],
+    "category": "fetish",
+    "intensityScale": 1,
+    "aliases": [
+      "foot worship",
+      "feet play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "fetish-002",
+    "slug": "pantyhose-fetish",
+    "title": "Pantyhose/Nylon Play",
+    "description": "Wearing or interacting with pantyhose, stockings, or nylons.",
+    "tags": [
+      "fetish",
+      "nylon",
+      "clothing"
+    ],
+    "category": "fetish",
+    "intensityScale": 1,
+    "aliases": [
+      "stockings",
+      "nylons",
+      "hose"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "fetish-003",
+    "slug": "latex-clothing",
+    "title": "Latex/Rubber Clothing",
+    "description": "Wear tight latex or rubber clothing. Requires talc to put on. Shiny and tight.",
+    "tags": [
+      "fetish",
+      "latex",
+      "rubber"
+    ],
+    "category": "fetish",
+    "intensityScale": 2,
+    "aliases": [
+      "rubber",
+      "PVC",
+      "shiny"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "fetish-004",
+    "slug": "leather-wear",
+    "title": "Leather Clothing",
+    "description": "Leather harnesses, chaps, corsets. Dominant aesthetic and smell.",
+    "tags": [
+      "fetish",
+      "leather",
+      "clothing"
+    ],
+    "category": "fetish",
+    "intensityScale": 2,
+    "aliases": [
+      "leather harness",
+      "biker"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
   }
 ]
