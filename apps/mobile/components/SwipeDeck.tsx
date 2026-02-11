@@ -68,6 +68,7 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       gone.value = true;
 
       const finish = (finished?: boolean) => {
+        'worklet';
         if (!finished) {
           animating.value = false;
           gone.value = false;
