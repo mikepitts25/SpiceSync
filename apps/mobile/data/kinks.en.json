@@ -14,13 +14,14 @@
     "tier": "romance"
   },
   {
-    "id": "0001",
-    "slug": "anal-play-advanced",
-    "title": "Backdoor play (advanced)",
-    "description": "Advanced exploration with more fingers, fist, bigger toys, etc.) for experienced partners; go slow and prioritize comfort.",
+    "id": "0001-give",
+    "slug": "anal-play-advanced-give",
+    "title": "Give: Backdoor play (advanced)",
+    "description": "You give this to your partner: Advanced exploration with more fingers, fist, bigger toys, etc.) for experienced partners; go slow and prioritize comfort.",
     "tags": [
       "prep",
-      "comfort"
+      "comfort",
+      "giving"
     ],
     "category": "props_and_toys",
     "intensityScale": 3,
@@ -29,13 +30,48 @@
     "tier": "xxx"
   },
   {
-    "id": "0002",
-    "slug": "anal-play-beginner",
-    "title": "Backdoor play (beginner)",
-    "description": "Beginner-friendly exploration with finger or small object (like small butt plug).",
+    "id": "0001-receive",
+    "slug": "anal-play-advanced-receive",
+    "title": "Receive: Backdoor play (advanced)",
+    "description": "You receive this from your partner: Advanced exploration with more fingers, fist, bigger toys, etc.) for experienced partners; go slow and prioritize comfort.",
     "tags": [
       "prep",
-      "comfort"
+      "comfort",
+      "receiving"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0002-give",
+    "slug": "anal-play-beginner-give",
+    "title": "Give: Backdoor play (beginner)",
+    "description": "You give this to your partner: Beginner-friendly exploration with finger or small object (like small butt plug).",
+    "tags": [
+      "prep",
+      "comfort",
+      "giving"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [
+      "anal beginner"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0002-receive",
+    "slug": "anal-play-beginner-receive",
+    "title": "Receive: Backdoor play (beginner)",
+    "description": "You receive this from your partner: Beginner-friendly exploration with finger or small object (like small butt plug).",
+    "tags": [
+      "prep",
+      "comfort",
+      "receiving"
     ],
     "category": "props_and_toys",
     "intensityScale": 2,
@@ -91,12 +127,13 @@
     "tier": "soft"
   },
   {
-    "id": "0006",
-    "slug": "blindfold-deep",
-    "title": "Deeper sensory deprivation",
-    "description": "Layered blindfold/earplugs to emphasize other senses; constant consent.",
+    "id": "0006-give",
+    "slug": "blindfold-deep-give",
+    "title": "Give: Deeper sensory deprivation",
+    "description": "You give this to your partner: Layered blindfold/earplugs to emphasize other senses; constant consent.",
     "tags": [
-      "sensory"
+      "sensory",
+      "giving"
     ],
     "category": "sensory",
     "intensityScale": 2,
@@ -105,14 +142,30 @@
     "tier": "soft"
   },
   {
-    "id": "0007",
-    "slug": "blindfold-soft",
-    "title": "Soft blindfold",
-    "description": "Light sensory play by gently covering eyes to heighten other senses.",
+    "id": "0006-receive",
+    "slug": "blindfold-deep-receive",
+    "title": "Receive: Deeper sensory deprivation",
+    "description": "You receive this from your partner: Layered blindfold/earplugs to emphasize other senses; constant consent.",
+    "tags": [
+      "sensory",
+      "receiving"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0007-give",
+    "slug": "blindfold-soft-give",
+    "title": "Give: Soft blindfold",
+    "description": "You give this to your partner: Light sensory play by gently covering eyes to heighten other senses.",
     "tags": [
       "touch",
       "sound",
-      "scent"
+      "scent",
+      "giving"
     ],
     "category": "sensory",
     "intensityScale": 2,
@@ -121,13 +174,47 @@
     "tier": "soft"
   },
   {
-    "id": "0008",
-    "slug": "body-worship",
-    "title": "Body worship",
-    "description": "Focused attention on admired body areas (e.g., chest, legs) with praise and consent.",
+    "id": "0007-receive",
+    "slug": "blindfold-soft-receive",
+    "title": "Receive: Soft blindfold",
+    "description": "You receive this from your partner: Light sensory play by gently covering eyes to heighten other senses.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent",
+      "receiving"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0008-give",
+    "slug": "body-worship-give",
+    "title": "Give: Body worship",
+    "description": "You give this to your partner: Focused attention on admired body areas (e.g., chest, legs) with praise and consent.",
     "tags": [
       "aesthetic",
-      "praise"
+      "praise",
+      "giving"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0008-receive",
+    "slug": "body-worship-receive",
+    "title": "Receive: Body worship",
+    "description": "You receive this from your partner: Focused attention on admired body areas (e.g., chest, legs) with praise and consent.",
+    "tags": [
+      "aesthetic",
+      "praise",
+      "receiving"
     ],
     "category": "communication",
     "intensityScale": 1,
@@ -354,13 +441,30 @@
     "tier": "soft"
   },
   {
-    "id": "0023",
-    "slug": "collar-symbol",
-    "title": "Collar Wearing",
-    "description": "A collar worn as a submissive symbol.",
+    "id": "0023-give",
+    "slug": "collar-symbol-give",
+    "title": "Give: Collar Wearing",
+    "description": "You give this to your partner: A collar worn as a submissive symbol.",
     "tags": [
       "symbol",
-      "roles"
+      "roles",
+      "giving"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0023-receive",
+    "slug": "collar-symbol-receive",
+    "title": "Receive: Collar Wearing",
+    "description": "You receive this from your partner: A collar worn as a submissive symbol.",
+    "tags": [
+      "symbol",
+      "roles",
+      "receiving"
     ],
     "category": "light_restraint",
     "intensityScale": 2,
@@ -402,13 +506,30 @@
     "tier": "soft"
   },
   {
-    "id": "0026",
-    "slug": "degradation",
-    "title": "Degradation",
-    "description": "Spicy put-downs during sex; confirm words and aftercare.",
+    "id": "0026-give",
+    "slug": "degradation-give",
+    "title": "Give: Degradation",
+    "description": "You give this to your partner: Spicy put-downs during sex; confirm words and aftercare.",
     "tags": [
       "language",
-      "roles"
+      "roles",
+      "giving"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0026-receive",
+    "slug": "degradation-receive",
+    "title": "Receive: Degradation",
+    "description": "You receive this from your partner: Spicy put-downs during sex; confirm words and aftercare.",
+    "tags": [
+      "language",
+      "roles",
+      "receiving"
     ],
     "category": "communication",
     "intensityScale": 2,
@@ -496,13 +617,30 @@
     "tier": "soft"
   },
   {
-    "id": "0032",
-    "slug": "cuckolding-consent",
-    "title": "Cuckolding",
-    "description": "Engage in sexual acts with another person in front of your partner (with their consent). Sometimes accompanied with humiliation or degradation.",
+    "id": "0032-give",
+    "slug": "cuckolding-consent-give",
+    "title": "Give: Cuckolding",
+    "description": "You give this to your partner: Engage in sexual acts with another person in front of your partner (with their consent). Sometimes accompanied with humiliation or degradation.",
     "tags": [
       "cnm",
-      "voyeur"
+      "voyeur",
+      "giving"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0032-receive",
+    "slug": "cuckolding-consent-receive",
+    "title": "Receive: Cuckolding",
+    "description": "You receive this from your partner: Engage in sexual acts with another person in front of your partner (with their consent). Sometimes accompanied with humiliation or degradation.",
+    "tags": [
+      "cnm",
+      "voyeur",
+      "receiving"
     ],
     "category": "group",
     "intensityScale": 3,
@@ -747,13 +885,30 @@
     "tier": "romance"
   },
   {
-    "id": "0048",
-    "slug": "face-sitting",
-    "title": "Face-sitting",
-    "description": "The act of sitting on your partner's face or them sitting on yours.",
+    "id": "0048-give",
+    "slug": "face-sitting-give",
+    "title": "Give: Face-sitting",
+    "description": "You give this to your partner: The act of sitting on your partner's face or them sitting on yours.",
     "tags": [
       "positioning",
-      "safety"
+      "safety",
+      "giving"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0048-receive",
+    "slug": "face-sitting-receive",
+    "title": "Receive: Face-sitting",
+    "description": "You receive this from your partner: The act of sitting on your partner's face or them sitting on yours.",
+    "tags": [
+      "positioning",
+      "safety",
+      "receiving"
     ],
     "category": "environment",
     "intensityScale": 3,
@@ -824,13 +979,32 @@
     "tier": "soft"
   },
   {
-    "id": "0053",
-    "slug": "foot-focus",
-    "title": "Foot focus",
-    "description": "Attention to feet (massage, adornments) as a comfort or aesthetic focus.",
+    "id": "0053-give",
+    "slug": "foot-focus-give",
+    "title": "Give: Foot focus",
+    "description": "You give this to your partner: Attention to feet (massage, adornments) as a comfort or aesthetic focus.",
     "tags": [
       "sensory",
-      "aesthetic"
+      "aesthetic",
+      "giving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "foot play (non-graphic)"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0053-receive",
+    "slug": "foot-focus-receive",
+    "title": "Receive: Foot focus",
+    "description": "You receive this from your partner: Attention to feet (massage, adornments) as a comfort or aesthetic focus.",
+    "tags": [
+      "sensory",
+      "aesthetic",
+      "receiving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -857,13 +1031,30 @@
     "tier": "romance"
   },
   {
-    "id": "0055",
-    "slug": "gag-soft",
-    "title": "Soft gag",
-    "description": "Breath-safe, removable gag with clear stop signals and frequent breaks.",
+    "id": "0055-give",
+    "slug": "gag-soft-give",
+    "title": "Give: Soft gag",
+    "description": "You give this to your partner: Breath-safe, removable gag with clear stop signals and frequent breaks.",
     "tags": [
       "restraint",
-      "signals"
+      "signals",
+      "giving"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0055-receive",
+    "slug": "gag-soft-receive",
+    "title": "Receive: Soft gag",
+    "description": "You receive this from your partner: Breath-safe, removable gag with clear stop signals and frequent breaks.",
+    "tags": [
+      "restraint",
+      "signals",
+      "receiving"
     ],
     "category": "light_restraint",
     "intensityScale": 2,
@@ -999,12 +1190,13 @@
     "tier": "romance"
   },
   {
-    "id": "0064",
-    "slug": "hand-restraint-behind",
-    "title": "Hands behind (guided)",
-    "description": "Guided posture with soft restraint and quick release.",
+    "id": "0064-give",
+    "slug": "hand-restraint-behind-give",
+    "title": "Give: Hands behind (guided)",
+    "description": "You give this to your partner: Guided posture with soft restraint and quick release.",
     "tags": [
-      "restraint"
+      "restraint",
+      "giving"
     ],
     "category": "light_restraint",
     "intensityScale": 2,
@@ -1013,13 +1205,29 @@
     "tier": "naughty"
   },
   {
-    "id": "0065",
-    "slug": "heels-boots-worship",
-    "title": "Heel/boot Worship",
-    "description": "Worshiping footwear while being worn; massage, kissing, compliments, etc.",
+    "id": "0064-receive",
+    "slug": "hand-restraint-behind-receive",
+    "title": "Receive: Hands behind (guided)",
+    "description": "You receive this from your partner: Guided posture with soft restraint and quick release.",
+    "tags": [
+      "restraint",
+      "receiving"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0065-give",
+    "slug": "heels-boots-worship-give",
+    "title": "Give: Heel/boot Worship",
+    "description": "You give this to your partner: Worshiping footwear while being worn; massage, kissing, compliments, etc.",
     "tags": [
       "aesthetic",
-      "worship"
+      "worship",
+      "giving"
     ],
     "category": "roleplay",
     "intensityScale": 1,
@@ -1028,13 +1236,48 @@
     "tier": "soft"
   },
   {
-    "id": "0066",
-    "slug": "hotwife-consensual",
-    "title": "Hot-wife (consensual non-monogamy)",
-    "description": "One partner engages with others by agreement; the other may observe or participate.",
+    "id": "0065-receive",
+    "slug": "heels-boots-worship-receive",
+    "title": "Receive: Heel/boot Worship",
+    "description": "You receive this from your partner: Worshiping footwear while being worn; massage, kissing, compliments, etc.",
+    "tags": [
+      "aesthetic",
+      "worship",
+      "receiving"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0066-give",
+    "slug": "hotwife-consensual-give",
+    "title": "Give: Hot-wife (consensual non-monogamy)",
+    "description": "You give this to your partner: One partner engages with others by agreement; the other may observe or participate.",
     "tags": [
       "cnm",
-      "voyeur"
+      "voyeur",
+      "giving"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "stag-and-vixen"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0066-receive",
+    "slug": "hotwife-consensual-receive",
+    "title": "Receive: Hot-wife (consensual non-monogamy)",
+    "description": "You receive this from your partner: One partner engages with others by agreement; the other may observe or participate.",
+    "tags": [
+      "cnm",
+      "voyeur",
+      "receiving"
     ],
     "category": "group",
     "intensityScale": 3,
@@ -1090,13 +1333,14 @@
     "tier": "naughty"
   },
   {
-    "id": "0070",
-    "slug": "impact-hand-spanking",
-    "title": "Spanking (hand)",
-    "description": "Light to moderate impact with agreed areas, intensity scale, and aftercare.",
+    "id": "0070-give",
+    "slug": "impact-hand-spanking-give",
+    "title": "Give: Spanking (hand)",
+    "description": "You give this to your partner: Light to moderate impact with agreed areas, intensity scale, and aftercare.",
     "tags": [
       "impact",
-      "aftercare"
+      "aftercare",
+      "giving"
     ],
     "category": "sensory",
     "intensityScale": 2,
@@ -1105,13 +1349,14 @@
     "tier": "naughty"
   },
   {
-    "id": "0071",
-    "slug": "impact-paddle",
-    "title": "Impact with paddle (light)",
-    "description": "Flat paddle used with warm-up and limits; frequent check-ins.",
+    "id": "0070-receive",
+    "slug": "impact-hand-spanking-receive",
+    "title": "Receive: Spanking (hand)",
+    "description": "You receive this from your partner: Light to moderate impact with agreed areas, intensity scale, and aftercare.",
     "tags": [
       "impact",
-      "tools"
+      "aftercare",
+      "receiving"
     ],
     "category": "sensory",
     "intensityScale": 2,
@@ -1120,13 +1365,62 @@
     "tier": "naughty"
   },
   {
-    "id": "0072",
-    "slug": "interrogation-lite",
-    "title": "Interrogation-lite roleplay",
-    "description": "Dramatic questioning with gentle restraint/props.",
+    "id": "0071-give",
+    "slug": "impact-paddle-give",
+    "title": "Give: Impact with paddle (light)",
+    "description": "You give this to your partner: Flat paddle used with warm-up and limits; frequent check-ins.",
+    "tags": [
+      "impact",
+      "tools",
+      "giving"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0071-receive",
+    "slug": "impact-paddle-receive",
+    "title": "Receive: Impact with paddle (light)",
+    "description": "You receive this from your partner: Flat paddle used with warm-up and limits; frequent check-ins.",
+    "tags": [
+      "impact",
+      "tools",
+      "receiving"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0072-give",
+    "slug": "interrogation-lite-give",
+    "title": "Give: Interrogation-lite roleplay",
+    "description": "You give this to your partner: Dramatic questioning with gentle restraint/props.",
     "tags": [
       "roleplay",
-      "props"
+      "props",
+      "giving"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0072-receive",
+    "slug": "interrogation-lite-receive",
+    "title": "Receive: Interrogation-lite roleplay",
+    "description": "You receive this from your partner: Dramatic questioning with gentle restraint/props.",
+    "tags": [
+      "roleplay",
+      "props",
+      "receiving"
     ],
     "category": "roleplay",
     "intensityScale": 2,
@@ -1180,13 +1474,30 @@
     "tier": "naughty"
   },
   {
-    "id": "0076",
-    "slug": "leash-light-guidance",
-    "title": "Leash Play",
-    "description": "Decorative leash for gentle guidance with easy release and consent.",
+    "id": "0076-give",
+    "slug": "leash-light-guidance-give",
+    "title": "Give: Leash Play",
+    "description": "You give this to your partner: Decorative leash for gentle guidance with easy release and consent.",
     "tags": [
       "aesthetic",
-      "guidance"
+      "guidance",
+      "giving"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0076-receive",
+    "slug": "leash-light-guidance-receive",
+    "title": "Receive: Leash Play",
+    "description": "You receive this from your partner: Decorative leash for gentle guidance with easy release and consent.",
+    "tags": [
+      "aesthetic",
+      "guidance",
+      "receiving"
     ],
     "category": "light_restraint",
     "intensityScale": 2,
@@ -1257,14 +1568,15 @@
     "tier": "naughty"
   },
   {
-    "id": "0081",
-    "slug": "massage-hands",
-    "title": "Hand massage",
-    "description": "Using oil or lotion to gently massage hands and fingers.",
+    "id": "0081-give",
+    "slug": "massage-hands-give",
+    "title": "Give: Hand massage",
+    "description": "You give this to your partner: Using oil or lotion to gently massage hands and fingers.",
     "tags": [
       "touch",
       "sound",
-      "scent"
+      "scent",
+      "giving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -1273,14 +1585,49 @@
     "tier": "romance"
   },
   {
-    "id": "0082",
-    "slug": "massage-shoulders",
-    "title": "Shoulder massage",
-    "description": "Loosening tension with a slow, mindful shoulder massage.",
+    "id": "0081-receive",
+    "slug": "massage-hands-receive",
+    "title": "Receive: Hand massage",
+    "description": "You receive this from your partner: Using oil or lotion to gently massage hands and fingers.",
     "tags": [
       "touch",
       "sound",
-      "scent"
+      "scent",
+      "receiving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "0082-give",
+    "slug": "massage-shoulders-give",
+    "title": "Give: Shoulder massage",
+    "description": "You give this to your partner: Loosening tension with a slow, mindful shoulder massage.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent",
+      "giving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "0082-receive",
+    "slug": "massage-shoulders-receive",
+    "title": "Receive: Shoulder massage",
+    "description": "You receive this from your partner: Loosening tension with a slow, mindful shoulder massage.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent",
+      "receiving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -1305,13 +1652,30 @@
     "tier": "naughty"
   },
   {
-    "id": "0084",
-    "slug": "mirror-commands",
-    "title": "Mirror with guided commands",
-    "description": "Watching in a mirror while following gentle, consensual directions.",
+    "id": "0084-give",
+    "slug": "mirror-commands-give",
+    "title": "Give: Mirror with guided commands",
+    "description": "You give this to your partner: Watching in a mirror while following gentle, consensual directions.",
     "tags": [
       "voyeur",
-      "roles"
+      "roles",
+      "giving"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0084-receive",
+    "slug": "mirror-commands-receive",
+    "title": "Receive: Mirror with guided commands",
+    "description": "You receive this from your partner: Watching in a mirror while following gentle, consensual directions.",
+    "tags": [
+      "voyeur",
+      "roles",
+      "receiving"
     ],
     "category": "environment",
     "intensityScale": 2,
@@ -1443,13 +1807,30 @@
     "tier": "naughty"
   },
   {
-    "id": "0093",
-    "slug": "pegging",
-    "title": "Pegging",
-    "description": "Consensual strap-on play with preparation, communication, and comfort as priorities.",
+    "id": "0093-give",
+    "slug": "pegging-give",
+    "title": "Give: Pegging",
+    "description": "You give this to your partner: Consensual strap-on play with preparation, communication, and comfort as priorities.",
     "tags": [
       "toys",
-      "role"
+      "role",
+      "giving"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0093-receive",
+    "slug": "pegging-receive",
+    "title": "Receive: Pegging",
+    "description": "You receive this from your partner: Consensual strap-on play with preparation, communication, and comfort as priorities.",
+    "tags": [
+      "toys",
+      "role",
+      "receiving"
     ],
     "category": "props_and_toys",
     "intensityScale": 3,
@@ -1568,13 +1949,30 @@
     "tier": "xxx"
   },
   {
-    "id": "0101",
-    "slug": "prostate-massage",
-    "title": "Prostate massage ",
-    "description": "Prostate stimulation with plenty of lube and patience. Experiment with different angles and speeds.",
+    "id": "0101-give",
+    "slug": "prostate-massage-give",
+    "title": "Give: Prostate massage ",
+    "description": "You give this to your partner: Prostate stimulation with plenty of lube and patience. Experiment with different angles and speeds.",
     "tags": [
       "toys",
-      "topic"
+      "topic",
+      "giving"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0101-receive",
+    "slug": "prostate-massage-receive",
+    "title": "Receive: Prostate massage ",
+    "description": "You receive this from your partner: Prostate stimulation with plenty of lube and patience. Experiment with different angles and speeds.",
+    "tags": [
+      "toys",
+      "topic",
+      "receiving"
     ],
     "category": "props_and_toys",
     "intensityScale": 2,
@@ -1738,13 +2136,30 @@
     "tier": "soft"
   },
   {
-    "id": "0112",
-    "slug": "rope-basic",
-    "title": "Rope bondage",
-    "description": "Simple ties with two-finger space to restrict hand, feet, arms, legs, etc.",
+    "id": "0112-give",
+    "slug": "rope-basic-give",
+    "title": "Give: Rope bondage",
+    "description": "You give this to your partner: Simple ties with two-finger space to restrict hand, feet, arms, legs, etc.",
     "tags": [
       "rope",
-      "safety"
+      "safety",
+      "giving"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0112-receive",
+    "slug": "rope-basic-receive",
+    "title": "Receive: Rope bondage",
+    "description": "You receive this from your partner: Simple ties with two-finger space to restrict hand, feet, arms, legs, etc.",
+    "tags": [
+      "rope",
+      "safety",
+      "receiving"
     ],
     "category": "light_restraint",
     "intensityScale": 2,
@@ -1783,13 +2198,14 @@
     "tier": "naughty"
   },
   {
-    "id": "0115",
-    "slug": "satin-ribbon",
-    "title": "Satin ribbon guide",
-    "description": "A short ribbon to guide movement gently like a lead/leash; never tight; easy release.",
+    "id": "0115-give",
+    "slug": "satin-ribbon-give",
+    "title": "Give: Satin ribbon guide",
+    "description": "You give this to your partner: A short ribbon to guide movement gently like a lead/leash; never tight; easy release.",
     "tags": [
       "clean",
-      "body-safe"
+      "body-safe",
+      "giving"
     ],
     "category": "props_and_toys",
     "intensityScale": 1,
@@ -1798,14 +2214,48 @@
     "tier": "soft"
   },
   {
-    "id": "0116",
-    "slug": "scalp-massage",
-    "title": "Scalp massage",
-    "description": "Gentle fingertip massage of the scalp and temples.",
+    "id": "0115-receive",
+    "slug": "satin-ribbon-receive",
+    "title": "Receive: Satin ribbon guide",
+    "description": "You receive this from your partner: A short ribbon to guide movement gently like a lead/leash; never tight; easy release.",
+    "tags": [
+      "clean",
+      "body-safe",
+      "receiving"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0116-give",
+    "slug": "scalp-massage-give",
+    "title": "Give: Scalp massage",
+    "description": "You give this to your partner: Gentle fingertip massage of the scalp and temples.",
     "tags": [
       "touch",
       "sound",
-      "scent"
+      "scent",
+      "giving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "0116-receive",
+    "slug": "scalp-massage-receive",
+    "title": "Receive: Scalp massage",
+    "description": "You receive this from your partner: Gentle fingertip massage of the scalp and temples.",
+    "tags": [
+      "touch",
+      "sound",
+      "scent",
+      "receiving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -1859,13 +2309,30 @@
     "tier": "xxx"
   },
   {
-    "id": "0120",
-    "slug": "semen-play-topic",
-    "title": "Cum play",
-    "description": "Interest in playing with semen (massaging onto skin, touching, playing with fingers, etc.).",
+    "id": "0120-give",
+    "slug": "semen-play-topic-give",
+    "title": "Give: Cum play",
+    "description": "You give this to your partner: Interest in playing with semen (massaging onto skin, touching, playing with fingers, etc.).",
     "tags": [
       "fluids",
-      "health"
+      "health",
+      "giving"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0120-receive",
+    "slug": "semen-play-topic-receive",
+    "title": "Receive: Cum play",
+    "description": "You receive this from your partner: Interest in playing with semen (massaging onto skin, touching, playing with fingers, etc.).",
+    "tags": [
+      "fluids",
+      "health",
+      "receiving"
     ],
     "category": "environment",
     "intensityScale": 3,
@@ -2003,14 +2470,15 @@
     "tier": "romance"
   },
   {
-    "id": "rom-007",
-    "slug": "full-body-massage",
-    "title": "Full Body Massage",
-    "description": "Take turns giving each other slow, sensual full-body massages with warm oil.",
+    "id": "rom-007-give",
+    "slug": "full-body-massage-give",
+    "title": "Give: Full Body Massage",
+    "description": "You give this to your partner: Take turns giving each other slow, sensual full-body massages with warm oil.",
     "tags": [
       "massage",
       "touch",
-      "sensual"
+      "sensual",
+      "giving"
     ],
     "category": "romance",
     "intensityScale": 1,
@@ -2022,14 +2490,55 @@
     "tier": "romance"
   },
   {
-    "id": "rom-009",
-    "slug": "foot-massage",
-    "title": "Foot Massage",
-    "description": "Massage each other's feet with lotion or oil. A caring, intimate act of service.",
+    "id": "rom-007-receive",
+    "slug": "full-body-massage-receive",
+    "title": "Receive: Full Body Massage",
+    "description": "You receive this from your partner: Take turns giving each other slow, sensual full-body massages with warm oil.",
+    "tags": [
+      "massage",
+      "touch",
+      "sensual",
+      "receiving"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "body rub",
+      "oil massage"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-009-give",
+    "slug": "foot-massage-give",
+    "title": "Give: Foot Massage",
+    "description": "You give this to your partner: Massage each other's feet with lotion or oil. A caring, intimate act of service.",
     "tags": [
       "massage",
       "feet",
-      "service"
+      "service",
+      "giving"
+    ],
+    "category": "romance",
+    "intensityScale": 1,
+    "aliases": [
+      "foot rub",
+      "foot worship"
+    ],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "rom-009-receive",
+    "slug": "foot-massage-receive",
+    "title": "Receive: Foot Massage",
+    "description": "You receive this from your partner: Massage each other's feet with lotion or oil. A caring, intimate act of service.",
+    "tags": [
+      "massage",
+      "feet",
+      "service",
+      "receiving"
     ],
     "category": "romance",
     "intensityScale": 1,
@@ -2250,14 +2759,35 @@
     "tier": "romance"
   },
   {
-    "id": "sense-001",
-    "slug": "blindfold-silk",
-    "title": "Silk Blindfold",
-    "description": "Use a soft silk scarf as a blindfold. Heightens other senses and builds anticipation.",
+    "id": "sense-001-give",
+    "slug": "blindfold-silk-give",
+    "title": "Give: Silk Blindfold",
+    "description": "You give this to your partner: Use a soft silk scarf as a blindfold. Heightens other senses and builds anticipation.",
     "tags": [
       "sensory deprivation",
       "blindfold",
-      "anticipation"
+      "anticipation",
+      "giving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "soft blindfold",
+      "silk scarf"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-001-receive",
+    "slug": "blindfold-silk-receive",
+    "title": "Receive: Silk Blindfold",
+    "description": "You receive this from your partner: Use a soft silk scarf as a blindfold. Heightens other senses and builds anticipation.",
+    "tags": [
+      "sensory deprivation",
+      "blindfold",
+      "anticipation",
+      "receiving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -2288,14 +2818,35 @@
     "tier": "soft"
   },
   {
-    "id": "sense-004",
-    "slug": "warm-oil-pour",
-    "title": "Warm Oil Pour",
-    "description": "Gently pour warmed massage oil onto your partner's back and massage it in.",
+    "id": "sense-004-give",
+    "slug": "warm-oil-pour-give",
+    "title": "Give: Warm Oil Pour",
+    "description": "You give this to your partner: Gently pour warmed massage oil onto your partner's back and massage it in.",
     "tags": [
       "oil",
       "warmth",
-      "massage"
+      "massage",
+      "giving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "oil massage",
+      "warm oil"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-004-receive",
+    "slug": "warm-oil-pour-receive",
+    "title": "Receive: Warm Oil Pour",
+    "description": "You receive this from your partner: Gently pour warmed massage oil onto your partner's back and massage it in.",
+    "tags": [
+      "oil",
+      "warmth",
+      "massage",
+      "receiving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -2345,14 +2896,15 @@
     "tier": "naughty"
   },
   {
-    "id": "sense-007",
-    "slug": "wax-play-low",
-    "title": "Low-Temperature Wax Play",
-    "description": "Use massage candles designed for body wax play. Warm wax sensation on skin.",
+    "id": "sense-007-give",
+    "slug": "wax-play-low-give",
+    "title": "Give: Low-Temperature Wax Play",
+    "description": "You give this to your partner: Use massage candles designed for body wax play. Warm wax sensation on skin.",
     "tags": [
       "wax",
       "temperature",
-      "sensation"
+      "sensation",
+      "giving"
     ],
     "category": "sensory",
     "intensityScale": 2,
@@ -2364,14 +2916,55 @@
     "tier": "naughty"
   },
   {
-    "id": "sense-008",
-    "slug": "scratching-gentle",
-    "title": "Gentle Back Scratching",
-    "description": "Use fingernails to lightly scratch your partner's back. Vary pressure from soft to firm.",
+    "id": "sense-007-receive",
+    "slug": "wax-play-low-receive",
+    "title": "Receive: Low-Temperature Wax Play",
+    "description": "You receive this from your partner: Use massage candles designed for body wax play. Warm wax sensation on skin.",
+    "tags": [
+      "wax",
+      "temperature",
+      "sensation",
+      "receiving"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [
+      "wax drips",
+      "candle wax"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "sense-008-give",
+    "slug": "scratching-gentle-give",
+    "title": "Give: Gentle Back Scratching",
+    "description": "You give this to your partner: Use fingernails to lightly scratch your partner's back. Vary pressure from soft to firm.",
     "tags": [
       "scratching",
       "nails",
-      "sensation"
+      "sensation",
+      "giving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "back scratch",
+      "nail play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "sense-008-receive",
+    "slug": "scratching-gentle-receive",
+    "title": "Receive: Gentle Back Scratching",
+    "description": "You receive this from your partner: Use fingernails to lightly scratch your partner's back. Vary pressure from soft to firm.",
+    "tags": [
+      "scratching",
+      "nails",
+      "sensation",
+      "receiving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -2497,14 +3090,15 @@
     "tier": "soft"
   },
   {
-    "id": "sense-015",
-    "slug": "bondage-rope-sensation",
-    "title": "Rope Sensation Play",
-    "description": "Drag rope across skin for texture sensation. Not tied, just sensation.",
+    "id": "sense-015-give",
+    "slug": "bondage-rope-sensation-give",
+    "title": "Give: Rope Sensation Play",
+    "description": "You give this to your partner: Drag rope across skin for texture sensation. Not tied, just sensation.",
     "tags": [
       "rope",
       "texture",
-      "sensation"
+      "sensation",
+      "giving"
     ],
     "category": "sensory",
     "intensityScale": 1,
@@ -2516,14 +3110,55 @@
     "tier": "soft"
   },
   {
-    "id": "bdsm-001",
-    "slug": "handcuffs-velvet",
-    "title": "Velvet Handcuffs",
-    "description": "Soft, padded handcuffs for light restraint play. Comfortable and secure.",
+    "id": "sense-015-receive",
+    "slug": "bondage-rope-sensation-receive",
+    "title": "Receive: Rope Sensation Play",
+    "description": "You receive this from your partner: Drag rope across skin for texture sensation. Not tied, just sensation.",
+    "tags": [
+      "rope",
+      "texture",
+      "sensation",
+      "receiving"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [
+      "rope drag",
+      "cord sensation"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "bdsm-001-give",
+    "slug": "handcuffs-velvet-give",
+    "title": "Give: Velvet Handcuffs",
+    "description": "You give this to your partner: Soft, padded handcuffs for light restraint play. Comfortable and secure.",
     "tags": [
       "bondage",
       "handcuffs",
-      "restraint"
+      "restraint",
+      "giving"
+    ],
+    "category": "bondage",
+    "intensityScale": 1,
+    "aliases": [
+      "soft cuffs",
+      "padded cuffs"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "bdsm-001-receive",
+    "slug": "handcuffs-velvet-receive",
+    "title": "Receive: Velvet Handcuffs",
+    "description": "You receive this from your partner: Soft, padded handcuffs for light restraint play. Comfortable and secure.",
+    "tags": [
+      "bondage",
+      "handcuffs",
+      "restraint",
+      "receiving"
     ],
     "category": "bondage",
     "intensityScale": 1,
@@ -2554,14 +3189,15 @@
     "tier": "soft"
   },
   {
-    "id": "bdsm-003",
-    "slug": "under-bed-restraints",
-    "title": "Under-Bed Restraint System",
-    "description": "Straps that go under the mattress to restrain wrists and ankles to the bed.",
+    "id": "bdsm-003-give",
+    "slug": "under-bed-restraints-give",
+    "title": "Give: Under-Bed Restraint System",
+    "description": "You give this to your partner: Straps that go under the mattress to restrain wrists and ankles to the bed.",
     "tags": [
       "bondage",
       "restraints",
-      "bed"
+      "bed",
+      "giving"
     ],
     "category": "bondage",
     "intensityScale": 2,
@@ -2573,14 +3209,35 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-004",
-    "slug": "spanking-hand",
-    "title": "Hand Spanking",
-    "description": "Gentle to firm spanking with an open hand. Start light and communicate.",
+    "id": "bdsm-003-receive",
+    "slug": "under-bed-restraints-receive",
+    "title": "Receive: Under-Bed Restraint System",
+    "description": "You receive this from your partner: Straps that go under the mattress to restrain wrists and ankles to the bed.",
+    "tags": [
+      "bondage",
+      "restraints",
+      "bed",
+      "receiving"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "bed straps",
+      "mattress restraints"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-004-give",
+    "slug": "spanking-hand-give",
+    "title": "Give: Hand Spanking",
+    "description": "You give this to your partner: Gentle to firm spanking with an open hand. Start light and communicate.",
     "tags": [
       "impact",
       "spanking",
-      "discipline"
+      "discipline",
+      "giving"
     ],
     "category": "impact",
     "intensityScale": 2,
@@ -2593,14 +3250,36 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-005",
-    "slug": "spanking-paddle",
-    "title": "Paddle Spanking",
-    "description": "Use a soft paddle for impact play. More thud than sting.",
+    "id": "bdsm-004-receive",
+    "slug": "spanking-hand-receive",
+    "title": "Receive: Hand Spanking",
+    "description": "You receive this from your partner: Gentle to firm spanking with an open hand. Start light and communicate.",
+    "tags": [
+      "impact",
+      "spanking",
+      "discipline",
+      "receiving"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "over the knee",
+      "OTK",
+      "hand spank"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-005-give",
+    "slug": "spanking-paddle-give",
+    "title": "Give: Paddle Spanking",
+    "description": "You give this to your partner: Use a soft paddle for impact play. More thud than sting.",
     "tags": [
       "impact",
       "paddle",
-      "spanking"
+      "spanking",
+      "giving"
     ],
     "category": "impact",
     "intensityScale": 2,
@@ -2612,14 +3291,35 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-006",
-    "slug": "flogger-gentle",
-    "title": "Gentle Flogging",
-    "description": "Use a soft flogger with light strikes. Sensual and rhythmic.",
+    "id": "bdsm-005-receive",
+    "slug": "spanking-paddle-receive",
+    "title": "Receive: Paddle Spanking",
+    "description": "You receive this from your partner: Use a soft paddle for impact play. More thud than sting.",
+    "tags": [
+      "impact",
+      "paddle",
+      "spanking",
+      "receiving"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "paddling",
+      "impact play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-006-give",
+    "slug": "flogger-gentle-give",
+    "title": "Give: Gentle Flogging",
+    "description": "You give this to your partner: Use a soft flogger with light strikes. Sensual and rhythmic.",
     "tags": [
       "impact",
       "flogger",
-      "sensation"
+      "sensation",
+      "giving"
     ],
     "category": "impact",
     "intensityScale": 2,
@@ -2631,14 +3331,55 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-007",
-    "slug": "dominant-commands",
-    "title": "Dominant Commands",
-    "description": "One partner gives simple commands for the other to follow. Build trust and excitement.",
+    "id": "bdsm-006-receive",
+    "slug": "flogger-gentle-receive",
+    "title": "Receive: Gentle Flogging",
+    "description": "You receive this from your partner: Use a soft flogger with light strikes. Sensual and rhythmic.",
+    "tags": [
+      "impact",
+      "flogger",
+      "sensation",
+      "receiving"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "flogging",
+      "soft flogger"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-007-give",
+    "slug": "dominant-commands-give",
+    "title": "Give: Dominant Commands",
+    "description": "You give this to your partner: One partner gives simple commands for the other to follow. Build trust and excitement.",
     "tags": [
       "D/s",
       "dominance",
-      "commands"
+      "commands",
+      "giving"
+    ],
+    "category": "power_exchange",
+    "intensityScale": 2,
+    "aliases": [
+      "command play",
+      "domination"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-007-receive",
+    "slug": "dominant-commands-receive",
+    "title": "Receive: Dominant Commands",
+    "description": "You receive this from your partner: One partner gives simple commands for the other to follow. Build trust and excitement.",
+    "tags": [
+      "D/s",
+      "dominance",
+      "commands",
+      "receiving"
     ],
     "category": "power_exchange",
     "intensityScale": 2,
@@ -2669,14 +3410,15 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-009",
-    "slug": "collar-symbolic",
-    "title": "Symbolic Collar",
-    "description": "A special necklace or collar worn to symbolize submission or commitment during play.",
+    "id": "bdsm-009-give",
+    "slug": "collar-symbolic-give",
+    "title": "Give: Symbolic Collar",
+    "description": "You give this to your partner: A special necklace or collar worn to symbolize submission or commitment during play.",
     "tags": [
       "D/s",
       "collar",
-      "symbolism"
+      "symbolism",
+      "giving"
     ],
     "category": "power_exchange",
     "intensityScale": 1,
@@ -2688,14 +3430,55 @@
     "tier": "soft"
   },
   {
-    "id": "bdsm-010",
-    "slug": "leash-play",
-    "title": "Leash Play",
-    "description": "Use a leash attached to a collar for guided movement. High trust required.",
+    "id": "bdsm-009-receive",
+    "slug": "collar-symbolic-receive",
+    "title": "Receive: Symbolic Collar",
+    "description": "You receive this from your partner: A special necklace or collar worn to symbolize submission or commitment during play.",
+    "tags": [
+      "D/s",
+      "collar",
+      "symbolism",
+      "receiving"
+    ],
+    "category": "power_exchange",
+    "intensityScale": 1,
+    "aliases": [
+      "collaring",
+      "submission symbol"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "bdsm-010-give",
+    "slug": "leash-play-give",
+    "title": "Give: Leash Play",
+    "description": "You give this to your partner: Use a leash attached to a collar for guided movement. High trust required.",
     "tags": [
       "D/s",
       "leash",
-      "control"
+      "control",
+      "giving"
+    ],
+    "category": "power_exchange",
+    "intensityScale": 2,
+    "aliases": [
+      "leading",
+      "leash and collar"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-010-receive",
+    "slug": "leash-play-receive",
+    "title": "Receive: Leash Play",
+    "description": "You receive this from your partner: Use a leash attached to a collar for guided movement. High trust required.",
+    "tags": [
+      "D/s",
+      "leash",
+      "control",
+      "receiving"
     ],
     "category": "power_exchange",
     "intensityScale": 2,
@@ -2726,14 +3509,35 @@
     "tier": "xxx"
   },
   {
-    "id": "bdsm-013",
-    "slug": "rope-bondage-simple",
-    "title": "Simple Rope Bondage",
-    "description": "Learn basic knots to tie wrists or ankles. Always keep safety scissors nearby.",
+    "id": "bdsm-013-give",
+    "slug": "rope-bondage-simple-give",
+    "title": "Give: Simple Rope Bondage",
+    "description": "You give this to your partner: Learn basic knots to tie wrists or ankles. Always keep safety scissors nearby.",
     "tags": [
       "bondage",
       "rope",
-      "shibari"
+      "shibari",
+      "giving"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "rope play",
+      "basic ties"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-013-receive",
+    "slug": "rope-bondage-simple-receive",
+    "title": "Receive: Simple Rope Bondage",
+    "description": "You receive this from your partner: Learn basic knots to tie wrists or ankles. Always keep safety scissors nearby.",
+    "tags": [
+      "bondage",
+      "rope",
+      "shibari",
+      "receiving"
     ],
     "category": "bondage",
     "intensityScale": 2,
@@ -2783,14 +3587,15 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-017",
-    "slug": "ball-gag",
-    "title": "Ball Gag",
-    "description": "A gag that restricts speech. Establish non-verbal safe signals first.",
+    "id": "bdsm-017-give",
+    "slug": "ball-gag-give",
+    "title": "Give: Ball Gag",
+    "description": "You give this to your partner: A gag that restricts speech. Establish non-verbal safe signals first.",
     "tags": [
       "gag",
       "silence",
-      "restraint"
+      "restraint",
+      "giving"
     ],
     "category": "bondage",
     "intensityScale": 2,
@@ -2802,14 +3607,35 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-018",
-    "slug": "blindfold-restraint-combo",
-    "title": "Blindfold + Restraint Combo",
-    "description": "Combine blindfold with wrist restraints for total sensory control.",
+    "id": "bdsm-017-receive",
+    "slug": "ball-gag-receive",
+    "title": "Receive: Ball Gag",
+    "description": "You receive this from your partner: A gag that restricts speech. Establish non-verbal safe signals first.",
+    "tags": [
+      "gag",
+      "silence",
+      "restraint",
+      "receiving"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "mouth gag",
+      "silencing"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-018-give",
+    "slug": "blindfold-restraint-combo-give",
+    "title": "Give: Blindfold + Restraint Combo",
+    "description": "You give this to your partner: Combine blindfold with wrist restraints for total sensory control.",
     "tags": [
       "bondage",
       "blindfold",
-      "sensory deprivation"
+      "sensory deprivation",
+      "giving"
     ],
     "category": "bondage",
     "intensityScale": 2,
@@ -2821,14 +3647,55 @@
     "tier": "naughty"
   },
   {
-    "id": "bdsm-019",
-    "slug": "riding-crop",
-    "title": "Riding Crop Play",
-    "description": "Use a riding crop for precise, sharp impact. Start very light.",
+    "id": "bdsm-018-receive",
+    "slug": "blindfold-restraint-combo-receive",
+    "title": "Receive: Blindfold + Restraint Combo",
+    "description": "You receive this from your partner: Combine blindfold with wrist restraints for total sensory control.",
+    "tags": [
+      "bondage",
+      "blindfold",
+      "sensory deprivation",
+      "receiving"
+    ],
+    "category": "bondage",
+    "intensityScale": 2,
+    "aliases": [
+      "sensory control",
+      "deprivation play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-019-give",
+    "slug": "riding-crop-give",
+    "title": "Give: Riding Crop Play",
+    "description": "You give this to your partner: Use a riding crop for precise, sharp impact. Start very light.",
     "tags": [
       "impact",
       "crop",
-      "discipline"
+      "discipline",
+      "giving"
+    ],
+    "category": "impact",
+    "intensityScale": 2,
+    "aliases": [
+      "crop",
+      "equestrian whip"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "bdsm-019-receive",
+    "slug": "riding-crop-receive",
+    "title": "Receive: Riding Crop Play",
+    "description": "You receive this from your partner: Use a riding crop for precise, sharp impact. Start very light.",
+    "tags": [
+      "impact",
+      "crop",
+      "discipline",
+      "receiving"
     ],
     "category": "impact",
     "intensityScale": 2,
@@ -2878,14 +3745,35 @@
     "tier": "soft"
   },
   {
-    "id": "role-002",
-    "slug": "massage-therapist",
-    "title": "Massage Therapist & Client",
-    "description": "One plays a professional masseuse, the other a client. Let the massage get progressively more intimate.",
+    "id": "role-002-give",
+    "slug": "massage-therapist-give",
+    "title": "Give: Massage Therapist & Client",
+    "description": "You give this to your partner: One plays a professional masseuse, the other a client. Let the massage get progressively more intimate.",
     "tags": [
       "roleplay",
       "professional",
-      "massage"
+      "massage",
+      "giving"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [
+      "happy ending massage",
+      "therapist fantasy"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "role-002-receive",
+    "slug": "massage-therapist-receive",
+    "title": "Receive: Massage Therapist & Client",
+    "description": "You receive this from your partner: One plays a professional masseuse, the other a client. Let the massage get progressively more intimate.",
+    "tags": [
+      "roleplay",
+      "professional",
+      "massage",
+      "receiving"
     ],
     "category": "roleplay",
     "intensityScale": 1,
@@ -2936,14 +3824,35 @@
     "tier": "naughty"
   },
   {
-    "id": "role-005",
-    "slug": "boss-secretary",
-    "title": "Boss & Secretary",
-    "description": "Workplace power dynamic roleplay. One gives orders, the other complies... with benefits.",
+    "id": "role-005-give",
+    "slug": "boss-secretary-give",
+    "title": "Give: Boss & Secretary",
+    "description": "You give this to your partner: Workplace power dynamic roleplay. One gives orders, the other complies... with benefits.",
     "tags": [
       "roleplay",
       "office",
-      "power"
+      "power",
+      "giving"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "office affair",
+      "workplace"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-005-receive",
+    "slug": "boss-secretary-receive",
+    "title": "Receive: Boss & Secretary",
+    "description": "You receive this from your partner: Workplace power dynamic roleplay. One gives orders, the other complies... with benefits.",
+    "tags": [
+      "roleplay",
+      "office",
+      "power",
+      "receiving"
     ],
     "category": "roleplay",
     "intensityScale": 2,
@@ -3071,14 +3980,35 @@
     "tier": "naughty"
   },
   {
-    "id": "role-012",
-    "slug": "royalty-servant",
-    "title": "Royalty & Servant",
-    "description": "One is a king/queen, the other a devoted servant. Commands and service expected.",
+    "id": "role-012-give",
+    "slug": "royalty-servant-give",
+    "title": "Give: Royalty & Servant",
+    "description": "You give this to your partner: One is a king/queen, the other a devoted servant. Commands and service expected.",
     "tags": [
       "roleplay",
       "power",
-      "service"
+      "service",
+      "giving"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "king and servant",
+      "royalty"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "role-012-receive",
+    "slug": "royalty-servant-receive",
+    "title": "Receive: Royalty & Servant",
+    "description": "You receive this from your partner: One is a king/queen, the other a devoted servant. Commands and service expected.",
+    "tags": [
+      "roleplay",
+      "power",
+      "service",
+      "receiving"
     ],
     "category": "roleplay",
     "intensityScale": 2,
@@ -3148,14 +4078,15 @@
     "tier": "naughty"
   },
   {
-    "id": "toy-001",
-    "slug": "vibrator-bullet",
-    "title": "Bullet Vibrator",
-    "description": "Small, powerful vibrator for clitoral or perineum stimulation. Great for beginners.",
+    "id": "toy-001-give",
+    "slug": "vibrator-bullet-give",
+    "title": "Give: Bullet Vibrator",
+    "description": "You give this to your partner: Small, powerful vibrator for clitoral or perineum stimulation. Great for beginners.",
     "tags": [
       "toys",
       "vibrator",
-      "clitoral"
+      "clitoral",
+      "giving"
     ],
     "category": "toys",
     "intensityScale": 1,
@@ -3167,14 +4098,56 @@
     "tier": "soft"
   },
   {
-    "id": "toy-002",
-    "slug": "vibrator-wand",
-    "title": "Magic Wand Massager",
-    "description": "Powerful wand vibrator for intense external stimulation. Can be used on any body part.",
+    "id": "toy-001-receive",
+    "slug": "vibrator-bullet-receive",
+    "title": "Receive: Bullet Vibrator",
+    "description": "You receive this from your partner: Small, powerful vibrator for clitoral or perineum stimulation. Great for beginners.",
     "tags": [
       "toys",
       "vibrator",
-      "powerful"
+      "clitoral",
+      "receiving"
+    ],
+    "category": "toys",
+    "intensityScale": 1,
+    "aliases": [
+      "bullet",
+      "mini vibrator"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "toy-002-give",
+    "slug": "vibrator-wand-give",
+    "title": "Give: Magic Wand Massager",
+    "description": "You give this to your partner: Powerful wand vibrator for intense external stimulation. Can be used on any body part.",
+    "tags": [
+      "toys",
+      "vibrator",
+      "powerful",
+      "giving"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "hitachi",
+      "wand",
+      "massager"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-002-receive",
+    "slug": "vibrator-wand-receive",
+    "title": "Receive: Magic Wand Massager",
+    "description": "You receive this from your partner: Powerful wand vibrator for intense external stimulation. Can be used on any body part.",
+    "tags": [
+      "toys",
+      "vibrator",
+      "powerful",
+      "receiving"
     ],
     "category": "toys",
     "intensityScale": 2,
@@ -3225,14 +4198,35 @@
     "tier": "naughty"
   },
   {
-    "id": "toy-005",
-    "slug": "prostate-massager",
-    "title": "Prostate Massager",
-    "description": "Curved toy designed to stimulate the prostate. Can create intense orgasms for those with prostates.",
+    "id": "toy-005-give",
+    "slug": "prostate-massager-give",
+    "title": "Give: Prostate Massager",
+    "description": "You give this to your partner: Curved toy designed to stimulate the prostate. Can create intense orgasms for those with prostates.",
     "tags": [
       "toys",
       "prostate",
-      "anal"
+      "anal",
+      "giving"
+    ],
+    "category": "toys",
+    "intensityScale": 2,
+    "aliases": [
+      "p-spot",
+      "prostate toy"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "toy-005-receive",
+    "slug": "prostate-massager-receive",
+    "title": "Receive: Prostate Massager",
+    "description": "You receive this from your partner: Curved toy designed to stimulate the prostate. Can create intense orgasms for those with prostates.",
+    "tags": [
+      "toys",
+      "prostate",
+      "anal",
+      "receiving"
     ],
     "category": "toys",
     "intensityScale": 2,
@@ -3797,14 +4791,15 @@
     "tier": "xxx"
   },
   {
-    "id": "oral-001",
-    "slug": "cunnilingus-gentle",
-    "title": "Gentle Oral on Her",
-    "description": "Slow, gentle oral stimulation with focus on the clitoris. Ask for feedback on pressure and rhythm.",
+    "id": "oral-001-give",
+    "slug": "cunnilingus-gentle-give",
+    "title": "Give: Gentle Oral on Her",
+    "description": "You give this to your partner: Slow, gentle oral stimulation with focus on the clitoris. Ask for feedback on pressure and rhythm.",
     "tags": [
       "oral",
       "cunnilingus",
-      "clitoral"
+      "clitoral",
+      "giving"
     ],
     "category": "oral",
     "intensityScale": 1,
@@ -3816,14 +4811,35 @@
     "tier": "soft"
   },
   {
-    "id": "oral-002",
-    "slug": "cunnilingus-intense",
-    "title": "Intense Oral on Her",
-    "description": "More vigorous oral with penetration and clitoral stimulation combined.",
+    "id": "oral-001-receive",
+    "slug": "cunnilingus-gentle-receive",
+    "title": "Receive: Gentle Oral on Her",
+    "description": "You receive this from your partner: Slow, gentle oral stimulation with focus on the clitoris. Ask for feedback on pressure and rhythm.",
     "tags": [
       "oral",
       "cunnilingus",
-      "intense"
+      "clitoral",
+      "receiving"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "eating out",
+      "going down"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "oral-002-give",
+    "slug": "cunnilingus-intense-give",
+    "title": "Give: Intense Oral on Her",
+    "description": "You give this to your partner: More vigorous oral with penetration and clitoral stimulation combined.",
+    "tags": [
+      "oral",
+      "cunnilingus",
+      "intense",
+      "giving"
     ],
     "category": "oral",
     "intensityScale": 2,
@@ -3835,14 +4851,55 @@
     "tier": "naughty"
   },
   {
-    "id": "oral-003",
-    "slug": "blowjob-slow",
-    "title": "Slow Sensual Blowjob",
-    "description": "Take your time with licking, teasing, and slow sucking. Build anticipation.",
+    "id": "oral-002-receive",
+    "slug": "cunnilingus-intense-receive",
+    "title": "Receive: Intense Oral on Her",
+    "description": "You receive this from your partner: More vigorous oral with penetration and clitoral stimulation combined.",
+    "tags": [
+      "oral",
+      "cunnilingus",
+      "intense",
+      "receiving"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "intense eating",
+      "devouring"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-003-give",
+    "slug": "blowjob-slow-give",
+    "title": "Give: Slow Sensual Blowjob",
+    "description": "You give this to your partner: Take your time with licking, teasing, and slow sucking. Build anticipation.",
     "tags": [
       "oral",
       "blowjob",
-      "sensual"
+      "sensual",
+      "giving"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "slow suck",
+      "sensual head"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "oral-003-receive",
+    "slug": "blowjob-slow-receive",
+    "title": "Receive: Slow Sensual Blowjob",
+    "description": "You receive this from your partner: Take your time with licking, teasing, and slow sucking. Build anticipation.",
+    "tags": [
+      "oral",
+      "blowjob",
+      "sensual",
+      "receiving"
     ],
     "category": "oral",
     "intensityScale": 1,
@@ -3911,14 +4968,35 @@
     "tier": "naughty"
   },
   {
-    "id": "oral-008",
-    "slug": "sixty-nine",
-    "title": "69 Position",
-    "description": "Mutual oral pleasure in a circular position. Can be distracting - take turns focusing.",
+    "id": "oral-008-give",
+    "slug": "sixty-nine-give",
+    "title": "Give: 69 Position",
+    "description": "You give this to your partner: Mutual oral pleasure in a circular position. Can be distracting - take turns focusing.",
     "tags": [
       "oral",
       "mutual",
-      "position"
+      "position",
+      "giving"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "69",
+      "sixtynine"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-008-receive",
+    "slug": "sixty-nine-receive",
+    "title": "Receive: 69 Position",
+    "description": "You receive this from your partner: Mutual oral pleasure in a circular position. Can be distracting - take turns focusing.",
+    "tags": [
+      "oral",
+      "mutual",
+      "position",
+      "receiving"
     ],
     "category": "oral",
     "intensityScale": 2,
@@ -3949,14 +5027,35 @@
     "tier": "soft"
   },
   {
-    "id": "oral-010",
-    "slug": "oral-edging",
-    "title": "Oral Edging",
-    "description": "Use mouth to bring partner close to orgasm repeatedly without letting them finish.",
+    "id": "oral-010-give",
+    "slug": "oral-edging-give",
+    "title": "Give: Oral Edging",
+    "description": "You give this to your partner: Use mouth to bring partner close to orgasm repeatedly without letting them finish.",
     "tags": [
       "oral",
       "edging",
-      "control"
+      "control",
+      "giving"
+    ],
+    "category": "oral",
+    "intensityScale": 2,
+    "aliases": [
+      "suck and stop",
+      "oral denial"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "oral-010-receive",
+    "slug": "oral-edging-receive",
+    "title": "Receive: Oral Edging",
+    "description": "You receive this from your partner: Use mouth to bring partner close to orgasm repeatedly without letting them finish.",
+    "tags": [
+      "oral",
+      "edging",
+      "control",
+      "receiving"
     ],
     "category": "oral",
     "intensityScale": 2,
@@ -3987,14 +5086,15 @@
     "tier": "soft"
   },
   {
-    "id": "oral-012",
-    "slug": "finger-sucking",
-    "title": "Finger Sucking",
-    "description": "Suck on each other's fingers suggestively. Very erotic and intimate.",
+    "id": "oral-012-give",
+    "slug": "finger-sucking-give",
+    "title": "Give: Finger Sucking",
+    "description": "You give this to your partner: Suck on each other's fingers suggestively. Very erotic and intimate.",
     "tags": [
       "oral",
       "fingers",
-      "sensual"
+      "sensual",
+      "giving"
     ],
     "category": "oral",
     "intensityScale": 1,
@@ -4006,14 +5106,35 @@
     "tier": "soft"
   },
   {
-    "id": "talk-001",
-    "slug": "praise-dirty-talk",
-    "title": "Praise Kink",
-    "description": "Give enthusiastic compliments during intimacy. 'You're so beautiful,' 'You feel amazing,' etc.",
+    "id": "oral-012-receive",
+    "slug": "finger-sucking-receive",
+    "title": "Receive: Finger Sucking",
+    "description": "You receive this from your partner: Suck on each other's fingers suggestively. Very erotic and intimate.",
+    "tags": [
+      "oral",
+      "fingers",
+      "sensual",
+      "receiving"
+    ],
+    "category": "oral",
+    "intensityScale": 1,
+    "aliases": [
+      "finger licking",
+      "sucking fingers"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "talk-001-give",
+    "slug": "praise-dirty-talk-give",
+    "title": "Give: Praise Kink",
+    "description": "You give this to your partner: Give enthusiastic compliments during intimacy. 'You're so beautiful,' 'You feel amazing,' etc.",
     "tags": [
       "talk",
       "praise",
-      "affirmation"
+      "affirmation",
+      "giving"
     ],
     "category": "communication",
     "intensityScale": 1,
@@ -4026,14 +5147,36 @@
     "tier": "soft"
   },
   {
-    "id": "talk-002",
-    "slug": "degradation-light",
-    "title": "Light Degradation",
-    "description": "Consensual name-calling and mild humiliation. 'Slut,' 'Whore' - only if both enjoy it.",
+    "id": "talk-001-receive",
+    "slug": "praise-dirty-talk-receive",
+    "title": "Receive: Praise Kink",
+    "description": "You receive this from your partner: Give enthusiastic compliments during intimacy. 'You're so beautiful,' 'You feel amazing,' etc.",
+    "tags": [
+      "talk",
+      "praise",
+      "affirmation",
+      "receiving"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [
+      "good girl",
+      "good boy",
+      "praise"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "talk-002-give",
+    "slug": "degradation-light-give",
+    "title": "Give: Light Degradation",
+    "description": "You give this to your partner: Consensual name-calling and mild humiliation. 'Slut,' 'Whore' - only if both enjoy it.",
     "tags": [
       "talk",
       "degradation",
-      "humiliation"
+      "humiliation",
+      "giving"
     ],
     "category": "communication",
     "intensityScale": 2,
@@ -4045,14 +5188,55 @@
     "tier": "naughty"
   },
   {
-    "id": "talk-003",
-    "slug": "commands-obey",
-    "title": "Command & Obey",
-    "description": "One gives commands, the other obeys. 'Get on your knees,' 'Touch yourself,' etc.",
+    "id": "talk-002-receive",
+    "slug": "degradation-light-receive",
+    "title": "Receive: Light Degradation",
+    "description": "You receive this from your partner: Consensual name-calling and mild humiliation. 'Slut,' 'Whore' - only if both enjoy it.",
+    "tags": [
+      "talk",
+      "degradation",
+      "humiliation",
+      "receiving"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "name calling",
+      "dirty names"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "talk-003-give",
+    "slug": "commands-obey-give",
+    "title": "Give: Command & Obey",
+    "description": "You give this to your partner: One gives commands, the other obeys. 'Get on your knees,' 'Touch yourself,' etc.",
     "tags": [
       "talk",
       "commands",
-      "D/s"
+      "D/s",
+      "giving"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [
+      "orders",
+      "commands"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "talk-003-receive",
+    "slug": "commands-obey-receive",
+    "title": "Receive: Command & Obey",
+    "description": "You receive this from your partner: One gives commands, the other obeys. 'Get on your knees,' 'Touch yourself,' etc.",
+    "tags": [
+      "talk",
+      "commands",
+      "D/s",
+      "receiving"
     ],
     "category": "communication",
     "intensityScale": 2,
@@ -4330,14 +5514,35 @@
     "tier": "xxx"
   },
   {
-    "id": "group-003",
-    "slug": "soft-swap",
-    "title": "Soft Swap Swinging",
-    "description": "Play with others but no penetration. Kissing, touching, oral only.",
+    "id": "group-003-give",
+    "slug": "soft-swap-give",
+    "title": "Give: Soft Swap Swinging",
+    "description": "You give this to your partner: Play with others but no penetration. Kissing, touching, oral only.",
     "tags": [
       "group",
       "swinging",
-      "swap"
+      "swap",
+      "giving"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [
+      "soft swinging",
+      "partial swap"
+    ],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "group-003-receive",
+    "slug": "soft-swap-receive",
+    "title": "Receive: Soft Swap Swinging",
+    "description": "You receive this from your partner: Play with others but no penetration. Kissing, touching, oral only.",
+    "tags": [
+      "group",
+      "swinging",
+      "swap",
+      "receiving"
     ],
     "category": "group",
     "intensityScale": 3,
@@ -4407,14 +5612,36 @@
     "tier": "naughty"
   },
   {
-    "id": "taboo-002",
-    "slug": "pet-play",
-    "title": "Pet Play",
-    "description": "Roleplay as animals - puppy, kitty, pony. Collars, leashes, petting.",
+    "id": "taboo-002-give",
+    "slug": "pet-play-give",
+    "title": "Give: Pet Play",
+    "description": "You give this to your partner: Roleplay as animals - puppy, kitty, pony. Collars, leashes, petting.",
     "tags": [
       "roleplay",
       "pet",
-      "animal"
+      "animal",
+      "giving"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [
+      "puppy play",
+      "kitten play",
+      "pony"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "taboo-002-receive",
+    "slug": "pet-play-receive",
+    "title": "Receive: Pet Play",
+    "description": "You receive this from your partner: Roleplay as animals - puppy, kitty, pony. Collars, leashes, petting.",
+    "tags": [
+      "roleplay",
+      "pet",
+      "animal",
+      "receiving"
     ],
     "category": "roleplay",
     "intensityScale": 2,
@@ -4465,14 +5692,35 @@
     "tier": "xxx"
   },
   {
-    "id": "anal-001",
-    "slug": "anal-fingering",
-    "title": "Anal Fingering",
-    "description": "Use fingers for anal stimulation. Lots of lube and go slow. Trim nails short.",
+    "id": "anal-001-give",
+    "slug": "anal-fingering-give",
+    "title": "Give: Anal Fingering",
+    "description": "You give this to your partner: Use fingers for anal stimulation. Lots of lube and go slow. Trim nails short.",
     "tags": [
       "anal",
       "fingers",
-      "beginner"
+      "beginner",
+      "giving"
+    ],
+    "category": "anal",
+    "intensityScale": 2,
+    "aliases": [
+      "finger ass",
+      "anal play"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "anal-001-receive",
+    "slug": "anal-fingering-receive",
+    "title": "Receive: Anal Fingering",
+    "description": "You receive this from your partner: Use fingers for anal stimulation. Lots of lube and go slow. Trim nails short.",
+    "tags": [
+      "anal",
+      "fingers",
+      "beginner",
+      "receiving"
     ],
     "category": "anal",
     "intensityScale": 2,
@@ -4503,14 +5751,35 @@
     "tier": "xxx"
   },
   {
-    "id": "fetish-001",
-    "slug": "foot-fetish-play",
-    "title": "Foot Fetish Play",
-    "description": "Incorporate feet into intimacy. Kissing, licking, massaging, or using for stimulation.",
+    "id": "fetish-001-give",
+    "slug": "foot-fetish-play-give",
+    "title": "Give: Foot Fetish Play",
+    "description": "You give this to your partner: Incorporate feet into intimacy. Kissing, licking, massaging, or using for stimulation.",
     "tags": [
       "fetish",
       "feet",
-      "foot"
+      "foot",
+      "giving"
+    ],
+    "category": "fetish",
+    "intensityScale": 1,
+    "aliases": [
+      "foot worship",
+      "feet play"
+    ],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "fetish-001-receive",
+    "slug": "foot-fetish-play-receive",
+    "title": "Receive: Foot Fetish Play",
+    "description": "You receive this from your partner: Incorporate feet into intimacy. Kissing, licking, massaging, or using for stimulation.",
+    "tags": [
+      "fetish",
+      "feet",
+      "foot",
+      "receiving"
     ],
     "category": "fetish",
     "intensityScale": 1,
@@ -4542,14 +5811,36 @@
     "tier": "soft"
   },
   {
-    "id": "fetish-003",
-    "slug": "latex-clothing",
-    "title": "Latex/Rubber Clothing",
-    "description": "Wear tight latex or rubber clothing. Requires talc to put on. Shiny and tight.",
+    "id": "fetish-003-give",
+    "slug": "latex-clothing-give",
+    "title": "Give: Latex/Rubber Clothing",
+    "description": "You give this to your partner: Wear tight latex or rubber clothing. Requires talc to put on. Shiny and tight.",
     "tags": [
       "fetish",
       "latex",
-      "rubber"
+      "rubber",
+      "giving"
+    ],
+    "category": "fetish",
+    "intensityScale": 2,
+    "aliases": [
+      "rubber",
+      "PVC",
+      "shiny"
+    ],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "fetish-003-receive",
+    "slug": "latex-clothing-receive",
+    "title": "Receive: Latex/Rubber Clothing",
+    "description": "You receive this from your partner: Wear tight latex or rubber clothing. Requires talc to put on. Shiny and tight.",
+    "tags": [
+      "fetish",
+      "latex",
+      "rubber",
+      "receiving"
     ],
     "category": "fetish",
     "intensityScale": 2,
