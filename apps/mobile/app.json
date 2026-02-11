@@ -24,17 +24,6 @@
       "package": "com.anonymous.spicesync"
     },
     "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "newArchEnabled": false
-          },
-          "android": {
-            "newArchEnabled": false
-          }
-        }
-      ],
       "expo-router",
       "expo-secure-store"
     ],
