@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 SpiceSync Kanban Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { font-family: 'Inter', sans-serif; }
+        
+        .glass {
+            background: rgba(11, 15, 20, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .column { min-height: 300px; }
+        
+        .card {
+            transition: all 0.2s ease;
+            cursor: grab;
+        }
+        
+        .card:active { cursor: grabbing; }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px -10px rgba(233, 69, 96, 0.3);
+        }
+        
+        .sortable-ghost {
+            opacity: 0.4;
+            background: rgba(233, 69, 96, 0.1);
+        }
+        
+        .priority-high { border-left: 4px solid #e94560; }
+        .priority-medium { border-left: 4px solid #f59e0b; }
+        .priority-low { border-left: 4px solid #10b981; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0f14; }
+        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="bg-[#0b0f14] text-slate-100 min-h-screen">
+    <!-- Header -->
+    <header class="glass fixed top-0 left-0 right-0 z-50 px-6 py-4">
+        <div class="max-w-[1600px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg shadow-pink-500/20">
+                    🔥
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                        SpiceSync Kanban Board
+                    </h1>
+                    <p class="text-sm text-slate-400">Project Management & Feature Tracking</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button onclick="addTask()" class="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg font-medium hover:opacity-90 transition flex items-center gap-2">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    Add Task
+                </button>
+                <button onclick="saveBoard()" class="px-4 py-2 bg-slate-800 rounded-lg font-medium hover:bg-slate-700 transition flex items-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Kanban Board -->
+    <main class="pt-24 pb-8 px-6">
+        <div class="max-w-[1600px] mx-auto">
+            <!-- Stats -->
+            <div class="grid grid-cols-4 gap-4 mb-6">
+                <div class="glass rounded-xl p-4">
+                    <div class="text-slate-400 text-sm">Backlog</div>
+                    <div class="text-2xl font-bold text-slate-200" id="count-backlog">0</div>
+                </div>
+                <div class="glass rounded-xl p-4">
+                    <div class="text-slate-400 text-sm">In Progress</div>
+                    <div class="text-2xl font-bold text-amber-400" id="count-progress">0</div>
+                </div>
+                <div class="glass rounded-xl p-4">
+                    <div class="text-slate-400 text-sm">In Review</div>
+                    <div class="text-2xl font-bold text-blue-400" id="count-review">0</div>
+                </div>
+                <div class="glass rounded-xl p-4">
+                    <div class="text-slate-400 text-sm">Completed</div>
+                    <div class="text-2xl font-bold text-emerald-400" id="count-done">0</div>
+                </div>
+            </div>
+
+            <!-- Columns -->
+            <div class="grid grid-cols-4 gap-6">
+                <!-- Backlog -->
+                <div class="flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="font-semibold text-slate-300 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+                            Backlog
+                        </h2>
+                        <span class="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded" id="badge-backlog">0</span>
+                    </div>
+                    <div id="backlog" class="column glass rounded-xl p-3 space-y-3 min-h-[500px]">
+                        <!-- Cards go here -->
+                    </div>
+                </div>
+
+                <!-- In Progress -->
+                <div class="flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="font-semibold text-amber-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                            In Progress
+                        </h2>
+                        <span class="text-xs text-amber-400 bg-amber-500/10 px-2 py-1 rounded" id="badge-progress">0</span>
+                    </div>
+                    <div id="in-progress" class="column glass rounded-xl p-3 space-y-3 min-h-[500px] border-t-2 border-amber-500/30">
+                        <!-- Cards go here -->
+                    </div>
+                </div>
+
+                <!-- In Review -->
+                <div class="flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="font-semibold text-blue-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                            In Review
+                        </h2>
+                        <span class="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded" id="badge-review">0</span>
+                    </div>
+                    <div id="in-review" class="column glass rounded-xl p-3 space-y-3 min-h-[500px] border-t-2 border-blue-500/30">
+                        <!-- Cards go here -->
+                    </div>
+                </div>
+
+                <!-- Done -->
+                <div class="flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="font-semibold text-emerald-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            Completed
+                        </h2>
+                        <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded" id="badge-done">0</span>
+                    </div>
+                    <div id="done" class="column glass rounded-xl p-3 space-y-3 min-h-[500px] border-t-2 border-emerald-500/30">
+                        <!-- Cards go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Task Modal -->
+    <div id="taskModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center">
+        <div class="glass rounded-2xl p-6 w-full max-w-md mx-4">
+            <h3 class="text-xl font-bold mb-4">Add New Task</h3>
+            <input type="text" id="taskTitle" placeholder="Task title..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 mb-3 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500">
+            <textarea id="taskDesc" placeholder="Description (optional)..." rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 mb-3 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500 resize-none"></textarea>
+            <select id="taskPriority" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 mb-4 text-white focus:outline-none focus:border-pink-500">
+                <option value="high">🔴 High Priority</option>
+                <option value="medium" selected>🟡 Medium Priority</option>
+                <option value="low">🟢 Low Priority</option>
+            </select>
+            <div class="flex gap-3">
+                <button onclick="closeModal()" class="flex-1 py-3 bg-slate-800 rounded-lg font-medium hover:bg-slate-700 transition">Cancel</button>
+                <button onclick="submitTask()" class="flex-1 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg font-medium hover:opacity-90 transition">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Default tasks from KANBAN.md
+        const defaultTasks = [
+            // High Priority
+            { id: '1', title: 'Anonymous Codes System', desc: 'Generate shareable codes/QR for cross-device matching', priority: 'high', column: 'backlog' },
+            { id: '2', title: 'Give/Receive Differentiation', desc: 'Split kinks into give/receive variants', priority: 'high', column: 'done' },
+            { id: '3', title: 'Intensity Level Filtering', desc: 'Beginner/Intermediate/Advanced filters', priority: 'high', column: 'backlog' },
+            
+            // Medium Priority  
+            { id: '4', title: 'Category Toggle System', desc: 'Enable/disable entire categories', priority: 'medium', column: 'backlog' },
+            { id: '5', title: 'Quiz Progress Indicator', desc: 'Show "5 min remaining" and save progress', priority: 'medium', column: 'backlog' },
+            { id: '6', title: 'Compatibility Percentage', desc: 'Show match % before revealing specifics', priority: 'medium', column: 'backlog' },
+            { id: '7', title: 'Dating App Integration', desc: 'Shareable links for Tinder/Bumble bios', priority: 'medium', column: 'backlog' },
+            { id: '8', title: 'Anonymous Mode', desc: 'No names/photos until both match', priority: 'medium', column: 'backlog' },
+            
+            // Low Priority
+            { id: '9', title: 'Statistics Dashboard', desc: 'Adventure benchmarks vs other users', priority: 'low', column: 'backlog' },
+            { id: '10', title: 'Results Breakdown', desc: 'Categorized matches + "try next" suggestions', priority: 'low', column: 'backlog' },
+            { id: '11', title: 'Expert Content', desc: 'Therapist-written descriptions', priority: 'low', column: 'backlog' },
+            { id: '12', title: 'Web Version', desc: 'Browser-based for partners without app', priority: 'low', column: 'backlog' },
+            { id: '13', title: 'Export Results', desc: 'PDF summary of mutual matches', priority: 'low', column: 'backlog' },
+            
+            // Completed
+            { id: '14', title: 'Expand Kinks Database', desc: '263 activities across all categories', priority: 'high', column: 'done' },
+            { id: '15', title: 'Fix iOS Build Issues', desc: 'SDK downgrade and dependency fixes', priority: 'high', column: 'done' },
+            { id: '16', title: 'Clean Up Descriptions', desc: 'Remove repetitive consent language', priority: 'medium', column: 'done' },
+        ];
+
+        // Load tasks from localStorage or use defaults
+        let tasks = JSON.parse(localStorage.getItem('spicesync-kanban')) || defaultTasks;
+
+        // Initialize Sortable for each column
+        ['backlog', 'in-progress', 'in-review', 'done'].forEach(colId => {
+            new Sortable(document.getElementById(colId), {
+                group: 'kanban',
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: function(evt) {
+                    const itemId = evt.item.dataset.id;
+                    const newColumn = evt.to.id;
+                    updateTaskColumn(itemId, newColumn);
+                    updateCounts();
+                }
+            });
+        });
+
+        function createCard(task) {
+            const div = document.createElement('div');
+            div.className = `card glass rounded-lg p-4 priority-${task.priority}`;
+            div.dataset.id = task.id;
+            div.innerHTML = `
+                <div class="flex items-start justify-between mb-2">
+                    <h3 class="font-medium text-slate-200 text-sm leading-tight">${task.title}</h3>
+                    <button onclick="deleteTask('${task.id}')" class="text-slate-600 hover:text-red-400 transition">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                ${task.desc ? `<p class="text-xs text-slate-500 mb-3 line-clamp-2">${task.desc}</p>` : ''}
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] uppercase tracking-wider font-semibold px-2 py-1 rounded bg-slate-800 text-slate-400">
+                        ${task.priority}
+                    </span>
+                </div>
+            `;
+            return div;
+        }
+
+        function renderTasks() {
+            // Clear columns
+            ['backlog', 'in-progress', 'in-review', 'done'].forEach(col => {
+                document.getElementById(col).innerHTML = '';
+            });
+            
+            // Render tasks
+            tasks.forEach(task => {
+                const card = createCard(task);
+                document.getElementById(task.column).appendChild(card);
+            });
+            
+            lucide.createIcons();
+            updateCounts();
+        }
+
+        function updateTaskColumn(id, newColumn) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.column = newColumn;
+                saveBoard();
+            }
+        }
+
+        function updateCounts() {
+            const counts = {
+                backlog: tasks.filter(t => t.column === 'backlog').length,
+                'in-progress': tasks.filter(t => t.column === 'in-progress').length,
+                'in-review': tasks.filter(t => t.column === 'in-review').length,
+                done: tasks.filter(t => t.column === 'done').length
+            };
+            
+            document.getElementById('count-backlog').textContent = counts.backlog;
+            document.getElementById('count-progress').textContent = counts['in-progress'];
+            document.getElementById('count-review').textContent = counts['in-review'];
+            document.getElementById('count-done').textContent = counts.done;
+            
+            document.getElementById('badge-backlog').textContent = counts.backlog;
+            document.getElementById('badge-progress').textContent = counts['in-progress'];
+            document.getElementById('badge-review').textContent = counts['in-review'];
+            document.getElementById('badge-done').textContent = counts.done;
+        }
+
+        function addTask() {
+            document.getElementById('taskModal').classList.remove('hidden');
+            document.getElementById('taskModal').classList.add('flex');
+            document.getElementById('taskTitle').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('taskModal').classList.add('hidden');
+            document.getElementById('taskModal').classList.remove('flex');
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskDesc').value = '';
+        }
+
+        function submitTask() {
+            const title = document.getElementById('taskTitle').value.trim();
+            const desc = document.getElementById('taskDesc').value.trim();
+            const priority = document.getElementById('taskPriority').value;
+            
+            if (!title) return;
+            
+            const newTask = {
+                id: Date.now().toString(),
+                title,
+                desc,
+                priority,
+                column: 'backlog'
+            };
+            
+            tasks.push(newTask);
+            saveBoard();
+            renderTasks();
+            closeModal();
+        }
+
+        function deleteTask(id) {
+            if (confirm('Delete this task?')) {
+                tasks = tasks.filter(t => t.id !== id);
+                saveBoard();
+                renderTasks();
+            }
+        }
+
+        function saveBoard() {
+            localStorage.setItem('spicesync-kanban', JSON.stringify(tasks));
+        }
+
+        // Close modal on outside click
+        document.getElementById('taskModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        // Enter key to submit
+        document.getElementById('taskTitle').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitTask();
+        });
+
+        // Initial render
+        renderTasks();
+    </script>
+</body>
+</html>
