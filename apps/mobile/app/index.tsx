@@ -81,15 +81,27 @@ export default function EntryGate() {
         consensual, non-exploitative content.
       </Text>
       <View style={styles.card}>
-        <Text style={styles.h2}>Safety & Consent</Text>
-        <Text style={styles.li}>
-          • Consent is required and can be revoked anytime.
+        <Text style={styles.h2}>Consent & Safety First</Text>
+        <Text style={styles.p}>
+          All activities in this app require enthusiastic, informed consent from all partners. Before trying anything:
         </Text>
         <Text style={styles.li}>
-          • Agree on boundaries, safe words/signals, and aftercare.
+          • Discuss boundaries and desires openly beforehand
         </Text>
         <Text style={styles.li}>
-          • We disallow minors, non-consent, and unsafe acts.
+          • Establish safe words or signals to pause/stop anytime
+        </Text>
+        <Text style={styles.li}>
+          • Check in regularly — consent can be withdrawn at any moment
+        </Text>
+        <Text style={styles.li}>
+          • Plan for aftercare and emotional support after intense activities
+        </Text>
+        <Text style={styles.li}>
+          • Never pressure a partner — "no" or hesitation means stop
+        </Text>
+        <Text style={styles.p}>
+          Only proceed with activities that feel safe, consensual, and enjoyable for everyone involved.
         </Text>
       </View>
       <View style={styles.row}>
