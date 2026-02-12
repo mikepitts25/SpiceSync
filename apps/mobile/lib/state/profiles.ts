@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { MMKV } from 'react-native-mmkv';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { EMOJI_CHOICES } from '../../src/constants/emojis';
 
@@ -44,11 +44,6 @@ type ProfilesState = {
   isHydrated: () => boolean;
 };
 
-const storage = new MMKV({
-  id: 'spicesync',
-  encryptionKey: 'device-bound-key',
-});
-
 const PROFILES_KEY = 'profiles';
 const ACTIVE_ID_KEY = 'activeProfileId';
 const LEGACY_ACTIVE_KEY = 'currentUserId';
@@ -72,9 +67,9 @@ function sanitizeEmoji(input: string | null | undefined): string {
   return EMOJI_CHOICES[0];
 }
 
-function load<T>(key: string, fallback: T): T {
+async function loadAsync<T>(key: string, fallback: T): Promise<T> {
   try {
-    const raw = storage.getString(key);
+    const raw = await AsyncStorage.getItem(key);
     if (!raw) return fallback;
     return JSON.parse(raw) as T;
   } catch (error) {
@@ -83,8 +78,22 @@ function load<T>(key: string, fallback: T): T {
   }
 }
 
+async function saveAsync<T>(key: string, value: T): Promise<void> {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn('[profiles] failed to save key', key, error);
+  }
+}
+
+// Sync versions for compatibility
+function load<T>(key: string, fallback: T): T {
+  // Return fallback immediately - actual load happens in hydrate
+  return fallback;
+}
+
 function save<T>(key: string, value: T) {
-  storage.set(key, JSON.stringify(value));
+  saveAsync(key, value).catch(() => {});
 }
 
 type PersistedProfile = Partial<Profile> & {
@@ -143,16 +152,16 @@ const defaultState = {
 export const useProfilesStore = create<ProfilesState>((set, get) => ({
   ...defaultState,
 
-  hydrate: () => {
+  hydrate: async () => {
     if (get().hydrated) return;
 
     const persistedProfiles = migrateProfiles(
-      load<PersistedProfile[]>(PROFILES_KEY, [])
+      await loadAsync<PersistedProfile[]>(PROFILES_KEY, [])
     );
 
-    const legacyActiveRaw = storage.getString(LEGACY_ACTIVE_KEY);
+    const legacyActiveRaw = await AsyncStorage.getItem(LEGACY_ACTIVE_KEY);
     const legacyActive = legacyActiveRaw ? JSON.parse(legacyActiveRaw) : null;
-    const storedActive = load<string | null>(ACTIVE_ID_KEY, legacyActive);
+    const storedActive = await loadAsync<string | null>(ACTIVE_ID_KEY, legacyActive);
 
     let nextActive: string | null =
       typeof storedActive === 'string' ? storedActive : null;
@@ -171,26 +180,26 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
     });
 
     if (nextActive) {
-      save(ACTIVE_ID_KEY, nextActive);
+      await saveAsync(ACTIVE_ID_KEY, nextActive);
     } else {
-      storage.delete(ACTIVE_ID_KEY);
+      await AsyncStorage.removeItem(ACTIVE_ID_KEY);
     }
 
-    storage.delete(LEGACY_ACTIVE_KEY);
+    await AsyncStorage.removeItem(LEGACY_ACTIVE_KEY);
   },
 
   getProfiles: () => get().profiles,
 
   getActiveProfileId: () => get().activeProfileId ?? undefined,
 
-  setActiveProfile: (id) => {
+  setActiveProfile: async (id) => {
     const { profiles, hydrated } = get();
     if (!hydrated) return;
 
     if (!id) {
       set({ activeProfileId: null, currentUserId: null });
-      storage.delete(ACTIVE_ID_KEY);
-      storage.delete(LEGACY_ACTIVE_KEY);
+      await AsyncStorage.removeItem(ACTIVE_ID_KEY);
+      await AsyncStorage.removeItem(LEGACY_ACTIVE_KEY);
       return;
     }
 
@@ -200,8 +209,8 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
     }
 
     set({ activeProfileId: id, currentUserId: id });
-    save(ACTIVE_ID_KEY, id);
-    storage.delete(LEGACY_ACTIVE_KEY);
+    await saveAsync(ACTIVE_ID_KEY, id);
+    await AsyncStorage.removeItem(LEGACY_ACTIVE_KEY);
   },
 
   createProfile: (input) => {
@@ -251,9 +260,9 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
       const nextProfiles = [...state.profiles, profile];
       const nextActive = state.activeProfileId ?? profile.id;
 
-      save(PROFILES_KEY, nextProfiles);
-      save(ACTIVE_ID_KEY, nextActive);
-      storage.delete(LEGACY_ACTIVE_KEY);
+      saveAsync(PROFILES_KEY, nextProfiles).catch(() => {});
+      saveAsync(ACTIVE_ID_KEY, nextActive).catch(() => {});
+      AsyncStorage.removeItem(LEGACY_ACTIVE_KEY).catch(() => {});
 
       return {
         profiles: nextProfiles,
@@ -293,7 +302,7 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
         } satisfies Profile;
       });
 
-      save(PROFILES_KEY, next);
+      saveAsync(PROFILES_KEY, next).catch(() => {});
       return { profiles: next };
     });
   },
@@ -314,15 +323,15 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
         nextActiveId = nextProfiles[0]?.id ?? null;
       }
 
-      save(PROFILES_KEY, nextProfiles);
+      saveAsync(PROFILES_KEY, nextProfiles).catch(() => {});
 
       if (nextActiveId) {
-        save(ACTIVE_ID_KEY, nextActiveId);
+        saveAsync(ACTIVE_ID_KEY, nextActiveId).catch(() => {});
       } else {
-        storage.delete(ACTIVE_ID_KEY);
+        AsyncStorage.removeItem(ACTIVE_ID_KEY).catch(() => {});
       }
 
-      storage.delete(LEGACY_ACTIVE_KEY);
+      AsyncStorage.removeItem(LEGACY_ACTIVE_KEY).catch(() => {});
 
       return {
         profiles: nextProfiles,
@@ -345,7 +354,7 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
           : profile
       );
 
-      save(PROFILES_KEY, next);
+      saveAsync(PROFILES_KEY, next).catch(() => {});
       return { profiles: next };
     });
   },
@@ -358,7 +367,7 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
           : profile
       );
 
-      save(PROFILES_KEY, next);
+      saveAsync(PROFILES_KEY, next).catch(() => {});
       return { profiles: next };
     });
   },
@@ -394,6 +403,7 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
 
 export const useProfiles = useProfilesStore;
 
+// Auto-hydrate on load
 useProfilesStore.getState().hydrate();
 
 export const EMOJI_OPTIONS = EMOJI_CHOICES;
