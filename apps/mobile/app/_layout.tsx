@@ -18,7 +18,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="settings" />
-          <Stack.Screen name="welcome/index" />
+          <Stack.Screen name="welcome" />
         </Stack>
       </SafeAreaProvider>
     </GestureHandlerRootView>
