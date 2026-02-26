@@ -1,6 +1,6 @@
 // apps/mobile/app/(deck)/DeckScreen.tsx
 import React, { useMemo, useState, useCallback } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import SwipeDeck from '../../components/SwipeDeck';
 import { useKinks } from '../../lib/data';
