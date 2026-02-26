@@ -7,11 +7,11 @@ import {
   Animated,
   Dimensions,
   ScrollView,
-  Image,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { useSettingsStore } from '../../src/stores/settings';
+import { useSettings } from '../../lib/state/useStore';
+import { useProfilesStore } from '../../lib/state/profiles';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -22,7 +22,11 @@ type ScreenType = 'brand' | 'value1' | 'value2' | 'value3' | 'privacy' | 'agegat
 export default function WelcomeFlow() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const acceptAgeGate = useSettingsStore((state) => state.acceptAgeGate);
+  const setAgeConfirmed = useSettings((state) => state.setAgeConfirmed);
+  const { hydrated, hasActiveProfile } = useProfilesStore((state) => ({
+    hydrated: state.isHydrated(),
+    hasActiveProfile: state.hasActiveProfile(),
+  }));
   
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('brand');
   const [fadeAnim] = useState(new Animated.Value(1));
@@ -46,8 +50,15 @@ export default function WelcomeFlow() {
   };
   
   const handleAgeGateAccept = () => {
-    acceptAgeGate();
-    router.replace('/welcome/create-profile');
+    setAgeConfirmed(true);
+    if (hydrated && hasActiveProfile) {
+      router.replace('/(tabs)/categories');
+      return;
+    }
+    router.replace({
+      pathname: '/settings/profiles/new',
+      params: { from: 'welcome' },
+    });
   };
   
   // Progress dots
@@ -159,7 +170,11 @@ function BrandScreen({ onContinue }: { onContinue: () => void }) {
         <Text style={styles.brandSubtitle}>A private space for couples to explore</Text>
       </Animated.View>
       
-      <Pressable style={styles.primaryButton} onPress={onContinue} accessibilityRole="button">
+      <Pressable
+        style={[styles.primaryButton, styles.standalonePrimaryButton]}
+        onPress={onContinue}
+        accessibilityRole="button"
+      >
         <Text style={styles.primaryButtonText}>Get Started</Text>
       </Pressable>
     </View>
@@ -203,7 +218,11 @@ function ValuePropScreen({
         <Pressable style={styles.secondaryButton} onPress={onBack} accessibilityRole="button">
           <Text style={styles.secondaryButtonText}>Back</Text>
         </Pressable>
-        <Pressable style={styles.primaryButton} onPress={onContinue} accessibilityRole="button">
+        <Pressable
+          style={[styles.primaryButton, styles.groupButton]}
+          onPress={onContinue}
+          accessibilityRole="button"
+        >
           <Text style={styles.primaryButtonText}>Continue</Text>
         </Pressable>
       </View>
@@ -231,7 +250,11 @@ function PrivacyScreen({ onContinue, onBack }: { onContinue: () => void; onBack:
         <Pressable style={styles.secondaryButton} onPress={onBack} accessibilityRole="button">
           <Text style={styles.secondaryButtonText}>Back</Text>
         </Pressable>
-        <Pressable style={styles.primaryButton} onPress={onContinue} accessibilityRole="button">
+        <Pressable
+          style={[styles.primaryButton, styles.groupButton]}
+          onPress={onContinue}
+          accessibilityRole="button"
+        >
           <Text style={styles.primaryButtonText}>I Understand</Text>
         </Pressable>
       </View>
@@ -419,13 +442,19 @@ const styles = StyleSheet.create({
     gap: SIZES.padding,
     width: '100%',
   },
-  primaryButton: {
+  groupButton: {
     flex: 1,
+  },
+  primaryButton: {
     backgroundColor: COLORS.primary,
     paddingVertical: SIZES.padding * 1.5,
     borderRadius: SIZES.radius,
     alignItems: 'center',
     ...SHADOWS.small,
+  },
+  standalonePrimaryButton: {
+    width: '100%',
+    maxWidth: SIZES.maxWidth,
   },
   primaryButtonText: {
     fontFamily: FONTS.bold,

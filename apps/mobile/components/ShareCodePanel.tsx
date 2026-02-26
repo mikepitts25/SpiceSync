@@ -7,11 +7,11 @@ import {
   TextInput,
   Alert,
   Share,
-  Clipboard,
 } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import QRCode from 'react-native-qrcode-svg';
-import { useShareCodes } from '../../lib/state/shareCodes';
-import { useVotes } from '../../lib/state/useStore';
+import { useShareCodes } from '../lib/state/shareCodes';
+import { useVotes } from '../lib/state/useStore';
 
 interface ShareCodePanelProps {
   profileId: string;
@@ -45,9 +45,9 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
     }
   };
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (!generatedCode) return;
-    Clipboard.setString(generatedCode);
+    await Clipboard.setStringAsync(generatedCode);
     Alert.alert('Copied', 'Full code copied to clipboard');
   };
 

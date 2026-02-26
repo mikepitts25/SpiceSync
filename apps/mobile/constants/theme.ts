@@ -1,6 +1,8 @@
 // SpiceSync Design System
 // New brand identity: Sophisticated, sensual, modern
 
+const { width: SCREEN_WIDTH } = require('react-native').Dimensions.get('window');
+
 export const COLORS = {
   // Primary brand colors
   primary: '#FF6B6B',      // Coral/orange - passion
@@ -68,8 +70,6 @@ export const SIZES = {
   maxWidth: 400,
   cardWidth: SCREEN_WIDTH - 32,
 };
-
-const { width: SCREEN_WIDTH } = require('react-native').Dimensions.get('window');
 
 export const SHADOWS = {
   small: {

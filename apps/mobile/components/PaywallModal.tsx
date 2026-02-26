@@ -6,11 +6,10 @@ import {
   Pressable,
   Modal,
   ScrollView,
-  Animated,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
-import { usePremiumStore, FEATURES, PRICING } from '../../src/stores/premium';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
+import { usePremiumStore, FEATURES, PRICING } from '../src/stores/premium';
 
 const TIERS = [
   {
@@ -38,7 +37,7 @@ const TIERS = [
 
 export default function PaywallModal() {
   const insets = useSafeAreaInsets();
-  const { showPaywall, closePaywall, paywallFeature, upgrade, subscription } = usePremiumStore();
+  const { showPaywall, closePaywall, paywallFeature, upgrade } = usePremiumStore();
   const [selectedTier, setSelectedTier] = React.useState<'premium' | 'pro'>('premium');
   const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly' | 'lifetime'>('yearly');
   const [isProcessing, setIsProcessing] = React.useState(false);

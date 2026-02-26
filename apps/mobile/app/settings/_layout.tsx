@@ -35,6 +35,7 @@ export default function SettingsStackLayout() {
         }}
       />
       <Stack.Screen name="profiles/index" options={{ title: 'Profiles' }} />
+      <Stack.Screen name="profiles/new" options={{ title: 'New Profile' }} />
     </Stack>
   );
 }

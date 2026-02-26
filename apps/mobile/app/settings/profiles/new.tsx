@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import EmojiMenu from '../../../components/EmojiMenu';
 import { EMOJI_CHOICES } from '../../../src/constants/emojis';
@@ -24,6 +24,8 @@ const PIN_LENGTH = 4;
 
 export default function NewProfileScreen() {
   const router = useRouter();
+  const { from } = useLocalSearchParams<{ from?: string }>();
+  const fromWelcome = from === 'welcome';
   const profileCount = useProfilesStore((state) => state.getProfiles().length);
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState<string>(EMOJI_CHOICES[0]);
@@ -107,7 +109,11 @@ export default function NewProfileScreen() {
         emoji: emojiLabel,
         pin: inputPin,
       });
-      router.back();
+      if (fromWelcome) {
+        router.replace('/(tabs)/categories');
+      } else {
+        router.back();
+      }
     } catch (error) {
       console.error('create profile failed', error);
       const message =

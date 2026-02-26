@@ -9,6 +9,7 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useVotesStore } from '../../src/stores/votes';
+import { useProfilesStore } from '../../src/stores/profiles';
 import { useKinks } from '../../lib/data';
 import { useSettings } from '../../lib/state/useStore';
 
@@ -71,7 +72,10 @@ export default function InsightsScreen() {
   const insets = useSafeAreaInsets();
   const { language } = useSettings();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const votes = useVotesStore((state) => state.votes);
+  const activeProfileId = useProfilesStore((state) => state.getActiveProfileId());
+  const votes = useVotesStore((state) =>
+    activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}
+  );
   
   // Calculate insights
   const insights = useMemo(() => {

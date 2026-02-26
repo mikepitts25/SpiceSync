@@ -239,7 +239,7 @@ export const ACHIEVEMENTS: Achievement[] = [
 
 interface AchievementsState {
   unlocked: AchievementId[];
-  unlockedAt: Record<AchievementId, number>;
+  unlockedAt: Partial<Record<AchievementId, number>>;
   showUnlockAnimation: AchievementId | null;
   
   // Actions
