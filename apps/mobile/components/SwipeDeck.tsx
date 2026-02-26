@@ -1,6 +1,6 @@
 // apps/mobile/components/SwipeDeck.tsx
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import Animated, {
   Easing,
   runOnJS,
