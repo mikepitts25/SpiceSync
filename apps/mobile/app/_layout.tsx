@@ -22,8 +22,6 @@ export default function RootLayout() {
             <Stack.Screen name="(settings)" />
             <Stack.Screen name="(game)" />
             <Stack.Screen name="(insights)" />
-            <Stack.Screen name="(unlock)" />
-            <Stack.Screen name="(suggestions)" />
           </Stack>
         </View>
       </SafeAreaProvider>
