@@ -14,7 +14,7 @@ import {
   getTierColor, 
   getTierIcon,
   AchievementTier,
-} from '../../../src/stores/achievements';
+} from '../../src/stores/achievements';
 
 const TIERS: AchievementTier[] = ['bronze', 'silver', 'gold', 'platinum'];
 
