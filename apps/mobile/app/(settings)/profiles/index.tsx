@@ -18,7 +18,7 @@ import {
   setActiveProfile,
   useProfilesStore,
   type Profile,
-} from '../../../../lib/state/profiles';
+} from '../../../lib/state/profiles';
 
 type FlatListProfile = Profile;
 

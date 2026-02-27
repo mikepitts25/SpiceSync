@@ -18,7 +18,7 @@ import { EMOJI_CHOICES } from '../../../src/constants/emojis';
 import {
   createProfile as createProfileAction,
   useProfilesStore,
-} from '../../../../lib/state/profiles';
+} from '../../../lib/state/profiles';
 
 const PIN_LENGTH = 4;
 
