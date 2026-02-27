@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../app/constants/theme';
 import { usePremiumStore, FEATURES, PRICING } from '../src/stores/premium';
 
 const TIERS = [
