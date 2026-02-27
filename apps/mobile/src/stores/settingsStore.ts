@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { mmkvStorage } from '../storage/mmkv';
+import { mmkvStorage } from '../../lib/storage/mmkv';
 
 // Unified Settings Store - Single source of truth
 // Consolidates: useStore (legacy) + useSettingsStore (age-gate)
