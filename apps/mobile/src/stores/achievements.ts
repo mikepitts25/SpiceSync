@@ -2,346 +2,357 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export type AchievementId =
-  // First steps
-  | 'first_vote'
-  | 'first_match'
-  | 'first_favorite'
-  // Exploration
-  | 'explorer_10'
-  | 'explorer_50'
-  | 'explorer_100'
-  | 'explorer_200'
-  // Matching
-  | 'matcher_5'
-  | 'matcher_25'
-  | 'matcher_50'
-  | 'matcher_100'
-  // Variety
-  | 'variety_5_categories'
-  | 'variety_10_categories'
-  // Adventure
-  | 'adventurous_try_5'
-  | 'adventurous_try_10'
-  // Intensity
-  | 'intensity_beginner_master'
-  | 'intensity_expert'
-  // Social
-  | 'social_connect_partner'
-  | 'social_sync_streak_7'
-  // Special
-  | 'night_owl'
-  | 'weekend_warrior'
-  | 'completest';
+export type AchievementTier = 'bronze' | 'silver' | 'gold' | 'platinum';
 
 export interface Achievement {
-  id: AchievementId;
+  id: string;
   title: string;
   description: string;
   emoji: string;
-  category: 'beginner' | 'explorer' | 'matcher' | 'adventurer' | 'social' | 'special';
-  tier: 'bronze' | 'silver' | 'gold' | 'platinum';
-  condition: {
-    type: 'votes_count' | 'matches_count' | 'favorites_count' | 'categories_count' | 'tried_count' | 'streak_days' | 'sync_count';
-    target: number;
-  };
-  secret?: boolean; // Hidden until unlocked
+  tier: AchievementTier;
+  requirement: number;
+  current: number;
+  unlocked: boolean;
+  unlockedAt?: number;
+  category: 'voting' | 'matches' | 'game' | 'streak' | 'social' | 'explorer';
 }
-
-export const ACHIEVEMENTS: Achievement[] = [
-  // Beginner Achievements
-  {
-    id: 'first_vote',
-    title: 'First Step',
-    description: 'Cast your first vote',
-    emoji: '🎯',
-    category: 'beginner',
-    tier: 'bronze',
-    condition: { type: 'votes_count', target: 1 },
-  },
-  {
-    id: 'first_match',
-    title: 'First Match',
-    description: 'Find your first mutual interest',
-    emoji: '💑',
-    category: 'beginner',
-    tier: 'bronze',
-    condition: { type: 'matches_count', target: 1 },
-  },
-  {
-    id: 'first_favorite',
-    title: 'Bookmarked',
-    description: 'Save your first favorite',
-    emoji: '⭐',
-    category: 'beginner',
-    tier: 'bronze',
-    condition: { type: 'favorites_count', target: 1 },
-  },
-  
-  // Explorer Achievements
-  {
-    id: 'explorer_10',
-    title: 'Curious',
-    description: 'Vote on 10 activities',
-    emoji: '👀',
-    category: 'explorer',
-    tier: 'bronze',
-    condition: { type: 'votes_count', target: 10 },
-  },
-  {
-    id: 'explorer_50',
-    title: 'Explorer',
-    description: 'Vote on 50 activities',
-    emoji: '🗺️',
-    category: 'explorer',
-    tier: 'silver',
-    condition: { type: 'votes_count', target: 50 },
-  },
-  {
-    id: 'explorer_100',
-    title: 'Adventurer',
-    description: 'Vote on 100 activities',
-    emoji: '🧭',
-    category: 'explorer',
-    tier: 'gold',
-    condition: { type: 'votes_count', target: 100 },
-  },
-  {
-    id: 'explorer_200',
-    title: 'Connoisseur',
-    description: 'Vote on 200 activities',
-    emoji: '🎩',
-    category: 'explorer',
-    tier: 'platinum',
-    condition: { type: 'votes_count', target: 200 },
-  },
-  
-  // Matcher Achievements
-  {
-    id: 'matcher_5',
-    title: 'Syncing Up',
-    description: 'Find 5 mutual interests',
-    emoji: '🔗',
-    category: 'matcher',
-    tier: 'bronze',
-    condition: { type: 'matches_count', target: 5 },
-  },
-  {
-    id: 'matcher_25',
-    title: 'In Sync',
-    description: 'Find 25 mutual interests',
-    emoji: '⚡',
-    category: 'matcher',
-    tier: 'silver',
-    condition: { type: 'matches_count', target: 25 },
-  },
-  {
-    id: 'matcher_50',
-    title: 'Perfect Harmony',
-    description: 'Find 50 mutual interests',
-    emoji: '🎵',
-    category: 'matcher',
-    tier: 'gold',
-    condition: { type: 'matches_count', target: 50 },
-  },
-  {
-    id: 'matcher_100',
-    title: 'Soulmates',
-    description: 'Find 100 mutual interests',
-    emoji: '💎',
-    category: 'matcher',
-    tier: 'platinum',
-    condition: { type: 'matches_count', target: 100 },
-  },
-  
-  // Variety Achievements
-  {
-    id: 'variety_5_categories',
-    title: 'Well Rounded',
-    description: 'Vote in 5 different categories',
-    emoji: '🌈',
-    category: 'explorer',
-    tier: 'silver',
-    condition: { type: 'categories_count', target: 5 },
-  },
-  {
-    id: 'variety_10_categories',
-    title: 'Renaissance',
-    description: 'Vote in 10 different categories',
-    emoji: '🎨',
-    category: 'explorer',
-    tier: 'gold',
-    condition: { type: 'categories_count', target: 10 },
-  },
-  
-  // Adventurer Achievements
-  {
-    id: 'adventurous_try_5',
-    title: 'Doer',
-    description: 'Mark 5 activities as tried',
-    emoji: '✅',
-    category: 'adventurer',
-    tier: 'silver',
-    condition: { type: 'tried_count', target: 5 },
-  },
-  {
-    id: 'adventurous_try_10',
-    title: 'Experienced',
-    description: 'Mark 10 activities as tried',
-    emoji: '🏆',
-    category: 'adventurer',
-    tier: 'gold',
-    condition: { type: 'tried_count', target: 10 },
-  },
-  
-  // Social Achievements
-  {
-    id: 'social_connect_partner',
-    title: 'Connected',
-    description: 'Link with your partner',
-    emoji: '🤝',
-    category: 'social',
-    tier: 'bronze',
-    condition: { type: 'sync_count', target: 1 },
-  },
-  {
-    id: 'social_sync_streak_7',
-    title: 'Weekly Sync',
-    description: 'Sync with your partner 7 days in a row',
-    emoji: '🔥',
-    category: 'social',
-    tier: 'gold',
-    condition: { type: 'streak_days', target: 7 },
-  },
-  
-  // Special (Secret) Achievements
-  {
-    id: 'night_owl',
-    title: 'Night Owl',
-    description: 'Use the app after midnight',
-    emoji: '🦉',
-    category: 'special',
-    tier: 'silver',
-    condition: { type: 'votes_count', target: 1 },
-    secret: true,
-  },
-  {
-    id: 'completest',
-    title: 'The Completest',
-    description: 'Vote on every single activity',
-    emoji: '🏅',
-    category: 'special',
-    tier: 'platinum',
-    condition: { type: 'votes_count', target: 329 },
-    secret: true,
-  },
-];
 
 interface AchievementsState {
-  unlocked: AchievementId[];
-  unlockedAt: Partial<Record<AchievementId, number>>;
-  showUnlockAnimation: AchievementId | null;
+  achievements: Achievement[];
+  totalUnlocked: number;
   
   // Actions
-  unlock: (id: AchievementId) => void;
-  isUnlocked: (id: AchievementId) => boolean;
-  clearUnlockAnimation: () => void;
-  
-  // Stats for checking conditions
-  stats: {
-    totalVotes: number;
-    totalMatches: number;
-    totalFavorites: number;
-    categoriesVoted: string[];
-    activitiesTried: string[];
-    partnerSyncStreak: number;
-    lastSyncDate: string | null;
-  };
-  updateStats: (updates: Partial<AchievementsState['stats']>) => void;
-  checkAchievements: () => AchievementId[];
+  initializeAchievements: () => void;
+  incrementProgress: (achievementId: string, amount?: number) => void;
+  unlockAchievement: (achievementId: string) => void;
+  getAchievement: (id: string) => Achievement | undefined;
+  getByCategory: (category: Achievement['category']) => Achievement[];
+  getRecentUnlocks: (count?: number) => Achievement[];
+  getProgress: () => { unlocked: number; total: number; percentage: number };
 }
+
+// Achievement definitions
+const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unlockedAt'>[] = [
+  // VOTING ACHIEVEMENTS
+  {
+    id: 'first-vote',
+    title: 'First Steps',
+    description: 'Cast your first vote',
+    emoji: '🗳️',
+    tier: 'bronze',
+    requirement: 1,
+    category: 'voting',
+  },
+  {
+    id: 'voter-10',
+    title: 'Getting Started',
+    description: 'Cast 10 votes',
+    emoji: '📊',
+    tier: 'bronze',
+    requirement: 10,
+    category: 'voting',
+  },
+  {
+    id: 'voter-50',
+    title: 'Dedicated Voter',
+    description: 'Cast 50 votes',
+    emoji: '🎯',
+    tier: 'silver',
+    requirement: 50,
+    category: 'voting',
+  },
+  {
+    id: 'voter-100',
+    title: ' Voting Machine',
+    description: 'Cast 100 votes',
+    emoji: '🏆',
+    tier: 'gold',
+    requirement: 100,
+    category: 'voting',
+  },
+  {
+    id: 'voter-500',
+    title: 'Legendary Voter',
+    description: 'Cast 500 votes',
+    emoji: '👑',
+    tier: 'platinum',
+    requirement: 500,
+    category: 'voting',
+  },
+  
+  // MATCHES ACHIEVEMENTS
+  {
+    id: 'first-match',
+    title: 'Connection Made',
+    description: 'Get your first match',
+    emoji: '💕',
+    tier: 'bronze',
+    requirement: 1,
+    category: 'matches',
+  },
+  {
+    id: 'matches-5',
+    title: 'Chemistry Building',
+    description: 'Get 5 matches',
+    emoji: '🔥',
+    tier: 'bronze',
+    requirement: 5,
+    category: 'matches',
+  },
+  {
+    id: 'matches-20',
+    title: 'Perfect Harmony',
+    description: 'Get 20 matches',
+    emoji: '✨',
+    tier: 'silver',
+    requirement: 20,
+    category: 'matches',
+  },
+  {
+    id: 'matches-50',
+    title: 'Soulmates',
+    description: 'Get 50 matches',
+    emoji: '💑',
+    tier: 'gold',
+    requirement: 50,
+    category: 'matches',
+  },
+  {
+    id: 'matches-100',
+    title: 'Match Made in Heaven',
+    description: 'Get 100 matches',
+    emoji: '🌟',
+    tier: 'platinum',
+    requirement: 100,
+    category: 'matches',
+  },
+  
+  // GAME ACHIEVEMENTS
+  {
+    id: 'first-game',
+    title: 'Game On',
+    description: 'Play your first Spice Dice game',
+    emoji: '🎲',
+    tier: 'bronze',
+    requirement: 1,
+    category: 'game',
+  },
+  {
+    id: 'game-10',
+    title: 'Player',
+    description: 'Complete 10 game cards',
+    emoji: '🎮',
+    tier: 'bronze',
+    requirement: 10,
+    category: 'game',
+  },
+  {
+    id: 'game-50',
+    title: 'Game Master',
+    description: 'Complete 50 game cards',
+    emoji: '🏅',
+    tier: 'silver',
+    requirement: 50,
+    category: 'game',
+  },
+  {
+    id: 'all-categories',
+    title: 'Well Rounded',
+    description: 'Complete cards from all 5 categories',
+    emoji: '🌈',
+    tier: 'silver',
+    requirement: 5,
+    category: 'game',
+  },
+  
+  // STREAK ACHIEVEMENTS
+  {
+    id: 'streak-3',
+    title: 'Heating Up',
+    description: '3 day streak',
+    emoji: '🔥',
+    tier: 'bronze',
+    requirement: 3,
+    category: 'streak',
+  },
+  {
+    id: 'streak-7',
+    title: 'On Fire',
+    description: '7 day streak',
+    emoji: '⚡',
+    tier: 'silver',
+    requirement: 7,
+    category: 'streak',
+  },
+  {
+    id: 'streak-30',
+    title: 'Unstoppable',
+    description: '30 day streak',
+    emoji: '🚀',
+    tier: 'gold',
+    requirement: 30,
+    category: 'streak',
+  },
+  {
+    id: 'streak-100',
+    title: 'Century Club',
+    description: '100 day streak',
+    emoji: '💯',
+    tier: 'platinum',
+    requirement: 100,
+    category: 'streak',
+  },
+  
+  // SOCIAL ACHIEVEMENTS
+  {
+    id: 'partner-connected',
+    title: 'Better Together',
+    description: 'Connect with a partner',
+    emoji: '💑',
+    tier: 'bronze',
+    requirement: 1,
+    category: 'social',
+  },
+  {
+    id: 'premium-unlocked',
+    title: 'All Access',
+    description: 'Unlock premium features',
+    emoji: '🔓',
+    tier: 'silver',
+    requirement: 1,
+    category: 'social',
+  },
+  
+  // EXPLORER ACHIEVEMENTS
+  {
+    id: 'categories-3',
+    title: 'Explorer',
+    description: 'Vote in 3 different categories',
+    emoji: '🧭',
+    tier: 'bronze',
+    requirement: 3,
+    category: 'explorer',
+  },
+  {
+    id: 'categories-all',
+    title: 'Category Master',
+    description: 'Vote in all categories',
+    emoji: '🌟',
+    tier: 'gold',
+    requirement: 8,
+    category: 'explorer',
+  },
+  {
+    id: 'intensity-5',
+    title: 'Fearless',
+    description: 'Vote yes on a level 5 activity',
+    emoji: '🦁',
+    tier: 'silver',
+    requirement: 1,
+    category: 'explorer',
+  },
+  {
+    id: 'custom-activity',
+    title: 'Creator',
+    description: 'Create a custom activity',
+    emoji: '✨',
+    tier: 'silver',
+    requirement: 1,
+    category: 'explorer',
+  },
+];
 
 export const useAchievementsStore = create<AchievementsState>()(
   persist(
     (set, get) => ({
-      unlocked: [],
-      unlockedAt: {},
-      showUnlockAnimation: null,
+      achievements: [],
+      totalUnlocked: 0,
       
-      stats: {
-        totalVotes: 0,
-        totalMatches: 0,
-        totalFavorites: 0,
-        categoriesVoted: [],
-        activitiesTried: [],
-        partnerSyncStreak: 0,
-        lastSyncDate: null,
-      },
-      
-      unlock: (id: AchievementId) => {
-        const { unlocked, unlockedAt } = get();
-        if (!unlocked.includes(id)) {
-          set({
-            unlocked: [...unlocked, id],
-            unlockedAt: { ...unlockedAt, [id]: Date.now() },
-            showUnlockAnimation: id,
-          });
+      initializeAchievements: () => {
+        const { achievements } = get();
+        if (achievements.length === 0) {
+          const newAchievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map((def) => ({
+            ...def,
+            current: 0,
+            unlocked: false,
+          }));
+          set({ achievements: newAchievements });
         }
       },
       
-      isUnlocked: (id: AchievementId) => {
-        return get().unlocked.includes(id);
-      },
-      
-      clearUnlockAnimation: () => {
-        set({ showUnlockAnimation: null });
-      },
-      
-      updateStats: (updates) => {
-        set((state) => ({
-          stats: { ...state.stats, ...updates },
-        }));
-        // Check for new achievements after stats update
-        get().checkAchievements();
-      },
-      
-      checkAchievements: () => {
-        const { stats, unlocked } = get();
-        const newlyUnlocked: AchievementId[] = [];
-        
-        ACHIEVEMENTS.forEach((achievement) => {
-          if (unlocked.includes(achievement.id)) return;
+      incrementProgress: (achievementId, amount = 1) => {
+        set((state) => {
+          const achievements = state.achievements.map((ach) => {
+            if (ach.id === achievementId && !ach.unlocked) {
+              const newCurrent = ach.current + amount;
+              const shouldUnlock = newCurrent >= ach.requirement;
+              
+              return {
+                ...ach,
+                current: newCurrent,
+                unlocked: shouldUnlock,
+                unlockedAt: shouldUnlock ? Date.now() : undefined,
+              };
+            }
+            return ach;
+          });
           
-          let shouldUnlock = false;
+          const newTotalUnlocked = achievements.filter((a) => a.unlocked).length;
           
-          switch (achievement.condition.type) {
-            case 'votes_count':
-              shouldUnlock = stats.totalVotes >= achievement.condition.target;
-              break;
-            case 'matches_count':
-              shouldUnlock = stats.totalMatches >= achievement.condition.target;
-              break;
-            case 'favorites_count':
-              shouldUnlock = stats.totalFavorites >= achievement.condition.target;
-              break;
-            case 'categories_count':
-              shouldUnlock = stats.categoriesVoted.length >= achievement.condition.target;
-              break;
-            case 'tried_count':
-              shouldUnlock = stats.activitiesTried.length >= achievement.condition.target;
-              break;
-            case 'streak_days':
-              shouldUnlock = stats.partnerSyncStreak >= achievement.condition.target;
-              break;
-          }
-          
-          if (shouldUnlock) {
-            get().unlock(achievement.id);
-            newlyUnlocked.push(achievement.id);
-          }
+          return { 
+            achievements,
+            totalUnlocked: newTotalUnlocked,
+          };
         });
-        
-        return newlyUnlocked;
+      },
+      
+      unlockAchievement: (achievementId) => {
+        set((state) => {
+          const achievements = state.achievements.map((ach) => {
+            if (ach.id === achievementId && !ach.unlocked) {
+              return {
+                ...ach,
+                current: ach.requirement,
+                unlocked: true,
+                unlockedAt: Date.now(),
+              };
+            }
+            return ach;
+          });
+          
+          const newTotalUnlocked = achievements.filter((a) => a.unlocked).length;
+          
+          return {
+            achievements,
+            totalUnlocked: newTotalUnlocked,
+          };
+        });
+      },
+      
+      getAchievement: (id) => {
+        return get().achievements.find((a) => a.id === id);
+      },
+      
+      getByCategory: (category) => {
+        return get().achievements.filter((a) => a.category === category);
+      },
+      
+      getRecentUnlocks: (count = 5) => {
+        return get().achievements
+          .filter((a) => a.unlocked)
+          .sort((a, b) => (b.unlockedAt || 0) - (a.unlockedAt || 0))
+          .slice(0, count);
+      },
+      
+      getProgress: () => {
+        const { achievements } = get();
+        const unlocked = achievements.filter((a) => a.unlocked).length;
+        const total = achievements.length;
+        return {
+          unlocked,
+          total,
+          percentage: Math.round((unlocked / total) * 100),
+        };
       },
     }),
     {
@@ -351,36 +362,34 @@ export const useAchievementsStore = create<AchievementsState>()(
   )
 );
 
-// Helper hook to track achievement progress
-export function useAchievementProgress() {
-  const { stats, unlocked } = useAchievementsStore();
-  
-  const progress = {
-    beginner: {
-      total: ACHIEVEMENTS.filter(a => a.category === 'beginner').length,
-      unlocked: unlocked.filter(id => ACHIEVEMENTS.find(a => a.id === id)?.category === 'beginner').length,
-    },
-    explorer: {
-      total: ACHIEVEMENTS.filter(a => a.category === 'explorer').length,
-      unlocked: unlocked.filter(id => ACHIEVEMENTS.find(a => a.id === id)?.category === 'explorer').length,
-    },
-    matcher: {
-      total: ACHIEVEMENTS.filter(a => a.category === 'matcher').length,
-      unlocked: unlocked.filter(id => ACHIEVEMENTS.find(a => a.id === id)?.category === 'matcher').length,
-    },
-    adventurer: {
-      total: ACHIEVEMENTS.filter(a => a.category === 'adventurer').length,
-      unlocked: unlocked.filter(id => ACHIEVEMENTS.find(a => a.id === id)?.category === 'adventurer').length,
-    },
-    social: {
-      total: ACHIEVEMENTS.filter(a => a.category === 'social').length,
-      unlocked: unlocked.filter(id => ACHIEVEMENTS.find(a => a.id === id)?.category === 'social').length,
-    },
-    special: {
-      total: ACHIEVEMENTS.filter(a => a.category === 'special').length,
-      unlocked: unlocked.filter(id => ACHIEVEMENTS.find(a => a.id === id)?.category === 'special').length,
-    },
-  };
-  
-  return { progress, stats };
-}
+// Helper to get tier color
+export const getTierColor = (tier: AchievementTier): string => {
+  switch (tier) {
+    case 'bronze':
+      return '#CD7F32';
+    case 'silver':
+      return '#C0C0C0';
+    case 'gold':
+      return '#FFD700';
+    case 'platinum':
+      return '#E5E4E2';
+    default:
+      return '#CD7F32';
+  }
+};
+
+// Helper to get tier icon
+export const getTierIcon = (tier: AchievementTier): string => {
+  switch (tier) {
+    case 'bronze':
+      return '🥉';
+    case 'silver':
+      return '🥈';
+    case 'gold':
+      return '🥇';
+    case 'platinum':
+      return '💎';
+    default:
+      return '🥉';
+  }
+};
