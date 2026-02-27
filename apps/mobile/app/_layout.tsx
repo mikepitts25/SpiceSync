@@ -19,7 +19,11 @@ export default function RootLayout() {
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(onboarding)" />
             <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="settings" />
+            <Stack.Screen name="(settings)" />
+            <Stack.Screen name="(game)" />
+            <Stack.Screen name="(insights)" />
+            <Stack.Screen name="(unlock)" />
+            <Stack.Screen name="(suggestions)" />
           </Stack>
         </View>
       </SafeAreaProvider>
