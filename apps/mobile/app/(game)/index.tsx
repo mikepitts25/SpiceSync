@@ -1,230 +1,189 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Pressable,
+  ScrollView,
   Animated,
-  Dimensions,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { COLORS, FONTS, SIZES } from '../constants/theme';
-import { useSettingsStore } from '../../src/stores/settingsStore';
-import { 
-  GameCardType, 
-  GameCard, 
-  getRandomCard, 
-  getCardsByType,
-  FREE_CARDS,
-  PREMIUM_CARDS,
-} from '../../data/gameCards';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
+import { useSettingsStore } from '../../../src/stores/settingsStore';
+import { getRandomCard, GameCardType, FREE_CARDS, ALL_CARDS } from '../../../data/gameCards';
 
-const { width: SCREEN_W } = Dimensions.get('window');
-const CARD_WIDTH = SCREEN_W * 0.85;
-
-const CATEGORIES: { type: GameCardType | 'all'; label: string; emoji: string }[] = [
-  { type: 'all', label: 'Random', emoji: '🎲' },
-  { type: 'truth', label: 'Truth', emoji: '🤔' },
-  { type: 'dare', label: 'Dare', emoji: '🔥' },
-  { type: 'challenge', label: 'Challenge', emoji: '💪' },
-  { type: 'fantasy', label: 'Fantasy', emoji: '✨' },
-  { type: 'roleplay', label: 'Roleplay', emoji: '🎭' },
+const GAME_TYPES: { id: GameCardType | 'all'; name: string; emoji: string; color: string }[] = [
+  { id: 'all', name: 'Surprise Me', emoji: '🎲', color: COLORS.primary },
+  { id: 'truth', name: 'Truth', emoji: '💭', color: '#3498DB' },
+  { id: 'dare', name: 'Dare', emoji: '🔥', color: '#E74C3C' },
+  { id: 'challenge', name: 'Challenge', emoji: '💪', color: '#2ECC71' },
+  { id: 'fantasy', name: 'Fantasy', emoji: '✨', color: '#9B59B6' },
+  { id: 'roleplay', name: 'Roleplay', emoji: '🎭', color: '#F39C12' },
 ];
 
-export default function GameHubScreen() {
+export default function GameHub() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const unlocked = useSettingsStore((state) => state.unlocked);
-  
-  const [selectedCategory, setSelectedCategory] = useState<GameCardType | 'all'>('all');
-  const [currentCard, setCurrentCard] = useState<GameCard | null>(null);
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [completedCards, setCompletedCards] = useState<string[]>([]);
-  
-  const fadeAnim = React.useRef(new Animated.Value(1)).current;
-  const scaleAnim = React.useRef(new Animated.Value(1)).current;
+  const [selectedType, setSelectedType] = useState<GameCardType | 'all'>('all');
+  const [intensity, setIntensity] = useState(3);
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
-  const drawCard = useCallback(() => {
-    // Animation
-    Animated.sequence([
-      Animated.timing(scaleAnim, {
-        toValue: 0.9,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnim, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-    ]).start();
-
-    const card = getRandomCard(selectedCategory, unlocked);
-    setCurrentCard(card);
-    setIsFlipped(true);
-  }, [selectedCategory, unlocked]);
-
-  const handleComplete = useCallback(() => {
-    if (currentCard) {
-      setCompletedCards((prev) => [...prev, currentCard.id]);
-      setIsFlipped(false);
-      setTimeout(() => setCurrentCard(null), 300);
-    }
-  }, [currentCard]);
-
-  const handleSkip = useCallback(() => {
-    setIsFlipped(false);
-    setTimeout(() => setCurrentCard(null), 300);
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 400,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
-  const freeCount = FREE_CARDS.length;
-  const premiumCount = PREMIUM_CARDS.length;
-  const availableCards = unlocked 
-    ? freeCount + premiumCount 
-    : freeCount;
+  const totalCards = unlocked ? ALL_CARDS.length : FREE_CARDS.length;
+  const freeCardCount = FREE_CARDS.length;
 
-  const getTypeColor = (type: GameCardType) => {
-    switch (type) {
-      case 'truth': return '#3498DB';
-      case 'dare': return '#E74C3C';
-      case 'challenge': return '#2ECC71';
-      case 'fantasy': return '#9B59B6';
-      case 'roleplay': return '#F39C12';
-      default: return COLORS.primary;
-    }
-  };
-
-  const getIntensityDots = (intensity: number) => {
-    return '🔥'.repeat(intensity);
+  const startGame = () => {
+    // Navigate to card draw screen with selected type and intensity
+    router.push({
+      pathname: '/(game)/draw',
+      params: { type: selectedType, intensity },
+    });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>🎲 Spice Dice</Text>
-        <Text style={styles.subtitle}>
-          {completedCards.length} completed • {availableCards} cards available
-        </Text>
-        {!unlocked && (
-          <View style={styles.premiumBanner}>
-            <Text style={styles.premiumText}>
-              🔓 {premiumCount} premium cards locked
+      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.title}>🎲 Spice Dice</Text>
+          <Text style={styles.subtitle}>
+            {unlocked 
+              ? `${totalCards} cards to explore` 
+              : `${freeCardCount} free cards • ${ALL_CARDS.length - freeCardCount} premium`}
+          </Text>
+        </View>
+
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
+        >
+          {/* Game Type Selection */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Choose Category</Text>
+            <View style={styles.typeGrid}>
+              {GAME_TYPES.map((type) => (
+                <Pressable
+                  key={type.id}
+                  style={[
+                    styles.typeCard,
+                    selectedType === type.id && { 
+                      backgroundColor: type.color,
+                      borderColor: type.color,
+                    },
+                  ]}
+                  onPress={() => setSelectedType(type.id)}
+                >
+                  <Text style={styles.typeEmoji}>{type.emoji}</Text>
+                  <Text style={[
+                    styles.typeName,
+                    selectedType === type.id && styles.typeNameSelected,
+                  ]}>
+                    {type.name}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+
+          {/* Intensity Selector */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Intensity Level: {intensity}/5</Text>
+            <View style={styles.intensityRow}>
+              {[1, 2, 3, 4, 5].map((level) => (
+                <Pressable
+                  key={level}
+                  style={[
+                    styles.intensityDot,
+                    intensity >= level && styles.intensityDotActive,
+                  ]}
+                  onPress={() => setIntensity(level)}
+                >
+                  <Text style={[
+                    styles.intensityText,
+                    intensity >= level && styles.intensityTextActive,
+                  ]}>
+                    {level}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+            <Text style={styles.intensityDescription}>
+              {intensity === 1 && "Sweet and innocent"}
+              {intensity === 2 && "Playful and flirty"}
+              {intensity === 3 && "Spicy and adventurous"}
+              {intensity === 4 && "Hot and intense"}
+              {intensity === 5 && "Wild and uninhibited"}
             </Text>
+          </View>
+
+          {/* Stats Preview */}
+          <View style={styles.statsCard}>
+            <View style={styles.stat}>
+              <Text style={styles.statNumber}>{totalCards}</Text>
+              <Text style={styles.statLabel}>Total Cards</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.stat}>
+              <Text style={styles.statNumber}>6</Text>
+              <Text style={styles.statLabel}>Categories</Text>
+            </View>
+            {!unlocked && (
+              <>
+                <View style={styles.statDivider} />
+                <View style={styles.stat}>
+                  <Text style={[styles.statNumber, styles.premiumStat]}>75+</Text>
+                  <Text style={styles.statLabel}>Premium</Text>
+                </View>
+              </>
+            )}
+          </View>
+
+          {/* How to Play */}
+          <View style={styles.infoCard}>
+            <Text style={styles.infoTitle}>How to Play</Text>
+            <View style={styles.infoSteps}>
+              <View style={styles.infoStep}>
+                <Text style={styles.infoStepNumber}>1</Text>
+                <Text style={styles.infoStepText}>Choose a category or go random</Text>
+              </View>
+              <View style={styles.infoStep}>
+                <Text style={styles.infoStepNumber}>2</Text>
+                <Text style={styles.infoStepText}>Set your comfort level (1-5)</Text>
+              </View>
+              <View style={styles.infoStep}>
+                <Text style={styles.infoStepNumber}>3</Text>
+                <Text style={styles.infoStepText}>Draw a card and complete the challenge!</Text>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+
+        {/* CTA */}
+        <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
+          <Pressable style={styles.ctaButton} onPress={startGame}>
+            <Text style={styles.ctaText}>Start Game</Text>
+          </Pressable>
+          {!unlocked && (
             <Pressable 
-              style={styles.upgradeButton}
+              style={styles.unlockButton}
               onPress={() => router.push('/(unlock)')}
             >
-              <Text style={styles.upgradeText}>Unlock $19.99</Text>
-            </Pressable>
-          </View>
-        )}
-      </View>
-
-      {/* Category Selection */}
-      <View style={styles.categorySection}>
-        <Text style={styles.sectionTitle}>Choose Category</Text>
-        <View style={styles.categoryGrid}>
-          {CATEGORIES.map((cat) => (
-            <Pressable
-              key={cat.type}
-              style={[
-                styles.categoryCard,
-                selectedCategory === cat.type && styles.categoryCardSelected,
-              ]}
-              onPress={() => {
-                setSelectedCategory(cat.type);
-                setIsFlipped(false);
-                setCurrentCard(null);
-              }}
-            >
-              <Text style={styles.categoryEmoji}>{cat.emoji}</Text>
-              <Text style={[
-                styles.categoryLabel,
-                selectedCategory === cat.type && styles.categoryLabelSelected,
-              ]}>
-                {cat.label}
-              </Text>
-              <Text style={styles.categoryCount}>
-                {getCardsByType(cat.type === 'all' ? 'truth' : cat.type, unlocked).length}
+              <Text style={styles.unlockText}>
+                🔓 Unlock 75+ Premium Cards
               </Text>
             </Pressable>
-          ))}
+          )}
         </View>
-      </View>
-
-      {/* Card Area */}
-      <View style={styles.cardArea}>
-        <Animated.View 
-          style={[
-            styles.card,
-            { 
-              transform: [{ scale: scaleAnim }],
-              opacity: fadeAnim,
-            },
-          ]}
-        >
-          {!isFlipped ? (
-            // Card Back
-            <View style={styles.cardBack}>
-              <Text style={styles.cardBackEmoji}>🎲</Text>
-              <Text style={styles.cardBackText}>
-                Tap Draw to reveal
-              </Text>
-            </View>
-          ) : currentCard ? (
-            // Card Front
-            <View style={styles.cardFront}>
-              <View style={[
-                styles.cardTypeBadge,
-                { backgroundColor: getTypeColor(currentCard.type) }
-              ]}>
-                <Text style={styles.cardTypeText}>
-                  {currentCard.type.toUpperCase()}
-                </Text>
-              </View>
-              
-              {currentCard.isPremium && (
-                <View style={styles.premiumBadge}>
-                  <Text style={styles.premiumBadgeText}>⭐ PREMIUM</Text>
-                </View>
-              )}
-              
-              <View style={styles.cardContent}>
-                <Text style={styles.cardText}>{currentCard.content}</Text>
-              </View>
-              
-              <View style={styles.cardMeta}>
-                <Text style={styles.intensityText}>
-                  {getIntensityDots(currentCard.intensity)}
-                </Text>
-                <Text style={styles.timeText}>
-                  ⏱️ {currentCard.estimatedTime}
-                </Text>
-              </View>
-            </View>
-          ) : null}
-        </Animated.View>
-      </View>
-
-      {/* Action Buttons */}
-      <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
-        {!isFlipped ? (
-          <Pressable style={styles.drawButton} onPress={drawCard}>
-            <Text style={styles.drawButtonText}>🎲 Draw Card</Text>
-          </Pressable>
-        ) : (
-          <View style={styles.actionButtons}>
-            <Pressable style={[styles.actionButton, styles.skipButton]} onPress={handleSkip}>
-              <Text style={styles.actionButtonText}>🔄 Skip</Text>
-            </Pressable>
-            <Pressable style={[styles.actionButton, styles.completeButton]} onPress={handleComplete}>
-              <Text style={styles.actionButtonText}>✅ Complete</Text>
-            </Pressable>
-          </View>
-        )}
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 }
@@ -233,6 +192,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  content: {
+    flex: 1,
   },
   header: {
     padding: SIZES.padding * 2,
@@ -248,37 +210,10 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
-    marginBottom: SIZES.padding,
   },
-  premiumBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: COLORS.card,
-    padding: SIZES.padding,
-    borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.secondary,
-  },
-  premiumText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.text,
-  },
-  upgradeButton: {
-    backgroundColor: COLORS.secondary,
-    paddingHorizontal: SIZES.padding,
-    paddingVertical: 6,
-    borderRadius: SIZES.radius,
-  },
-  upgradeText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.small,
-    color: '#fff',
-  },
-  categorySection: {
+  section: {
+    marginBottom: SIZES.padding * 2,
     paddingHorizontal: SIZES.padding * 2,
-    marginBottom: SIZES.padding,
   },
   sectionTitle: {
     fontFamily: FONTS.bold,
@@ -286,161 +221,168 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginBottom: SIZES.padding,
   },
-  categoryGrid: {
+  typeGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
   },
-  categoryCard: {
-    width: (SCREEN_W - SIZES.padding * 5) / 3,
+  typeCard: {
+    width: '30%',
+    aspectRatio: 1,
     backgroundColor: COLORS.card,
     borderRadius: SIZES.radius,
-    padding: SIZES.padding,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    marginBottom: 10,
+  },
+  typeEmoji: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  typeName: {
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.small,
+    color: COLORS.text,
+  },
+  typeNameSelected: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  intensityRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: SIZES.padding,
+  },
+  intensityDot: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: COLORS.card,
+    justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  categoryCardSelected: {
+  intensityDotActive: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
   },
-  categoryEmoji: {
-    fontSize: 28,
-    marginBottom: 4,
-  },
-  categoryLabel: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
+  intensityText: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
     color: COLORS.text,
-    marginBottom: 2,
   },
-  categoryLabelSelected: {
+  intensityTextActive: {
     color: '#fff',
   },
-  categoryCount: {
-    fontFamily: FONTS.bold,
-    fontSize: 12,
-    color: COLORS.textSecondary,
-  },
-  cardArea: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: SIZES.padding * 2,
-  },
-  card: {
-    width: CARD_WIDTH,
-    height: CARD_WIDTH * 1.3,
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusLarge,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-    overflow: 'hidden',
-  },
-  cardBack: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: COLORS.card,
-  },
-  cardBackEmoji: {
-    fontSize: 80,
-    marginBottom: SIZES.padding,
-  },
-  cardBackText: {
-    fontFamily: FONTS.medium,
+  intensityDescription: {
+    fontFamily: FONTS.regular,
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
-  },
-  cardFront: {
-    flex: 1,
-    padding: SIZES.padding * 1.5,
-  },
-  cardTypeBadge: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: SIZES.radius,
-    marginBottom: SIZES.padding,
-  },
-  cardTypeText: {
-    fontFamily: FONTS.bold,
-    fontSize: 12,
-    color: '#fff',
-  },
-  premiumBadge: {
-    position: 'absolute',
-    top: SIZES.padding * 1.5,
-    right: SIZES.padding * 1.5,
-    backgroundColor: COLORS.secondary,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-  },
-  premiumBadgeText: {
-    fontFamily: FONTS.bold,
-    fontSize: 10,
-    color: '#fff',
-  },
-  cardContent: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  cardText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.h4,
-    color: COLORS.text,
-    lineHeight: 28,
     textAlign: 'center',
   },
-  cardMeta: {
+  statsCard: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.card,
+    marginHorizontal: SIZES.padding * 2,
+    padding: SIZES.padding * 1.5,
+    borderRadius: SIZES.radiusLarge,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    marginBottom: SIZES.padding * 2,
+  },
+  stat: {
+    flex: 1,
     alignItems: 'center',
   },
-  intensityText: {
-    fontSize: 16,
-    marginBottom: 4,
+  statDivider: {
+    width: 1,
+    backgroundColor: COLORS.border,
   },
-  timeText: {
+  statNumber: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.h2,
+    color: COLORS.primary,
+  },
+  premiumStat: {
+    color: COLORS.secondary,
+  },
+  statLabel: {
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
+    marginTop: 4,
+  },
+  infoCard: {
+    backgroundColor: COLORS.card,
+    marginHorizontal: SIZES.padding * 2,
+    padding: SIZES.padding * 1.5,
+    borderRadius: SIZES.radius,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  infoTitle: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.h4,
+    color: COLORS.text,
+    marginBottom: SIZES.padding,
+  },
+  infoSteps: {
+    gap: SIZES.padding,
+  },
+  infoStep: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  infoStepNumber: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: COLORS.primary,
+    color: '#fff',
+    fontFamily: FONTS.bold,
+    fontSize: 14,
+    textAlign: 'center',
+    lineHeight: 28,
+    marginRight: SIZES.padding,
+  },
+  infoStepText: {
+    flex: 1,
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
   },
   footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: COLORS.background,
     padding: SIZES.padding * 2,
-    paddingTop: 0,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
   },
-  drawButton: {
+  ctaButton: {
     backgroundColor: COLORS.primary,
     paddingVertical: SIZES.padding * 1.5,
     borderRadius: SIZES.radius,
     alignItems: 'center',
+    marginBottom: SIZES.padding,
   },
-  drawButtonText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h4,
-    color: '#fff',
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    gap: SIZES.padding,
-  },
-  actionButton: {
-    flex: 1,
-    paddingVertical: SIZES.padding * 1.5,
-    borderRadius: SIZES.radius,
-    alignItems: 'center',
-  },
-  skipButton: {
-    backgroundColor: COLORS.card,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  completeButton: {
-    backgroundColor: COLORS.success,
-  },
-  actionButtonText: {
+  ctaText: {
     fontFamily: FONTS.bold,
     fontSize: SIZES.body,
-    color: COLORS.text,
+    color: '#fff',
+  },
+  unlockButton: {
+    alignItems: 'center',
+    paddingVertical: SIZES.padding,
+  },
+  unlockText: {
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.body,
+    color: COLORS.secondary,
   },
 });
