@@ -71,7 +71,7 @@ export default function SettingsScreen() {
         <Text style={styles.h2}>Profiles</Text>
         <Text style={styles.p}>Manage who’s swiping, emoji, and names.</Text>
         <Pressable
-          onPress={() => router.push('/settings/profiles')}
+          onPress={() => router.push('/(settings)/profiles')}
           style={styles.primary}
           accessibilityRole="button"
         >

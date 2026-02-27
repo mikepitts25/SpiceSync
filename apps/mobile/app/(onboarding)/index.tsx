@@ -27,7 +27,7 @@ export default function OnboardingFlow() {
         break;
       case 'invite':
         // Onboarding complete - navigate to main app
-        router.replace('/(app)/(home)');
+        router.replace('/(tabs)');
         break;
     }
   };

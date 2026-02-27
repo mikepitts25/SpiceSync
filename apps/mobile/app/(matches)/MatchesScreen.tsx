@@ -374,7 +374,7 @@ export default function MatchesScreen() {
           `${name} needs a PIN to unlock Partial Yes matches. Set a PIN in Settings.`,
           [
             { text: 'Cancel', style: 'cancel' },
-            { text: 'Open Settings', onPress: () => router.push('/settings') },
+            { text: 'Open Settings', onPress: () => router.push('/(settings)') },
           ]
         );
         return;
