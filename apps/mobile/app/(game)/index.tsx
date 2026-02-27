@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
-import { useSettingsStore } from '../../../src/stores/settingsStore';
-import { getRandomCard, GameCardType, FREE_CARDS, ALL_CARDS } from '../../../data/gameCards';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
+import { useSettingsStore } from '../../src/stores/settingsStore';
+import { getRandomCard, GameCardType, FREE_CARDS, ALL_CARDS } from '../../data/gameCards';
 
 const GAME_TYPES: { id: GameCardType | 'all'; name: string; emoji: string; color: string }[] = [
   { id: 'all', name: 'Surprise Me', emoji: '🎲', color: COLORS.primary },

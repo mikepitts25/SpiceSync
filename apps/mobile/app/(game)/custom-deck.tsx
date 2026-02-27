@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { useSettingsStore } from '../../../src/stores/settingsStore';
-import { GameCardType, GameCard } from '../../../data/gameCards';
+import { COLORS, FONTS, SIZES } from '../constants/theme';
+import { useSettingsStore } from '../../src/stores/settingsStore';
+import { GameCardType, GameCard } from '../../data/gameCards';
 
 const CARD_TYPES: { id: GameCardType; name: string; emoji: string }[] = [
   { id: 'truth', name: 'Truth', emoji: '💭' },

@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { usePartnerStore } from '../../../src/stores/partner';
-import { useSettingsStore } from '../../../src/stores/settingsStore';
+import { COLORS, FONTS, SIZES } from '../constants/theme';
+import { usePartnerStore } from '../../src/stores/partner';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 
 const EMOJIS = ['💑', '❤️', '🔥', '✨', '🌹', '🥂', '🌙', '💫'];
 

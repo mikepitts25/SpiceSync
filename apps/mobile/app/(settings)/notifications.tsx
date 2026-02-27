@@ -9,8 +9,8 @@ import {
   Alert,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { useSettingsStore } from '../../../src/stores/settingsStore';
+import { COLORS, FONTS, SIZES } from '../constants/theme';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 
 interface NotificationSetting {
   id: string;

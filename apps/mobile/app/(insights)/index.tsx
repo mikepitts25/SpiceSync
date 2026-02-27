@@ -7,10 +7,10 @@ import {
   Dimensions,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { useVotesStore } from '../../../src/stores/votes';
+import { COLORS, FONTS, SIZES } from '../constants/theme';
+import { useVotesStore } from '../../src/stores/votes';
 import { useKinks } from '../../../../lib/data';
-import { useSettingsStore } from '../../../src/stores/settingsStore';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
