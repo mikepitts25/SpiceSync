@@ -2,274 +2,236 @@ import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
-  Pressable,
   StyleSheet,
-  ScrollView,
   TextInput,
-  Dimensions,
+  Pressable,
+  ScrollView,
+  Animated,
 } from 'react-native';
-import { useRouter } from 'expo-router';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
+import { useRouter } from 'expo-router';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
 import { useKinks } from '../../lib/data';
-import { useSettings } from '../../lib/state/useStore';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 
-const { width: SCREEN_W } = Dimensions.get('window');
-
-// Category definitions with icons and colors
 const CATEGORIES = [
-  { id: 'romance', name: 'Romance', icon: '💕', color: '#FF6B9D', description: 'Intimacy & connection', count: 45 },
-  { id: 'adventure', name: 'Adventure', icon: '🎢', color: '#4ECDC4', description: 'Exciting new experiences', count: 38 },
-  { id: 'sensual', name: 'Sensual', icon: '🌹', color: '#9B59B6', description: 'Senses & pleasure', count: 52 },
-  { id: 'fantasy', name: 'Fantasy', icon: '✨', color: '#E74C3C', description: 'Roleplay & imagination', count: 41 },
-  { id: 'playful', name: 'Playful', icon: '🎮', color: '#3498DB', description: 'Fun & games', count: 33 },
-  { id: 'bdsm', name: 'Kink', icon: '⛓️', color: '#2C3E50', description: 'Power & restraint', count: 67 },
-  { id: 'public', name: 'Public', icon: '🌍', color: '#F39C12', description: 'Outside the bedroom', count: 28 },
-  { id: 'quickie', name: 'Quick', icon: '⚡', color: '#1ABC9C', description: 'Under 15 minutes', count: 25 },
+  { id: 'all', name: 'All', emoji: '✨' },
+  { id: 'romance', name: 'Romance', emoji: '💕' },
+  { id: 'adventure', name: 'Adventure', emoji: '🏔️' },
+  { id: 'sensual', name: 'Sensual', emoji: '🌹' },
+  { id: 'playful', name: 'Playful', emoji: '🎮' },
+  { id: 'fantasy', name: 'Fantasy', emoji: '🔮' },
+  { id: 'bdsm', name: 'Kink', emoji: '⛓️' },
+  { id: 'public', name: 'Public', emoji: '🌆' },
 ];
 
-// Mood filters
 const MOODS = [
-  { id: 'playful', name: 'Playful', emoji: '😄' },
-  { id: 'intimate', name: 'Intimate', emoji: '🌙' },
-  { id: 'passionate', name: 'Passionate', emoji: '🔥' },
-  { id: 'adventurous', name: 'Adventurous', emoji: '🏔️' },
-  { id: 'romantic', name: 'Romantic', emoji: '💝' },
-];
-
-// Curated packs
-const PACKS = [
-  { id: 'date-night', name: 'Date Night', icon: '🌃', activities: 12, description: 'Perfect for a special evening' },
-  { id: 'weekend', name: 'Weekend Away', icon: '🏖️', activities: 8, description: 'Make the most of your trip' },
-  { id: 'beginners', name: 'Beginner Friendly', icon: '🌱', activities: 15, description: 'Start your journey here' },
-  { id: 'spicy', name: 'Turn Up the Heat', icon: '🌶️', activities: 10, description: 'For adventurous couples' },
-];
-
-// Quick filters
-const QUICK_FILTERS = [
-  { id: 'trending', name: '🔥 Trending' },
-  { id: 'new', name: '✨ New' },
-  { id: 'top', name: '💎 Top Rated' },
+  { id: 'spontaneous', name: 'Spontaneous', emoji: '⚡' },
+  { id: 'romantic', name: 'Romantic', emoji: '🌙' },
+  { id: 'adventurous', name: 'Adventurous', emoji: '🎢' },
+  { id: 'relaxed', name: 'Relaxed', emoji: '🛁' },
+  { id: 'intense', name: 'Intense', emoji: '🔥' },
 ];
 
 export default function DiscoveryHub() {
-  const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { language } = useSettings();
+  const router = useRouter();
+  const language = useSettingsStore((state) => state.language);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedMood, setSelectedMood] = useState<string | null>(null);
-  const [selectedIntensity, setSelectedIntensity] = useState<number | null>(null);
-  const [activeQuickFilter, setActiveQuickFilter] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
+  const [intensityRange, setIntensityRange] = useState([1, 5]);
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
-  // Filter categories based on search
-  const filteredCategories = useMemo(() => {
-    if (!searchQuery) return CATEGORIES;
-    return CATEGORIES.filter(cat => 
-      cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      cat.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 400,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
-  // Get total activities count
-  const totalActivities = kinks.length;
-
-  const handleCategoryPress = (categoryId: string) => {
-    router.push({
-      pathname: '/(deck)/DeckScreen',
-      params: { category: categoryId },
+  // Filter activities based on all criteria
+  const filteredActivities = useMemo(() => {
+    return kinks.filter((activity) => {
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesSearch = 
+          activity.title.toLowerCase().includes(query) ||
+          activity.description.toLowerCase().includes(query);
+        if (!matchesSearch) return false;
+      }
+      
+      // Category filter
+      if (selectedCategory !== 'all' && activity.category !== selectedCategory) {
+        return false;
+      }
+      
+      // Intensity filter
+      const intensity = activity.intensityScale || 1;
+      if (intensity < intensityRange[0] || intensity > intensityRange[1]) {
+        return false;
+      }
+      
+      return true;
     });
+  }, [kinks, searchQuery, selectedCategory, intensityRange]);
+
+  const toggleMood = (moodId: string) => {
+    setSelectedMoods((prev) =>
+      prev.includes(moodId)
+        ? prev.filter((m) => m !== moodId)
+        : [...prev, moodId]
+    );
   };
 
-  const handlePackPress = (packId: string) => {
-    router.push({
-      pathname: '/(deck)/DeckScreen',
-      params: { pack: packId },
-    });
+  const startSwiping = () => {
+    router.push('/(deck)');
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
-        showsVerticalScrollIndicator={false}
-      >
+    <SafeAreaView style={styles.container}>
+      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>Discover</Text>
-          <Text style={styles.subtitle}>{totalActivities} activities to explore</Text>
+          <Text style={styles.subtitle}>
+            {filteredActivities.length} activities to explore
+          </Text>
         </View>
 
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <Text style={styles.searchIcon}>🔍</Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search activities..."
-            placeholderTextColor={COLORS.textMuted}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-          {searchQuery.length > 0 && (
-            <Pressable onPress={() => setSearchQuery('')} style={styles.clearButton}>
-              <Text style={styles.clearIcon}>✕</Text>
-            </Pressable>
-          )}
-        </View>
-
-        {/* Quick Filters */}
         <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.quickFiltersContainer}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
         >
-          {QUICK_FILTERS.map((filter) => (
-            <Pressable
-              key={filter.id}
-              style={[
-                styles.quickFilter,
-                activeQuickFilter === filter.id && styles.quickFilterActive,
-              ]}
-              onPress={() => setActiveQuickFilter(
-                activeQuickFilter === filter.id ? null : filter.id
-              )}
+          {/* Search */}
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchIcon}>🔍</Text>
+            <TextInput
+              style={styles.searchInput}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholder="Search activities..."
+              placeholderTextColor={COLORS.textMuted}
+            />
+            {searchQuery.length > 0 && (
+              <Pressable onPress={() => setSearchQuery('')}>
+                <Text style={styles.clearIcon}>✕</Text>
+              </Pressable>
+            )}
+          </View>
+
+          {/* Categories */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Categories</Text>
+            <ScrollView 
+              horizontal 
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.categoriesScroll}
             >
-              <Text style={[
-                styles.quickFilterText,
-                activeQuickFilter === filter.id && styles.quickFilterTextActive,
-              ]}>
-                {filter.name}
+              {CATEGORIES.map((cat) => (
+                <Pressable
+                  key={cat.id}
+                  style={[
+                    styles.categoryChip,
+                    selectedCategory === cat.id && styles.categoryChipSelected,
+                  ]}
+                  onPress={() => setSelectedCategory(cat.id)}
+                >
+                  <Text style={styles.categoryEmoji}>{cat.emoji}</Text>
+                  <Text style={[
+                    styles.categoryText,
+                    selectedCategory === cat.id && styles.categoryTextSelected,
+                  ]}>
+                    {cat.name}
+                  </Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </View>
+
+          {/* Moods */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Mood</Text>
+            <View style={styles.moodGrid}>
+              {MOODS.map((mood) => (
+                <Pressable
+                  key={mood.id}
+                  style={[
+                    styles.moodChip,
+                    selectedMoods.includes(mood.id) && styles.moodChipSelected,
+                  ]}
+                  onPress={() => toggleMood(mood.id)}
+                >
+                  <Text style={styles.moodEmoji}>{mood.emoji}</Text>
+                  <Text style={[
+                    styles.moodText,
+                    selectedMoods.includes(mood.id) && styles.moodTextSelected,
+                  ]}>
+                    {mood.name}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+
+          {/* Intensity */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>
+              Intensity: {intensityRange[0]} - {intensityRange[1]}
+            </Text>
+            <View style={styles.intensityRow}>
+              {[1, 2, 3, 4, 5].map((level) => (
+                <Pressable
+                  key={level}
+                  style={[
+                    styles.intensityDot,
+                    level >= intensityRange[0] && level <= intensityRange[1] && styles.intensityDotActive,
+                  ]}
+                  onPress={() => setIntensityRange([1, level])}
+                >
+                  <Text style={[
+                    styles.intensityText,
+                    level >= intensityRange[0] && level <= intensityRange[1] && styles.intensityTextActive,
+                  ]}>
+                    {level}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+
+          {/* Quick Stats */}
+          <View style={styles.statsCard}>
+            <View style={styles.stat}>
+              <Text style={styles.statNumber}>{filteredActivities.length}</Text>
+              <Text style={styles.statLabel}>Activities</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.stat}>
+              <Text style={styles.statNumber}>
+                {new Set(filteredActivities.map(a => a.category)).size}
               </Text>
-            </Pressable>
-          ))}
+              <Text style={styles.statLabel}>Categories</Text>
+            </View>
+          </View>
         </ScrollView>
 
-        {/* Categories Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Categories</Text>
-          <View style={styles.categoriesGrid}>
-            {filteredCategories.map((category) => (
-              <Pressable
-                key={category.id}
-                style={[styles.categoryCard, { backgroundColor: `${category.color}15` }]}
-                onPress={() => handleCategoryPress(category.id)}
-              >
-                <View style={[styles.categoryIcon, { backgroundColor: category.color }]}>
-                  <Text style={styles.categoryIconText}>{category.icon}</Text>
-                </View>
-                <Text style={styles.categoryName}>{category.name}</Text>
-                <Text style={styles.categoryDescription}>{category.description}</Text>
-                <Text style={[styles.categoryCount, { color: category.color }]}>
-                  {category.count} activities
-                </Text>
-              </Pressable>
-            ))}
-          </View>
-        </View>
-
-        {/* Moods Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Moods</Text>
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.moodsContainer}
+        {/* CTA */}
+        <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
+          <Pressable 
+            style={styles.ctaButton}
+            onPress={startSwiping}
           >
-            {MOODS.map((mood) => (
-              <Pressable
-                key={mood.id}
-                style={[
-                  styles.moodChip,
-                  selectedMood === mood.id && styles.moodChipActive,
-                ]}
-                onPress={() => setSelectedMood(selectedMood === mood.id ? null : mood.id)}
-              >
-                <Text style={styles.moodEmoji}>{mood.emoji}</Text>
-                <Text style={[
-                  styles.moodText,
-                  selectedMood === mood.id && styles.moodTextActive,
-                ]}>
-                  {mood.name}
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
+            <Text style={styles.ctaText}>
+              Start Swiping ({filteredActivities.length})
+            </Text>
+          </Pressable>
         </View>
-
-        {/* Intensity Filter */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Intensity</Text>
-          <View style={styles.intensityContainer}>
-            {[1, 2, 3, 4, 5].map((level) => (
-              <Pressable
-                key={level}
-                style={[
-                  styles.intensityButton,
-                  selectedIntensity === level && styles.intensityButtonActive,
-                ]}
-                onPress={() => setSelectedIntensity(
-                  selectedIntensity === level ? null : level
-                )}
-              >
-                <View style={styles.intensityDots}>
-                  {[1, 2, 3, 4, 5].map((dot) => (
-                    <View
-                      key={dot}
-                      style={[
-                        styles.intensityDot,
-                        dot <= level && styles.intensityDotFilled,
-                      ]}
-                    />
-                  ))}
-                </View>
-                <Text style={[
-                  styles.intensityLabel,
-                  selectedIntensity === level && styles.intensityLabelActive,
-                ]}>
-                  {level === 1 && 'Beginner'}
-                  {level === 2 && 'Easy'}
-                  {level === 3 && 'Moderate'}
-                  {level === 4 && 'Advanced'}
-                  {level === 5 && 'Expert'}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
-        </View>
-
-        {/* Curated Packs */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Curated Packs</Text>
-          <View style={styles.packsContainer}>
-            {PACKS.map((pack) => (
-              <Pressable
-                key={pack.id}
-                style={styles.packCard}
-                onPress={() => handlePackPress(pack.id)}
-              >
-                <View style={styles.packHeader}>
-                  <Text style={styles.packIcon}>{pack.icon}</Text>
-                  <View style={styles.packBadge}>
-                    <Text style={styles.packBadgeText}>{pack.activities}</Text>
-                  </View>
-                </View>
-                <Text style={styles.packName}>{pack.name}</Text>
-                <Text style={styles.packDescription}>{pack.description}</Text>
-              </Pressable>
-            ))}
-          </View>
-        </View>
-
-        {/* Start Button */}
-        <Pressable 
-          style={styles.startButton}
-          onPress={() => router.push('/(deck)/DeckScreen')}
-        >
-          <Text style={styles.startButtonText}>Start Exploring</Text>
-        </Pressable>
-      </ScrollView>
+      </Animated.View>
     </SafeAreaView>
   );
 }
@@ -279,12 +241,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
-  scrollView: {
+  content: {
     flex: 1,
   },
   header: {
-    paddingHorizontal: SIZES.padding * 1.5,
-    paddingTop: SIZES.padding,
+    padding: SIZES.padding * 2,
     paddingBottom: SIZES.padding,
   },
   title: {
@@ -302,9 +263,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.card,
-    marginHorizontal: SIZES.padding * 1.5,
-    borderRadius: SIZES.radius,
+    marginHorizontal: SIZES.padding * 2,
+    marginBottom: SIZES.padding * 2,
     paddingHorizontal: SIZES.padding,
+    borderRadius: SIZES.radius,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
@@ -319,41 +281,14 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.body,
   },
-  clearButton: {
+  clearIcon: {
+    fontSize: 16,
+    color: COLORS.textMuted,
     padding: 4,
   },
-  clearIcon: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-  },
-  quickFiltersContainer: {
-    paddingHorizontal: SIZES.padding * 1.5,
-    paddingVertical: SIZES.padding,
-    gap: 10,
-  },
-  quickFilter: {
-    backgroundColor: COLORS.card,
-    paddingHorizontal: SIZES.padding,
-    paddingVertical: 8,
-    borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  quickFilterActive: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
-  },
-  quickFilterText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.text,
-  },
-  quickFilterTextActive: {
-    color: COLORS.background,
-  },
   section: {
-    marginTop: SIZES.padding * 2,
-    paddingHorizontal: SIZES.padding * 1.5,
+    marginBottom: SIZES.padding * 2,
+    paddingHorizontal: SIZES.padding * 2,
   },
   sectionTitle: {
     fontFamily: FONTS.bold,
@@ -361,171 +296,140 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginBottom: SIZES.padding,
   },
-  categoriesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
+  categoriesScroll: {
+    gap: 10,
+    paddingRight: SIZES.padding * 2,
   },
-  categoryCard: {
-    width: (SCREEN_W - SIZES.padding * 4) / 2,
-    padding: SIZES.padding,
-    borderRadius: SIZES.radiusLarge,
+  categoryChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.card,
+    paddingHorizontal: SIZES.padding,
+    paddingVertical: 10,
+    borderRadius: SIZES.radius,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  categoryIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: SIZES.padding,
+  categoryChipSelected: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
   },
-  categoryIconText: {
-    fontSize: 24,
+  categoryEmoji: {
+    fontSize: 16,
+    marginRight: 6,
   },
-  categoryName: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
+  categoryText: {
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.small,
     color: COLORS.text,
-    marginBottom: 4,
   },
-  categoryDescription: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginBottom: 8,
+  categoryTextSelected: {
+    color: '#fff',
   },
-  categoryCount: {
-    fontFamily: FONTS.semiBold,
-    fontSize: SIZES.small,
-  },
-  moodsContainer: {
+  moodGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 10,
   },
   moodChip: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.card,
-    paddingHorizontal: SIZES.padding,
-    paddingVertical: 10,
-    borderRadius: SIZES.radiusFull,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: SIZES.radius,
     borderWidth: 1,
     borderColor: COLORS.border,
-    gap: 6,
   },
-  moodChipActive: {
+  moodChipSelected: {
     backgroundColor: COLORS.secondary,
     borderColor: COLORS.secondary,
   },
   moodEmoji: {
-    fontSize: 18,
+    fontSize: 14,
+    marginRight: 6,
   },
   moodText: {
     fontFamily: FONTS.medium,
+    fontSize: SIZES.small,
+    color: COLORS.text,
+  },
+  moodTextSelected: {
+    color: '#fff',
+  },
+  intensityRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  intensityDot: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: COLORS.card,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  intensityDotActive: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  intensityText: {
+    fontFamily: FONTS.bold,
     fontSize: SIZES.body,
     color: COLORS.text,
   },
-  moodTextActive: {
-    color: COLORS.background,
+  intensityTextActive: {
+    color: '#fff',
   },
-  intensityContainer: {
+  statsCard: {
     flexDirection: 'row',
-    gap: 8,
-  },
-  intensityButton: {
-    flex: 1,
     backgroundColor: COLORS.card,
-    paddingVertical: SIZES.padding,
-    borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    alignItems: 'center',
-  },
-  intensityButtonActive: {
-    backgroundColor: COLORS.cardElevated,
-    borderColor: COLORS.primary,
-  },
-  intensityDots: {
-    flexDirection: 'row',
-    gap: 3,
-    marginBottom: 6,
-  },
-  intensityDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: COLORS.border,
-  },
-  intensityDotFilled: {
-    backgroundColor: COLORS.primary,
-  },
-  intensityLabel: {
-    fontFamily: FONTS.regular,
-    fontSize: 10,
-    color: COLORS.textMuted,
-  },
-  intensityLabelActive: {
-    color: COLORS.text,
-    fontFamily: FONTS.medium,
-  },
-  packsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  packCard: {
-    width: (SCREEN_W - SIZES.padding * 4) / 2,
-    backgroundColor: COLORS.card,
-    padding: SIZES.padding,
+    marginHorizontal: SIZES.padding * 2,
+    padding: SIZES.padding * 1.5,
     borderRadius: SIZES.radiusLarge,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  packHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  stat: {
+    flex: 1,
     alignItems: 'center',
-    marginBottom: SIZES.padding,
   },
-  packIcon: {
-    fontSize: 32,
+  statDivider: {
+    width: 1,
+    backgroundColor: COLORS.border,
   },
-  packBadge: {
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: SIZES.radius,
-  },
-  packBadgeText: {
+  statNumber: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.caption,
-    color: COLORS.background,
+    fontSize: SIZES.h2,
+    color: COLORS.primary,
   },
-  packName: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-    marginBottom: 4,
-  },
-  packDescription: {
+  statLabel: {
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
+    marginTop: 4,
   },
-  startButton: {
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: COLORS.background,
+    padding: SIZES.padding * 2,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+  },
+  ctaButton: {
     backgroundColor: COLORS.primary,
-    marginHorizontal: SIZES.padding * 1.5,
-    marginTop: SIZES.padding * 3,
-    marginBottom: SIZES.padding * 2,
     paddingVertical: SIZES.padding * 1.5,
     borderRadius: SIZES.radius,
     alignItems: 'center',
-    ...SHADOWS.medium,
   },
-  startButtonText: {
+  ctaText: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h4,
-    color: COLORS.background,
+    fontSize: SIZES.body,
+    color: '#fff',
   },
 });
