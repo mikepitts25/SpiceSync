@@ -39,10 +39,10 @@ export const COLORS = {
 };
 
 export const FONTS = {
-  regular: 'System',
-  medium: 'System',
-  semiBold: 'System',
-  bold: 'System',
+  regular: 'Inter-Regular',
+  medium: 'Inter-Medium',
+  semiBold: 'Inter-SemiBold',
+  bold: 'Inter-Bold',
 };
 
 export const SIZES = {
@@ -98,6 +98,10 @@ export const ANIMATIONS = {
   },
   fadeIn: {
     duration: 300,
+    useNativeDriver: true,
+  },
+  slideUp: {
+    duration: 400,
     useNativeDriver: true,
   },
 };
