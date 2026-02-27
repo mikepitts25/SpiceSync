@@ -4,6 +4,8 @@ export default function GameLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
+      <Stack.Screen name="draw" />
+      <Stack.Screen name="complete" />
     </Stack>
   );
 }
