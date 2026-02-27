@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0B0B0E"/>
+      <stop offset="100%" style="stop-color:#1A1A2E"/>
+    </linearGradient>
+    <linearGradient id="flameGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="50%" style="stop-color:#E85555"/>
+      <stop offset="100%" style="stop-color:#9B59B6"/>
+    </linearGradient>
+    <linearGradient id="puzzleGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="100%" style="stop-color:#FF8E8E"/>
+    </linearGradient>
+    <linearGradient id="puzzleGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9B59B6"/>
+      <stop offset="100%" style="stop-color:#B07CC6"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgGrad3)" rx="200"/>
+  
+  <!-- Left Puzzle Piece -->
+  <g transform="translate(250, 350)">
+    <!-- Main piece shape with tabs/outies and blanks/innies -->
+    <path d="M 0 0 
+             L 200 0 
+             L 200 80
+             Q 230 80, 230 110 Q 230 140, 200 140
+             L 200 280
+             L 120 280
+             Q 120 310, 90 310 Q 60 310, 60 280
+             L 0 280
+             L 0 200
+             Q -30 200, -30 170 Q -30 140, 0 140
+             L 0 0Z"
+          fill="url(#puzzleGrad1)" stroke="#FFB3B3" stroke-width="4"/>
+    <!-- Shine -->
+    <path d="M 20 20 L 100 20 L 80 100 L 20 100 Z" fill="white" opacity="0.2"/>
+  </g>
+  
+  <!-- Right Puzzle Piece -->
+  <g transform="translate(470, 350)">
+    <path d="M 0 0 
+             L 200 0 
+             L 200 140
+             Q 230 140, 230 170 Q 230 200, 200 200
+             L 200 280
+             L 140 280
+             Q 140 310, 110 310 Q 80 310, 80 280
+             L 0 280
+             L 0 140
+             Q -30 140, -30 110 Q -30 80, 0 80
+             L 0 0Z"
+          fill="url(#puzzleGrad2)" stroke="#B07CC6" stroke-width="4"/>
+    <!-- Shine -->
+    <path d="M 120 20 L 180 20 L 160 100 L 120 80 Z" fill="white" opacity="0.2"/>
+  </g>
+  
+  <!-- Flame in center (where pieces meet) -->
+  <g transform="translate(512, 450)">
+    <!-- Outer flame -->
+    <path d="M 0 100 
+             Q -30 60, -20 20 
+             Q -15 -20, 0 -60
+             Q 15 -20, 20 20
+             Q 30 60, 0 100Z"
+          fill="url(#flameGrad)"/>
+    <!-- Inner flame -->
+    <path d="M 0 80
+             Q -15 50, -10 25
+             Q -8 0, 0 -30
+             Q 8 0, 10 25
+             Q 15 50, 0 80Z"
+          fill="#FFD700"/>
+    <!-- Core -->
+    <path d="M 0 60
+             Q -8 40, -5 25
+             Q -3 10, 0 0
+             Q 3 10, 5 25
+             Q 8 40, 0 60Z"
+          fill="#FFA500"/>
+  </g>
+  
+  <!-- Sparkles around -->
+  <circle cx="350" cy="280" r="8" fill="#FFD700" opacity="0.8"/>
+  <circle cx="650" cy="300" r="6" fill="#FFD700" opacity="0.6"/>
+  <circle cx="320" cy="600" r="10" fill="#FFA500" opacity="0.5"/>
+  <circle cx="680" cy="580" r="7" fill="#FFD700" opacity="0.7"/>
+</svg>

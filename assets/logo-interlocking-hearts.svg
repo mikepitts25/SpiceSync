@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0B0B0E"/>
+      <stop offset="100%" style="stop-color:#1A1A2E"/>
+    </linearGradient>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="100%" style="stop-color:#9B59B6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgGrad)" rx="200"/>
+  
+  <!-- First Heart (left) -->
+  <path d="M 320 400 
+           C 320 320, 200 320, 200 440 
+           C 200 520, 320 600, 512 720 
+           C 450 600, 420 520, 420 440
+           C 420 320, 320 320, 320 400Z" 
+        fill="#FF6B6B" opacity="0.9"/>
+  
+  <!-- Second Heart (right, interlocking) -->
+  <path d="M 704 400 
+           C 704 320, 824 320, 824 440 
+           C 824 520, 704 600, 512 720 
+           C 574 600, 604 520, 604 440
+           C 604 320, 704 320, 704 400Z" 
+        fill="url(#heartGrad)"/>
+  
+  <!-- Spark/Flame at intersection -->
+  <circle cx="512" cy="550" r="40" fill="#FFD700" filter="url(#glow)"/>
+  <path d="M 512 500 L 522 540 L 512 580 L 502 540 Z" fill="#FFA500"/>
+  
+  <!-- Subtle shine -->
+  <ellipse cx="300" cy="380" rx="30" ry="20" fill="white" opacity="0.3"/>
+  <ellipse cx="680" cy="380" rx="30" ry="20" fill="white" opacity="0.3"/>
+</svg>
