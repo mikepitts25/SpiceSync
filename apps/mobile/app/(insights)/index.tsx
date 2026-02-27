@@ -9,7 +9,7 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
 import { useVotesStore } from '../../src/stores/votes';
-import { useKinks } from '../../../../lib/data';
+import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 
 const { width: SCREEN_W } = Dimensions.get('window');

@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore } from '../../src/stores/votes';
-import { useKinks } from '../../../../lib/data';
+import { useKinks } from '../../lib/data';
 
 interface Suggestion {
   id: string;
