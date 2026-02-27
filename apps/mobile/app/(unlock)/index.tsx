@@ -15,6 +15,7 @@ import { useSettingsStore } from '../../src/stores/settingsStore';
 
 const FEATURES = [
   { icon: '👥', text: 'Unlimited profiles', free: false },
+  { icon: '🎲', text: 'Spice Dice couples game', free: false },
   { icon: '✨', text: 'Custom activities', free: false },
   { icon: '📊', text: 'Advanced insights', free: false },
   { icon: '📤', text: 'Export matches', free: false },
@@ -87,7 +88,7 @@ export default function PaywallModal() {
 
           {/* Price */}
           <View style={styles.priceCard}>
-            <Text style={styles.price}>$34.99</Text>
+            <Text style={styles.price}>$19.99</Text>
             <Text style={styles.priceNote}>One-time payment. No subscription.</Text>
             <View style={styles.badge}>
               <Text style={styles.badgeText}>Best Value</Text>
