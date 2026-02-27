@@ -72,6 +72,7 @@ export const useSettingsStore = create<SettingsState>()(
           profiles: [...state.profiles, newProfile],
           activeProfileId: state.activeProfileId || newProfile.id,
         }));
+        return newProfile;
       },
       
       removeProfile: (id) => {
