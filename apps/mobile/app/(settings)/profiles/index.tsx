@@ -151,7 +151,7 @@ export default function ProfilesScreen() {
         <Text style={styles.title}>Profiles</Text>
         <Pressable
           style={styles.newButton}
-          onPress={() => router.push('/settings/profiles/new')}
+          onPress={() => router.push('/(settings)/profiles/new')}
           accessibilityRole="button"
         >
           <Text style={styles.newButtonText}>New Profile</Text>
