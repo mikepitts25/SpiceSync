@@ -13,7 +13,7 @@ export default function SettingsButton() {
       style={[styles.wrapper, { top: insets.top + 8 }]}
     >
       <Pressable
-        onPress={() => router.navigate('/settings')}
+        onPress={() => router.navigate('/(settings)')}
         accessibilityRole="button"
         accessibilityLabel="Open settings"
         style={styles.button}
