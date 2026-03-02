@@ -29,7 +29,7 @@ export default function EntryGate() {
       router.replace('/(onboarding)/profile');
     } else {
       // Fully onboarded - go to main app
-      router.replace('/(tabs)');
+      router.replace('/(tabs)/categories');
     }
   }, [ready, ageVerified, activeProfileId, router]);
 
