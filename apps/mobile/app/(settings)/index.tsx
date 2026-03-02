@@ -7,6 +7,7 @@ import { useSettings } from '../../lib/state/useStore';
 import { useProfiles } from '../../lib/state/profiles';
 import { useVotesStore } from '../../src/stores/votes';
 import { useKinks } from '../../lib/data';
+import { useTranslation, interpolate } from '../../lib/i18n';
 import ResetAgeGateButton from '../../src/components/ResetAgeGateButton';
 
 export default function SettingsScreen() {
@@ -16,24 +17,25 @@ export default function SettingsScreen() {
   const clearUser = useVotesStore((s) => s.clearProfile);
   const setVote = useVotesStore((s) => s.setVote);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const { t } = useTranslation();
 
   const me = profiles?.find((p: any) => p.id === currentUserId) || null;
 
   const onReset = () => {
     if (!me) return;
     Alert.alert(
-      'Reset selections?',
-      `This will remove all votes for ${me.displayName}. This cannot be undone.`,
+      t.settings.resetVotes,
+      interpolate(t.settings.resetVotesDesc, { name: me.displayName }),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t.common.cancel, style: 'cancel' },
         {
-          text: 'Reset',
+          text: t.common.delete,
           style: 'destructive',
           onPress: () => {
             clearUser(me.id);
             Alert.alert(
-              'Selections cleared',
-              `${me.displayName}'s votes have been removed.`
+              t.settings.resetConfirm,
+              interpolate(t.settings.resetConfirmDesc, { name: me.displayName })
             );
           },
         },
@@ -64,36 +66,34 @@ export default function SettingsScreen() {
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-      <Text style={styles.h1}>Settings</Text>
+      <Text style={styles.h1}>{t.settings.title}</Text>
 
       {/* Profiles card */}
       <View style={styles.card}>
-        <Text style={styles.h2}>Profiles</Text>
-        <Text style={styles.p}>Manage who’s swiping, emoji, and names.</Text>
+        <Text style={styles.h2}>{t.settings.profiles}</Text>
+        <Text style={styles.p}>{t.settings.profilesDesc}</Text>
         <Pressable
           onPress={() => router.push('/(settings)/profiles')}
           style={styles.primary}
           accessibilityRole="button"
         >
-          <Text style={styles.btnStrong}>Manage profiles</Text>
+          <Text style={styles.btnStrong}>{t.settings.manageProfiles}</Text>
         </Pressable>
       </View>
 
       {/* Language card */}
       <View style={styles.card}>
-        <Text style={styles.h2}>Language</Text>
-        <Text style={styles.p}>
-          Choose your app language. Content and UI will switch instantly.
-        </Text>
+        <Text style={styles.h2}>{t.settings.language}</Text>
+        <Text style={styles.p}>{t.settings.languageDesc}</Text>
         <View style={styles.langRow}>
-          <LangButton code="en" label="English" />
-          <LangButton code="es" label="Español" />
+          <LangButton code="en" label={t.settings.english} />
+          <LangButton code="es" label={t.settings.spanish} />
         </View>
       </View>
 
       {/* Active profile + reset */}
       <View style={styles.card}>
-        <Text style={styles.h2}>Active profile</Text>
+        <Text style={styles.h2}>{t.settings.activeProfile}</Text>
         {me ? (
           <View style={{ gap: 6 }}>
             <Text style={styles.p}>
@@ -101,7 +101,7 @@ export default function SettingsScreen() {
               <Text style={styles.strong}>{me.displayName}</Text>
             </Text>
             <Text style={styles.meta}>
-              ID: {me.id.slice(0, 8)} • Created{' '}
+              ID: {me.id.slice(0, 8)} • {t.profiles.created}: {' '}
               {new Date(me.createdAt).toLocaleDateString()}
             </Text>
             <Pressable
@@ -110,29 +110,27 @@ export default function SettingsScreen() {
               accessibilityRole="button"
             >
               <Text style={styles.btnStrong}>
-                Reset selections for this profile
+                {t.settings.resetVotes}
               </Text>
             </Pressable>
             <Text style={styles.hint}>
-              This removes all YES/NO/MAYBE votes made by {me.displayName}. The
-              other profile’s votes are unaffected.
+              {interpolate(t.settings.resetVotesDesc, { name: me.displayName })}
             </Text>
           </View>
         ) : (
           <Text style={styles.p}>
-            No active profile selected. Open “Manage profiles” above to create
-            or select one.
+            {t.settings.noProfile}
           </Text>
         )}
       </View>
 
       {/* About & Safety */}
       <View style={styles.card}>
-        <Text style={styles.h2}>About & Safety</Text>
+        <Text style={styles.h2}>{t.settings.about}</Text>
         <Text style={styles.p}>
-          This app is for adults (18+) exploring consensual intimacy. Keep it
-          legal, consensual, and respectful.
+          {t.settings.privacyDesc}
         </Text>
+        <Text style={styles.meta}>{t.settings.version}</Text>
       </View>
 
       {__DEV__ ? (
@@ -140,16 +138,16 @@ export default function SettingsScreen() {
           onPress={() => {
             if (!me) {
               Alert.alert(
-                'No active profile',
-                'Select an active profile first.'
+                t.profiles.noProfile,
+                t.profiles.selectProfile
               );
               return;
             }
             const others = (profiles || []).filter((p: any) => p.id !== me.id);
             if (!others.length) {
               Alert.alert(
-                'Need another profile',
-                'Create a second profile to seed matches.'
+                t.profiles.needPartner,
+                t.profiles.createPartner
               );
               return;
             }
@@ -158,7 +156,7 @@ export default function SettingsScreen() {
             const pool = [...kinks];
             if (!pool.length) {
               Alert.alert(
-                'No content',
+                t.common.error,
                 'Unable to seed matches without kink data.'
               );
               return;
@@ -204,7 +202,7 @@ export default function SettingsScreen() {
             });
 
             Alert.alert(
-              'Seeded votes',
+              t.common.success,
               'Generated demo matches for quick testing.'
             );
           }}

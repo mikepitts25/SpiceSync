@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Text } from 'react-native';
 import { COLORS } from '../constants/theme';
+import { useTranslation } from '../../lib/i18n';
 
 // Simple emoji icons for tabs
 function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
@@ -13,6 +14,8 @@ function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
 }
 
 export default function TabsLayout() {
+  const { t } = useTranslation();
+
   return (
     <Tabs
       initialRouteName="categories"
@@ -37,40 +40,40 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="categories"
         options={{
-          title: 'Discover',
-          tabBarLabel: 'Discover',
+          title: t.tabs.discover,
+          tabBarLabel: t.tabs.discover,
           tabBarIcon: ({ focused }) => <TabIcon emoji="🔍" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="deck"
         options={{
-          title: 'Vote',
-          tabBarLabel: 'Vote',
+          title: t.tabs.vote,
+          tabBarLabel: t.tabs.vote,
           tabBarIcon: ({ focused }) => <TabIcon emoji="🎴" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="game"
         options={{
-          title: 'Game',
-          tabBarLabel: 'Game',
+          title: t.tabs.game,
+          tabBarLabel: t.tabs.game,
           tabBarIcon: ({ focused }) => <TabIcon emoji="🎲" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="matches"
         options={{
-          title: 'Matches',
-          tabBarLabel: 'Matches',
+          title: t.tabs.matches,
+          tabBarLabel: t.tabs.matches,
           tabBarIcon: ({ focused }) => <TabIcon emoji="💕" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="browse"
         options={{
-          title: 'Browse',
-          tabBarLabel: 'Browse',
+          title: t.tabs.browse,
+          tabBarLabel: t.tabs.browse,
           tabBarIcon: ({ focused }) => <TabIcon emoji="📋" focused={focused} />,
         }}
       />
