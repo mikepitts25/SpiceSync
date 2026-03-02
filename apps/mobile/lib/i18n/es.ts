@@ -27,6 +27,13 @@ export const es: Translations = {
     no: 'No',
     error: 'Error',
     success: 'Éxito',
+    items: 'ítems',
+    item: 'ítem',
+    left: 'restantes',
+    clear: 'Limpiar',
+    filter: 'Filtro',
+    tier: 'Nivel',
+    intensity: 'Intensidad',
   },
 
   // Onboarding
@@ -86,17 +93,26 @@ export const es: Translations = {
     selectProfile: 'Selecciona un perfil activo primero.',
     needPartner: 'Necesitas otro perfil',
     createPartner: 'Crea un segundo perfil para generar matches.',
+    chooseProfile: 'Elige un perfil',
+    selectProfileToSwipe: 'Abre Configuración → Perfiles para seleccionar quién vota.',
   },
 
   // Categories / Discover
   discover: {
-    title: 'Descubrir',
+    title: 'Elige una categoría',
     subtitle: 'Categorías',
     searchPlaceholder: 'Buscar categorías...',
     romance: 'Romance',
     soft: 'Suave',
     naughty: 'Atrevido',
     xxx: 'XXX',
+    romanceDesc: 'dulce, cariñoso',
+    softDesc: 'picante suave',
+    naughtyDesc: 'juego atrevido',
+    xxxDesc: 'picante fuerte',
+    skipCategory: 'Saltar categoría → Empezar a Votar',
+    noItems: 'Sin ítems aún',
+    noItemsDesc: 'No hay ítems {{tier}} disponibles. Prueba otra categoría o agrega los tuyos.',
   },
 
   // Deck / Voting
@@ -110,6 +126,12 @@ export const es: Translations = {
     swipeHint: 'Desliza derecha para Sí, izquierda para No',
     categoryFilter: 'Categoría',
     allCategories: 'Todas las Categorías',
+    noItemsInCategory: 'Sin ítems en esta categoría',
+    tryAnotherCategory: 'Prueba otra categoría o agrega contenido.',
+    endOfDeck: '¡Eso es todo!',
+    endOfDeckDesc: 'Has votado en todo en esta categoría.',
+    resetCategory: 'Reiniciar esta categoría',
+    viewMatches: 'Ver Matches',
   },
 
   // Matches
@@ -120,12 +142,20 @@ export const es: Translations = {
     emptyText: '¡Sigue votando para encontrar cosas que les gusten a ambos!',
     bothLike: 'A ambos les gusta esto',
     viewDetails: 'Toca para ver detalles',
+    mutualYes: 'Sí Mutuo',
+    mutualNo: 'No Mutuo',
+    mutualMaybe: 'Tal Vez Mutuo',
+    partialMatch: 'Match Parcial',
+    choosePartner: 'Elige Pareja',
+    pinProtected: 'Protegido con PIN',
+    enterPin: 'Ingresa PIN para ver',
   },
 
   // Game
   game: {
-    title: 'Juego',
+    title: '🎲 Spice Dice',
     subtitle: 'Saca una carta',
+    chooseCategory: 'Elige Categoría',
     truth: 'Verdad',
     dare: 'Reto',
     challenge: 'Desafío',
@@ -137,6 +167,16 @@ export const es: Translations = {
     intensity: 'Intensidad',
     freeCards: 'Cartas Gratis',
     premiumCards: 'Cartas Premium',
+    cardsToExplore: '{{count}} cartas para explorar',
+    freeCardsCount: '{{free}} cartas gratis • {{premium}} premium',
+    startGame: 'Iniciar Juego',
+  },
+
+  // Browse
+  browse: {
+    title: 'Explorar',
+    clearFilter: 'Limpiar filtro',
+    noItems: 'No hay ítems para mostrar.',
   },
 
   // Notifications
@@ -159,5 +199,26 @@ export const es: Translations = {
     yourVote: 'Tu Voto',
     partnerVote: 'Voto de tu Pareja',
     notVoted: 'Aún no ha votado',
+  },
+
+  // Onboarding Screens
+  onboardingScreens: {
+    privacy: {
+      title: 'Privacidad Primero',
+      description: 'Tus datos nunca salen de tu dispositivo.',
+      button: 'Continuar',
+    },
+    age: {
+      title: 'Verificación de Edad',
+      description: 'Debes tener 18 años o más.',
+      confirm: 'Tengo 18 años o más',
+      deny: 'Tengo menos de 18',
+    },
+    profile: {
+      title: 'Crear Perfil',
+      description: 'Configura tu perfil para comenzar.',
+      namePlaceholder: 'Tu nombre',
+      continue: 'Continuar',
+    },
   },
 };

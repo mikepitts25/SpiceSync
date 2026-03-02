@@ -10,6 +10,7 @@ import { useSettings } from '../../lib/state/useStore';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslation } from '../../lib/i18n';
 
 export default function BrowseScreen() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function BrowseScreen() {
       hasActive: state.hasActiveProfile(),
     }))
   );
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isHydrated && !hasActive) {
@@ -45,7 +47,7 @@ export default function BrowseScreen() {
       accessibilityLabel="Browse list screen"
     >
       <View style={styles.topBar}>
-        <Text style={styles.h1}>Browse</Text>
+        <Text style={styles.h1}>{t.browse.title}</Text>
         {selectedTier ? (
           <Text style={styles.tier}>• {selectedTier.toUpperCase()}</Text>
         ) : null}
@@ -54,9 +56,9 @@ export default function BrowseScreen() {
             style={styles.chip}
             onPress={clearTier}
             accessibilityRole="button"
-            accessibilityLabel="Clear filter"
+            accessibilityLabel={t.browse.clearFilter}
           >
-            <Text style={styles.chipText}>Clear filter</Text>
+            <Text style={styles.chipText}>{t.browse.clearFilter}</Text>
           </Pressable>
         ) : null}
       </View>
@@ -73,14 +75,14 @@ export default function BrowseScreen() {
               <Text style={styles.desc}>{item.description}</Text>
             )}
             <View style={styles.metaRow}>
-              <Text style={styles.meta}>Tier: {item.tier?.toUpperCase()}</Text>
-              <Text style={styles.meta}>Intensity: {item.intensityScale}</Text>
+              <Text style={styles.meta}>{t.common.tier}: {item.tier?.toUpperCase()}</Text>
+              <Text style={styles.meta}>{t.common.intensity}: {item.intensityScale}</Text>
             </View>
           </View>
         )}
         ListEmptyComponent={
           <View style={{ padding: 16 }}>
-            <Text style={styles.empty}>No items to show.</Text>
+            <Text style={styles.empty}>{t.browse.noItems}</Text>
           </View>
         }
       />

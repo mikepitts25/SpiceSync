@@ -21,6 +21,7 @@ import { useVotesStore, type VoteValue } from '../../src/stores/votes';
 import { useSettings } from '../../lib/state/useStore';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslation } from '../../lib/i18n';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -36,6 +37,7 @@ export default function DeckScreen() {
       activeProfileId: state.getActiveProfileId(),
     }))
   );
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isHydrated && !hasActive) {
@@ -175,9 +177,9 @@ export default function DeckScreen() {
   if (!activeProfile) {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>Choose a profile</Text>
+        <Text style={styles.h1}>{t.profiles.chooseProfile}</Text>
         <Text style={styles.p}>
-          Open Settings → Profiles to select who is swiping.
+          {t.profiles.selectProfileToSwipe}
         </Text>
         <SettingsButton />
       </SafeAreaView>
@@ -187,8 +189,8 @@ export default function DeckScreen() {
   if (!filteredKinks.length) {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>No items in this category</Text>
-        <Text style={styles.p}>Try another category or add content.</Text>
+        <Text style={styles.h1}>{t.deck.noItemsInCategory}</Text>
+        <Text style={styles.p}>{t.deck.tryAnotherCategory}</Text>
         <SettingsButton />
       </SafeAreaView>
     );
@@ -216,7 +218,7 @@ export default function DeckScreen() {
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <View style={styles.topBar}>
-        <Text style={styles.count}>{leftCount} left</Text>
+        <Text style={styles.count}>{leftCount} {t.common.left}</Text>
         {selectedTier ? (
           <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text>
         ) : null}

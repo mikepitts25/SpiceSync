@@ -7,29 +7,33 @@ import { useFilters } from '../../lib/state/filters';
 import { useKinks } from '../../lib/data';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useSettings } from '../../lib/state/useStore';
 import { useShallow } from 'zustand/react/shallow';
-
-const TIERS: {
-  key: 'romance' | 'soft' | 'naughty' | 'xxx';
-  label: string;
-  desc: string;
-}[] = [
-  { key: 'romance', label: 'Romance', desc: 'sweet, caring' },
-  { key: 'soft', label: 'Soft Kinks', desc: 'gentle spice' },
-  { key: 'naughty', label: 'Naughty Kinks', desc: 'bolder play' },
-  { key: 'xxx', label: 'XXX Kinks', desc: 'hard spice' },
-];
+import { useTranslation, interpolate } from '../../lib/i18n';
 
 export default function CategoriesScreen() {
   const router = useRouter();
   const { setTier } = useFilters();
-  const { kinks } = useKinks(); // defaults EN
+  const { language } = useSettings();
+  const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const { isHydrated, hasActive } = useProfilesStore(
     useShallow((state) => ({
       isHydrated: state.isHydrated(),
       hasActive: state.hasActiveProfile(),
     }))
   );
+  const { t } = useTranslation();
+
+  const TIERS: {
+    key: 'romance' | 'soft' | 'naughty' | 'xxx';
+    label: string;
+    desc: string;
+  }[] = [
+    { key: 'romance', label: t.discover.romance, desc: t.discover.romanceDesc },
+    { key: 'soft', label: t.discover.soft, desc: t.discover.softDesc },
+    { key: 'naughty', label: t.discover.naughty, desc: t.discover.naughtyDesc },
+    { key: 'xxx', label: t.discover.xxx, desc: t.discover.xxxDesc },
+  ];
 
   useEffect(() => {
     if (isHydrated && !hasActive) {
@@ -47,8 +51,8 @@ export default function CategoriesScreen() {
     const count = counts[tier] || 0;
     if (count <= 0) {
       Alert.alert(
-        'No items yet',
-        `No ${tier} items available right now. Try a different category or add your own.`
+        t.discover.noItems,
+        interpolate(t.discover.noItemsDesc, { tier: t.discover[tier] })
       );
       return;
     }
@@ -63,18 +67,18 @@ export default function CategoriesScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <Text style={styles.h1}>Choose a category</Text>
+      <Text style={styles.h1}>{t.discover.title}</Text>
       <View style={styles.grid}>
-        {TIERS.map((t) => (
+        {TIERS.map((tier) => (
           <Pressable
-            key={t.key}
+            key={tier.key}
             style={styles.card}
-            onPress={() => onPick(t.key)}
+            onPress={() => onPick(tier.key)}
             accessibilityRole="button"
           >
-            <Text style={styles.title}>{t.label}</Text>
-            <Text style={styles.desc}>{t.desc}</Text>
-            <Text style={styles.count}>{counts[t.key] || 0} items</Text>
+            <Text style={styles.title}>{tier.label}</Text>
+            <Text style={styles.desc}>{tier.desc}</Text>
+            <Text style={styles.count}>{counts[tier.key] || 0} {t.common.items}</Text>
           </Pressable>
         ))}
       </View>
@@ -86,7 +90,7 @@ export default function CategoriesScreen() {
           router.push('/(tabs)/deck');
         }}
       >
-        <Text style={styles.primaryText}>Skip category → Start Swiping</Text>
+        <Text style={styles.primaryText}>{t.discover.skipCategory}</Text>
       </Pressable>
       <SettingsButton />
     </SafeAreaView>

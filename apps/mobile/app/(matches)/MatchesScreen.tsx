@@ -31,6 +31,7 @@ import {
 import { useSettings } from '../../lib/state/useStore';
 import { useKinks } from '../../lib/data';
 import { usePrivacyGate } from '../../src/stores/privacyGate';
+import { useTranslation } from '../../lib/i18n';
 
 const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, VoteValue>;
 
@@ -67,6 +68,7 @@ type PartnerOption = {
 export default function MatchesScreen() {
   const router = useRouter();
   const { language } = useSettings();
+  const { t } = useTranslation();
 
   const { hydrated, activeId, profiles } = useProfilesStore(
     useShallow((state) => ({
@@ -289,17 +291,17 @@ export default function MatchesScreen() {
     const options: TabOption[] = [
       {
         key: 'mutualYes',
-        label: 'Mutual Yes',
+        label: t.matches.mutualYes,
         count: visibleBuckets.mutualYes.length,
       },
       {
         key: 'mutualNo',
-        label: 'Mutual No',
+        label: t.matches.mutualNo,
         count: visibleBuckets.mutualNo.length,
       },
       {
         key: 'mutualMaybe',
-        label: 'Mutual Maybe',
+        label: t.matches.mutualMaybe,
         count: visibleBuckets.mutualMaybe.length,
       },
     ];
@@ -307,13 +309,13 @@ export default function MatchesScreen() {
     if (gateOpen) {
       options.push({
         key: 'partialYes',
-        label: 'Partial Yes',
+        label: t.matches.partialMatch,
         count: rawBuckets.partialYes.length,
       });
     } else {
       options.push({
         key: 'partialYes',
-        label: 'Partial Yes',
+        label: t.matches.partialMatch,
         locked: true,
       });
     }
@@ -325,6 +327,7 @@ export default function MatchesScreen() {
     visibleBuckets.mutualMaybe.length,
     visibleBuckets.mutualNo.length,
     visibleBuckets.mutualYes.length,
+    t,
   ]);
 
   const rows: MatchRowItem[] = useMemo(() => {
@@ -455,9 +458,9 @@ export default function MatchesScreen() {
   if (!profiles.length) {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>No profiles yet</Text>
+        <Text style={styles.h1}>{t.profiles.noProfile}</Text>
         <Text style={styles.p}>
-          Create a profile to start swiping and build matches.
+          {t.profiles.createPartner}
         </Text>
         <SettingsButton />
       </SafeAreaView>
@@ -467,9 +470,9 @@ export default function MatchesScreen() {
   if (!partners.length || !partnerProfile || !activeProfile) {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>Need two profiles</Text>
+        <Text style={styles.h1}>{t.profiles.needPartner}</Text>
         <Text style={styles.p}>
-          Create another profile in Settings → Profiles to compare matches.
+          {t.profiles.createPartner}
         </Text>
         <SettingsButton />
       </SafeAreaView>
@@ -484,7 +487,7 @@ export default function MatchesScreen() {
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
-        <Text style={styles.title}>Matches</Text>
+        <Text style={styles.title}>{t.matches.title}</Text>
         <Text style={styles.subtitle}>
           {activeProfile.emoji}{' '}
           {activeProfile.displayName ?? activeProfile.name} •{' '}
@@ -498,11 +501,11 @@ export default function MatchesScreen() {
           <Pressable
             style={styles.partnerButton}
             accessibilityRole="button"
-            accessibilityLabel="Choose partner to compare"
+            accessibilityLabel={t.matches.choosePartner}
             onPress={handlePartnerToggle}
           >
             <Text style={styles.partnerButtonLabel}>
-              Viewing with {partnerProfile.emoji}{' '}
+              {partnerProfile.emoji}{' '}
               {partnerProfile.displayName ?? partnerProfile.name}
             </Text>
           </Pressable>

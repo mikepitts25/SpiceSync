@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from '../../lib/i18n';
 
 type Props = {
   onReset: () => void;
@@ -9,6 +10,7 @@ type Props = {
 
 export default function EndOfDeck({ onReset, onViewMatches }: Props) {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
 
   return (
     <View
@@ -17,9 +19,9 @@ export default function EndOfDeck({ onReset, onViewMatches }: Props) {
         { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 },
       ]}
     >
-      <Text style={styles.title}>You’ve reached the end of this deck</Text>
+      <Text style={styles.title}>{t.deck.endOfDeck}</Text>
       <Text style={styles.subtitle}>
-        Replay this set or jump over to see how you match up.
+        {t.deck.endOfDeckDesc}
       </Text>
 
       <Pressable
@@ -28,7 +30,7 @@ export default function EndOfDeck({ onReset, onViewMatches }: Props) {
         onPress={onReset}
       >
         <Text style={[styles.buttonLabel, styles.secondaryLabel]}>
-          Reset current deck
+          {t.deck.resetCategory}
         </Text>
       </Pressable>
 
@@ -38,7 +40,7 @@ export default function EndOfDeck({ onReset, onViewMatches }: Props) {
         onPress={onViewMatches}
       >
         <Text style={[styles.buttonLabel, styles.primaryLabel]}>
-          View matches
+          {t.deck.viewMatches}
         </Text>
       </Pressable>
     </View>

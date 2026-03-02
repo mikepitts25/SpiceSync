@@ -12,6 +12,7 @@ import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { getRandomCard, GameCardType, FREE_CARDS, ALL_CARDS } from '../../data/gameCards';
+import { useTranslation, interpolate } from '../../lib/i18n';
 
 const GAME_TYPES: { id: GameCardType | 'all'; name: string; emoji: string; color: string }[] = [
   { id: 'all', name: 'Surprise Me', emoji: '🎲', color: COLORS.primary },
@@ -29,6 +30,20 @@ export default function GameHub() {
   const [selectedType, setSelectedType] = useState<GameCardType | 'all'>('all');
   const [intensity, setIntensity] = useState(3);
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
+  const { t } = useTranslation();
+
+  // Translate game type names
+  const getTranslatedName = (id: string) => {
+    switch (id) {
+      case 'all': return t.game.surprise;
+      case 'truth': return t.game.truth;
+      case 'dare': return t.game.dare;
+      case 'challenge': return t.game.challenge;
+      case 'fantasy': return t.game.fantasy;
+      case 'roleplay': return t.game.roleplay;
+      default: return id;
+    }
+  };
 
   React.useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -54,11 +69,14 @@ export default function GameHub() {
       <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>🎲 Spice Dice</Text>
+          <Text style={styles.title}>{t.game.title}</Text>
           <Text style={styles.subtitle}>
             {unlocked 
-              ? `${totalCards} cards to explore` 
-              : `${freeCardCount} free cards • ${ALL_CARDS.length - freeCardCount} premium`}
+              ? interpolate(t.game.cardsToExplore, { count: String(totalCards) })
+              : interpolate(t.game.freeCardsCount, { 
+                  free: String(freeCardCount), 
+                  premium: String(ALL_CARDS.length - freeCardCount) 
+                })}
           </Text>
         </View>
 
@@ -68,7 +86,7 @@ export default function GameHub() {
         >
           {/* Game Type Selection */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Choose Category</Text>
+            <Text style={styles.sectionTitle}>{t.game.chooseCategory}</Text>
             <View style={styles.typeGrid}>
               {GAME_TYPES.map((type) => (
                 <Pressable
@@ -85,104 +103,45 @@ export default function GameHub() {
                   <Text style={styles.typeEmoji}>{type.emoji}</Text>
                   <Text style={[
                     styles.typeName,
-                    selectedType === type.id && styles.typeNameSelected,
+                    selectedType === type.id && styles.typeNameSelected
                   ]}>
-                    {type.name}
+                    {getTranslatedName(type.id)}
                   </Text>
                 </Pressable>
               ))}
             </View>
           </View>
 
-          {/* Intensity Selector */}
+          {/* Intensity Selection */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Intensity Level: {intensity}/5</Text>
-            <View style={styles.intensityRow}>
+            <Text style={styles.sectionTitle}>{t.game.intensity}</Text>
+            <View style={styles.intensityContainer}>
               {[1, 2, 3, 4, 5].map((level) => (
                 <Pressable
                   key={level}
                   style={[
                     styles.intensityDot,
                     intensity >= level && styles.intensityDotActive,
+                    { opacity: 0.3 + (level * 0.14) }
                   ]}
                   onPress={() => setIntensity(level)}
-                >
-                  <Text style={[
-                    styles.intensityText,
-                    intensity >= level && styles.intensityTextActive,
-                  ]}>
-                    {level}
-                  </Text>
-                </Pressable>
+                />
               ))}
             </View>
-            <Text style={styles.intensityDescription}>
-              {intensity === 1 && "Sweet and innocent"}
-              {intensity === 2 && "Playful and flirty"}
-              {intensity === 3 && "Spicy and adventurous"}
-              {intensity === 4 && "Hot and intense"}
-              {intensity === 5 && "Wild and uninhibited"}
-            </Text>
-          </View>
-
-          {/* Stats Preview */}
-          <View style={styles.statsCard}>
-            <View style={styles.stat}>
-              <Text style={styles.statNumber}>{totalCards}</Text>
-              <Text style={styles.statLabel}>Total Cards</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.stat}>
-              <Text style={styles.statNumber}>6</Text>
-              <Text style={styles.statLabel}>Categories</Text>
-            </View>
-            {!unlocked && (
-              <>
-                <View style={styles.statDivider} />
-                <View style={styles.stat}>
-                  <Text style={[styles.statNumber, styles.premiumStat]}>75+</Text>
-                  <Text style={styles.statLabel}>Premium</Text>
-                </View>
-              </>
-            )}
-          </View>
-
-          {/* How to Play */}
-          <View style={styles.infoCard}>
-            <Text style={styles.infoTitle}>How to Play</Text>
-            <View style={styles.infoSteps}>
-              <View style={styles.infoStep}>
-                <Text style={styles.infoStepNumber}>1</Text>
-                <Text style={styles.infoStepText}>Choose a category or go random</Text>
-              </View>
-              <View style={styles.infoStep}>
-                <Text style={styles.infoStepNumber}>2</Text>
-                <Text style={styles.infoStepText}>Set your comfort level (1-5)</Text>
-              </View>
-              <View style={styles.infoStep}>
-                <Text style={styles.infoStepNumber}>3</Text>
-                <Text style={styles.infoStepText}>Draw a card and complete the challenge!</Text>
-              </View>
+            <View style={styles.intensityLabels}>
+              <Text style={styles.intensityLabel}>{t.discover.romance}</Text>
+              <Text style={styles.intensityLabel}>{t.discover.xxx}</Text>
             </View>
           </View>
-        </ScrollView>
 
-        {/* CTA */}
-        <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
-          <Pressable style={styles.ctaButton} onPress={startGame}>
-            <Text style={styles.ctaText}>Start Game</Text>
+          {/* Start Button */}
+          <Pressable 
+            style={styles.startButton}
+            onPress={startGame}
+          >
+            <Text style={styles.startButtonText}>{t.game.startGame}</Text>
           </Pressable>
-          {!unlocked && (
-            <Pressable 
-              style={styles.unlockButton}
-              onPress={() => router.push('/(unlock)')}
-            >
-              <Text style={styles.unlockText}>
-                🔓 Unlock 75+ Premium Cards
-              </Text>
-            </Pressable>
-          )}
-        </View>
+        </ScrollView>
       </Animated.View>
     </SafeAreaView>
   );
@@ -195,194 +154,94 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    padding: SIZES.padding,
   },
   header: {
-    padding: SIZES.padding * 2,
-    paddingBottom: SIZES.padding,
+    marginBottom: SIZES.padding * 1.5,
   },
   title: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h1,
+    ...FONTS.h1,
     color: COLORS.text,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   subtitle: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
+    ...FONTS.body,
     color: COLORS.textSecondary,
   },
   section: {
-    marginBottom: SIZES.padding * 2,
-    paddingHorizontal: SIZES.padding * 2,
+    marginBottom: SIZES.padding * 1.5,
   },
   sectionTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h4,
+    ...FONTS.h3,
     color: COLORS.text,
-    marginBottom: SIZES.padding,
+    marginBottom: 16,
   },
   typeGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
+    gap: 12,
   },
   typeCard: {
-    width: '30%',
+    width: '31%',
     aspectRatio: 1,
     backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderRadius: 16,
     borderWidth: 2,
     borderColor: COLORS.border,
-    marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...SHADOWS.small,
   },
   typeEmoji: {
     fontSize: 32,
     marginBottom: 8,
   },
   typeName: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
+    ...FONTS.body,
     color: COLORS.text,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   typeNameSelected: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
-  intensityRow: {
+  intensityContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
     gap: 12,
-    marginBottom: SIZES.padding,
   },
   intensityDot: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: COLORS.card,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    backgroundColor: COLORS.primary,
   },
   intensityDotActive: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
+    borderWidth: 3,
+    borderColor: '#fff',
   },
-  intensityText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-  },
-  intensityTextActive: {
-    color: '#fff',
-  },
-  intensityDescription: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-    textAlign: 'center',
-  },
-  statsCard: {
+  intensityLabels: {
     flexDirection: 'row',
-    backgroundColor: COLORS.card,
-    marginHorizontal: SIZES.padding * 2,
-    padding: SIZES.padding * 1.5,
-    borderRadius: SIZES.radiusLarge,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    marginBottom: SIZES.padding * 2,
+    justifyContent: 'space-between',
+    marginTop: 12,
+    paddingHorizontal: 20,
   },
-  stat: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statDivider: {
-    width: 1,
-    backgroundColor: COLORS.border,
-  },
-  statNumber: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h2,
-    color: COLORS.primary,
-  },
-  premiumStat: {
-    color: COLORS.secondary,
-  },
-  statLabel: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginTop: 4,
-  },
-  infoCard: {
-    backgroundColor: COLORS.card,
-    marginHorizontal: SIZES.padding * 2,
-    padding: SIZES.padding * 1.5,
-    borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  infoTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h4,
-    color: COLORS.text,
-    marginBottom: SIZES.padding,
-  },
-  infoSteps: {
-    gap: SIZES.padding,
-  },
-  infoStep: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  infoStepNumber: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: COLORS.primary,
-    color: '#fff',
-    fontFamily: FONTS.bold,
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 28,
-    marginRight: SIZES.padding,
-  },
-  infoStepText: {
-    flex: 1,
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
+  intensityLabel: {
+    ...FONTS.small,
     color: COLORS.textSecondary,
   },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: COLORS.background,
-    padding: SIZES.padding * 2,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-  },
-  ctaButton: {
+  startButton: {
     backgroundColor: COLORS.primary,
-    paddingVertical: SIZES.padding * 1.5,
-    borderRadius: SIZES.radius,
+    paddingVertical: 18,
+    borderRadius: 16,
     alignItems: 'center',
-    marginBottom: SIZES.padding,
+    marginTop: 8,
+    ...SHADOWS.medium,
   },
-  ctaText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
+  startButtonText: {
+    ...FONTS.h3,
     color: '#fff',
-  },
-  unlockButton: {
-    alignItems: 'center',
-    paddingVertical: SIZES.padding,
-  },
-  unlockText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.secondary,
+    fontWeight: '700',
   },
 });
