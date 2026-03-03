@@ -28,7 +28,7 @@ import {
   type VoteBuckets,
   type VoteValue,
 } from '../../src/stores/votes';
-import { useSettings } from '../../lib/state/useStore';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useKinks } from '../../lib/data';
 import { usePrivacyGate } from '../../src/stores/privacyGate';
 import { useTranslation } from '../../lib/i18n';
@@ -67,7 +67,7 @@ type PartnerOption = {
 
 export default function MatchesScreen() {
   const router = useRouter();
-  const { language } = useSettings();
+  const language = useSettingsStore((state) => state.language);
   const { t } = useTranslation();
 
   const { hydrated, activeId, profiles } = useProfilesStore(

@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
-import { useSettings } from '../../lib/state/useStore';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
@@ -14,7 +14,7 @@ import { useTranslation } from '../../lib/i18n';
 
 export default function BrowseScreen() {
   const router = useRouter();
-  const { language } = useSettings();
+  const language = useSettingsStore((state) => state.language);
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const { t } = useTranslation();

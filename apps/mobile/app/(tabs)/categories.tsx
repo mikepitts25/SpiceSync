@@ -9,12 +9,12 @@ import SettingsButton from '../../src/components/SettingsButton';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation, interpolate } from '../../lib/i18n';
-import { useSettings } from '../../lib/state/useStore';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 
 export default function CategoriesScreen() {
   const router = useRouter();
   const { setTier } = useFilters();
-  const { language } = useSettings();
+  const language = useSettingsStore((state) => state.language);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const { t } = useTranslation();
   const { isHydrated, hasActive } = useProfilesStore(

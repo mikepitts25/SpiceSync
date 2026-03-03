@@ -18,7 +18,7 @@ import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useVotesStore, type VoteValue } from '../../src/stores/votes';
-import { useSettings } from '../../lib/state/useStore';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation } from '../../lib/i18n';
@@ -27,7 +27,7 @@ const { width: SCREEN_W } = Dimensions.get('window');
 
 export default function DeckScreen() {
   const router = useRouter();
-  const { language } = useSettings();
+  const language = useSettingsStore((state) => state.language);
   const { selectedTier } = useFilters();
   const { t } = useTranslation();
   const { isHydrated, hasActive, profiles, activeProfileId } = useProfilesStore(

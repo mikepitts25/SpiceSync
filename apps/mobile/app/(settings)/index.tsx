@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useSettings } from '../../lib/state/useStore';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useProfiles } from '../../lib/state/profiles';
 import { useVotesStore } from '../../src/stores/votes';
 import { useKinks } from '../../lib/data';
@@ -12,7 +12,8 @@ import ResetAgeGateButton from '../../src/components/ResetAgeGateButton';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { language, setLanguage } = useSettings();
+  const language = useSettingsStore((state) => state.language);
+  const setLanguage = useSettingsStore((state) => state.setLanguage);
   const { profiles, currentUserId } = (useProfiles() as any) || {};
   const clearUser = useVotesStore((s) => s.clearProfile);
   const setVote = useVotesStore((s) => s.setVote);
