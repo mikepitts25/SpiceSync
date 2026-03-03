@@ -29,6 +29,7 @@ export default function DeckScreen() {
   const router = useRouter();
   const { language } = useSettings();
   const { selectedTier } = useFilters();
+  const { t } = useTranslation();
   const { isHydrated, hasActive, profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
       isHydrated: state.isHydrated(),
@@ -37,7 +38,6 @@ export default function DeckScreen() {
       activeProfileId: state.getActiveProfileId(),
     }))
   );
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (isHydrated && !hasActive) {
@@ -54,7 +54,6 @@ export default function DeckScreen() {
   const setVote = useVotesStore((state) => state.setVote);
   const clearVotesForKinks = useVotesStore((state) => state.clearVotesForKinks);
 
-  // Source deck for current filter
   const filteredKinks = useMemo(
     () => (selectedTier ? kinks.filter((k) => k.tier === selectedTier) : kinks),
     [kinks, selectedTier]
@@ -77,7 +76,6 @@ export default function DeckScreen() {
     return filteredKinks.filter((kink) => voted[kink.id] === undefined);
   }, [filteredKinks, activeProfileIdValue, activeProfileVotes]);
 
-  // Index is stored per (user, tier)
   const key = `${activeProfileIdValue ?? 'none'}::${selectedTier ?? 'all'}`;
   const [indexByKey, setIndexByKey] = useState<Record<string, number>>({});
   const [cardAnimating, setCardAnimating] = useState(false);
@@ -86,12 +84,10 @@ export default function DeckScreen() {
   const index = indexByKey[key] ?? 0;
   const current = queue[index] ?? null;
 
-  // ✅ HARD RESET when profile or category changes
   useEffect(() => {
     setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
   }, [key]);
 
-  // Guard if queue length shrinks (e.g., after votes reset)
   useEffect(() => {
     const max = Math.max(0, queue.length - 1);
     if (index > max) {
@@ -100,10 +96,8 @@ export default function DeckScreen() {
         [key]: Math.max(0, Math.min(index, max)),
       }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queue.length, index, key]);
 
-  // Optional: on refocus we could validate index (kept as no-op)
   useFocusEffect(
     useCallback(() => {
       return () => {};
@@ -178,9 +172,7 @@ export default function DeckScreen() {
     return (
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>{t.profiles.chooseProfile}</Text>
-        <Text style={styles.p}>
-          {t.profiles.selectProfileToSwipe}
-        </Text>
+        <Text style={styles.p}>{t.profiles.selectProfileToSwipe}</Text>
         <SettingsButton />
       </SafeAreaView>
     );

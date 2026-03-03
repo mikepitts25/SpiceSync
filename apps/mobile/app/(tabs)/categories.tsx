@@ -7,33 +7,22 @@ import { useFilters } from '../../lib/state/filters';
 import { useKinks } from '../../lib/data';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useProfilesStore } from '../../lib/state/profiles';
-import { useSettings } from '../../lib/state/useStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation, interpolate } from '../../lib/i18n';
+import { useSettings } from '../../lib/state/useStore';
 
 export default function CategoriesScreen() {
   const router = useRouter();
   const { setTier } = useFilters();
   const { language } = useSettings();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const { t } = useTranslation();
   const { isHydrated, hasActive } = useProfilesStore(
     useShallow((state) => ({
       isHydrated: state.isHydrated(),
       hasActive: state.hasActiveProfile(),
     }))
   );
-  const { t } = useTranslation();
-
-  const TIERS: {
-    key: 'romance' | 'soft' | 'naughty' | 'xxx';
-    label: string;
-    desc: string;
-  }[] = [
-    { key: 'romance', label: t.discover.romance, desc: t.discover.romanceDesc },
-    { key: 'soft', label: t.discover.soft, desc: t.discover.softDesc },
-    { key: 'naughty', label: t.discover.naughty, desc: t.discover.naughtyDesc },
-    { key: 'xxx', label: t.discover.xxx, desc: t.discover.xxxDesc },
-  ];
 
   useEffect(() => {
     if (isHydrated && !hasActive) {
@@ -47,17 +36,27 @@ export default function CategoriesScreen() {
     return acc;
   }, {});
 
+  const TIERS: {
+    key: 'romance' | 'soft' | 'naughty' | 'xxx';
+    label: string;
+    desc: string;
+  }[] = [
+    { key: 'romance', label: t.discover.romance, desc: t.discover.romanceDesc },
+    { key: 'soft', label: t.discover.soft, desc: t.discover.softDesc },
+    { key: 'naughty', label: t.discover.naughty, desc: t.discover.naughtyDesc },
+    { key: 'xxx', label: t.discover.xxx, desc: t.discover.xxxDesc },
+  ];
+
   const onPick = (tier: 'romance' | 'soft' | 'naughty' | 'xxx') => {
     const count = counts[tier] || 0;
     if (count <= 0) {
       Alert.alert(
         t.discover.noItems,
-        interpolate(t.discover.noItemsDesc, { tier: t.discover[tier] })
+        interpolate(t.discover.noItemsDesc, { tier })
       );
       return;
     }
     setTier(tier);
-    // Go straight to swiping:
     router.push('/(tabs)/deck');
   };
 

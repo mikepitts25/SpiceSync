@@ -17,13 +17,13 @@ export default function BrowseScreen() {
   const { language } = useSettings();
   const { selectedTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const { t } = useTranslation();
   const { isHydrated, hasActive } = useProfilesStore(
     useShallow((state) => ({
       isHydrated: state.isHydrated(),
       hasActive: state.hasActiveProfile(),
     }))
   );
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (isHydrated && !hasActive) {
@@ -56,7 +56,7 @@ export default function BrowseScreen() {
             style={styles.chip}
             onPress={clearTier}
             accessibilityRole="button"
-            accessibilityLabel={t.browse.clearFilter}
+            accessibilityLabel="Clear filter"
           >
             <Text style={styles.chipText}>{t.browse.clearFilter}</Text>
           </Pressable>

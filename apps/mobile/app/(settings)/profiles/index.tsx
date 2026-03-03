@@ -19,6 +19,7 @@ import {
   useProfilesStore,
   type Profile,
 } from '../../../lib/state/profiles';
+import { useTranslation, interpolate } from '../../../lib/i18n';
 
 type FlatListProfile = Profile;
 
@@ -30,6 +31,7 @@ type PinModalState = {
 
 export default function ProfilesScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { profiles, activeProfileId, updateProfile, deleteProfile, verifyPin } =
     useProfilesStore();
 
@@ -46,7 +48,7 @@ export default function ProfilesScreen() {
     if (Platform.OS === 'android') {
       ToastAndroid.show(`${name} is now active`, ToastAndroid.SHORT);
     } else {
-      Alert.alert('Profile switched', `${name} is now active.`);
+      Alert.alert(t.profiles.profileSwitched, interpolate(t.profiles.nowActive, { name }));
     }
   };
 
@@ -79,7 +81,7 @@ export default function ProfilesScreen() {
   const handleUnlock = () => {
     if (!pinPrompt) return;
     if (enteredPin.length !== 4) {
-      setPinError('Enter the 4-digit PIN');
+      setPinError(t.profiles.enterPin);
       return;
     }
     if (verifyPin(pinPrompt.id, enteredPin)) {
@@ -87,18 +89,18 @@ export default function ProfilesScreen() {
       notifySwitch(pinPrompt.name);
       closePinPrompt();
     } else {
-      setPinError('Incorrect PIN');
+      setPinError(t.profiles.incorrectPin);
     }
   };
 
   const handleDelete = (profile: FlatListProfile) => {
     Alert.alert(
-      'Delete profile?',
-      `This permanently removes ${profile.name} and their data.`,
+      t.profiles.deleteProfile,
+      interpolate(t.profiles.deleteProfileDesc, { name: profile.name }),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t.common.cancel, style: 'cancel' },
         {
-          text: 'Delete',
+          text: t.common.delete,
           style: 'destructive',
           onPress: () => deleteProfile(profile.id),
         },
@@ -120,10 +122,10 @@ export default function ProfilesScreen() {
           <View style={{ flex: 1 }}>
             <Text style={styles.profileName}>{item.name}</Text>
             <Text style={styles.profileMeta}>
-              {item.pin ? 'PIN required to switch' : 'No PIN'}
+              {item.pin ? t.profiles.pinRequired : t.profiles.noPin}
             </Text>
           </View>
-          {isActive ? <Text style={styles.activeTag}>Active</Text> : null}
+          {isActive ? <Text style={styles.activeTag}>{t.profiles.active}</Text> : null}
         </View>
 
         <View style={styles.managementRow}>
@@ -131,14 +133,14 @@ export default function ProfilesScreen() {
             style={styles.nameInput}
             value={item.name}
             onChangeText={(value) => updateProfile?.(item.id, { name: value })}
-            placeholder="Name"
+            placeholder={t.profiles.nameLabel}
             placeholderTextColor="#64748b"
           />
           <Pressable
             style={styles.deleteButton}
             onPress={() => handleDelete(item)}
           >
-            <Text style={styles.deleteText}>Delete</Text>
+            <Text style={styles.deleteText}>{t.common.delete}</Text>
           </Pressable>
         </View>
       </Pressable>
@@ -148,18 +150,16 @@ export default function ProfilesScreen() {
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <View style={styles.headerRow}>
-        <Text style={styles.title}>Profiles</Text>
+        <Text style={styles.title}>{t.profiles.title}</Text>
         <Pressable
           style={styles.newButton}
           onPress={() => router.push('/(settings)/profiles/new')}
           accessibilityRole="button"
         >
-          <Text style={styles.newButtonText}>New Profile</Text>
+          <Text style={styles.newButtonText}>{t.profiles.addProfile}</Text>
         </Pressable>
       </View>
-      <Text style={styles.subtitle}>
-        Tap a profile to switch. Protected profiles require a PIN.
-      </Text>
+      <Text style={styles.subtitle}>{t.profiles.tapToSwitch}</Text>
 
       <FlatList
         data={profiles}
@@ -171,8 +171,8 @@ export default function ProfilesScreen() {
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         ListEmptyComponent={
           <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>No profiles yet</Text>
-            <Text style={styles.emptyBody}>Create a profile to begin.</Text>
+            <Text style={styles.emptyTitle}>{t.profiles.noProfiles}</Text>
+            <Text style={styles.emptyBody}>{t.profiles.createProfile}</Text>
           </View>
         }
       />
@@ -185,9 +185,9 @@ export default function ProfilesScreen() {
       >
         <Pressable style={styles.modalBackdrop} onPress={closePinPrompt}>
           <Pressable style={styles.modalCard}>
-            <Text style={styles.modalTitle}>Enter PIN</Text>
+            <Text style={styles.modalTitle}>{t.profiles.enterPin}</Text>
             <Text style={styles.modalBody}>
-              {pinPrompt ? `Unlock ${pinPrompt.name}` : 'Profile PIN required'}
+              {pinPrompt ? interpolate(t.profiles.unlockProfile, { name: pinPrompt.name }) : t.profiles.pinRequired}
             </Text>
             <TextInput
               style={styles.modalInput}
@@ -210,13 +210,13 @@ export default function ProfilesScreen() {
                 style={styles.modalButtonSecondary}
                 onPress={closePinPrompt}
               >
-                <Text style={styles.modalButtonText}>Cancel</Text>
+                <Text style={styles.modalButtonText}>{t.common.cancel}</Text>
               </Pressable>
               <Pressable
                 style={styles.modalButtonPrimary}
                 onPress={handleUnlock}
               >
-                <Text style={styles.modalButtonPrimaryText}>Unlock</Text>
+                <Text style={styles.modalButtonPrimaryText}>{t.profiles.unlock}</Text>
               </Pressable>
             </View>
           </Pressable>
