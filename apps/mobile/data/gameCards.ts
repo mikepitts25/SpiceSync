@@ -886,3 +886,22 @@ export const getCardsByIntensity = (min: number, max: number, unlocked: boolean)
   const cards = unlocked ? ALL_CARDS : FREE_CARDS;
   return cards.filter((card) => card.intensity >= min && card.intensity <= max);
 };
+
+// Import Spanish cards for language support
+import { FREE_CARDS_ES, ALL_CARDS_ES } from './gameCards.es';
+
+// Get cards by language
+export const getCardsByLanguage = (lang: 'en' | 'es', unlocked: boolean): GameCard[] => {
+  if (lang === 'es') {
+    return unlocked ? ALL_CARDS_ES : FREE_CARDS_ES;
+  }
+  return unlocked ? ALL_CARDS : FREE_CARDS;
+};
+
+// Get random card with language support
+export const getRandomCardByLang = (type: GameCardType | 'all', unlocked: boolean, lang: 'en' | 'es'): GameCard | null => {
+  const cards = getCardsByLanguage(lang, unlocked);
+  const filtered = type === 'all' ? cards : cards.filter((c) => c.type === type);
+  if (filtered.length === 0) return null;
+  return filtered[Math.floor(Math.random() * filtered.length)];
+};

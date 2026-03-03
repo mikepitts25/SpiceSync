@@ -11,7 +11,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { getRandomCard, GameCard, GameCardType, FREE_CARDS, ALL_CARDS } from '../../data/gameCards';
+import { GameCard, GameCardType, getCardsByLanguage } from '../../data/gameCards';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -37,6 +37,7 @@ export default function CardDraw() {
   const router = useRouter();
   const { type, intensity } = useLocalSearchParams<{ type: GameCardType | 'all'; intensity: string }>();
   const unlocked = useSettingsStore((state) => state.unlocked);
+  const language = useSettingsStore((state) => state.language);
   
   const [card, setCard] = useState<GameCard | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -53,10 +54,8 @@ export default function CardDraw() {
     const selectedType = type || 'all';
     const selectedIntensity = parseInt(intensity) || 3;
     
-    // Get available cards
-    const availableCards = unlocked 
-      ? ALL_CARDS 
-      : FREE_CARDS;
+    // Get available cards based on language
+    const availableCards = getCardsByLanguage(language, unlocked);
     
     // Filter by type if specified
     let filteredCards = selectedType === 'all' 

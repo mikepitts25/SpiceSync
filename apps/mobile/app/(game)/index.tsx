@@ -11,7 +11,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { getRandomCard, GameCardType, FREE_CARDS, ALL_CARDS } from '../../data/gameCards';
+import { GameCardType, getCardsByLanguage } from '../../data/gameCards';
 import { useTranslation, interpolate } from '../../lib/i18n';
 
 const GAME_TYPES: { id: GameCardType | 'all'; name: string; emoji: string; color: string }[] = [
@@ -27,10 +27,17 @@ export default function GameHub() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const unlocked = useSettingsStore((state) => state.unlocked);
+  const language = useSettingsStore((state) => state.language);
   const [selectedType, setSelectedType] = useState<GameCardType | 'all'>('all');
   const [intensity, setIntensity] = useState(3);
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
   const { t } = useTranslation();
+
+  // Get cards based on language
+  const cards = getCardsByLanguage(language, unlocked);
+  const freeCards = getCardsByLanguage(language, false);
+  const totalCards = cards.length;
+  const freeCardCount = freeCards.length;
 
   // Translate game type names
   const getTranslatedName = (id: string) => {
@@ -53,8 +60,7 @@ export default function GameHub() {
     }).start();
   }, []);
 
-  const totalCards = unlocked ? ALL_CARDS.length : FREE_CARDS.length;
-  const freeCardCount = FREE_CARDS.length;
+  // Using language-aware counts calculated above
 
   const startGame = () => {
     // Navigate to card draw screen with selected type and intensity
