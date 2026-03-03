@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTranslation } from '../../lib/i18n';
+import { useTranslation } from '../lib/i18n';
 
 type Props = {
   onReset: () => void;
