@@ -1,13 +1,25 @@
 // apps/mobile/app/(deck)/DeckScreen.tsx
+// Redesigned deck screen with modern visuals
+
 import React, { useMemo, useState, useCallback } from 'react';
-import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import SwipeDeck from '../../components/SwipeDeck';
+import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import SwipeDeck from '../../components/SwipeDeckRedesigned';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
+import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../constants/theme';
 
 type VoteValue = 'yes' | 'no' | 'maybe';
+
+const TIER_GRADIENTS: Record<string, string[]> = {
+  soft: GRADIENTS.soft,
+  naughty: GRADIENTS.naughty,
+  xxx: GRADIENTS.xxx,
+};
 
 export default function DeckScreen() {
   const router = useRouter();
@@ -25,7 +37,6 @@ export default function DeckScreen() {
 
   const saveVote = useCallback((kinkId: string, value: VoteValue) => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const store = require('../../lib/state/useStore');
       const votes =
         (store.useVotes ? store.useVotes() : store.default?.useVotes?.()) || {};
@@ -55,138 +66,200 @@ export default function DeckScreen() {
 
   const goCategories = () => router.replace('/(tabs)/categories');
 
+  const tierGradient = selectedTier ? TIER_GRADIENTS[selectedTier] : null;
+
   if (!source.length) {
     return (
-      <View style={styles.wrap}>
-        <Text style={styles.h1}>No items in this category</Text>
-        {selectedTier ? (
-          <Text style={styles.p}>
-            The “{selectedTier}” category has no items right now. You can clear
-            the filter or go back to categories.
+      <SafeAreaView style={styles.emptyContainer}>
+        <Animated.View entering={FadeIn} style={styles.emptyContent}>
+          <Text style={styles.emptyEmoji}>🔍</Text>
+          <Text style={styles.emptyTitle}>No items found</Text>
+          <Text style={styles.emptyText}>
+            {selectedTier
+              ? `The "${selectedTier}" category has no items right now.`
+              : 'No content found. Try switching language.'}
           </Text>
-        ) : (
-          <Text style={styles.p}>
-            No content found. Try switching language or refreshing your pack.
-          </Text>
-        )}
-        <View style={styles.row}>
-          {selectedTier ? (
-            <Pressable
-              style={styles.secondary}
-              onPress={clearTier}
-              accessibilityRole="button"
-            >
-              <Text style={styles.btnText}>Clear filter</Text>
-            </Pressable>
-          ) : null}
-          <Pressable
-            style={styles.primary}
-            onPress={goCategories}
-            accessibilityRole="button"
-          >
-            <Text style={styles.btnTextStrong}>Back to Categories</Text>
+          <Pressable style={styles.emptyButton} onPress={goCategories}>
+            <LinearGradient colors={GRADIENTS.primary} style={styles.emptyButtonGradient}>
+              <Text style={styles.emptyButtonText}>Back to Categories</Text>
+            </LinearGradient>
           </Pressable>
-        </View>
-      </View>
+        </Animated.View>
+      </SafeAreaView>
     );
   }
 
   if (!current) {
     return (
-      <View style={styles.wrap}>
-        <Text style={styles.h1}>You’re all caught up 🎉</Text>
-        <Text style={styles.p}>
-          You’ve reviewed everything
-          {selectedTier ? ` in “${selectedTier}”` : ''}.
-        </Text>
-        <View style={styles.row}>
-          {selectedTier ? (
-            <Pressable
-              style={styles.secondary}
-              onPress={clearTier}
-              accessibilityRole="button"
-            >
-              <Text style={styles.btnText}>Clear filter</Text>
+      <SafeAreaView style={styles.emptyContainer}>
+        <Animated.View entering={FadeIn} style={styles.emptyContent}>
+          <Text style={styles.emptyEmoji}>🎉</Text>
+          <Text style={styles.emptyTitle}>You're all caught up!</Text>
+          <Text style={styles.emptyText}>
+            You've reviewed everything{selectedTier ? ` in "${selectedTier}"` : ''}.
+          </Text>
+          <View style={styles.emptyButtons}>
+            {selectedTier && (
+              <Pressable style={styles.emptyButtonSecondary} onPress={clearTier}>
+                <Text style={styles.emptyButtonSecondaryText}>Clear Filter</Text>
+              </Pressable>
+            )}
+            <Pressable style={styles.emptyButton} onPress={goCategories}>
+              <LinearGradient colors={GRADIENTS.primary} style={styles.emptyButtonGradient}>
+                <Text style={styles.emptyButtonText}>Back to Categories</Text>
+              </LinearGradient>
             </Pressable>
-          ) : null}
-          <Pressable
-            style={styles.primary}
-            onPress={goCategories}
-            accessibilityRole="button"
-          >
-            <Text style={styles.btnTextStrong}>Back to Categories</Text>
-          </Pressable>
-        </View>
-      </View>
+          </View>
+        </Animated.View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.screen} accessibilityLabel="Swipe deck screen">
-      <View style={styles.topBar}>
-        <Text style={styles.count}>
-          {index + 1}/{source.length}
-        </Text>
-        {selectedTier ? (
-          <Text style={styles.tier}>• {selectedTier.toUpperCase()}</Text>
-        ) : null}
-        <Pressable
-          style={styles.link}
-          onPress={goCategories}
-          accessibilityRole="button"
-        >
-          <Text style={styles.linkText}>Categories</Text>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Pressable onPress={goCategories} style={styles.backButton}>
+          <Text style={styles.backArrow}>←</Text>
         </Pressable>
+        
+        {selectedTier && tierGradient && (
+          <View style={styles.tierBadge}>
+            <LinearGradient colors={tierGradient} style={styles.tierBadgeGradient}>
+              <Text style={styles.tierBadgeText}>{selectedTier.toUpperCase()}</Text>
+            </LinearGradient>
+          </View>
+        )}
+        
+        <View style={styles.spacer} />
       </View>
 
-      {/* Swipe-only deck (no extra buttons at bottom) */}
-      <View style={styles.deckArea}>
+      {/* Deck */}
+      <View style={styles.deckContainer}>
         <SwipeDeck
           item={current}
           onSwipe={onSwipe}
           onUndo={() => setIndex((i) => Math.max(0, i - 1))}
+          currentIndex={index}
+          totalCount={source.length}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, padding: 12, backgroundColor: '#0b0f14' },
-  wrap: {
+  container: {
     flex: 1,
-    padding: 16,
-    gap: 12,
-    justifyContent: 'center',
-    backgroundColor: '#0b0f14',
+    backgroundColor: COLORS.background,
   },
-  h1: { fontSize: 22, fontWeight: '800', color: 'white' },
-  p: { fontSize: 16, color: '#94a3b8' },
-  row: { flexDirection: 'row', gap: 10, marginTop: 8 },
-  primary: {
-    backgroundColor: '#3b82f6',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-  },
-  secondary: {
-    backgroundColor: '#1f2937',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-  },
-  btnText: { color: 'white', fontWeight: '600' },
-  btnTextStrong: { color: 'white', fontWeight: '800' },
-  topBar: {
+  
+  // Header
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    paddingHorizontal: 4,
-    marginBottom: 6,
+    justifyContent: 'space-between',
+    paddingHorizontal: SIZES.padding,
+    paddingTop: 8,
+    paddingBottom: 8,
   },
-  count: { fontWeight: '700', color: 'white' },
-  tier: { color: '#9ca3af', fontWeight: '600' },
-  link: { marginLeft: 'auto', padding: 8 },
-  linkText: { color: '#60a5fa', fontWeight: '700' },
-  deckArea: { flex: 1, paddingBottom: 8 },
+  backButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: COLORS.card,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  backArrow: {
+    fontSize: 24,
+    color: COLORS.text,
+    fontWeight: '700',
+  },
+  tierBadge: {
+    borderRadius: SIZES.radius,
+    overflow: 'hidden',
+  },
+  tierBadgeGradient: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  tierBadgeText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
+  spacer: {
+    width: 44,
+  },
+  
+  // Deck
+  deckContainer: {
+    flex: 1,
+    paddingBottom: 20,
+  },
+  
+  // Empty states
+  emptyContainer: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: SIZES.paddingLarge,
+  },
+  emptyContent: {
+    alignItems: 'center',
+  },
+  emptyEmoji: {
+    fontSize: 80,
+    marginBottom: 24,
+  },
+  emptyTitle: {
+    fontSize: SIZES.h2,
+    fontWeight: '800',
+    color: COLORS.text,
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  emptyText: {
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    marginBottom: 32,
+    lineHeight: 24,
+  },
+  emptyButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  emptyButton: {
+    borderRadius: SIZES.radiusLarge,
+    overflow: 'hidden',
+    ...SHADOWS.md,
+  },
+  emptyButtonGradient: {
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+  },
+  emptyButtonText: {
+    color: '#fff',
+    fontSize: SIZES.medium,
+    fontWeight: '700',
+  },
+  emptyButtonSecondary: {
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: SIZES.radiusLarge,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  emptyButtonSecondaryText: {
+    color: COLORS.text,
+    fontSize: SIZES.medium,
+    fontWeight: '600',
+  },
 });
