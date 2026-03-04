@@ -2,9 +2,11 @@
   {
     "id": "0000",
     "slug": "aftercare-bath",
-    "title": "Aftercare: baño tibio",
-    "description": "Sumérgete en agua tibia con conversación suave para relajarse juntos.",
-    "tags": ["aftercare"],
+    "title": "Recovery Soak",
+    "description": "Slip into warm water together, limbs tangled, whispering about what just happened. The best kind of debrief.",
+    "tags": [
+      "aftercare"
+    ],
     "category": "aftercare",
     "intensityScale": 1,
     "aliases": [],
@@ -12,72 +14,56 @@
     "tier": "romance"
   },
   {
-    "id": "0001-give",
-    "slug": "anal-play-advanced-give",
-    "title": "Dar: Juego anal (avanzado)",
-    "description": "Exploración anal avanzada en tu pareja usando dedos, juguetes o más.",
-    "tags": ["prep", "comfort", "giving"],
-    "category": "props_and_toys",
-    "intensityScale": 3,
+    "id": "0001",
+    "slug": "slow-morning-kisses",
+    "title": "Lazy Morning Kisses",
+    "description": "No alarms, no rush. Just soft lips and wandering hands under the sheets.",
+    "tags": [
+      "intimacy"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
-    "tier": "xxx"
+    "tier": "romance"
   },
   {
-    "id": "0001-receive",
-    "slug": "anal-play-advanced-receive",
-    "title": "Recibir: Juego anal (avanzado)",
-    "description": "Recibe exploración anal avanzada de tu pareja usando dedos, juguetes o más.",
-    "tags": ["prep", "comfort", "receiving"],
-    "category": "props_and_toys",
-    "intensityScale": 3,
+    "id": "0002",
+    "slug": "grazing-hands",
+    "title": "Accidental Touches",
+    "description": "Let your fingers 'accidentally' brush their thigh, their waist, the small of their back. See how long before they catch your drift.",
+    "tags": [
+      "tease"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
-    "tier": "xxx"
-  },
-  {
-    "id": "0002-give",
-    "slug": "anal-play-beginner-give",
-    "title": "Dar: Juego anal (principiante)",
-    "description": "Juego anal suave para principiantes en tu pareja usando un dedo o juguete pequeño.",
-    "tags": ["prep", "comfort", "giving"],
-    "category": "props_and_toys",
-    "intensityScale": 2,
-    "aliases": ["anal principiante"],
-    "createdBy": "system",
-    "tier": "naughty"
-  },
-  {
-    "id": "0002-receive",
-    "slug": "anal-play-beginner-receive",
-    "title": "Recibir: Juego anal (principiante)",
-    "description": "Recibe juego anal suave para principiantes de tu pareja usando un dedo o juguete pequeño.",
-    "tags": ["prep", "comfort", "receiving"],
-    "category": "props_and_toys",
-    "intensityScale": 2,
-    "aliases": ["anal principiante"],
-    "createdBy": "system",
-    "tier": "naughty"
+    "tier": "romance"
   },
   {
     "id": "0003",
-    "slug": "anal-training-set",
-    "title": "Set de entrenamiento anal",
-    "description": "Tamaños progresivos con el objetivo de estirar; abundante lubricante, ritmo lento y comunicación.",
-    "tags": ["toys", "training"],
-    "category": "props_and_toys",
-    "intensityScale": 3,
+    "slug": "feeding-each-other",
+    "title": "Feeding Each Other",
+    "description": "Forkfuls of dessert offered with a smirk. Fingers trailing lips after. Playing with your food has never been this adult.",
+    "tags": [
+      "romance"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
-    "tier": "xxx"
+    "tier": "romance"
   },
   {
     "id": "0004",
-    "slug": "aphrodisiac-dinner",
-    "title": "Cena afrodisíaca",
-    "description": "Prepara una comida con alimentos considerados afrodisíacos y saborea cada bocado juntos.",
-    "tags": ["food", "sensory"],
-    "category": "sensory_play",
+    "slug": "bubble-bath",
+    "title": "Naked Bath Time",
+    "description": "Get in together. Let them lean back against your chest. The bubbles are just an excuse to get close.",
+    "tags": [
+      "intimacy"
+    ],
+    "category": "environment",
     "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
@@ -85,23 +71,27 @@
   },
   {
     "id": "0005",
-    "slug": "arm-restraint-play",
-    "title": "Juego de restricción de brazos",
-    "description": "Restricción consensuada de los brazos usando esposas, cintas o bufandas con atención constante.",
-    "tags": ["bondage", "restraint"],
-    "category": "control_and_power",
-    "intensityScale": 2,
+    "slug": "shared-shower",
+    "title": "Steam Together",
+    "description": "Wash their hair. Let your hands wander. The hot water isn't the only thing making you breathless.",
+    "tags": [
+      "intimacy"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "romance"
   },
   {
     "id": "0006",
-    "slug": "ayurvedic-massage",
-    "title": "Masaje ayurvédico",
-    "description": "Masaje con aceites calientes siguiendo principios ayurvédicos para relajación profunda.",
-    "tags": ["massage", "oils"],
-    "category": "sensory_play",
+    "slug": "cuddle-naked",
+    "title": "Skin on Skin",
+    "description": "Nothing between you. Just warmth, heartbeat, and the smell of each other. Sometimes this is all you need.",
+    "tags": [
+      "intimacy"
+    ],
+    "category": "communication",
     "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
@@ -109,11 +99,13 @@
   },
   {
     "id": "0007",
-    "slug": "back-massage",
-    "title": "Masaje de espalda",
-    "description": "Masaje terapéutico de la espalda para aliviar tensión y crear conexión.",
-    "tags": ["massage", "relaxation"],
-    "category": "sensory_play",
+    "slug": "whispered-secrets",
+    "title": "Bedroom Confessions",
+    "description": "In the dark, tell them things you've never said aloud. Watch trust turn into desire.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
     "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
@@ -121,10 +113,12 @@
   },
   {
     "id": "0008",
-    "slug": "bath-together",
-    "title": "Baño juntos",
-    "description": "Compartan un baño tibio con burbujas, velas y música suave.",
-    "tags": ["bath", "intimacy"],
+    "slug": "kitchen-dance",
+    "title": "Kitchen Slow Dance",
+    "description": "Press close while something simmers on the stove. Sway to no music. Get distracted.",
+    "tags": [
+      "romance"
+    ],
     "category": "environment",
     "intensityScale": 1,
     "aliases": [],
@@ -133,59 +127,72 @@
   },
   {
     "id": "0009",
-    "slug": "biting",
-    "title": "Mordidas",
-    "description": "Mordidas suaves en áreas erógenas como el cuello, hombros o muslos con consentimiento.",
-    "tags": ["sensation", "pain"],
-    "category": "sensory_play",
-    "intensityScale": 2,
+    "slug": "reading-aloud",
+    "title": "Bedtime Stories",
+    "description": "Read something sexy aloud while they listen, touching themselves or you. Their voice when they can't take anymore? Worth it.",
+    "tags": [
+      "media"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
     "tier": "soft"
   },
   {
     "id": "0010",
-    "slug": "blindfold-play",
-    "title": "Juego con vendaje",
-    "description": "Vendar los ojos a tu pareja para aumentar la anticipación y otros sentidos.",
-    "tags": ["sensory", "anticipation"],
-    "category": "sensory_play",
-    "intensityScale": 2,
+    "slug": "safeword-setup",
+    "title": "The Safety Word",
+    "description": "Establish your stop word. Red for stop, yellow for slow down. The trust to play hard comes from knowing you can stop anytime.",
+    "tags": [
+      "safety"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "romance"
   },
   {
     "id": "0011",
-    "slug": "body-kisses",
-    "title": "Besos por todo el cuerpo",
-    "description": "Besos lentos y deliberados desde el cuello hasta los pies.",
-    "tags": ["kissing", "sensual"],
-    "category": "sensual_movements",
-    "intensityScale": 2,
+    "slug": "massage-give-give",
+    "title": "Oil Them Up",
+    "description": "Warm oil between your palms. Take your time finding every knot, every sensitive spot. Make them melt under your hands.",
+    "tags": [
+      "touch",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "romance"
   },
   {
     "id": "0012",
-    "slug": "body-worship",
-    "title": "Adoración del cuerpo",
-    "description": "Adora cada parte del cuerpo de tu pareja con besos, caricias y palabras.",
-    "tags": ["worship", "praise"],
-    "category": "sensual_movements",
-    "intensityScale": 2,
+    "slug": "massage-give-receive",
+    "title": "Be Oiled Up",
+    "description": "Lie still while they work warm oil into your skin. Every touch deliberate, every muscle surrendering. You're clay in their hands.",
+    "tags": [
+      "touch",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "romance"
   },
   {
     "id": "0013",
-    "slug": "bondage-beginner",
-    "title": "Bondage para principiantes",
-    "description": "Restricción ligera usando bufandas o corbatas sueltas, enfocándose en la comodidad.",
-    "tags": ["bondage", "beginner"],
-    "category": "control_and_power",
+    "slug": "strip-tease-give",
+    "title": "Put On A Show",
+    "description": "You are the main event. Take it slow. Let them watch but not touch until you say so. Make them ache.",
+    "tags": [
+      "performance",
+      "tease"
+    ],
+    "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
@@ -193,11 +200,14 @@
   },
   {
     "id": "0014",
-    "slug": "booty-massage",
-    "title": "Masaje de glúteos",
-    "description": "Masaje sensual y relajante de los glúteos con aceite caliente.",
-    "tags": ["massage", "sensual"],
-    "category": "sensory_play",
+    "slug": "strip-tease-receive",
+    "title": "Watch The Show",
+    "description": "They perform just for you. Sit back, enjoy, and try not to reach out until the finale. They're putting on a show.",
+    "tags": [
+      "performance",
+      "tease"
+    ],
+    "category": "roleplay",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
@@ -205,47 +215,59 @@
   },
   {
     "id": "0015",
-    "slug": "candlelit-dinner",
-    "title": "Cena a la luz de las velas",
-    "description": "Prepara una cena íntima con velas, música suave y comida favorita.",
-    "tags": ["romance", "food"],
-    "category": "environment",
-    "intensityScale": 1,
+    "slug": "lap-dance-give",
+    "title": "Give A Lap Dance",
+    "description": "Straddle their lap, move slow, keep eye contact. Make them feel like the only person in the room. Grind until they're hard.",
+    "tags": [
+      "performance",
+      "tease"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "romance"
+    "tier": "soft"
   },
   {
     "id": "0016",
-    "slug": "caressing",
-    "title": "Caricias",
-    "description": "Caricias suaves y exploratorias por todo el cuerpo con las manos.",
-    "tags": ["touch", "gentle"],
-    "category": "sensual_movements",
-    "intensityScale": 1,
+    "slug": "lap-dance-receive",
+    "title": "Receive A Lap Dance",
+    "description": "They climb on top and take control of the rhythm. Your hands can wander... if they allow it. Let them work you up.",
+    "tags": [
+      "performance",
+      "tease"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "romance"
+    "tier": "soft"
   },
   {
     "id": "0017",
-    "slug": "choking-light",
-    "title": "Estrangulación ligera",
-    "description": "Presión muy ligera en el cuello con consentimiento claro y señal de seguridad.",
-    "tags": ["breath", "intense"],
-    "category": "sensory_play",
-    "intensityScale": 4,
+    "slug": "oral-tease-give",
+    "title": "Tease Them With Your Mouth",
+    "description": "Kiss everywhere except where they're aching for you. Their inner thigh, their hip, just barely grazing. Make them squirm before you give in.",
+    "tags": [
+      "oral",
+      "tease"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "naughty"
+    "tier": "soft"
   },
   {
     "id": "0018",
-    "slug": "clawing",
-    "title": "Arañazos",
-    "description": "Arañazos sensuales por la espalda u otras áreas con las uñas.",
-    "tags": ["sensation", "pain"],
-    "category": "sensory_play",
+    "slug": "oral-tease-receive",
+    "title": "Be Teased By Their Mouth",
+    "description": "They torment you with almost-there kisses. So close, then away again. By the time they finally taste you, you're already halfway there.",
+    "tags": [
+      "oral",
+      "tease"
+    ],
+    "category": "communication",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
@@ -253,384 +275,3284 @@
   },
   {
     "id": "0019",
-    "slug": "cuddling",
-    "title": "Abrazos",
-    "description": "Abrazos íntimos y relajantes, piel con piel si es posible.",
-    "tags": ["intimacy", "closeness"],
-    "category": "sensual_movements",
-    "intensityScale": 1,
+    "slug": "oral-deep-give",
+    "title": "Take Them Deep In Your Mouth",
+    "description": "Show them how much you can handle. Use your tongue, your throat, your hands. Make a mess of it. Make them see stars.",
+    "tags": [
+      "oral",
+      "intense"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "romance"
+    "tier": "naughty"
   },
   {
     "id": "0020",
-    "slug": "cunnilingus-give",
-    "title": "Dar: Sexo oral femenino",
-    "description": "Estimulación oral del clítoris y vulva con atención a las reacciones de tu pareja.",
-    "tags": ["oral", "giving"],
-    "category": "oral_sex",
-    "intensityScale": 3,
+    "slug": "oral-deep-receive",
+    "title": "Be Taken Deep",
+    "description": "They take you deep, look up at you while they do it, and you feel like you're the only thing that matters in the world.",
+    "tags": [
+      "oral",
+      "intense"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0021",
-    "slug": "cunnilingus-receive",
-    "title": "Recibir: Sexo oral femenino",
-    "description": "Recibe estimulación oral del clítoris y vulva, comunicando qué te gusta.",
-    "tags": ["oral", "receiving"],
-    "category": "oral_sex",
-    "intensityScale": 3,
+    "slug": "oral-face-sitting-give",
+    "title": "Be Their Throne",
+    "description": "Lie back and let them take control. Their thighs around your head, their weight on your tongue. Just breathe and enjoy the view while they use you.",
+    "tags": [
+      "oral",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0022",
-    "slug": "dancing-together",
-    "title": "Bailar juntos",
-    "description": "Bailen abrazados a música romántica o sensual en casa.",
-    "tags": ["romance", "movement"],
-    "category": "sensual_movements",
-    "intensityScale": 1,
+    "slug": "oral-face-sitting-receive",
+    "title": "Ride Their Face",
+    "description": "Straddle them, hold the headboard, grind down exactly how you need it. They're just the instrument. Play your song until you can't anymore.",
+    "tags": [
+      "oral",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "romance"
+    "tier": "naughty"
   },
   {
     "id": "0023",
-    "slug": "dirty-talk",
-    "title": "Hablar sucio",
-    "description": "Susurra fantasías y deseos explícitos a tu pareja durante la intimidad.",
-    "tags": ["communication", "verbal"],
-    "category": "communication",
-    "intensityScale": 3,
+    "slug": "oral-public-give",
+    "title": "Get Them Off In Public",
+    "description": "A dark corner, a parked car, a bathroom with a lock. Get them off fast and quiet. The adrenaline of almost getting caught makes it sweeter.",
+    "tags": [
+      "oral",
+      "public",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0024",
-    "slug": "dominance-play",
-    "title": "Juego de dominancia",
-    "description": "Toma control consensuado de la situación, dando órdenes suaves.",
-    "tags": ["power", "control"],
-    "category": "control_and_power",
-    "intensityScale": 3,
+    "slug": "oral-public-receive",
+    "title": "Be Taken In Public",
+    "description": "Their mouth on you where someone could discover you. You have to be silent but you want to scream. Hold their hair and try not to moan.",
+    "tags": [
+      "oral",
+      "public",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0025",
-    "slug": "edging",
-    "title": "Edging",
-    "description": "Acerca a tu pareja al orgasmo repetidamente sin dejar que termine.",
-    "tags": ["control", "orgasm"],
-    "category": "control_and_power",
-    "intensityScale": 4,
+    "slug": "oral-from-behind-give",
+    "title": "Taste Them From Behind",
+    "description": "Have them on all fours. Kiss, lick, worship from behind while they can't see you. Every unexpected touch makes them gasp.",
+    "tags": [
+      "oral",
+      "vulnerability"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "xxx"
+    "tier": "naughty"
   },
   {
     "id": "0026",
-    "slug": "erotic-massage",
-    "title": "Masaje erótico",
-    "description": "Masaje sensual de todo el cuerpo con aceites, enfocándose en zonas erógenas.",
-    "tags": ["massage", "sensual"],
-    "category": "sensory_play",
-    "intensityScale": 3,
+    "slug": "oral-from-behind-receive",
+    "title": "Be Tasted From Behind",
+    "description": "On your hands and knees, exposed and waiting. Their mouth finds you from behind, unexpected and intense. You can't see them coming.",
+    "tags": [
+      "oral",
+      "vulnerability"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0027",
-    "slug": "eye-contact",
-    "title": "Contacto visual",
-    "description": "Mantén contacto visual intenso durante la intimidad para aumentar la conexión.",
-    "tags": ["connection", "intimacy"],
+    "slug": "oral-edge-control-give",
+    "title": "Bring Them To The Edge",
+    "description": "Get them right to the brink with your mouth, then back off. Again and again. Decide when they finally get to fall.",
+    "tags": [
+      "oral",
+      "control",
+      "edging"
+    ],
     "category": "communication",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
   },
   {
     "id": "0028",
-    "slug": "face-sitting-give",
-    "title": "Dar: Sentarse en la cara",
-    "description": "Posición donde te sientas sobre la cara de tu pareja para recibir placer oral.",
-    "tags": ["oral", "position"],
-    "category": "oral_sex",
-    "intensityScale": 4,
-    "aliases": [],
-    "createdBy": "system",
-    "tier": "xxx"
-  },
-  {
-    "id": "0029",
-    "slug": "face-sitting-receive",
-    "title": "Recibir: Sentarse en la cara",
-    "description": "Tu pareja se sienta sobre tu cara para que le des placer oral.",
-    "tags": ["oral", "position"],
-    "category": "oral_sex",
-    "intensityScale": 4,
-    "aliases": [],
-    "createdBy": "system",
-    "tier": "xxx"
-  },
-  {
-    "id": "0030",
-    "slug": "fantasy-sharing",
-    "title": "Compartir fantasías",
-    "description": "Cuéntense mutuamente fantasías sexuales que les gustaría explorar.",
-    "tags": ["communication", "fantasy"],
+    "slug": "oral-edge-control-receive",
+    "title": "Be Brought To The Edge",
+    "description": "They have you trembling, so close, then they pull away. Over and over until you're begging. They own your release completely.",
+    "tags": [
+      "oral",
+      "control",
+      "edging"
+    ],
     "category": "communication",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
+  },
+  {
+    "id": "0029",
+    "slug": "hair-pulling-give",
+    "title": "Pull Their Hair",
+    "description": "Fist their hair at the crown. Pull their head back to expose their throat. Use it to guide their mouth exactly where you want it.",
+    "tags": [
+      "impact",
+      "dominance"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0030",
+    "slug": "hair-pulling-receive",
+    "title": "Have Your Hair Pulled",
+    "description": "He takes a handful of your hair and pulls your head back. You're exposed, controlled, and completely at his mercy. Resistance is futile.",
+    "tags": [
+      "impact",
+      "dominance"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
     "id": "0031",
-    "slug": "fellatio-give",
-    "title": "Dar: Sexo oral masculino",
-    "description": "Estimulación oral del pene con atención a las reacciones de tu pareja.",
-    "tags": ["oral", "giving"],
-    "category": "oral_sex",
-    "intensityScale": 3,
+    "slug": "spanking-hand-give",
+    "title": "Spank Them",
+    "description": "Pull them across your lap. Make them count each one. Alternate between rubbing the sting away and adding to it until they're squirming.",
+    "tags": [
+      "impact",
+      "discipline"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0032",
-    "slug": "fellatio-receive",
-    "title": "Recibir: Sexo oral masculino",
-    "description": "Recibe estimulación oral del pene, comunicando qué te gusta.",
-    "tags": ["oral", "receiving"],
-    "category": "oral_sex",
-    "intensityScale": 3,
+    "slug": "spanking-hand-receive",
+    "title": "Be Spanked",
+    "description": "You're draped over their lap, vulnerable. The smacks come hard, then soft, keeping you off balance. You count and thank them for each one.",
+    "tags": [
+      "impact",
+      "discipline"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0033",
-    "slug": "fingering-give",
-    "title": "Dar: Dedos",
-    "description": "Estimulación manual de la vulva y vagina con dedos.",
-    "tags": ["manual", "giving"],
-    "category": "manual_sex",
-    "intensityScale": 3,
+    "slug": "spanking-paddle-give",
+    "title": "Paddle Their Ass",
+    "description": "A wooden paddle for more sting. Watch their skin pink up. Listen to the sound it makes. Make them ask for the next one.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0034",
-    "slug": "fingering-receive",
-    "title": "Recibir: Dedos",
-    "description": "Recibe estimulación manual de la vulva y vagina con dedos.",
-    "tags": ["manual", "receiving"],
-    "category": "manual_sex",
-    "intensityScale": 3,
+    "slug": "spanking-paddle-receive",
+    "title": "Take The Paddle",
+    "description": "The wood hits different - sharp, loud, unforgiving. You feel each impact echo through you. The marks last longer than a hand.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0035",
-    "slug": "foot-massage",
-    "title": "Masaje de pies",
-    "description": "Masaje relajante de los pies con aceite o loción.",
-    "tags": ["massage", "feet"],
-    "category": "sensory_play",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system",
-    "tier": "romance"
-  },
-  {
-    "id": "0036",
-    "slug": "french-kissing",
-    "title": "Beso francés",
-    "description": "Besos profundos con lengua, explorando sensualmente.",
-    "tags": ["kissing", "passion"],
-    "category": "sensual_movements",
+    "slug": "pin-wrists-give",
+    "title": "Pin Their Wrists",
+    "description": "Trap their wrists above their head with one hand. Use your weight to keep them there. Let them struggle. They can't go anywhere until you let them.",
+    "tags": [
+      "restraint",
+      "dominance"
+    ],
+    "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
+  },
+  {
+    "id": "0036",
+    "slug": "pin-wrists-receive",
+    "title": "Have Your Wrists Pinned",
+    "description": "Your wrists are locked in place above you. His weight presses you into the bed. You try to break free but you're completely at his mercy.",
+    "tags": [
+      "restraint",
+      "dominance"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
     "id": "0037",
-    "slug": "hair-pulling",
-    "title": "Jalar el cabello",
-    "description": "Jalar suavemente el cabello desde la raíz con consentimiento.",
-    "tags": ["sensation", "pain"],
-    "category": "sensory_play",
-    "intensityScale": 3,
+    "slug": "handcuffs-give",
+    "title": "Cuff Them",
+    "description": "Metal cuffs on their wrists. Behind their back for more vulnerability. The cold metal reminds them who's in charge with every movement.",
+    "tags": [
+      "restraint",
+      "tools"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0038",
-    "slug": "handjob-give",
-    "title": "Dar: Masturbación manual",
-    "description": "Estimulación manual del pene con las manos.",
-    "tags": ["manual", "giving"],
-    "category": "manual_sex",
-    "intensityScale": 3,
+    "slug": "handcuffs-receive",
+    "title": "Be Cuffed",
+    "description": "Cold metal on your wrists. Your hands are useless behind you. You're helpless to stop them from doing whatever they want. And they want a lot.",
+    "tags": [
+      "restraint",
+      "tools"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0039",
-    "slug": "handjob-receive",
-    "title": "Recibir: Masturbación manual",
-    "description": "Recibe estimulación manual del pene con las manos.",
-    "tags": ["manual", "receiving"],
-    "category": "manual_sex",
+    "slug": "tie-spread-give",
+    "title": "Tie Them Spread Open",
+    "description": "Rope or cuffs at each corner. They're spread eagle, completely exposed, unable to close their legs or hide anything. All yours to play with for hours.",
+    "tags": [
+      "restraint",
+      "exposure"
+    ],
+    "category": "light_restraint",
     "intensityScale": 3,
     "aliases": [],
     "createdBy": "system",
-    "tier": "naughty"
+    "tier": "xxx"
   },
   {
     "id": "0040",
-    "slug": "handcuffs-play",
-    "title": "Juego con esposas",
-    "description": "Usa esposas suaves para restricción consensuada con llaves a mano.",
-    "tags": ["bondage", "restraint"],
-    "category": "control_and_power",
+    "slug": "tie-spread-receive",
+    "title": "Be Tied Spread Open",
+    "description": "Bound to the bed at wrists and ankles. Legs spread wide, totally vulnerable. They can tease you for hours and you can't do anything but take it.",
+    "tags": [
+      "restraint",
+      "exposure"
+    ],
+    "category": "light_restraint",
     "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0041",
+    "slug": "blindfold-give",
+    "title": "Blindfold Them",
+    "description": "Take away their sight. Every touch becomes a surprise. Every sound makes them wonder what's next. Amplify every other sensation.",
+    "tags": [
+      "sensory",
+      "deprivation"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
-    "id": "0041",
-    "slug": "hickeys",
-    "title": "Chupones",
-    "description": "Succión en el cuello u otras áreas que deje una marca temporal.",
-    "tags": ["marking", "sensation"],
-    "category": "sensual_movements",
+    "id": "0042",
+    "slug": "blindfold-receive",
+    "title": "Be Blindfolded",
+    "description": "You can't see. You can only feel, hear, smell. Every touch is magnified because you can't anticipate it. The waiting is torture.",
+    "tags": [
+      "sensory",
+      "deprivation"
+    ],
+    "category": "sensory",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
-  },
-  {
-    "id": "0042",
-    "slug": "hugging",
-    "title": "Abrazos fuertes",
-    "description": "Abrazos fuertes y prolongados que generen conexión y seguridad.",
-    "tags": ["intimacy", "comfort"],
-    "category": "sensual_movements",
-    "intensityScale": 1,
-    "aliases": [],
-    "createdBy": "system",
-    "tier": "romance"
+    "tier": "naughty"
   },
   {
     "id": "0043",
-    "slug": "ice-play",
-    "title": "Juego con hielo",
-    "description": "Desliza cubos de hielo sobre la piel de tu pareja para sensaciones frías.",
-    "tags": ["temperature", "sensory"],
-    "category": "sensory_play",
+    "slug": "leash-collar-give",
+    "title": "Collar & Lead Them",
+    "description": "Put a collar around their neck. Clip a leash on. Lead them where you want them. The symbolism alone is intoxicating.",
+    "tags": [
+      "restraint",
+      "symbolism"
+    ],
+    "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
   },
   {
     "id": "0044",
-    "slug": "kissing-neck",
-    "title": "Besos en el cuello",
-    "description": "Besos y lamidas sensuales en el cuello y nuca.",
-    "tags": ["kissing", "erogenous"],
-    "category": "sensual_movements",
+    "slug": "leash-collar-receive",
+    "title": "Wear Their Collar",
+    "description": "The collar clicks around your neck. When they tug the leash, you follow. Marked as theirs. Owned. It's surprisingly freeing.",
+    "tags": [
+      "restraint",
+      "symbolism"
+    ],
+    "category": "light_restraint",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
   },
   {
     "id": "0045",
-    "slug": "kissing-public",
-    "title": "Besos en público",
-    "description": "Besos apasionados pero discretos en lugares públicos.",
-    "tags": ["kissing", "exhibition"],
-    "category": "environment",
+    "slug": "anal-finger-give",
+    "title": "Finger Them There",
+    "description": "Plenty of lube. Start with gentle circles around the rim. Take your time. Make them push back onto your finger before you finally slide in.",
+    "tags": [
+      "anal",
+      "beginner"
+    ],
+    "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
   },
   {
     "id": "0046",
-    "slug": "love-bites",
-    "title": "Mordidas de amor",
-    "description": "Mordidas juguetonas y sensuales en áreas erógenas.",
-    "tags": ["sensation", "playful"],
-    "category": "sensual_movements",
+    "slug": "anal-finger-receive",
+    "title": "Be Fingered",
+    "description": "They work you open so slowly you almost can't stand it. One finger, barely moving, teasing until you're pressing back against them, desperate for more.",
+    "tags": [
+      "anal",
+      "beginner"
+    ],
+    "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
   },
   {
     "id": "0047",
-    "slug": "making-out",
-    "title": "Besar apasionadamente",
-    "description": "Sesión prolongada de besos apasionados y caricias.",
-    "tags": ["kissing", "passion"],
-    "category": "sensual_movements",
+    "slug": "anal-tongue-give",
+    "title": "Use Your Tongue There",
+    "description": "Use your tongue where they blush to admit they want it. Soft licks, firm pressure, make them melt into the mattress from the intimacy.",
+    "tags": [
+      "anal",
+      "oral"
+    ],
+    "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
   },
   {
     "id": "0048",
-    "slug": "massage-full-body",
-    "title": "Masaje de cuerpo completo",
-    "description": "Masaje relajante de todo el cuerpo con aceite caliente.",
-    "tags": ["massage", "relaxation"],
-    "category": "sensory_play",
+    "slug": "anal-tongue-receive",
+    "title": "Feel Their Tongue There",
+    "description": "Their mouth on your most private spot. The vulnerability of it is overwhelming. You feel completely claimed and adored.",
+    "tags": [
+      "anal",
+      "oral"
+    ],
+    "category": "props_and_toys",
     "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
-    "tier": "soft"
+    "tier": "naughty"
   },
   {
     "id": "0049",
-    "slug": "masturbation-mutual",
-    "title": "Masturbación mutua",
-    "description": "Mastúrbense el uno al otro simultáneamente.",
-    "tags": ["manual", "mutual"],
-    "category": "manual_sex",
-    "intensityScale": 4,
+    "slug": "anal-plug-give",
+    "title": "Plug Them",
+    "description": "Insert a plug, leave it there. Make them wear it while you do other things. Every movement reminds them who's in control.",
+    "tags": [
+      "anal",
+      "toys",
+      "control"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
   },
   {
     "id": "0050",
-    "slug": "masturbation-together",
-    "title": "Masturbarse juntos",
-    "description": "Mastúrbense frente al otro para disfrutar visualmente.",
-    "tags": ["masturbation", "voyeur"],
-    "category": "manual_sex",
-    "intensityScale": 4,
+    "slug": "anal-plug-receive",
+    "title": "Be Plugged",
+    "description": "He puts it in and makes you keep it there while he ignores you. You feel full, stretched, constantly aware. Then he takes you with it still inside.",
+    "tags": [
+      "anal",
+      "toys",
+      "control"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0051",
+    "slug": "anal-full-give",
+    "title": "Take Them Anally",
+    "description": "Deep, intense, fully seated. Hold them close, make them feel every inch. Watch them adjust to the overwhelming fullness.",
+    "tags": [
+      "anal",
+      "intense"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0052",
+    "slug": "anal-full-receive",
+    "title": "Be Taken Anally",
+    "description": "He's all the way inside, stretching you, filling you completely. You can feel every throb, every pulse. It's almost too much but you want more.",
+    "tags": [
+      "anal",
+      "intense"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0053",
+    "slug": "pegging-give",
+    "title": "Fuck Them With A Strap-On",
+    "description": "Wear the harness. Take control. Give them the sensation of being filled, being taken. Watch them discover how good it can feel.",
+    "tags": [
+      "anal",
+      "toys",
+      "role-reversal"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0054",
+    "slug": "pegging-receive",
+    "title": "Be Fucked By Their Strap-On",
+    "description": "She straps it on and takes charge. The role reversal is electric. She fucks you like she owns you, and you let her because it feels incredible.",
+    "tags": [
+      "anal",
+      "toys",
+      "role-reversal"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0055",
+    "slug": "vibrator-tease-give",
+    "title": "Vibrate Them To The Edge",
+    "description": "Hold it against them until they're right on the edge. Then pull away. Do it again. And again. Decide when they finally break.",
+    "tags": [
+      "toys",
+      "control"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0056",
+    "slug": "vibrator-tease-receive",
+    "title": "Be Vibrated To The Edge",
+    "description": "The buzz against your most sensitive spot, building, building, then gone. Over and over until you're begging. They control your release completely.",
+    "tags": [
+      "toys",
+      "control"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0057",
+    "slug": "vibrator-forced-give",
+    "title": "Force Them Over The Edge",
+    "description": "Don't stop. Even when they say it's too much. Hold them down and keep the vibration right on their most sensitive spot until they scream and shake.",
+    "tags": [
+      "toys",
+      "forced"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0058",
+    "slug": "vibrator-forced-receive",
+    "title": "Be Forced Over The Edge",
+    "description": "They hold you down and don't stop even when you beg. It's too intense, too much, and then you're coming hard with no control, again and again.",
+    "tags": [
+      "toys",
+      "forced"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0059",
+    "slug": "nipple-clamps-give",
+    "title": "Clamp Their Nipples",
+    "description": "Apply the pressure, let them adjust to the pinch, then tug on the chain. The mix of pain and pleasure makes them dizzy.",
+    "tags": [
+      "pain",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0060",
+    "slug": "nipple-clamps-receive",
+    "title": "Have Your Nipples Clamped",
+    "description": "The bite of the clamp, then the rush when they flick it. Pain and pleasure so mixed up you can't tell them apart. You're leaking just from this.",
+    "tags": [
+      "pain",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0061",
+    "slug": "rough-kissing",
+    "title": "Bite & Bruise",
+    "description": "Not gentle. Teeth on lips, hands gripping jaw, kissing like you're fighting for dominance. Leave them swollen.",
+    "tags": [
+      "intense"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0062",
+    "slug": "scratching",
+    "title": "Leave Marks",
+    "description": "Dig your nails in when they hit the right spot. Draw red lines down their back. Make them feel you tomorrow.",
+    "tags": [
+      "pain"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0063",
+    "slug": "biting",
+    "title": "Teeth & Territory",
+    "description": "Neck, shoulder, thigh. Sink your teeth in hard enough to leave a reminder. Let them wear your bite.",
+    "tags": [
+      "pain"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0064",
+    "slug": "spanking-warning",
+    "title": "A Sharp Warning",
+    "description": "A quick slap on the ass when they least expect it. Just enough sting to make them pay attention.",
+    "tags": [
+      "impact"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0065",
+    "slug": "dirty-talk",
+    "title": "Filthy Mouth",
+    "description": "Tell them exactly what you want to do. What you want them to do. Don't hold back. Make them blush with words alone.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0066",
+    "slug": "name-calling",
+    "title": "Those Words",
+    "description": "Slut. Whore. Good little toy. Only if you both want it. The right word at the right moment can make them fall apart.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0067",
+    "slug": "praise",
+    "title": "Good Boy/Girl",
+    "description": "Tell them how well they're doing. How good they look taking you. Watch them try even harder to please you.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0068",
+    "slug": "commands",
+    "title": "Say Please",
+    "description": "Give orders. Make them ask permission. 'Open your mouth.' 'Don't move.' 'Beg for it.' Control the pace completely.",
+    "tags": [
+      "dominance"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0069",
+    "slug": "role-stranger",
+    "title": "Stranger At The Bar",
+    "description": "Pretend you don't know each other. Buy them a drink. Flirt like you're trying to take them home for the first time.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0070",
+    "slug": "role-massage",
+    "title": "Happy Ending",
+    "description": "They lie face down, you oil them up. The massage gets slower, more intimate, until your hands are doing very unprofessional things.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0071",
+    "slug": "role-captured",
+    "title": "Interrogation",
+    "description": "They're tied to a chair. You extract information. They resist. You have your methods. Everyone talks eventually.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0072",
+    "slug": "role-photoshoot",
+    "title": "Nude Photography",
+    "description": "Direct them how to pose. Make them hold embarrassing positions while you capture every angle. Review the photos together after.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0073",
+    "slug": "role-strip-search",
+    "title": "The Pat Down",
+    "description": "A very thorough search. Check everywhere. Make them spread wide. You never know what they might be hiding.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0074",
+    "slug": "role-doctor",
+    "title": "The Examination",
+    "description": "Cold professionalism while touching intimate places. 'This might feel uncomfortable.' Make them describe every sensation.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0075",
+    "slug": "role-boss",
+    "title": "Performance Review",
+    "description": "Late night in the office. The power dynamic is clear. They're eager to please. You're eager to be pleased.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0076",
+    "slug": "rough-fucking",
+    "title": "Hold Nothing Back",
+    "description": "Pounding, gripping hair, leaving bruises. Animalistic. No finesse, just need. Tear each other apart.",
+    "tags": [
+      "intense"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0077",
+    "slug": "choking",
+    "title": "Hand On Throat",
+    "description": "Not to restrict air, just pressure. Control. Feeling their pulse race under your palm while you take them.",
+    "tags": [
+      "breath"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0078",
+    "slug": "face-slapping",
+    "title": "A Sharp Reminder",
+    "description": "A quick slap across the cheek during sex. Shocking, intimate, establishing dominance. Check in after.",
+    "tags": [
+      "impact"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0079",
+    "slug": "spanking-hard",
+    "title": "Make It Hurt",
+    "description": "Not playful. Real discipline. They count, they thank you, they ask for the next one. Red marks that last for days.",
+    "tags": [
+      "impact"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0080",
+    "slug": "degradation",
+    "title": "Put Them In Their Place",
+    "description": "Words that sting. 'You're just a hole.' 'You're pathetic.' Make them feel small so you can build them back up after.",
+    "tags": [
+      "verbal"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0081",
+    "slug": "free-use",
+    "title": "Available Anytime",
+    "description": "Agreement that they're always available. Watching TV? Bend them over. Cooking dinner? Get on your knees. Consent given once, used often.",
+    "tags": [
+      "consensual"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0082",
+    "slug": "cnc",
+    "title": "Consensual 'No'",
+    "description": "Pre-negotiated resistance. They say no, you ignore it, they struggle, you overpower them. Safe words essential.",
+    "tags": [
+      "cnc"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0083",
+    "slug": "sleep-play",
+    "title": "While They're Out",
+    "description": "Pre-agreed touching, penetration while they pretend to sleep or actually sleep. Wake them up in the best way.",
+    "tags": [
+      "sleep"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0084",
+    "slug": "blackmail-roleplay",
+    "title": "The Secret",
+    "description": "Roleplay blackmail. 'I found your search history. Do what I say or everyone finds out.' All pretend, all consensual.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0085",
+    "slug": "threesome-mmf",
+    "title": "Two For Her",
+    "description": "Two men focused entirely on her pleasure. Multiple hands, multiple mouths, being the absolute center of attention.",
+    "tags": [
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0086",
+    "slug": "threesome-mff",
+    "title": "Two For Him",
+    "description": "Two women sharing him. Taking turns, working together, making him feel like a king.",
+    "tags": [
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0087",
+    "slug": "cuckold-him",
+    "title": "He Watches Her",
+    "description": "He sits in the corner while she takes another man. The humiliation, the arousal, the reclaiming after.",
+    "tags": [
+      "cuckold"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0088",
+    "slug": "cuckold-her",
+    "title": "She Watches Him",
+    "description": "She watches him with another woman. Deciding if he deserves to come, directing the action, owning his pleasure.",
+    "tags": [
+      "cuckold"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0089",
+    "slug": "hotwife",
+    "title": "She Dates Others",
+    "description": "She goes out, has her fun, comes home full of details. He reclaims her, tastes the evidence, owns her again.",
+    "tags": [
+      "hotwife"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0090",
+    "slug": "swapping",
+    "title": "The Trade",
+    "description": "Two couples switch partners for the night. Fresh bodies, new techniques, stories to share after.",
+    "tags": [
+      "swinging"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0091",
+    "slug": "gangbang",
+    "title": "Center Of Attention",
+    "description": "One person, many others. Being overwhelmed, passed around, completely used. Total abandon.",
+    "tags": [
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0092",
+    "slug": "foot-worship",
+    "title": "At Her Feet",
+    "description": "Kiss, lick, massage her feet. Admire them. Some find feet incredibly erotic. Worship accordingly.",
+    "tags": [
+      "feet"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0093",
+    "slug": "watersports",
+    "title": "Golden Showers",
+    "description": "Pee play. Warm, intimate, taboo. Marking territory. Shower sex makes cleanup easy.",
+    "tags": [
+      "fluids"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0094",
+    "slug": "lingerie-crotchless",
+    "title": "Easy Access",
+    "description": "Lingerie with strategic openings. Decorative but functional. No need to undress to use them.",
+    "tags": [
+      "lingerie"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0095",
+    "slug": "latex",
+    "title": "Shiny & Tight",
+    "description": "Second skin. The squeak, the shine, the restriction. Latex clothing makes every curve dramatic.",
+    "tags": [
+      "latex"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0096",
+    "slug": "leather",
+    "title": "The Smell Of Leather",
+    "description": "Harnesses, cuffs, the scent of well-worn leather. Dominant aesthetics.",
+    "tags": [
+      "leather"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0097",
+    "slug": "silk-scarf",
+    "title": "Silk Seduction",
+    "description": "Blindfold them with something soft. Let the fabric trail over their skin before you even touch them.",
+    "tags": [
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0098",
+    "slug": "ice-cube",
+    "title": "Ice Play",
+    "description": "Trace a cold cube down their spine, around their nipples, between their thighs. Watch them shiver for you.",
+    "tags": [
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0099",
+    "slug": "feather-touch",
+    "title": "Tickle & Tease",
+    "description": "Light as air. Everywhere except where they want it most. Make them beg for contact.",
+    "tags": [
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0100",
+    "slug": "ear-nibbling",
+    "title": "Whispers & Bites",
+    "description": "Breathe against their ear. Nibble the lobe. Tell them exactly what you're going to do later.",
+    "tags": [
+      "sensory"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0101",
+    "slug": "neck-kissing",
+    "title": "Mark Your Territory",
+    "description": "Suck, bite, kiss. Leave a reminder that lasts for days. Let everyone know they're taken.",
+    "tags": [
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0102",
+    "slug": "thigh-grinding",
+    "title": "Through The Fabric",
+    "description": "Dry humping isn't just for teenagers. The friction, the buildup, the clothes staying on until you can't stand it.",
+    "tags": [
+      "tease"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0103",
+    "slug": "phone-sex",
+    "title": "Voice Alone",
+    "description": "Hear them touch themselves. Describe what you'd do if you were there. Sometimes words hit harder than hands.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0104",
+    "slug": "sexting",
+    "title": "Digital Foreplay",
+    "description": "Build anticipation all day. A photo here, a promise there. By nightfall, they'll be desperate.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0105",
+    "slug": "mutual-masturbation",
+    "title": "Show & Tell",
+    "description": "Touch yourselves while watching each other. See what they like. Learn their rhythm. It's education and pornography combined.",
+    "tags": [
+      "voyeur"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0106",
+    "slug": "sixty-nine",
+    "title": "Head To Toe",
+    "description": "Give and receive at the same time. The coordination is tricky but the payoff? Mutual bliss.",
+    "tags": [
+      "oral"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0107",
+    "slug": "aftercare-check",
+    "title": "Post-Scene Care",
+    "description": "Blankets, water, gentle touches. Reassurance. Coming back to reality together after intense play.",
+    "tags": [
+      "aftercare"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "0108",
+    "slug": "debrief-next-day",
+    "title": "The Morning After Talk",
+    "description": "Discuss what worked, what didn't, what surprised you. Honest conversation makes next time even better.",
+    "tags": [
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "romance"
+  },
+  {
+    "id": "0109",
+    "slug": "wild-card-109",
+    "title": "Wild Card #109",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0110",
+    "slug": "wild-card-110",
+    "title": "Wild Card #110",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0111",
+    "slug": "wild-card-111",
+    "title": "Wild Card #111",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0112",
+    "slug": "wild-card-112",
+    "title": "Wild Card #112",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0113",
+    "slug": "wild-card-113",
+    "title": "Wild Card #113",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0114",
+    "slug": "wild-card-114",
+    "title": "Wild Card #114",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0115",
+    "slug": "wild-card-115",
+    "title": "Wild Card #115",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0116",
+    "slug": "wild-card-116",
+    "title": "Wild Card #116",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0117",
+    "slug": "wild-card-117",
+    "title": "Wild Card #117",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0118",
+    "slug": "wild-card-118",
+    "title": "Wild Card #118",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0119",
+    "slug": "wild-card-119",
+    "title": "Wild Card #119",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0120",
+    "slug": "wild-card-120",
+    "title": "Wild Card #120",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0121",
+    "slug": "wild-card-121",
+    "title": "Wild Card #121",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0122",
+    "slug": "wild-card-122",
+    "title": "Wild Card #122",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0123",
+    "slug": "wild-card-123",
+    "title": "Wild Card #123",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0124",
+    "slug": "wild-card-124",
+    "title": "Wild Card #124",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0125",
+    "slug": "wild-card-125",
+    "title": "Wild Card #125",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0126",
+    "slug": "wild-card-126",
+    "title": "Wild Card #126",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0127",
+    "slug": "wild-card-127",
+    "title": "Wild Card #127",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0128",
+    "slug": "wild-card-128",
+    "title": "Wild Card #128",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0129",
+    "slug": "wild-card-129",
+    "title": "Wild Card #129",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0130",
+    "slug": "wild-card-130",
+    "title": "Wild Card #130",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0131",
+    "slug": "wild-card-131",
+    "title": "Wild Card #131",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0132",
+    "slug": "wild-card-132",
+    "title": "Wild Card #132",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0133",
+    "slug": "wild-card-133",
+    "title": "Wild Card #133",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0134",
+    "slug": "wild-card-134",
+    "title": "Wild Card #134",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0135",
+    "slug": "wild-card-135",
+    "title": "Wild Card #135",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0136",
+    "slug": "wild-card-136",
+    "title": "Wild Card #136",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0137",
+    "slug": "wild-card-137",
+    "title": "Wild Card #137",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0138",
+    "slug": "wild-card-138",
+    "title": "Wild Card #138",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0139",
+    "slug": "wild-card-139",
+    "title": "Wild Card #139",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0140",
+    "slug": "wild-card-140",
+    "title": "Wild Card #140",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0141",
+    "slug": "wild-card-141",
+    "title": "Wild Card #141",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0142",
+    "slug": "wild-card-142",
+    "title": "Wild Card #142",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0143",
+    "slug": "wild-card-143",
+    "title": "Wild Card #143",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0144",
+    "slug": "wild-card-144",
+    "title": "Wild Card #144",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0145",
+    "slug": "wild-card-145",
+    "title": "Wild Card #145",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0146",
+    "slug": "wild-card-146",
+    "title": "Wild Card #146",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0147",
+    "slug": "wild-card-147",
+    "title": "Wild Card #147",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0148",
+    "slug": "wild-card-148",
+    "title": "Wild Card #148",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0149",
+    "slug": "wild-card-149",
+    "title": "Wild Card #149",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0150",
+    "slug": "wild-card-150",
+    "title": "Wild Card #150",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0151",
+    "slug": "wild-card-151",
+    "title": "Wild Card #151",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0152",
+    "slug": "wild-card-152",
+    "title": "Wild Card #152",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0153",
+    "slug": "wild-card-153",
+    "title": "Wild Card #153",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0154",
+    "slug": "wild-card-154",
+    "title": "Wild Card #154",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0155",
+    "slug": "wild-card-155",
+    "title": "Wild Card #155",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0156",
+    "slug": "wild-card-156",
+    "title": "Wild Card #156",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0157",
+    "slug": "wild-card-157",
+    "title": "Wild Card #157",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0158",
+    "slug": "wild-card-158",
+    "title": "Wild Card #158",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0159",
+    "slug": "wild-card-159",
+    "title": "Wild Card #159",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0160",
+    "slug": "wild-card-160",
+    "title": "Wild Card #160",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0161",
+    "slug": "wild-card-161",
+    "title": "Wild Card #161",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0162",
+    "slug": "wild-card-162",
+    "title": "Wild Card #162",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0163",
+    "slug": "wild-card-163",
+    "title": "Wild Card #163",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0164",
+    "slug": "wild-card-164",
+    "title": "Wild Card #164",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0165",
+    "slug": "wild-card-165",
+    "title": "Wild Card #165",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0166",
+    "slug": "wild-card-166",
+    "title": "Wild Card #166",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0167",
+    "slug": "wild-card-167",
+    "title": "Wild Card #167",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0168",
+    "slug": "wild-card-168",
+    "title": "Wild Card #168",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0169",
+    "slug": "wild-card-169",
+    "title": "Wild Card #169",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0170",
+    "slug": "wild-card-170",
+    "title": "Wild Card #170",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0171",
+    "slug": "wild-card-171",
+    "title": "Wild Card #171",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0172",
+    "slug": "wild-card-172",
+    "title": "Wild Card #172",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0173",
+    "slug": "wild-card-173",
+    "title": "Wild Card #173",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0174",
+    "slug": "wild-card-174",
+    "title": "Wild Card #174",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0175",
+    "slug": "wild-card-175",
+    "title": "Wild Card #175",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0176",
+    "slug": "wild-card-176",
+    "title": "Wild Card #176",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0177",
+    "slug": "wild-card-177",
+    "title": "Wild Card #177",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0178",
+    "slug": "wild-card-178",
+    "title": "Wild Card #178",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0179",
+    "slug": "wild-card-179",
+    "title": "Wild Card #179",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0180",
+    "slug": "wild-card-180",
+    "title": "Wild Card #180",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0181",
+    "slug": "wild-card-181",
+    "title": "Wild Card #181",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0182",
+    "slug": "wild-card-182",
+    "title": "Wild Card #182",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0183",
+    "slug": "wild-card-183",
+    "title": "Wild Card #183",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0184",
+    "slug": "wild-card-184",
+    "title": "Wild Card #184",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0185",
+    "slug": "wild-card-185",
+    "title": "Wild Card #185",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0186",
+    "slug": "wild-card-186",
+    "title": "Wild Card #186",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0187",
+    "slug": "wild-card-187",
+    "title": "Wild Card #187",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0188",
+    "slug": "wild-card-188",
+    "title": "Wild Card #188",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0189",
+    "slug": "wild-card-189",
+    "title": "Wild Card #189",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0190",
+    "slug": "wild-card-190",
+    "title": "Wild Card #190",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0191",
+    "slug": "wild-card-191",
+    "title": "Wild Card #191",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0192",
+    "slug": "wild-card-192",
+    "title": "Wild Card #192",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0193",
+    "slug": "wild-card-193",
+    "title": "Wild Card #193",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0194",
+    "slug": "wild-card-194",
+    "title": "Wild Card #194",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0195",
+    "slug": "wild-card-195",
+    "title": "Wild Card #195",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0196",
+    "slug": "wild-card-196",
+    "title": "Wild Card #196",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0197",
+    "slug": "wild-card-197",
+    "title": "Wild Card #197",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0198",
+    "slug": "wild-card-198",
+    "title": "Wild Card #198",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0199",
+    "slug": "wild-card-199",
+    "title": "Wild Card #199",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0200",
+    "slug": "wild-card-200",
+    "title": "Wild Card #200",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0201",
+    "slug": "wild-card-201",
+    "title": "Wild Card #201",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0202",
+    "slug": "wild-card-202",
+    "title": "Wild Card #202",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0203",
+    "slug": "wild-card-203",
+    "title": "Wild Card #203",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0204",
+    "slug": "wild-card-204",
+    "title": "Wild Card #204",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0205",
+    "slug": "wild-card-205",
+    "title": "Wild Card #205",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0206",
+    "slug": "wild-card-206",
+    "title": "Wild Card #206",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0207",
+    "slug": "wild-card-207",
+    "title": "Wild Card #207",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0208",
+    "slug": "wild-card-208",
+    "title": "Wild Card #208",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0209",
+    "slug": "wild-card-209",
+    "title": "Wild Card #209",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0210",
+    "slug": "wild-card-210",
+    "title": "Wild Card #210",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0211",
+    "slug": "wild-card-211",
+    "title": "Wild Card #211",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0212",
+    "slug": "wild-card-212",
+    "title": "Wild Card #212",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0213",
+    "slug": "wild-card-213",
+    "title": "Wild Card #213",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0214",
+    "slug": "wild-card-214",
+    "title": "Wild Card #214",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0215",
+    "slug": "wild-card-215",
+    "title": "Wild Card #215",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0216",
+    "slug": "wild-card-216",
+    "title": "Wild Card #216",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0217",
+    "slug": "wild-card-217",
+    "title": "Wild Card #217",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0218",
+    "slug": "wild-card-218",
+    "title": "Wild Card #218",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0219",
+    "slug": "wild-card-219",
+    "title": "Wild Card #219",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0220",
+    "slug": "wild-card-220",
+    "title": "Wild Card #220",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0221",
+    "slug": "wild-card-221",
+    "title": "Wild Card #221",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0222",
+    "slug": "wild-card-222",
+    "title": "Wild Card #222",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0223",
+    "slug": "wild-card-223",
+    "title": "Wild Card #223",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0224",
+    "slug": "wild-card-224",
+    "title": "Wild Card #224",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0225",
+    "slug": "wild-card-225",
+    "title": "Wild Card #225",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0226",
+    "slug": "wild-card-226",
+    "title": "Wild Card #226",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0227",
+    "slug": "wild-card-227",
+    "title": "Wild Card #227",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0228",
+    "slug": "wild-card-228",
+    "title": "Wild Card #228",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0229",
+    "slug": "wild-card-229",
+    "title": "Wild Card #229",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0230",
+    "slug": "wild-card-230",
+    "title": "Wild Card #230",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0231",
+    "slug": "wild-card-231",
+    "title": "Wild Card #231",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0232",
+    "slug": "wild-card-232",
+    "title": "Wild Card #232",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0233",
+    "slug": "wild-card-233",
+    "title": "Wild Card #233",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0234",
+    "slug": "wild-card-234",
+    "title": "Wild Card #234",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0235",
+    "slug": "wild-card-235",
+    "title": "Wild Card #235",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0236",
+    "slug": "wild-card-236",
+    "title": "Wild Card #236",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0237",
+    "slug": "wild-card-237",
+    "title": "Wild Card #237",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0238",
+    "slug": "wild-card-238",
+    "title": "Wild Card #238",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0239",
+    "slug": "wild-card-239",
+    "title": "Wild Card #239",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0240",
+    "slug": "wild-card-240",
+    "title": "Wild Card #240",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0241",
+    "slug": "wild-card-241",
+    "title": "Wild Card #241",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0242",
+    "slug": "wild-card-242",
+    "title": "Wild Card #242",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0243",
+    "slug": "wild-card-243",
+    "title": "Wild Card #243",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0244",
+    "slug": "wild-card-244",
+    "title": "Wild Card #244",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0245",
+    "slug": "wild-card-245",
+    "title": "Wild Card #245",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0246",
+    "slug": "wild-card-246",
+    "title": "Wild Card #246",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0247",
+    "slug": "wild-card-247",
+    "title": "Wild Card #247",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0248",
+    "slug": "wild-card-248",
+    "title": "Wild Card #248",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0249",
+    "slug": "wild-card-249",
+    "title": "Wild Card #249",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
     "aliases": [],
     "createdBy": "system",
     "tier": "naughty"
