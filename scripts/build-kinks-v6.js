@@ -253,6 +253,62 @@ all.push(single("pet-play", "Pet Play", "Collar, tail plug, crawling. They becom
 all.push(single("latex", "Latex/Rubber", "Second skin. The squeak, the shine, the restriction. Every curve dramatic.", ["latex", "fetish"], "roleplay", 3, "xxx"));
 all.push(single("foot-worship", "Foot Worship", "Kiss, lick, massage their feet. Admire them. Some find feet incredibly erotic.", ["feet", "worship"], "roleplay", 3, "xxx"));
 
+// Gender & Transformation
+all.push(...createPair(
+  "cross-dressing",
+  "Dressing Them Up",
+  "Being Dressed Up",
+  "Pick out their outfit—lingerie, dress, makeup. Transform them into someone new. Take photos to capture the moment.",
+  "They dress you in clothes you wouldn't normally wear. Makeup, wig, the full look. You feel exposed and transformed.",
+  ["gender", "transformation", "roleplay"], "roleplay", 3, "xxx"
+));
+
+all.push(...createPair(
+  "feminization",
+  "Feminizing Them",
+  "Being Feminized",
+  "Transform them into your perfect girl. Dress them, teach them to walk, to serve. They exist to please you as your feminized pet.",
+  "They dress you, train you, mold you into their ideal feminine submissive. You learn to serve, to be pretty, to be theirs.",
+  ["gender", "feminization", "transformation", "roleplay"], "roleplay", 3, "xxx"
+));
+
+all.push(...createPair(
+  "slutification",
+  "Slutifying Them",
+  "Being Slutified",
+  "Dress them like a whore—short skirt, no underwear, 'slut' written on their body. Send them out in public. Make them feel every eye.",
+  "They dress you like a desperate slut. Everyone can see what you are. You feel dirty, exposed, and incredibly turned on.",
+  ["humiliation", "exhibition", "degradation"], "roleplay", 3, "xxx"
+));
+
+all.push(...createPair(
+  "gender-reversal",
+  "Gender Reversal Roleplay",
+  "Receiving Gender Reversal",
+  "Take the 'opposite' role—if they usually lead, you lead. If they usually receive, they give. Flip the dynamic completely.",
+  "They flip the script. You take their usual role, they take yours. Experience sex from the other side of the dynamic.",
+  ["gender", "role-reversal", "roleplay"], "roleplay", 2, "naughty"
+));
+
+// Humiliation (intense)
+all.push(...createPair(
+  "public-humiliation",
+  "Public Humiliation",
+  "Being Publicly Humiliated",
+  "Whisper what a slut they are in a crowded restaurant. Make them wear something obvious under their clothes. Send them to the bar to order while plugged.",
+  "They humiliate you where people might notice. A whispered insult, a secret task, the constant fear of being discovered.",
+  ["humiliation", "degradation", "public", "risky"], "environment", 3, "xxx"
+));
+
+all.push(...createPair(
+  "objectification",
+  "Objectifying Them",
+  "Being Objectified",
+  "Treat them as furniture, a footrest, a hole to use. No eye contact, no names, just their body for your pleasure. They're an object.",
+  "You're not a person, you're a thing. A hole, a toy, furniture. They use you without acknowledging your humanity. You're just an object for their pleasure.",
+  ["humiliation", "degradation", "objectification"], "communication", 3, "xxx"
+));
+
 // Aftercare (1 card - important but not a kink)
 all.push(single("aftercare", "Aftercare", "Blankets, water, gentle touches. Reassurance. Coming back to reality together after intense play.", ["aftercare", "intimacy"], "aftercare", 1, "soft"));
 

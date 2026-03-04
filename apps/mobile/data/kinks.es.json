@@ -1174,6 +1174,202 @@
   },
   {
     "id": "0078",
+    "slug": "cross-dressing-give",
+    "title": "Dressing Them Up",
+    "description": "Pick out their outfit—lingerie, dress, makeup. Transform them into someone new. Take photos to capture the moment.",
+    "tags": [
+      "gender",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0079",
+    "slug": "cross-dressing-receive",
+    "title": "Being Dressed Up",
+    "description": "They dress you in clothes you wouldn't normally wear. Makeup, wig, the full look. You feel exposed and transformed.",
+    "tags": [
+      "gender",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0080",
+    "slug": "feminization-give",
+    "title": "Feminizing Them",
+    "description": "Transform them into your perfect girl. Dress them, teach them to walk, to serve. They exist to please you as your feminized pet.",
+    "tags": [
+      "gender",
+      "feminization",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0081",
+    "slug": "feminization-receive",
+    "title": "Being Feminized",
+    "description": "They dress you, train you, mold you into their ideal feminine submissive. You learn to serve, to be pretty, to be theirs.",
+    "tags": [
+      "gender",
+      "feminization",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0082",
+    "slug": "slutification-give",
+    "title": "Slutifying Them",
+    "description": "Dress them like a whore—short skirt, no underwear, 'slut' written on their body. Send them out in public. Make them feel every eye.",
+    "tags": [
+      "humiliation",
+      "exhibition",
+      "degradation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0083",
+    "slug": "slutification-receive",
+    "title": "Being Slutified",
+    "description": "They dress you like a desperate slut. Everyone can see what you are. You feel dirty, exposed, and incredibly turned on.",
+    "tags": [
+      "humiliation",
+      "exhibition",
+      "degradation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0084",
+    "slug": "gender-reversal-give",
+    "title": "Gender Reversal Roleplay",
+    "description": "Take the 'opposite' role—if they usually lead, you lead. If they usually receive, they give. Flip the dynamic completely.",
+    "tags": [
+      "gender",
+      "role-reversal",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0085",
+    "slug": "gender-reversal-receive",
+    "title": "Receiving Gender Reversal",
+    "description": "They flip the script. You take their usual role, they take yours. Experience sex from the other side of the dynamic.",
+    "tags": [
+      "gender",
+      "role-reversal",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0086",
+    "slug": "public-humiliation-give",
+    "title": "Public Humiliation",
+    "description": "Whisper what a slut they are in a crowded restaurant. Make them wear something obvious under their clothes. Send them to the bar to order while plugged.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "public",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0087",
+    "slug": "public-humiliation-receive",
+    "title": "Being Publicly Humiliated",
+    "description": "They humiliate you where people might notice. A whispered insult, a secret task, the constant fear of being discovered.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "public",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0088",
+    "slug": "objectification-give",
+    "title": "Objectifying Them",
+    "description": "Treat them as furniture, a footrest, a hole to use. No eye contact, no names, just their body for your pleasure. They're an object.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "objectification"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0089",
+    "slug": "objectification-receive",
+    "title": "Being Objectified",
+    "description": "You're not a person, you're a thing. A hole, a toy, furniture. They use you without acknowledging your humanity. You're just an object for their pleasure.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "objectification"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0090",
     "slug": "aftercare",
     "title": "Aftercare",
     "description": "Blankets, water, gentle touches. Reassurance. Coming back to reality together after intense play.",
