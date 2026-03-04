@@ -347,7 +347,6 @@ all.push(
 // ============ FETISH ============
 all.push(
   single("foot-worship", "Foot Worship", "Kiss, lick, massage their feet. Admire them. Some find feet incredibly erotic. Worship accordingly.", ["feet"], "roleplay", 2, "naughty"),
-  single("watersports", "Watersports", "Pee play. Warm, intimate, taboo. Marking territory. Shower sex makes cleanup easy.", ["fluids"], "environment", 3, "xxx"),
   single("lingerie-crotchless", "Crotchless Lingerie", "Lingerie with strategic openings. Decorative but functional. No need to undress to use them.", ["lingerie"], "roleplay", 2, "naughty"),
   single("latex", "Latex Clothing", "Second skin. The squeak, the shine, the restriction. Latex clothing makes every curve dramatic.", ["latex"], "roleplay", 2, "naughty"),
   single("leather", "Leather Gear", "Harnesses, cuffs, the scent of well-worn leather. Dominant aesthetics.", ["leather"], "roleplay", 2, "naughty")

@@ -283,8 +283,7 @@ These cards represent activities that are mutual or don't have a clear giver/rec
 | 0090 | Partner Swapping | xxx | Two couples switch partners for the night. Fresh bodies, new techniques, stories to share after. |
 | 0091 | Gangbang | xxx | One person, many others. Being overwhelmed, passed around, completely used. Total abandon. |
 | 0092 | Foot Worship | naughty | Kiss, lick, massage their feet. Admire them. Some find feet incredibly erotic. Worship accordingly. |
-| 0093 | Watersports | xxx | Pee play. Warm, intimate, taboo. Marking territory. Shower sex makes cleanup easy. |
-| 0094 | Crotchless Lingerie | naughty | Lingerie with strategic openings. Decorative but functional. No need to undress to use them. |
+| 0093 | Crotchless Lingerie | naughty | Lingerie with strategic openings. Decorative but functional. No need to undress to use them. |
 | 0095 | Latex Clothing | naughty | Second skin. The squeak, the shine, the restriction. Latex clothing makes every curve dramatic. |
 | 0096 | Leather Gear | naughty | Harnesses, cuffs, the scent of well-worn leather. Dominant aesthetics. |
 | 0097 | Silk Blindfold | soft | Blindfold them with something soft. Let the fabric trail over their skin before you even touch them. |

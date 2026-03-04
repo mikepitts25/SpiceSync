@@ -1361,20 +1361,6 @@
   },
   {
     "id": "0093",
-    "slug": "watersports",
-    "title": "Watersports",
-    "description": "Pee play. Warm, intimate, taboo. Marking territory. Shower sex makes cleanup easy.",
-    "tags": [
-      "fluids"
-    ],
-    "category": "environment",
-    "intensityScale": 3,
-    "aliases": [],
-    "createdBy": "system",
-    "tier": "xxx"
-  },
-  {
-    "id": "0094",
     "slug": "lingerie-crotchless",
     "title": "Crotchless Lingerie",
     "description": "Lingerie with strategic openings. Decorative but functional. No need to undress to use them.",
@@ -1388,7 +1374,7 @@
     "tier": "naughty"
   },
   {
-    "id": "0095",
+    "id": "0094",
     "slug": "latex",
     "title": "Latex Clothing",
     "description": "Second skin. The squeak, the shine, the restriction. Latex clothing makes every curve dramatic.",
@@ -1402,7 +1388,7 @@
     "tier": "naughty"
   },
   {
-    "id": "0096",
+    "id": "0095",
     "slug": "leather",
     "title": "Leather Gear",
     "description": "Harnesses, cuffs, the scent of well-worn leather. Dominant aesthetics.",
@@ -1416,7 +1402,7 @@
     "tier": "naughty"
   },
   {
-    "id": "0097",
+    "id": "0096",
     "slug": "silk-scarf",
     "title": "Silk Blindfold",
     "description": "Blindfold them with something soft. Let the fabric trail over their skin before you even touch them.",
@@ -1430,7 +1416,7 @@
     "tier": "soft"
   },
   {
-    "id": "0098",
+    "id": "0097",
     "slug": "ice-cube",
     "title": "Temperature Play (Ice)",
     "description": "Trace a cold cube down their spine, around their nipples, between their thighs. Watch them shiver for you.",
@@ -1444,7 +1430,7 @@
     "tier": "soft"
   },
   {
-    "id": "0099",
+    "id": "0098",
     "slug": "feather-touch",
     "title": "Feather Tickling",
     "description": "Light as air. Everywhere except where they want it most. Make them beg for contact.",
@@ -1458,7 +1444,7 @@
     "tier": "soft"
   },
   {
-    "id": "0100",
+    "id": "0099",
     "slug": "ear-nibbling",
     "title": "Ear/Nibble Play",
     "description": "Breathe against their ear. Nibble the lobe. Tell them exactly what you're going to do later.",
@@ -1472,7 +1458,7 @@
     "tier": "soft"
   },
   {
-    "id": "0101",
+    "id": "0100",
     "slug": "neck-kissing",
     "title": "Neck Kissing/Hickeys",
     "description": "Suck, bite, kiss. Leave a reminder that lasts for days. Let everyone know they're taken.",
@@ -1486,7 +1472,7 @@
     "tier": "soft"
   },
   {
-    "id": "0102",
+    "id": "0101",
     "slug": "thigh-grinding",
     "title": "Dry Humping",
     "description": "Dry humping isn't just for teenagers. The friction, the buildup, the clothes staying on until you can't stand it.",
@@ -1500,7 +1486,7 @@
     "tier": "soft"
   },
   {
-    "id": "0103",
+    "id": "0102",
     "slug": "phone-sex",
     "title": "Phone Sex",
     "description": "Hear them touch themselves. Describe what you'd do if you were there. Sometimes words hit harder than hands.",
@@ -1514,7 +1500,7 @@
     "tier": "soft"
   },
   {
-    "id": "0104",
+    "id": "0103",
     "slug": "sexting",
     "title": "Sexting",
     "description": "Build anticipation all day. A photo here, a promise there. By nightfall, they'll be desperate.",
@@ -1528,7 +1514,7 @@
     "tier": "soft"
   },
   {
-    "id": "0105",
+    "id": "0104",
     "slug": "mutual-masturbation",
     "title": "Mutual Masturbation",
     "description": "Touch yourselves while watching each other. See what they like. Learn their rhythm. It's education and pornography combined.",
@@ -1542,7 +1528,7 @@
     "tier": "soft"
   },
   {
-    "id": "0106",
+    "id": "0105",
     "slug": "sixty-nine",
     "title": "69 Position",
     "description": "Give and receive at the same time. The coordination is tricky but the payoff? Mutual bliss.",
@@ -1556,7 +1542,7 @@
     "tier": "soft"
   },
   {
-    "id": "0107",
+    "id": "0106",
     "slug": "aftercare-check",
     "title": "Aftercare Check-In",
     "description": "Blankets, water, gentle touches. Reassurance. Coming back to reality together after intense play.",
@@ -1570,7 +1556,7 @@
     "tier": "romance"
   },
   {
-    "id": "0108",
+    "id": "0107",
     "slug": "debrief-next-day",
     "title": "Next Day Debrief",
     "description": "Discuss what worked, what didn't, what surprised you. Honest conversation makes next time even better.",
@@ -1582,6 +1568,20 @@
     "aliases": [],
     "createdBy": "system",
     "tier": "romance"
+  },
+  {
+    "id": "0108",
+    "slug": "wild-card-108",
+    "title": "Wild Card #108",
+    "description": "Something spontaneous you both want to try. Make it up together.",
+    "tags": [
+      "spontaneous"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
   },
   {
     "id": "0109",
