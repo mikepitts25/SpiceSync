@@ -1,6 +1,6 @@
 // apps/mobile/app/(tabs)/browse.tsx
-import React, { useEffect, useMemo } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { View, Text, Pressable, FlatList, StyleSheet, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import SettingsButton from '../../src/components/SettingsButton';
@@ -31,9 +31,23 @@ export default function BrowseScreen() {
     }
   }, [isHydrated, hasActive, router]);
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   const rows = useMemo(
-    () => (selectedTier ? kinks.filter((k) => k.tier === selectedTier) : kinks),
-    [kinks, selectedTier]
+    () => {
+      let filtered = selectedTier ? kinks.filter((k) => k.tier === selectedTier) : kinks;
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        filtered = filtered.filter(
+          (k) =>
+            k.title.toLowerCase().includes(query) ||
+            k.description.toLowerCase().includes(query) ||
+            k.tags?.some((tag) => tag.toLowerCase().includes(query))
+        );
+      }
+      return filtered;
+    },
+    [kinks, selectedTier, searchQuery]
   );
 
   if (!isHydrated || !hasActive) {
@@ -61,6 +75,23 @@ export default function BrowseScreen() {
             <Text style={styles.chipText}>{t.browse.clearFilter}</Text>
           </Pressable>
         ) : null}
+      </View>
+
+      {/* Search */}
+      <View style={styles.searchContainer}>
+        <Text style={styles.searchIcon}>🔍</Text>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search kinks..."
+          placeholderTextColor="#666"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        {searchQuery.length > 0 && (
+          <Pressable onPress={() => setSearchQuery('')} style={styles.clearButton}>
+            <Text style={styles.clearButtonText}>✕</Text>
+          </Pressable>
+        )}
       </View>
 
       <FlatList
@@ -109,6 +140,31 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
   chipText: { color: 'white', fontWeight: '600' },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1f2937',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    marginBottom: 12,
+  },
+  searchIcon: {
+    fontSize: 16,
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    paddingVertical: 12,
+    color: 'white',
+    fontSize: 16,
+  },
+  clearButton: {
+    padding: 8,
+  },
+  clearButtonText: {
+    color: '#9ca3af',
+    fontSize: 16,
+  },
   card: { padding: 14, borderRadius: 14, backgroundColor: '#1f2937' },
   title: { color: 'white', fontWeight: '700', fontSize: 16 },
   desc: { color: '#cbd5e1', marginTop: 6 },

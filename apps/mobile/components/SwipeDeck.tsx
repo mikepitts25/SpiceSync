@@ -112,6 +112,15 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       ),
     }));
 
+    const maybeOpacity = useAnimatedStyle(() => ({
+      opacity: interpolate(
+        y.value,
+        [0, 100],
+        [0, 1],
+        Extrapolate.CLAMP
+      ),
+    }));
+
     const performSwipe = (dir: SwipeDirection) => {
       'worklet';
       const targetX =
@@ -257,11 +266,6 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
 
           {/* Meta Info */}
           <View style={styles.metaRow}>
-            {!!item.tier && item.tier !== 'free' && (
-              <View style={styles.metaBadge}>
-                <Text style={styles.metaBadgeText}>💎 Premium</Text>
-              </View>
-            )}
             {!!item.estimatedTime && (
               <View style={styles.metaBadge}>
                 <Text style={styles.metaBadgeText}>⏱️ {item.estimatedTime}</Text>
@@ -291,6 +295,9 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
           </Animated.View>
           <Animated.View style={[styles.overlay, styles.dislikeOverlay, dislikeOpacity]}>
             <Text style={styles.overlayText}>NO</Text>
+          </Animated.View>
+          <Animated.View style={[styles.overlay, styles.maybeOverlay, maybeOpacity]}>
+            <Text style={styles.overlayText}>MAYBE</Text>
           </Animated.View>
         </Animated.View>
       </PanGestureHandler>
@@ -457,6 +464,14 @@ const styles = StyleSheet.create({
     left: 20,
     backgroundColor: `${COLORS.danger}20`,
     borderColor: COLORS.danger,
+  },
+  maybeOverlay: {
+    alignSelf: 'center',
+    bottom: 100,
+    top: 'auto',
+    backgroundColor: `${COLORS.warning}20`,
+    borderColor: COLORS.warning,
+    transform: [{ rotate: '0deg' }],
   },
   overlayText: {
     fontFamily: FONTS.bold,
