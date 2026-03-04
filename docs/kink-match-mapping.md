@@ -1,4 +1,4 @@
-# Kink Match Mapping - Clean Titles
+# Kink Match Mapping - Clean Titles (Gender Neutral)
 
 This document shows all Give/Receive pairs using clear, recognizable terminology.
 
@@ -95,7 +95,7 @@ This document shows all Give/Receive pairs using clear, recognizable terminology
 | Role | Title | Description |
 |------|-------|-------------|
 | **GIVE** | Pulling Hair | Fist their hair at the crown. Pull their head back to expose their throat. Use it to guide their mouth exactly where you want it. |
-| **RECEIVE** | Hair Being Pulled | He takes a handful of your hair and pulls your head back. You're exposed, controlled, and completely at his mercy. Resistance is futile. |
+| **RECEIVE** | Hair Being Pulled | Your partner takes a handful of your hair and pulls your head back. You're exposed, controlled, and completely at their mercy. Resistance is futile. |
 
 ---
 
@@ -122,7 +122,7 @@ This document shows all Give/Receive pairs using clear, recognizable terminology
 | Role | Title | Description |
 |------|-------|-------------|
 | **GIVE** | Pinning Wrists | Trap their wrists above their head with one hand. Use your weight to keep them there. Let them struggle. They can't go anywhere until you let them. |
-| **RECEIVE** | Having Wrists Pinned | Your wrists are locked in place above you. His weight presses you into the bed. You try to break free but you're completely at his mercy. |
+| **RECEIVE** | Having Wrists Pinned | Your wrists are locked in place above you. Their weight presses you into the bed. You try to break free but you're completely at their mercy. |
 
 ---
 
@@ -185,7 +185,7 @@ This document shows all Give/Receive pairs using clear, recognizable terminology
 | Role | Title | Description |
 |------|-------|-------------|
 | **GIVE** | Using Butt Plug | Insert a plug, leave it there. Make them wear it while you do other things. Every movement reminds them who's in control. |
-| **RECEIVE** | Wearing Butt Plug | He puts it in and makes you keep it there while he ignores you. You feel full, stretched, constantly aware. Then he takes you with it still inside. |
+| **RECEIVE** | Wearing Butt Plug | Your partner puts it in and makes you keep it there while they ignore you. You feel full, stretched, constantly aware. Then they take you with it still inside. |
 
 ---
 
@@ -194,7 +194,7 @@ This document shows all Give/Receive pairs using clear, recognizable terminology
 | Role | Title | Description |
 |------|-------|-------------|
 | **GIVE** | Anal Sex | Deep, intense, fully seated. Hold them close, make them feel every inch. Watch them adjust to the overwhelming fullness. |
-| **RECEIVE** | Receiving Anal Sex | He's all the way inside, stretching you, filling you completely. You can feel every throb, every pulse. It's almost too much but you want more. |
+| **RECEIVE** | Receiving Anal Sex | Your partner is all the way inside, stretching you, filling you completely. You can feel every throb, every pulse. It's almost too much but you want more. |
 
 ---
 
@@ -203,7 +203,7 @@ This document shows all Give/Receive pairs using clear, recognizable terminology
 | Role | Title | Description |
 |------|-------|-------------|
 | **GIVE** | Pegging | Wear the harness. Take control. Give them the sensation of being filled, being taken. Watch them discover how good it can feel. |
-| **RECEIVE** | Being Pegged | She straps it on and takes charge. The role reversal is electric. She fucks you like she owns you, and you let her because it feels incredible. |
+| **RECEIVE** | Being Pegged | Your partner straps it on and takes charge. The role reversal is electric. They fuck you like they own you, and you let them because it feels incredible. |
 
 ---
 
@@ -275,14 +275,14 @@ These cards represent activities that are mutual or don't have a clear giver/rec
 | 0082 | CNC (Consensual Non-Consent) | xxx | Pre-negotiated resistance. They say no, you ignore it, they struggle, you overpower them. Safe words essential. |
 | 0083 | Sleep Play | xxx | Pre-agreed touching, penetration while they pretend to sleep or actually sleep. Wake them up in the best way. |
 | 0084 | Blackmail Roleplay | xxx | Roleplay blackmail. 'I found your search history. Do what I say or everyone finds out.' All pretend, all consensual. |
-| 0085 | MMF Threesome | xxx | Two men focused entirely on her pleasure. Multiple hands, multiple mouths, being the absolute center of attention. |
-| 0086 | MFF Threesome | xxx | Two women sharing him. Taking turns, working together, making him feel like a king. |
-| 0087 | Cuckolding (Him Watching) | xxx | He sits in the corner while she takes another man. The humiliation, the arousal, the reclaiming after. |
-| 0088 | Cuckolding (Her Watching) | xxx | She watches him with another woman. Deciding if he deserves to come, directing the action, owning his pleasure. |
-| 0089 | Hotwife Dynamic | xxx | She goes out, has her fun, comes home full of details. He reclaims her, tastes the evidence, owns her again. |
+| 0085 | MMF Threesome | xxx | Two people focused entirely on one partner's pleasure. Multiple hands, multiple mouths, being the absolute center of attention. |
+| 0086 | MFF Threesome | xxx | Two partners sharing one. Taking turns, working together, making them feel like royalty. |
+| 0087 | Cuckolding (Partner Watching) | xxx | Your partner sits in the corner while you take another person. The humiliation, the arousal, the reclaiming after. |
+| 0088 | Cuckqueaning (Partner Watching) | xxx | Your partner watches you with another person. Deciding if you deserve to come, directing the action, owning your pleasure. |
+| 0089 | Hotwife/Hothusband Dynamic | xxx | One partner goes out, has their fun, comes home full of details. The other reclaims them, tastes the evidence, owns them again. |
 | 0090 | Partner Swapping | xxx | Two couples switch partners for the night. Fresh bodies, new techniques, stories to share after. |
 | 0091 | Gangbang | xxx | One person, many others. Being overwhelmed, passed around, completely used. Total abandon. |
-| 0092 | Foot Worship | naughty | Kiss, lick, massage her feet. Admire them. Some find feet incredibly erotic. Worship accordingly. |
+| 0092 | Foot Worship | naughty | Kiss, lick, massage their feet. Admire them. Some find feet incredibly erotic. Worship accordingly. |
 | 0093 | Watersports | xxx | Pee play. Warm, intimate, taboo. Marking territory. Shower sex makes cleanup easy. |
 | 0094 | Crotchless Lingerie | naughty | Lingerie with strategic openings. Decorative but functional. No need to undress to use them. |
 | 0095 | Latex Clothing | naughty | Second skin. The squeak, the shine, the restriction. Latex clothing makes every curve dramatic. |
@@ -308,6 +308,8 @@ These cards represent activities that are mutual or don't have a clear giver/rec
 - **Total Single Cards:** 50 non-paired cards (mutual activities)
 - **Total Wild Cards:** 141 placeholder cards
 - **Grand Total:** 250 cards
+
+**All language is gender-neutral** using "they/them/their" and "your partner" instead of he/she.
 
 **Matching Algorithm Logic:**
 ```javascript
