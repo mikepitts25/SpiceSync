@@ -309,6 +309,18 @@ all.push(...createPair(
   ["humiliation", "degradation", "objectification"], "communication", 3, "xxx"
 ));
 
+// Chastity
+all.push(...createPair(
+  "chastity",
+  "Controlling Their Orgasm (Chastity)",
+  "Being Kept in Chastity",
+  "Lock them up. Control when they get to touch, when they get to come. The constant reminder of your power with every movement.",
+  "They hold the key to your pleasure. You're locked, denied, constantly aware of your submission. Begging for release they may never give.",
+  ["chastity", "control", "denial"], "props_and_toys", 3, "xxx"
+));
+
+all.push(single("chastity-longterm", "Long-Term Chastity", "Days or weeks of denial. Tease them daily but never let them finish. Watch them become desperate, pliable, completely yours.", ["chastity", "control", "long-term"], "props_and_toys", 3, "xxx"));
+
 // Aftercare (1 card - important but not a kink)
 all.push(single("aftercare", "Aftercare", "Blankets, water, gentle touches. Reassurance. Coming back to reality together after intense play.", ["aftercare", "intimacy"], "aftercare", 1, "soft"));
 

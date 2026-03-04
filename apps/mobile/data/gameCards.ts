@@ -859,6 +859,36 @@ export const PREMIUM_CARDS: GameCard[] = [
     estimatedTime: '15-20 min',
   },
 
+  // CHASTITY & ORGASM CONTROL
+  {
+    id: 'kink-chastity-1',
+    type: 'dare',
+    content: "Chastity lock-up: Put the cage on them (or agree to no touching). You hold the key. They're not allowed release until you say so.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'ongoing',
+    requires: ['props'],
+  },
+  {
+    id: 'kink-chastity-2',
+    type: 'challenge',
+    content: "Denial week: They're not allowed to orgasm for 7 days. Tease them every day but never let them finish. Watch them become desperate.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '7 days',
+  },
+  {
+    id: 'kink-chastity-3',
+    type: 'truth',
+    content: "Chastity fantasy: How long do you think you could last locked up? What would you be willing to do for release?",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+  },
+
   // KINK-BASED CARDS - Gender, Transformation & Humiliation
   {
     id: 'kink-gender-1',

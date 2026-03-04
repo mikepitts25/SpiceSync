@@ -476,6 +476,36 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     estimatedTime: '15-20 min',
   },
 
+  // CASTIDAD Y CONTROL DE ORGASMO
+  {
+    id: 'kink-chastity-1',
+    type: 'dare',
+    content: "Encierro en castidad: Ponles la jaula (o acuerda no tocarse). Tú tienes la llave. No pueden liberarse hasta que tú lo digas.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'ongoing',
+    requires: ['props'],
+  },
+  {
+    id: 'kink-chastity-2',
+    type: 'challenge',
+    content: "Semana de negación: No pueden tener orgasmos por 7 días. Provócalos cada día pero nunca dejes que terminen. Míralos volverse desesperados.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '7 days',
+  },
+  {
+    id: 'kink-chastity-3',
+    type: 'truth',
+    content: "Fantasía de castidad: ¿Cuánto crees que podrías durar encerrado? ¿Qué estarías dispuesto a hacer por liberación?",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+  },
+
   // KINK-BASED CARDS - Gender, Transformation & Humiliation
   {
     id: 'kink-gender-1',
