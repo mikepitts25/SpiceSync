@@ -33,7 +33,10 @@ export default function TabsLayout() {
         },
         tabBarLabelStyle: {
           fontWeight: '700',
-          fontSize: 12,
+          fontSize: 11,
+        },
+        tabBarItemStyle: {
+          paddingHorizontal: 2,
         },
       }}
     >

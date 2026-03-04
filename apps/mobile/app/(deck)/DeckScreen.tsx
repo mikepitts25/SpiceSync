@@ -5,13 +5,12 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import SwipeDeck from '../../components/SwipeDeckRedesigned';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
-import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../constants/theme';
+import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 
 type VoteValue = 'yes' | 'no' | 'maybe';
 
@@ -79,10 +78,8 @@ export default function DeckScreen() {
               ? `The "${selectedTier}" category has no items right now.`
               : 'No content found. Try switching language.'}
           </Text>
-          <Pressable style={styles.emptyButton} onPress={goCategories}>
-            <LinearGradient colors={GRADIENTS.primary} style={styles.emptyButtonGradient}>
-              <Text style={styles.emptyButtonText}>Back to Categories</Text>
-            </LinearGradient>
+          <Pressable style={[styles.emptyButton, { backgroundColor: COLORS.primary }]} onPress={goCategories}>
+            <Text style={styles.emptyButtonText}>Back to Categories</Text>
           </Pressable>
         </Animated.View>
       </SafeAreaView>
@@ -104,10 +101,8 @@ export default function DeckScreen() {
                 <Text style={styles.emptyButtonSecondaryText}>Clear Filter</Text>
               </Pressable>
             )}
-            <Pressable style={styles.emptyButton} onPress={goCategories}>
-              <LinearGradient colors={GRADIENTS.primary} style={styles.emptyButtonGradient}>
-                <Text style={styles.emptyButtonText}>Back to Categories</Text>
-              </LinearGradient>
+            <Pressable style={[styles.emptyButton, { backgroundColor: COLORS.primary }]} onPress={goCategories}>
+              <Text style={styles.emptyButtonText}>Back to Categories</Text>
             </Pressable>
           </View>
         </Animated.View>
@@ -124,10 +119,8 @@ export default function DeckScreen() {
         </Pressable>
         
         {selectedTier && tierGradient && (
-          <View style={styles.tierBadge}>
-            <LinearGradient colors={tierGradient} style={styles.tierBadgeGradient}>
-              <Text style={styles.tierBadgeText}>{selectedTier.toUpperCase()}</Text>
-            </LinearGradient>
+          <View style={[styles.tierBadge, { backgroundColor: tierGradient[0] }]}>
+            <Text style={styles.tierBadgeText}>{selectedTier.toUpperCase()}</Text>
           </View>
         )}
         
@@ -239,8 +232,6 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radiusLarge,
     overflow: 'hidden',
     ...SHADOWS.md,
-  },
-  emptyButtonGradient: {
     paddingVertical: 16,
     paddingHorizontal: 32,
   },

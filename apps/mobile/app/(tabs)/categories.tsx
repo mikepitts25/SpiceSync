@@ -1,10 +1,9 @@
 // apps/mobile/app/(tabs)/categories.tsx
-// Redesigned with modern visuals, gradients, and animations
+// Redesigned with modern visuals and animations (no LinearGradient)
 
 import React, { useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet, Alert, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import Animated, { FadeInUp, FadeIn } from 'react-native-reanimated';
 import { useFilters } from '../../lib/state/filters';
@@ -14,7 +13,7 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation, interpolate } from '../../lib/i18n';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../constants/theme';
+import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 
 const TIERS = [
   {
@@ -23,7 +22,7 @@ const TIERS = [
     title: 'Soft Kinks',
     subtitle: 'Gentle & Playful',
     description: 'Teasing, light play, and sensual exploration',
-    gradient: GRADIENTS.soft,
+    color: '#FF6B9D',
     glow: 'rgba(255, 107, 157, 0.3)',
   },
   {
@@ -32,7 +31,7 @@ const TIERS = [
     title: 'Naughty Kinks',
     subtitle: 'Spicy & Intense',
     description: 'Impact, bondage, toys, and power play',
-    gradient: GRADIENTS.naughty,
+    color: '#F472B6',
     glow: 'rgba(244, 114, 182, 0.3)',
   },
   {
@@ -41,7 +40,7 @@ const TIERS = [
     title: 'XXX Kinks',
     subtitle: 'Hard & Extreme',
     description: 'Advanced play, CNC, group, and intense kinks',
-    gradient: GRADIENTS.xxx,
+    color: '#EF4444',
     glow: 'rgba(239, 68, 68, 0.3)',
   },
 ];
@@ -103,40 +102,33 @@ export default function CategoriesScreen() {
             <Animated.View
               key={tier.key}
               entering={FadeInUp.delay(200 + index * 100)}
-              style={[styles.cardWrapper, { shadowColor: tier.gradient[0] }]}
+              style={[styles.cardWrapper, { shadowColor: tier.color }]}
             >
               <Pressable
-                style={styles.card}
+                style={[styles.card, { backgroundColor: tier.color }]}
                 onPress={() => onPick(tier.key)}
                 android_ripple={{ color: 'rgba(255,255,255,0.1)' }}
               >
-                <LinearGradient
-                  colors={tier.gradient}
-                  style={styles.cardGradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                >
-                  {/* Glow effect */}
-                  <View style={[styles.glow, { backgroundColor: tier.glow }]} />
-                  
-                  {/* Content */}
-                  <View style={styles.cardContent}>
-                    <View style={styles.cardTop}>
-                      <Text style={styles.cardEmoji}>{tier.emoji}</Text>
-                      <View style={styles.countBadge}>
-                        <Text style={styles.countText}>{counts[tier.key] || 0}</Text>
-                      </View>
-                    </View>
-                    
-                    <Text style={styles.cardTitle}>{tier.title}</Text>
-                    <Text style={styles.cardSubtitle}>{tier.subtitle}</Text>
-                    <Text style={styles.cardDescription}>{tier.description}</Text>
-                    
-                    <View style={styles.arrowContainer}>
-                      <Text style={styles.arrow}>→</Text>
+                {/* Glow effect */}
+                <View style={[styles.glow, { backgroundColor: tier.glow }]} />
+                
+                {/* Content */}
+                <View style={styles.cardContent}>
+                  <View style={styles.cardTop}>
+                    <Text style={styles.cardEmoji}>{tier.emoji}</Text>
+                    <View style={styles.countBadge}>
+                      <Text style={styles.countText}>{counts[tier.key] || 0}</Text>
                     </View>
                   </View>
-                </LinearGradient>
+                  
+                  <Text style={styles.cardTitle}>{tier.title}</Text>
+                  <Text style={styles.cardSubtitle}>{tier.subtitle}</Text>
+                  <Text style={styles.cardDescription}>{tier.description}</Text>
+                  
+                  <View style={styles.arrowContainer}>
+                    <Text style={styles.arrow}>→</Text>
+                  </View>
+                </View>
               </Pressable>
             </Animated.View>
           ))}
@@ -151,14 +143,7 @@ export default function CategoriesScreen() {
               router.push('/(tabs)/deck');
             }}
           >
-            <LinearGradient
-              colors={['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.05)']}
-              style={styles.allButtonGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            >
-              <Text style={styles.allButtonText}>✨ Browse All Categories</Text>
-            </LinearGradient>
+            <Text style={styles.allButtonText}>✨ Browse All Categories</Text>
           </Pressable>
         </Animated.View>
 
@@ -170,12 +155,12 @@ export default function CategoriesScreen() {
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
-            <Text style={styles.statNumber}>18</Text>
+            <Text style={styles.statNumber}>19</Text>
             <Text style={styles.statLabel}>Give/Receive Pairs</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
-            <Text style={styles.statNumber}>133</Text>
+            <Text style={styles.statNumber}>136</Text>
             <Text style={styles.statLabel}>Game Cards</Text>
           </View>
         </Animated.View>
@@ -235,8 +220,6 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: SIZES.radiusXL,
     overflow: 'hidden',
-  },
-  cardGradient: {
     padding: SIZES.paddingLarge,
     minHeight: 180,
   },
@@ -310,8 +293,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: COLORS.border,
-  },
-  allButtonGradient: {
+    backgroundColor: COLORS.card,
     paddingVertical: 18,
     alignItems: 'center',
   },
@@ -324,34 +306,37 @@ const styles = StyleSheet.create({
   // Stats
   statsContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     backgroundColor: COLORS.card,
     borderRadius: SIZES.radiusLarge,
-    padding: SIZES.padding,
+    paddingVertical: SIZES.padding,
+    paddingHorizontal: 8,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
   stat: {
+    flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 4,
   },
   statNumber: {
     color: COLORS.primary,
-    fontSize: SIZES.h2,
+    fontSize: SIZES.h3,
     fontWeight: '800',
     marginBottom: 4,
   },
   statLabel: {
     color: COLORS.textMuted,
-    fontSize: SIZES.xs,
+    fontSize: 10,
     fontWeight: '600',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
+    textAlign: 'center',
   },
   statDivider: {
     width: 1,
-    height: 40,
+    height: 36,
     backgroundColor: COLORS.border,
   },
 });

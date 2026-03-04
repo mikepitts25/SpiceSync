@@ -4,7 +4,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, Pressable, FlatList, StyleSheet, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
+// import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
@@ -73,14 +73,11 @@ export default function BrowseScreen() {
         <Text style={styles.headerTitle}>🔍 Browse All Kinks</Text>
         {selectedTier && (
           <View style={styles.filterBadge}>
-            <LinearGradient
-              colors={TIER_GRADIENTS[selectedTier] || GRADIENTS.soft}
-              style={styles.filterBadgeGradient}
-            >
+            <View style={[styles.filterBadgeInner, { backgroundColor: TIER_GRADIENTS[selectedTier][0] || '#FF6B9D' }]}>
               <Text style={styles.filterBadgeText}>
                 {TIER_ICONS[selectedTier]} {selectedTier.toUpperCase()}
               </Text>
-            </LinearGradient>
+            </View>
             <Pressable onPress={clearTier} style={styles.clearFilter}>
               <Text style={styles.clearFilterText}>✕</Text>
             </Pressable>
@@ -124,12 +121,7 @@ export default function BrowseScreen() {
             <Animated.View entering={FadeInUp.delay(index * 50)}>
               <View style={styles.card}>
                 {/* Tier strip */}
-                <LinearGradient
-                  colors={tierGradient}
-                  style={styles.tierStrip}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                />
+                <View style={[styles.tierStrip, { backgroundColor: tierGradient[0] }]} />
                 
                 <View style={styles.cardContent}>
                   {/* Header row */}
@@ -230,7 +222,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
     overflow: 'hidden',
   },
-  filterBadgeGradient: {
+  filterBadgeInner: {
     paddingHorizontal: 12,
     paddingVertical: 6,
   },

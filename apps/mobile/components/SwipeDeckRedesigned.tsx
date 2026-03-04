@@ -15,7 +15,7 @@ import Animated, {
   interpolateColor,
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import { LinearGradient } from 'expo-linear-gradient';
+// import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, GRADIENTS, FONTS, SIZES, SHADOWS, ANIMATIONS } from '../app/constants/theme';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
