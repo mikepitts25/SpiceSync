@@ -45,7 +45,6 @@ export default function ActivityDetail() {
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
-      romance: '#FF6B9D',
       adventure: '#4ECDC4',
       sensual: '#9B59B6',
       fantasy: '#E74C3C',

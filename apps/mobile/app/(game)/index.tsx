@@ -135,7 +135,7 @@ export default function GameHub() {
               ))}
             </View>
             <View style={styles.intensityLabels}>
-              <Text style={styles.intensityLabel}>{t.discover.romance}</Text>
+              <Text style={styles.intensityLabel}>{t.discover.soft}</Text>
               <Text style={styles.intensityLabel}>{t.discover.xxx}</Text>
             </View>
           </View>

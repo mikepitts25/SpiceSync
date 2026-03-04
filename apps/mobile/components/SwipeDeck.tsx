@@ -44,7 +44,6 @@ const TIMING_CONFIG = {
 
 // Category colors for visual differentiation
 const CATEGORY_COLORS: Record<string, string> = {
-  romance: '#FF6B9D',
   adventure: '#4ECDC4',
   sensual: '#9B59B6',
   fantasy: '#E74C3C',

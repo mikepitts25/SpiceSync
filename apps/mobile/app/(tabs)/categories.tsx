@@ -37,17 +37,16 @@ export default function CategoriesScreen() {
   }, {});
 
   const TIERS: {
-    key: 'romance' | 'soft' | 'naughty' | 'xxx';
+    key: 'soft' | 'naughty' | 'xxx';
     label: string;
     desc: string;
   }[] = [
-    { key: 'romance', label: t.discover.romance, desc: t.discover.romanceDesc },
     { key: 'soft', label: t.discover.soft, desc: t.discover.softDesc },
     { key: 'naughty', label: t.discover.naughty, desc: t.discover.naughtyDesc },
     { key: 'xxx', label: t.discover.xxx, desc: t.discover.xxxDesc },
   ];
 
-  const onPick = (tier: 'romance' | 'soft' | 'naughty' | 'xxx') => {
+  const onPick = (tier: 'soft' | 'naughty' | 'xxx') => {
     const count = counts[tier] || 0;
     if (count <= 0) {
       Alert.alert(

@@ -2,7 +2,7 @@
 import kinksEN from '../data/kinks.en.json';
 import kinksES from '../data/kinks.es.json';
 
-export type Tier = 'romance' | 'soft' | 'naughty' | 'xxx';
+export type Tier = 'soft' | 'naughty' | 'xxx';
 
 export type KinkItem = {
   id: string;
@@ -16,23 +16,6 @@ export type KinkItem = {
   createdBy: 'system' | 'user';
   tier?: Tier;
 };
-
-const ROMANCE_HINTS = new Set([
-  'romance',
-  'romantic',
-  'date',
-  'kissing',
-  'cuddling',
-  'massage',
-  'aftercare',
-  'affirmations',
-  'quality-time',
-  'compliments',
-  'hand-holding',
-  'eye-contact',
-  'slow-dance',
-  'sensual',
-]);
 
 const SPICY_HINTS = new Set([
   'anal',
@@ -104,14 +87,9 @@ function defaultTier(k: KinkItem): Tier {
   );
   const cat = String(k.category || '').toLowerCase();
 
-  // If tags clearly indicate romance, prefer 'romance'
-  if (tags.some((t) => ROMANCE_HINTS.has(t))) return 'romance';
-
-  // If very gentle and no spicy hints, treat as romance
   const hasSpice =
     tags.some((t) => SPICY_HINTS.has(t)) ||
     /(impact|anal|group|control|bondage|xxx|hard)/i.test(cat);
-  if (intensity <= 1 && !hasSpice) return 'romance';
 
   // Roleplay / sensory / light → soft by default
   if (
@@ -132,7 +110,7 @@ function defaultTier(k: KinkItem): Tier {
   }
 
   // Fallbacks
-  return intensity <= 1 ? 'romance' : 'soft';
+  return 'soft';
 }
 
 export function useKinks(lang: 'en' | 'es' = 'en') {

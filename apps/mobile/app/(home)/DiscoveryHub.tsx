@@ -16,7 +16,6 @@ import { useSettingsStore } from '../../src/stores/settingsStore';
 
 const CATEGORIES = [
   { id: 'all', name: 'All', emoji: '✨' },
-  { id: 'romance', name: 'Romance', emoji: '💕' },
   { id: 'adventure', name: 'Adventure', emoji: '🏔️' },
   { id: 'sensual', name: 'Sensual', emoji: '🌹' },
   { id: 'playful', name: 'Playful', emoji: '🎮' },

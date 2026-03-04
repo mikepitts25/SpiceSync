@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "visual-concept": {
+      "version": "1.0.1",
+      "installedAt": 1772650339320
+    },
+    "thought-to-excalidraw": {
+      "version": "1.0.0",
+      "installedAt": 1772650342320
+    }
+  }
+}

@@ -1,7 +1,7 @@
 // apps/mobile/lib/state/filters.ts
 import { create } from 'zustand';
 
-export type Tier = 'romance' | 'soft' | 'naughty' | 'xxx' | null;
+export type Tier = 'soft' | 'naughty' | 'xxx' | null;
 
 type State = {
   selectedTier: Tier;

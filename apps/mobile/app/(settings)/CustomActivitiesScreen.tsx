@@ -18,7 +18,6 @@ import {
 } from '../../src/stores/customActivities';
 
 const CATEGORIES = [
-  'Romance',
   'Adventure',
   'Sensual',
   'Fantasy',
