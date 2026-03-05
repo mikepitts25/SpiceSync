@@ -49,7 +49,7 @@ export default function GameComplete() {
           
           <Pressable 
             style={styles.secondaryButton}
-            onPress={() => router.push('/(tabs)')}
+            onPress={() => router.push('/(tabs)/categories')}
           >
             <Text style={styles.secondaryButtonText}>Back to Home</Text>
           </Pressable>
