@@ -29,10 +29,16 @@ type PinModalState = {
   pin: string;
 } | null;
 
+type SetPinModalState = {
+  id: string;
+  name: string;
+  hasPin: boolean;
+} | null;
+
 export default function ProfilesScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const { profiles, activeProfileId, updateProfile, deleteProfile, verifyPin } =
+  const { profiles, activeProfileId, updateProfile, deleteProfile, verifyPin, setPin, clearPin } =
     useProfilesStore();
 
   const activeProfile = useMemo(
@@ -43,6 +49,12 @@ export default function ProfilesScreen() {
   const [pinPrompt, setPinPrompt] = useState<PinModalState>(null);
   const [enteredPin, setEnteredPin] = useState('');
   const [pinError, setPinError] = useState<string | null>(null);
+
+  const [setPinPrompt, setSetPinPrompt] = useState<SetPinModalState>(null);
+  const [newPin, setNewPin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
+  const [setPinError, setSetPinError] = useState<string | null>(null);
+  const [setPinStep, setSetPinStep] = useState<'new' | 'confirm'>('new');
 
   const notifySwitch = (name: string) => {
     if (Platform.OS === 'android') {
@@ -66,6 +78,78 @@ export default function ProfilesScreen() {
     setPinPrompt(null);
     setEnteredPin('');
     setPinError(null);
+  };
+
+  const openSetPinPrompt = (profile: FlatListProfile) => {
+    setSetPinPrompt({
+      id: profile.id,
+      name: profile.name,
+      hasPin: !!profile.pin,
+    });
+    setNewPin('');
+    setConfirmPin('');
+    setSetPinError(null);
+    setSetPinStep('new');
+  };
+
+  const closeSetPinPrompt = () => {
+    setSetPinPrompt(null);
+    setNewPin('');
+    setConfirmPin('');
+    setSetPinError(null);
+    setSetPinStep('new');
+  };
+
+  const handleSetPin = () => {
+    if (!setPinPrompt) return;
+
+    if (setPinStep === 'new') {
+      if (newPin.length !== 4) {
+        setSetPinError(t.profiles.pinLength);
+        return;
+      }
+      setSetPinStep('confirm');
+      setSetPinError(null);
+      return;
+    }
+
+    // Confirm step
+    if (newPin !== confirmPin) {
+      setSetPinError(t.profiles.pinMismatch);
+      return;
+    }
+
+    setPin(setPinPrompt.id, newPin);
+    closeSetPinPrompt();
+    
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('PIN set successfully', ToastAndroid.SHORT);
+    } else {
+      Alert.alert('Success', 'PIN has been set for this profile');
+    }
+  };
+
+  const handleClearPin = () => {
+    if (!setPinPrompt) return;
+    
+    Alert.alert(
+      'Remove PIN?',
+      'This will remove PIN protection from this profile.',
+      [
+        { text: t.common.cancel, style: 'cancel' },
+        {
+          text: 'Remove',
+          style: 'destructive',
+          onPress: () => {
+            clearPin(setPinPrompt.id);
+            closeSetPinPrompt();
+            if (Platform.OS === 'android') {
+              ToastAndroid.show('PIN removed', ToastAndroid.SHORT);
+            }
+          },
+        },
+      ]
+    );
   };
 
   const handleSwitch = (profile: FlatListProfile) => {
@@ -136,6 +220,14 @@ export default function ProfilesScreen() {
             placeholder={t.profiles.nameLabel}
             placeholderTextColor="#64748b"
           />
+          <Pressable
+            style={[styles.pinButton, item.pin && styles.pinButtonActive]}
+            onPress={() => openSetPinPrompt(item)}
+          >
+            <Text style={[styles.pinButtonText, item.pin && styles.pinButtonTextActive]}>
+              {item.pin ? '🔒 PIN' : '+ PIN'}
+            </Text>
+          </Pressable>
           <Pressable
             style={styles.deleteButton}
             onPress={() => handleDelete(item)}
@@ -222,6 +314,72 @@ export default function ProfilesScreen() {
           </Pressable>
         </Pressable>
       </Modal>
+
+      <Modal
+        visible={!!setPinPrompt}
+        transparent
+        animationType="fade"
+        onRequestClose={closeSetPinPrompt}
+      >
+        <Pressable style={styles.modalBackdrop} onPress={closeSetPinPrompt}>
+          <Pressable style={styles.modalCard}>
+            <Text style={styles.modalTitle}>
+              {setPinPrompt?.hasPin ? 'Change PIN' : 'Set PIN'}
+            </Text>
+            <Text style={styles.modalBody}>
+              {setPinStep === 'new'
+                ? `Enter a 4-digit PIN for ${setPinPrompt?.name}`
+                : 'Confirm your PIN'}
+            </Text>
+            <TextInput
+              style={styles.modalInput}
+              value={setPinStep === 'new' ? newPin : confirmPin}
+              onChangeText={(value) => {
+                const cleaned = value.replace(/\D/g, '').slice(0, 4);
+                if (setPinStep === 'new') {
+                  setNewPin(cleaned);
+                } else {
+                  setConfirmPin(cleaned);
+                }
+                setSetPinError(null);
+              }}
+              keyboardType="number-pad"
+              secureTextEntry
+              maxLength={4}
+              placeholder="••••"
+              placeholderTextColor="#475569"
+              autoFocus
+            />
+            {setPinError ? (
+              <Text style={styles.modalError}>{setPinError}</Text>
+            ) : null}
+            <View style={styles.modalButtons}>
+              <Pressable
+                style={styles.modalButtonSecondary}
+                onPress={closeSetPinPrompt}
+              >
+                <Text style={styles.modalButtonText}>{t.common.cancel}</Text>
+              </Pressable>
+              {setPinPrompt?.hasPin && setPinStep === 'new' && (
+                <Pressable
+                  style={[styles.modalButtonSecondary, { backgroundColor: '#7f1d1d' }]}
+                  onPress={handleClearPin}
+                >
+                  <Text style={styles.modalButtonText}>Remove</Text>
+                </Pressable>
+              )}
+              <Pressable
+                style={styles.modalButtonPrimary}
+                onPress={handleSetPin}
+              >
+                <Text style={styles.modalButtonPrimaryText}>
+                  {setPinStep === 'new' ? 'Next' : 'Save'}
+                </Text>
+              </Pressable>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -284,6 +442,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#b91c1c',
   },
   deleteText: { color: 'white', fontWeight: '700' },
+  pinButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: '#1f2937',
+    borderWidth: 1,
+    borderColor: '#374151',
+  },
+  pinButtonActive: {
+    backgroundColor: '#f59e0b',
+    borderColor: '#f59e0b',
+  },
+  pinButtonText: {
+    color: '#94a3b8',
+    fontWeight: '700',
+    fontSize: 12,
+  },
+  pinButtonTextActive: {
+    color: '#000',
+    fontWeight: '800',
+  },
   modalBackdrop: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.65)',

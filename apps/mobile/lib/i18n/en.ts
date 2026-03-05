@@ -107,6 +107,8 @@ export const en = {
     incorrectPin: 'Incorrect PIN',
     unlockProfile: 'Unlock {{name}}',
     unlock: 'Unlock',
+    pinLength: 'PIN must be 4 digits',
+    pinMismatch: 'PINs do not match',
   },
 
   // Categories / Discover

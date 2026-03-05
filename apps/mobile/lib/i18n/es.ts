@@ -109,6 +109,8 @@ export const es: Translations = {
     incorrectPin: 'PIN incorrecto',
     unlockProfile: 'Desbloquear {{name}}',
     unlock: 'Desbloquear',
+    pinLength: 'El PIN debe tener 4 dígitos',
+    pinMismatch: 'Los PINs no coinciden',
   },
 
   // Categories / Discover
