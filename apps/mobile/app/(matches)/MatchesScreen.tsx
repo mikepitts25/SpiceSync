@@ -20,7 +20,6 @@ import { useShallow } from 'zustand/react/shallow';
 import SettingsButton from '../../src/components/SettingsButton';
 import PinVerifyModal from '../../components/PinVerifyModal';
 import MatchRow from '../../components/MatchRow';
-import MatchesDebug from '../../components/MatchesDebug';
 import { useProfilesStore } from '../../src/stores/profiles';
 import type { Profile } from '../../src/stores/profiles';
 import {
@@ -650,14 +649,6 @@ export default function MatchesScreen() {
         onVerifyProfile={handleVerifyProfilePin}
       />
 
-      <MatchesDebug
-        activeId={activeId ?? null}
-        partnerId={partnerId}
-        aVotes={activeVotes}
-        bVotes={partnerVotes}
-        buckets={rawBuckets}
-        gateOpen={gateOpen}
-      />
     </SafeAreaView>
   );
 }
