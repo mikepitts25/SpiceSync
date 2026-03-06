@@ -16,7 +16,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 // import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, GRADIENTS, FONTS, SIZES, SHADOWS, ANIMATIONS } from '../app/constants/theme';
+import { COLORS, GRADIENTS, FONTS, SIZES, SHADOWS, ANIMATIONS } from '../constants/theme';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const CARD_W = Math.min(SCREEN_W * 0.9, 420);

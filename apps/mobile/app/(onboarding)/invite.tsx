@@ -8,7 +8,7 @@ import {
   Share,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES } from '../constants/theme';
+import { COLORS, FONTS, SIZES } from '../../constants/theme';
 
 interface InviteScreenProps {
   onComplete: () => void;

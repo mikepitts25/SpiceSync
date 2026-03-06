@@ -7,7 +7,7 @@ import {
   Animated,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES } from '../constants/theme';
+import { COLORS, FONTS, SIZES } from '../../constants/theme';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 

@@ -13,7 +13,7 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation, interpolate } from '../../lib/i18n';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { COLORS, SIZES, SHADOWS } from '../constants/theme';
+import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 
 const TIERS = [
   {

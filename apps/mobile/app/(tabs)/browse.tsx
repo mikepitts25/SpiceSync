@@ -14,7 +14,7 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation } from '../../lib/i18n';
-import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../constants/theme';
+import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
 
 const TIER_GRADIENTS: Record<string, string[]> = {
   soft: GRADIENTS.soft,

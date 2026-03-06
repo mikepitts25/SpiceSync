@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Text } from 'react-native';
-import { COLORS } from '../constants/theme';
+import { COLORS } from '../../constants/theme';
 import { useTranslation } from '../../lib/i18n';
 
 // Simple emoji icons for tabs

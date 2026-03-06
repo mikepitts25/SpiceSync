@@ -10,7 +10,7 @@ import SwipeDeck from '../../components/SwipeDeckRedesigned';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
-import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../constants/theme';
+import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
 
 type VoteValue = 'yes' | 'no' | 'maybe';
 

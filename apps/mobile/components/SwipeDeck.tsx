@@ -12,7 +12,7 @@ import Animated, {
   Extrapolate,
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../app/constants/theme';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const CARD_W = Math.min(Math.max(SCREEN_W * 0.85, 300), 400);

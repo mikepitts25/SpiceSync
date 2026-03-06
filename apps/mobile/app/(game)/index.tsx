@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
+import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { GameCardType, getCardsByLanguage } from '../../data/gameCards';
 import { useTranslation, interpolate } from '../../lib/i18n';
