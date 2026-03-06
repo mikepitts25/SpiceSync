@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useSettingsStore } from './stores/settingsStore';
+import { useSettingsStore } from '../src/stores/settingsStore';
 import { router } from 'expo-router';
 
 export type PremiumFeature = 
