@@ -1,7 +1,7 @@
 // Pack activity definitions
 // Activities organized by pack for à la carte unlocking
 
-import { GameCard, GameCardType, GameCardCategory } from '../../data/gameCards';
+import { GameCard, GameCardType, GameCardCategory } from '../data/gameCards';
 
 // ─── VACATION PACK ─────────────────────────────────────────
 // Travel & adventure themed activities

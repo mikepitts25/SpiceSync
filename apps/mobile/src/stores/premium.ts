@@ -8,8 +8,8 @@ import {
   isPackSku, 
   isPremiumSku,
   GIFT_CONSTANTS 
-} from '../lib/pricing';
-import { ALL_PACK_CARDS, getCardPackId } from '../lib/packActivities';
+} from '../../lib/pricing';
+import { ALL_PACK_CARDS, getCardPackId } from '../../lib/packActivities';
 
 export type SubscriptionTier = 'free' | 'premium' | 'pro';
 

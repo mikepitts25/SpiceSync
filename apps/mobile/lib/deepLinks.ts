@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Linking, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { usePartnerStore } from '../stores/partner';
+import { usePartnerStore } from '../src/stores/partner';
 
 // Deep link prefixes
 const PREFIXES = ['spicesync://', 'https://spicesync.app'];
