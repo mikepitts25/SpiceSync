@@ -22,8 +22,8 @@ import {
   useStreakStore,
   Achievement,
   AchievementId,
-} from '../lib/achievements';
-import AnimatedButton from '../components/AnimatedButton';
+} from '../../lib/achievements';
+import AnimatedButton from '../../components/AnimatedButton';
 import { useRouter } from 'expo-router';
 
 const { width: SCREEN_W } = Dimensions.get('window');
