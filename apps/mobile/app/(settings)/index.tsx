@@ -92,6 +92,32 @@ export default function SettingsScreen() {
         </View>
       </View>
 
+      {/* Achievements & Streaks */}
+      <View style={styles.card}>
+        <Text style={styles.h2}>🏆 Achievements</Text>
+        <Text style={styles.p}>Track your progress and unlock badges</Text>
+        <Pressable
+          onPress={() => router.push('/(settings)/achievements')}
+          style={styles.primary}
+          accessibilityRole="button"
+        >
+          <Text style={styles.btnStrong}>View Achievements</Text>
+        </Pressable>
+      </View>
+
+      {/* Notifications */}
+      <View style={styles.card}>
+        <Text style={styles.h2}>🔔 Notifications</Text>
+        <Text style={styles.p}>Get daily activity suggestions</Text>
+        <Pressable
+          onPress={() => router.push('/(settings)/notifications')}
+          style={styles.primary}
+          accessibilityRole="button"
+        >
+          <Text style={styles.btnStrong}>Configure Notifications</Text>
+        </Pressable>
+      </View>
+
       {/* Active profile + reset */}
       <View style={styles.card}>
         <Text style={styles.h2}>{t.settings.activeProfile}</Text>

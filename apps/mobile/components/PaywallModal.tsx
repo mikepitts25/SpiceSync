@@ -9,49 +9,29 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
-import { usePremiumStore, FEATURES, PRICING } from '../src/stores/premium';
-
-const TIERS = [
-  {
-    id: 'premium' as const,
-    name: 'Premium',
-    emoji: '⭐',
-    color: COLORS.primary,
-    monthlyPrice: PRICING.premium.monthly,
-    yearlyPrice: PRICING.premium.yearly,
-    lifetimePrice: PRICING.premium.lifetime,
-    features: FEATURES.filter(f => f.premium && !f.free).map(f => f.name),
-  },
-  {
-    id: 'pro' as const,
-    name: 'Pro',
-    emoji: '💎',
-    color: COLORS.secondary,
-    monthlyPrice: PRICING.pro.monthly,
-    yearlyPrice: PRICING.pro.yearly,
-    lifetimePrice: PRICING.pro.lifetime,
-    features: FEATURES.filter(f => f.pro && !f.premium).map(f => f.name),
-    popular: true,
-  },
-];
+import { usePremiumStore, FEATURES } from '../src/stores/premium';
+import { PRICING, PACKS, formatPrice, PRODUCT_SKUS } from '../lib/pricing';
+import { useRouter } from 'expo-router';
 
 export default function PaywallModal() {
   const insets = useSafeAreaInsets();
-  const { showPaywall, closePaywall, paywallFeature, upgrade } = usePremiumStore();
-  const [selectedTier, setSelectedTier] = React.useState<'premium' | 'pro'>('premium');
-  const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly' | 'lifetime'>('yearly');
-  const [isProcessing, setIsProcessing] = React.useState(false);
+  const router = useRouter();
+  const { showPaywall, closePaywall, paywallFeature, isPremium, hasPack } = usePremiumStore();
   
-  const handleUpgrade = async () => {
-    setIsProcessing(true);
-    // Simulate purchase - in real app, this would use RevenueCat or StoreKit
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    upgrade(selectedTier, `${selectedTier}_${billingPeriod}`, 'mock_receipt');
-    setIsProcessing(false);
+  const isUserPremium = isPremium();
+  
+  const handleUpgrade = () => {
     closePaywall();
+    router.push('/(unlock)');
   };
   
   const feature = paywallFeature ? FEATURES.find(f => f.id === paywallFeature) : null;
+  
+  // If user is already premium, don't show modal
+  if (isUserPremium && showPaywall) {
+    closePaywall();
+    return null;
+  }
   
   return (
     <Modal
@@ -85,79 +65,43 @@ export default function PaywallModal() {
             </View>
           )}
           
-          {/* Tier Selection */}
-          <View style={styles.tiersContainer}>
-            {TIERS.map((tier) => (
-              <Pressable
-                key={tier.id}
-                style={[
-                  styles.tierCard,
-                  selectedTier === tier.id && [styles.tierCardSelected, { borderColor: tier.color }],
-                  tier.popular && styles.tierCardPopular,
-                ]}
-                onPress={() => setSelectedTier(tier.id)}
-              >
-                {tier.popular && (
-                  <View style={[styles.popularBadge, { backgroundColor: tier.color }]}>
-                    <Text style={styles.popularText}>MOST POPULAR</Text>
-                  </View>
-                )}
-                
-                <View style={styles.tierHeader}>
-                  <Text style={styles.tierEmoji}>{tier.emoji}</Text>
-                  <View>
-                    <Text style={[styles.tierName, { color: tier.color }]}>{tier.name}</Text>
-                    <Text style={styles.tierPrice}>
-                      ${billingPeriod === 'monthly' ? tier.monthlyPrice : 
-                        billingPeriod === 'yearly' ? tier.yearlyPrice : tier.lifetimePrice}
-                      <Text style={styles.tierPeriod}>
-                        {billingPeriod === 'monthly' ? '/mo' : 
-                         billingPeriod === 'yearly' ? '/yr' : ' one-time'}
-                      </Text>
-                    </Text>
-                  </View>
-                </View>
-                
-                <View style={styles.featuresList}>
-                  {tier.features.slice(0, 4).map((featureName, idx) => (
-                    <View key={idx} style={styles.featureRow}>
-                      <Text style={[styles.checkmark, { color: tier.color }]}>✓</Text>
-                      <Text style={styles.featureName}>{featureName}</Text>
-                    </View>
-                  ))}
-                  {tier.features.length > 4 && (
-                    <Text style={styles.moreFeatures}>+{tier.features.length - 4} more</Text>
-                  )}
-                </View>
-              </Pressable>
-            ))}
+          {/* New Pricing Highlight */}
+          <View style={styles.pricingHighlight}>
+            <View style={styles.bestValueBadge}>
+              <Text style={styles.bestValueText}>NEW LOW PRICE</Text>
+            </View>
+            <Text style={styles.price}>{formatPrice(PRICING.BASE_PREMIUM)}</Text>
+            <Text style={styles.priceNote}>One-time unlock • All features • All packs</Text>
           </View>
           
-          {/* Billing Period */}
-          <View style={styles.billingSection}>
-            <Text style={styles.billingTitle}>Billing Period</Text>
-            <View style={styles.billingOptions}>
-              {(['monthly', 'yearly', 'lifetime'] as const).map((period) => (
-                <Pressable
-                  key={period}
-                  style={[
-                    styles.billingOption,
-                    billingPeriod === period && styles.billingOptionSelected,
-                  ]}
-                  onPress={() => setBillingPeriod(period)}
-                >
-                  <Text style={[
-                    styles.billingOptionText,
-                    billingPeriod === period && styles.billingOptionTextSelected,
-                  ]}>
-                    {period.charAt(0).toUpperCase() + period.slice(1)}
-                  </Text>
-                  {period === 'yearly' && (
-                    <Text style={styles.savingsBadge}>Save 50%</Text>
+          {/* Pack Options */}
+          <View style={styles.packsSection}>
+            <Text style={styles.packsTitle}>Or Unlock Individual Packs</Text>
+            <Text style={styles.packsSubtitle}>À la carte options at {formatPrice(PRICING.PACK_PRICE)} each</Text>
+            
+            <View style={styles.packsGrid}>
+              {PACKS.map((pack) => (
+                <View key={pack.id} style={[styles.packItem, { borderColor: pack.color }]}>
+                  <Text style={styles.packEmoji}>{pack.emoji}</Text>
+                  <Text style={[styles.packName, { color: pack.color }]}>{pack.name}</Text>
+                  <Text style={styles.packPrice}>{formatPrice(pack.price)}</Text>
+                  {hasPack(pack.id) && (
+                    <View style={styles.packOwnedBadge}>
+                      <Text style={styles.packOwnedText}>✓</Text>
+                    </View>
                   )}
-                </Pressable>
+                </View>
               ))}
             </View>
+          </View>
+          
+          {/* Gift Option */}
+          <View style={styles.giftSection}>
+            <Text style={styles.giftEmoji}>🎁</Text>
+            <Text style={styles.giftTitle}>Gift SpiceSync Premium</Text>
+            <Text style={styles.giftDescription}>
+              Know a couple who'd love this? Gift them Premium access!
+            </Text>
           </View>
           
           {/* Free Features Reminder */}
@@ -177,23 +121,17 @@ export default function PaywallModal() {
         {/* CTA Button */}
         <View style={[styles.ctaContainer, { paddingBottom: insets.bottom + 20 }]}>
           <Pressable
-            style={[styles.ctaButton, { backgroundColor: TIERS.find(t => t.id === selectedTier)?.color }]}
+            style={styles.ctaButton}
             onPress={handleUpgrade}
-            disabled={isProcessing}
           >
             <Text style={styles.ctaText}>
-              {isProcessing ? 'Processing...' : `Upgrade to ${selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)}`}
+              See All Options
             </Text>
           </Pressable>
           
           <Pressable onPress={closePaywall} style={styles.maybeLater}>
             <Text style={styles.maybeLaterText}>Maybe Later</Text>
           </Pressable>
-          
-          <Text style={styles.terms}>
-            Subscriptions auto-renew. Cancel anytime.{'\n'}
-            No refunds for partial periods.
-          </Text>
         </View>
       </SafeAreaView>
     </Modal>
@@ -256,134 +194,124 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     textAlign: 'center',
   },
-  tiersContainer: {
-    padding: SIZES.padding * 1.5,
-    gap: SIZES.padding,
-  },
-  tierCard: {
+  pricingHighlight: {
     backgroundColor: COLORS.card,
+    margin: SIZES.padding * 1.5,
+    padding: SIZES.padding * 2,
     borderRadius: SIZES.radiusLarge,
     borderWidth: 2,
-    borderColor: COLORS.border,
-    padding: SIZES.padding * 1.5,
+    borderColor: COLORS.primary,
+    alignItems: 'center',
     position: 'relative',
   },
-  tierCardSelected: {
-    backgroundColor: `${COLORS.primary}10`,
-  },
-  tierCardPopular: {
-    paddingTop: SIZES.padding * 2.5,
-  },
-  popularBadge: {
+  bestValueBadge: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    paddingVertical: 6,
-    borderTopLeftRadius: SIZES.radiusLarge - 2,
-    borderTopRightRadius: SIZES.radiusLarge - 2,
+    top: -12,
+    backgroundColor: COLORS.success,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
-  popularText: {
+  bestValueText: {
     fontFamily: FONTS.bold,
     fontSize: 12,
     color: '#fff',
+  },
+  price: {
+    fontFamily: FONTS.bold,
+    fontSize: 48,
+    color: COLORS.text,
+    marginBottom: 4,
+  },
+  priceNote: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
     textAlign: 'center',
-    letterSpacing: 1,
   },
-  tierHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SIZES.padding,
-    marginBottom: SIZES.padding,
-  },
-  tierEmoji: {
-    fontSize: 40,
-  },
-  tierName: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
-  },
-  tierPrice: {
-    fontFamily: FONTS.bold,
-    fontSize: 28,
-    color: COLORS.text,
-  },
-  tierPeriod: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-  },
-  featuresList: {
-    gap: 8,
-  },
-  featureRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  checkmark: {
-    fontFamily: FONTS.bold,
-    fontSize: 16,
-  },
-  featureName: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-  },
-  moreFeatures: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginLeft: 24,
-  },
-  billingSection: {
+  packsSection: {
     padding: SIZES.padding * 1.5,
   },
-  billingTitle: {
+  packsTitle: {
     fontFamily: FONTS.bold,
     fontSize: SIZES.h4,
     color: COLORS.text,
-    marginBottom: SIZES.padding,
+    marginBottom: 4,
+    textAlign: 'center',
   },
-  billingOptions: {
+  packsSubtitle: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    marginBottom: SIZES.padding * 1.5,
+  },
+  packsGrid: {
     flexDirection: 'row',
     gap: SIZES.padding,
   },
-  billingOption: {
+  packItem: {
     flex: 1,
     backgroundColor: COLORS.card,
-    padding: SIZES.padding,
     borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    borderWidth: 2,
+    padding: SIZES.padding,
     alignItems: 'center',
     position: 'relative',
   },
-  billingOptionSelected: {
-    borderColor: COLORS.primary,
-    backgroundColor: `${COLORS.primary}10`,
+  packEmoji: {
+    fontSize: 32,
+    marginBottom: 8,
   },
-  billingOptionText: {
-    fontFamily: FONTS.medium,
+  packName: {
+    fontFamily: FONTS.bold,
+    fontSize: 12,
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  packPrice: {
+    fontFamily: FONTS.bold,
     fontSize: SIZES.body,
     color: COLORS.text,
   },
-  billingOptionTextSelected: {
-    fontFamily: FONTS.bold,
-    color: COLORS.primary,
-  },
-  savingsBadge: {
+  packOwnedBadge: {
     position: 'absolute',
-    top: -10,
+    top: -8,
+    right: -8,
     backgroundColor: COLORS.success,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 4,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  savingsText: {
-    fontFamily: FONTS.bold,
-    fontSize: 10,
+  packOwnedText: {
     color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  giftSection: {
+    margin: SIZES.padding * 1.5,
+    padding: SIZES.padding * 1.5,
+    backgroundColor: `${COLORS.secondary}15`,
+    borderRadius: SIZES.radiusLarge,
+    alignItems: 'center',
+  },
+  giftEmoji: {
+    fontSize: 32,
+    marginBottom: SIZES.padding / 2,
+  },
+  giftTitle: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.h4,
+    color: COLORS.text,
+    marginBottom: 4,
+  },
+  giftDescription: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
   },
   freeSection: {
     padding: SIZES.padding * 1.5,
@@ -427,6 +355,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
     alignItems: 'center',
     marginBottom: SIZES.padding,
+    backgroundColor: COLORS.primary,
   },
   ctaText: {
     fontFamily: FONTS.bold,
@@ -441,12 +370,5 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
-  },
-  terms: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.caption,
-    color: COLORS.textMuted,
-    textAlign: 'center',
-    lineHeight: 18,
   },
 });

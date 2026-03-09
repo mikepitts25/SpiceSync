@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
+import { useHaptics } from '../hooks/useHaptics';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const CARD_W = Math.min(Math.max(SCREEN_W * 0.85, 300), 400);
@@ -69,6 +70,7 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
     const y = useSharedValue(0);
     const gone = useSharedValue(false);
     const animating = useSharedValue(false);
+    const { cardDraw } = useHaptics();
 
     const thresholdX = 100;
     const thresholdY = 80;
@@ -160,6 +162,8 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       if (animating.value) return;
       animating.value = true;
       onSwipeStart?.();
+      // Trigger haptic feedback
+      cardDraw();
       performSwipe(dir);
     };
 

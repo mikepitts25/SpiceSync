@@ -1,6 +1,15 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { 
+  PRODUCT_SKUS, 
+  PackSku, 
+  ProductSku, 
+  isPackSku, 
+  isPremiumSku,
+  GIFT_CONSTANTS 
+} from '../lib/pricing';
+import { ALL_PACK_CARDS, getCardPackId } from '../lib/packActivities';
 
 export type SubscriptionTier = 'free' | 'premium' | 'pro';
 
@@ -10,6 +19,24 @@ export interface Subscription {
   startedAt: number;
   productId: string | null;
   receipt: string | null;
+  isGift: boolean; // Track if this was a gift subscription
+  giftCode?: string; // The code used to redeem if applicable
+}
+
+export interface PackPurchase {
+  packId: PackSku;
+  purchasedAt: number;
+  productId: string;
+  receipt: string;
+}
+
+export interface GiftCode {
+  code: string;
+  createdAt: number;
+  redeemed: boolean;
+  redeemedAt?: number;
+  redeemedBy?: string;
+  productId: string;
 }
 
 export interface Feature {
@@ -36,6 +63,7 @@ export const FEATURES: Feature[] = [
   { id: 'export_data', name: 'Export Data', description: 'Export your data as JSON', free: false, premium: true, pro: true },
   { id: 'priority_support', name: 'Priority Support', description: 'Get help faster', free: false, premium: true, pro: true },
   { id: 'advanced_filters', name: 'Advanced Filters', description: 'More filtering options', free: false, premium: true, pro: true },
+  { id: 'base_game_cards', name: 'Base Game Cards', description: 'Access to premium base game cards', free: false, premium: true, pro: true },
   
   // Pro
   { id: 'cloud_backup', name: 'Cloud Backup', description: 'Automatic encrypted cloud backup', free: false, premium: false, pro: true },
@@ -44,12 +72,12 @@ export const FEATURES: Feature[] = [
   { id: 'therapist_mode', name: 'Therapist Features', description: 'Tools for couples therapists', free: false, premium: false, pro: true },
 ];
 
-// Pricing
+// Legacy pricing (for reference)
 export const PRICING = {
   premium: {
     monthly: 4.99,
     yearly: 29.99,
-    lifetime: 49.99,
+    lifetime: 4.99, // New intro price
   },
   pro: {
     monthly: 9.99,
@@ -60,10 +88,12 @@ export const PRICING = {
 
 interface PremiumState {
   subscription: Subscription;
+  packs: PackPurchase[];
+  giftCodes: GiftCode[]; // Codes created by this user
   isLoading: boolean;
   
   // Actions
-  upgrade: (tier: SubscriptionTier, productId: string, receipt: string) => void;
+  upgrade: (tier: SubscriptionTier, productId: string, receipt: string, isGift?: boolean, giftCode?: string) => void;
   downgrade: () => void;
   restorePurchases: () => Promise<boolean>;
   checkFeature: (featureId: string) => boolean;
@@ -71,11 +101,32 @@ interface PremiumState {
   isPremium: () => boolean;
   isPro: () => boolean;
   
+  // Pack actions
+  purchasePack: (packId: PackSku, productId: string, receipt: string) => void;
+  hasPack: (packId: PackSku) => boolean;
+  hasPackAccess: (cardId: string) => boolean; // Check if user has access to a specific card
+  getUnlockedPacks: () => PackSku[];
+  
+  // Gift subscription actions
+  generateGiftCode: () => Promise<string>;
+  redeemGiftCode: (code: string) => Promise<boolean>;
+  validateGiftCode: (code: string) => boolean;
+  
   // Paywall
   showPaywall: boolean;
   paywallFeature: string | null;
   triggerPaywall: (featureId: string) => void;
   closePaywall: () => void;
+}
+
+// Generate a random gift code
+function generateRandomCode(): string {
+  const chars = GIFT_CONSTANTS.CODE_CHARS;
+  let code = '';
+  for (let i = 0; i < GIFT_CONSTANTS.CODE_LENGTH; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return GIFT_CONSTANTS.CODE_PREFIX + code;
 }
 
 export const usePremiumStore = create<PremiumState>()(
@@ -87,12 +138,15 @@ export const usePremiumStore = create<PremiumState>()(
         startedAt: Date.now(),
         productId: null,
         receipt: null,
+        isGift: false,
       },
+      packs: [],
+      giftCodes: [],
       isLoading: false,
       showPaywall: false,
       paywallFeature: null,
       
-      upgrade: (tier, productId, receipt) => {
+      upgrade: (tier, productId, receipt, isGift = false, giftCode) => {
         set({
           subscription: {
             tier,
@@ -100,6 +154,8 @@ export const usePremiumStore = create<PremiumState>()(
             startedAt: Date.now(),
             productId,
             receipt,
+            isGift,
+            giftCode,
           },
         });
       },
@@ -112,6 +168,7 @@ export const usePremiumStore = create<PremiumState>()(
             startedAt: Date.now(),
             productId: null,
             receipt: null,
+            isGift: false,
           },
         });
       },
@@ -141,6 +198,89 @@ export const usePremiumStore = create<PremiumState>()(
       
       isPro: () => get().subscription.tier === 'pro',
       
+      // Pack methods
+      purchasePack: (packId, productId, receipt) => {
+        const newPack: PackPurchase = {
+          packId,
+          purchasedAt: Date.now(),
+          productId,
+          receipt,
+        };
+        set((state) => ({
+          packs: [...state.packs, newPack],
+        }));
+      },
+      
+      hasPack: (packId) => {
+        const { packs, subscription } = get();
+        // Full premium unlocks all packs
+        if (subscription.tier === 'premium' || subscription.tier === 'pro') {
+          return true;
+        }
+        // Check individual pack purchase
+        return packs.some(p => p.packId === packId);
+      },
+      
+      hasPackAccess: (cardId) => {
+        const { subscription, packs } = get();
+        
+        // Full premium unlocks everything
+        if (subscription.tier === 'premium' || subscription.tier === 'pro') {
+          return true;
+        }
+        
+        // Check if card belongs to a pack the user owns
+        const packId = getCardPackId(cardId);
+        if (!packId) return false;
+        
+        return packs.some(p => p.packId === packId);
+      },
+      
+      getUnlockedPacks: () => {
+        const { packs, subscription } = get();
+        if (subscription.tier === 'premium' || subscription.tier === 'pro') {
+          return [PRODUCT_SKUS.PACK_VACATION, PRODUCT_SKUS.PACK_KINKY201, PRODUCT_SKUS.PACK_DATENIGHT];
+        }
+        return packs.map(p => p.packId);
+      },
+      
+      // Gift subscription methods
+      generateGiftCode: async () => {
+        const code = generateRandomCode();
+        const giftCode: GiftCode = {
+          code,
+          createdAt: Date.now(),
+          redeemed: false,
+          productId: PRODUCT_SKUS.GIFT_PREMIUM,
+        };
+        set((state) => ({
+          giftCodes: [...state.giftCodes, giftCode],
+        }));
+        return code;
+      },
+      
+      redeemGiftCode: async (code) => {
+        // In real implementation, this would validate against a server
+        // For now, simulate successful redemption
+        const upperCode = code.toUpperCase().trim();
+        
+        // Check if code is valid format
+        if (!upperCode.startsWith(GIFT_CONSTANTS.CODE_PREFIX)) {
+          return false;
+        }
+        
+        // Upgrade to premium as gift
+        get().upgrade('premium', PRODUCT_SKUS.GIFT_PREMIUM, 'gift_receipt_' + upperCode, true, upperCode);
+        
+        return true;
+      },
+      
+      validateGiftCode: (code) => {
+        const upperCode = code.toUpperCase().trim();
+        return upperCode.startsWith(GIFT_CONSTANTS.CODE_PREFIX) && 
+               upperCode.length === GIFT_CONSTANTS.CODE_PREFIX.length + GIFT_CONSTANTS.CODE_LENGTH;
+      },
+      
       triggerPaywall: (featureId) => {
         set({ showPaywall: true, paywallFeature: featureId });
       },
@@ -150,7 +290,7 @@ export const usePremiumStore = create<PremiumState>()(
       },
     }),
     {
-      name: 'spicesync-premium',
+      name: 'spicesync-premium-v2',
       storage: createJSONStorage(() => AsyncStorage),
     }
   )
@@ -171,4 +311,15 @@ export function useFeature(featureId: string) {
   };
   
   return { hasAccess, requireAccess };
+}
+
+// Helper hook for pack access
+export function usePackAccess(cardId?: string) {
+  const { hasPackAccess, hasPack, getUnlockedPacks } = usePremiumStore();
+  
+  return {
+    canAccessCard: cardId ? hasPackAccess(cardId) : false,
+    hasPack,
+    unlockedPacks: getUnlockedPacks(),
+  };
 }

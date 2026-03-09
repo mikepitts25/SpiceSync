@@ -2,15 +2,34 @@
 // Must be first import for gesture handler initialization
 import 'react-native-gesture-handler';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/theme';
+import { initializeNotifications } from '../lib/notifications';
+import { useStreakStore } from '../lib/achievements';
 
 export default function RootLayout() {
+  // Initialize notifications and check streak on app start
+  useEffect(() => {
+    // Initialize notifications
+    initializeNotifications().then((success) => {
+      if (success) {
+        console.log('[App] Notifications initialized');
+      }
+    });
+    
+    // Check and update streak
+    const { checkAndUpdateStreak } = useStreakStore.getState();
+    const result = checkAndUpdateStreak();
+    if (result.streakUpdated) {
+      console.log('[App] Streak updated:', result);
+    }
+  }, []);
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaProvider>
@@ -22,6 +41,9 @@ export default function RootLayout() {
             <Stack.Screen name="(settings)" />
             <Stack.Screen name="(game)" />
             <Stack.Screen name="(insights)" />
+            <Stack.Screen name="(unlock)" />
+            <Stack.Screen name="(redeem)" />
+            <Stack.Screen name="(conversation)" />
           </Stack>
         </View>
       </SafeAreaProvider>

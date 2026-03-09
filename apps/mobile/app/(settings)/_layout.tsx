@@ -36,6 +36,20 @@ export default function SettingsStackLayout() {
       />
       <Stack.Screen name="profiles/index" options={{ title: 'Profiles' }} />
       <Stack.Screen name="profiles/new" options={{ title: 'New Profile' }} />
+      <Stack.Screen 
+        name="achievements" 
+        options={{ 
+          title: 'Achievements',
+          headerShown: false,
+        }} 
+      />
+      <Stack.Screen 
+        name="notifications" 
+        options={{ 
+          title: 'Notifications',
+          headerShown: false,
+        }} 
+      />
     </Stack>
   );
 }

@@ -14,6 +14,7 @@ export interface GameCard {
   isPremium: boolean;
   estimatedTime: string;
   requires?: string[];
+  safetyNotes?: string;
 }
 
 // ─── FREE TIER ─────────────────────────────────────────────
@@ -204,4 +205,69 @@ export const getRandomCardByLang = (type: GameCardType | 'all', unlocked: boolea
   const filtered = type === 'all' ? cards : cards.filter((c) => c.type === type);
   if (!filtered.length) return null;
   return filtered[Math.floor(Math.random() * filtered.length)];
+};
+
+// ─── EXPANSION PACK IMPORTS ────────────────────────────────
+import { EXPANSION_CARDS, LEVEL1_CARDS, LEVEL2_CARDS, LEVEL3_CARDS, LEVEL4_CARDS, LEVEL5_CARDS } from './game_cards_expansion';
+
+// Export expansion cards
+export { EXPANSION_CARDS, LEVEL1_CARDS, LEVEL2_CARDS, LEVEL3_CARDS, LEVEL4_CARDS, LEVEL5_CARDS };
+
+// Combined master deck (original + expansion = 400+ cards)
+export const MASTER_DECK: GameCard[] = [...ALL_CARDS, ...EXPANSION_CARDS];
+
+// Get cards by intensity level (using expansion levels)
+export const getCardsByIntensityLevel = (level: 1 | 2 | 3 | 4 | 5, unlocked: boolean): GameCard[] => {
+  if (!unlocked) {
+    // Free users only get Level 1 cards
+    if (level === 1) return LEVEL1_CARDS.filter(c => !c.isPremium);
+    return [];
+  }
+  switch (level) {
+    case 1: return LEVEL1_CARDS;
+    case 2: return LEVEL2_CARDS;
+    case 3: return LEVEL3_CARDS;
+    case 4: return LEVEL4_CARDS;
+    case 5: return LEVEL5_CARDS;
+    default: return [];
+  }
+};
+
+// Get random card from specific intensity level
+export const getRandomCardByIntensity = (level: 1 | 2 | 3 | 4 | 5, unlocked: boolean): GameCard | null => {
+  const cards = getCardsByIntensityLevel(level, unlocked);
+  if (!cards.length) return null;
+  return cards[Math.floor(Math.random() * cards.length)];
+};
+
+// Get all cards from master deck
+export const getMasterDeck = (unlocked: boolean): GameCard[] => {
+  return unlocked ? MASTER_DECK : [...FREE_CARDS, ...LEVEL1_CARDS.filter(c => !c.isPremium)];
+};
+
+// Statistics for the complete collection
+export const getDeckStatistics = () => {
+  return {
+    original: {
+      total: ALL_CARDS.length,
+      free: FREE_CARDS.length,
+      premium: PREMIUM_CARDS.length
+    },
+    expansion: {
+      total: EXPANSION_CARDS.length,
+      level1: LEVEL1_CARDS.length,
+      level2: LEVEL2_CARDS.length,
+      level3: LEVEL3_CARDS.length,
+      level4: LEVEL4_CARDS.length,
+      level5: LEVEL5_CARDS.length,
+      free: LEVEL1_CARDS.filter(c => !c.isPremium).length,
+      premium: EXPANSION_CARDS.filter(c => c.isPremium).length,
+      withSafetyNotes: EXPANSION_CARDS.filter(c => c.safetyNotes).length
+    },
+    master: {
+      total: MASTER_DECK.length,
+      free: FREE_CARDS.length + LEVEL1_CARDS.filter(c => !c.isPremium).length,
+      premium: PREMIUM_CARDS.length + EXPANSION_CARDS.filter(c => c.isPremium).length
+    }
+  };
 };

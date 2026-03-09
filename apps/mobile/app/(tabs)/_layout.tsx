@@ -80,6 +80,14 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => <TabIcon emoji="📋" focused={focused} />,
         }}
       />
+      <Tabs.Screen
+        name="conversation"
+        options={{
+          title: 'Deep Dives',
+          tabBarLabel: 'Talk',
+          tabBarIcon: ({ focused }) => <TabIcon emoji="💬" focused={focused} />,
+        }}
+      />
     </Tabs>
   );
 }

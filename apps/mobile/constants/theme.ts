@@ -39,6 +39,11 @@ export const COLORS = {
   maybe: '#F59E0B',
   maybeGlow: 'rgba(245, 158, 11, 0.5)',
   
+  // Legacy action colors (for backward compatibility)
+  success: '#22C55E',
+  danger: '#EF4444',
+  warning: '#F59E0B',
+  
   // Text
   text: '#FFFFFF',
   textSecondary: 'rgba(255, 255, 255, 0.7)',
@@ -83,6 +88,7 @@ export const SIZES = {
   body: 16,
   medium: 18,
   large: 20,
+  h4: 22,
   h3: 24,
   h2: 28,
   h1: 36,
@@ -97,9 +103,19 @@ export const SIZES = {
   radiusLarge: 20,
   radiusXL: 28,
   radiusFull: 9999,
+  
+  // Legacy (for backward compatibility)
+  caption: 12,
 };
 
 export const SHADOWS = {
+  small: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 3,
+  },
   sm: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -107,12 +123,26 @@ export const SHADOWS = {
     shadowRadius: 4,
     elevation: 3,
   },
+  medium: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
   md: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
+  },
+  large: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 10,
   },
   lg: {
     shadowColor: '#000',
