@@ -465,7 +465,7 @@ export const LEVEL3_CARDS: GameCard[] = [
   {
     id: 'lvl3-fn-001',
     type: 'fantasy',
-    content: "Describe a scenario where we're in a secluded spot in the Colombian countryside. What do we do?",
+    content: "Describe a scenario where we're in a secluded spot in the countryside. What do we do?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,

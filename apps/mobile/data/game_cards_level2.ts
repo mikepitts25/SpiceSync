@@ -50,7 +50,7 @@ export const LEVEL2_CARDS: GameCard[] = [
   {
     id: 'lvl2-t-005',
     type: 'truth',
-    content: "What's a romantic gesture from a Colombian telenovela that you'd secretly love me to do?",
+    content: "What's a romantic gesture from a movie or show that you'd secretly love me to do?",
     intensity: 2,
     category: 'emotional',
     isPremium: true,
@@ -506,7 +506,7 @@ export const LEVEL2_CARDS: GameCard[] = [
   {
     id: 'lvl2-fn-005',
     type: 'fantasy',
-    content: "Imagine we're at a thermal spa in Colombia. Describe the experience we'd have together.",
+    content: "Imagine we're at a luxury thermal spa together. Describe the experience we'd have.",
     intensity: 2,
     category: 'intimate',
     isPremium: true,

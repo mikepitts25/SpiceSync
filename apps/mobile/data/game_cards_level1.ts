@@ -40,7 +40,7 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-004',
     type: 'truth',
-    content: "If you could only eat one Colombian dish for the rest of your life, which would you choose and why?",
+    content: "If you could only eat one type of cuisine for the rest of your life, which would you choose and why?",
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -70,7 +70,7 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-007',
     type: 'truth',
-    content: "If we could travel anywhere in Colombia together, where would you take me?",
+    content: "If we could travel anywhere in the world together, where would you take me?",
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -466,7 +466,7 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-fn-001',
     type: 'fantasy',
-    content: "Imagine we're on a picnic in Jardín, Colombia. Describe what we'd eat, where we'd sit, and what we'd talk about.",
+    content: "Imagine we're on a picnic in a beautiful garden. Describe what we'd eat, where we'd sit, and what we'd talk about.",
     intensity: 1,
     category: 'playful',
     isPremium: false,
