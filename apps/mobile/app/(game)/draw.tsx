@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: SCREEN_W - SIZES.padding * 4,
-    minHeight: 400,
+    minHeight: 450,
     backgroundColor: COLORS.card,
     borderRadius: SIZES.radiusLarge,
     borderWidth: 3,
@@ -442,15 +442,10 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
+    fontSize: SIZES.h4,
     color: COLORS.text,
-    lineHeight: 32,
-    marginBottom: SIZES.padding * 2,
-  },
-  timeEstimate: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
+    lineHeight: 28,
+    marginBottom: SIZES.padding,
   },
   intensityRow: {
     flexDirection: 'row',
@@ -542,10 +537,16 @@ const styles = StyleSheet.create({
     marginTop: SIZES.padding,
     marginBottom: SIZES.padding,
   },
+  timeEstimate: {
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.small,
+    color: COLORS.textSecondary,
+    marginTop: SIZES.padding,
+  },
   timerContainer: {
     marginTop: SIZES.padding,
     marginBottom: SIZES.padding,
-    padding: SIZES.padding,
+    padding: SIZES.padding * 1.5,
     backgroundColor: COLORS.backgroundSecondary,
     borderRadius: SIZES.radius,
   },
@@ -553,7 +554,7 @@ const styles = StyleSheet.create({
     height: 8,
     backgroundColor: COLORS.border,
     borderRadius: 4,
-    marginBottom: 12,
+    marginBottom: 16,
     overflow: 'hidden',
   },
   progressBarFill: {
@@ -561,13 +562,13 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   timerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     alignItems: 'center',
+    gap: 12,
   },
   timerText: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h4,
+    fontSize: SIZES.h3,
     color: COLORS.text,
   },
   timerTextUrgent: {
@@ -575,19 +576,22 @@ const styles = StyleSheet.create({
   },
   timerControls: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 12,
+    justifyContent: 'center',
   },
   timerButton: {
     backgroundColor: COLORS.card,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: SIZES.radius,
     borderWidth: 1,
     borderColor: COLORS.border,
+    minWidth: 90,
+    alignItems: 'center',
   },
   timerButtonText: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.small,
+    fontSize: SIZES.body,
     color: COLORS.text,
   },
   timeUpText: {
@@ -595,7 +599,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: '#E74C3C',
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: 12,
   },
   safetyContainer: {
     marginTop: SIZES.padding,
