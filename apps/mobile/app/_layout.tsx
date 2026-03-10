@@ -11,28 +11,26 @@ import { View, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/theme';
 import { initializeNotifications } from '../lib/notifications';
 import { useStreakStore } from '../lib/achievements';
-import SettingsButton from '../src/components/SettingsButton';
+import AppMenu from '../src/components/AppMenu';
 
-// Screens where settings button should be hidden
-const HIDE_SETTINGS_ON = [
+// Screens where menu button should be hidden
+const HIDE_MENU_ON = [
   '/(onboarding)',
-  '/(settings)',
   '/welcome',
   'onboarding',
-  'settings',
 ];
 
-function SettingsButtonWrapper() {
+function AppMenuWrapper() {
   const pathname = usePathname();
   
-  // Hide settings button on certain screens - check both full path and partial
-  const shouldHide = HIDE_SETTINGS_ON.some(path => 
+  // Hide menu button on certain screens
+  const shouldHide = HIDE_MENU_ON.some(path => 
     pathname?.includes(path) || pathname?.startsWith(path)
   );
   
   if (shouldHide) return null;
   
-  return <SettingsButton />;
+  return <AppMenu />;
 }
 
 export default function RootLayout() {
@@ -68,7 +66,7 @@ export default function RootLayout() {
             <Stack.Screen name="(redeem)" />
             <Stack.Screen name="(conversation)" />
           </Stack>
-          <SettingsButtonWrapper />
+          <AppMenuWrapper />
         </View>
       </SafeAreaProvider>
     </GestureHandlerRootView>
