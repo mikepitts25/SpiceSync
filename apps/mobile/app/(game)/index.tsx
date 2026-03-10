@@ -11,7 +11,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { GameCardType, getCardsByLanguage } from '../../data/gameCards';
+import { GameCardType, getCardsByLanguage, ALL_CARDS } from '../../data/gameCards';
 import { useTranslation, interpolate } from '../../lib/i18n';
 
 const GAME_TYPES: { id: GameCardType | 'all'; name: string; emoji: string; color: string }[] = [
@@ -28,6 +28,8 @@ export default function GameHub() {
   const router = useRouter();
   const unlocked = useSettingsStore((state) => state.unlocked);
   const language = useSettingsStore((state) => state.language);
+  const drinkingMode = useSettingsStore((state) => state.drinkingMode);
+  const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
   const [selectedType, setSelectedType] = useState<GameCardType | 'all'>('all');
   const [intensity, setIntensity] = useState(3);
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
@@ -66,7 +68,7 @@ export default function GameHub() {
     // Navigate to card draw screen with selected type and intensity
     router.push({
       pathname: '/(game)/draw',
-      params: { type: selectedType, intensity },
+      params: { type: selectedType, intensity, drinkingMode: drinkingMode ? 'true' : 'false' },
     });
   };
 
@@ -138,6 +140,31 @@ export default function GameHub() {
               <Text style={styles.intensityLabel}>{t.discover.soft}</Text>
               <Text style={styles.intensityLabel}>{t.discover.xxx}</Text>
             </View>
+          </View>
+
+          {/* Drinking Mode Toggle */}
+          <View style={styles.section}>
+            <Pressable 
+              style={styles.drinkingModeContainer}
+              onPress={() => setDrinkingMode(!drinkingMode)}
+            >
+              <View style={styles.drinkingModeLeft}>
+                <Text style={styles.drinkingModeEmoji}>🍺</Text>
+                <View>
+                  <Text style={styles.drinkingModeTitle}>Drinking Mode</Text>
+                  <Text style={styles.drinkingModeSubtitle}>Do this or take a drink</Text>
+                </View>
+              </View>
+              <View style={[
+                styles.toggle,
+                drinkingMode && styles.toggleActive
+              ]}>
+                <View style={[
+                  styles.toggleKnob,
+                  drinkingMode && styles.toggleKnobActive
+                ]} />
+              </View>
+            </Pressable>
           </View>
 
           {/* Start Button */}
@@ -249,5 +276,52 @@ const styles = StyleSheet.create({
     ...FONTS.h3,
     color: '#fff',
     fontWeight: '700',
+  },
+  drinkingModeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.card,
+    padding: SIZES.padding * 1.5,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+  },
+  drinkingModeLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  drinkingModeEmoji: {
+    fontSize: 28,
+  },
+  drinkingModeTitle: {
+    ...FONTS.body,
+    color: COLORS.text,
+    fontWeight: '700',
+  },
+  drinkingModeSubtitle: {
+    ...FONTS.small,
+    color: COLORS.textSecondary,
+  },
+  toggle: {
+    width: 52,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: COLORS.border,
+    padding: 4,
+  },
+  toggleActive: {
+    backgroundColor: COLORS.primary,
+  },
+  toggleKnob: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    transform: [{ translateX: 0 }],
+  },
+  toggleKnobActive: {
+    transform: [{ translateX: 20 }],
   },
 });

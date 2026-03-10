@@ -6,11 +6,12 @@ import gettingToKnowStarters from '../data/conversation_starters_getting_to_know
 import relationshipStarters from '../data/conversation_starters_relationship';
 import dateNightStarters from '../data/conversation_starters_date_night';
 import spicyStarters from '../data/conversation_starters_spicy';
+import loveLanguagesStarters from '../data/conversation_starters_love_languages';
 
 // Export the interface for TypeScript
 export interface ConversationStarter {
   id: string;
-  category: 'getting_to_know' | 'relationship' | 'date_night' | 'spicy';
+  category: 'getting_to_know' | 'relationship' | 'date_night' | 'spicy' | 'love_languages';
   intensity: 1 | 2 | 3 | 4;
   question: string;
   followUps?: string[];
@@ -20,7 +21,7 @@ export interface ConversationStarter {
 
 // Category metadata for UI display
 export interface CategoryInfo {
-  id: 'getting_to_know' | 'relationship' | 'date_night' | 'spicy';
+  id: 'getting_to_know' | 'relationship' | 'date_night' | 'spicy' | 'love_languages';
   title: string;
   subtitle: string;
   description: string;
@@ -60,6 +61,7 @@ export const allConversationStarters: ConversationStarter[] = [
   ...relationshipStarters,
   ...dateNightStarters,
   ...spicyStarters,
+  ...loveLanguagesStarters,
 ];
 
 // Category information for UI
@@ -104,6 +106,16 @@ export const categoryInfo: CategoryInfo[] = [
     gradient: ['#FF2D92', '#EF4444'],
     count: spicyStarters.length,
   },
+  {
+    id: 'love_languages',
+    title: 'Love Languages',
+    subtitle: '5 Languages',
+    description: 'Discover how you and your partner give and receive love',
+    icon: 'heart-handshake',
+    color: '#F59E0B',
+    gradient: ['#F59E0B', '#EF4444'],
+    count: loveLanguagesStarters.length,
+  },
 ];
 
 // Get starters by category
@@ -119,6 +131,8 @@ export function getStartersByCategory(
       return dateNightStarters;
     case 'spicy':
       return spicyStarters;
+    case 'love_languages':
+      return loveLanguagesStarters;
     default:
       return [];
   }
@@ -330,6 +344,7 @@ export {
   relationshipStarters,
   dateNightStarters,
   spicyStarters,
+  loveLanguagesStarters,
 };
 
 // Default export
@@ -341,6 +356,7 @@ export default {
   relationshipStarters,
   dateNightStarters,
   spicyStarters,
+  loveLanguagesStarters,
   getStartersByCategory,
   getStartersByIntensity,
   getStartersByTag,

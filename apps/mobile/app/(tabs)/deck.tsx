@@ -13,7 +13,6 @@ import SwipeDeck, {
 } from '../../components/SwipeDeck';
 import VoteButtons from '../../components/VoteButtons';
 import EndOfDeck from '../../components/EndOfDeck';
-import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useProfilesStore } from '../../lib/state/profiles';
@@ -173,7 +172,6 @@ export default function DeckScreen() {
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>{t.profiles.chooseProfile}</Text>
         <Text style={styles.p}>{t.profiles.selectProfileToSwipe}</Text>
-        <SettingsButton />
       </SafeAreaView>
     );
   }
@@ -183,7 +181,6 @@ export default function DeckScreen() {
       <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
         <Text style={styles.h1}>{t.deck.noItemsInCategory}</Text>
         <Text style={styles.p}>{t.deck.tryAnotherCategory}</Text>
-        <SettingsButton />
       </SafeAreaView>
     );
   }
@@ -199,7 +196,6 @@ export default function DeckScreen() {
           }}
           onViewMatches={() => router.navigate('/matches')}
         />
-        <SettingsButton />
       </SafeAreaView>
     );
   }
@@ -230,9 +226,7 @@ export default function DeckScreen() {
           />
         </View>
       </View>
-      <View style={styles.settingsFooter}>
-        <SettingsButton />
-      </View>
+
       <VoteButtons
         currentKinkId={current?.id}
         onVote={handleButtonVote}

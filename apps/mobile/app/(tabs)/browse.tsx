@@ -6,7 +6,6 @@ import { View, Text, Pressable, FlatList, StyleSheet, TextInput } from 'react-na
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp } from 'react-native-reanimated';
-import SettingsButton from '../../src/components/SettingsButton';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettingsStore } from '../../src/stores/settingsStore';
@@ -190,8 +189,6 @@ export default function BrowseScreen() {
           </View>
         }
       />
-      
-      <SettingsButton />
     </SafeAreaView>
   );
 }

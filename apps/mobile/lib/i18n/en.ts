@@ -182,6 +182,17 @@ export const en = {
     cardsToExplore: '{{count}} cards to explore',
     freeCardsCount: '{{free}} free cards • {{premium}} premium',
     startGame: 'Start Game',
+    drinkingMode: 'Drinking Mode',
+    drinkingModeDesc: 'Do this or take a drink',
+    // Timer
+    startTimer: 'Start',
+    pauseTimer: 'Pause',
+    resetTimer: 'Reset',
+    timesUp: "Time's Up!",
+    estimatedTime: 'Estimated',
+    // Safety
+    safetyWarning: 'Safety Warning',
+    contentWarning: 'Content Warning',
   },
 
   // Browse

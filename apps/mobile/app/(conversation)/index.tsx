@@ -29,6 +29,7 @@ import {
   X,
   MessageCircle,
   Moon,
+  Home,
 } from 'lucide-react-native';
 
 import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
@@ -42,6 +43,7 @@ import {
   filterStarters,
 } from '../../lib/conversationStarters';
 import { useConversationStore } from '../../lib/state/conversationStore';
+import { useConversationTranslation } from '../../lib/i18n';
 
 const { width, height } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.85;
@@ -57,30 +59,67 @@ const CategoryIcon = ({ name, size = 24, color = '#fff' }: { name: string; size?
       return <Sparkles size={size} color={color} />;
     case 'flame':
       return <Flame size={size} color={color} />;
+    case 'heart-handshake':
+      return (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Heart size={size * 0.7} color={color} style={{ marginRight: -size * 0.3 }} />
+          <Users size={size} color={color} />
+        </View>
+      );
     default:
       return <MessageCircle size={size} color={color} />;
   }
 };
 
 // Intensity badge component
-const IntensityBadge = ({ level }: { level: number }) => {
+const IntensityBadge = ({ level, ct }: { level: number; ct: any }) => {
   const info = INTENSITY_LABELS[level];
+  const getLabel = () => {
+    switch (level) {
+      case 1: return ct.light;
+      case 2: return ct.warm;
+      case 3: return ct.deep;
+      case 4: return ct.intimate;
+      default: return info.label;
+    }
+  };
   return (
     <View style={[styles.intensityBadge, { backgroundColor: `${info.color}30` }]}>
       <View style={[styles.intensityDot, { backgroundColor: info.color }]} />
-      <Text style={[styles.intensityText, { color: info.color }]}>{info.label}</Text>
+      <Text style={[styles.intensityText, { color: info.color }]}>{getLabel()}</Text>
     </View>
   );
+};
+
+// Helper to get translated category info
+const getTranslatedCategory = (categoryId: string, ct: any) => {
+  switch (categoryId) {
+    case 'getting_to_know':
+      return { title: ct.gettingToKnow, subtitle: ct.gettingToKnowSubtitle, description: ct.gettingToKnowDesc };
+    case 'relationship':
+      return { title: ct.relationship, subtitle: ct.relationshipSubtitle, description: ct.relationshipDesc };
+    case 'date_night':
+      return { title: ct.dateNight, subtitle: ct.dateNightSubtitle, description: ct.dateNightDesc };
+    case 'spicy':
+      return { title: ct.spicy, subtitle: ct.spicySubtitle, description: ct.spicyDesc };
+    case 'love_languages':
+      return { title: ct.loveLanguages, subtitle: ct.loveLanguagesSubtitle, description: ct.loveLanguagesDesc };
+    default:
+      return { title: '', subtitle: '', description: '' };
+  }
 };
 
 // Category card component
 const CategoryCard = ({
   category,
   onPress,
+  ct,
 }: {
   category: (typeof categoryInfo)[0];
   onPress: () => void;
+  ct: any;
 }) => {
+  const translated = getTranslatedCategory(category.id, ct);
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
       <LinearGradient
@@ -93,10 +132,10 @@ const CategoryCard = ({
           <CategoryIcon name={category.icon} size={28} color="#fff" />
         </View>
         <View style={styles.categoryContent}>
-          <Text style={styles.categoryTitle}>{category.title}</Text>
-          <Text style={styles.categorySubtitle}>{category.subtitle}</Text>
+          <Text style={styles.categoryTitle}>{translated.title}</Text>
+          <Text style={styles.categorySubtitle}>{translated.subtitle}</Text>
           <Text style={styles.categoryDescription} numberOfLines={2}>
-            {category.description}
+            {translated.description}
           </Text>
         </View>
         <View style={styles.categoryCount}>
@@ -116,15 +155,18 @@ const ConversationCard = ({
   onFavorite,
   onShare,
   isFavorite,
+  ct,
 }: {
   starter: ConversationStarter;
   onNext: () => void;
   onFavorite: () => void;
   onShare: () => void;
   isFavorite: boolean;
+  ct: any;
 }) => {
   const [showFollowUps, setShowFollowUps] = useState(false);
   const category = categoryInfo.find((c) => c.id === starter.category);
+  const translatedCategory = getTranslatedCategory(starter.category, ct);
 
   return (
     <View style={styles.cardContainer}>
@@ -137,12 +179,12 @@ const ConversationCard = ({
         {/* Header */}
         <View style={styles.cardHeader}>
           <View style={styles.cardMeta}>
-            <IntensityBadge level={starter.intensity} />
+            <IntensityBadge level={starter.intensity} ct={ct} />
             {category && (
               <View style={[styles.categoryTag, { backgroundColor: `${category.color}30` }]}>
                 <CategoryIcon name={category.icon} size={12} color={category.color} />
                 <Text style={[styles.categoryTagText, { color: category.color }]}>
-                  {category.subtitle}
+                  {translatedCategory.subtitle}
                 </Text>
               </View>
             )}
@@ -175,7 +217,7 @@ const ConversationCard = ({
             onPress={() => setShowFollowUps(!showFollowUps)}
           >
             <Text style={styles.followUpsToggleText}>
-              {showFollowUps ? 'Hide follow-ups' : 'Show follow-up questions'}
+              {showFollowUps ? ct.hideFollowUps : ct.showFollowUps}
             </Text>
             <ChevronRight
               size={16}
@@ -197,20 +239,11 @@ const ConversationCard = ({
           </View>
         )}
 
-        {/* Tags */}
-        <View style={styles.tagsContainer}>
-          {starter.tags.slice(0, 3).map((tag, index) => (
-            <View key={index} style={styles.tag}>
-              <Text style={styles.tagText}>#{tag}</Text>
-            </View>
-          ))}
-        </View>
-
         {/* Actions */}
         <View style={styles.cardActions}>
           <TouchableOpacity style={styles.actionButton} onPress={onShare}>
             <Share2 size={20} color={COLORS.textSecondary} />
-            <Text style={styles.actionButtonText}>Share</Text>
+            <Text style={styles.actionButtonText}>{ct.share}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.nextButton} onPress={onNext}>
             <LinearGradient
@@ -220,7 +253,7 @@ const ConversationCard = ({
               style={styles.nextButtonGradient}
             >
               <Shuffle size={20} color="#fff" />
-              <Text style={styles.nextButtonText}>Next Topic</Text>
+              <Text style={styles.nextButtonText}>{ct.nextTopic}</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -236,6 +269,7 @@ export default function ConversationScreen() {
   const [showDaily, setShowDaily] = useState(false);
 
   const { favorites, toggleFavorite, addToHistory } = useConversationStore();
+  const { ct } = useConversationTranslation();
 
   // Get daily starter
   const dailyStarter = useMemo(() => getDailyStarter(), []);
@@ -309,12 +343,12 @@ export default function ConversationScreen() {
           )}
           <View style={styles.headerText}>
             <Text style={styles.headerTitle}>
-              {currentStarter ? (showDaily ? "Today's Question" : 'Deep Dives') : 'Deep Dives'}
+              {currentStarter ? (showDaily ? ct.todaysQuestion : ct.title) : ct.title}
             </Text>
             <Text style={styles.headerSubtitle}>
               {currentStarter
-                ? 'Conversation Starters'
-                : '200+ prompts to spark meaningful talks'}
+                ? ct.conversationStarters
+                : ct.subtitle}
             </Text>
           </View>
           {!currentStarter && (
@@ -338,15 +372,16 @@ export default function ConversationScreen() {
             onFavorite={() => toggleFavorite(currentStarter.id)}
             onShare={() => handleShare(currentStarter)}
             isFavorite={favorites.includes(currentStarter.id)}
+            ct={ct}
           />
 
           {/* Category filter hint */}
           {selectedCategory && (
             <TouchableOpacity style={styles.filterHint} onPress={handleBack}>
               <Text style={styles.filterHintText}>
-                Showing {categoryInfo.find((c) => c.id === selectedCategory)?.title}
+                {ct.showing} {categoryInfo.find((c) => c.id === selectedCategory)?.title}
               </Text>
-              <Text style={styles.filterHintAction}>Change category</Text>
+              <Text style={styles.filterHintAction}>{ct.changeCategory}</Text>
             </TouchableOpacity>
           )}
         </ScrollView>
@@ -368,9 +403,9 @@ export default function ConversationScreen() {
                 <Sparkles size={28} color="#fff" />
               </View>
               <View style={styles.dailyTextContainer}>
-                <Text style={styles.dailyTitle}>Today's Conversation Starter</Text>
+                <Text style={styles.dailyTitle}>{ct.dailyTitle}</Text>
                 <Text style={styles.dailySubtitle}>
-                  A fresh prompt every day to keep the conversation flowing
+                  {ct.dailySubtitle}
                 </Text>
               </View>
               <ChevronRight size={24} color="#fff" />
@@ -386,7 +421,7 @@ export default function ConversationScreen() {
               style={styles.randomButtonGradient}
             >
               <Shuffle size={24} color="#fff" />
-              <Text style={styles.randomButtonText}>Pick a Random Topic</Text>
+              <Text style={styles.randomButtonText}>{ct.randomButton}</Text>
             </LinearGradient>
           </TouchableOpacity>
 
@@ -402,9 +437,9 @@ export default function ConversationScreen() {
                 <Moon size={32} color={COLORS.accent} />
               </View>
               <View style={styles.dateNightTextContainer}>
-                <Text style={styles.dateNightTitle}>Date Night Mode</Text>
+                <Text style={styles.dateNightTitle}>{ct.dateNightMode}</Text>
                 <Text style={styles.dateNightSubtitle}>
-                  Full-screen conversation experience with timer and beautiful backgrounds
+                  {ct.dateNightSubtitle}
                 </Text>
               </View>
               <ChevronRight size={24} color={COLORS.accent} />
@@ -412,12 +447,13 @@ export default function ConversationScreen() {
           </TouchableOpacity>
 
           {/* Categories */}
-          <Text style={styles.sectionTitle}>Browse by Category</Text>
+          <Text style={styles.sectionTitle}>{ct.browseByCategory}</Text>
           {categoryInfo.map((category) => (
             <CategoryCard
               key={category.id}
               category={category}
               onPress={() => handleCategoryPress(category.id)}
+              ct={ct}
             />
           ))}
 
@@ -426,7 +462,7 @@ export default function ConversationScreen() {
             <View style={styles.favoritesHint}>
               <Heart size={16} color={COLORS.primary} fill={COLORS.primary} />
               <Text style={styles.favoritesHintText}>
-                You have {favorites.length} saved favorite{favorites.length !== 1 ? 's' : ''}
+                {favorites.length} {favorites.length !== 1 ? ct.favoritesPlural : ct.favorites}
               </Text>
             </View>
           )}
@@ -769,22 +805,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: COLORS.text,
     lineHeight: 22,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 20,
-  },
-  tag: {
-    backgroundColor: COLORS.backgroundSecondary,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-  },
-  tagText: {
-    fontSize: SIZES.small,
-    color: COLORS.textMuted,
   },
   cardActions: {
     flexDirection: 'row',

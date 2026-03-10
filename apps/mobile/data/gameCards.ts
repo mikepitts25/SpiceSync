@@ -83,15 +83,15 @@ export const PREMIUM_CARDS: GameCard[] = [
   { id: 'p-d5',  type: 'dare', content: "Lap dance. 2 minutes. Use me like a chair. Make me want you.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '2 min' },
   { id: 'p-d6',  type: 'dare', content: "Suck my fingers like it's oral sex. Eye contact the whole time.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
   { id: 'p-d7',  type: 'dare', content: "Pin both my wrists above my head and kiss me until I squirm.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '2 min' },
-  { id: 'p-d8',  type: 'dare', content: "Spank me 10 times. Alternate soft and hard. I count every one out loud.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '2 min' },
+  { id: 'p-d8',  type: 'dare', content: "Spank me 10 times. Alternate soft and hard. I count every one out loud.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '2 min', safetyNotes: "⚠️ IMPACT PLAY: Start light and build up. Avoid kidneys, tailbone, and joints. Check in frequently." },
   { id: 'p-d9',  type: 'dare', content: "Drizzle something sweet on my body and lick off every drop.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '5 min', requires: ['honey/syrup'] },
   { id: 'p-d10', type: 'dare', content: "Kiss every inch of me—everywhere EXCEPT my lips. Stop only when I beg for your mouth.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
-  { id: 'p-d11', type: 'dare', content: "Pull my hair, arch my head back, and tell me what you're going to do to me.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
+  { id: 'p-d11', type: 'dare', content: "Pull my hair, arch my head back, and tell me what you're going to do to me.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min', safetyNotes: "⚠️ HAIR PULLING: Grab close to the scalp, not the ends. Support the neck." },
   { id: 'p-d12', type: 'dare', content: "Put an ice cube in your mouth and go down on me. Cold and heat at the same time.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '5 min', requires: ['ice'] },
   { id: 'p-d13', type: 'dare', content: "Strip naked and stand in front of me for 60 seconds. Don't say a word. Just let me look.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
   { id: 'p-d14', type: 'dare', content: "Put my hand exactly where you want it and show me how you want to be touched.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '3 min' },
   { id: 'p-d15', type: 'dare', content: "Bring me to the edge with your mouth—then stop right before I finish.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
-  { id: 'p-d16', type: 'dare', content: "Choke me lightly while you kiss me. Just pressure. Control.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
+  { id: 'p-d16', type: 'dare', content: "Choke me lightly while you kiss me. Just pressure. Control.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '1 min', safetyNotes: "⚠️ BREATH PLAY: Never restrict airflow. Light pressure on sides only. Establish clear safeword before starting." },
   { id: 'p-d17', type: 'dare', content: "Touch yourself in front of me while I watch. Don't stop until I tell you to.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
   { id: 'p-d18', type: 'dare', content: "69. Right now. First one to stop has to do whatever the other wants next round.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
   { id: 'p-d19', type: 'dare', content: "Bite a hickey somewhere only I will see it. Claim your territory.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
@@ -110,7 +110,7 @@ export const PREMIUM_CARDS: GameCard[] = [
   { id: 'p-c10', type: 'challenge', content: "Hold Still: I do whatever I want to you for 2 minutes. You are not allowed to move or make noise. If you do—you have to start over.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '2 min' },
   { id: 'p-c11', type: 'challenge', content: "Dirty 20 Questions: I'm thinking of something explicit I want to do to you. You have 20 yes/no questions. Get it wrong—you have to do it anyway.", intensity: 4, category: 'playful', isPremium: true, estimatedTime: '5 min' },
   { id: 'p-c12', type: 'challenge', content: "Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count spots. Beat my record next round.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
-  { id: 'p-c13', type: 'challenge', content: "Forced Orgasm: I'm restrained. You don't stop until I've come twice. I'm not in control of when.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '10 min' },
+  { id: 'p-c13', type: 'challenge', content: "Forced Orgasm: I'm restrained. You don't stop until I've come twice. I'm not in control of when.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '10 min', safetyNotes: "⚠️ RESTRAINT & FORCED ORGASM: Ensure restraints don't cut circulation. Check in frequently. Stop immediately if discomfort becomes pain." },
   { id: 'p-c14', type: 'challenge', content: "No Talking: For the next 5 minutes, no words. Only touch. Communicate entirely with your body.", intensity: 3, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
   { id: 'p-c15', type: 'challenge', content: "Copy Cat: You do something to me. I copy it exactly back on you. We keep going until someone escalates too far.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
 
@@ -129,7 +129,7 @@ export const PREMIUM_CARDS: GameCard[] = [
   { id: 'p-r12', type: 'roleplay', content: "Hitchhiker: You picked me up. I have no money. We'll have to work something out.", intensity: 4, category: 'playful', isPremium: true, estimatedTime: '10 min' },
   { id: 'p-r13', type: 'roleplay', content: "Supervillain / Hero: You caught me. Now what? I'm completely at your mercy.", intensity: 4, category: 'playful', isPremium: true, estimatedTime: '10 min' },
   { id: 'p-r14', type: 'roleplay', content: "The Pool Person: You're working at my pool. I'm out here barely dressed. I can't stop staring at you.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '10 min' },
-  { id: 'p-r15', type: 'roleplay', content: "CNC Scene: We've agreed. You resist. I overpower. We have a safeword. Let's use it if we need it.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '15 min' },
+  { id: 'p-r15', type: 'roleplay', content: "CNC Scene: We've agreed. You resist. I overpower. We have a safeword. Let's use it if we need it.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '15 min', safetyNotes: "⚠️ CNC (Consensual Non-Consent): Discuss boundaries extensively beforehand. Establish clear safewords AND non-verbal signals. Aftercare is essential." },
 
   // ── FANTASY (confession/scenario) ─────────────────────
   { id: 'p-fn1',  type: 'fantasy', content: "Tell me a fantasy involving us that you've never said out loud. Take your time. Don't soften it.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '3 min' },
@@ -146,7 +146,7 @@ export const PREMIUM_CARDS: GameCard[] = [
   // ── IMPACT & SENSATION ─────────────────────────────────
   { id: 'k-i1', type: 'dare', content: "Put me over your lap. 10 spanks—count them. Alternate cheeks. I thank you after each one.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '3 min' },
   { id: 'k-i2', type: 'dare', content: "Trace an ice cube down my spine, over my nipples, between my thighs. Watch me react.", intensity: 3, category: 'intimate', isPremium: true, estimatedTime: '3 min', requires: ['ice'] },
-  { id: 'k-i3', type: 'dare', content: "Drip warm wax on my skin (use a candle). The sting. The heat. The next drop landing somewhere new.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '5 min', requires: ['candle'] },
+  { id: 'k-i3', type: 'dare', content: "Drip warm wax on my skin (use a candle). The sting. The heat. The next drop landing somewhere new.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '5 min', requires: ['candle'], safetyNotes: "⚠️ WAX PLAY: Use only body-safe candles (soy or paraffin, NOT beeswax). Test temperature on wrist first. Avoid face and genitals." },
 
   // ── POWER & CONTROL ────────────────────────────────────
   { id: 'k-p1', type: 'roleplay', content: "Command session: For 10 minutes, I give the orders. You follow every one. 'Open your mouth.' 'Get on your knees.' 'Beg for it.'", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '10 min' },
@@ -165,7 +165,7 @@ export const PREMIUM_CARDS: GameCard[] = [
   { id: 'k-o4', type: 'challenge', content: "Rimming dare: Use your tongue where they never admit they want it. Soft, firm, then deep.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '5 min' },
 
   // ── HUMILIATION / DEGRADATION ─────────────────────────
-  { id: 'k-h1', type: 'dare',  content: "Write one word on my body somewhere hidden. Your word. Your choice. I wear it the rest of the night.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '5 min', requires: ['body-safe marker'] },
+  { id: 'k-h1', type: 'dare',  content: "Write one word on my body somewhere hidden. Your word. Your choice. I wear it the rest of the night.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '5 min', requires: ['body-safe marker'], safetyNotes: "⚠️ MARKING: Use only body-safe markers. Test for allergies first. Avoid sensitive areas and broken skin." },
   { id: 'k-h2', type: 'truth', content: "Tell me the most degrading thing you'd secretly want me to call you during sex—if I asked first.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '2 min' },
   { id: 'k-h3', type: 'roleplay', content: "Objectification: For 10 minutes I'm furniture. No names, no eye contact. Use me however you want.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '10 min' },
 
@@ -178,26 +178,30 @@ export const PREMIUM_CARDS: GameCard[] = [
 export const ALL_CARDS: GameCard[] = [...FREE_CARDS, ...PREMIUM_CARDS];
 
 export const getCardsByType = (type: GameCardType, unlocked: boolean): GameCard[] => {
-  const pool = unlocked ? ALL_CARDS : FREE_CARDS;
+  const pool = unlocked ? MASTER_DECK : [...FREE_CARDS, ...LEVEL1_CARDS.filter(c => !c.isPremium)];
   return pool.filter((c) => c.type === type);
 };
 
 export const getRandomCard = (type: GameCardType | 'all', unlocked: boolean): GameCard | null => {
-  const cards = type === 'all' ? (unlocked ? ALL_CARDS : FREE_CARDS) : getCardsByType(type, unlocked);
+  const cards = type === 'all' ? (unlocked ? MASTER_DECK : [...FREE_CARDS, ...LEVEL1_CARDS.filter(c => !c.isPremium)]) : getCardsByType(type, unlocked);
   if (!cards.length) return null;
   return cards[Math.floor(Math.random() * cards.length)];
 };
 
 export const getCardsByIntensity = (min: number, max: number, unlocked: boolean): GameCard[] => {
-  const cards = unlocked ? ALL_CARDS : FREE_CARDS;
+  const cards = unlocked ? MASTER_DECK : [...FREE_CARDS, ...LEVEL1_CARDS.filter(c => !c.isPremium)];
   return cards.filter((c) => c.intensity >= min && c.intensity <= max);
 };
 
 import { FREE_CARDS_ES, ALL_CARDS_ES } from './gameCards.es';
 
 export const getCardsByLanguage = (lang: 'en' | 'es', unlocked: boolean): GameCard[] => {
-  if (lang === 'es') return unlocked ? ALL_CARDS_ES : FREE_CARDS_ES;
-  return unlocked ? ALL_CARDS : FREE_CARDS;
+  if (lang === 'es') {
+    // Spanish cards - for now use original cards (expansion Spanish support can be added later)
+    return unlocked ? ALL_CARDS_ES : FREE_CARDS_ES;
+  }
+  // English cards - include expansion cards
+  return unlocked ? MASTER_DECK : [...FREE_CARDS, ...LEVEL1_CARDS.filter(c => !c.isPremium)];
 };
 
 export const getRandomCardByLang = (type: GameCardType | 'all', unlocked: boolean, lang: 'en' | 'es'): GameCard | null => {

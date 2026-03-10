@@ -28,6 +28,9 @@ export interface SettingsState {
   // Premium Status
   unlocked: boolean;
   
+  // Game Modes
+  drinkingMode: boolean;
+  
   // Actions
   setActiveProfile: (id: string) => void;
   addProfile: (profile: Omit<Profile, 'id' | 'createdAt'>) => void;
@@ -42,6 +45,8 @@ export interface SettingsState {
   resetAgeVerification: () => void;
   
   setUnlocked: (unlocked: boolean) => void;
+  
+  setDrinkingMode: (enabled: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -58,6 +63,8 @@ export const useSettingsStore = create<SettingsState>()(
       ageVerified: false,
       
       unlocked: false,
+      
+      drinkingMode: false,
       
       // Profile Actions
       setActiveProfile: (id) => set({ activeProfileId: id }),
@@ -107,6 +114,9 @@ export const useSettingsStore = create<SettingsState>()(
       
       // Premium
       setUnlocked: (unlocked) => set({ unlocked }),
+      
+      // Game Modes
+      setDrinkingMode: (drinkingMode) => set({ drinkingMode }),
     }),
     {
       name: 'spicesync-settings-v2',

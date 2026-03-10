@@ -184,6 +184,17 @@ export const es: Translations = {
     cardsToExplore: '{{count}} cartas para explorar',
     freeCardsCount: '{{free}} cartas gratis • {{premium}} premium',
     startGame: 'Iniciar Juego',
+    drinkingMode: 'Modo Bebida',
+    drinkingModeDesc: 'Haz esto o toma un trago',
+    // Timer
+    startTimer: 'Iniciar',
+    pauseTimer: 'Pausar',
+    resetTimer: 'Reiniciar',
+    timesUp: '¡Se acabó el tiempo!',
+    estimatedTime: 'Tiempo estimado',
+    // Safety
+    safetyWarning: 'Advertencia de Seguridad',
+    contentWarning: 'Advertencia de Contenido',
   },
 
   // Browse

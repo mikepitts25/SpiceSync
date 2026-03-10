@@ -17,7 +17,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
-import SettingsButton from '../../src/components/SettingsButton';
 import PinVerifyModal from '../../components/PinVerifyModal';
 import MatchRow from '../../components/MatchRow';
 import { useProfilesStore } from '../../src/stores/profiles';
@@ -461,7 +460,6 @@ export default function MatchesScreen() {
         <Text style={styles.p}>
           {t.profiles.createPartner}
         </Text>
-        <SettingsButton />
       </SafeAreaView>
     );
   }
@@ -473,7 +471,6 @@ export default function MatchesScreen() {
         <Text style={styles.p}>
           {t.profiles.createPartner}
         </Text>
-        <SettingsButton />
       </SafeAreaView>
     );
   }
@@ -638,8 +635,6 @@ export default function MatchesScreen() {
           </Text>
         </View>
       )}
-
-      <SettingsButton />
 
       <PinVerifyModal
         open={pinModalVisible}

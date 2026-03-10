@@ -8,12 +8,12 @@ import { useRouter } from 'expo-router';
 import Animated, { FadeInUp, FadeIn } from 'react-native-reanimated';
 import { useFilters } from '../../lib/state/filters';
 import { useKinks } from '../../lib/data';
-import SettingsButton from '../../src/components/SettingsButton';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation, interpolate } from '../../lib/i18n';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { MASTER_DECK, FREE_CARDS, LEVEL1_CARDS } from '../../data/gameCards';
 
 const TIERS = [
   {
@@ -160,15 +160,13 @@ export default function CategoriesScreen() {
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
-            <Text style={styles.statNumber}>136</Text>
+            <Text style={styles.statNumber}>{MASTER_DECK.length}</Text>
             <Text style={styles.statLabel}>Game Cards</Text>
           </View>
         </Animated.View>
 
         <View style={{ height: 40 }} />
       </ScrollView>
-      
-      <SettingsButton />
     </SafeAreaView>
   );
 }

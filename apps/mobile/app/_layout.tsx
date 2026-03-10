@@ -3,7 +3,7 @@
 import 'react-native-gesture-handler';
 
 import React, { useEffect } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +11,25 @@ import { View, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/theme';
 import { initializeNotifications } from '../lib/notifications';
 import { useStreakStore } from '../lib/achievements';
+import SettingsButton from '../src/components/SettingsButton';
+
+// Screens where settings button should be hidden
+const HIDE_SETTINGS_ON = [
+  '/(onboarding)',
+  '/(settings)',
+  '/welcome',
+];
+
+function SettingsButtonWrapper() {
+  const pathname = usePathname();
+  
+  // Hide settings button on certain screens
+  const shouldHide = HIDE_SETTINGS_ON.some(path => pathname?.startsWith(path));
+  
+  if (shouldHide) return null;
+  
+  return <SettingsButton />;
+}
 
 export default function RootLayout() {
   // Initialize notifications and check streak on app start
@@ -45,6 +64,7 @@ export default function RootLayout() {
             <Stack.Screen name="(redeem)" />
             <Stack.Screen name="(conversation)" />
           </Stack>
+          <SettingsButtonWrapper />
         </View>
       </SafeAreaProvider>
     </GestureHandlerRootView>
