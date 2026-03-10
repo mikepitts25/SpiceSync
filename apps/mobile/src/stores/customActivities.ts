@@ -50,7 +50,7 @@ export const useCustomActivitiesStore = create<CustomActivitiesState>()(
       create: (activity) => {
         const newActivity: CustomActivity = {
           ...activity,
-          id: `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          id: `custom-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
           createdAt: Date.now(),
         };
         
@@ -107,7 +107,7 @@ export const useCustomActivitiesStore = create<CustomActivitiesState>()(
           // Create a copy for the importer
           const imported: CustomActivity = {
             ...activity,
-            id: `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            id: `custom-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
             createdAt: Date.now(),
             createdBy: 'imported',
             isShared: false,
