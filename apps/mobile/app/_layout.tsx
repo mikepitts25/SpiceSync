@@ -18,13 +18,17 @@ const HIDE_SETTINGS_ON = [
   '/(onboarding)',
   '/(settings)',
   '/welcome',
+  'onboarding',
+  'settings',
 ];
 
 function SettingsButtonWrapper() {
   const pathname = usePathname();
   
-  // Hide settings button on certain screens
-  const shouldHide = HIDE_SETTINGS_ON.some(path => pathname?.startsWith(path));
+  // Hide settings button on certain screens - check both full path and partial
+  const shouldHide = HIDE_SETTINGS_ON.some(path => 
+    pathname?.includes(path) || pathname?.startsWith(path)
+  );
   
   if (shouldHide) return null;
   
@@ -79,5 +83,6 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: COLORS.background,
+    position: 'relative',
   },
 });
