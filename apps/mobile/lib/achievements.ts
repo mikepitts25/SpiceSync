@@ -96,6 +96,7 @@ interface StreakState {
   recordActivity: (activityId: string, category: string) => void;
   recordMatch: () => void;
   checkAndUpdateStreak: () => { streakUpdated: boolean; streakBroken: boolean };
+  checkAchievements: () => AchievementId[];
   getUnlockedAchievements: () => Achievement[];
   getLockedAchievements: () => Achievement[];
   getProgress: (achievementId: AchievementId) => number;

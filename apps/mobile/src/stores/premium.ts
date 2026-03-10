@@ -48,6 +48,8 @@ export interface Feature {
   pro: boolean;
 }
 
+export type PremiumFeature = Feature['id'];
+
 // Feature definitions
 export const FEATURES: Feature[] = [
   // Core (Free)
