@@ -1,0 +1,16 @@
+{
+  "name": "spicesync-card-manager",
+  "version": "1.0.0",
+  "description": "CLI tool for managing SpiceSync game cards",
+  "main": "index.js",
+  "scripts": {
+    "list": "node card-manager.js list",
+    "add": "node card-manager.js add",
+    "remove": "node card-manager.js remove",
+    "stats": "node card-manager.js stats",
+    "validate": "node card-manager.js validate",
+    "search": "node card-manager.js search",
+    "export": "node card-manager.js export",
+    "migrate": "node migrate-cards-to-json.js"
+  }
+}

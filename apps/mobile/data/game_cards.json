@@ -1,0 +1,3676 @@
+{
+  "_meta": {
+    "description": "SpiceSync Game Cards - Master Database",
+    "totalCards": 368,
+    "lastUpdated": "2026-03-12",
+    "version": "1.0",
+    "editingGuide": {
+      "idFormat": "{level}-{type}-{number}",
+      "levels": {
+        "free": "Original 25 free cards",
+        "premium": "Original 100 premium cards",
+        "lvl1": "Level 1: Flirty & Playful (FREE)",
+        "lvl2": "Level 2: Warm & Intimate (PREMIUM)",
+        "lvl3": "Level 3: Spicy & Adventurous (PREMIUM)",
+        "lvl4": "Level 4: Hot & Experimental (PREMIUM)",
+        "lvl5": "Level 5: Intense & Extreme (PREMIUM)"
+      },
+      "types": {
+        "truth": "Questions to answer honestly",
+        "dare": "Actions to perform",
+        "challenge": "Longer activities or games",
+        "fantasy": "Scenario descriptions to act out",
+        "roleplay": "Character-based scenarios"
+      },
+      "categories": [
+        "communication",
+        "physical",
+        "emotional",
+        "playful",
+        "intimate"
+      ],
+      "intensity": "1-5 scale (1=mild, 5=extreme)",
+      "fields": {
+        "id": "Unique identifier (required)",
+        "type": "Card type from types above (required)",
+        "content": "The card text (required)",
+        "intensity": "1-5 (required)",
+        "category": "From categories list (required)",
+        "isPremium": "true/false (required)",
+        "estimatedTime": "e.g., '5 min', '10 min' (required)",
+        "requires": "Array of required items (optional)",
+        "safetyNotes": "Safety warnings for intense cards (optional)"
+      }
+    }
+  },
+  "cards": [
+    {
+      "id": "f-t1",
+      "type": "truth",
+      "content": "Tell me one thing you want me to do to you RIGHT NOW.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "f-t2",
+      "type": "truth",
+      "content": "Name the exact thing I do that makes you lose control. Show me where.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "f-t3",
+      "type": "truth",
+      "content": "If you had 60 seconds to turn me on as fast as possible, what would you do?",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "f-t5",
+      "type": "truth",
+      "content": "Tell me exactly how you want to be kissed right now.",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "f-d1",
+      "type": "dare",
+      "content": "Kiss me somewhere unexpected—not my lips. Take your time.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "30 sec"
+    },
+    {
+      "id": "f-d2",
+      "type": "dare",
+      "content": "Take off one piece of my clothing using only your teeth.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "f-d3",
+      "type": "dare",
+      "content": "Whisper the dirtiest thing you want to do to me right now.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "30 sec"
+    },
+    {
+      "id": "f-d5",
+      "type": "dare",
+      "content": "Put both hands in my hair and kiss me like you mean it for 30 seconds.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "30 sec"
+    },
+    {
+      "id": "f-c1",
+      "type": "challenge",
+      "content": "7 Minutes in Heaven: You have 7 minutes. Hands, mouth, anywhere above the waist. No stopping, no talking. GO.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "7 min"
+    },
+    {
+      "id": "f-c2",
+      "type": "challenge",
+      "content": "Staring Contest: Eyes locked. First one to blink removes a piece of clothing.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "f-c3",
+      "type": "challenge",
+      "content": "No Hands: Touch me for 5 minutes without using your hands. Mouth, body, anything else.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "f-c4",
+      "type": "challenge",
+      "content": "Ice Cube: Kiss me with an ice cube in your mouth. Pass it back and forth. Last one to melt it loses a piece of clothing.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min",
+      "requires": [
+        "ice"
+      ]
+    },
+    {
+      "id": "f-fn3",
+      "type": "fantasy",
+      "content": "First date: Act like we just met and can barely keep your hands to yourself.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "f-fn4",
+      "type": "fantasy",
+      "content": "You walk in and catch me touching myself. What do you do? Act it out.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "f-r2",
+      "type": "roleplay",
+      "content": "Doctor / Patient: Give me a full examination. Be very thorough.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "f-r3",
+      "type": "roleplay",
+      "content": "Personal Trainer: Put me through your most intense session. Get me sweating.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "f-r4",
+      "type": "roleplay",
+      "content": "Vampire: You want me. Bite my neck. Take what you need.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "f-r5",
+      "type": "roleplay",
+      "content": "Yoga Instructor: Adjust my position. Use your hands. Make sure my form is perfect.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-t2",
+      "type": "truth",
+      "content": "If I told you to get on your knees right now—would you? Would you want to?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "p-t3",
+      "type": "truth",
+      "content": "The last time you touched yourself thinking about me—what was happening in your head?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "p-t4",
+      "type": "truth",
+      "content": "Tell me the one thing I do in bed that makes you lose control. Describe it in detail.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "p-t6",
+      "type": "truth",
+      "content": "Describe your ideal quickie with me. Location, how it starts, and how it ends.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "p-t10",
+      "type": "truth",
+      "content": "Describe a fantasy involving me and one other person. Who, what, and who does what to whom.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "p-t11",
+      "type": "truth",
+      "content": "What would you do if I walked over, grabbed your hand, and put it exactly where I wanted it?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "p-t12",
+      "type": "truth",
+      "content": "How do you want me to undress you right now? Walk me through it.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "p-t14",
+      "type": "truth",
+      "content": "If I only had 10 minutes and one body part to work with—what would you choose and why?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "p-d2",
+      "type": "dare",
+      "content": "Undress me completely using only your mouth. No hands. Figure it out.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "p-d3",
+      "type": "dare",
+      "content": "Tie my wrists with a scarf. 5 minutes. Do whatever you want to me.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "scarf"
+      ]
+    },
+    {
+      "id": "p-d5",
+      "type": "dare",
+      "content": "Lap dance. 2 minutes. Use me like a chair. Make me want you.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "p-d7",
+      "type": "dare",
+      "content": "Pin both my wrists above my head and kiss me until I squirm.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "p-d8",
+      "type": "dare",
+      "content": "Spank me 10 times. Alternate soft and hard. I count every one out loud.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min",
+      "safetyNotes": "⚠️ IMPACT PLAY: Start light and build up. Avoid kidneys, tailbone, and joints. Check in frequently."
+    },
+    {
+      "id": "p-d9",
+      "type": "dare",
+      "content": "Drizzle something sweet on my body and lick off every drop.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "honey/syrup"
+      ]
+    },
+    {
+      "id": "p-d10",
+      "type": "dare",
+      "content": "Kiss every inch of me—everywhere EXCEPT my lips. Stop only when I beg for your mouth.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-d12",
+      "type": "dare",
+      "content": "Put an ice cube in your mouth and go down on me. Cold and heat at the same time.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "ice"
+      ]
+    },
+    {
+      "id": "p-d14",
+      "type": "dare",
+      "content": "Put my hand exactly where you want it and show me how you want to be touched.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "p-d15",
+      "type": "dare",
+      "content": "Bring me to the edge with your mouth—then stop right before I finish.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-d16",
+      "type": "dare",
+      "content": "Choke me lightly while you kiss me. Just pressure. Control.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "1 min",
+      "safetyNotes": "⚠️ BREATH PLAY: Never restrict airflow. Light pressure on sides only. Establish clear safeword before starting."
+    },
+    {
+      "id": "p-d18",
+      "type": "dare",
+      "content": "69. Right now. First one to stop has to do whatever the other wants next round.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-d19",
+      "type": "dare",
+      "content": "Bite a hickey somewhere only I will see it. Claim your territory.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "p-d20",
+      "type": "dare",
+      "content": "Trace every outline of my body with your tongue from shoulder to inner knee.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-c4",
+      "type": "challenge",
+      "content": "Torture Timer: Set 5 minutes. You have to keep me at the edge without letting me finish until it goes off.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-c5",
+      "type": "challenge",
+      "content": "Orgasm Race: We both touch ourselves. First to finish wins. Loser gives the winner oral right now.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-c7",
+      "type": "challenge",
+      "content": "Edging x3: Bring me right to the edge—then stop. 30 second wait. Do it 3 times. Then finish me.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "p-c8",
+      "type": "challenge",
+      "content": "Body Map: I touch 5 spots on you in order. You have to touch them back on me in reverse. Miss one—lose an item.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-c10",
+      "type": "challenge",
+      "content": "Hold Still: I do whatever I want to you for 2 minutes. You are not allowed to move or make noise. If you do—you have to start over.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "p-c12",
+      "type": "challenge",
+      "content": "Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count spots. Beat my record next round.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-c14",
+      "type": "challenge",
+      "content": "No Talking: For the next 5 minutes, no words. Only touch. Communicate entirely with your body.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-c15",
+      "type": "challenge",
+      "content": "Copy Cat: You do something to me. I copy it exactly back on you. We keep going until someone escalates too far.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "p-r2",
+      "type": "roleplay",
+      "content": "Casting Director: I need the part. You have very specific requirements. What do I have to do?",
+      "intensity": 4,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "p-r7",
+      "type": "roleplay",
+      "content": "Teacher / Student: I need extra credit. You have very creative requirements.",
+      "intensity": 4,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "p-r11",
+      "type": "roleplay",
+      "content": "Royal / Servant: You exist to serve my every desire. You will not speak unless spoken to.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "p-fn3",
+      "type": "fantasy",
+      "content": "Threesome scenario: who joins us, what they look like, who does what. Make it vivid.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "p-fn4",
+      "type": "fantasy",
+      "content": "Describe your ultimate dominant move on me—right now, in this room, with what we have.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "p-fn5",
+      "type": "fantasy",
+      "content": "Tell me a public scenario where we almost got caught. Real or imagined. I want all the details.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "k-ch3",
+      "type": "truth",
+      "content": "Chastity truth: How long could you last being denied by me? What would you do to earn your release?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "k-i1",
+      "type": "dare",
+      "content": "Put me over your lap. 10 spanks—count them. Alternate cheeks. I thank you after each one.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "k-i2",
+      "type": "dare",
+      "content": "Trace an ice cube down my spine, over my nipples, between my thighs. Watch me react.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "requires": [
+        "ice"
+      ]
+    },
+    {
+      "id": "k-i3",
+      "type": "dare",
+      "content": "Drip warm wax on my skin (use a candle). The sting. The heat. The next drop landing somewhere new.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "candle"
+      ],
+      "safetyNotes": "⚠️ WAX PLAY: Use only body-safe candles (soy or paraffin, NOT beeswax). Test temperature on wrist first. Avoid face and genitals."
+    },
+    {
+      "id": "k-p2",
+      "type": "dare",
+      "content": "Collar and lead: Put it on me. Lead me wherever you want. Use the leash to guide my head.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "collar"
+      ]
+    },
+    {
+      "id": "k-p3",
+      "type": "dare",
+      "content": "Orgasm control: Decide when I get to finish. Bring me there—then deny me. I earn it.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "k-t2",
+      "type": "dare",
+      "content": "Insert the butt plug. I wear it while you do other things to me. Every movement is a reminder.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "butt plug"
+      ]
+    },
+    {
+      "id": "k-t3",
+      "type": "dare",
+      "content": "Nipple clamps on. Let me adjust. Then tug the chain while you kiss me.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "nipple clamps"
+      ]
+    },
+    {
+      "id": "k-o1",
+      "type": "dare",
+      "content": "Tease me everywhere EXCEPT where I want it most. 3 minutes. Make me beg before you give in.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "k-o3",
+      "type": "dare",
+      "content": "Sit on my face. Grind. Use me exactly how you need it. Take what you want.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "k-o4",
+      "type": "challenge",
+      "content": "Rimming dare: Use your tongue where they never admit they want it. Soft, firm, then deep.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "k-h1",
+      "type": "dare",
+      "content": "Write one word on my body somewhere hidden. Your word. Your choice. I wear it the rest of the night.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "body-safe marker"
+      ],
+      "safetyNotes": "⚠️ MARKING: Use only body-safe markers. Test for allergies first. Avoid sensitive areas and broken skin."
+    },
+    {
+      "id": "k-g1",
+      "type": "fantasy",
+      "content": "Cuckold / Hotwife: Would you want to watch me with someone? Or be watched? Tell me exactly what the scene looks like.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "k-g2",
+      "type": "fantasy",
+      "content": "Group scenario: Multiple people. Being passed around. Completely used. Describe your ideal version in detail.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-t-001",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-002",
+      "type": "truth",
+      "content": "What was your first impression of me? Be completely honest.",
+      "intensity": 1,
+      "category": "communication",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-t-003",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-t-004",
+      "type": "truth",
+      "content": "If you could only eat one type of cuisine for the rest of your life, which would you choose and why?",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-005",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-006",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-007",
+      "type": "truth",
+      "content": "If we could travel anywhere in the world together, where would you take me?",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-t-008",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-009",
+      "type": "truth",
+      "content": "What quality do you admire most in me that you wish you had more of?",
+      "intensity": 1,
+      "category": "communication",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-010",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-t-011",
+      "type": "truth",
+      "content": "If you had to describe me to a stranger using only three words, what would they be?",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-012",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl1-t-013",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "communication",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-t-014",
+      "type": "truth",
+      "content": "What",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-t-015",
+      "type": "truth",
+      "content": "If you could have any superpower, what would it be and why?",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-d-001",
+      "type": "dare",
+      "content": "Hold my hand for the next 5 minutes without letting go, no matter what.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-d-002",
+      "type": "dare",
+      "content": "Give me a 2-minute shoulder massage while telling me what you appreciate about me.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-d-003",
+      "type": "dare",
+      "content": "Make the silliest face you can and hold it for 10 seconds while I take a mental picture.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl1-d-004",
+      "type": "dare",
+      "content": "Trace the outline of my hand with your finger, slowly, while looking into my eyes.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl1-d-005",
+      "type": "dare",
+      "content": "Whisper",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-d-006",
+      "type": "dare",
+      "content": "Feed me a piece of fruit or chocolate—slowly, like in a romantic movie.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min",
+      "requires": [
+        "food"
+      ]
+    },
+    {
+      "id": "lvl1-d-007",
+      "type": "dare",
+      "content": "Play with my hair for 3 minutes while we talk about our day.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-d-008",
+      "type": "dare",
+      "content": "Give me three genuine compliments, each one about something different.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-d-009",
+      "type": "dare",
+      "content": "Kiss the back of my hand like a gentleman/lady from an old movie.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl1-d-010",
+      "type": "dare",
+      "content": "Do your best impression of me—how I laugh, how I talk, how I move.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-d-011",
+      "type": "dare",
+      "content": "Give me a gentle forehead kiss and tell me one thing you",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl1-d-012",
+      "type": "dare",
+      "content": "Tickle me gently for 30 seconds, but stop immediately if I say",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl1-d-013",
+      "type": "dare",
+      "content": "Draw a heart on my palm with your finger and tell me what it represents to you.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl1-d-014",
+      "type": "dare",
+      "content": "Give me a piggyback ride around the room while humming our song.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-d-015",
+      "type": "dare",
+      "content": "Brush my hair or fix my collar/shirt with extra care and attention.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-c-001",
+      "type": "challenge",
+      "content": "Eye Gazing Challenge: Stare into each other",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-c-002",
+      "type": "challenge",
+      "content": "Slow Dance: Put on a romantic song and slow dance together for the entire song, holding each other close.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "5 min",
+      "requires": [
+        "music"
+      ]
+    },
+    {
+      "id": "lvl1-c-003",
+      "type": "challenge",
+      "content": "Love Note: Write a short, sweet note to each other and hide it somewhere the other will find later.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "5 min",
+      "requires": [
+        "paper",
+        "pen"
+      ]
+    },
+    {
+      "id": "lvl1-c-004",
+      "type": "challenge",
+      "content": "Question Game: Take turns asking each other questions. You must answer honestly. Go for 10 questions.",
+      "intensity": 1,
+      "category": "communication",
+      "isPremium": false,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl1-c-005",
+      "type": "challenge",
+      "content": "Mirror Me: Copy everything I do for 2 minutes—every movement, every expression. Try to make me laugh.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-c-006",
+      "type": "challenge",
+      "content": "20 Questions: Think of something, and I have 20 yes/no questions to guess what it is about you.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-c-007",
+      "type": "challenge",
+      "content": "Playlist Creation: Each of you adds 3 songs to a shared playlist that represents your relationship.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "10 min",
+      "requires": [
+        "music-app"
+      ]
+    },
+    {
+      "id": "lvl1-c-008",
+      "type": "challenge",
+      "content": "Trust Fall: Fall backward into my arms. I",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl1-c-009",
+      "type": "challenge",
+      "content": "Future Planning: Together, plan one small adventure or date you want to have in the next month.",
+      "intensity": 1,
+      "category": "communication",
+      "isPremium": false,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl1-c-010",
+      "type": "challenge",
+      "content": "Compliment Battle: Take turns giving each other compliments. The first one who can",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-c-011",
+      "type": "challenge",
+      "content": "Breathing Sync: Sit facing each other, hold hands, and try to breathe in sync for 3 minutes.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-c-012",
+      "type": "challenge",
+      "content": "Story Building: Take turns adding one sentence to create a ridiculous story together. Make it as silly as possible.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-c-013",
+      "type": "challenge",
+      "content": "Memory Lane: Share your favorite memory of us from each season of the year.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl1-c-014",
+      "type": "challenge",
+      "content": "Thumb War Tournament: Best of 5 thumb wars. Winner gets to choose the next activity.",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-c-015",
+      "type": "challenge",
+      "content": "Gratitude Circle: Take turns sharing three things you",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-fn-001",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-fn-002",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-fn-003",
+      "type": "fantasy",
+      "content": "Describe our perfect lazy Sunday morning together—what time we wake up, what we eat, what we do.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-fn-004",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-fn-005",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-fn-006",
+      "type": "fantasy",
+      "content": "Describe the coziest possible evening we could have together right now.",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-fn-007",
+      "type": "fantasy",
+      "content": "Imagine we could teleport anywhere for just one hour. Where would we go and what would we do?",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl1-fn-008",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-rp-001",
+      "type": "roleplay",
+      "content": "Barista and Customer: You",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-rp-002",
+      "type": "roleplay",
+      "content": "Tour Guide: You",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-rp-003",
+      "type": "roleplay",
+      "content": "Chef and Food Critic: You",
+      "intensity": 1,
+      "category": "playful",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-rp-004",
+      "type": "roleplay",
+      "content": "Artist and Muse: I",
+      "intensity": 1,
+      "category": "emotional",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-rp-005",
+      "type": "roleplay",
+      "content": "Pen Pals: We",
+      "intensity": 1,
+      "category": "communication",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-rp-006",
+      "type": "roleplay",
+      "content": "Dance Instructor: Teach me a simple dance step. Be patient, encouraging, and close.",
+      "intensity": 1,
+      "category": "physical",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl1-rp-007",
+      "type": "roleplay",
+      "content": "Book Club: We",
+      "intensity": 1,
+      "category": "communication",
+      "isPremium": false,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-t-001",
+      "type": "truth",
+      "content": "What",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-002",
+      "type": "truth",
+      "content": "Describe a mild fantasy you",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-t-003",
+      "type": "truth",
+      "content": "What do you desire more of in our physical connection?",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-004",
+      "type": "truth",
+      "content": "What",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-t-005",
+      "type": "truth",
+      "content": "What",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-006",
+      "type": "truth",
+      "content": "When do you feel most desired by me? Describe that moment.",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-007",
+      "type": "truth",
+      "content": "What",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-t-008",
+      "type": "truth",
+      "content": "What kind of touch makes you feel most connected to me emotionally?",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-009",
+      "type": "truth",
+      "content": "If we had a whole day with no interruptions, how would you want to spend it with me?",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-t-010",
+      "type": "truth",
+      "content": "What",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-011",
+      "type": "truth",
+      "content": "Describe your ideal make-out session with me. Where, how long, what leads up to it?",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-012",
+      "type": "truth",
+      "content": "What",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-t-013",
+      "type": "truth",
+      "content": "What does",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-t-014",
+      "type": "truth",
+      "content": "What",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-t-015",
+      "type": "truth",
+      "content": "What song, when it plays, makes you think of me and feel that warm feeling inside?",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-d-001",
+      "type": "dare",
+      "content": "Give me a 5-minute full-body massage, starting at my shoulders and working down to my feet.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "oil-or-lotion"
+      ]
+    },
+    {
+      "id": "lvl2-d-002",
+      "type": "dare",
+      "content": "Feed me a piece of fruit using only your mouth—no hands allowed.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "2 min",
+      "requires": [
+        "fruit"
+      ]
+    },
+    {
+      "id": "lvl2-d-003",
+      "type": "dare",
+      "content": "Whisper three secrets in my ear—one sweet, one silly, and one slightly spicy.",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-d-004",
+      "type": "dare",
+      "content": "Kiss every finger on my hand, one by one, while maintaining eye contact.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-d-005",
+      "type": "dare",
+      "content": "Trace your name on my back with your finger. I",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-d-006",
+      "type": "dare",
+      "content": "Give me eskimo kisses (rubbing noses) for 30 seconds while telling me what you love about my laugh.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl2-d-007",
+      "type": "dare",
+      "content": "Kiss my neck slowly, counting to ten in Spanish with each kiss.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-d-008",
+      "type": "dare",
+      "content": "Hold my face in your hands and kiss me softly, then passionately, then softly again.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-d-009",
+      "type": "dare",
+      "content": "Dance with me to a slow song, pulling me as close as possible. No space between us.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "music"
+      ]
+    },
+    {
+      "id": "lvl2-d-010",
+      "type": "dare",
+      "content": "Give me a foot massage while telling me about your day in detail.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-d-011",
+      "type": "dare",
+      "content": "Write a short poem about me on my skin using your finger, then read it aloud.",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-d-012",
+      "type": "dare",
+      "content": "Kiss my collarbone and shoulder area for 2 minutes, varying pressure and speed.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-d-013",
+      "type": "dare",
+      "content": "Give me butterfly kisses (fluttering eyelashes) on my cheek while humming something romantic.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "1 min"
+    },
+    {
+      "id": "lvl2-d-014",
+      "type": "dare",
+      "content": "Nibble gently on my earlobe while whispering what you",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl2-d-015",
+      "type": "dare",
+      "content": "Give me a scalp massage for 3 minutes while I relax completely.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl2-c-001",
+      "type": "challenge",
+      "content": "Sensory Exploration: Take turns being blindfolded while the other explores your body with hands only—no intimate areas, just appreciation of touch.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "blindfold"
+      ]
+    },
+    {
+      "id": "lvl2-c-002",
+      "type": "challenge",
+      "content": "Playlist Swap: Create a 5-song playlist for each other that represents your feelings. Listen together and discuss.",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "music"
+      ]
+    },
+    {
+      "id": "lvl2-c-003",
+      "type": "challenge",
+      "content": "Surprise Date Planning: Each of you plans a surprise element for a future date. Reveal them to each other now.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl2-c-004",
+      "type": "challenge",
+      "content": "Question Deep Dive: Take turns asking each other increasingly personal questions for 15 minutes. No dodging.",
+      "intensity": 2,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "15 min"
+    },
+    {
+      "id": "lvl2-c-005",
+      "type": "challenge",
+      "content": "Mirror Touch: One person touches themselves somewhere, the other mirrors it on themselves. Take turns for 5 minutes.",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-c-006",
+      "type": "challenge",
+      "content": "Gratitude Exchange: Write down 10 things you appreciate about each other, then read them aloud.",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "paper",
+        "pen"
+      ]
+    },
+    {
+      "id": "lvl2-c-007",
+      "type": "challenge",
+      "content": "Cooking Together: Prepare a simple dish together, but you must stay touching somehow the entire time.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "lvl2-c-008",
+      "type": "challenge",
+      "content": "Body Appreciation: Take turns naming one thing you love about each part of the other",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl2-c-009",
+      "type": "challenge",
+      "content": "Future Vision Board: Together, discuss and write down 5 shared goals or dreams for your future.",
+      "intensity": 2,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "paper",
+        "pen"
+      ]
+    },
+    {
+      "id": "lvl2-c-010",
+      "type": "challenge",
+      "content": "Temperature Play Intro: Use a warm washcloth and a cool ice cube (wrapped) on each other",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "ice",
+        "warm-cloth"
+      ]
+    },
+    {
+      "id": "lvl2-c-011",
+      "type": "challenge",
+      "content": "Love Language Discovery: Each share your top two love languages and give an example of how the other could",
+      "intensity": 2,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl2-c-012",
+      "type": "challenge",
+      "content": "Breathing Together: Lie down facing each other, place hands on each other",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-c-013",
+      "type": "challenge",
+      "content": "Memory Creation: Do something together right now that you want to remember in 10 years. Document it somehow.",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-c-014",
+      "type": "challenge",
+      "content": "Trust Exercise: One person falls backward, the other catches them. Switch. Then discuss how it felt.",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-c-015",
+      "type": "challenge",
+      "content": "Sensory Deprivation Lite: One person wears a blindfold while the other guides them around the room using only touch and voice.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "blindfold"
+      ]
+    },
+    {
+      "id": "lvl2-fn-001",
+      "type": "fantasy",
+      "content": "Describe a romantic evening in Cartagena—walking the walled city, dinner, dancing. What would we do?",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-fn-002",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-fn-003",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-fn-004",
+      "type": "fantasy",
+      "content": "Describe the perfect morning after we",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-fn-005",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-fn-006",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 2,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-fn-007",
+      "type": "fantasy",
+      "content": "Describe a scenario where we have to be quiet because others are nearby, but we can",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-fn-008",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-rp-001",
+      "type": "roleplay",
+      "content": "Masseuse and Client: Give me a professional massage that gradually becomes more intimate and personal.",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "oil-or-lotion"
+      ]
+    },
+    {
+      "id": "lvl2-rp-002",
+      "type": "roleplay",
+      "content": "Old Friends Reunited: We haven",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-rp-003",
+      "type": "roleplay",
+      "content": "Photographer and Model: Direct me into poses. Tell me how beautiful I am. Make me feel seen.",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-rp-004",
+      "type": "roleplay",
+      "content": "Neighbor: I",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-rp-005",
+      "type": "roleplay",
+      "content": "Yoga Instructor: Guide me through stretches, adjusting my position with your hands, staying close.",
+      "intensity": 2,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-rp-006",
+      "type": "roleplay",
+      "content": "Bartender and Regular: You know my usual. We flirt across the bar. Tonight, you ask me to stay after closing.",
+      "intensity": 2,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl2-rp-007",
+      "type": "roleplay",
+      "content": "Personal Shopper: Help me try on clothes. Give your opinion on each item. Get increasingly handsy with",
+      "intensity": 2,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-t-001",
+      "type": "truth",
+      "content": "Describe a specific fantasy location where you",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-002",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-003",
+      "type": "truth",
+      "content": "If you could only use one body part to pleasure me for the next 10 minutes, which would you choose and why?",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-t-004",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-005",
+      "type": "truth",
+      "content": "Describe the sounds I make that turn you on the most.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-t-006",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-t-007",
+      "type": "truth",
+      "content": "If we were in a hotel room with thin walls and had to be quiet, how would you want me to take you?",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-008",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-009",
+      "type": "truth",
+      "content": "Describe exactly how you want me to undress you right now, step by step.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-t-010",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-011",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-t-012",
+      "type": "truth",
+      "content": "If we had to have quick sex right now, where and how would you want it?",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-t-013",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-014",
+      "type": "truth",
+      "content": "Describe your ideal oral sex session with me. What do you want me to do?",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-t-015",
+      "type": "truth",
+      "content": "What",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-d-001",
+      "type": "dare",
+      "content": "Give me a slow, sensual strip tease to music. Make me want you.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "music"
+      ]
+    },
+    {
+      "id": "lvl3-d-002",
+      "type": "dare",
+      "content": "Blindfold me and explore my body with your hands and mouth for 5 minutes. I can",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "blindfold"
+      ]
+    },
+    {
+      "id": "lvl3-d-003",
+      "type": "dare",
+      "content": "Take an ice cube and trace it down my chest, around my nipples, and down my stomach.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "requires": [
+        "ice"
+      ]
+    },
+    {
+      "id": "lvl3-d-004",
+      "type": "dare",
+      "content": "Kiss me from my neck down to my navel, taking your time at every spot.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-d-005",
+      "type": "dare",
+      "content": "Whisper the dirtiest thing you want to do to me tonight, in full detail.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-d-006",
+      "type": "dare",
+      "content": "Use a feather or soft fabric to tease my entire body, avoiding where I want it most until I beg.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "feather"
+      ]
+    },
+    {
+      "id": "lvl3-d-007",
+      "type": "dare",
+      "content": "Bite my neck and shoulder while grinding against me. Leave a mark.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-d-008",
+      "type": "dare",
+      "content": "Give me a lap dance for 3 minutes. Use me. Make me hard/wet.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-d-009",
+      "type": "dare",
+      "content": "Suck on my fingers like you",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-d-010",
+      "type": "dare",
+      "content": "Tie my wrists loosely with a scarf or tie. Tease me for 5 minutes while I",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "scarf"
+      ]
+    },
+    {
+      "id": "lvl3-d-011",
+      "type": "dare",
+      "content": "Kiss every inch of my body except my lips and intimate areas. Make me desperate for more.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-d-012",
+      "type": "dare",
+      "content": "Drizzle honey or chocolate on my chest and lick it off slowly.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "honey"
+      ]
+    },
+    {
+      "id": "lvl3-d-013",
+      "type": "dare",
+      "content": "Put my hand exactly where you want to be touched and guide me to show me how you like it.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-d-014",
+      "type": "dare",
+      "content": "Spank me 5 times, alternating cheeks. Make me count each one.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "2 min"
+    },
+    {
+      "id": "lvl3-d-015",
+      "type": "dare",
+      "content": "Give me a",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-c-001",
+      "type": "challenge",
+      "content": "Red Light, Green Light: Touch me however you want. I",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-c-002",
+      "type": "challenge",
+      "content": "Temperature Play: Alternate between ice cubes and warm breath/mouth on sensitive areas. Notice my reactions.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "ice"
+      ]
+    },
+    {
+      "id": "lvl3-c-003",
+      "type": "challenge",
+      "content": "Strip Dice: Roll a die. That",
+      "intensity": 3,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "dice"
+      ]
+    },
+    {
+      "id": "lvl3-c-004",
+      "type": "challenge",
+      "content": "Mirror Game: Whatever I do to you, you copy back on me. We escalate until someone can",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-c-005",
+      "type": "challenge",
+      "content": "No Hands: Pleasure me for 5 minutes using only your mouth. No hands allowed.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-c-006",
+      "type": "challenge",
+      "content": "Alphabet Challenge: Go down on me and trace every letter of the alphabet with your tongue. Don",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-c-007",
+      "type": "challenge",
+      "content": "Edging: Bring me to the edge of orgasm, then stop. Wait 30 seconds. Do this 3 times before letting me finish.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min"
+    },
+    {
+      "id": "lvl3-c-008",
+      "type": "challenge",
+      "content": "Sensory Overload: Blindfold me. Use different textures (feather, fabric, ice, warm breath) all over my body. I guess what each is.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "blindfold",
+        "feather"
+      ]
+    },
+    {
+      "id": "lvl3-c-009",
+      "type": "challenge",
+      "content": "Dirty 20 Questions: I",
+      "intensity": 3,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-c-010",
+      "type": "challenge",
+      "content": "Copy Cat: You do something to me, I copy it exactly on you. Keep going, escalating each round.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-c-011",
+      "type": "challenge",
+      "content": "Hold Still: I get to do whatever I want to you for 3 minutes. You cannot move or make noise. Break the rules? Start over.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min"
+    },
+    {
+      "id": "lvl3-c-012",
+      "type": "challenge",
+      "content": "Body Map: I touch 5 spots on your body in a specific order. You must touch them back on me in reverse order. Miss one? Remove an item.",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-c-013",
+      "type": "challenge",
+      "content": "No Talking: For the next 10 minutes, no words. Only touch, sounds, and eye contact. Communicate everything with your body.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-c-014",
+      "type": "challenge",
+      "content": "Simon Says - Dirty Edition:",
+      "intensity": 3,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-c-015",
+      "type": "challenge",
+      "content": "Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count the spots. Try to beat your record.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-001",
+      "type": "fantasy",
+      "content": "Describe a scenario where we",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-002",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 3,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-003",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-004",
+      "type": "fantasy",
+      "content": "Describe a scenario where you catch me touching myself and decide to join in or watch.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-005",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-006",
+      "type": "fantasy",
+      "content": "Describe a rainy afternoon where we",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-007",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-fn-008",
+      "type": "fantasy",
+      "content": "Describe a scenario where I",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min"
+    },
+    {
+      "id": "lvl3-rp-001",
+      "type": "roleplay",
+      "content": "Boss and Employee: I",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-rp-002",
+      "type": "roleplay",
+      "content": "Doctor and Patient: Give me a very thorough examination. Check everything. Don",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-rp-003",
+      "type": "roleplay",
+      "content": "Personal Trainer: Put me through an intense workout session. Get me sweating. Use your hands to",
+      "intensity": 3,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-rp-004",
+      "type": "roleplay",
+      "content": "Vampire and Victim: You want me. Bite my neck. Take what you need. Make me yours.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-rp-005",
+      "type": "roleplay",
+      "content": "First Date: Act like we just met and can barely keep our hands to ourselves. The tension is electric.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl3-rp-006",
+      "type": "roleplay",
+      "content": "Masseuse: Give me a professional massage that gets increasingly unprofessional. Start with my shoulders, end wherever you want.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "oil-or-lotion"
+      ]
+    },
+    {
+      "id": "lvl3-rp-007",
+      "type": "roleplay",
+      "content": "Photographer and Nude Model: Direct me. Tell me exactly what position you want me in. Make me feel beautiful and desired.",
+      "intensity": 3,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min"
+    },
+    {
+      "id": "lvl4-t-001",
+      "type": "truth",
+      "content": "What BDSM or kink activity have you always been curious about but never tried?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Discuss boundaries and establish safewords before exploring BDSM activities."
+    },
+    {
+      "id": "lvl4-t-002",
+      "type": "truth",
+      "content": "Do you tend toward being dominant, submissive, or a switch? Explain what that means to you.",
+      "intensity": 4,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Power dynamics require trust and clear communication. Discuss limits beforehand."
+    },
+    {
+      "id": "lvl4-t-003",
+      "type": "truth",
+      "content": "Describe a specific power exchange scenario you",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Establish safewords and aftercare protocols before power exchange play."
+    },
+    {
+      "id": "lvl4-t-004",
+      "type": "truth",
+      "content": "What",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Trust-based activities require established consent and the ability to stop at any time."
+    },
+    {
+      "id": "lvl4-t-005",
+      "type": "truth",
+      "content": "How do you feel about consensual roughness—hair pulling, spanking, pinning? What",
+      "intensity": 4,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Start light and build up. Check in frequently. Avoid dangerous areas like kidneys or neck."
+    },
+    {
+      "id": "lvl4-t-006",
+      "type": "truth",
+      "content": "Would you want to be blindfolded and completely at my mercy? What would excite and scare you about that?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Blindfold play requires established trust and clear verbal communication or safe signals."
+    },
+    {
+      "id": "lvl4-t-007",
+      "type": "truth",
+      "content": "What",
+      "intensity": 4,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "2 min",
+      "safetyNotes": "Hard limits must always be respected without question or pressure."
+    },
+    {
+      "id": "lvl4-t-008",
+      "type": "truth",
+      "content": "Describe how you",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Orgasm control requires check-ins. Never deny orgasm beyond pre-negotiated time limits."
+    },
+    {
+      "id": "lvl4-t-009",
+      "type": "truth",
+      "content": "What",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Degradation play requires extensive aftercare. Check in during and after."
+    },
+    {
+      "id": "lvl4-t-010",
+      "type": "truth",
+      "content": "Would you want to be tied up or restrained? How and for how long?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Never leave a restrained person alone. Keep safety shears nearby. Check circulation."
+    },
+    {
+      "id": "lvl4-t-011",
+      "type": "truth",
+      "content": "What",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Submissive activities require clear boundaries and the ability to safeword out."
+    },
+    {
+      "id": "lvl4-t-012",
+      "type": "truth",
+      "content": "How do you feel about being watched while you pleasure yourself? Or watching me?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Voyeurism/exhibitionism requires complete privacy and consent from all parties."
+    },
+    {
+      "id": "lvl4-t-013",
+      "type": "truth",
+      "content": "What",
+      "intensity": 4,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Fantasy discussion is safe. Acting on fantasies requires additional negotiation."
+    },
+    {
+      "id": "lvl4-t-014",
+      "type": "truth",
+      "content": "Would you want me to mark you—hickeys, scratches, bites? Where and how visible?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min",
+      "safetyNotes": "Marking should avoid areas with major blood vessels. Consider visibility for work/social situations."
+    },
+    {
+      "id": "lvl4-t-015",
+      "type": "truth",
+      "content": "Describe your ideal dominant/submissive session with me. How does it start, progress, and end?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Plan for aftercare before beginning any D/s session. Hydration and comfort are essential."
+    },
+    {
+      "id": "lvl4-d-001",
+      "type": "dare",
+      "content": "Tie my wrists to the bed/frame with soft restraints. You have 10 minutes to do whatever you want.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "restraints"
+      ],
+      "safetyNotes": "Use quick-release knots or safety clips. Never leave restrained partner unattended. Check circulation every few minutes."
+    },
+    {
+      "id": "lvl4-d-002",
+      "type": "dare",
+      "content": "Blindfold me completely. No peeking. Explore my body with various sensations for 10 minutes.",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "blindfold"
+      ],
+      "safetyNotes": "Blindfolded person should feel safe to speak up. Keep play area clear of hazards."
+    },
+    {
+      "id": "lvl4-d-003",
+      "type": "dare",
+      "content": "Spank me 20 times—alternating cheeks, varying intensity. Make me count and thank you after each one.",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Target fleshy parts of buttocks and thighs only. Avoid tailbone, hips, and kidneys."
+    },
+    {
+      "id": "lvl4-d-004",
+      "type": "dare",
+      "content": "Put me over your lap. Spank me while telling me I",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Roleplay requires clear boundaries. Establish safewords before beginning."
+    },
+    {
+      "id": "lvl4-d-005",
+      "type": "dare",
+      "content": "Bring me to the edge of orgasm with your mouth, then stop completely. Deny me until I beg properly.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Edging should not cause physical discomfort. Allow release if requested or after reasonable time."
+    },
+    {
+      "id": "lvl4-d-006",
+      "type": "dare",
+      "content": "Use ice cubes on my nipples and intimate areas, alternating with your warm mouth.",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "ice"
+      ],
+      "safetyNotes": "Ice can cause numbness. Limit exposure to 30 seconds per area. Warm up between applications."
+    },
+    {
+      "id": "lvl4-d-007",
+      "type": "dare",
+      "content": "Pin my wrists above my head and kiss me aggressively. Don",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Wrist pinning should not cause pain. Release immediately if requested."
+    },
+    {
+      "id": "lvl4-d-008",
+      "type": "dare",
+      "content": "Pull my hair firmly while taking me from behind. Control my head. Make me feel owned.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Hair pulling should grab hair close to scalp, not ends. Avoid neck strain."
+    },
+    {
+      "id": "lvl4-d-009",
+      "type": "dare",
+      "content": "Choke me lightly while kissing me—just pressure, not restriction. Control me.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "2 min",
+      "safetyNotes": "Breath play is edge play. Never restrict blood flow to brain. Keep pressure on sides only, never front."
+    },
+    {
+      "id": "lvl4-d-010",
+      "type": "dare",
+      "content": "Bite me—neck, shoulders, chest. Leave marks. Claim me as yours.",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Biting should not break skin. Avoid areas near major blood vessels."
+    },
+    {
+      "id": "lvl4-d-011",
+      "type": "dare",
+      "content": "Tease me with a vibrator for 5 minutes, bringing me close but never letting me finish. Control my pleasure.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "requires": [
+        "vibrator"
+      ],
+      "safetyNotes": "Vibrators can cause numbness with prolonged use. Take breaks and vary intensity."
+    },
+    {
+      "id": "lvl4-d-012",
+      "type": "dare",
+      "content": "Put a collar on me. Lead me around. Use it to guide my head where you want it.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "collar"
+      ],
+      "safetyNotes": "Collars should fit snugly but not restrict breathing. Never pull hard on neck."
+    },
+    {
+      "id": "lvl4-d-013",
+      "type": "dare",
+      "content": "Drip warm wax on my body. Start with less sensitive areas. Watch me react.",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "candle"
+      ],
+      "safetyNotes": "Use only body-safe candles designed for wax play. Test temperature first. Avoid face and genitals."
+    },
+    {
+      "id": "lvl4-d-014",
+      "type": "dare",
+      "content": "Write a",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "requires": [
+        "body-safe-marker"
+      ],
+      "safetyNotes": "Use only body-safe markers. Test for allergies first. Avoid mucous membranes."
+    },
+    {
+      "id": "lvl4-d-015",
+      "type": "dare",
+      "content": "Make me pleasure myself while you watch. Don",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Voyeurism requires complete privacy. Check in to ensure comfort throughout."
+    },
+    {
+      "id": "lvl4-c-001",
+      "type": "challenge",
+      "content": "24-Hour Power Exchange: For the next day, one of us makes all decisions. The other obeys within pre-set limits.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "ongoing",
+      "safetyNotes": "Establish clear limits, safewords, and check-in times before beginning. Either party can end at any time."
+    },
+    {
+      "id": "lvl4-c-002",
+      "type": "challenge",
+      "content": "Public Discretion: While we",
+      "intensity": 4,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "ongoing",
+      "safetyNotes": "Public play must be truly discreet. Never involve non-consenting people."
+    },
+    {
+      "id": "lvl4-c-003",
+      "type": "challenge",
+      "content": "Sensory Deprivation: Blindfold and headphones on me. You have 15 minutes to do whatever you want. I won",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "blindfold",
+        "headphones"
+      ],
+      "safetyNotes": "Sensory deprivation can cause disorientation. Stay in physical contact. Check in verbally."
+    },
+    {
+      "id": "lvl4-c-004",
+      "type": "challenge",
+      "content": "Orgasm Denial Session: I",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "20 min",
+      "safetyNotes": "Denial should not cause pain. Allow release after reasonable time or if genuinely requested."
+    },
+    {
+      "id": "lvl4-c-005",
+      "type": "challenge",
+      "content": "Impact Play Session: Use hands, paddles, or floggers. 20 strikes. Vary intensity. Build up slowly.",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "paddle"
+      ],
+      "safetyNotes": "Start light and warm up. Target buttocks and thighs only. Check in frequently."
+    },
+    {
+      "id": "lvl4-c-006",
+      "type": "challenge",
+      "content": "Bondage 101: Tie me in a simple position—wrists together, or spread eagle. Explore my helpless body.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "restraints"
+      ],
+      "safetyNotes": "Keep safety shears nearby. Check circulation every 5 minutes. Never leave alone."
+    },
+    {
+      "id": "lvl4-c-007",
+      "type": "challenge",
+      "content": "Temperature Play Extreme: Alternate between ice, warm oil, and your mouth across my entire body.",
+      "intensity": 4,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "ice",
+        "oil"
+      ],
+      "safetyNotes": "Monitor skin reactions. Stop if skin becomes too red or numb."
+    },
+    {
+      "id": "lvl4-c-008",
+      "type": "challenge",
+      "content": "Command Performance: For 15 minutes, I must follow every command you give.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "safetyNotes": "Commands must respect pre-negotiated limits. Safeword immediately stops all play."
+    },
+    {
+      "id": "lvl4-c-009",
+      "type": "challenge",
+      "content": "Edging Marathon: Bring me to the edge 5 times over 30 minutes. Final release only with your permission.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Extended edging can be intense. Provide release if requested or after session."
+    },
+    {
+      "id": "lvl4-c-010",
+      "type": "challenge",
+      "content": "Objectification Scene: For 10 minutes, I",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Objectification requires extensive aftercare. Remind partner of your care and respect afterward."
+    },
+    {
+      "id": "lvl4-c-011",
+      "type": "challenge",
+      "content": "Punishment Scene: I",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "safetyNotes": "Roleplay punishment must be clearly distinguished from real conflict. Debrief after."
+    },
+    {
+      "id": "lvl4-c-012",
+      "type": "challenge",
+      "content": "Vibrator Torture: Hold the vibrator on me. I can",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "vibrator"
+      ],
+      "safetyNotes": "Listen for safeword. Numbness means stop. Provide aftercare and gentleness after."
+    },
+    {
+      "id": "lvl4-c-013",
+      "type": "challenge",
+      "content": "Service Submission: For 30 minutes, you serve me—massage, fetch drinks, pleasure me on demand. Your only goal is my satisfaction.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Service submission should be rewarding for both. Check in about enjoyment."
+    },
+    {
+      "id": "lvl4-c-014",
+      "type": "challenge",
+      "content": "Fear Play Lite: Blindfold me. Use unexpected touches, sounds, and sensations. Keep me on edge.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "blindfold"
+      ],
+      "safetyNotes": "Fear play requires high trust. Never truly endanger. Check in frequently."
+    },
+    {
+      "id": "lvl4-c-015",
+      "type": "challenge",
+      "content": "Aftercare Ritual: Create a specific aftercare routine for intense play—cuddling, snacks, gentle words. Practice it now.",
+      "intensity": 4,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "safetyNotes": "Aftercare is essential for all intense play. Never skip it. Adjust to partner needs."
+    },
+    {
+      "id": "lvl4-fn-001",
+      "type": "fantasy",
+      "content": "Describe a CNC (consensual non-consent) scenario you",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "CNC requires extensive negotiation, clear safewords, and thorough aftercare. Discuss in detail before acting."
+    },
+    {
+      "id": "lvl4-fn-002",
+      "type": "fantasy",
+      "content": "Imagine I",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Captivity fantasies require clear boundaries and safety protocols in reality."
+    },
+    {
+      "id": "lvl4-fn-003",
+      "type": "fantasy",
+      "content": "Describe a scene where you",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Total power exchange requires trust and check-ins. Plan for aftercare."
+    },
+    {
+      "id": "lvl4-fn-004",
+      "type": "fantasy",
+      "content": "Pretend we",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Kink clubs require consent from all attendees. Research safe practices before visiting."
+    },
+    {
+      "id": "lvl4-fn-005",
+      "type": "fantasy",
+      "content": "Imagine a 24-hour period where I belong to you completely. What rules would you set? What would we do?",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Extended power exchange requires meal breaks, rest, and ability to safeword out."
+    },
+    {
+      "id": "lvl4-fn-006",
+      "type": "fantasy",
+      "content": "Describe a punishment scene you",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Punishment play must be clearly separate from real conflict. Aftercare is essential."
+    },
+    {
+      "id": "lvl4-fn-007",
+      "type": "fantasy",
+      "content": "Imagine we",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Dungeon equipment requires training for safe use. Start with basics."
+    },
+    {
+      "id": "lvl4-fn-008",
+      "type": "fantasy",
+      "content": "Describe a scene where you",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Body worship is generally low-risk. Ensure physical comfort for extended positions."
+    },
+    {
+      "id": "lvl4-rp-001",
+      "type": "roleplay",
+      "content": "Police Officer and Suspect: You pulled me over. I",
+      "intensity": 4,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Roleplay should not normalize actual abuse of power. Keep it clearly fictional."
+    },
+    {
+      "id": "lvl4-rp-002",
+      "type": "roleplay",
+      "content": "Kidnapper and Captive: You have me tied up. I",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "restraints"
+      ],
+      "safetyNotes": "Captivity play requires easy release and constant monitoring. Never leave alone."
+    },
+    {
+      "id": "lvl4-rp-003",
+      "type": "roleplay",
+      "content": "Teacher and Student: I need extra credit. You have very creative requirements. I must earn my grade.",
+      "intensity": 4,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Age gap roleplay should clearly involve adults. Avoid anything resembling actual minors."
+    },
+    {
+      "id": "lvl4-rp-004",
+      "type": "roleplay",
+      "content": "Royal and Servant: You exist to serve my every desire. You will not speak unless spoken to. Obey immediately.",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "safetyNotes": "Service roleplay should include appreciation for the submissive partner."
+    },
+    {
+      "id": "lvl4-rp-005",
+      "type": "roleplay",
+      "content": "Interrogator and Prisoner: I know something you want. Pleasure is the only weapon you",
+      "intensity": 4,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "safetyNotes": "Interrogation play can be intense. Check in about psychological comfort."
+    },
+    {
+      "id": "lvl4-rp-006",
+      "type": "roleplay",
+      "content": "Casting Director and Actor: I need this part. You have very specific requirements. What do I have to do to get the role?",
+      "intensity": 4,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Casting couch scenarios should not normalize actual exploitation in entertainment industry."
+    },
+    {
+      "id": "lvl4-rp-007",
+      "type": "roleplay",
+      "content": "Supervillain and Hero: You caught me. Now I",
+      "intensity": 4,
+      "category": "playful",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Villain/hero play allows for creative restraint and power exchange scenarios."
+    },
+    {
+      "id": "lvl5-t-001",
+      "type": "truth",
+      "content": "What",
+      "intensity": 5,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Hard limits must be respected absolutely. Never pressure someone to change their limits."
+    },
+    {
+      "id": "lvl5-t-002",
+      "type": "truth",
+      "content": "Describe your most extreme fantasy—the one you barely admit to yourself. No judgment.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Fantasy disclosure is safe. Acting on extreme fantasies requires extensive negotiation and safety planning."
+    },
+    {
+      "id": "lvl5-t-003",
+      "type": "truth",
+      "content": "Would you ever want to involve another person in our sex life? Who and in what capacity?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Group play requires enthusiastic consent from all parties. Discuss boundaries extensively beforehand."
+    },
+    {
+      "id": "lvl5-t-004",
+      "type": "truth",
+      "content": "What",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Taboo fantasies are normal. Acting on them requires careful consideration of ethics and safety."
+    },
+    {
+      "id": "lvl5-t-005",
+      "type": "truth",
+      "content": "Describe your ideal weekend-long kink experience. What would happen Friday night through Sunday morning?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Extended scenes require meal planning, rest periods, and clear end points."
+    },
+    {
+      "id": "lvl5-t-006",
+      "type": "truth",
+      "content": "What",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Degradation play requires extensive aftercare and reaffirmation of worth and love."
+    },
+    {
+      "id": "lvl5-t-007",
+      "type": "truth",
+      "content": "Would you want to be completely immobilized—bound, gagged, blindfolded, at my total mercy?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Total immobilization requires extreme safety measures. Never leave unattended. Monitor breathing constantly."
+    },
+    {
+      "id": "lvl5-t-008",
+      "type": "truth",
+      "content": "What",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Edge play carries real risks. Research thoroughly. Consider professional instruction."
+    },
+    {
+      "id": "lvl5-t-009",
+      "type": "truth",
+      "content": "Describe a 24/7 power exchange relationship. Would you want that? In what capacity?",
+      "intensity": 5,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "24/7 dynamics require extensive negotiation, regular check-ins, and ability to step out of roles."
+    },
+    {
+      "id": "lvl5-t-010",
+      "type": "truth",
+      "content": "What",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Pain play requires understanding of anatomy. Avoid joints, spine, kidneys, and neck."
+    },
+    {
+      "id": "lvl5-t-011",
+      "type": "truth",
+      "content": "Would you want to be shared? Passed around? Completely used by multiple people?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Group scenarios require STI discussions, birth control, and extensive safety planning."
+    },
+    {
+      "id": "lvl5-t-012",
+      "type": "truth",
+      "content": "What",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Dark fantasies are common. Distinguish between fantasy and desire to act."
+    },
+    {
+      "id": "lvl5-t-013",
+      "type": "truth",
+      "content": "Describe your ideal CNC (consensual non-consent) scene in explicit detail. Safewords? Aftercare?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "CNC requires extensive negotiation, multiple safewords, and thorough aftercare. Debrief extensively."
+    },
+    {
+      "id": "lvl5-t-014",
+      "type": "truth",
+      "content": "What",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Extended denial should not cause physical harm. Regular check-ins essential."
+    },
+    {
+      "id": "lvl5-t-015",
+      "type": "truth",
+      "content": "If you could push one boundary with me tonight, what would it be?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "3 min",
+      "safetyNotes": "Boundary pushing requires explicit consent and ability to stop at any moment."
+    },
+    {
+      "id": "lvl5-d-001",
+      "type": "dare",
+      "content": "Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "requires": [
+        "restraints",
+        "gag",
+        "blindfold"
+      ],
+      "safetyNotes": "Never leave restrained person alone. Check circulation constantly. Establish non-verbal safeword. Keep safety shears nearby."
+    },
+    {
+      "id": "lvl5-d-002",
+      "type": "dare",
+      "content": "Intense impact scene: 50 strikes with paddle, flogger, or cane. Build intensity. Make me feel every one.",
+      "intensity": 5,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "20 min",
+      "requires": [
+        "paddle"
+      ],
+      "safetyNotes": "Warm up gradually. Target buttocks and thighs only. Check in every 10 strikes. Watch for skin damage."
+    },
+    {
+      "id": "lvl5-d-003",
+      "type": "dare",
+      "content": "Breath play: Control my breathing. Light pressure on throat or covering mouth/nose briefly. Total trust required.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "EXTREME RISK. Never compress arteries. Never restrict blood flow to brain. Research extensively before attempting."
+    },
+    {
+      "id": "lvl5-d-004",
+      "type": "dare",
+      "content": "Forced orgasm session: Restrain me. Use vibrator. Don",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "20 min",
+      "requires": [
+        "restraints",
+        "vibrator"
+      ],
+      "safetyNotes": "Watch for overstimulation and discomfort. Provide water and comfort after. Stop if genuine distress."
+    },
+    {
+      "id": "lvl5-d-005",
+      "type": "dare",
+      "content": "Complete submission: For the next hour, I am your property. Use me however you want. I obey without question.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "60 min",
+      "safetyNotes": "Total power exchange requires pre-negotiated limits and ability to safeword. Plan for aftercare."
+    },
+    {
+      "id": "lvl5-d-006",
+      "type": "dare",
+      "content": "Edge play: Use a knife to cut off my clothing. Carefully. The threat, the danger, the trust.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "requires": [
+        "knife"
+      ],
+      "safetyNotes": "EXTREME RISK. Use blunt knife for beginners. Never cut toward body. Consider fake knife for psychological effect."
+    },
+    {
+      "id": "lvl5-d-007",
+      "type": "dare",
+      "content": "Watersports: Piss on me or have me piss on you. Complete degradation and acceptance.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Urine is generally sterile but can transmit infections. Avoid contact with eyes or open wounds. Shower after."
+    },
+    {
+      "id": "lvl5-d-008",
+      "type": "dare",
+      "content": "Public risk: Touch me intimately in a semi-public place where we might get caught. The thrill of almost being seen.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Public play laws vary. Ensure no non-consenting people can see. Risk of arrest in many jurisdictions."
+    },
+    {
+      "id": "lvl5-d-009",
+      "type": "dare",
+      "content": "Anal training: Use progressively larger toys on me. Stretch me. Prepare me for you.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "requires": [
+        "toys"
+      ],
+      "safetyNotes": "Use copious lube. Go slowly. Stop if pain occurs. Never use without flared base."
+    },
+    {
+      "id": "lvl5-d-010",
+      "type": "dare",
+      "content": "Fisting: Work your hand inside me. Slowly. Carefully. The ultimate fullness.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "requires": [
+        "lube"
+      ],
+      "safetyNotes": "EXTENSIVE preparation required. Use more lube than you think necessary. Stop immediately if resistance or pain."
+    },
+    {
+      "id": "lvl5-d-011",
+      "type": "dare",
+      "content": "CNC scene: Act out a consensual non-consent scenario. I resist. You overpower. Safeword always stops everything.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "20 min",
+      "safetyNotes": "CNC requires extensive pre-negotiation. Establish multiple safewords. Debrief extensively after."
+    },
+    {
+      "id": "lvl5-d-012",
+      "type": "dare",
+      "content": "Electrostimulation: Use a TENS unit or violet wand on me. The electricity, the control, the sensation.",
+      "intensity": 5,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "15 min",
+      "requires": [
+        "tens-unit"
+      ],
+      "safetyNotes": "Never use above waist. Avoid if pregnant or have heart condition. Start at lowest setting."
+    },
+    {
+      "id": "lvl5-d-013",
+      "type": "dare",
+      "content": "Hypnosis play: Put me in trance. Give me suggestions. Control my mind, not just my body.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Hypnosis requires training. Cannot make someone do something against their values. Always bring out of trance properly."
+    },
+    {
+      "id": "lvl5-d-014",
+      "type": "dare",
+      "content": "24-hour chastity: Lock me in a device or agreement. I can",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "ongoing",
+      "requires": [
+        "chastity-device"
+      ],
+      "safetyNotes": "Chastity devices must fit properly. Remove if discoloration or numbness occurs. Maintain hygiene."
+    },
+    {
+      "id": "lvl5-d-015",
+      "type": "dare",
+      "content": "Marking: Leave lasting marks—deep hickeys, scratches, bruises. Claim me for days.",
+      "intensity": 5,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Marks should not last more than a week. Avoid areas with major blood vessels. Consider social/professional visibility."
+    },
+    {
+      "id": "lvl5-c-001",
+      "type": "challenge",
+      "content": "Weekend-long scene: Friday evening through Sunday morning in a power dynamic. Meals, sleep, everything negotiated.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "ongoing",
+      "safetyNotes": "Extended scenes require meal planning, sleep arrangements, and regular check-ins. Plan debrief time."
+    },
+    {
+      "id": "lvl5-c-002",
+      "type": "challenge",
+      "content": "Orgasm denial week: Seven days. No touching yourself. No orgasms. I control all pleasure. Daily check-ins.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "ongoing",
+      "safetyNotes": "Extended denial should not cause physical pain or distress. Allow release if genuinely needed."
+    },
+    {
+      "id": "lvl5-c-003",
+      "type": "challenge",
+      "content": "Total power exchange trial: One week where I make all decisions—what you wear, when you eat, when you pleasure me.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "ongoing",
+      "safetyNotes": "TPE requires work/social boundaries. Maintain ability to safeword. Schedule regular check-ins."
+    },
+    {
+      "id": "lvl5-c-004",
+      "type": "challenge",
+      "content": "Pain processing: Take increasing impact. Learn to breathe through it. Transform pain into pleasure.",
+      "intensity": 5,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "requires": [
+        "paddle"
+      ],
+      "safetyNotes": "Build slowly. Use breathing techniques. Stop at any request. Aftercare is essential."
+    },
+    {
+      "id": "lvl5-c-005",
+      "type": "challenge",
+      "content": "Sensory deprivation extreme: Blindfold, earplugs, restraints. 1 hour. You control everything I experience.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "60 min",
+      "requires": [
+        "blindfold",
+        "earplugs",
+        "restraints"
+      ],
+      "safetyNotes": "Extended deprivation can cause disorientation. Never leave alone. Monitor for distress."
+    },
+    {
+      "id": "lvl5-c-006",
+      "type": "challenge",
+      "content": "Protocol training: Learn specific positions, responses, and behaviors. Practice until perfect. Serve me exactly as commanded.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "60 min",
+      "safetyNotes": "High-protocol scenes require clear instruction. Be patient with learning. Positive reinforcement."
+    },
+    {
+      "id": "lvl5-c-007",
+      "type": "challenge",
+      "content": "Edge play exploration: Try one edge play activity you",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Edge play carries real risks. Research extensively. Have safety plan. Know when to stop."
+    },
+    {
+      "id": "lvl5-c-008",
+      "type": "challenge",
+      "content": "Humiliation scene: Degrade me thoroughly. Make me feel small. Then build me back up with intense aftercare.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Humiliation can trigger real insecurities. Extensive aftercare required. Reaffirm love and value."
+    },
+    {
+      "id": "lvl5-c-009",
+      "type": "challenge",
+      "content": "Multi-hour bondage: Restrained in a comfortable position for 2+ hours. Used periodically. Completely helpless.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "120 min",
+      "requires": [
+        "restraints"
+      ],
+      "safetyNotes": "Position must not strain joints. Check circulation every 15 minutes. Provide water and bathroom breaks."
+    },
+    {
+      "id": "lvl5-c-010",
+      "type": "challenge",
+      "content": "Slave for a day: Complete service submission. Cook, clean, massage, pleasure—all for me. No expectation of reciprocation.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "ongoing",
+      "safetyNotes": "Service submission should be rewarding. Check in about enjoyment. Provide appreciation and aftercare."
+    },
+    {
+      "id": "lvl5-c-011",
+      "type": "challenge",
+      "content": "Fear play: Create a scene that scares me—in a controlled way. Push psychological boundaries. Then hold me after.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Fear play requires high trust. Never truly endanger. Debrief thoroughly. Provide extensive comfort after."
+    },
+    {
+      "id": "lvl5-c-012",
+      "type": "challenge",
+      "content": "Pain and pleasure mix: Alternate intense sensation with pleasure. Learn to associate the two. Transform your response.",
+      "intensity": 5,
+      "category": "physical",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Build intensity gradually. Watch for overwhelm. Aftercare should be gentle and loving."
+    },
+    {
+      "id": "lvl5-c-013",
+      "type": "challenge",
+      "content": "CNC full scene: Extensive negotiation beforehand. Act out the scenario. Safeword stops everything. Debrief extensively after.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "60 min",
+      "safetyNotes": "CNC requires trust and communication. Multiple safewords recommended. Aftercare is non-negotiable."
+    },
+    {
+      "id": "lvl5-c-014",
+      "type": "challenge",
+      "content": "Group scene preparation: Plan a threesome or moresome. Discuss boundaries, STI status, birth control, and aftercare for all.",
+      "intensity": 5,
+      "category": "communication",
+      "isPremium": true,
+      "estimatedTime": "60 min",
+      "safetyNotes": "Group play requires consent from all. Discuss boundaries extensively. Have safe sex supplies ready."
+    },
+    {
+      "id": "lvl5-c-015",
+      "type": "challenge",
+      "content": "Aftercare intensive: Create an elaborate aftercare ritual for intense play. Practice it now—bath, massage, food, cuddling, debrief.",
+      "intensity": 5,
+      "category": "emotional",
+      "isPremium": true,
+      "estimatedTime": "60 min",
+      "safetyNotes": "Aftercare is essential for all intense play. Customize to partner needs. Never skip it."
+    },
+    {
+      "id": "lvl5-fn-001",
+      "type": "fantasy",
+      "content": "Describe a full weekend at a kink resort or dungeon. What rooms would we use? What equipment? What scenes?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Kink venues require understanding of house rules and consent protocols."
+    },
+    {
+      "id": "lvl5-fn-002",
+      "type": "fantasy",
+      "content": "Imagine a 24/7 D/s relationship. What would our daily life look like? Rules? Rituals? Rewards and punishments?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "24/7 dynamics require extensive negotiation and ability to step out of roles when needed."
+    },
+    {
+      "id": "lvl5-fn-003",
+      "type": "fantasy",
+      "content": "Describe a group scene with 3+ people. Who are they? What happens? What are the boundaries?",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "Group scenarios require STI discussions, birth control, and extensive safety planning."
+    },
+    {
+      "id": "lvl5-fn-004",
+      "type": "fantasy",
+      "content": "Imagine an extreme CNC scenario. How does it start? What happens? How does it end? What",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "10 min",
+      "safetyNotes": "CNC requires extensive negotiation. Multiple safewords. Thorough aftercare. Debrief extensively."
+    },
+    {
+      "id": "lvl5-fn-005",
+      "type": "fantasy",
+      "content": "Describe your ultimate edge play fantasy. The risk, the danger, the trust required.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Edge play carries real risks. Research thoroughly before attempting."
+    },
+    {
+      "id": "lvl5-fn-006",
+      "type": "fantasy",
+      "content": "Imagine being completely objectified—used as furniture, a toy, a thing. No humanity, just utility. Then being brought back.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Objectification requires extensive aftercare and reaffirmation of humanity and worth."
+    },
+    {
+      "id": "lvl5-fn-007",
+      "type": "fantasy",
+      "content": "Describe a public humiliation scene—being paraded, displayed, used while others watch. The shame and the arousal.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Public play must not involve non-consenting observers. Consider legal and social risks."
+    },
+    {
+      "id": "lvl5-fn-008",
+      "type": "fantasy",
+      "content": "Imagine a transformation scene—pet play, dollification, dehumanization. Becoming something else entirely for a time.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "5 min",
+      "safetyNotes": "Transformation play requires clear boundaries and ability to return to normal headspace."
+    },
+    {
+      "id": "lvl5-rp-001",
+      "type": "roleplay",
+      "content": "Master/Mistress and Slave: You own me completely. I have no rights, no will, no purpose except to serve you. Prove your ownership.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Slavery roleplay requires extensive negotiation. Remember: it"
+    },
+    {
+      "id": "lvl5-rp-002",
+      "type": "roleplay",
+      "content": "Predator and Prey: You hunt me. I run. You catch me. You consume me. The chase, the capture, the claiming.",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "20 min",
+      "safetyNotes": "Predator/prey play can trigger past trauma. Check in frequently. Clear safeword essential."
+    },
+    {
+      "id": "lvl5-rp-003",
+      "type": "roleplay",
+      "content": "Owner and Pet: I",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Pet play requires understanding of animal behavior simulation vs. actual bestiality (which is never acceptable)."
+    },
+    {
+      "id": "lvl5-rp-004",
+      "type": "roleplay",
+      "content": "Interrogator and Prisoner: You need information. You",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Interrogation play can be psychologically intense. Debrief thoroughly. Provide extensive aftercare."
+    },
+    {
+      "id": "lvl5-rp-005",
+      "type": "roleplay",
+      "content": "Deity and Worshipper: You",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Deity worship allows for creative power dynamics. Ensure partner feels valued, not actually sacrificed."
+    },
+    {
+      "id": "lvl5-rp-006",
+      "type": "roleplay",
+      "content": "CNC Scene: We",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "20 min",
+      "safetyNotes": "CNC requires extensive pre-negotiation. Multiple safewords. Thorough aftercare. Debrief extensively."
+    },
+    {
+      "id": "lvl5-rp-007",
+      "type": "roleplay",
+      "content": "Mad Scientist and Experiment: I",
+      "intensity": 5,
+      "category": "intimate",
+      "isPremium": true,
+      "estimatedTime": "30 min",
+      "safetyNotes": "Medical/scientific play requires understanding of actual anatomy. Avoid dangerous practices."
+    }
+  ]
+}
