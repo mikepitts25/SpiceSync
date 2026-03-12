@@ -1,0 +1,369 @@
+id,type,content,intensity,category,isPremium,estimatedTime,requires,safetyNotes
+f-t1,truth,"Tell me one thing you want me to do to you RIGHT NOW.",3,intimate,false,1 min,,
+f-t2,truth,"Name the exact thing I do that makes you lose control. Show me where.",3,intimate,false,1 min,,
+f-t3,truth,"If you had 60 seconds to turn me on as fast as possible, what would you do?",3,intimate,false,1 min,,
+f-t5,truth,"Tell me exactly how you want to be kissed right now.",2,intimate,false,1 min,,
+f-d1,dare,"Kiss me somewhere unexpected—not my lips. Take your time.",2,physical,false,30 sec,,
+f-d2,dare,"Take off one piece of my clothing using only your teeth.",3,intimate,false,1 min,,
+f-d3,dare,"Whisper the dirtiest thing you want to do to me right now.",3,intimate,false,30 sec,,
+f-d5,dare,"Put both hands in my hair and kiss me like you mean it for 30 seconds.",2,physical,false,30 sec,,
+f-c1,challenge,"7 Minutes in Heaven: You have 7 minutes. Hands, mouth, anywhere above the waist. No stopping, no talking. GO.",3,intimate,false,7 min,,
+f-c2,challenge,"Staring Contest: Eyes locked. First one to blink removes a piece of clothing.",2,playful,false,2 min,,
+f-c3,challenge,"No Hands: Touch me for 5 minutes without using your hands. Mouth, body, anything else.",4,intimate,false,5 min,,
+f-c4,challenge,"Ice Cube: Kiss me with an ice cube in your mouth. Pass it back and forth. Last one to melt it loses a piece of clothing.",2,playful,false,2 min,ice,
+f-fn3,fantasy,"First date: Act like we just met and can barely keep your hands to yourself.",3,intimate,false,5 min,,
+f-fn4,fantasy,"You walk in and catch me touching myself. What do you do? Act it out.",4,intimate,false,5 min,,
+f-r2,roleplay,"Doctor / Patient: Give me a full examination. Be very thorough.",3,intimate,false,5 min,,
+f-r3,roleplay,"Personal Trainer: Put me through your most intense session. Get me sweating.",3,physical,false,5 min,,
+f-r4,roleplay,"Vampire: You want me. Bite my neck. Take what you need.",3,intimate,false,5 min,,
+f-r5,roleplay,"Yoga Instructor: Adjust my position. Use your hands. Make sure my form is perfect.",3,intimate,false,5 min,,
+p-t2,truth,"If I told you to get on your knees right now—would you? Would you want to?",4,intimate,true,1 min,,
+p-t3,truth,"The last time you touched yourself thinking about me—what was happening in your head?",4,intimate,true,2 min,,
+p-t4,truth,"Tell me the one thing I do in bed that makes you lose control. Describe it in detail.",4,intimate,true,2 min,,
+p-t6,truth,"Describe your ideal quickie with me. Location, how it starts, and how it ends.",4,intimate,true,2 min,,
+p-t10,truth,"Describe a fantasy involving me and one other person. Who, what, and who does what to whom.",5,intimate,true,3 min,,
+p-t11,truth,"What would you do if I walked over, grabbed your hand, and put it exactly where I wanted it?",4,intimate,true,1 min,,
+p-t12,truth,"How do you want me to undress you right now? Walk me through it.",3,intimate,true,1 min,,
+p-t14,truth,"If I only had 10 minutes and one body part to work with—what would you choose and why?",4,intimate,true,1 min,,
+p-d2,dare,"Undress me completely using only your mouth. No hands. Figure it out.",4,intimate,true,3 min,,
+p-d3,dare,"Tie my wrists with a scarf. 5 minutes. Do whatever you want to me.",4,intimate,true,5 min,scarf,
+p-d5,dare,"Lap dance. 2 minutes. Use me like a chair. Make me want you.",4,intimate,true,2 min,,
+p-d7,dare,"Pin both my wrists above my head and kiss me until I squirm.",4,intimate,true,2 min,,
+p-d8,dare,"Spank me 10 times. Alternate soft and hard. I count every one out loud.",4,intimate,true,2 min,,"⚠️ IMPACT PLAY: Start light and build up. Avoid kidneys, tailbone, and joints. Check in frequently."
+p-d9,dare,"Drizzle something sweet on my body and lick off every drop.",4,intimate,true,5 min,honey/syrup,
+p-d10,dare,"Kiss every inch of me—everywhere EXCEPT my lips. Stop only when I beg for your mouth.",4,intimate,true,5 min,,
+p-d12,dare,"Put an ice cube in your mouth and go down on me. Cold and heat at the same time.",4,intimate,true,5 min,ice,
+p-d14,dare,"Put my hand exactly where you want it and show me how you want to be touched.",5,intimate,true,3 min,,
+p-d15,dare,"Bring me to the edge with your mouth—then stop right before I finish.",5,intimate,true,5 min,,
+p-d16,dare,"Choke me lightly while you kiss me. Just pressure. Control.",5,intimate,true,1 min,,"⚠️ BREATH PLAY: Never restrict airflow. Light pressure on sides only. Establish clear safeword before starting."
+p-d18,dare,"69. Right now. First one to stop has to do whatever the other wants next round.",5,intimate,true,5 min,,
+p-d19,dare,"Bite a hickey somewhere only I will see it. Claim your territory.",4,intimate,true,1 min,,
+p-d20,dare,"Trace every outline of my body with your tongue from shoulder to inner knee.",5,intimate,true,5 min,,
+p-c4,challenge,"Torture Timer: Set 5 minutes. You have to keep me at the edge without letting me finish until it goes off.",5,intimate,true,5 min,,
+p-c5,challenge,"Orgasm Race: We both touch ourselves. First to finish wins. Loser gives the winner oral right now.",5,intimate,true,5 min,,
+p-c7,challenge,"Edging x3: Bring me right to the edge—then stop. 30 second wait. Do it 3 times. Then finish me.",5,intimate,true,10 min,,
+p-c8,challenge,"Body Map: I touch 5 spots on you in order. You have to touch them back on me in reverse. Miss one—lose an item.",3,physical,true,5 min,,
+p-c10,challenge,"Hold Still: I do whatever I want to you for 2 minutes. You are not allowed to move or make noise. If you do—you have to start over.",4,intimate,true,2 min,,
+p-c12,challenge,"Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count spots. Beat my record next round.",4,intimate,true,5 min,,
+p-c14,challenge,"No Talking: For the next 5 minutes, no words. Only touch. Communicate entirely with your body.",3,intimate,true,5 min,,
+p-c15,challenge,"Copy Cat: You do something to me. I copy it exactly back on you. We keep going until someone escalates too far.",4,intimate,true,5 min,,
+p-r2,roleplay,"Casting Director: I need the part. You have very specific requirements. What do I have to do?",4,playful,true,10 min,,
+p-r7,roleplay,"Teacher / Student: I need extra credit. You have very creative requirements.",4,playful,true,10 min,,
+p-r11,roleplay,"Royal / Servant: You exist to serve my every desire. You will not speak unless spoken to.",4,intimate,true,10 min,,
+p-fn3,fantasy,"Threesome scenario: who joins us, what they look like, who does what. Make it vivid.",5,intimate,true,3 min,,
+p-fn4,fantasy,"Describe your ultimate dominant move on me—right now, in this room, with what we have.",4,intimate,true,2 min,,
+p-fn5,fantasy,"Tell me a public scenario where we almost got caught. Real or imagined. I want all the details.",4,intimate,true,3 min,,
+k-ch3,truth,"Chastity truth: How long could you last being denied by me? What would you do to earn your release?",4,intimate,true,2 min,,
+k-i1,dare,"Put me over your lap. 10 spanks—count them. Alternate cheeks. I thank you after each one.",4,intimate,true,3 min,,
+k-i2,dare,"Trace an ice cube down my spine, over my nipples, between my thighs. Watch me react.",3,intimate,true,3 min,ice,
+k-i3,dare,"Drip warm wax on my skin (use a candle). The sting. The heat. The next drop landing somewhere new.",4,intimate,true,5 min,candle,"⚠️ WAX PLAY: Use only body-safe candles (soy or paraffin, NOT beeswax). Test temperature on wrist first. Avoid face and genitals."
+k-p2,dare,"Collar and lead: Put it on me. Lead me wherever you want. Use the leash to guide my head.",4,intimate,true,10 min,collar,
+k-p3,dare,"Orgasm control: Decide when I get to finish. Bring me there—then deny me. I earn it.",5,intimate,true,10 min,,
+k-t2,dare,"Insert the butt plug. I wear it while you do other things to me. Every movement is a reminder.",5,intimate,true,10 min,butt plug,
+k-t3,dare,"Nipple clamps on. Let me adjust. Then tug the chain while you kiss me.",4,intimate,true,5 min,nipple clamps,
+k-o1,dare,"Tease me everywhere EXCEPT where I want it most. 3 minutes. Make me beg before you give in.",4,intimate,true,5 min,,
+k-o3,dare,"Sit on my face. Grind. Use me exactly how you need it. Take what you want.",4,intimate,true,5 min,,
+k-o4,challenge,"Rimming dare: Use your tongue where they never admit they want it. Soft, firm, then deep.",5,intimate,true,5 min,,
+k-h1,dare,"Write one word on my body somewhere hidden. Your word. Your choice. I wear it the rest of the night.",5,intimate,true,5 min,body-safe marker,"⚠️ MARKING: Use only body-safe markers. Test for allergies first. Avoid sensitive areas and broken skin."
+k-g1,fantasy,"Cuckold / Hotwife: Would you want to watch me with someone? Or be watched? Tell me exactly what the scene looks like.",5,intimate,true,5 min,,
+k-g2,fantasy,"Group scenario: Multiple people. Being passed around. Completely used. Describe your ideal version in detail.",5,intimate,true,5 min,,
+lvl1-t-001,truth,"What",1,emotional,false,2 min,,
+lvl1-t-002,truth,"What was your first impression of me? Be completely honest.",1,communication,false,3 min,,
+lvl1-t-003,truth,"What",1,emotional,false,3 min,,
+lvl1-t-004,truth,"If you could only eat one type of cuisine for the rest of your life, which would you choose and why?",1,playful,false,2 min,,
+lvl1-t-005,truth,"What",1,emotional,false,2 min,,
+lvl1-t-006,truth,"What",1,emotional,false,2 min,,
+lvl1-t-007,truth,"If we could travel anywhere in the world together, where would you take me?",1,playful,false,3 min,,
+lvl1-t-008,truth,"What",1,emotional,false,2 min,,
+lvl1-t-009,truth,"What quality do you admire most in me that you wish you had more of?",1,communication,false,2 min,,
+lvl1-t-010,truth,"What",1,emotional,false,3 min,,
+lvl1-t-011,truth,"If you had to describe me to a stranger using only three words, what would they be?",1,playful,false,2 min,,
+lvl1-t-012,truth,"What",1,physical,false,1 min,,
+lvl1-t-013,truth,"What",1,communication,false,2 min,,
+lvl1-t-014,truth,"What",1,emotional,false,3 min,,
+lvl1-t-015,truth,"If you could have any superpower, what would it be and why?",1,playful,false,2 min,,
+lvl1-d-001,dare,"Hold my hand for the next 5 minutes without letting go, no matter what.",1,physical,false,5 min,,
+lvl1-d-002,dare,"Give me a 2-minute shoulder massage while telling me what you appreciate about me.",1,physical,false,2 min,,
+lvl1-d-003,dare,"Make the silliest face you can and hold it for 10 seconds while I take a mental picture.",1,playful,false,1 min,,
+lvl1-d-004,dare,"Trace the outline of my hand with your finger, slowly, while looking into my eyes.",1,physical,false,1 min,,
+lvl1-d-005,dare,"Whisper",1,emotional,false,2 min,,
+lvl1-d-006,dare,"Feed me a piece of fruit or chocolate—slowly, like in a romantic movie.",1,playful,false,2 min,food,
+lvl1-d-007,dare,"Play with my hair for 3 minutes while we talk about our day.",1,physical,false,3 min,,
+lvl1-d-008,dare,"Give me three genuine compliments, each one about something different.",1,emotional,false,2 min,,
+lvl1-d-009,dare,"Kiss the back of my hand like a gentleman/lady from an old movie.",1,physical,false,1 min,,
+lvl1-d-010,dare,"Do your best impression of me—how I laugh, how I talk, how I move.",1,playful,false,2 min,,
+lvl1-d-011,dare,"Give me a gentle forehead kiss and tell me one thing you",1,emotional,false,1 min,,
+lvl1-d-012,dare,"Tickle me gently for 30 seconds, but stop immediately if I say",1,playful,false,1 min,,
+lvl1-d-013,dare,"Draw a heart on my palm with your finger and tell me what it represents to you.",1,emotional,false,1 min,,
+lvl1-d-014,dare,"Give me a piggyback ride around the room while humming our song.",1,playful,false,2 min,,
+lvl1-d-015,dare,"Brush my hair or fix my collar/shirt with extra care and attention.",1,physical,false,2 min,,
+lvl1-c-001,challenge,"Eye Gazing Challenge: Stare into each other",1,emotional,false,2 min,,
+lvl1-c-002,challenge,"Slow Dance: Put on a romantic song and slow dance together for the entire song, holding each other close.",1,physical,false,5 min,music,
+lvl1-c-003,challenge,"Love Note: Write a short, sweet note to each other and hide it somewhere the other will find later.",1,emotional,false,5 min,paper;pen,
+lvl1-c-004,challenge,"Question Game: Take turns asking each other questions. You must answer honestly. Go for 10 questions.",1,communication,false,10 min,,
+lvl1-c-005,challenge,"Mirror Me: Copy everything I do for 2 minutes—every movement, every expression. Try to make me laugh.",1,playful,false,2 min,,
+lvl1-c-006,challenge,"20 Questions: Think of something, and I have 20 yes/no questions to guess what it is about you.",1,playful,false,5 min,,
+lvl1-c-007,challenge,"Playlist Creation: Each of you adds 3 songs to a shared playlist that represents your relationship.",1,emotional,false,10 min,music-app,
+lvl1-c-008,challenge,"Trust Fall: Fall backward into my arms. I",1,physical,false,2 min,,
+lvl1-c-009,challenge,"Future Planning: Together, plan one small adventure or date you want to have in the next month.",1,communication,false,10 min,,
+lvl1-c-010,challenge,"Compliment Battle: Take turns giving each other compliments. The first one who can",1,playful,false,5 min,,
+lvl1-c-011,challenge,"Breathing Sync: Sit facing each other, hold hands, and try to breathe in sync for 3 minutes.",1,emotional,false,3 min,,
+lvl1-c-012,challenge,"Story Building: Take turns adding one sentence to create a ridiculous story together. Make it as silly as possible.",1,playful,false,5 min,,
+lvl1-c-013,challenge,"Memory Lane: Share your favorite memory of us from each season of the year.",1,emotional,false,10 min,,
+lvl1-c-014,challenge,"Thumb War Tournament: Best of 5 thumb wars. Winner gets to choose the next activity.",1,playful,false,5 min,,
+lvl1-c-015,challenge,"Gratitude Circle: Take turns sharing three things you",1,emotional,false,5 min,,
+lvl1-fn-001,fantasy,"Imagine we",1,playful,false,5 min,,
+lvl1-fn-002,fantasy,"Pretend we",1,playful,false,5 min,,
+lvl1-fn-003,fantasy,"Describe our perfect lazy Sunday morning together—what time we wake up, what we eat, what we do.",1,emotional,false,5 min,,
+lvl1-fn-004,fantasy,"Imagine we",1,emotional,false,5 min,,
+lvl1-fn-005,fantasy,"Pretend we",1,playful,false,5 min,,
+lvl1-fn-006,fantasy,"Describe the coziest possible evening we could have together right now.",1,emotional,false,3 min,,
+lvl1-fn-007,fantasy,"Imagine we could teleport anywhere for just one hour. Where would we go and what would we do?",1,playful,false,3 min,,
+lvl1-fn-008,fantasy,"Pretend we",1,playful,false,5 min,,
+lvl1-rp-001,roleplay,"Barista and Customer: You",1,playful,false,5 min,,
+lvl1-rp-002,roleplay,"Tour Guide: You",1,playful,false,5 min,,
+lvl1-rp-003,roleplay,"Chef and Food Critic: You",1,playful,false,5 min,,
+lvl1-rp-004,roleplay,"Artist and Muse: I",1,emotional,false,5 min,,
+lvl1-rp-005,roleplay,"Pen Pals: We",1,communication,false,5 min,,
+lvl1-rp-006,roleplay,"Dance Instructor: Teach me a simple dance step. Be patient, encouraging, and close.",1,physical,false,5 min,,
+lvl1-rp-007,roleplay,"Book Club: We",1,communication,false,5 min,,
+lvl2-t-001,truth,"What",2,intimate,true,3 min,,
+lvl2-t-002,truth,"Describe a mild fantasy you",2,intimate,true,5 min,,
+lvl2-t-003,truth,"What do you desire more of in our physical connection?",2,intimate,true,3 min,,
+lvl2-t-004,truth,"What",2,physical,true,2 min,,
+lvl2-t-005,truth,"What",2,emotional,true,3 min,,
+lvl2-t-006,truth,"When do you feel most desired by me? Describe that moment.",2,emotional,true,3 min,,
+lvl2-t-007,truth,"What",2,physical,true,2 min,,
+lvl2-t-008,truth,"What kind of touch makes you feel most connected to me emotionally?",2,emotional,true,3 min,,
+lvl2-t-009,truth,"If we had a whole day with no interruptions, how would you want to spend it with me?",2,playful,true,5 min,,
+lvl2-t-010,truth,"What",2,emotional,true,3 min,,
+lvl2-t-011,truth,"Describe your ideal make-out session with me. Where, how long, what leads up to it?",2,intimate,true,3 min,,
+lvl2-t-012,truth,"What",2,emotional,true,5 min,,
+lvl2-t-013,truth,"What does",2,emotional,true,2 min,,
+lvl2-t-014,truth,"What",2,intimate,true,3 min,,
+lvl2-t-015,truth,"What song, when it plays, makes you think of me and feel that warm feeling inside?",2,emotional,true,2 min,,
+lvl2-d-001,dare,"Give me a 5-minute full-body massage, starting at my shoulders and working down to my feet.",2,physical,true,5 min,oil-or-lotion,
+lvl2-d-002,dare,"Feed me a piece of fruit using only your mouth—no hands allowed.",2,playful,true,2 min,fruit,
+lvl2-d-003,dare,"Whisper three secrets in my ear—one sweet, one silly, and one slightly spicy.",2,intimate,true,3 min,,
+lvl2-d-004,dare,"Kiss every finger on my hand, one by one, while maintaining eye contact.",2,physical,true,2 min,,
+lvl2-d-005,dare,"Trace your name on my back with your finger. I",2,physical,true,2 min,,
+lvl2-d-006,dare,"Give me eskimo kisses (rubbing noses) for 30 seconds while telling me what you love about my laugh.",2,playful,true,1 min,,
+lvl2-d-007,dare,"Kiss my neck slowly, counting to ten in Spanish with each kiss.",2,physical,true,2 min,,
+lvl2-d-008,dare,"Hold my face in your hands and kiss me softly, then passionately, then softly again.",2,physical,true,2 min,,
+lvl2-d-009,dare,"Dance with me to a slow song, pulling me as close as possible. No space between us.",2,physical,true,5 min,music,
+lvl2-d-010,dare,"Give me a foot massage while telling me about your day in detail.",2,physical,true,5 min,,
+lvl2-d-011,dare,"Write a short poem about me on my skin using your finger, then read it aloud.",2,emotional,true,3 min,,
+lvl2-d-012,dare,"Kiss my collarbone and shoulder area for 2 minutes, varying pressure and speed.",2,physical,true,2 min,,
+lvl2-d-013,dare,"Give me butterfly kisses (fluttering eyelashes) on my cheek while humming something romantic.",2,playful,true,1 min,,
+lvl2-d-014,dare,"Nibble gently on my earlobe while whispering what you",2,intimate,true,2 min,,
+lvl2-d-015,dare,"Give me a scalp massage for 3 minutes while I relax completely.",2,physical,true,3 min,,
+lvl2-c-001,challenge,"Sensory Exploration: Take turns being blindfolded while the other explores your body with hands only—no intimate areas, just appreciation of touch.",2,physical,true,10 min,blindfold,
+lvl2-c-002,challenge,"Playlist Swap: Create a 5-song playlist for each other that represents your feelings. Listen together and discuss.",2,emotional,true,15 min,music,
+lvl2-c-003,challenge,"Surprise Date Planning: Each of you plans a surprise element for a future date. Reveal them to each other now.",2,playful,true,10 min,,
+lvl2-c-004,challenge,"Question Deep Dive: Take turns asking each other increasingly personal questions for 15 minutes. No dodging.",2,communication,true,15 min,,
+lvl2-c-005,challenge,"Mirror Touch: One person touches themselves somewhere, the other mirrors it on themselves. Take turns for 5 minutes.",2,intimate,true,5 min,,
+lvl2-c-006,challenge,"Gratitude Exchange: Write down 10 things you appreciate about each other, then read them aloud.",2,emotional,true,10 min,paper;pen,
+lvl2-c-007,challenge,"Cooking Together: Prepare a simple dish together, but you must stay touching somehow the entire time.",2,playful,true,15 min,kitchen,
+lvl2-c-008,challenge,"Body Appreciation: Take turns naming one thing you love about each part of the other",2,physical,true,10 min,,
+lvl2-c-009,challenge,"Future Vision Board: Together, discuss and write down 5 shared goals or dreams for your future.",2,communication,true,15 min,paper;pen,
+lvl2-c-010,challenge,"Temperature Play Intro: Use a warm washcloth and a cool ice cube (wrapped) on each other",2,physical,true,5 min,ice;warm-cloth,
+lvl2-c-011,challenge,"Love Language Discovery: Each share your top two love languages and give an example of how the other could",2,communication,true,10 min,,
+lvl2-c-012,challenge,"Breathing Together: Lie down facing each other, place hands on each other",2,emotional,true,5 min,,
+lvl2-c-013,challenge,"Memory Creation: Do something together right now that you want to remember in 10 years. Document it somehow.",2,emotional,true,5 min,,
+lvl2-c-014,challenge,"Trust Exercise: One person falls backward, the other catches them. Switch. Then discuss how it felt.",2,emotional,true,5 min,,
+lvl2-c-015,challenge,"Sensory Deprivation Lite: One person wears a blindfold while the other guides them around the room using only touch and voice.",2,physical,true,5 min,blindfold,
+lvl2-fn-001,fantasy,"Describe a romantic evening in Cartagena—walking the walled city, dinner, dancing. What would we do?",2,playful,true,5 min,,
+lvl2-fn-002,fantasy,"Imagine we",2,intimate,true,5 min,,
+lvl2-fn-003,fantasy,"Pretend we",2,playful,true,5 min,,
+lvl2-fn-004,fantasy,"Describe the perfect morning after we",2,emotional,true,5 min,,
+lvl2-fn-005,fantasy,"Imagine we",2,intimate,true,5 min,,
+lvl2-fn-006,fantasy,"Pretend we",2,emotional,true,5 min,,
+lvl2-fn-007,fantasy,"Describe a scenario where we have to be quiet because others are nearby, but we can",2,intimate,true,5 min,,
+lvl2-fn-008,fantasy,"Imagine we",2,playful,true,5 min,,
+lvl2-rp-001,roleplay,"Masseuse and Client: Give me a professional massage that gradually becomes more intimate and personal.",2,intimate,true,10 min,oil-or-lotion,
+lvl2-rp-002,roleplay,"Old Friends Reunited: We haven",2,playful,true,5 min,,
+lvl2-rp-003,roleplay,"Photographer and Model: Direct me into poses. Tell me how beautiful I am. Make me feel seen.",2,intimate,true,5 min,,
+lvl2-rp-004,roleplay,"Neighbor: I",2,playful,true,5 min,,
+lvl2-rp-005,roleplay,"Yoga Instructor: Guide me through stretches, adjusting my position with your hands, staying close.",2,physical,true,5 min,,
+lvl2-rp-006,roleplay,"Bartender and Regular: You know my usual. We flirt across the bar. Tonight, you ask me to stay after closing.",2,playful,true,5 min,,
+lvl2-rp-007,roleplay,"Personal Shopper: Help me try on clothes. Give your opinion on each item. Get increasingly handsy with",2,intimate,true,5 min,,
+lvl3-t-001,truth,"Describe a specific fantasy location where you",3,intimate,true,3 min,,
+lvl3-t-002,truth,"What",3,communication,true,3 min,,
+lvl3-t-003,truth,"If you could only use one body part to pleasure me for the next 10 minutes, which would you choose and why?",3,intimate,true,2 min,,
+lvl3-t-004,truth,"What",3,intimate,true,3 min,,
+lvl3-t-005,truth,"Describe the sounds I make that turn you on the most.",3,intimate,true,2 min,,
+lvl3-t-006,truth,"What",3,intimate,true,2 min,,
+lvl3-t-007,truth,"If we were in a hotel room with thin walls and had to be quiet, how would you want me to take you?",3,intimate,true,3 min,,
+lvl3-t-008,truth,"What",3,intimate,true,3 min,,
+lvl3-t-009,truth,"Describe exactly how you want me to undress you right now, step by step.",3,intimate,true,2 min,,
+lvl3-t-010,truth,"What",3,communication,true,3 min,,
+lvl3-t-011,truth,"What",3,intimate,true,2 min,,
+lvl3-t-012,truth,"If we had to have quick sex right now, where and how would you want it?",3,intimate,true,2 min,,
+lvl3-t-013,truth,"What",3,intimate,true,3 min,,
+lvl3-t-014,truth,"Describe your ideal oral sex session with me. What do you want me to do?",3,intimate,true,3 min,,
+lvl3-t-015,truth,"What",3,physical,true,2 min,,
+lvl3-d-001,dare,"Give me a slow, sensual strip tease to music. Make me want you.",3,intimate,true,5 min,music,
+lvl3-d-002,dare,"Blindfold me and explore my body with your hands and mouth for 5 minutes. I can",3,intimate,true,5 min,blindfold,
+lvl3-d-003,dare,"Take an ice cube and trace it down my chest, around my nipples, and down my stomach.",3,physical,true,3 min,ice,
+lvl3-d-004,dare,"Kiss me from my neck down to my navel, taking your time at every spot.",3,physical,true,3 min,,
+lvl3-d-005,dare,"Whisper the dirtiest thing you want to do to me tonight, in full detail.",3,intimate,true,2 min,,
+lvl3-d-006,dare,"Use a feather or soft fabric to tease my entire body, avoiding where I want it most until I beg.",3,physical,true,5 min,feather,
+lvl3-d-007,dare,"Bite my neck and shoulder while grinding against me. Leave a mark.",3,physical,true,2 min,,
+lvl3-d-008,dare,"Give me a lap dance for 3 minutes. Use me. Make me hard/wet.",3,intimate,true,3 min,,
+lvl3-d-009,dare,"Suck on my fingers like you",3,intimate,true,2 min,,
+lvl3-d-010,dare,"Tie my wrists loosely with a scarf or tie. Tease me for 5 minutes while I",3,intimate,true,5 min,scarf,
+lvl3-d-011,dare,"Kiss every inch of my body except my lips and intimate areas. Make me desperate for more.",3,physical,true,5 min,,
+lvl3-d-012,dare,"Drizzle honey or chocolate on my chest and lick it off slowly.",3,intimate,true,5 min,honey,
+lvl3-d-013,dare,"Put my hand exactly where you want to be touched and guide me to show me how you like it.",3,intimate,true,3 min,,
+lvl3-d-014,dare,"Spank me 5 times, alternating cheeks. Make me count each one.",3,physical,true,2 min,,
+lvl3-d-015,dare,"Give me a",3,intimate,true,3 min,,
+lvl3-c-001,challenge,"Red Light, Green Light: Touch me however you want. I",3,intimate,true,10 min,,
+lvl3-c-002,challenge,"Temperature Play: Alternate between ice cubes and warm breath/mouth on sensitive areas. Notice my reactions.",3,physical,true,5 min,ice,
+lvl3-c-003,challenge,"Strip Dice: Roll a die. That",3,playful,true,5 min,dice,
+lvl3-c-004,challenge,"Mirror Game: Whatever I do to you, you copy back on me. We escalate until someone can",3,intimate,true,10 min,,
+lvl3-c-005,challenge,"No Hands: Pleasure me for 5 minutes using only your mouth. No hands allowed.",3,intimate,true,5 min,,
+lvl3-c-006,challenge,"Alphabet Challenge: Go down on me and trace every letter of the alphabet with your tongue. Don",3,intimate,true,5 min,,
+lvl3-c-007,challenge,"Edging: Bring me to the edge of orgasm, then stop. Wait 30 seconds. Do this 3 times before letting me finish.",3,intimate,true,15 min,,
+lvl3-c-008,challenge,"Sensory Overload: Blindfold me. Use different textures (feather, fabric, ice, warm breath) all over my body. I guess what each is.",3,physical,true,10 min,blindfold;feather,
+lvl3-c-009,challenge,"Dirty 20 Questions: I",3,playful,true,10 min,,
+lvl3-c-010,challenge,"Copy Cat: You do something to me, I copy it exactly on you. Keep going, escalating each round.",3,intimate,true,10 min,,
+lvl3-c-011,challenge,"Hold Still: I get to do whatever I want to you for 3 minutes. You cannot move or make noise. Break the rules? Start over.",3,intimate,true,3 min,,
+lvl3-c-012,challenge,"Body Map: I touch 5 spots on your body in a specific order. You must touch them back on me in reverse order. Miss one? Remove an item.",3,physical,true,5 min,,
+lvl3-c-013,challenge,"No Talking: For the next 10 minutes, no words. Only touch, sounds, and eye contact. Communicate everything with your body.",3,intimate,true,10 min,,
+lvl3-c-014,challenge,"Simon Says - Dirty Edition:",3,playful,true,10 min,,
+lvl3-c-015,challenge,"Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count the spots. Try to beat your record.",3,intimate,true,5 min,,
+lvl3-fn-001,fantasy,"Describe a scenario where we",3,intimate,true,5 min,,
+lvl3-fn-002,fantasy,"Pretend we",3,playful,true,5 min,,
+lvl3-fn-003,fantasy,"Imagine we",3,intimate,true,5 min,,
+lvl3-fn-004,fantasy,"Describe a scenario where you catch me touching myself and decide to join in or watch.",3,intimate,true,5 min,,
+lvl3-fn-005,fantasy,"Pretend we",3,intimate,true,5 min,,
+lvl3-fn-006,fantasy,"Describe a rainy afternoon where we",3,intimate,true,5 min,,
+lvl3-fn-007,fantasy,"Imagine we",3,intimate,true,5 min,,
+lvl3-fn-008,fantasy,"Describe a scenario where I",3,intimate,true,5 min,,
+lvl3-rp-001,roleplay,"Boss and Employee: I",3,intimate,true,10 min,,
+lvl3-rp-002,roleplay,"Doctor and Patient: Give me a very thorough examination. Check everything. Don",3,intimate,true,10 min,,
+lvl3-rp-003,roleplay,"Personal Trainer: Put me through an intense workout session. Get me sweating. Use your hands to",3,physical,true,10 min,,
+lvl3-rp-004,roleplay,"Vampire and Victim: You want me. Bite my neck. Take what you need. Make me yours.",3,intimate,true,10 min,,
+lvl3-rp-005,roleplay,"First Date: Act like we just met and can barely keep our hands to ourselves. The tension is electric.",3,intimate,true,10 min,,
+lvl3-rp-006,roleplay,"Masseuse: Give me a professional massage that gets increasingly unprofessional. Start with my shoulders, end wherever you want.",3,intimate,true,10 min,oil-or-lotion,
+lvl3-rp-007,roleplay,"Photographer and Nude Model: Direct me. Tell me exactly what position you want me in. Make me feel beautiful and desired.",3,intimate,true,10 min,,
+lvl4-t-001,truth,"What BDSM or kink activity have you always been curious about but never tried?",4,intimate,true,5 min,,"Discuss boundaries and establish safewords before exploring BDSM activities."
+lvl4-t-002,truth,"Do you tend toward being dominant, submissive, or a switch? Explain what that means to you.",4,communication,true,5 min,,"Power dynamics require trust and clear communication. Discuss limits beforehand."
+lvl4-t-003,truth,"Describe a specific power exchange scenario you",4,intimate,true,5 min,,"Establish safewords and aftercare protocols before power exchange play."
+lvl4-t-004,truth,"What",4,intimate,true,3 min,,"Trust-based activities require established consent and the ability to stop at any time."
+lvl4-t-005,truth,"How do you feel about consensual roughness—hair pulling, spanking, pinning? What",4,communication,true,3 min,,"Start light and build up. Check in frequently. Avoid dangerous areas like kidneys or neck."
+lvl4-t-006,truth,"Would you want to be blindfolded and completely at my mercy? What would excite and scare you about that?",4,intimate,true,3 min,,"Blindfold play requires established trust and clear verbal communication or safe signals."
+lvl4-t-007,truth,"What",4,communication,true,2 min,,"Hard limits must always be respected without question or pressure."
+lvl4-t-008,truth,"Describe how you",4,intimate,true,3 min,,"Orgasm control requires check-ins. Never deny orgasm beyond pre-negotiated time limits."
+lvl4-t-009,truth,"What",4,intimate,true,3 min,,"Degradation play requires extensive aftercare. Check in during and after."
+lvl4-t-010,truth,"Would you want to be tied up or restrained? How and for how long?",4,intimate,true,3 min,,"Never leave a restrained person alone. Keep safety shears nearby. Check circulation."
+lvl4-t-011,truth,"What",4,intimate,true,3 min,,"Submissive activities require clear boundaries and the ability to safeword out."
+lvl4-t-012,truth,"How do you feel about being watched while you pleasure yourself? Or watching me?",4,intimate,true,3 min,,"Voyeurism/exhibitionism requires complete privacy and consent from all parties."
+lvl4-t-013,truth,"What",4,communication,true,5 min,,"Fantasy discussion is safe. Acting on fantasies requires additional negotiation."
+lvl4-t-014,truth,"Would you want me to mark you—hickeys, scratches, bites? Where and how visible?",4,intimate,true,2 min,,"Marking should avoid areas with major blood vessels. Consider visibility for work/social situations."
+lvl4-t-015,truth,"Describe your ideal dominant/submissive session with me. How does it start, progress, and end?",4,intimate,true,5 min,,"Plan for aftercare before beginning any D/s session. Hydration and comfort are essential."
+lvl4-d-001,dare,"Tie my wrists to the bed/frame with soft restraints. You have 10 minutes to do whatever you want.",4,intimate,true,10 min,restraints,"Use quick-release knots or safety clips. Never leave restrained partner unattended. Check circulation every few minutes."
+lvl4-d-002,dare,"Blindfold me completely. No peeking. Explore my body with various sensations for 10 minutes.",4,physical,true,10 min,blindfold,"Blindfolded person should feel safe to speak up. Keep play area clear of hazards."
+lvl4-d-003,dare,"Spank me 20 times—alternating cheeks, varying intensity. Make me count and thank you after each one.",4,physical,true,5 min,,"Target fleshy parts of buttocks and thighs only. Avoid tailbone, hips, and kidneys."
+lvl4-d-004,dare,"Put me over your lap. Spank me while telling me I",4,intimate,true,5 min,,"Roleplay requires clear boundaries. Establish safewords before beginning."
+lvl4-d-005,dare,"Bring me to the edge of orgasm with your mouth, then stop completely. Deny me until I beg properly.",4,intimate,true,10 min,,"Edging should not cause physical discomfort. Allow release if requested or after reasonable time."
+lvl4-d-006,dare,"Use ice cubes on my nipples and intimate areas, alternating with your warm mouth.",4,physical,true,5 min,ice,"Ice can cause numbness. Limit exposure to 30 seconds per area. Warm up between applications."
+lvl4-d-007,dare,"Pin my wrists above my head and kiss me aggressively. Don",4,physical,true,3 min,,"Wrist pinning should not cause pain. Release immediately if requested."
+lvl4-d-008,dare,"Pull my hair firmly while taking me from behind. Control my head. Make me feel owned.",4,intimate,true,5 min,,"Hair pulling should grab hair close to scalp, not ends. Avoid neck strain."
+lvl4-d-009,dare,"Choke me lightly while kissing me—just pressure, not restriction. Control me.",4,intimate,true,2 min,,"Breath play is edge play. Never restrict blood flow to brain. Keep pressure on sides only, never front."
+lvl4-d-010,dare,"Bite me—neck, shoulders, chest. Leave marks. Claim me as yours.",4,physical,true,3 min,,"Biting should not break skin. Avoid areas near major blood vessels."
+lvl4-d-011,dare,"Tease me with a vibrator for 5 minutes, bringing me close but never letting me finish. Control my pleasure.",4,intimate,true,5 min,vibrator,"Vibrators can cause numbness with prolonged use. Take breaks and vary intensity."
+lvl4-d-012,dare,"Put a collar on me. Lead me around. Use it to guide my head where you want it.",4,intimate,true,10 min,collar,"Collars should fit snugly but not restrict breathing. Never pull hard on neck."
+lvl4-d-013,dare,"Drip warm wax on my body. Start with less sensitive areas. Watch me react.",4,physical,true,10 min,candle,"Use only body-safe candles designed for wax play. Test temperature first. Avoid face and genitals."
+lvl4-d-014,dare,"Write a",4,intimate,true,3 min,body-safe-marker,"Use only body-safe markers. Test for allergies first. Avoid mucous membranes."
+lvl4-d-015,dare,"Make me pleasure myself while you watch. Don",4,intimate,true,10 min,,"Voyeurism requires complete privacy. Check in to ensure comfort throughout."
+lvl4-c-001,challenge,"24-Hour Power Exchange: For the next day, one of us makes all decisions. The other obeys within pre-set limits.",4,intimate,true,ongoing,,"Establish clear limits, safewords, and check-in times before beginning. Either party can end at any time."
+lvl4-c-002,challenge,"Public Discretion: While we",4,playful,true,ongoing,,"Public play must be truly discreet. Never involve non-consenting people."
+lvl4-c-003,challenge,"Sensory Deprivation: Blindfold and headphones on me. You have 15 minutes to do whatever you want. I won",4,intimate,true,15 min,blindfold;headphones,"Sensory deprivation can cause disorientation. Stay in physical contact. Check in verbally."
+lvl4-c-004,challenge,"Orgasm Denial Session: I",4,intimate,true,20 min,,"Denial should not cause pain. Allow release after reasonable time or if genuinely requested."
+lvl4-c-005,challenge,"Impact Play Session: Use hands, paddles, or floggers. 20 strikes. Vary intensity. Build up slowly.",4,physical,true,15 min,paddle,"Start light and warm up. Target buttocks and thighs only. Check in frequently."
+lvl4-c-006,challenge,"Bondage 101: Tie me in a simple position—wrists together, or spread eagle. Explore my helpless body.",4,intimate,true,15 min,restraints,"Keep safety shears nearby. Check circulation every 5 minutes. Never leave alone."
+lvl4-c-007,challenge,"Temperature Play Extreme: Alternate between ice, warm oil, and your mouth across my entire body.",4,physical,true,15 min,ice;oil,"Monitor skin reactions. Stop if skin becomes too red or numb."
+lvl4-c-008,challenge,"Command Performance: For 15 minutes, I must follow every command you give.",4,intimate,true,15 min,,"Commands must respect pre-negotiated limits. Safeword immediately stops all play."
+lvl4-c-009,challenge,"Edging Marathon: Bring me to the edge 5 times over 30 minutes. Final release only with your permission.",4,intimate,true,30 min,,"Extended edging can be intense. Provide release if requested or after session."
+lvl4-c-010,challenge,"Objectification Scene: For 10 minutes, I",4,intimate,true,10 min,,"Objectification requires extensive aftercare. Remind partner of your care and respect afterward."
+lvl4-c-011,challenge,"Punishment Scene: I",4,intimate,true,15 min,,"Roleplay punishment must be clearly distinguished from real conflict. Debrief after."
+lvl4-c-012,challenge,"Vibrator Torture: Hold the vibrator on me. I can",4,intimate,true,10 min,vibrator,"Listen for safeword. Numbness means stop. Provide aftercare and gentleness after."
+lvl4-c-013,challenge,"Service Submission: For 30 minutes, you serve me—massage, fetch drinks, pleasure me on demand. Your only goal is my satisfaction.",4,intimate,true,30 min,,"Service submission should be rewarding for both. Check in about enjoyment."
+lvl4-c-014,challenge,"Fear Play Lite: Blindfold me. Use unexpected touches, sounds, and sensations. Keep me on edge.",4,intimate,true,10 min,blindfold,"Fear play requires high trust. Never truly endanger. Check in frequently."
+lvl4-c-015,challenge,"Aftercare Ritual: Create a specific aftercare routine for intense play—cuddling, snacks, gentle words. Practice it now.",4,emotional,true,15 min,,"Aftercare is essential for all intense play. Never skip it. Adjust to partner needs."
+lvl4-fn-001,fantasy,"Describe a CNC (consensual non-consent) scenario you",4,intimate,true,5 min,,"CNC requires extensive negotiation, clear safewords, and thorough aftercare. Discuss in detail before acting."
+lvl4-fn-002,fantasy,"Imagine I",4,intimate,true,5 min,,"Captivity fantasies require clear boundaries and safety protocols in reality."
+lvl4-fn-003,fantasy,"Describe a scene where you",4,intimate,true,5 min,,"Total power exchange requires trust and check-ins. Plan for aftercare."
+lvl4-fn-004,fantasy,"Pretend we",4,intimate,true,5 min,,"Kink clubs require consent from all attendees. Research safe practices before visiting."
+lvl4-fn-005,fantasy,"Imagine a 24-hour period where I belong to you completely. What rules would you set? What would we do?",4,intimate,true,5 min,,"Extended power exchange requires meal breaks, rest, and ability to safeword out."
+lvl4-fn-006,fantasy,"Describe a punishment scene you",4,intimate,true,5 min,,"Punishment play must be clearly separate from real conflict. Aftercare is essential."
+lvl4-fn-007,fantasy,"Imagine we",4,intimate,true,5 min,,"Dungeon equipment requires training for safe use. Start with basics."
+lvl4-fn-008,fantasy,"Describe a scene where you",4,intimate,true,5 min,,"Body worship is generally low-risk. Ensure physical comfort for extended positions."
+lvl4-rp-001,roleplay,"Police Officer and Suspect: You pulled me over. I",4,playful,true,10 min,,"Roleplay should not normalize actual abuse of power. Keep it clearly fictional."
+lvl4-rp-002,roleplay,"Kidnapper and Captive: You have me tied up. I",4,intimate,true,15 min,restraints,"Captivity play requires easy release and constant monitoring. Never leave alone."
+lvl4-rp-003,roleplay,"Teacher and Student: I need extra credit. You have very creative requirements. I must earn my grade.",4,playful,true,10 min,,"Age gap roleplay should clearly involve adults. Avoid anything resembling actual minors."
+lvl4-rp-004,roleplay,"Royal and Servant: You exist to serve my every desire. You will not speak unless spoken to. Obey immediately.",4,intimate,true,15 min,,"Service roleplay should include appreciation for the submissive partner."
+lvl4-rp-005,roleplay,"Interrogator and Prisoner: I know something you want. Pleasure is the only weapon you",4,intimate,true,15 min,,"Interrogation play can be intense. Check in about psychological comfort."
+lvl4-rp-006,roleplay,"Casting Director and Actor: I need this part. You have very specific requirements. What do I have to do to get the role?",4,playful,true,10 min,,"Casting couch scenarios should not normalize actual exploitation in entertainment industry."
+lvl4-rp-007,roleplay,"Supervillain and Hero: You caught me. Now I",4,playful,true,10 min,,"Villain/hero play allows for creative restraint and power exchange scenarios."
+lvl5-t-001,truth,"What",5,communication,true,3 min,,"Hard limits must be respected absolutely. Never pressure someone to change their limits."
+lvl5-t-002,truth,"Describe your most extreme fantasy—the one you barely admit to yourself. No judgment.",5,intimate,true,5 min,,"Fantasy disclosure is safe. Acting on extreme fantasies requires extensive negotiation and safety planning."
+lvl5-t-003,truth,"Would you ever want to involve another person in our sex life? Who and in what capacity?",5,intimate,true,5 min,,"Group play requires enthusiastic consent from all parties. Discuss boundaries extensively beforehand."
+lvl5-t-004,truth,"What",5,intimate,true,5 min,,"Taboo fantasies are normal. Acting on them requires careful consideration of ethics and safety."
+lvl5-t-005,truth,"Describe your ideal weekend-long kink experience. What would happen Friday night through Sunday morning?",5,intimate,true,10 min,,"Extended scenes require meal planning, rest periods, and clear end points."
+lvl5-t-006,truth,"What",5,intimate,true,5 min,,"Degradation play requires extensive aftercare and reaffirmation of worth and love."
+lvl5-t-007,truth,"Would you want to be completely immobilized—bound, gagged, blindfolded, at my total mercy?",5,intimate,true,3 min,,"Total immobilization requires extreme safety measures. Never leave unattended. Monitor breathing constantly."
+lvl5-t-008,truth,"What",5,intimate,true,5 min,,"Edge play carries real risks. Research thoroughly. Consider professional instruction."
+lvl5-t-009,truth,"Describe a 24/7 power exchange relationship. Would you want that? In what capacity?",5,communication,true,5 min,,"24/7 dynamics require extensive negotiation, regular check-ins, and ability to step out of roles."
+lvl5-t-010,truth,"What",5,intimate,true,3 min,,"Pain play requires understanding of anatomy. Avoid joints, spine, kidneys, and neck."
+lvl5-t-011,truth,"Would you want to be shared? Passed around? Completely used by multiple people?",5,intimate,true,5 min,,"Group scenarios require STI discussions, birth control, and extensive safety planning."
+lvl5-t-012,truth,"What",5,intimate,true,5 min,,"Dark fantasies are common. Distinguish between fantasy and desire to act."
+lvl5-t-013,truth,"Describe your ideal CNC (consensual non-consent) scene in explicit detail. Safewords? Aftercare?",5,intimate,true,10 min,,"CNC requires extensive negotiation, multiple safewords, and thorough aftercare. Debrief extensively."
+lvl5-t-014,truth,"What",5,intimate,true,3 min,,"Extended denial should not cause physical harm. Regular check-ins essential."
+lvl5-t-015,truth,"If you could push one boundary with me tonight, what would it be?",5,intimate,true,3 min,,"Boundary pushing requires explicit consent and ability to stop at any moment."
+lvl5-d-001,dare,"Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I",5,intimate,true,30 min,restraints;gag;blindfold,"Never leave restrained person alone. Check circulation constantly. Establish non-verbal safeword. Keep safety shears nearby."
+lvl5-d-002,dare,"Intense impact scene: 50 strikes with paddle, flogger, or cane. Build intensity. Make me feel every one.",5,physical,true,20 min,paddle,"Warm up gradually. Target buttocks and thighs only. Check in every 10 strikes. Watch for skin damage."
+lvl5-d-003,dare,"Breath play: Control my breathing. Light pressure on throat or covering mouth/nose briefly. Total trust required.",5,intimate,true,5 min,,"EXTREME RISK. Never compress arteries. Never restrict blood flow to brain. Research extensively before attempting."
+lvl5-d-004,dare,"Forced orgasm session: Restrain me. Use vibrator. Don",5,intimate,true,20 min,restraints;vibrator,"Watch for overstimulation and discomfort. Provide water and comfort after. Stop if genuine distress."
+lvl5-d-005,dare,"Complete submission: For the next hour, I am your property. Use me however you want. I obey without question.",5,intimate,true,60 min,,"Total power exchange requires pre-negotiated limits and ability to safeword. Plan for aftercare."
+lvl5-d-006,dare,"Edge play: Use a knife to cut off my clothing. Carefully. The threat, the danger, the trust.",5,intimate,true,10 min,knife,"EXTREME RISK. Use blunt knife for beginners. Never cut toward body. Consider fake knife for psychological effect."
+lvl5-d-007,dare,"Watersports: Piss on me or have me piss on you. Complete degradation and acceptance.",5,intimate,true,10 min,,"Urine is generally sterile but can transmit infections. Avoid contact with eyes or open wounds. Shower after."
+lvl5-d-008,dare,"Public risk: Touch me intimately in a semi-public place where we might get caught. The thrill of almost being seen.",5,intimate,true,5 min,,"Public play laws vary. Ensure no non-consenting people can see. Risk of arrest in many jurisdictions."
+lvl5-d-009,dare,"Anal training: Use progressively larger toys on me. Stretch me. Prepare me for you.",5,intimate,true,30 min,toys,"Use copious lube. Go slowly. Stop if pain occurs. Never use without flared base."
+lvl5-d-010,dare,"Fisting: Work your hand inside me. Slowly. Carefully. The ultimate fullness.",5,intimate,true,30 min,lube,"EXTENSIVE preparation required. Use more lube than you think necessary. Stop immediately if resistance or pain."
+lvl5-d-011,dare,"CNC scene: Act out a consensual non-consent scenario. I resist. You overpower. Safeword always stops everything.",5,intimate,true,20 min,,"CNC requires extensive pre-negotiation. Establish multiple safewords. Debrief extensively after."
+lvl5-d-012,dare,"Electrostimulation: Use a TENS unit or violet wand on me. The electricity, the control, the sensation.",5,physical,true,15 min,tens-unit,"Never use above waist. Avoid if pregnant or have heart condition. Start at lowest setting."
+lvl5-d-013,dare,"Hypnosis play: Put me in trance. Give me suggestions. Control my mind, not just my body.",5,intimate,true,30 min,,"Hypnosis requires training. Cannot make someone do something against their values. Always bring out of trance properly."
+lvl5-d-014,dare,"24-hour chastity: Lock me in a device or agreement. I can",5,intimate,true,ongoing,chastity-device,"Chastity devices must fit properly. Remove if discoloration or numbness occurs. Maintain hygiene."
+lvl5-d-015,dare,"Marking: Leave lasting marks—deep hickeys, scratches, bruises. Claim me for days.",5,physical,true,10 min,,"Marks should not last more than a week. Avoid areas with major blood vessels. Consider social/professional visibility."
+lvl5-c-001,challenge,"Weekend-long scene: Friday evening through Sunday morning in a power dynamic. Meals, sleep, everything negotiated.",5,intimate,true,ongoing,,"Extended scenes require meal planning, sleep arrangements, and regular check-ins. Plan debrief time."
+lvl5-c-002,challenge,"Orgasm denial week: Seven days. No touching yourself. No orgasms. I control all pleasure. Daily check-ins.",5,intimate,true,ongoing,,"Extended denial should not cause physical pain or distress. Allow release if genuinely needed."
+lvl5-c-003,challenge,"Total power exchange trial: One week where I make all decisions—what you wear, when you eat, when you pleasure me.",5,intimate,true,ongoing,,"TPE requires work/social boundaries. Maintain ability to safeword. Schedule regular check-ins."
+lvl5-c-004,challenge,"Pain processing: Take increasing impact. Learn to breathe through it. Transform pain into pleasure.",5,physical,true,30 min,paddle,"Build slowly. Use breathing techniques. Stop at any request. Aftercare is essential."
+lvl5-c-005,challenge,"Sensory deprivation extreme: Blindfold, earplugs, restraints. 1 hour. You control everything I experience.",5,intimate,true,60 min,blindfold;earplugs;restraints,"Extended deprivation can cause disorientation. Never leave alone. Monitor for distress."
+lvl5-c-006,challenge,"Protocol training: Learn specific positions, responses, and behaviors. Practice until perfect. Serve me exactly as commanded.",5,intimate,true,60 min,,"High-protocol scenes require clear instruction. Be patient with learning. Positive reinforcement."
+lvl5-c-007,challenge,"Edge play exploration: Try one edge play activity you",5,intimate,true,30 min,,"Edge play carries real risks. Research extensively. Have safety plan. Know when to stop."
+lvl5-c-008,challenge,"Humiliation scene: Degrade me thoroughly. Make me feel small. Then build me back up with intense aftercare.",5,intimate,true,30 min,,"Humiliation can trigger real insecurities. Extensive aftercare required. Reaffirm love and value."
+lvl5-c-009,challenge,"Multi-hour bondage: Restrained in a comfortable position for 2+ hours. Used periodically. Completely helpless.",5,intimate,true,120 min,restraints,"Position must not strain joints. Check circulation every 15 minutes. Provide water and bathroom breaks."
+lvl5-c-010,challenge,"Slave for a day: Complete service submission. Cook, clean, massage, pleasure—all for me. No expectation of reciprocation.",5,intimate,true,ongoing,,"Service submission should be rewarding. Check in about enjoyment. Provide appreciation and aftercare."
+lvl5-c-011,challenge,"Fear play: Create a scene that scares me—in a controlled way. Push psychological boundaries. Then hold me after.",5,intimate,true,30 min,,"Fear play requires high trust. Never truly endanger. Debrief thoroughly. Provide extensive comfort after."
+lvl5-c-012,challenge,"Pain and pleasure mix: Alternate intense sensation with pleasure. Learn to associate the two. Transform your response.",5,physical,true,30 min,,"Build intensity gradually. Watch for overwhelm. Aftercare should be gentle and loving."
+lvl5-c-013,challenge,"CNC full scene: Extensive negotiation beforehand. Act out the scenario. Safeword stops everything. Debrief extensively after.",5,intimate,true,60 min,,"CNC requires trust and communication. Multiple safewords recommended. Aftercare is non-negotiable."
+lvl5-c-014,challenge,"Group scene preparation: Plan a threesome or moresome. Discuss boundaries, STI status, birth control, and aftercare for all.",5,communication,true,60 min,,"Group play requires consent from all. Discuss boundaries extensively. Have safe sex supplies ready."
+lvl5-c-015,challenge,"Aftercare intensive: Create an elaborate aftercare ritual for intense play. Practice it now—bath, massage, food, cuddling, debrief.",5,emotional,true,60 min,,"Aftercare is essential for all intense play. Customize to partner needs. Never skip it."
+lvl5-fn-001,fantasy,"Describe a full weekend at a kink resort or dungeon. What rooms would we use? What equipment? What scenes?",5,intimate,true,10 min,,"Kink venues require understanding of house rules and consent protocols."
+lvl5-fn-002,fantasy,"Imagine a 24/7 D/s relationship. What would our daily life look like? Rules? Rituals? Rewards and punishments?",5,intimate,true,10 min,,"24/7 dynamics require extensive negotiation and ability to step out of roles when needed."
+lvl5-fn-003,fantasy,"Describe a group scene with 3+ people. Who are they? What happens? What are the boundaries?",5,intimate,true,10 min,,"Group scenarios require STI discussions, birth control, and extensive safety planning."
+lvl5-fn-004,fantasy,"Imagine an extreme CNC scenario. How does it start? What happens? How does it end? What",5,intimate,true,10 min,,"CNC requires extensive negotiation. Multiple safewords. Thorough aftercare. Debrief extensively."
+lvl5-fn-005,fantasy,"Describe your ultimate edge play fantasy. The risk, the danger, the trust required.",5,intimate,true,5 min,,"Edge play carries real risks. Research thoroughly before attempting."
+lvl5-fn-006,fantasy,"Imagine being completely objectified—used as furniture, a toy, a thing. No humanity, just utility. Then being brought back.",5,intimate,true,5 min,,"Objectification requires extensive aftercare and reaffirmation of humanity and worth."
+lvl5-fn-007,fantasy,"Describe a public humiliation scene—being paraded, displayed, used while others watch. The shame and the arousal.",5,intimate,true,5 min,,"Public play must not involve non-consenting observers. Consider legal and social risks."
+lvl5-fn-008,fantasy,"Imagine a transformation scene—pet play, dollification, dehumanization. Becoming something else entirely for a time.",5,intimate,true,5 min,,"Transformation play requires clear boundaries and ability to return to normal headspace."
+lvl5-rp-001,roleplay,"Master/Mistress and Slave: You own me completely. I have no rights, no will, no purpose except to serve you. Prove your ownership.",5,intimate,true,30 min,,"Slavery roleplay requires extensive negotiation. Remember: it"
+lvl5-rp-002,roleplay,"Predator and Prey: You hunt me. I run. You catch me. You consume me. The chase, the capture, the claiming.",5,intimate,true,20 min,,"Predator/prey play can trigger past trauma. Check in frequently. Clear safeword essential."
+lvl5-rp-003,roleplay,"Owner and Pet: I",5,intimate,true,30 min,,"Pet play requires understanding of animal behavior simulation vs. actual bestiality (which is never acceptable)."
+lvl5-rp-004,roleplay,"Interrogator and Prisoner: You need information. You",5,intimate,true,30 min,,"Interrogation play can be psychologically intense. Debrief thoroughly. Provide extensive aftercare."
+lvl5-rp-005,roleplay,"Deity and Worshipper: You",5,intimate,true,30 min,,"Deity worship allows for creative power dynamics. Ensure partner feels valued, not actually sacrificed."
+lvl5-rp-006,roleplay,"CNC Scene: We",5,intimate,true,20 min,,"CNC requires extensive pre-negotiation. Multiple safewords. Thorough aftercare. Debrief extensively."
+lvl5-rp-007,roleplay,"Mad Scientist and Experiment: I",5,intimate,true,30 min,,"Medical/scientific play requires understanding of actual anatomy. Avoid dangerous practices."
