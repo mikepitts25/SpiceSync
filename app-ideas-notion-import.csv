@@ -1,0 +1,21 @@
+Name,App,Status,Priority,Type,Notes,Tags,Date Added,Effort,Impact
+Add chastity cards to game,SpiceSync,Done,High,Content,"Added 3 chastity kink cards and game cards",Kink Content,2026-03-04,Small,High
+Redesign swipe deck UI,SpiceSync,Done,High,UI/UX,"Complete overhaul with animations and gradients",Visual Polish,2026-03-04,Medium,High
+Make game cards immediate-action,SpiceSync,Done,Medium,Content,"Revamped all cards to be 'do it NOW' not 'plan for later'",Content,2026-03-04,Medium,Medium
+App icon 1024x1024,Colombian Spanish,To Do,High,Launch Blocker,"Create Colombian flag themed app icon for App Store",Visual Asset,2026-03-05,Small,Critical
+App Store screenshots,Colombian Spanish,To Do,High,Launch Blocker,"5 screenshots per device size (iPhone 14 Pro Max, etc)",Visual Asset,2026-03-05,Medium,Critical
+Submit to App Store,Colombian Spanish,To Do,High,Launch Blocker,"Build with EAS and submit for review",Launch,2026-03-05,Small,Critical
+Add RevenueCat paywall,Colombian Spanish,To Do,Medium,Monetization,"Premium upgrade screen and IAP setup",Monetization,2026-03-05,Medium,High
+Native speaker audio,Colombian Spanish,Idea,Low,Feature,"Record real Colombian speakers for pronunciation",Audio,2026-03-05,Large,Medium
+Study streak counter,Colombian Spanish,Idea,Low,Gamification,"Show fire streak emoji and days in a row",Gamification,2026-03-05,Small,Medium
+Achievement badges,Colombian Spanish,Idea,Low,Gamification,"Unlock badges for milestones (100 cards, 7-day streak)",Gamification,2026-03-05,Medium,Low
+Couples matching algorithm,SpiceSync,Idea,Medium,Feature,"Match yes/maybe answers between partners",Core Feature,2026-03-05,Large,High
+E2E encrypted sync,SpiceSync,Idea,Low,Feature,"End-to-end encrypt data between partners",Privacy,2026-03-05,Large,Medium
+Partner invitation system,SpiceSync,Idea,Medium,Feature,"QR code or link to invite partner",Core Feature,2026-03-05,Medium,High
+Cloud backup,SpiceSync,Idea,Low,Feature,"Backup data to cloud (encrypted)",Data,2026-03-05,Medium,Medium
+New app: Budget tracker for couples,New App,Idea,Low,New App,"Shared budget app for couples with transparency",Finance,2026-03-05,Large,Medium
+New app: Shared todo with partner,New App,Idea,Low,New App,"Couples task manager with assignments",Productivity,2026-03-05,Medium,Low
+New app: Date night idea generator,New App,Idea,Medium,New App,"Random date ideas based on budget/location",Lifestyle,2026-03-05,Medium,Medium
+Fix stats overflow on small screens,SpiceSync,Done,Medium,Bug,"Reduced font sizes and adjusted layout",Bug Fix,2026-03-04,Small,Medium
+Add LinearGradient dependency fix,SpiceSync,Done,High,Bug,"Fixed missing expo-linear-gradient import",Bug Fix,2026-03-04,Small,High
+Colombian theme redesign,Colombian Spanish,Done,High,UI/UX,"Yellow/blue/red flag colors, animated cards",Visual Polish,2026-03-05,Medium,High
