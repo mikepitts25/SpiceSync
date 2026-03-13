@@ -58,6 +58,9 @@ export default function CardDraw() {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isPremiumLocked, setIsPremiumLocked] = useState(false);
   
+  // Session card tracking - don't show same cards until next session
+  const shownCardIdsRef = useRef<Set<string>>(new Set());
+  
   // Timer state
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -171,12 +174,25 @@ export default function CardDraw() {
       ? availableCards 
       : availableCards.filter(c => c.type === selectedType);
     
-    // Filter by intensity (exact match only)
-    filteredCards = filteredCards.filter(c => c.intensity === selectedIntensity);
+    // Filter by intensity (selected level and below)
+    filteredCards = filteredCards.filter(c => c.intensity <= selectedIntensity);
+    
+    // Filter out cards already shown this session
+    const unseenCards = filteredCards.filter(c => !shownCardIdsRef.current.has(c.id));
+    
+    // If all cards have been shown, reset the session tracking
+    const cardsToPickFrom = unseenCards.length > 0 ? unseenCards : filteredCards;
+    if (unseenCards.length === 0 && filteredCards.length > 0) {
+      shownCardIdsRef.current.clear();
+    }
     
     // Pick random card
-    if (filteredCards.length > 0) {
-      const randomCard = filteredCards[Math.floor(Math.random() * filteredCards.length)];
+    if (cardsToPickFrom.length > 0) {
+      const randomCard = cardsToPickFrom[Math.floor(Math.random() * cardsToPickFrom.length)];
+      
+      // Track this card as shown
+      shownCardIdsRef.current.add(randomCard.id);
+      
       setCard(randomCard);
       setIsPremiumLocked(randomCard.isPremium && !unlocked);
       

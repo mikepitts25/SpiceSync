@@ -19,6 +19,7 @@ import {
   MessageCircle,
   Settings,
   X,
+  Menu,
 } from 'lucide-react-native';
 import { COLORS, SIZES } from '../constants/theme';
 
@@ -66,11 +67,11 @@ export default function AppMenu() {
         >
           {Platform.OS === 'ios' ? (
             <BlurView intensity={80} tint="light" style={styles.blurBackground}>
-              <Text style={styles.icon}>☰</Text>
+              <Menu size={24} color="white" />
             </BlurView>
           ) : (
             <View style={styles.solidBackground}>
-              <Text style={styles.icon}>☰</Text>
+              <Menu size={24} color="white" />
             </View>
           )}
         </Pressable>
