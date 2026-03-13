@@ -173,15 +173,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   
-  // Grid
+  // Grid - Stacked layout (1 per row)
   gridContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
     gap: 12,
     marginBottom: 32,
   },
   gridItem: {
-    width: '47%',
+    width: '100%',
     ...SHADOWS.md,
   },
   sectionCard: {
