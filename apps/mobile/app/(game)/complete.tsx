@@ -9,10 +9,12 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 
 export default function GameComplete() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const drinkingMode = useSettingsStore((state) => state.drinkingMode);
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -35,7 +37,7 @@ export default function GameComplete() {
         <View style={styles.actions}>
           <Pressable 
             style={styles.button}
-            onPress={() => router.push('/(game)/draw')}
+            onPress={() => router.push({ pathname: '/(game)/draw', params: { drinkingMode: drinkingMode.toString() } })}
           >
             <Text style={styles.buttonText}>Draw Another Card</Text>
           </Pressable>

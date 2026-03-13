@@ -38,10 +38,21 @@ const TYPE_NAMES: Record<GameCardType, string> = {
 export default function CardDraw() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { type, intensity, drinkingMode } = useLocalSearchParams<{ type: GameCardType | 'all'; intensity: string; drinkingMode: string }>();
+  const { type, intensity, drinkingMode: drinkingModeParam } = useLocalSearchParams<{ type: GameCardType | 'all'; intensity: string; drinkingMode: string }>();
   const unlocked = useSettingsStore((state) => state.unlocked);
   const language = useSettingsStore((state) => state.language);
+  const drinkingModeStore = useSettingsStore((state) => state.drinkingMode);
+  const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
   const { t } = useTranslation();
+  
+  // Sync URL param to store on mount (for backward compatibility)
+  useEffect(() => {
+    if (drinkingModeParam === 'true') {
+      setDrinkingMode(true);
+    } else if (drinkingModeParam === 'false') {
+      setDrinkingMode(false);
+    }
+  }, [drinkingModeParam, setDrinkingMode]);
   
   const [card, setCard] = useState<GameCard | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -221,7 +232,7 @@ export default function CardDraw() {
 
   const cardColor = TYPE_COLORS[card.type];
   const isLocked = card.isPremium && !unlocked;
-  const isDrinkingMode = drinkingMode === 'true';
+  const isDrinkingMode = drinkingModeStore;
 
   // Format seconds to mm:ss
   const formatTime = (seconds: number) => {
