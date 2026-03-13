@@ -6,6 +6,7 @@ import {
   Pressable,
   Animated,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -278,7 +279,11 @@ export default function CardDraw() {
           )}
 
           {/* Card Content */}
-          <View style={[styles.content, isLocked && styles.blurredContent]}>
+          <ScrollView 
+            style={[styles.content, isLocked && styles.blurredContent]}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentContainer}
+          >
             <Text style={styles.cardText}>{card.content}</Text>
             {isDrinkingMode && (
               <Text style={styles.drinkingTextContent}>
@@ -342,7 +347,7 @@ export default function CardDraw() {
             )}
             
             <Text style={styles.timeEstimate}>{t.game.estimatedTime}: {card.estimatedTime}</Text>
-          </View>
+          </ScrollView>
 
           {/* Intensity Dots */}
           <View style={styles.intensityRow}>
@@ -435,7 +440,11 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
+    marginVertical: SIZES.padding,
+  },
+  contentContainer: {
+    paddingBottom: SIZES.padding,
+    gap: SIZES.padding,
   },
   blurredContent: {
     opacity: 0.1,
@@ -445,12 +454,14 @@ const styles = StyleSheet.create({
     fontSize: SIZES.h4,
     color: COLORS.text,
     lineHeight: 28,
-    marginBottom: SIZES.padding,
   },
   intensityRow: {
     flexDirection: 'row',
     gap: 8,
-    marginTop: SIZES.padding * 2,
+    marginTop: SIZES.padding,
+    paddingTop: SIZES.padding,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
   },
   intensityDot: {
     width: 12,
@@ -534,18 +545,13 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.bold,
     fontSize: SIZES.body,
     color: '#F39C12',
-    marginTop: SIZES.padding,
-    marginBottom: SIZES.padding,
   },
   timeEstimate: {
     fontFamily: FONTS.medium,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
-    marginTop: SIZES.padding,
   },
   timerContainer: {
-    marginTop: SIZES.padding,
-    marginBottom: SIZES.padding,
     padding: SIZES.padding * 1.5,
     backgroundColor: COLORS.backgroundSecondary,
     borderRadius: SIZES.radius,
@@ -602,7 +608,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   safetyContainer: {
-    marginTop: SIZES.padding,
     padding: SIZES.padding,
     backgroundColor: 'rgba(231, 76, 60, 0.15)',
     borderRadius: SIZES.radius,
