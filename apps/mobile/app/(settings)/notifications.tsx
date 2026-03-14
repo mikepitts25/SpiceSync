@@ -8,9 +8,12 @@ import {
   StyleSheet,
   Switch,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import Animated, { FadeInUp } from 'react-native-reanimated';
+import { Bell, ChevronLeft, Clock, Sparkles } from 'lucide-react-native';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { 
   initializeNotifications,
@@ -19,7 +22,6 @@ import {
   updateNotificationTime,
   sendTestNotification,
 } from '../../lib/notifications';
-import AnimatedButton from '../../components/AnimatedButton';
 import { useRouter } from 'expo-router';
 import { useHaptics } from '../../hooks/useHaptics';
 
@@ -32,7 +34,6 @@ export default function NotificationSettingsScreen() {
   const [showPicker, setShowPicker] = useState(false);
   const [loading, setLoading] = useState(false);
   
-  // Load settings on mount
   useEffect(() => {
     loadSettings();
   }, []);
@@ -46,12 +47,10 @@ export default function NotificationSettingsScreen() {
     setTime(newTime);
   };
   
-  // Handle toggle
   const handleToggle = async (value: boolean) => {
     setLoading(true);
     
     if (value) {
-      // Initialize and request permissions
       const initialized = await initializeNotifications();
       if (!initialized) {
         hapticError();
@@ -71,7 +70,6 @@ export default function NotificationSettingsScreen() {
     setLoading(false);
   };
   
-  // Handle time change
   const handleTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShowPicker(false);
     
@@ -82,7 +80,6 @@ export default function NotificationSettingsScreen() {
     }
   };
   
-  // Send test notification
   const handleTest = async () => {
     await sendTestNotification();
     success();
@@ -100,175 +97,240 @@ export default function NotificationSettingsScreen() {
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Notifications</Text>
-        <Text style={styles.headerSubtitle}>
-          Get daily inspiration delivered to you
-        </Text>
+        <Pressable style={styles.backButton} onPress={() => router.back()}>
+          <ChevronLeft size={28} color={COLORS.text} />
+        </Pressable>
+        <View style={styles.headerContent}>
+          <View style={styles.headerIconContainer}>
+            <Bell size={24} color={COLORS.success} />
+          </View>
+          <Text style={styles.headerTitle}>Notifications</Text>
+          <Text style={styles.headerSubtitle}>Get daily inspiration delivered to you</Text>
+        </View>
+        <View style={{ width: 48 }} />
       </View>
       
-      <ScrollView style={styles.scrollView}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Enable Toggle */}
-        <View style={styles.card}>
-          <View style={styles.settingRow}>
-            <View style={styles.settingInfo}>
-              <Text style={styles.settingTitle}>Daily Activity Card</Text>
-              <Text style={styles.settingDescription}>
-                Receive a new activity suggestion every day
-              </Text>
+        <Animated.View entering={FadeInUp.delay(100)}>
+          <View style={styles.card}>
+            <View style={styles.settingRow}>
+              <View style={styles.settingIconContainer}>
+                <Sparkles size={24} color={COLORS.primary} />
+              </View>
+              <View style={styles.settingInfo}>
+                <Text style={styles.settingTitle}>Daily Activity Card</Text>
+                <Text style={styles.settingDescription}>
+                  Receive a new activity suggestion every day
+                </Text>
+              </View>
+              <Switch
+                value={enabled}
+                onValueChange={handleToggle}
+                disabled={loading}
+                trackColor={{ false: COLORS.border, true: `${COLORS.primary}50` }}
+                thumbColor={enabled ? COLORS.primary : COLORS.textMuted}
+              />
             </View>
-            <Switch
-              value={enabled}
-              onValueChange={handleToggle}
-              disabled={loading}
-              trackColor={{ false: COLORS.border, true: `${COLORS.primary}50` }}
-              thumbColor={enabled ? COLORS.primary : COLORS.textMuted}
-            />
           </View>
-        </View>
+        </Animated.View>
         
         {/* Time Setting */}
         {enabled && (
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>⏰ Notification Time</Text>
-            
-            <Pressable style={styles.timeButton} onPress={() => setShowPicker(true)}>
-              <Text style={styles.timeText}>{formatTime(time)}</Text>
-              <Text style={styles.timeHint}>Tap to change</Text>
-            </Pressable>
-            
-            {showPicker && (
-              <DateTimePicker
-                value={time}
-                mode="time"
-                display="spinner"
-                onChange={handleTimeChange}
-              />
-            )}
-            
-            <Text style={styles.timeDescription}>
-              We'll send you a fun new activity idea at this time every day.
-              Default is 8:00 PM.
-            </Text>
-          </View>
+          <Animated.View entering={FadeInUp.delay(200)}>
+            <View style={styles.card}>
+              <View style={styles.cardHeader}>
+                <View style={[styles.cardIconContainer, { backgroundColor: `${COLORS.accent}20` }]}>
+                  <Clock size={20} color={COLORS.accent} />
+                </View>
+                <Text style={styles.cardTitle}>Notification Time</Text>
+              </View>
+              
+              <Pressable style={styles.timeButton} onPress={() => setShowPicker(true)}>
+                <Text style={styles.timeText}>{formatTime(time)}</Text>
+                <Text style={styles.timeHint}>Tap to change</Text>
+              </Pressable>
+              
+              {showPicker && (
+                <DateTimePicker
+                  value={time}
+                  mode="time"
+                  display="spinner"
+                  onChange={handleTimeChange}
+                />
+              )}
+              
+              <Text style={styles.timeDescription}>
+                We'll send you a fun new activity idea at this time every day. Default is 8:00 PM.
+              </Text>
+            </View>
+          </Animated.View>
         )}
         
         {/* Preview Card */}
-        <View style={styles.previewCard}>
-          <Text style={styles.previewTitle}>📱 Preview</Text>
-          <View style={styles.notificationPreview}>
-            <View style={styles.notificationHeader}>
-              <View style={styles.notificationIcon}>
-                <Text style={styles.notificationIconText}>💡</Text>
-              </View>
-              <View style={styles.notificationContent}>
-                <Text style={styles.notificationTitle}>Daily Spice Idea</Text>
-                <Text style={styles.notificationBody}>
-                  Today's idea: Try something new together
-                </Text>
+        <Animated.View entering={FadeInUp.delay(300)}>
+          <View style={styles.previewCard}>
+            <Text style={styles.previewTitle}>Preview</Text>
+            <View style={styles.notificationPreview}>
+              <View style={styles.notificationHeader}>
+                <View style={styles.notificationIcon}>
+                  <Text style={styles.notificationIconText}>💡</Text>
+                </View>
+                <View style={styles.notificationContent}>
+                  <Text style={styles.notificationTitle}>Daily Spice Idea</Text>
+                  <Text style={styles.notificationBody}>
+                    Today's idea: Try something new together
+                  </Text>
+                </View>
               </View>
             </View>
+            
+            {enabled && (
+              <Pressable style={styles.testButton} onPress={handleTest}>
+                <Text style={styles.testButtonText}>Send Test Notification</Text>
+              </Pressable>
+            )}
           </View>
-          
-          {enabled && (
-            <AnimatedButton
-              title="Send Test Notification"
-              variant="outline"
-              onPress={handleTest}
-              style={styles.testButton}
-            />
-          )}
-        </View>
+        </Animated.View>
         
         {/* Info Card */}
-        <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>💡 Tips</Text>
-          <Text style={styles.infoText}>
-            • Notifications help you discover new activities{'\n'}
-            • Each day brings a new surprise suggestion{'\n'}
-            • Tap the notification to open the app directly{'\n'}
-            • You can change the time or turn off anytime
-          </Text>
-        </View>
+        <Animated.View entering={FadeInUp.delay(400)}>
+          <View style={styles.infoCard}>
+            <Text style={styles.infoTitle}>💡 Tips</Text>
+            <Text style={styles.infoText}>
+              • Notifications help you discover new activities{'\n'}
+              • Each day brings a new surprise suggestion{'\n'}
+              • Tap the notification to open the app directly{'\n'}
+              • You can change the time or turn off anytime
+            </Text>
+          </View>
+        </Animated.View>
         
-        {/* Back Button */}
-        <AnimatedButton
-          title="Back to Settings"
-          variant="outline"
-          onPress={() => router.back()}
-          style={styles.backButton}
-        />
+        <View style={{ height: 40 }} />
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-// Pressable component for time button
-import { Pressable } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
+  
+  // Header
   header: {
-    paddingHorizontal: SIZES.padding * 2,
-    paddingVertical: SIZES.padding,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SIZES.paddingLarge,
+    gap: 12,
+  },
+  backButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: COLORS.card,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  headerContent: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  headerIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: `${COLORS.success}20`,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
   },
   headerTitle: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h1,
+    fontSize: SIZES.h2,
     color: COLORS.text,
   },
   headerSubtitle: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-    marginTop: 4,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  card: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusLarge,
-    padding: SIZES.padding * 1.5,
-    margin: SIZES.padding * 2,
-    marginBottom: 0,
-    ...SHADOWS.sm,
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  settingInfo: {
-    flex: 1,
-    marginRight: SIZES.padding,
-  },
-  settingTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-  },
-  settingDescription: {
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
     marginTop: 2,
   },
+  
+  scrollContent: {
+    padding: SIZES.paddingLarge,
+    paddingTop: 0,
+  },
+  
+  // Cards
+  card: {
+    backgroundColor: COLORS.card,
+    borderRadius: SIZES.radiusLarge,
+    padding: SIZES.paddingLarge,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    ...SHADOWS.sm,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    gap: 12,
+  },
+  cardIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   cardTitle: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
+    fontSize: SIZES.h4,
     color: COLORS.text,
-    marginBottom: SIZES.padding,
   },
+  
+  // Settings
+  settingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  settingIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    backgroundColor: `${COLORS.primary}15`,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 14,
+  },
+  settingInfo: {
+    flex: 1,
+  },
+  settingTitle: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
+    color: COLORS.text,
+    marginBottom: 2,
+  },
+  settingDescription: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.small,
+    color: COLORS.textSecondary,
+  },
+  
+  // Time
   timeButton: {
     backgroundColor: COLORS.backgroundSecondary,
     borderRadius: SIZES.radius,
     padding: SIZES.padding,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
   timeText: {
     fontFamily: FONTS.bold,
@@ -289,17 +351,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 20,
   },
+  
+  // Preview
   previewCard: {
     backgroundColor: COLORS.card,
     borderRadius: SIZES.radiusLarge,
-    padding: SIZES.padding * 1.5,
-    margin: SIZES.padding * 2,
-    marginBottom: 0,
+    padding: SIZES.paddingLarge,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
     ...SHADOWS.sm,
   },
   previewTitle: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
+    fontSize: SIZES.h4,
     color: COLORS.text,
     marginBottom: SIZES.padding,
   },
@@ -316,15 +381,15 @@ const styles = StyleSheet.create({
     gap: SIZES.padding,
   },
   notificationIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
+    width: 44,
+    height: 44,
+    borderRadius: 10,
     backgroundColor: `${COLORS.primary}20`,
     alignItems: 'center',
     justifyContent: 'center',
   },
   notificationIconText: {
-    fontSize: 20,
+    fontSize: 22,
   },
   notificationContent: {
     flex: 1,
@@ -342,13 +407,24 @@ const styles = StyleSheet.create({
   },
   testButton: {
     marginTop: SIZES.padding,
+    backgroundColor: COLORS.backgroundSecondary,
+    paddingVertical: 14,
+    borderRadius: SIZES.radius,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
+  testButtonText: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
+    color: COLORS.text,
+  },
+  
+  // Info
   infoCard: {
     backgroundColor: `${COLORS.secondary}10`,
     borderRadius: SIZES.radiusLarge,
-    padding: SIZES.padding * 1.5,
-    margin: SIZES.padding * 2,
-    marginBottom: 0,
+    padding: SIZES.paddingLarge,
     borderWidth: 1,
     borderColor: `${COLORS.secondary}30`,
   },
@@ -363,9 +439,5 @@ const styles = StyleSheet.create({
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
     lineHeight: 22,
-  },
-  backButton: {
-    margin: SIZES.padding * 2,
-    marginTop: SIZES.padding,
   },
 });

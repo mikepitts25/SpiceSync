@@ -1,55 +1,22 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-
-function BackBtn() {
-  const router = useRouter();
-
-  return (
-    <Pressable
-      onPress={() => router.back()}
-      style={{ paddingHorizontal: 12, paddingVertical: 6 }}
-      accessibilityRole="button"
-      accessibilityLabel="Go back"
-    >
-      <Text style={{ fontSize: 18, color: 'white' }}>‹</Text>
-    </Pressable>
-  );
-}
+import { Stack } from 'expo-router';
+import { COLORS } from '../../constants/theme';
 
 export default function SettingsStackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: { backgroundColor: '#0b0f14' },
-        headerTitleStyle: { color: 'white' },
-        headerTintColor: 'white',
-        headerShadowVisible: false,
+        headerShown: false,
+        contentStyle: { backgroundColor: COLORS.background },
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'Settings',
-          headerLeft: () => <BackBtn />,
-        }}
-      />
-      <Stack.Screen name="profiles/index" options={{ title: 'Profiles' }} />
-      <Stack.Screen name="profiles/new" options={{ title: 'New Profile' }} />
-      <Stack.Screen 
-        name="achievements" 
-        options={{ 
-          title: 'Achievements',
-          headerShown: false,
-        }} 
-      />
-      <Stack.Screen 
-        name="notifications" 
-        options={{ 
-          title: 'Notifications',
-          headerShown: false,
-        }} 
-      />
+      <Stack.Screen name="index" />
+      <Stack.Screen name="profiles/index" />
+      <Stack.Screen name="profiles/new" />
+      <Stack.Screen name="achievements" />
+      <Stack.Screen name="notifications" />
+      <Stack.Screen name="export" />
+      <Stack.Screen name="CustomActivitiesScreen" />
     </Stack>
   );
 }

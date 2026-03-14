@@ -1,14 +1,31 @@
 // apps/mobile/app/settings/index.tsx
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Alert, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
+import Animated, { FadeInUp } from 'react-native-reanimated';
+import {
+  Users,
+  Globe,
+  Trophy,
+  Bell,
+  Trash2,
+  Info,
+  ChevronRight,
+} from 'lucide-react-native';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useProfiles } from '../../lib/state/profiles';
 import { useVotesStore } from '../../src/stores/votes';
 import { useKinks } from '../../lib/data';
 import { useTranslation, interpolate } from '../../lib/i18n';
+import { COLORS, SIZES, SHADOWS, FONTS } from '../../constants/theme';
 import ResetAgeGateButton from '../../src/components/ResetAgeGateButton';
+
+const MENU_ITEMS = [
+  { id: 'profiles', icon: Users, color: '#8B5CF6', route: '/(settings)/profiles' },
+  { id: 'achievements', icon: Trophy, color: '#F59E0B', route: '/(settings)/achievements' },
+  { id: 'notifications', icon: Bell, color: '#10B981', route: '/(settings)/notifications' },
+];
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -44,266 +61,401 @@ export default function SettingsScreen() {
     );
   };
 
-  const LangButton = ({
-    code,
-    label,
-  }: {
-    code: 'en' | 'es';
-    label: string;
-  }) => (
+  const LangButton = ({ code, label }: { code: 'en' | 'es'; label: string }) => (
     <Pressable
       onPress={() => setLanguage(code)}
       style={[styles.langBtn, language === code && styles.langBtnActive]}
       accessibilityRole="button"
       accessibilityState={{ selected: language === code }}
     >
-      <Text
-        style={[styles.langText, language === code && styles.langTextActive]}
-      >
+      <Text style={[styles.langText, language === code && styles.langTextActive]}>
         {label}
       </Text>
     </Pressable>
   );
 
-  return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-      <Text style={styles.h1}>{t.settings.title}</Text>
+  const MenuItem = ({ item, index }: { item: typeof MENU_ITEMS[0]; index: number }) => {
+    const Icon = item.icon;
+    const titles: Record<string, string> = {
+      profiles: t.settings.profiles,
+      achievements: '🏆 Achievements',
+      notifications: '🔔 Notifications',
+    };
+    const descriptions: Record<string, string> = {
+      profiles: t.settings.profilesDesc,
+      achievements: 'Track your progress and unlock badges',
+      notifications: 'Get daily activity suggestions',
+    };
 
-      {/* Profiles card */}
-      <View style={styles.card}>
-        <Text style={styles.h2}>{t.settings.profiles}</Text>
-        <Text style={styles.p}>{t.settings.profilesDesc}</Text>
+    return (
+      <Animated.View entering={FadeInUp.delay(100 + index * 100)}>
         <Pressable
-          onPress={() => router.push('/(settings)/profiles')}
-          style={styles.primary}
-          accessibilityRole="button"
+          style={styles.menuItem}
+          onPress={() => router.push(item.route as any)}
         >
-          <Text style={styles.btnStrong}>{t.settings.manageProfiles}</Text>
-        </Pressable>
-      </View>
-
-      {/* Language card */}
-      <View style={styles.card}>
-        <Text style={styles.h2}>{t.settings.language}</Text>
-        <Text style={styles.p}>{t.settings.languageDesc}</Text>
-        <View style={styles.langRow}>
-          <LangButton code="en" label={t.settings.english} />
-          <LangButton code="es" label={t.settings.spanish} />
-        </View>
-      </View>
-
-      {/* Achievements & Streaks */}
-      <View style={styles.card}>
-        <Text style={styles.h2}>🏆 Achievements</Text>
-        <Text style={styles.p}>Track your progress and unlock badges</Text>
-        <Pressable
-          onPress={() => router.push('/(settings)/achievements')}
-          style={styles.primary}
-          accessibilityRole="button"
-        >
-          <Text style={styles.btnStrong}>View Achievements</Text>
-        </Pressable>
-      </View>
-
-      {/* Notifications */}
-      <View style={styles.card}>
-        <Text style={styles.h2}>🔔 Notifications</Text>
-        <Text style={styles.p}>Get daily activity suggestions</Text>
-        <Pressable
-          onPress={() => router.push('/(settings)/notifications')}
-          style={styles.primary}
-          accessibilityRole="button"
-        >
-          <Text style={styles.btnStrong}>Configure Notifications</Text>
-        </Pressable>
-      </View>
-
-      {/* Active profile + reset */}
-      <View style={styles.card}>
-        <Text style={styles.h2}>{t.settings.activeProfile}</Text>
-        {me ? (
-          <View style={{ gap: 6 }}>
-            <Text style={styles.p}>
-              <Text style={{ fontSize: 18 }}>{me.emoji}</Text>{' '}
-              <Text style={styles.strong}>{me.displayName}</Text>
-            </Text>
-            <Text style={styles.meta}>
-              ID: {me.id.slice(0, 8)} • {t.profiles.created}: {' '}
-              {new Date(me.createdAt).toLocaleDateString()}
-            </Text>
-            <Pressable
-              onPress={onReset}
-              style={styles.btnDanger}
-              accessibilityRole="button"
-            >
-              <Text style={styles.btnStrong}>
-                {t.settings.resetVotes}
-              </Text>
-            </Pressable>
-            <Text style={styles.hint}>
-              {interpolate(t.settings.resetVotesDesc, { name: me.displayName })}
-            </Text>
+          <View style={[styles.menuIconContainer, { backgroundColor: `${item.color}20` }]}>
+            <Icon size={24} color={item.color} />
           </View>
-        ) : (
-          <Text style={styles.p}>
-            {t.settings.noProfile}
-          </Text>
-        )}
-      </View>
-
-      {/* About & Safety */}
-      <View style={styles.card}>
-        <Text style={styles.h2}>{t.settings.about}</Text>
-        <Text style={styles.p}>
-          {t.settings.privacyDesc}
-        </Text>
-        <Text style={styles.meta}>{t.settings.version}</Text>
-      </View>
-
-      {__DEV__ ? (
-        <Pressable
-          onPress={() => {
-            if (!me) {
-              Alert.alert(
-                t.profiles.noProfile,
-                t.profiles.selectProfile
-              );
-              return;
-            }
-            const others = (profiles || []).filter((p: any) => p.id !== me.id);
-            if (!others.length) {
-              Alert.alert(
-                t.profiles.needPartner,
-                t.profiles.createPartner
-              );
-              return;
-            }
-
-            const partner = others[0];
-            const pool = [...kinks];
-            if (!pool.length) {
-              Alert.alert(
-                t.common.error,
-                'Unable to seed matches without kink data.'
-              );
-              return;
-            }
-
-            function shuffle<T>(arr: T[]): T[] {
-              const copy = [...arr];
-              for (let i = copy.length - 1; i > 0; i -= 1) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copy[i], copy[j]] = [copy[j], copy[i]];
-              }
-              return copy;
-            }
-
-            const sampleIds = shuffle(pool)
-              .slice(0, Math.min(30, pool.length))
-              .map((item) => String(item.id));
-            const mutualYes = sampleIds.slice(0, 4);
-            const partial = sampleIds.slice(4, 10);
-            const mutualMaybe = sampleIds.slice(10, 16);
-
-            clearUser(me.id);
-            clearUser(partner.id);
-
-            mutualYes.forEach((id) => {
-              setVote(me.id, id, 'yes');
-              setVote(partner.id, id, 'yes');
-            });
-
-            partial.forEach((id, index) => {
-              if (index % 2 === 0) {
-                setVote(me.id, id, 'yes');
-                setVote(partner.id, id, 'maybe');
-              } else {
-                setVote(me.id, id, 'maybe');
-                setVote(partner.id, id, 'yes');
-              }
-            });
-
-            mutualMaybe.forEach((id) => {
-              setVote(me.id, id, 'maybe');
-              setVote(partner.id, id, 'maybe');
-            });
-
-            Alert.alert(
-              t.common.success,
-              'Generated demo matches for quick testing.'
-            );
-          }}
-          style={styles.devButton}
-          accessibilityRole="button"
-        >
-          <Text style={styles.devButtonLabel}>Dev: Seed Votes</Text>
+          <View style={styles.menuContent}>
+            <Text style={styles.menuTitle}>{titles[item.id]}</Text>
+            <Text style={styles.menuDescription}>{descriptions[item.id]}</Text>
+          </View>
+          <ChevronRight size={20} color={COLORS.textMuted} />
         </Pressable>
-      ) : null}
+      </Animated.View>
+    );
+  };
 
-      <ResetAgeGateButton />
+  return (
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {/* Header */}
+        <Animated.View entering={FadeInUp.delay(50)} style={styles.header}>
+          <Text style={styles.headerTitle}>{t.settings.title}</Text>
+          <Text style={styles.headerSubtitle}>Customize your experience</Text>
+        </Animated.View>
+
+        {/* Menu Items */}
+        <View style={styles.menuContainer}>
+          {MENU_ITEMS.map((item, index) => (
+            <MenuItem key={item.id} item={item} index={index} />
+          ))}
+        </View>
+
+        {/* Language Card */}
+        <Animated.View entering={FadeInUp.delay(400)} style={styles.card}>
+          <View style={styles.cardHeader}>
+            <View style={[styles.cardIconContainer, { backgroundColor: `${COLORS.accent}20` }]}>
+              <Globe size={20} color={COLORS.accent} />
+            </View>
+            <View>
+              <Text style={styles.cardTitle}>{t.settings.language}</Text>
+              <Text style={styles.cardSubtitle}>{t.settings.languageDesc}</Text>
+            </View>
+          </View>
+          <View style={styles.langRow}>
+            <LangButton code="en" label={t.settings.english} />
+            <LangButton code="es" label={t.settings.spanish} />
+          </View>
+        </Animated.View>
+
+        {/* Active Profile Card */}
+        <Animated.View entering={FadeInUp.delay(500)} style={styles.card}>
+          <View style={styles.cardHeader}>
+            <View style={[styles.cardIconContainer, { backgroundColor: `${COLORS.primary}20` }]}>
+              <Users size={20} color={COLORS.primary} />
+            </View>
+            <View>
+              <Text style={styles.cardTitle}>{t.settings.activeProfile}</Text>
+            </View>
+          </View>
+          
+          {me ? (
+            <View style={styles.profileContent}>
+              <View style={styles.profileRow}>
+                <Text style={styles.profileEmoji}>{me.emoji}</Text>
+                <View style={styles.profileInfo}>
+                  <Text style={styles.profileName}>{me.displayName}</Text>
+                  <Text style={styles.profileMeta}>
+                    ID: {me.id.slice(0, 8)} • {new Date(me.createdAt).toLocaleDateString()}
+                  </Text>
+                </View>
+              </View>
+              <Pressable onPress={onReset} style={styles.dangerButton}>
+                <Trash2 size={18} color="#fff" />
+                <Text style={styles.dangerButtonText}>{t.settings.resetVotes}</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <Text style={styles.emptyText}>{t.settings.noProfile}</Text>
+          )}
+        </Animated.View>
+
+        {/* About Card */}
+        <Animated.View entering={FadeInUp.delay(600)} style={styles.card}>
+          <View style={styles.cardHeader}>
+            <View style={[styles.cardIconContainer, { backgroundColor: `${COLORS.textSecondary}20` }]}>
+              <Info size={20} color={COLORS.textSecondary} />
+            </View>
+            <View>
+              <Text style={styles.cardTitle}>{t.settings.about}</Text>
+              <Text style={styles.cardSubtitle}>{t.settings.privacyDesc}</Text>
+            </View>
+          </View>
+          <Text style={styles.versionText}>{t.settings.version}</Text>
+        </Animated.View>
+
+        {/* Dev Tools */}
+        {__DEV__ && me && (
+          <Animated.View entering={FadeInUp.delay(700)}>
+            <Pressable
+              style={styles.devButton}
+              onPress={() => {
+                const others = (profiles || []).filter((p: any) => p.id !== me.id);
+                if (!others.length) {
+                  Alert.alert(t.profiles.needPartner, t.profiles.createPartner);
+                  return;
+                }
+
+                const partner = others[0];
+                const pool = [...kinks];
+                if (!pool.length) {
+                  Alert.alert(t.common.error, 'Unable to seed matches without kink data.');
+                  return;
+                }
+
+                function shuffle<T>(arr: T[]): T[] {
+                  const copy = [...arr];
+                  for (let i = copy.length - 1; i > 0; i -= 1) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [copy[i], copy[j]] = [copy[j], copy[i]];
+                  }
+                  return copy;
+                }
+
+                const sampleIds = shuffle(pool)
+                  .slice(0, Math.min(30, pool.length))
+                  .map((item) => String(item.id));
+                const mutualYes = sampleIds.slice(0, 4);
+                const partial = sampleIds.slice(4, 10);
+                const mutualMaybe = sampleIds.slice(10, 16);
+
+                clearUser(me.id);
+                clearUser(partner.id);
+
+                mutualYes.forEach((id) => {
+                  setVote(me.id, id, 'yes');
+                  setVote(partner.id, id, 'yes');
+                });
+
+                partial.forEach((id, index) => {
+                  if (index % 2 === 0) {
+                    setVote(me.id, id, 'yes');
+                    setVote(partner.id, id, 'maybe');
+                  } else {
+                    setVote(me.id, id, 'maybe');
+                    setVote(partner.id, id, 'yes');
+                  }
+                });
+
+                mutualMaybe.forEach((id) => {
+                  setVote(me.id, id, 'maybe');
+                  setVote(partner.id, id, 'maybe');
+                });
+
+                Alert.alert(t.common.success, 'Generated demo matches for quick testing.');
+              }}
+            >
+              <Text style={styles.devButtonText}>🛠️ Dev: Seed Votes</Text>
+            </Pressable>
+          </Animated.View>
+        )}
+
+        <ResetAgeGateButton />
+        
+        <View style={{ height: 40 }} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, padding: 16, backgroundColor: '#0b0f14', gap: 12 },
-  h1: { fontSize: 22, fontWeight: '800', color: 'white', marginBottom: 6 },
-  h2: { color: 'white', fontWeight: '800', marginBottom: 8, fontSize: 16 },
-  p: { color: '#cbd5e1' },
-  strong: { color: 'white', fontWeight: '800' },
-  meta: { color: '#94a3b8' },
-  hint: { color: '#9ca3af', marginTop: 6 },
-
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  scrollContent: {
+    padding: SIZES.paddingLarge,
+  },
+  
+  // Header
+  header: {
+    marginBottom: 24,
+  },
+  headerTitle: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.h1,
+    color: COLORS.text,
+    marginBottom: 4,
+  },
+  headerSubtitle: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
+  },
+  
+  // Menu Items
+  menuContainer: {
+    gap: 12,
+    marginBottom: 24,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.card,
+    borderRadius: SIZES.radiusLarge,
+    padding: SIZES.padding,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    ...SHADOWS.sm,
+  },
+  menuIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  menuContent: {
+    flex: 1,
+  },
+  menuTitle: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
+    color: COLORS.text,
+    marginBottom: 2,
+  },
+  menuDescription: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.small,
+    color: COLORS.textSecondary,
+  },
+  
+  // Cards
   card: {
-    backgroundColor: '#0e1526',
+    backgroundColor: COLORS.card,
+    borderRadius: SIZES.radiusLarge,
+    padding: SIZES.paddingLarge,
     borderWidth: 1,
-    borderColor: '#111827',
-    borderRadius: 14,
-    padding: 14,
-    gap: 6,
+    borderColor: COLORS.border,
+    marginBottom: 16,
+    ...SHADOWS.sm,
   },
-
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    gap: 12,
+  },
+  cardIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardTitle: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.h4,
+    color: COLORS.text,
+    marginBottom: 2,
+  },
+  cardSubtitle: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.small,
+    color: COLORS.textSecondary,
+  },
+  
   // Language
-  langRow: { flexDirection: 'row', gap: 10, marginTop: 6 },
+  langRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
   langBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 12,
-    backgroundColor: '#1f2937',
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.backgroundSecondary,
     borderWidth: 1,
-    borderColor: '#111827',
-  },
-  langBtnActive: { backgroundColor: '#1d4ed8', borderColor: '#1d4ed8' },
-  langText: { color: 'white', fontWeight: '700' },
-  langTextActive: { color: 'white' },
-
-  // Buttons
-  primary: {
-    backgroundColor: '#2563eb',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+    borderColor: COLORS.border,
     alignItems: 'center',
-    marginTop: 6,
   },
-  btnDanger: {
-    backgroundColor: '#ef4444',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+  langBtnActive: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  langText: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
+    color: COLORS.text,
+  },
+  langTextActive: {
+    color: '#fff',
+  },
+  
+  // Profile
+  profileContent: {
+    gap: 16,
+  },
+  profileRow: {
+    flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
+  },
+  profileEmoji: {
+    fontSize: 32,
+  },
+  profileInfo: {
+    flex: 1,
+  },
+  profileName: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.h4,
+    color: COLORS.text,
+    marginBottom: 2,
+  },
+  profileMeta: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.small,
+    color: COLORS.textMuted,
+  },
+  emptyText: {
+    fontFamily: FONTS.regular,
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    paddingVertical: 20,
+  },
+  
+  // Danger Button
+  dangerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: COLORS.danger,
+    paddingVertical: 14,
+    borderRadius: SIZES.radius,
+  },
+  dangerButtonText: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
+    color: '#fff',
+  },
+  
+  // Version
+  versionText: {
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.small,
+    color: COLORS.textMuted,
     marginTop: 8,
   },
-  btnStrong: { color: 'white', fontWeight: '900' },
+  
+  // Dev
   devButton: {
-    marginTop: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 12,
+    backgroundColor: COLORS.cardElevated,
+    paddingVertical: 14,
+    borderRadius: SIZES.radius,
     borderWidth: 1,
-    borderColor: '#1f2937',
-    backgroundColor: '#111827',
+    borderColor: COLORS.border,
     alignItems: 'center',
+    marginBottom: 16,
   },
-  devButtonLabel: { color: '#34d399', fontWeight: '800' },
+  devButtonText: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
+    color: '#34d399',
+  },
 });
