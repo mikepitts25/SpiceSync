@@ -65,15 +65,9 @@ export default function AppMenu() {
           accessibilityLabel="Open menu"
           style={styles.buttonContainer}
         >
-          {Platform.OS === 'ios' ? (
-            <BlurView intensity={60} tint="dark" style={styles.blurBackground}>
-              <Menu size={24} color="white" />
-            </BlurView>
-          ) : (
-            <View style={styles.solidBackground}>
-              <Menu size={24} color="white" />
-            </View>
-          )}
+          <View style={styles.solidBackground}>
+            <Menu size={24} color="white" />
+          </View>
         </Pressable>
       </View>
 
