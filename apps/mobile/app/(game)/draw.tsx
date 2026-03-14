@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: SCREEN_W - SIZES.padding * 4,
-    minHeight: 450,
+    minHeight: 520,
     backgroundColor: COLORS.card,
     borderRadius: SIZES.radiusLarge,
     borderWidth: 3,
@@ -478,9 +478,9 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h4,
+    fontSize: SIZES.body,
     color: COLORS.text,
-    lineHeight: 28,
+    lineHeight: 22,
   },
   intensityRow: {
     flexDirection: 'row',
