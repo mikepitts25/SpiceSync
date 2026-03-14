@@ -66,7 +66,7 @@ export default function AppMenu() {
           style={styles.buttonContainer}
         >
           {Platform.OS === 'ios' ? (
-            <BlurView intensity={80} tint="light" style={styles.blurBackground}>
+            <BlurView intensity={60} tint="dark" style={styles.blurBackground}>
               <Menu size={24} color="white" />
             </BlurView>
           ) : (
@@ -164,14 +164,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(17, 24, 39, 0.85)',
-  },
-  icon: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: '700',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
   },
   modalOverlay: {
     flex: 1,
