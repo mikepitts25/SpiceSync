@@ -857,20 +857,22 @@ const styles = StyleSheet.create({
   // Filter hint
   filterHint: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 16,
     backgroundColor: COLORS.card,
     borderRadius: SIZES.radius,
     borderWidth: 1,
     borderColor: COLORS.border,
+    gap: 8,
   },
   filterHintText: {
-    fontSize: SIZES.body,
+    fontSize: SIZES.small,
     color: COLORS.textSecondary,
   },
   filterHintAction: {
-    fontSize: SIZES.body,
+    fontSize: SIZES.small,
     color: COLORS.primary,
     fontWeight: '600',
   },
