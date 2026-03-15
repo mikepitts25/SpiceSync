@@ -35,8 +35,9 @@ import {
   ConversationStarter,
   categoryInfo,
   INTENSITY_LABELS,
-  createDateNightDeck,
+  createDateNightDeckByLanguage,
 } from '../../lib/conversationStarters';
+import { useConversationTranslation } from '../../lib/i18n';
 import { useConversationStore } from '../../lib/state/conversationStore';
 
 const { width, height } = Dimensions.get('window');
@@ -444,12 +445,13 @@ export default function DateNightScreen() {
 
   const { favorites, toggleFavorite, dateNightSettings, updateDateNightSettings } =
     useConversationStore();
+  const { language } = useConversationTranslation();
 
   // Initialize deck
   useEffect(() => {
-    const newDeck = createDateNightDeck(dateNightSettings.includeSpicy, 20);
+    const newDeck = createDateNightDeckByLanguage(language, dateNightSettings.includeSpicy, 20);
     setDeck(newDeck);
-  }, [dateNightSettings.includeSpicy]);
+  }, [dateNightSettings.includeSpicy, language]);
 
   const currentStarter = deck[currentIndex];
 
@@ -460,7 +462,7 @@ export default function DateNightScreen() {
       setTimerRunning(!!dateNightSettings.timerEnabled);
     } else {
       // End of deck - create new one
-      const newDeck = createDateNightDeck(dateNightSettings.includeSpicy, 20);
+      const newDeck = createDateNightDeckByLanguage(language, dateNightSettings.includeSpicy, 20);
       setDeck(newDeck);
       setCurrentIndex(0);
     }
