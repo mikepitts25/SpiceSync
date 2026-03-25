@@ -277,22 +277,6 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
             )}
           </View>
 
-          {/* Swipe Hints */}
-          <View style={styles.hintContainer}>
-            <View style={styles.hintItem}>
-              <Text style={styles.hintIcon}>👎</Text>
-              <Text style={styles.hintText}>No</Text>
-            </View>
-            <View style={styles.hintItem}>
-              <Text style={styles.hintIcon}>🤔</Text>
-              <Text style={styles.hintText}>Maybe</Text>
-            </View>
-            <View style={styles.hintItem}>
-              <Text style={styles.hintIcon}>👍</Text>
-              <Text style={styles.hintText}>Yes</Text>
-            </View>
-          </View>
-
           {/* Swipe Overlays */}
           <Animated.View style={[styles.overlay, styles.likeOverlay, likeOpacity]}>
             <Text style={styles.overlayText}>YES!</Text>
@@ -426,27 +410,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
-  },
-  
-  // Hints
-  hintContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingTop: SIZES.padding,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-  },
-  hintItem: {
-    alignItems: 'center',
-    gap: 4,
-  },
-  hintIcon: {
-    fontSize: 20,
-  },
-  hintText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.caption,
-    color: COLORS.textMuted,
   },
   
   // Overlays
