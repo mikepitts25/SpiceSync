@@ -29,7 +29,6 @@ import {
   X,
   MessageCircle,
   Moon,
-  Home,
 } from 'lucide-react-native';
 
 import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
@@ -350,11 +349,6 @@ export default function ConversationScreen() {
                 : ct.subtitle}
             </Text>
           </View>
-          {!currentStarter && (
-            <TouchableOpacity style={styles.homeButton} onPress={() => router.push('/(tabs)')}>
-              <Home size={24} color={COLORS.text} />
-            </TouchableOpacity>
-          )}
         </View>
       </View>
 
@@ -524,16 +518,6 @@ const styles = StyleSheet.create({
     backgroundColor: `${COLORS.accent}20`,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  homeButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: COLORS.card,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.border,
   },
   scrollView: {
     flex: 1,

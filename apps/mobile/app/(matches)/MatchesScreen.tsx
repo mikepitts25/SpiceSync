@@ -29,7 +29,7 @@ import {
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useKinks } from '../../lib/data';
 import { usePrivacyGate } from '../../src/stores/privacyGate';
-import { useTranslation } from '../../lib/i18n';
+import { useTranslation, interpolate } from '../../lib/i18n';
 
 const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, VoteValue>;
 
@@ -371,11 +371,11 @@ export default function MatchesScreen() {
       if (missingPinProfile) {
         const name = missingPinProfile.displayName ?? missingPinProfile.name;
         Alert.alert(
-          'PIN required',
-          `${name} needs a PIN to unlock Partial Yes matches. Set a PIN in Settings.`,
+          t.matches.pinRequired,
+          interpolate(t.matches.pinRequiredDesc, { name }),
           [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Open Settings', onPress: () => router.push('/(settings)') },
+            { text: t.common.cancel, style: 'cancel' },
+            { text: t.matches.openSettings, onPress: () => router.push('/(settings)') },
           ]
         );
         return;
@@ -566,32 +566,26 @@ export default function MatchesScreen() {
       <View style={styles.sensitiveBanner}>
         {gateOpen ? (
           <View style={{ gap: 8 }}>
-            <Text style={styles.sensitiveTitle}>Partial Yes unlocked</Text>
-            <Text style={styles.sensitiveCopy}>
-              They will lock again after inactivity or when you choose to hide
-              them.
-            </Text>
+            <Text style={styles.sensitiveTitle}>{t.matches.partialYesUnlocked}</Text>
+            <Text style={styles.sensitiveCopy}>{t.matches.lockCopy}</Text>
             <Pressable
               style={styles.lockButton}
               onPress={handleLockSensitive}
               accessibilityRole="button"
             >
-              <Text style={styles.lockButtonLabel}>Lock Partial Yes</Text>
+              <Text style={styles.lockButtonLabel}>{t.matches.lockPartialYes}</Text>
             </Pressable>
           </View>
         ) : (
           <View style={{ gap: 8 }}>
-            <Text style={styles.sensitiveTitle}>Partial Yes locked</Text>
-            <Text style={styles.sensitiveCopy}>
-              Unlock to reveal "Yes + Maybe" matches. Both profiles must enter
-              their PIN.
-            </Text>
+            <Text style={styles.sensitiveTitle}>{t.matches.partialYesLocked}</Text>
+            <Text style={styles.sensitiveCopy}>{t.matches.unlockCopy}</Text>
             <Pressable
               style={styles.unlockButton}
               onPress={handleUnlockPress}
               accessibilityRole="button"
             >
-              <Text style={styles.unlockButtonLabel}>Unlock Partial Yes</Text>
+              <Text style={styles.unlockButtonLabel}>{t.matches.unlockPartialYes}</Text>
             </Pressable>
           </View>
         )}
@@ -618,21 +612,17 @@ export default function MatchesScreen() {
         ) : (
           <View style={styles.emptyState}>
             <Text style={styles.emptyTitle}>
-              No{' '}
-              {tabOptions
-                .find((tab) => tab.key === selectedTab)
-                ?.label.toLowerCase()}{' '}
-              yet
+              {interpolate(t.matches.noTabMatches, {
+                tab: tabOptions.find((tab) => tab.key === selectedTab)?.label.toLowerCase() ?? '',
+              })}
             </Text>
-            <Text style={styles.emptyCopy}>Keep swiping to uncover more.</Text>
+            <Text style={styles.emptyCopy}>{t.matches.keepSwipingMore}</Text>
           </View>
         )
       ) : (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyTitle}>No matches yet</Text>
-          <Text style={styles.emptyCopy}>
-            Keep swiping together—only shared interest shows up here.
-          </Text>
+          <Text style={styles.emptyTitle}>{t.matches.noMatchesYet}</Text>
+          <Text style={styles.emptyCopy}>{t.matches.keepSwiping}</Text>
         </View>
       )}
 

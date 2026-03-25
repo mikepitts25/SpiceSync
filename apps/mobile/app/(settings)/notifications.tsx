@@ -24,10 +24,13 @@ import {
 } from '../../lib/notifications';
 import { useRouter } from 'expo-router';
 import { useHaptics } from '../../hooks/useHaptics';
+import { useTranslation } from '../../lib/i18n';
 
 export default function NotificationSettingsScreen() {
   const router = useRouter();
   const { success, error: hapticError } = useHaptics();
+  const { t } = useTranslation();
+  const tn = t.notifications;
   
   const [enabled, setEnabled] = useState(false);
   const [time, setTime] = useState(new Date());
@@ -104,8 +107,8 @@ export default function NotificationSettingsScreen() {
           <View style={styles.headerIconContainer}>
             <Bell size={24} color={COLORS.success} />
           </View>
-          <Text style={styles.headerTitle}>Notifications</Text>
-          <Text style={styles.headerSubtitle}>Get daily inspiration delivered to you</Text>
+          <Text style={styles.headerTitle}>{tn.title}</Text>
+          <Text style={styles.headerSubtitle}>{tn.subtitle}</Text>
         </View>
         <View style={{ width: 48 }} />
       </View>
@@ -119,10 +122,8 @@ export default function NotificationSettingsScreen() {
                 <Sparkles size={24} color={COLORS.primary} />
               </View>
               <View style={styles.settingInfo}>
-                <Text style={styles.settingTitle}>Daily Activity Card</Text>
-                <Text style={styles.settingDescription}>
-                  Receive a new activity suggestion every day
-                </Text>
+                <Text style={styles.settingTitle}>{tn.dailyActivityCard}</Text>
+                <Text style={styles.settingDescription}>{tn.dailyActivityCardDesc}</Text>
               </View>
               <Switch
                 value={enabled}
@@ -143,12 +144,12 @@ export default function NotificationSettingsScreen() {
                 <View style={[styles.cardIconContainer, { backgroundColor: `${COLORS.accent}20` }]}>
                   <Clock size={20} color={COLORS.accent} />
                 </View>
-                <Text style={styles.cardTitle}>Notification Time</Text>
+                <Text style={styles.cardTitle}>{tn.notificationTime}</Text>
               </View>
               
               <Pressable style={styles.timeButton} onPress={() => setShowPicker(true)}>
                 <Text style={styles.timeText}>{formatTime(time)}</Text>
-                <Text style={styles.timeHint}>Tap to change</Text>
+                <Text style={styles.timeHint}>{tn.tapToChange}</Text>
               </Pressable>
               
               {showPicker && (
@@ -160,9 +161,7 @@ export default function NotificationSettingsScreen() {
                 />
               )}
               
-              <Text style={styles.timeDescription}>
-                We'll send you a fun new activity idea at this time every day. Default is 8:00 PM.
-              </Text>
+              <Text style={styles.timeDescription}>{tn.timeDescription}</Text>
             </View>
           </Animated.View>
         )}
@@ -170,24 +169,22 @@ export default function NotificationSettingsScreen() {
         {/* Preview Card */}
         <Animated.View entering={FadeInUp.delay(300)}>
           <View style={styles.previewCard}>
-            <Text style={styles.previewTitle}>Preview</Text>
+            <Text style={styles.previewTitle}>{tn.preview}</Text>
             <View style={styles.notificationPreview}>
               <View style={styles.notificationHeader}>
                 <View style={styles.notificationIcon}>
                   <Text style={styles.notificationIconText}>💡</Text>
                 </View>
                 <View style={styles.notificationContent}>
-                  <Text style={styles.notificationTitle}>Daily Spice Idea</Text>
-                  <Text style={styles.notificationBody}>
-                    Today's idea: Try something new together
-                  </Text>
+                  <Text style={styles.notificationTitle}>{tn.dailySpiceIdea}</Text>
+                  <Text style={styles.notificationBody}>{tn.todayIdea}</Text>
                 </View>
               </View>
             </View>
             
             {enabled && (
               <Pressable style={styles.testButton} onPress={handleTest}>
-                <Text style={styles.testButtonText}>Send Test Notification</Text>
+                <Text style={styles.testButtonText}>{tn.sendTest}</Text>
               </Pressable>
             )}
           </View>
@@ -196,13 +193,8 @@ export default function NotificationSettingsScreen() {
         {/* Info Card */}
         <Animated.View entering={FadeInUp.delay(400)}>
           <View style={styles.infoCard}>
-            <Text style={styles.infoTitle}>💡 Tips</Text>
-            <Text style={styles.infoText}>
-              • Notifications help you discover new activities{'\n'}
-              • Each day brings a new surprise suggestion{'\n'}
-              • Tap the notification to open the app directly{'\n'}
-              • You can change the time or turn off anytime
-            </Text>
+            <Text style={styles.infoTitle}>{tn.tipsTitle}</Text>
+            <Text style={styles.infoText}>{tn.tipsText}</Text>
           </View>
         </Animated.View>
         

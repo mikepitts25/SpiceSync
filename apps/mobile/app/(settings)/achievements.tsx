@@ -17,14 +17,15 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
-import { 
-  ACHIEVEMENTS, 
+import {
+  ACHIEVEMENTS,
   useStreakStore,
   Achievement,
   AchievementId,
 } from '../../lib/achievements';
 import AnimatedButton from '../../components/AnimatedButton';
 import { useRouter } from 'expo-router';
+import { useTranslation, interpolate } from '../../lib/i18n';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -34,11 +35,13 @@ function AchievementCard({
   unlocked,
   progress,
   index,
+  ta,
 }: {
   achievement: Achievement;
   unlocked: boolean;
   progress: number;
   index: number;
+  ta: any;
 }) {
   const scale = useSharedValue(0);
   
@@ -93,7 +96,7 @@ function AchievementCard({
         )}
         
         {unlocked && (
-          <Text style={styles.unlockedText}>Unlocked! 🎉</Text>
+          <Text style={styles.unlockedText}>{ta.unlockedText}</Text>
         )}
       </View>
     </Animated.View>
@@ -101,77 +104,75 @@ function AchievementCard({
 }
 
 // Streak Card Component
-function StreakCard() {
+function StreakCard({ ta }: { ta: any }) {
   const { currentStreak, longestStreak, daysActive } = useStreakStore();
-  
+
   return (
     <View style={styles.streakCard}>
-      <Text style={styles.streakTitle}>🔥 Your Streak</Text>
-      
+      <Text style={styles.streakTitle}>{ta.streak}</Text>
+
       <View style={styles.streakStats}>
         <View style={styles.streakStat}>
           <Text style={styles.streakNumber}>{currentStreak}</Text>
-          <Text style={styles.streakLabel}>Current</Text>
+          <Text style={styles.streakLabel}>{ta.current}</Text>
         </View>
-        
+
         <View style={styles.streakDivider} />
-        
+
         <View style={styles.streakStat}>
           <Text style={styles.streakNumber}>{longestStreak}</Text>
-          <Text style={styles.streakLabel}>Best</Text>
+          <Text style={styles.streakLabel}>{ta.best}</Text>
         </View>
-        
+
         <View style={styles.streakDivider} />
-        
+
         <View style={styles.streakStat}>
           <Text style={styles.streakNumber}>{daysActive.length}</Text>
-          <Text style={styles.streakLabel}>Total Days</Text>
+          <Text style={styles.streakLabel}>{ta.totalDays}</Text>
         </View>
       </View>
-      
+
       {/* Streak message */}
       <Text style={styles.streakMessage}>
-        {currentStreak >= 7 
-          ? "You're on fire! Keep it going! 🔥" 
-          : currentStreak >= 3 
-            ? "Great streak! Don't break it! 💪"
-            : "Start your streak today! ✨"}
+        {currentStreak >= 7
+          ? ta.streakOnFire
+          : currentStreak >= 3
+            ? ta.streakGood
+            : ta.streakStart}
       </Text>
     </View>
   );
 }
 
 // Category Progress Component
-function CategoryProgress() {
+function CategoryProgress({ ta }: { ta: any }) {
   const { categoriesCompleted } = useStreakStore();
   const categories = Object.entries(categoriesCompleted);
-  
+
   if (categories.length === 0) {
     return (
       <View style={styles.emptyState}>
         <Text style={styles.emptyEmoji}>🎯</Text>
-        <Text style={styles.emptyText}>
-          Start exploring categories to see your progress!
-        </Text>
+        <Text style={styles.emptyText}>{ta.startExploring}</Text>
       </View>
     );
   }
-  
+
   return (
     <View style={styles.categorySection}>
-      <Text style={styles.sectionTitle}>Category Progress</Text>
+      <Text style={styles.sectionTitle}>{ta.categoryProgress}</Text>
       {categories.map(([category, activities]) => (
         <View key={category} style={styles.categoryItem}>
           <View style={styles.categoryHeader}>
             <Text style={styles.categoryName}>{category}</Text>
-            <Text style={styles.categoryCount}>{activities.length} activities</Text>
+            <Text style={styles.categoryCount}>{(activities as any[]).length} {ta.activities}</Text>
           </View>
           <View style={styles.categoryBar}>
-            <View 
+            <View
               style={[
-                styles.categoryFill, 
-                { width: `${Math.min(activities.length * 10, 100)}%` }
-              ]} 
+                styles.categoryFill,
+                { width: `${Math.min((activities as any[]).length * 10, 100)}%` },
+              ]}
             />
           </View>
         </View>
@@ -182,38 +183,40 @@ function CategoryProgress() {
 
 export default function AchievementsScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
+  const ta = t.achievements;
   const unlockedAchievements = useStreakStore((state) => state.unlockedAchievements);
   const getProgress = useStreakStore((state) => state.getProgress);
-  
+
   // Separate unlocked and locked achievements
   const unlocked = ACHIEVEMENTS.filter(a => unlockedAchievements.includes(a.id));
   const locked = ACHIEVEMENTS.filter(a => !unlockedAchievements.includes(a.id));
-  
+
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Achievements</Text>
+        <Text style={styles.headerTitle}>{ta.title}</Text>
         <Text style={styles.headerSubtitle}>
-          {unlocked.length} of {ACHIEVEMENTS.length} unlocked
+          {interpolate(ta.countUnlocked, { unlocked: String(unlocked.length), total: String(ACHIEVEMENTS.length) })}
         </Text>
       </View>
-      
-      <ScrollView 
+
+      <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
         {/* Streak Card */}
-        <StreakCard />
-        
+        <StreakCard ta={ta} />
+
         {/* Category Progress */}
-        <CategoryProgress />
-        
+        <CategoryProgress ta={ta} />
+
         {/* Unlocked Achievements */}
         {unlocked.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>🏆 Unlocked</Text>
+            <Text style={styles.sectionTitle}>{ta.unlockedSection}</Text>
             {unlocked.map((achievement, index) => (
               <AchievementCard
                 key={achievement.id}
@@ -221,15 +224,16 @@ export default function AchievementsScreen() {
                 unlocked={true}
                 progress={1}
                 index={index}
+                ta={ta}
               />
             ))}
           </View>
         )}
-        
+
         {/* Locked Achievements */}
         {locked.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>🔒 Locked</Text>
+            <Text style={styles.sectionTitle}>{ta.lockedSection}</Text>
             {locked.map((achievement, index) => (
               <AchievementCard
                 key={achievement.id}
@@ -237,14 +241,15 @@ export default function AchievementsScreen() {
                 unlocked={false}
                 progress={getProgress(achievement.id)}
                 index={index + unlocked.length}
+                ta={ta}
               />
             ))}
           </View>
         )}
-        
+
         {/* Back Button */}
         <AnimatedButton
-          title="Back to Profile"
+          title={ta.backButton}
           variant="outline"
           onPress={() => router.back()}
           style={styles.backButton}
