@@ -78,13 +78,13 @@ export default function SettingsScreen() {
     const Icon = item.icon;
     const titles: Record<string, string> = {
       profiles: t.settings.profiles,
-      achievements: '🏆 Achievements',
-      notifications: '🔔 Notifications',
+      achievements: `🏆 ${t.settings.achievements}`,
+      notifications: `🔔 ${t.settings.notifications}`,
     };
     const descriptions: Record<string, string> = {
       profiles: t.settings.profilesDesc,
-      achievements: 'Track your progress and unlock badges',
-      notifications: 'Get daily activity suggestions',
+      achievements: t.settings.achievementsDesc,
+      notifications: t.settings.notificationsDesc,
     };
 
     return (
@@ -128,7 +128,7 @@ export default function SettingsScreen() {
             <View style={[styles.cardIconContainer, { backgroundColor: `${COLORS.accent}20` }]}>
               <Globe size={20} color={COLORS.accent} />
             </View>
-            <View>
+            <View style={{ flex: 1 }}>
               <Text style={styles.cardTitle}>{t.settings.language}</Text>
               <Text style={styles.cardSubtitle}>{t.settings.languageDesc}</Text>
             </View>
