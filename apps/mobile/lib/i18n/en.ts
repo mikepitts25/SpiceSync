@@ -7,6 +7,10 @@ export const en = {
     game: 'Game',
     matches: 'Matches',
     browse: 'Browse',
+    kinks: 'Kinks',
+    conversation: 'Conversation',
+    settings: 'Settings',
+    menu: 'Menu',
   },
 
   // Common

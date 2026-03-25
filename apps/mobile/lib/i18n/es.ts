@@ -9,6 +9,10 @@ export const es: Translations = {
     game: 'Juego',
     matches: 'Matches',
     browse: 'Explorar',
+    kinks: 'Kinks',
+    conversation: 'Conversación',
+    settings: 'Configuración',
+    menu: 'Menú',
   },
 
   // Common

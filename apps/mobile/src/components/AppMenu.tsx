@@ -22,20 +22,30 @@ import {
   Menu,
 } from 'lucide-react-native';
 import { COLORS, SIZES } from '../constants/theme';
+import { useTranslation } from '../../lib/i18n';
 
-const MENU_ITEMS = [
-  { id: 'kinks', label: 'Kinks', emoji: '🔥', icon: Search, route: '/(tabs)/kinks' },
-  { id: 'game', label: 'Game', emoji: '🎲', icon: Gamepad2, route: '/(tabs)/game' },
-  { id: 'matches', label: 'Matches', emoji: '💕', icon: Heart, route: '/(tabs)/matches' },
-  { id: 'conversation', label: 'Conversation', emoji: '💬', icon: MessageCircle, route: '/(tabs)/conversation' },
-  { id: 'settings', label: 'Settings', emoji: '⚙️', icon: Settings, route: '/(settings)' },
-];
+const MENU_ITEM_DEFS = [
+  { id: 'kinks', emoji: '🔥', icon: Search, route: '/(tabs)/kinks' },
+  { id: 'game', emoji: '🎲', icon: Gamepad2, route: '/(tabs)/game' },
+  { id: 'matches', emoji: '💕', icon: Heart, route: '/(tabs)/matches' },
+  { id: 'conversation', emoji: '💬', icon: MessageCircle, route: '/(tabs)/conversation' },
+  { id: 'settings', emoji: '⚙️', icon: Settings, route: '/(settings)' },
+] as const;
 
 export default function AppMenu() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
+
+  const MENU_ITEMS = [
+    { ...MENU_ITEM_DEFS[0], label: t.tabs.kinks },
+    { ...MENU_ITEM_DEFS[1], label: t.tabs.game },
+    { ...MENU_ITEM_DEFS[2], label: t.tabs.matches },
+    { ...MENU_ITEM_DEFS[3], label: t.tabs.conversation },
+    { ...MENU_ITEM_DEFS[4], label: t.tabs.settings },
+  ];
 
   const handleNavigate = (route: string) => {
     setIsOpen(false);
@@ -84,7 +94,7 @@ export default function AppMenu() {
               <TouchableWithoutFeedback>
                 <View style={[styles.menuContainer, { marginTop: insets.top + 60 }]}>
                   <View style={styles.menuHeader}>
-                    <Text style={styles.menuTitle}>Menu</Text>
+                    <Text style={styles.menuTitle}>{t.tabs.menu}</Text>
                     <TouchableOpacity onPress={() => setIsOpen(false)}>
                       <X size={24} color={COLORS.text} />
                     </TouchableOpacity>
