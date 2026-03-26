@@ -182,6 +182,34 @@ export const en = {
     noTabMatches: 'No {{tab}} yet',
   },
 
+  // Love Languages
+  loveLanguages: {
+    title: 'Love Languages',
+    subtitle: 'Discover how you give and receive love',
+    takeQuiz: 'Take the Quiz',
+    retakeQuiz: 'Retake Quiz',
+    yourResults: 'Your Results',
+    primary: 'Primary Love Language',
+    secondary: 'Secondary Love Language',
+    compareWithPartner: 'Compare with Partner',
+    notTaken: 'Not taken yet',
+    wordsOfAffirmation: 'Words of Affirmation',
+    qualityTime: 'Quality Time',
+    receivingGifts: 'Receiving Gifts',
+    actsOfService: 'Acts of Service',
+    physicalTouch: 'Physical Touch',
+    wordsDesc: 'You feel loved when your partner gives you compliments and expresses appreciation verbally.',
+    timeDesc: 'You feel loved when your partner gives you their undivided attention and spends meaningful time with you.',
+    giftsDesc: 'You feel loved when your partner gives you thoughtful presents that show they were thinking of you.',
+    actsDesc: 'You feel loved when your partner does things to help you and makes your life easier.',
+    touchDesc: 'You feel loved through physical connection—hugs, kisses, holding hands, and affectionate touch.',
+    question: 'Question',
+    of: 'of',
+    whichPrefer: 'Which would you prefer?',
+    viewResults: 'View Previous Results',
+    done: 'Done',
+  },
+
   // Game
   game: {
     title: '🎲 Spice Dice',

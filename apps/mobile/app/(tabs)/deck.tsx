@@ -200,19 +200,20 @@ export default function DeckScreen() {
     );
   }
 
-  const leftCount = queue.length;
   const me = activeProfile;
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <View style={styles.topBar}>
+        <Pressable onPress={() => router.navigate('/(tabs)/categories')} style={styles.backButton}>
+          <Text style={styles.backArrow}>←</Text>
+        </Pressable>
+        {selectedTier ? (
+          <Text style={styles.tier}>{selectedTier?.toUpperCase()}</Text>
+        ) : null}
         <Text style={styles.user}>
           {me?.emoji} {me?.displayName ?? me?.name}
         </Text>
-        <Text style={styles.count}>{leftCount} {t.common.left}</Text>
-        {selectedTier ? (
-          <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text>
-        ) : null}
       </View>
       <View style={styles.deckArea}>
         <View style={styles.cardMaxW}>
@@ -254,9 +255,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     marginBottom: 6,
   },
-  count: { fontWeight: '700', color: 'white' },
+  backButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#1f2937',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backArrow: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: '700',
+  },
   tier: { color: '#9ca3af', fontWeight: '600' },
-  user: { color: '#93c5fd', fontWeight: '800' },
+  user: { marginLeft: 'auto', color: '#93c5fd', fontWeight: '800' },
 
   deckArea: {
     flex: 1,

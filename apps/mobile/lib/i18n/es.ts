@@ -184,6 +184,34 @@ export const es: Translations = {
     noTabMatches: 'Aún no hay {{tab}}',
   },
 
+  // Love Languages
+  loveLanguages: {
+    title: 'Lenguajes del Amor',
+    subtitle: 'Descubre cómo das y recibes amor',
+    takeQuiz: 'Hacer el Quiz',
+    retakeQuiz: 'Rehacer Quiz',
+    yourResults: 'Tus Resultados',
+    primary: 'Lenguaje Principal',
+    secondary: 'Lenguaje Secundario',
+    compareWithPartner: 'Comparar con Pareja',
+    notTaken: 'Aún no realizado',
+    wordsOfAffirmation: 'Palabras de Afirmación',
+    qualityTime: 'Tiempo de Calidad',
+    receivingGifts: 'Recibir Regalos',
+    actsOfService: 'Actos de Servicio',
+    physicalTouch: 'Contacto Físico',
+    wordsDesc: 'Te sientes amado cuando tu pareja te da cumplidos y expresa aprecio verbalmente.',
+    timeDesc: 'Te sientes amado cuando tu pareja te da su atención completa y pasa tiempo significativo contigo.',
+    giftsDesc: 'Te sientes amado cuando tu pareja te da regalos pensados que muestran que estaba pensando en ti.',
+    actsDesc: 'Te sientes amado cuando tu pareja hace cosas para ayudarte y hace tu vida más fácil.',
+    touchDesc: 'Te sientes amado a través de la conexión física—abrazos, besos, tomarse de la mano y caricias afectuosas.',
+    question: 'Pregunta',
+    of: 'de',
+    whichPrefer: '¿Qué preferirías?',
+    viewResults: 'Ver Resultados Anteriores',
+    done: 'Listo',
+  },
+
   // Game
   game: {
     title: '🎲 Spice Dice',

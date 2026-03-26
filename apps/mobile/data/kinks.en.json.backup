@@ -1,0 +1,1434 @@
+[
+  {
+    "id": "0000",
+    "slug": "oral-tease-give",
+    "title": "Giving Oral (Teasing)",
+    "description": "Kiss everywhere except where they're aching for you. Their inner thigh, their hip, just barely grazing. Make them squirm before you give in.",
+    "tags": [
+      "oral",
+      "tease"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0001",
+    "slug": "oral-tease-receive",
+    "title": "Receiving Oral (Teasing)",
+    "description": "They torment you with almost-there kisses. So close, then away again. By the time they finally taste you, you're already halfway there.",
+    "tags": [
+      "oral",
+      "tease"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0002",
+    "slug": "oral-deep-give",
+    "title": "Giving Deep Oral",
+    "description": "Show them how much you can handle. Use your tongue, your throat, your hands. Make a mess of it. Make them see stars.",
+    "tags": [
+      "oral",
+      "intense"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0003",
+    "slug": "oral-deep-receive",
+    "title": "Receiving Deep Oral",
+    "description": "They take you deep, look up at you while they do it, and you feel like you're the only thing that matters in the world.",
+    "tags": [
+      "oral",
+      "intense"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0004",
+    "slug": "oral-face-sitting-give",
+    "title": "Receiving Face Sitting",
+    "description": "Lie back and let them take control. Their thighs around your head, their weight on your tongue. Just breathe and enjoy the view while they use you.",
+    "tags": [
+      "oral",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0005",
+    "slug": "oral-face-sitting-receive",
+    "title": "Giving Face Sitting",
+    "description": "Straddle them, hold the headboard, grind down exactly how you need it. They're just the instrument. Play your song until you can't anymore.",
+    "tags": [
+      "oral",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0006",
+    "slug": "sixty-nine",
+    "title": "69 Position",
+    "description": "Give and receive at the same time. The coordination is tricky but the payoff? Mutual bliss.",
+    "tags": [
+      "oral",
+      "mutual"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0007",
+    "slug": "mutual-masturbation",
+    "title": "Mutual Masturbation",
+    "description": "Touch yourselves while watching each other. See what they like. Learn their rhythm.",
+    "tags": [
+      "voyeur",
+      "exhibition"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0008",
+    "slug": "strip-tease",
+    "title": "Strip Tease",
+    "description": "Take it slow. Let them watch but not touch until you say so. Make them ache.",
+    "tags": [
+      "performance",
+      "tease"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0009",
+    "slug": "lap-dance",
+    "title": "Lap Dance",
+    "description": "Straddle their lap, move slow, keep eye contact. Grind until they're hard.",
+    "tags": [
+      "performance",
+      "tease"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0010",
+    "slug": "edging",
+    "title": "Edging",
+    "description": "Get them right to the brink, then back off. Again and again. Decide when they finally get to fall.",
+    "tags": [
+      "control",
+      "tease"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0011",
+    "slug": "blindfold-give",
+    "title": "Blindfolding Partner",
+    "description": "Take away their sight. Every touch becomes a surprise. Every sound makes them wonder what's next.",
+    "tags": [
+      "sensory",
+      "deprivation"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0012",
+    "slug": "blindfold-receive",
+    "title": "Being Blindfolded",
+    "description": "You can't see. You can only feel, hear, smell. Every touch is magnified because you can't anticipate it.",
+    "tags": [
+      "sensory",
+      "deprivation"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0013",
+    "slug": "ice-play",
+    "title": "Ice Play",
+    "description": "Trace a cold cube down their spine, around their nipples, between their thighs. Watch them shiver.",
+    "tags": [
+      "temperature",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0014",
+    "slug": "wax-play",
+    "title": "Wax Play",
+    "description": "Drip warm candle wax on their skin. The sting, the heat, the anticipation of where the next drop lands.",
+    "tags": [
+      "temperature",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0015",
+    "slug": "feather-tease",
+    "title": "Feather Teasing",
+    "description": "Light as air. Everywhere except where they want it most. Make them beg for contact.",
+    "tags": [
+      "sensory",
+      "tease"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0016",
+    "slug": "sexting",
+    "title": "Sexting",
+    "description": "Build anticipation all day. A photo here, a promise there. By nightfall, they'll be desperate.",
+    "tags": [
+      "communication",
+      "remote"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0017",
+    "slug": "phone-sex",
+    "title": "Phone Sex",
+    "description": "Hear them touch themselves. Describe what you'd do if you were there.",
+    "tags": [
+      "communication",
+      "remote"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  },
+  {
+    "id": "0018",
+    "slug": "spanking-give",
+    "title": "Spanking",
+    "description": "Pull them across your lap. Make them count each one. Alternate between rubbing the sting away and adding to it.",
+    "tags": [
+      "impact",
+      "discipline"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0019",
+    "slug": "spanking-receive",
+    "title": "Being Spanked",
+    "description": "You're draped over their lap, vulnerable. The smacks come hard, then soft. You count and thank them for each one.",
+    "tags": [
+      "impact",
+      "discipline"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0020",
+    "slug": "hair-pulling-give",
+    "title": "Pulling Hair",
+    "description": "Fist their hair at the crown. Pull their head back to expose their throat. Use it to guide them.",
+    "tags": [
+      "impact",
+      "dominance"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0021",
+    "slug": "hair-pulling-receive",
+    "title": "Hair Being Pulled",
+    "description": "Your partner takes a handful of your hair and pulls your head back. You're exposed, controlled, at their mercy.",
+    "tags": [
+      "impact",
+      "dominance"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0022",
+    "slug": "slapping",
+    "title": "Face Slapping",
+    "description": "A quick slap across the cheek during sex. Shocking, intimate, establishing dominance.",
+    "tags": [
+      "impact",
+      "face"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0023",
+    "slug": "scratching",
+    "title": "Scratching",
+    "description": "Dig your nails in when they hit the right spot. Draw red lines down their back.",
+    "tags": [
+      "pain",
+      "marking"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0024",
+    "slug": "biting",
+    "title": "Biting",
+    "description": "Neck, shoulder, thigh. Sink your teeth in hard enough to leave a reminder.",
+    "tags": [
+      "pain",
+      "marking"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0025",
+    "slug": "flogging",
+    "title": "Flogging",
+    "description": "A flogger's tails across their back or thighs. The sound, the spread of impact, the rhythm.",
+    "tags": [
+      "impact",
+      "tools"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0026",
+    "slug": "handcuffs-give",
+    "title": "Using Handcuffs",
+    "description": "Metal cuffs on their wrists. Behind their back for more vulnerability. The cold metal reminds them who's in charge.",
+    "tags": [
+      "restraint",
+      "tools"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0027",
+    "slug": "handcuffs-receive",
+    "title": "Being Handcuffed",
+    "description": "Cold metal on your wrists. Your hands are useless. You're helpless to stop them from doing whatever they want.",
+    "tags": [
+      "restraint",
+      "tools"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0028",
+    "slug": "rope-bondage-give",
+    "title": "Rope Bondage",
+    "description": "Shibari-style or simple restraint. The rope bites into their skin, holds them exactly where you want them.",
+    "tags": [
+      "restraint",
+      "rope"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0029",
+    "slug": "rope-bondage-receive",
+    "title": "Being Tied With Rope",
+    "description": "The rope wraps around you, holding you in place. Every movement reminds you that you're bound, owned, secure.",
+    "tags": [
+      "restraint",
+      "rope"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0030",
+    "slug": "spread-bar",
+    "title": "Spreader Bar",
+    "description": "A bar between their ankles or wrists, keeping them exposed and unable to close up.",
+    "tags": [
+      "restraint",
+      "exposure"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0031",
+    "slug": "leash-collar",
+    "title": "Collar & Leash",
+    "description": "A collar around their neck. Clip a leash on. Lead them where you want them.",
+    "tags": [
+      "restraint",
+      "symbolism"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0032",
+    "slug": "commands",
+    "title": "Giving Commands",
+    "description": "Give orders. Make them ask permission. 'Open your mouth.' 'Don't move.' 'Beg for it.'",
+    "tags": [
+      "dominance",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0033",
+    "slug": "praise",
+    "title": "Praise",
+    "description": "Tell them how well they're doing. How good they look taking you. Watch them try harder.",
+    "tags": [
+      "communication",
+      "affirmation"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0034",
+    "slug": "degradation",
+    "title": "Degradation",
+    "description": "Words that sting. 'You're just a hole.' 'You're pathetic.' Make them feel small.",
+    "tags": [
+      "communication",
+      "degradation"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0035",
+    "slug": "name-calling",
+    "title": "Name Calling",
+    "description": "Slut. Whore. Good little toy. The right word at the right moment makes them fall apart.",
+    "tags": [
+      "communication",
+      "degradation"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0036",
+    "slug": "orgasm-control",
+    "title": "Orgasm Control",
+    "description": "Decide when they get to come. Make them ask permission. Deny them. Make them earn it.",
+    "tags": [
+      "control",
+      "dominance"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0037",
+    "slug": "begging",
+    "title": "Making Them Beg",
+    "description": "Make them ask for what they want. Make them say please. Make them desperate enough to beg.",
+    "tags": [
+      "control",
+      "tease"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0038",
+    "slug": "vibrator-give",
+    "title": "Using Vibrator",
+    "description": "Hold it against them until they're trembling. Change speeds, change positions, keep them guessing.",
+    "tags": [
+      "toys",
+      "control"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0039",
+    "slug": "vibrator-receive",
+    "title": "Being Vibrated",
+    "description": "The buzz against your most sensitive spot, building until you're right on the edge. They decide when you fall.",
+    "tags": [
+      "toys",
+      "control"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0040",
+    "slug": "nipple-clamps-give",
+    "title": "Using Nipple Clamps",
+    "description": "Apply the pressure, let them adjust to the pinch, then tug on the chain. Mix of pain and pleasure.",
+    "tags": [
+      "pain",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0041",
+    "slug": "nipple-clamps-receive",
+    "title": "Wearing Nipple Clamps",
+    "description": "The bite of the clamp, then the rush when they flick it. Pain and pleasure so mixed up you can't tell them apart.",
+    "tags": [
+      "pain",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0042",
+    "slug": "butt-plug",
+    "title": "Butt Plug",
+    "description": "Insert a plug, leave it there. Make them wear it while you do other things. Every movement reminds them.",
+    "tags": [
+      "anal",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0043",
+    "slug": "cock-ring",
+    "title": "Cock Ring",
+    "description": "Keeps them hard, sensitive, unable to soften. They'll last longer but feel everything more intensely.",
+    "tags": [
+      "toys",
+      "stamina"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0044",
+    "slug": "strap-on",
+    "title": "Strap-On",
+    "description": "Wear the harness. Take control. Give them the sensation of being filled, being taken.",
+    "tags": [
+      "toys",
+      "role-reversal"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0045",
+    "slug": "prostate-play",
+    "title": "Prostate Play",
+    "description": "Find that spot inside. Rub it. Press it. Make them feel things they didn't know their body could do.",
+    "tags": [
+      "anal",
+      "toys"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0046",
+    "slug": "anal-finger-give",
+    "title": "Anal Fingering",
+    "description": "Plenty of lube. Start with gentle circles around the rim. Take your time. Make them push back onto your finger.",
+    "tags": [
+      "anal",
+      "beginner"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0047",
+    "slug": "anal-finger-receive",
+    "title": "Receiving Anal Fingering",
+    "description": "They work you open so slowly you almost can't stand it. One finger, barely moving, teasing until you're desperate for more.",
+    "tags": [
+      "anal",
+      "beginner"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0048",
+    "slug": "anal-sex-give",
+    "title": "Anal Sex",
+    "description": "Deep, intense, fully seated. Hold them close, make them feel every inch. Watch them adjust to the fullness.",
+    "tags": [
+      "anal",
+      "intense"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0049",
+    "slug": "anal-sex-receive",
+    "title": "Receiving Anal Sex",
+    "description": "Your partner is all the way inside, stretching you, filling you completely. You can feel every throb, every pulse.",
+    "tags": [
+      "anal",
+      "intense"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0050",
+    "slug": "rimming",
+    "title": "Rimming",
+    "description": "Use your tongue where they blush to admit they want it. Soft licks, firm pressure.",
+    "tags": [
+      "anal",
+      "oral"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0051",
+    "slug": "role-stranger",
+    "title": "Stranger Roleplay",
+    "description": "Pretend you don't know each other. Buy them a drink. Flirt like you're trying to take them home.",
+    "tags": [
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0052",
+    "slug": "role-captured",
+    "title": "Captive Roleplay",
+    "description": "They're tied up, helpless. You extract what you want. They resist. You have your methods.",
+    "tags": [
+      "roleplay",
+      "power"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0053",
+    "slug": "role-boss",
+    "title": "Boss/Employee",
+    "description": "Late night in the office. The power dynamic is clear. They're eager to please. You're eager to be pleased.",
+    "tags": [
+      "roleplay",
+      "power"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0054",
+    "slug": "role-doctor",
+    "title": "Doctor/Patient",
+    "description": "Cold professionalism while touching intimate places. 'This might feel uncomfortable.'",
+    "tags": [
+      "roleplay",
+      "professional"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0055",
+    "slug": "role-teacher",
+    "title": "Teacher/Student",
+    "description": "They need to earn their grade. Extra credit is available. Office hours are now.",
+    "tags": [
+      "roleplay",
+      "power"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0056",
+    "slug": "public-oral",
+    "title": "Public Oral",
+    "description": "A dark corner, a parked car, a bathroom with a lock. Get them off fast and quiet.",
+    "tags": [
+      "oral",
+      "public",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0057",
+    "slug": "public-exposure",
+    "title": "Public Exposure",
+    "description": "A hand under the table, a whispered promise. The thrill of almost getting caught.",
+    "tags": [
+      "exhibition",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0058",
+    "slug": "remote-vibrator",
+    "title": "Remote Vibrator",
+    "description": "They wear it, you control it from across the room. Or across the restaurant.",
+    "tags": [
+      "toys",
+      "public",
+      "control"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0059",
+    "slug": "rough-sex",
+    "title": "Rough Sex",
+    "description": "Pounding, gripping hair, leaving bruises. Animalistic. No finesse, just need. Tear each other apart.",
+    "tags": [
+      "intense",
+      "rough"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0060",
+    "slug": "choking",
+    "title": "Choking (Breath Play)",
+    "description": "Not to restrict air, just pressure. Control. Feeling their pulse race under your palm.",
+    "tags": [
+      "breath",
+      "control"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0061",
+    "slug": "hard-spanking",
+    "title": "Hard Spanking",
+    "description": "Not playful. Real discipline. They count, they thank you, they ask for the next one. Red marks that last.",
+    "tags": [
+      "impact",
+      "discipline"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0062",
+    "slug": "free-use",
+    "title": "Free Use",
+    "description": "Agreement that they're always available. Watching TV? Bend them over. Consent given once, used often.",
+    "tags": [
+      "consensual",
+      "availability"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0063",
+    "slug": "cnc",
+    "title": "CNC",
+    "description": "Consensual non-consent. They say no, you ignore it, they struggle, you overpower them. Safe words essential.",
+    "tags": [
+      "cnc",
+      "resistance"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0064",
+    "slug": "sleep-play",
+    "title": "Sleep Play",
+    "description": "Pre-agreed touching, penetration while they sleep or pretend to. Wake them up in the best way.",
+    "tags": [
+      "sleep",
+      "surprise"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0065",
+    "slug": "hogtie",
+    "title": "Hogtie",
+    "description": "Rope or cuffs at wrists and ankles, pulled together behind their back. Completely immobilized.",
+    "tags": [
+      "restraint",
+      "exposure"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0066",
+    "slug": "suspension",
+    "title": "Suspension Bondage",
+    "description": "Rope harness holding them off the ground. Complete vulnerability, total trust.",
+    "tags": [
+      "restraint",
+      "rope",
+      "advanced"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0067",
+    "slug": "forced-orgasm",
+    "title": "Forced Orgasm",
+    "description": "Hold them down and don't stop even when they beg. Make them come until they can't take anymore.",
+    "tags": [
+      "toys",
+      "forced",
+      "control"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0068",
+    "slug": "fucking-machine",
+    "title": "Fucking Machine",
+    "description": "Mechanical rhythm, relentless, unstoppable. You control the speed and depth.",
+    "tags": [
+      "toys",
+      "intense"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0069",
+    "slug": "electrostim",
+    "title": "Electrostimulation",
+    "description": "Electric pulses to their most sensitive areas. Control their nerves, control their pleasure.",
+    "tags": [
+      "toys",
+      "sensory",
+      "intense"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0070",
+    "slug": "threesome",
+    "title": "Threesome",
+    "description": "Three bodies, endless combinations. Taking turns, working together, overwhelming the center of attention.",
+    "tags": [
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0071",
+    "slug": "cuckold",
+    "title": "Cuckolding",
+    "description": "Your partner watches you with someone else. The humiliation, the arousal, the reclaiming after.",
+    "tags": [
+      "cuckold",
+      "voyeur"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0072",
+    "slug": "swinging",
+    "title": "Swinging",
+    "description": "Two couples switch partners. Fresh bodies, new techniques, stories to share after.",
+    "tags": [
+      "swinging",
+      "group"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0073",
+    "slug": "orgy",
+    "title": "Group Play",
+    "description": "Multiple people, multiple connections. Being passed around, completely used, total abandon.",
+    "tags": [
+      "group",
+      "intense"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0074",
+    "slug": "age-play",
+    "title": "Age Play",
+    "description": "Adults roleplaying different ages. Power dynamics, caretaking, regression.",
+    "tags": [
+      "roleplay",
+      "taboo"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0075",
+    "slug": "pet-play",
+    "title": "Pet Play",
+    "description": "Collar, tail plug, crawling. They become your pet. Train them, reward them, own them.",
+    "tags": [
+      "pet-play",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0076",
+    "slug": "latex",
+    "title": "Latex/Rubber",
+    "description": "Second skin. The squeak, the shine, the restriction. Every curve dramatic.",
+    "tags": [
+      "latex",
+      "fetish"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0077",
+    "slug": "foot-worship",
+    "title": "Foot Worship",
+    "description": "Kiss, lick, massage their feet. Admire them. Some find feet incredibly erotic.",
+    "tags": [
+      "feet",
+      "worship"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0078",
+    "slug": "cross-dressing-give",
+    "title": "Dressing Them Up",
+    "description": "Pick out their outfit—lingerie, dress, makeup. Transform them into someone new. Take photos to capture the moment.",
+    "tags": [
+      "gender",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0079",
+    "slug": "cross-dressing-receive",
+    "title": "Being Dressed Up",
+    "description": "They dress you in clothes you wouldn't normally wear. Makeup, wig, the full look. You feel exposed and transformed.",
+    "tags": [
+      "gender",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0080",
+    "slug": "feminization-give",
+    "title": "Feminizing Them",
+    "description": "Transform them into your perfect girl. Dress them, teach them to walk, to serve. They exist to please you as your feminized pet.",
+    "tags": [
+      "gender",
+      "feminization",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0081",
+    "slug": "feminization-receive",
+    "title": "Being Feminized",
+    "description": "They dress you, train you, mold you into their ideal feminine submissive. You learn to serve, to be pretty, to be theirs.",
+    "tags": [
+      "gender",
+      "feminization",
+      "transformation",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0082",
+    "slug": "slutification-give",
+    "title": "Slutifying Them",
+    "description": "Dress them like a whore—short skirt, no underwear, 'slut' written on their body. Send them out in public. Make them feel every eye.",
+    "tags": [
+      "humiliation",
+      "exhibition",
+      "degradation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0083",
+    "slug": "slutification-receive",
+    "title": "Being Slutified",
+    "description": "They dress you like a desperate slut. Everyone can see what you are. You feel dirty, exposed, and incredibly turned on.",
+    "tags": [
+      "humiliation",
+      "exhibition",
+      "degradation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0084",
+    "slug": "gender-reversal-give",
+    "title": "Gender Reversal Roleplay",
+    "description": "Take the 'opposite' role—if they usually lead, you lead. If they usually receive, they give. Flip the dynamic completely.",
+    "tags": [
+      "gender",
+      "role-reversal",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0085",
+    "slug": "gender-reversal-receive",
+    "title": "Receiving Gender Reversal",
+    "description": "They flip the script. You take their usual role, they take yours. Experience sex from the other side of the dynamic.",
+    "tags": [
+      "gender",
+      "role-reversal",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "naughty"
+  },
+  {
+    "id": "0086",
+    "slug": "public-humiliation-give",
+    "title": "Public Humiliation",
+    "description": "Whisper what a slut they are in a crowded restaurant. Make them wear something obvious under their clothes. Send them to the bar to order while plugged.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "public",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0087",
+    "slug": "public-humiliation-receive",
+    "title": "Being Publicly Humiliated",
+    "description": "They humiliate you where people might notice. A whispered insult, a secret task, the constant fear of being discovered.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "public",
+      "risky"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0088",
+    "slug": "objectification-give",
+    "title": "Objectifying Them",
+    "description": "Treat them as furniture, a footrest, a hole to use. No eye contact, no names, just their body for your pleasure. They're an object.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "objectification"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0089",
+    "slug": "objectification-receive",
+    "title": "Being Objectified",
+    "description": "You're not a person, you're a thing. A hole, a toy, furniture. They use you without acknowledging your humanity. You're just an object for their pleasure.",
+    "tags": [
+      "humiliation",
+      "degradation",
+      "objectification"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0090",
+    "slug": "chastity-give",
+    "title": "Controlling Their Orgasm (Chastity)",
+    "description": "Lock them up. Control when they get to touch, when they get to come. The constant reminder of your power with every movement.",
+    "tags": [
+      "chastity",
+      "control",
+      "denial"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0091",
+    "slug": "chastity-receive",
+    "title": "Being Kept in Chastity",
+    "description": "They hold the key to your pleasure. You're locked, denied, constantly aware of your submission. Begging for release they may never give.",
+    "tags": [
+      "chastity",
+      "control",
+      "denial"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0092",
+    "slug": "chastity-longterm",
+    "title": "Long-Term Chastity",
+    "description": "Days or weeks of denial. Tease them daily but never let them finish. Watch them become desperate, pliable, completely yours.",
+    "tags": [
+      "chastity",
+      "control",
+      "long-term"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 3,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "xxx"
+  },
+  {
+    "id": "0093",
+    "slug": "aftercare",
+    "title": "Aftercare",
+    "description": "Blankets, water, gentle touches. Reassurance. Coming back to reality together after intense play.",
+    "tags": [
+      "aftercare",
+      "intimacy"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "aliases": [],
+    "createdBy": "system",
+    "tier": "soft"
+  }
+]

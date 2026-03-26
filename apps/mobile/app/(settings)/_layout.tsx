@@ -13,6 +13,7 @@ export default function SettingsStackLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="profiles/index" />
       <Stack.Screen name="profiles/new" />
+      <Stack.Screen name="love-languages" />
       <Stack.Screen name="achievements" />
       <Stack.Screen name="notifications" />
       <Stack.Screen name="export" />

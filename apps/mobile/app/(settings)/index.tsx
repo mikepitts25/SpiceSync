@@ -12,6 +12,7 @@ import {
   Trash2,
   Info,
   ChevronRight,
+  Heart,
 } from 'lucide-react-native';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useProfiles } from '../../lib/state/profiles';
@@ -23,6 +24,7 @@ import ResetAgeGateButton from '../../src/components/ResetAgeGateButton';
 
 const MENU_ITEMS = [
   { id: 'profiles', icon: Users, color: '#8B5CF6', route: '/(settings)/profiles' },
+  { id: 'loveLanguages', icon: Heart, color: '#EC4899', route: '/(settings)/love-languages' },
   { id: 'achievements', icon: Trophy, color: '#F59E0B', route: '/(settings)/achievements' },
   { id: 'notifications', icon: Bell, color: '#10B981', route: '/(settings)/notifications' },
 ];
@@ -78,13 +80,15 @@ export default function SettingsScreen() {
     const Icon = item.icon;
     const titles: Record<string, string> = {
       profiles: t.settings.profiles,
-      achievements: `🏆 ${t.settings.achievements}`,
-      notifications: `🔔 ${t.settings.notifications}`,
+      loveLanguages: '💕 Love Languages',
+      achievements: '🏆 Achievements',
+      notifications: '🔔 Notifications',
     };
     const descriptions: Record<string, string> = {
       profiles: t.settings.profilesDesc,
-      achievements: t.settings.achievementsDesc,
-      notifications: t.settings.notificationsDesc,
+      loveLanguages: 'Discover how you give and receive love',
+      achievements: 'Track your progress and unlock badges',
+      notifications: 'Get daily activity suggestions',
     };
 
     return (
@@ -128,7 +132,7 @@ export default function SettingsScreen() {
             <View style={[styles.cardIconContainer, { backgroundColor: `${COLORS.accent}20` }]}>
               <Globe size={20} color={COLORS.accent} />
             </View>
-            <View style={{ flex: 1 }}>
+            <View>
               <Text style={styles.cardTitle}>{t.settings.language}</Text>
               <Text style={styles.cardSubtitle}>{t.settings.languageDesc}</Text>
             </View>
@@ -365,12 +369,14 @@ const styles = StyleSheet.create({
   langBtn: {
     flex: 1,
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     borderRadius: SIZES.radius,
     backgroundColor: COLORS.backgroundSecondary,
     borderWidth: 1,
     borderColor: COLORS.border,
     alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 44,
   },
   langBtnActive: {
     backgroundColor: COLORS.primary,
@@ -378,8 +384,9 @@ const styles = StyleSheet.create({
   },
   langText: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
+    fontSize: SIZES.small,
     color: COLORS.text,
+    textAlign: 'center',
   },
   langTextActive: {
     color: '#fff',
