@@ -9,6 +9,10 @@ export const es: Translations = {
     game: 'Juego',
     matches: 'Matches',
     browse: 'Explorar',
+    kinks: 'Kinks',
+    conversation: 'Conversación',
+    settings: 'Configuración',
+    menu: 'Menú',
   },
 
   // Common
@@ -69,6 +73,8 @@ export const es: Translations = {
     resetConfirmDesc: 'Los votos de {{name}} han sido eliminados.',
     notifications: 'Notificaciones',
     notificationsDesc: 'Recordatorios para revisar tus matches y sugerencias diarias.',
+    achievements: 'Logros',
+    achievementsDesc: 'Rastrea tu progreso y desbloquea insignias',
     exportData: 'Exportar Datos',
     exportDesc: 'Guarda tus matches y preferencias como JSON.',
     exportButton: 'Exportar a Archivo',
@@ -163,6 +169,19 @@ export const es: Translations = {
     choosePartner: 'Elige Pareja',
     pinProtected: 'Protegido con PIN',
     enterPin: 'Ingresa PIN para ver',
+    partialYesLocked: 'Parcial Sí bloqueado',
+    partialYesUnlocked: 'Parcial Sí desbloqueado',
+    lockPartialYes: 'Bloquear Parcial Sí',
+    unlockPartialYes: 'Desbloquear Parcial Sí',
+    lockCopy: 'Se bloquearán de nuevo por inactividad o cuando elijas ocultarlos.',
+    unlockCopy: 'Desbloquea para ver los matches de "Sí + Tal vez". Ambos perfiles deben ingresar su PIN.',
+    noMatchesYet: 'Aún no hay matches',
+    keepSwiping: 'Sigan votando juntos—solo los intereses compartidos aparecen aquí.',
+    keepSwipingMore: 'Sigue votando para descubrir más.',
+    pinRequired: 'PIN requerido',
+    pinRequiredDesc: '{{name}} necesita un PIN para desbloquear los matches Parcial Sí. Configura un PIN en Ajustes.',
+    openSettings: 'Abrir Ajustes',
+    noTabMatches: 'Aún no hay {{tab}}',
   },
 
   // Game
@@ -207,12 +226,24 @@ export const es: Translations = {
   // Notifications
   notifications: {
     title: 'Notificaciones',
+    subtitle: 'Recibe inspiración diaria',
     dailySuggestions: 'Sugerencias Diarias',
     dailySuggestionsDesc: 'Recibe recordatorios para revisar nuevas actividades',
     matchAlerts: 'Alertas de Matches',
     matchAlertsDesc: 'Notifica cuando tengas nuevos matches',
     gameReminders: 'Recordatorios de Juego',
     gameRemindersDesc: 'Recordatorios para jugar el juego de cartas',
+    dailyActivityCard: 'Tarjeta de Actividad Diaria',
+    dailyActivityCardDesc: 'Recibe una nueva sugerencia de actividad cada día',
+    notificationTime: 'Hora de Notificación',
+    tapToChange: 'Toca para cambiar',
+    timeDescription: 'Te enviaremos una nueva idea de actividad a esta hora todos los días. Por defecto: 8:00 PM.',
+    preview: 'Vista Previa',
+    dailySpiceIdea: 'Idea Picante del Día',
+    todayIdea: 'Idea de hoy: Prueba algo nuevo juntos',
+    sendTest: 'Enviar Notificación de Prueba',
+    tipsTitle: '💡 Consejos',
+    tipsText: '• Las notificaciones te ayudan a descubrir nuevas actividades\n• Cada día trae una nueva sugerencia sorpresa\n• Toca la notificación para abrir la app directamente\n• Puedes cambiar la hora o desactivar en cualquier momento',
   },
 
   // Activity Details
@@ -224,6 +255,43 @@ export const es: Translations = {
     yourVote: 'Tu Voto',
     partnerVote: 'Voto de tu Pareja',
     notVoted: 'Aún no ha votado',
+  },
+
+  // Achievements
+  achievements: {
+    title: 'Logros',
+    countUnlocked: '{{unlocked}} de {{total}} desbloqueados',
+    streak: '🔥 Tu Racha',
+    current: 'Actual',
+    best: 'Mejor',
+    totalDays: 'Días Totales',
+    unlockedSection: '🏆 Desbloqueados',
+    lockedSection: '🔒 Bloqueados',
+    unlockedText: '¡Desbloqueado! 🎉',
+    backButton: 'Volver al Perfil',
+    categoryProgress: 'Progreso por Categoría',
+    startExploring: '¡Empieza a explorar categorías para ver tu progreso!',
+    activities: 'actividades',
+    streakOnFire: '¡Estás en llamas! ¡Sigue así! 🔥',
+    streakGood: '¡Gran racha! ¡No la rompas! 💪',
+    streakStart: '¡Empieza tu racha hoy! ✨',
+  },
+
+  // Kinks Selector
+  kinks: {
+    header: '¿Qué humor tienes hoy?',
+    headerSubtitle: 'Elige tu vibe y explora juntos',
+    browseAll: '✨ Ver Todas las Categorías',
+    soft: 'Kinks Suaves',
+    softSubtitle: 'Suave y Juguetón',
+    softDesc: 'Teasing, juego ligero y exploración sensual',
+    naughty: 'Kinks Atrevidos',
+    naughtySubtitle: 'Picante e Intenso',
+    naughtyDesc: 'Impacto, bondage, juguetes y juego de poder',
+    xxx: 'Kinks XXX',
+    xxxSubtitle: 'Duro y Extremo',
+    xxxDesc: 'Juego avanzado, CNC, grupo y kinks intensos',
+    activeProfile: 'Activo',
   },
 
   // Onboarding Screens

@@ -9,34 +9,23 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { useFilters } from '../../lib/state/filters';
 import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useProfiles } from '../../lib/state/profiles';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { useTranslation, interpolate } from '../../lib/i18n';
 
 const TIERS = [
   {
     key: 'soft' as const,
-    emoji: '💜',
-    title: 'Soft Kinks',
-    subtitle: 'Gentle & Playful',
-    description: 'Teasing, light play, and sensual exploration',
     color: '#FF6B9D',
     glow: 'rgba(255, 107, 157, 0.3)',
   },
   {
     key: 'naughty' as const,
-    emoji: '🔥',
-    title: 'Naughty Kinks',
-    subtitle: 'Spicy & Intense',
-    description: 'Impact, bondage, toys, and power play',
     color: '#F472B6',
     glow: 'rgba(244, 114, 182, 0.3)',
   },
   {
     key: 'xxx' as const,
-    emoji: '❌',
-    title: 'XXX Kinks',
-    subtitle: 'Hard & Extreme',
-    description: 'Advanced play, CNC, group, and intense kinks',
     color: '#EF4444',
     glow: 'rgba(239, 68, 68, 0.3)',
   },
@@ -48,6 +37,9 @@ export default function KinksScreen() {
   const language = useSettingsStore((state) => state.language);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const { t } = useTranslation();
+  const tk = t.kinks;
+  const { profiles, currentUserId } = (useProfiles() as any) || {};
+  const me = profiles?.find((p: any) => p.id === currentUserId) || null;
 
   const counts = kinks.reduce<Record<string, number>>((acc, k) => {
     const tier = k.tier || 'soft';
@@ -65,54 +57,70 @@ export default function KinksScreen() {
     router.push('/(tabs)/deck');
   };
 
+  const getTierLabel = (key: 'soft' | 'naughty' | 'xxx') => {
+    switch (key) {
+      case 'soft': return { title: tk.soft, subtitle: tk.softSubtitle, description: tk.softDesc };
+      case 'naughty': return { title: tk.naughty, subtitle: tk.naughtySubtitle, description: tk.naughtyDesc };
+      case 'xxx': return { title: tk.xxx, subtitle: tk.xxxSubtitle, description: tk.xxxDesc };
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <Animated.View entering={FadeInUp.delay(100)} style={styles.header}>
+          {/* Active profile indicator - top-left, clear of menu button */}
+          {me && (
+            <View style={styles.profileBadge}>
+              <Text style={styles.profileBadgeEmoji}>{me.emoji}</Text>
+              <Text style={styles.profileBadgeName}>{me.displayName}</Text>
+              <View style={styles.profileActiveDot} />
+            </View>
+          )}
           <Text style={styles.headerEmoji}>🔥</Text>
-          <Text style={styles.headerTitle}>What mood are you in?</Text>
-          <Text style={styles.headerSubtitle}>
-            Choose your vibe and start exploring together
-          </Text>
+          <Text style={styles.headerTitle}>{tk.header}</Text>
+          <Text style={styles.headerSubtitle}>{tk.headerSubtitle}</Text>
         </Animated.View>
 
         {/* Category Cards */}
         <View style={styles.cardsContainer}>
-          {TIERS.map((tier, index) => (
-            <Animated.View
-              key={tier.key}
-              entering={FadeInUp.delay(200 + index * 100)}
-              style={[styles.cardWrapper, { shadowColor: tier.color }]}
-            >
-              <Pressable
-                style={[styles.card, { backgroundColor: tier.color }]}
-                onPress={() => onPick(tier.key)}
-                android_ripple={{ color: 'rgba(255,255,255,0.1)' }}
+          {TIERS.map((tier, index) => {
+            const labels = getTierLabel(tier.key);
+            return (
+              <Animated.View
+                key={tier.key}
+                entering={FadeInUp.delay(200 + index * 100)}
+                style={[styles.cardWrapper, { shadowColor: tier.color }]}
               >
-                {/* Glow effect */}
-                <View style={[styles.glow, { backgroundColor: tier.glow }]} />
-                
-                {/* Content */}
-                <View style={styles.cardContent}>
-                  <View style={styles.cardTop}>
-                    <Text style={styles.cardEmoji}>{tier.emoji}</Text>
-                    <View style={styles.countBadge}>
-                      <Text style={styles.countText}>{counts[tier.key] || 0}</Text>
+                <Pressable
+                  style={[styles.card, { backgroundColor: tier.color }]}
+                  onPress={() => onPick(tier.key)}
+                  android_ripple={{ color: 'rgba(255,255,255,0.1)' }}
+                >
+                  {/* Glow effect */}
+                  <View style={[styles.glow, { backgroundColor: tier.glow }]} />
+
+                  {/* Content */}
+                  <View style={styles.cardContent}>
+                    <View style={styles.cardTop}>
+                      <View style={styles.countBadge}>
+                        <Text style={styles.countText}>{counts[tier.key] || 0}</Text>
+                      </View>
+                    </View>
+
+                    <Text style={styles.cardTitle}>{labels.title}</Text>
+                    <Text style={styles.cardSubtitle}>{labels.subtitle}</Text>
+                    <Text style={styles.cardDescription}>{labels.description}</Text>
+
+                    <View style={styles.arrowContainer}>
+                      <Text style={styles.arrow}>→</Text>
                     </View>
                   </View>
-                  
-                  <Text style={styles.cardTitle}>{tier.title}</Text>
-                  <Text style={styles.cardSubtitle}>{tier.subtitle}</Text>
-                  <Text style={styles.cardDescription}>{tier.description}</Text>
-                  
-                  <View style={styles.arrowContainer}>
-                    <Text style={styles.arrow}>→</Text>
-                  </View>
-                </View>
-              </Pressable>
-            </Animated.View>
-          ))}
+                </Pressable>
+              </Animated.View>
+            );
+          })}
         </View>
 
         {/* All Categories Button */}
@@ -124,7 +132,7 @@ export default function KinksScreen() {
               router.push('/(tabs)/deck');
             }}
           >
-            <Text style={styles.allButtonText}>✨ Browse All Categories</Text>
+            <Text style={styles.allButtonText}>{tk.browseAll}</Text>
           </Pressable>
         </Animated.View>
 
@@ -147,6 +155,33 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginBottom: 32,
+  },
+  profileBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: COLORS.card,
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    gap: 6,
+  },
+  profileBadgeEmoji: {
+    fontSize: 16,
+  },
+  profileBadgeName: {
+    fontSize: SIZES.small,
+    fontWeight: '600',
+    color: COLORS.text,
+  },
+  profileActiveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: COLORS.yes ?? '#22c55e',
   },
   headerEmoji: {
     fontSize: 56,
@@ -202,9 +237,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
-  },
-  cardEmoji: {
-    fontSize: 40,
   },
   countBadge: {
     backgroundColor: 'rgba(0,0,0,0.3)',

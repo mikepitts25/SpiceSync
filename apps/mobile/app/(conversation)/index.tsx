@@ -29,7 +29,6 @@ import {
   X,
   MessageCircle,
   Moon,
-  Home,
 } from 'lucide-react-native';
 
 import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
@@ -37,10 +36,8 @@ import {
   ConversationStarter,
   categoryInfo,
   INTENSITY_LABELS,
-  getStartersByCategory,
-  getRandomStarter,
-  getDailyStarter,
-  filterStarters,
+  getRandomStarterByLanguage,
+  getDailyStarterByLanguage,
 } from '../../lib/conversationStarters';
 import { useConversationStore } from '../../lib/state/conversationStore';
 import { useConversationTranslation } from '../../lib/i18n';
@@ -269,26 +266,27 @@ export default function ConversationScreen() {
   const [showDaily, setShowDaily] = useState(false);
 
   const { favorites, toggleFavorite, addToHistory } = useConversationStore();
-  const { ct } = useConversationTranslation();
+  const { ct, language } = useConversationTranslation();
 
   // Get daily starter
-  const dailyStarter = useMemo(() => getDailyStarter(), []);
+  const dailyStarter = useMemo(() => getDailyStarterByLanguage(language), [language]);
 
   // Pick a random starter
   const pickRandomStarter = useCallback(() => {
-    const starter = getRandomStarter(
+    const starter = getRandomStarterByLanguage(
+      language,
       selectedCategory ? { category: selectedCategory } : undefined
     );
     if (starter) {
       setCurrentStarter(starter);
       addToHistory(starter.id);
     }
-  }, [selectedCategory, addToHistory]);
+  }, [selectedCategory, addToHistory, language]);
 
   // Handle category selection
   const handleCategoryPress = (categoryId: ConversationStarter['category']) => {
     setSelectedCategory(categoryId);
-    const starter = getRandomStarter({ category: categoryId });
+    const starter = getRandomStarterByLanguage(language, { category: categoryId });
     if (starter) {
       setCurrentStarter(starter);
       addToHistory(starter.id);
@@ -351,11 +349,6 @@ export default function ConversationScreen() {
                 : ct.subtitle}
             </Text>
           </View>
-          {!currentStarter && (
-            <TouchableOpacity style={styles.homeButton} onPress={() => router.push('/(tabs)')}>
-              <Home size={24} color={COLORS.text} />
-            </TouchableOpacity>
-          )}
         </View>
       </View>
 
@@ -525,16 +518,6 @@ const styles = StyleSheet.create({
     backgroundColor: `${COLORS.accent}20`,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  homeButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: COLORS.card,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.border,
   },
   scrollView: {
     flex: 1,

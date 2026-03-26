@@ -206,13 +206,13 @@ export default function DeckScreen() {
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <View style={styles.topBar}>
+        <Text style={styles.user}>
+          {me?.emoji} {me?.displayName ?? me?.name}
+        </Text>
         <Text style={styles.count}>{leftCount} {t.common.left}</Text>
         {selectedTier ? (
           <Text style={styles.tier}>• {selectedTier?.toUpperCase()}</Text>
         ) : null}
-        <Text style={styles.user}>
-          {me?.emoji} {me?.displayName ?? me?.name}
-        </Text>
       </View>
       <View style={styles.deckArea}>
         <View style={styles.cardMaxW}>
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   },
   count: { fontWeight: '700', color: 'white' },
   tier: { color: '#9ca3af', fontWeight: '600' },
-  user: { marginLeft: 'auto', color: '#93c5fd', fontWeight: '800' },
+  user: { color: '#93c5fd', fontWeight: '800' },
 
   deckArea: {
     flex: 1,
