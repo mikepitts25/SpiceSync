@@ -1,0 +1,52 @@
+Name,Phase,Priority,Effort,Impact,Status,Owner,Notes
+User Authentication (Email/Password),MVP,P0,S,High,Not Started,Backend,Include password reset
+Partner Pairing System,MVP,P0,M,High,Not Started,Backend,Unique code or invite link
+Core Quiz Engine,MVP,P0,L,High,Not Started,Frontend,200+ questions across categories
+Match Reveal Algorithm,MVP,P0,M,High,Not Started,Backend,Show only mutual interests
+Basic Privacy Settings,MVP,P0,S,High,Not Started,Backend,Data visibility controls
+Cross-Platform Apps (iOS + Android),MVP,P0,L,High,Not Started,Mobile,React Native or Flutter
+Basic UI/UX Design,MVP,P0,M,High,Not Started,Design,Clean modern interface
+User Onboarding Flow,MVP,P0,M,High,Not Started,Frontend,Explain privacy and how it works
+Free vs Premium Gating,MVP,P0,S,High,Not Started,Backend,Limit free tier content
+App Store Submission,MVP,P0,S,High,Not Started,DevOps,iOS App Store and Google Play
+End-to-End Encryption,Privacy,P0,L,High,Not Started,Security,Zero-knowledge architecture
+Local-First Data Storage,Privacy,P0,L,High,Not Started,Backend,Minimal server data
+Biometric Lock (Face/Touch ID),Privacy,P0,S,High,Not Started,Mobile,iOS + Android support
+Secure Key Management,Privacy,P0,M,High,Not Started,Security,Key derivation and storage
+Decoy Mode,Privacy,P1,M,High,Not Started,Mobile,Fake app mode for privacy
+Screenshot Detection,Privacy,P1,S,Medium,Not Started,Mobile,Warn or blur on screenshot
+Auto-Lock Timer,Privacy,P1,XS,Medium,Not Started,Mobile,Lock after inactivity
+Remote Wipe Capability,Privacy,P1,M,Medium,Not Started,Backend,Emergency data deletion
+Security Audit Documentation,Privacy,P1,S,High,Not Started,Security,For marketing and trust
+Expand Question Bank to 500+,Content,P1,L,High,Not Started,Content,More categories and variety
+Spice Level Calibration,Content,P1,M,High,Not Started,Frontend,Mild/Medium/Hot per category
+Custom Question Builder,Content,P1,L,High,Not Started,Frontend,Users add private questions
+Category Filtering,Content,P1,S,Medium,Not Started,Frontend,Browse by interest type
+Daily Suggestions,Content,P1,M,Medium,Not Started,Backend,Push notifications
+Question Favorites,Content,P1,XS,Low,Not Started,Frontend,Save for later
+Content Packs/Themes,Content,P2,M,Medium,Not Started,Content,Seasonal holiday themes
+Question Ratings,Content,P2,S,Low,Not Started,Backend,Crowdsource quality
+New Question Badges,Content,P2,XS,Low,Not Started,Frontend,Highlight fresh content
+Streak Tracking,Engagement,P1,S,High,Not Started,Frontend,Daily check-ins
+Progress Dashboard,Engagement,P1,M,High,Not Started,Frontend,Visual stats and milestones
+Achievement System,Engagement,P1,M,Medium,Not Started,Frontend,Badges for milestones
+Push Notifications,Engagement,P1,S,High,Not Started,Backend,Reminders and new matches
+Offline Mode,Engagement,P1,L,High,Not Started,Mobile,Core features work offline
+Relationship Check-ins,Engagement,P2,M,Medium,Not Started,Frontend,Periodic preference updates
+Experience Journal,Engagement,P2,L,Medium,Not Started,Frontend,Private notes on matches
+Bucket List,Engagement,P2,M,Medium,Not Started,Frontend,Save matches to try
+In-App Messaging,Engagement,P2,L,Low,Not Started,Backend,Optional chat feature
+AI Fantasy Generator,AI,P2,XL,High,Not Started,AI/ML,Generate scenarios from matches
+Smart Recommendations,AI,P2,L,High,Not Started,AI/ML,ML-based question suggestions
+Conversation Starters,AI,P2,M,High,Not Started,Content,AI-generated icebreakers
+Adaptive Quiz Difficulty,AI,P2,M,Medium,Not Started,AI/ML,Adjust based on responses
+Voice Notes,AI,P3,M,Low,Not Started,Mobile,Audio messages for couples
+Date Night Planner,AI,P3,L,Medium,Not Started,Frontend,Calendar integration
+Health App Integration,AI,P3,M,Low,Not Started,Mobile,Cycle tracking mood
+Wearable Support,AI,P3,L,Low,Not Started,Mobile,Apple Watch etc
+Web App Version,Scale,P3,L,Medium,Not Started,Frontend,PWA or web client
+Localization (i18n),Scale,P3,L,Medium,Not Started,Frontend,Spanish French etc
+Couples Therapy Integration,Scale,P3,XL,Medium,Not Started,Partnership,Professional referrals
+Community Features,Scale,P3,XL,Low,Not Started,Backend,Anonymous forums
+Advanced Analytics,Scale,P3,M,Medium,Not Started,Backend,User behavior insights
+A/B Testing Framework,Scale,P3,M,Medium,Not Started,Backend,Optimize conversions
