@@ -103,12 +103,6 @@ export default function KinksScreen() {
 
                   {/* Content */}
                   <View style={styles.cardContent}>
-                    <View style={styles.cardTop}>
-                      <View style={styles.countBadge}>
-                        <Text style={styles.countText}>{counts[tier.key] || 0}</Text>
-                      </View>
-                    </View>
-
                     <Text style={styles.cardTitle}>{labels.title}</Text>
                     <Text style={styles.cardSubtitle}>{labels.subtitle}</Text>
                     <Text style={styles.cardDescription}>{labels.description}</Text>
@@ -231,23 +225,6 @@ const styles = StyleSheet.create({
   cardContent: {
     position: 'relative',
     zIndex: 1,
-  },
-  cardTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  countBadge: {
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 20,
-  },
-  countText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 16,
   },
   cardTitle: {
     fontSize: SIZES.h2,

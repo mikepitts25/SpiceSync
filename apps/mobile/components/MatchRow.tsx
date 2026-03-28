@@ -53,6 +53,7 @@ type Props = {
   aVote: VoteVal;
   bVote: VoteVal;
   kinkSlug?: string;
+  kinkTier?: string;
   showConversationButton?: boolean;
 };
 
@@ -64,12 +65,14 @@ const MatchRow: React.FC<Props> = ({
   aVote,
   bVote,
   kinkSlug,
+  kinkTier,
   showConversationButton = true,
 }) => {
   const router = useRouter();
   const hasTopics = kinkSlug && hasKinkConversationTopics(kinkSlug);
   const isMutualYes = aVote === 'yes' && bVote === 'yes';
-  const shouldShowButton = showConversationButton && hasTopics && isMutualYes;
+  const isNaughtyOrXXX = kinkTier === 'naughty' || kinkTier === 'xxx';
+  const shouldShowButton = showConversationButton && hasTopics && isMutualYes && isNaughtyOrXXX;
 
   const handleConversationPress = () => {
     if (kinkSlug) {
