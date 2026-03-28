@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { VoteValue } from '../src/stores/votes';
 
@@ -48,6 +48,7 @@ type Props = {
   bEmoji?: string | null;
   aVote: VoteVal;
   bVote: VoteVal;
+  onDiscuss?: () => void;
 };
 
 const MatchRow: React.FC<Props> = ({
@@ -57,12 +58,25 @@ const MatchRow: React.FC<Props> = ({
   bEmoji,
   aVote,
   bVote,
+  onDiscuss,
 }) => {
   return (
     <View style={styles.wrap}>
-      <View style={styles.textWrap}>
-        <Text style={styles.title}>{title}</Text>
-        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      <View style={styles.topRow}>
+        <View style={styles.textWrap}>
+          <Text style={styles.title}>{title}</Text>
+          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        </View>
+        {onDiscuss && (
+          <Pressable
+            style={styles.discussBtn}
+            onPress={onDiscuss}
+            accessibilityRole="button"
+            accessibilityLabel={`Discuss ${title}`}
+          >
+            <Text style={styles.discussBtnText}>💬 Discuss</Text>
+          </Pressable>
+        )}
       </View>
       <View style={styles.chipsRow}>
         <VoteChip emoji={aEmoji} vote={aVote} />
@@ -77,7 +91,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     gap: 8,
   },
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+  },
   textWrap: {
+    flex: 1,
     gap: 4,
   },
   title: {
@@ -108,6 +128,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 14,
+  },
+  discussBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: '#1d3a5e',
+    borderWidth: 1,
+    borderColor: '#2563eb',
+    alignSelf: 'flex-start',
+  },
+  discussBtnText: {
+    color: '#93c5fd',
+    fontWeight: '700',
+    fontSize: 13,
   },
 });
 

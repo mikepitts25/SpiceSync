@@ -604,6 +604,12 @@ export default function MatchesScreen() {
                 bEmoji={partnerProfile?.emoji}
                 aVote={item.aVote}
                 bVote={item.bVote}
+                onDiscuss={() =>
+                  router.push({
+                    pathname: '/(conversation)/kink-topics',
+                    params: { kinkId: item.id },
+                  })
+                }
               />
             )}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
