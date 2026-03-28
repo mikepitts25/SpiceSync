@@ -1,7 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { MessageCircle } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 
 import type { VoteValue } from '../src/stores/votes';
+import { hasKinkConversationTopics } from '../data/kinkConversationTopics';
+import { COLORS } from '../constants/theme';
 
 type VoteVal = VoteValue | undefined;
 
@@ -48,6 +52,8 @@ type Props = {
   bEmoji?: string | null;
   aVote: VoteVal;
   bVote: VoteVal;
+  kinkSlug?: string;
+  showConversationButton?: boolean;
 };
 
 const MatchRow: React.FC<Props> = ({
@@ -57,7 +63,23 @@ const MatchRow: React.FC<Props> = ({
   bEmoji,
   aVote,
   bVote,
+  kinkSlug,
+  showConversationButton = true,
 }) => {
+  const router = useRouter();
+  const hasTopics = kinkSlug && hasKinkConversationTopics(kinkSlug);
+  const isMutualYes = aVote === 'yes' && bVote === 'yes';
+  const shouldShowButton = showConversationButton && hasTopics && isMutualYes;
+
+  const handleConversationPress = () => {
+    if (kinkSlug) {
+      router.push({
+        pathname: '/(conversation)/kink-topics',
+        params: { kinkSlug, kinkTitle: title },
+      });
+    }
+  };
+
   return (
     <View style={styles.wrap}>
       <View style={styles.textWrap}>
@@ -68,6 +90,16 @@ const MatchRow: React.FC<Props> = ({
         <VoteChip emoji={aEmoji} vote={aVote} />
         <VoteChip emoji={bEmoji} vote={bVote} />
       </View>
+      {shouldShowButton && (
+        <TouchableOpacity
+          style={styles.conversationButton}
+          onPress={handleConversationPress}
+          activeOpacity={0.8}
+        >
+          <MessageCircle size={16} color={COLORS.primary} />
+          <Text style={styles.conversationButtonText}>Talk About This</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -108,6 +140,24 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 14,
+  },
+  conversationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: `${COLORS.primary}20`,
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginTop: 4,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: `${COLORS.primary}40`,
+  },
+  conversationButtonText: {
+    color: COLORS.primary,
+    fontWeight: '700',
+    fontSize: 13,
   },
 });
 

@@ -51,6 +51,7 @@ type TabOption = {
 
 type MatchRowItem = {
   id: string;
+  slug?: string;
   title: string;
   subtitle?: string | null;
   aVote: VoteValue | undefined;
@@ -268,6 +269,7 @@ export default function MatchesScreen() {
             : (tier ?? category ?? null);
         return {
           id: item?.id ?? id,
+          slug: item?.slug,
           title: item?.title ?? id,
           subtitle,
           aVote: activeVotes[id],
@@ -604,6 +606,7 @@ export default function MatchesScreen() {
                 bEmoji={partnerProfile?.emoji}
                 aVote={item.aVote}
                 bVote={item.bVote}
+                kinkSlug={item.slug}
               />
             )}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
