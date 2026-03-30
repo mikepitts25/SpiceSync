@@ -1,32 +1,7 @@
-// SpiceSync - Level 2: Warm & Intimate (60 cards)
-// Building connection and comfort
-// Longer touches, deeper questions
-// PREMIUM tier
-
+// SpiceSync - Level 2 Cards
 import { GameCard } from './gameCards';
 
 export const LEVEL2_CARDS: GameCard[] = [
-  // ─── TRUTH (15 cards) ────────────────────────────────────
-  {
-    id: 'lvl2-t-001',
-    type: 'truth',
-    content: "What's something that instantly turns you on about me, even in everyday moments?",
-    intensity: 2,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-002',
-    type: 'truth',
-    content: "Describe a mild fantasy you've had about us that you've never shared before.",
-    intensity: 2,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
   {
     id: 'lvl2-t-003',
     type: 'truth',
@@ -34,28 +9,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-004',
-    type: 'truth',
-    content: "What's your favorite way I touch you? Describe the exact spot and pressure.",
-    intensity: 2,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-005',
-    type: 'truth',
-    content: "What's a romantic gesture from a movie or show that you'd secretly love me to do?",
-    intensity: 2,
-    category: 'emotional',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl2-t-006',
@@ -64,18 +18,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-007',
-    type: 'truth',
-    content: "What's a secret spot on your body that loves attention but rarely gets it?",
-    intensity: 2,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl2-t-008',
@@ -84,8 +27,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl2-t-009',
@@ -94,18 +36,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-010',
-    type: 'truth',
-    content: "What's something I do that makes you feel truly seen and understood?",
-    intensity: 2,
-    category: 'emotional',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-t-011',
@@ -114,38 +45,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-012',
-    type: 'truth',
-    content: "What's a fear or insecurity you have that you wish I knew about?",
-    intensity: 2,
-    category: 'emotional',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-013',
-    type: 'truth',
-    content: "What does 'mi amor' or 'mi vida' mean to you when I say it?",
-    intensity: 2,
-    category: 'emotional',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-t-014',
-    type: 'truth',
-    content: "What's the most sensual non-sexual experience we could have together?",
-    intensity: 2,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl2-t-015',
@@ -154,11 +54,8 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
-
-  // ─── DARE (15 cards) ─────────────────────────────────────
   {
     id: 'lvl2-d-001',
     type: 'dare',
@@ -186,8 +83,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl2-d-004',
@@ -196,18 +92,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-d-005',
-    type: 'dare',
-    content: "Trace your name on my back with your finger. I'll try to guess what you're writing.",
-    intensity: 2,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl2-d-006',
@@ -216,8 +101,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
-    requires: []
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl2-d-007',
@@ -226,8 +110,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl2-d-008',
@@ -236,8 +119,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl2-d-009',
@@ -256,8 +138,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-d-011',
@@ -266,8 +147,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl2-d-012',
@@ -276,8 +156,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl2-d-013',
@@ -286,18 +165,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-d-014',
-    type: 'dare',
-    content: "Nibble gently on my earlobe while whispering what you're looking forward to doing with me.",
-    intensity: 2,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl2-d-015',
@@ -306,11 +174,8 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
-
-  // ─── CHALLENGE (15 cards) ────────────────────────────────
   {
     id: 'lvl2-c-001',
     type: 'challenge',
@@ -338,8 +203,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '10 min'
   },
   {
     id: 'lvl2-c-004',
@@ -348,8 +212,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '15 min',
-    requires: []
+    estimatedTime: '15 min'
   },
   {
     id: 'lvl2-c-005',
@@ -358,8 +221,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-c-006',
@@ -382,16 +244,6 @@ export const LEVEL2_CARDS: GameCard[] = [
     requires: ['kitchen']
   },
   {
-    id: 'lvl2-c-008',
-    type: 'challenge',
-    content: "Body Appreciation: Take turns naming one thing you love about each part of the other's body, from head to toe.",
-    intensity: 2,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
-  },
-  {
     id: 'lvl2-c-009',
     type: 'challenge',
     content: "Future Vision Board: Together, discuss and write down 5 shared goals or dreams for your future.",
@@ -400,6 +252,188 @@ export const LEVEL2_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '15 min',
     requires: ['paper', 'pen']
+  },
+  {
+    id: 'lvl2-c-013',
+    type: 'challenge',
+    content: "Memory Creation: Do something together right now that you want to remember in 10 years. Document it somehow.",
+    intensity: 2,
+    category: 'emotional',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-c-014',
+    type: 'challenge',
+    content: "Trust Exercise: One person falls backward, the other catches them. Switch. Then discuss how it felt.",
+    intensity: 2,
+    category: 'emotional',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-c-015',
+    type: 'challenge',
+    content: "Sensory Deprivation Lite: One person wears a blindfold while the other guides them around the room using only touch and voice.",
+    intensity: 2,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '5 min',
+    requires: ['blindfold']
+  },
+  {
+    id: 'lvl2-fn-001',
+    type: 'fantasy',
+    content: "Describe a romantic evening in Cartagena—walking the walled city, dinner, dancing. What would we do?",
+    intensity: 2,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-rp-001',
+    type: 'roleplay',
+    content: "Masseuse and Client: Give me a professional massage that gradually becomes more intimate and personal.",
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min',
+    requires: ['oil-or-lotion']
+  },
+  {
+    id: 'lvl2-rp-003',
+    type: 'roleplay',
+    content: "Photographer and Model: Direct me into poses. Tell me how beautiful I am. Make me feel seen.",
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-rp-005',
+    type: 'roleplay',
+    content: "Yoga Instructor: Guide me through stretches, adjusting my position with your hands, staying close.",
+    intensity: 2,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-rp-006',
+    type: 'roleplay',
+    content: "Bartender and Regular: You know my usual. We flirt across the bar. Tonight, you ask me to stay after closing.",
+    intensity: 2,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-t-001',
+    type: 'truth',
+    content: "What's something that instantly turns you on about me, even in everyday moments?",
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl2-t-002',
+    type: 'truth',
+    content: "Describe a mild fantasy you've had about us that you've never shared before.",
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-t-004',
+    type: 'truth',
+    content: "What's your favorite way I touch you? Describe the exact spot and pressure.",
+    intensity: 2,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl2-t-005',
+    type: 'truth',
+    content: "What's a romantic gesture from a movie or show that you'd secretly love me to do?",
+    intensity: 2,
+    category: 'emotional',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl2-t-007',
+    type: 'truth',
+    content: "What's a secret spot on your body that loves attention but rarely gets it?",
+    intensity: 2,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl2-t-010',
+    type: 'truth',
+    content: "What's something I do that makes you feel truly seen and understood?",
+    intensity: 2,
+    category: 'emotional',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl2-t-012',
+    type: 'truth',
+    content: "What's a fear or insecurity you have that you wish I knew about?",
+    intensity: 2,
+    category: 'emotional',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl2-t-013',
+    type: 'truth',
+    content: "What does 'mi amor' or 'mi vida' mean to you when I say it?",
+    intensity: 2,
+    category: 'emotional',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl2-t-014',
+    type: 'truth',
+    content: "What's the most sensual non-sexual experience we could have together?",
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl2-d-005',
+    type: 'dare',
+    content: "Trace your name on my back with your finger. I'll try to guess what you're writing.",
+    intensity: 2,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl2-d-014',
+    type: 'dare',
+    content: "Nibble gently on my earlobe while whispering what you're looking forward to doing with me.",
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl2-c-008',
+    type: 'challenge',
+    content: "Body Appreciation: Take turns naming one thing you love about each part of the other's body, from head to toe.",
+    intensity: 2,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '10 min'
   },
   {
     id: 'lvl2-c-010',
@@ -418,8 +452,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '10 min'
   },
   {
     id: 'lvl2-c-012',
@@ -428,50 +461,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-c-013',
-    type: 'challenge',
-    content: "Memory Creation: Do something together right now that you want to remember in 10 years. Document it somehow.",
-    intensity: 2,
-    category: 'emotional',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-c-014',
-    type: 'challenge',
-    content: "Trust Exercise: One person falls backward, the other catches them. Switch. Then discuss how it felt.",
-    intensity: 2,
-    category: 'emotional',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-c-015',
-    type: 'challenge',
-    content: "Sensory Deprivation Lite: One person wears a blindfold while the other guides them around the room using only touch and voice.",
-    intensity: 2,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: ['blindfold']
-  },
-
-  // ─── FANTASY (8 cards) ───────────────────────────────────
-  {
-    id: 'lvl2-fn-001',
-    type: 'fantasy',
-    content: "Describe a romantic evening in Cartagena—walking the walled city, dinner, dancing. What would we do?",
-    intensity: 2,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-fn-002',
@@ -480,8 +470,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-fn-003',
@@ -490,8 +479,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-fn-004',
@@ -500,8 +488,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-fn-005',
@@ -510,8 +497,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-fn-006',
@@ -520,8 +506,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-fn-007',
@@ -530,8 +515,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-fn-008',
@@ -540,20 +524,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-
-  // ─── ROLEPLAY (7 cards) ──────────────────────────────────
-  {
-    id: 'lvl2-rp-001',
-    type: 'roleplay',
-    content: "Masseuse and Client: Give me a professional massage that gradually becomes more intimate and personal.",
-    intensity: 2,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: ['oil-or-lotion']
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-rp-002',
@@ -562,18 +533,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-rp-003',
-    type: 'roleplay',
-    content: "Photographer and Model: Direct me into poses. Tell me how beautiful I am. Make me feel seen.",
-    intensity: 2,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-rp-004',
@@ -582,28 +542,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-rp-005',
-    type: 'roleplay',
-    content: "Yoga Instructor: Guide me through stretches, adjusting my position with your hands, staying close.",
-    intensity: 2,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl2-rp-006',
-    type: 'roleplay',
-    content: "Bartender and Regular: You know my usual. We flirt across the bar. Tonight, you ask me to stay after closing.",
-    intensity: 2,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl2-rp-007',
@@ -612,7 +551,6 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   }
 ];

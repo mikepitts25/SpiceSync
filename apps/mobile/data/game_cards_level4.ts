@@ -1,11 +1,7 @@
-// SpiceSync - Level 4: Hot & Experimental (60 cards)
-// Kink introduction, power dynamics
-// PREMIUM tier - Includes safety notes
-
+// SpiceSync - Level 4 Cards
 import { GameCard } from './gameCards';
 
 export const LEVEL4_CARDS: GameCard[] = [
-  // ─── TRUTH (15 cards) ────────────────────────────────────
   {
     id: 'lvl4-t-001',
     type: 'truth',
@@ -14,7 +10,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Discuss boundaries and establish safewords before exploring BDSM activities.'
   },
   {
@@ -25,41 +20,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'communication',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Power dynamics require trust and clear communication. Discuss limits beforehand.'
-  },
-  {
-    id: 'lvl4-t-003',
-    type: 'truth',
-    content: "Describe a specific power exchange scenario you'd want to try with me. Who has control?",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Establish safewords and aftercare protocols before power exchange play.'
-  },
-  {
-    id: 'lvl4-t-004',
-    type: 'truth',
-    content: "What's something you want me to do to you that requires complete trust?",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Trust-based activities require established consent and the ability to stop at any time.'
-  },
-  {
-    id: 'lvl4-t-005',
-    type: 'truth',
-    content: "How do you feel about consensual roughness—hair pulling, spanking, pinning? What's your limit?",
-    intensity: 4,
-    category: 'communication',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Start light and build up. Check in frequently. Avoid dangerous areas like kidneys or neck.'
   },
   {
     id: 'lvl4-t-006',
@@ -69,41 +30,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '3 min',
-    requires: [],
     safetyNotes: 'Blindfold play requires established trust and clear verbal communication or safe signals.'
-  },
-  {
-    id: 'lvl4-t-007',
-    type: 'truth',
-    content: "What's your hard limit—something you absolutely never want to try?",
-    intensity: 4,
-    category: 'communication',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: [],
-    safetyNotes: 'Hard limits must always be respected without question or pressure.'
-  },
-  {
-    id: 'lvl4-t-008',
-    type: 'truth',
-    content: "Describe how you'd want me to take control of your pleasure completely. Every decision mine.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Orgasm control requires check-ins. Never deny orgasm beyond pre-negotiated time limits.'
-  },
-  {
-    id: 'lvl4-t-009',
-    type: 'truth',
-    content: "What's a degrading or humiliating thing you'd secretly enjoy me saying to you (with consent)?",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Degradation play requires extensive aftercare. Check in during and after.'
   },
   {
     id: 'lvl4-t-010',
@@ -113,19 +40,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '3 min',
-    requires: [],
     safetyNotes: 'Never leave a restrained person alone. Keep safety shears nearby. Check circulation.'
-  },
-  {
-    id: 'lvl4-t-011',
-    type: 'truth',
-    content: "What's the most submissive thing you'd let me do to you right now?",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Submissive activities require clear boundaries and the ability to safeword out.'
   },
   {
     id: 'lvl4-t-012',
@@ -135,19 +50,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '3 min',
-    requires: [],
     safetyNotes: 'Voyeurism/exhibitionism requires complete privacy and consent from all parties.'
-  },
-  {
-    id: 'lvl4-t-013',
-    type: 'truth',
-    content: "What's a 'shameful' fantasy you have that you're afraid to admit? I won't judge.",
-    intensity: 4,
-    category: 'communication',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Fantasy discussion is safe. Acting on fantasies requires additional negotiation.'
   },
   {
     id: 'lvl4-t-014',
@@ -157,7 +60,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '2 min',
-    requires: [],
     safetyNotes: 'Marking should avoid areas with major blood vessels. Consider visibility for work/social situations.'
   },
   {
@@ -168,11 +70,8 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Plan for aftercare before beginning any D/s session. Hydration and comfort are essential.'
   },
-
-  // ─── DARE (15 cards) ─────────────────────────────────────
   {
     id: 'lvl4-d-001',
     type: 'dare',
@@ -203,19 +102,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'physical',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Target fleshy parts of buttocks and thighs only. Avoid tailbone, hips, and kidneys.'
-  },
-  {
-    id: 'lvl4-d-004',
-    type: 'dare',
-    content: "Put me over your lap. Spank me while telling me I've been bad. Make it a scene.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Roleplay requires clear boundaries. Establish safewords before beginning.'
   },
   {
     id: 'lvl4-d-005',
@@ -225,7 +112,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Edging should not cause physical discomfort. Allow release if requested or after reasonable time.'
   },
   {
@@ -240,17 +126,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     safetyNotes: 'Ice can cause numbness. Limit exposure to 30 seconds per area. Warm up between applications.'
   },
   {
-    id: 'lvl4-d-007',
-    type: 'dare',
-    content: "Pin my wrists above my head and kiss me aggressively. Don't let go until I submit.",
-    intensity: 4,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Wrist pinning should not cause pain. Release immediately if requested.'
-  },
-  {
     id: 'lvl4-d-008',
     type: 'dare',
     content: "Pull my hair firmly while taking me from behind. Control my head. Make me feel owned.",
@@ -258,7 +133,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Hair pulling should grab hair close to scalp, not ends. Avoid neck strain.'
   },
   {
@@ -269,7 +143,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '2 min',
-    requires: [],
     safetyNotes: 'Breath play is edge play. Never restrict blood flow to brain. Keep pressure on sides only, never front.'
   },
   {
@@ -280,7 +153,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'physical',
     isPremium: true,
     estimatedTime: '3 min',
-    requires: [],
     safetyNotes: 'Biting should not break skin. Avoid areas near major blood vessels.'
   },
   {
@@ -317,30 +189,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     safetyNotes: 'Use only body-safe candles designed for wax play. Test temperature first. Avoid face and genitals.'
   },
   {
-    id: 'lvl4-d-014',
-    type: 'dare',
-    content: "Write a 'dirty' word on my body with a marker. Your choice. I wear it.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: ['body-safe-marker'],
-    safetyNotes: 'Use only body-safe markers. Test for allergies first. Avoid mucous membranes.'
-  },
-  {
-    id: 'lvl4-d-015',
-    type: 'dare',
-    content: "Make me pleasure myself while you watch. Don't let me stop until you say so.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: [],
-    safetyNotes: 'Voyeurism requires complete privacy. Check in to ensure comfort throughout.'
-  },
-
-  // ─── CHALLENGE (15 cards) ────────────────────────────────
-  {
     id: 'lvl4-c-001',
     type: 'challenge',
     content: "24-Hour Power Exchange: For the next day, one of us makes all decisions. The other obeys within pre-set limits.",
@@ -348,41 +196,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'ongoing',
-    requires: [],
     safetyNotes: 'Establish clear limits, safewords, and check-in times before beginning. Either party can end at any time.'
-  },
-  {
-    id: 'lvl4-c-002',
-    type: 'challenge',
-    content: "Public Discretion: While we're out, send me secret signals or touches that only we understand. See how long before we need privacy.",
-    intensity: 4,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: 'ongoing',
-    requires: [],
-    safetyNotes: 'Public play must be truly discreet. Never involve non-consenting people.'
-  },
-  {
-    id: 'lvl4-c-003',
-    type: 'challenge',
-    content: "Sensory Deprivation: Blindfold and headphones on me. You have 15 minutes to do whatever you want. I won't know what's coming.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '15 min',
-    requires: ['blindfold', 'headphones'],
-    safetyNotes: 'Sensory deprivation can cause disorientation. Stay in physical contact. Check in verbally.'
-  },
-  {
-    id: 'lvl4-c-004',
-    type: 'challenge',
-    content: "Orgasm Denial Session: I'll bring you to the edge 3 times. You beg each time. I decide if and when you finish.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '20 min',
-    requires: [],
-    safetyNotes: 'Denial should not cause pain. Allow release after reasonable time or if genuinely requested.'
   },
   {
     id: 'lvl4-c-005',
@@ -418,17 +232,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     safetyNotes: 'Monitor skin reactions. Stop if skin becomes too red or numb.'
   },
   {
-    id: 'lvl4-c-008',
-    type: 'challenge',
-    content: "Command Performance: For 15 minutes, I must follow every command you give. 'Kneel.' 'Open your mouth.' 'Touch yourself.'",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '15 min',
-    requires: [],
-    safetyNotes: 'Commands must respect pre-negotiated limits. Safeword immediately stops all play.'
-  },
-  {
     id: 'lvl4-c-009',
     type: 'challenge',
     content: "Edging Marathon: Bring me to the edge 5 times over 30 minutes. Final release only with your permission.",
@@ -436,41 +239,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Extended edging can be intense. Provide release if requested or after session.'
-  },
-  {
-    id: 'lvl4-c-010',
-    type: 'challenge',
-    content: "Objectification Scene: For 10 minutes, I'm just a body for your pleasure. No names, no talking. Use me.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: [],
-    safetyNotes: 'Objectification requires extensive aftercare. Remind partner of your care and respect afterward.'
-  },
-  {
-    id: 'lvl4-c-011',
-    type: 'challenge',
-    content: "Punishment Scene: I've been 'bad.' Decide my punishment and carry it out—spanking, corner time, or denial.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '15 min',
-    requires: [],
-    safetyNotes: 'Roleplay punishment must be clearly distinguished from real conflict. Debrief after.'
-  },
-  {
-    id: 'lvl4-c-012',
-    type: 'challenge',
-    content: "Vibrator Torture: Hold the vibrator on me. I can't move away. Don't stop no matter what I say (unless safeword).",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: ['vibrator'],
-    safetyNotes: 'Listen for safeword. Numbness means stop. Provide aftercare and gentleness after.'
   },
   {
     id: 'lvl4-c-013',
@@ -480,7 +249,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Service submission should be rewarding for both. Check in about enjoyment.'
   },
   {
@@ -502,11 +270,241 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'emotional',
     isPremium: true,
     estimatedTime: '15 min',
-    requires: [],
     safetyNotes: 'Aftercare is essential for all intense play. Never skip it. Adjust to partner needs.'
   },
-
-  // ─── FANTASY (8 cards) ───────────────────────────────────
+  {
+    id: 'lvl4-fn-005',
+    type: 'fantasy',
+    content: "Imagine a 24-hour period where I belong to you completely. What rules would you set? What would we do?",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Extended power exchange requires meal breaks, rest, and ability to safeword out.'
+  },
+  {
+    id: 'lvl4-rp-003',
+    type: 'roleplay',
+    content: "Teacher and Student: I need extra credit. You have very creative requirements. I must earn my grade.",
+    intensity: 4,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '10 min',
+    safetyNotes: 'Age gap roleplay should clearly involve adults. Avoid anything resembling actual minors.'
+  },
+  {
+    id: 'lvl4-rp-004',
+    type: 'roleplay',
+    content: "Royal and Servant: You exist to serve my every desire. You will not speak unless spoken to. Obey immediately.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '15 min',
+    safetyNotes: 'Service roleplay should include appreciation for the submissive partner.'
+  },
+  {
+    id: 'lvl4-rp-006',
+    type: 'roleplay',
+    content: "Casting Director and Actor: I need this part. You have very specific requirements. What do I have to do to get the role?",
+    intensity: 4,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '10 min',
+    safetyNotes: 'Casting couch scenarios should not normalize actual exploitation in entertainment industry.'
+  },
+  {
+    id: 'lvl4-t-003',
+    type: 'truth',
+    content: "Describe a specific power exchange scenario you'd want to try with me. Who has control?",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Establish safewords and aftercare protocols before power exchange play.'
+  },
+  {
+    id: 'lvl4-t-004',
+    type: 'truth',
+    content: "What's something you want me to do to you that requires complete trust?",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Trust-based activities require established consent and the ability to stop at any time.'
+  },
+  {
+    id: 'lvl4-t-005',
+    type: 'truth',
+    content: "How do you feel about consensual roughness—hair pulling, spanking, pinning? What's your limit?",
+    intensity: 4,
+    category: 'communication',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Start light and build up. Check in frequently. Avoid dangerous areas like kidneys or neck.'
+  },
+  {
+    id: 'lvl4-t-007',
+    type: 'truth',
+    content: "What's your hard limit—something you absolutely never want to try?",
+    intensity: 4,
+    category: 'communication',
+    isPremium: true,
+    estimatedTime: '2 min',
+    safetyNotes: 'Hard limits must always be respected without question or pressure.'
+  },
+  {
+    id: 'lvl4-t-008',
+    type: 'truth',
+    content: "Describe how you'd want me to take control of your pleasure completely. Every decision mine.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Orgasm control requires check-ins. Never deny orgasm beyond pre-negotiated time limits.'
+  },
+  {
+    id: 'lvl4-t-009',
+    type: 'truth',
+    content: "What's a degrading or humiliating thing you'd secretly enjoy me saying to you (with consent)?",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Degradation play requires extensive aftercare. Check in during and after.'
+  },
+  {
+    id: 'lvl4-t-011',
+    type: 'truth',
+    content: "What's the most submissive thing you'd let me do to you right now?",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Submissive activities require clear boundaries and the ability to safeword out.'
+  },
+  {
+    id: 'lvl4-t-013',
+    type: 'truth',
+    content: "What's a 'shameful' fantasy you have that you're afraid to admit? I won't judge.",
+    intensity: 4,
+    category: 'communication',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Fantasy discussion is safe. Acting on fantasies requires additional negotiation.'
+  },
+  {
+    id: 'lvl4-d-004',
+    type: 'dare',
+    content: "Put me over your lap. Spank me while telling me I've been bad. Make it a scene.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Roleplay requires clear boundaries. Establish safewords before beginning.'
+  },
+  {
+    id: 'lvl4-d-007',
+    type: 'dare',
+    content: "Pin my wrists above my head and kiss me aggressively. Don't let go until I submit.",
+    intensity: 4,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Wrist pinning should not cause pain. Release immediately if requested.'
+  },
+  {
+    id: 'lvl4-d-014',
+    type: 'dare',
+    content: "Write a 'dirty' word on my body with a marker. Your choice. I wear it.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min',
+    requires: ['body-safe-marker'],
+    safetyNotes: 'Use only body-safe markers. Test for allergies first. Avoid mucous membranes.'
+  },
+  {
+    id: 'lvl4-d-015',
+    type: 'dare',
+    content: "Make me pleasure myself while you watch. Don't let me stop until you say so.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min',
+    safetyNotes: 'Voyeurism requires complete privacy. Check in to ensure comfort throughout.'
+  },
+  {
+    id: 'lvl4-c-002',
+    type: 'challenge',
+    content: "Public Discretion: While we're out, send me secret signals or touches that only we understand. See how long before we need privacy.",
+    intensity: 4,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: 'ongoing',
+    safetyNotes: 'Public play must be truly discreet. Never involve non-consenting people.'
+  },
+  {
+    id: 'lvl4-c-003',
+    type: 'challenge',
+    content: "Sensory Deprivation: Blindfold and headphones on me. You have 15 minutes to do whatever you want. I won't know what's coming.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '15 min',
+    requires: ['blindfold', 'headphones'],
+    safetyNotes: 'Sensory deprivation can cause disorientation. Stay in physical contact. Check in verbally.'
+  },
+  {
+    id: 'lvl4-c-004',
+    type: 'challenge',
+    content: "Orgasm Denial Session: I'll bring you to the edge 3 times. You beg each time. I decide if and when you finish.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '20 min',
+    safetyNotes: 'Denial should not cause pain. Allow release after reasonable time or if genuinely requested.'
+  },
+  {
+    id: 'lvl4-c-008',
+    type: 'challenge',
+    content: "Command Performance: For 15 minutes, I must follow every command you give. 'Kneel.' 'Open your mouth.' 'Touch yourself.'",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '15 min',
+    safetyNotes: 'Commands must respect pre-negotiated limits. Safeword immediately stops all play.'
+  },
+  {
+    id: 'lvl4-c-010',
+    type: 'challenge',
+    content: "Objectification Scene: For 10 minutes, I'm just a body for your pleasure. No names, no talking. Use me.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min',
+    safetyNotes: 'Objectification requires extensive aftercare. Remind partner of your care and respect afterward.'
+  },
+  {
+    id: 'lvl4-c-011',
+    type: 'challenge',
+    content: "Punishment Scene: I've been 'bad.' Decide my punishment and carry it out—spanking, corner time, or denial.",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '15 min',
+    safetyNotes: 'Roleplay punishment must be clearly distinguished from real conflict. Debrief after.'
+  },
+  {
+    id: 'lvl4-c-012',
+    type: 'challenge',
+    content: "Vibrator Torture: Hold the vibrator on me. I can't move away. Don't stop no matter what I say (unless safeword).",
+    intensity: 4,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min',
+    requires: ['vibrator'],
+    safetyNotes: 'Listen for safeword. Numbness means stop. Provide aftercare and gentleness after.'
+  },
   {
     id: 'lvl4-fn-001',
     type: 'fantasy',
@@ -515,7 +513,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'CNC requires extensive negotiation, clear safewords, and thorough aftercare. Discuss in detail before acting.'
   },
   {
@@ -526,7 +523,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Captivity fantasies require clear boundaries and safety protocols in reality.'
   },
   {
@@ -537,7 +533,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Total power exchange requires trust and check-ins. Plan for aftercare.'
   },
   {
@@ -548,19 +543,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Kink clubs require consent from all attendees. Research safe practices before visiting.'
-  },
-  {
-    id: 'lvl4-fn-005',
-    type: 'fantasy',
-    content: "Imagine a 24-hour period where I belong to you completely. What rules would you set? What would we do?",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Extended power exchange requires meal breaks, rest, and ability to safeword out.'
   },
   {
     id: 'lvl4-fn-006',
@@ -570,7 +553,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Punishment play must be clearly separate from real conflict. Aftercare is essential.'
   },
   {
@@ -581,7 +563,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Dungeon equipment requires training for safe use. Start with basics.'
   },
   {
@@ -592,11 +573,8 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Body worship is generally low-risk. Ensure physical comfort for extended positions.'
   },
-
-  // ─── ROLEPLAY (7 cards) ──────────────────────────────────
   {
     id: 'lvl4-rp-001',
     type: 'roleplay',
@@ -605,7 +583,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'playful',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Roleplay should not normalize actual abuse of power. Keep it clearly fictional.'
   },
   {
@@ -620,28 +597,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     safetyNotes: 'Captivity play requires easy release and constant monitoring. Never leave alone.'
   },
   {
-    id: 'lvl4-rp-003',
-    type: 'roleplay',
-    content: "Teacher and Student: I need extra credit. You have very creative requirements. I must earn my grade.",
-    intensity: 4,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: [],
-    safetyNotes: 'Age gap roleplay should clearly involve adults. Avoid anything resembling actual minors.'
-  },
-  {
-    id: 'lvl4-rp-004',
-    type: 'roleplay',
-    content: "Royal and Servant: You exist to serve my every desire. You will not speak unless spoken to. Obey immediately.",
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '15 min',
-    requires: [],
-    safetyNotes: 'Service roleplay should include appreciation for the submissive partner.'
-  },
-  {
     id: 'lvl4-rp-005',
     type: 'roleplay',
     content: "Interrogator and Prisoner: I know something you want. Pleasure is the only weapon you're allowed to use. Break me.",
@@ -649,19 +604,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '15 min',
-    requires: [],
     safetyNotes: 'Interrogation play can be intense. Check in about psychological comfort.'
-  },
-  {
-    id: 'lvl4-rp-006',
-    type: 'roleplay',
-    content: "Casting Director and Actor: I need this part. You have very specific requirements. What do I have to do to get the role?",
-    intensity: 4,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: [],
-    safetyNotes: 'Casting couch scenarios should not normalize actual exploitation in entertainment industry.'
   },
   {
     id: 'lvl4-rp-007',
@@ -671,7 +614,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'playful',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Villain/hero play allows for creative restraint and power exchange scenarios.'
   }
 ];

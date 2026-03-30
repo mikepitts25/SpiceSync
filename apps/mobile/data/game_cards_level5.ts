@@ -1,22 +1,7 @@
-// SpiceSync - Level 5: Intense & Extreme (60 cards)
-// Advanced kink, full exploration
-// PREMIUM tier - Extensive safety notes required
-
+// SpiceSync - Level 5 Cards
 import { GameCard } from './gameCards';
 
 export const LEVEL5_CARDS: GameCard[] = [
-  // ─── TRUTH (15 cards) ────────────────────────────────────
-  {
-    id: 'lvl5-t-001',
-    type: 'truth',
-    content: "What's your absolute hard limit—something you would never do, no matter what?",
-    intensity: 5,
-    category: 'communication',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Hard limits must be respected absolutely. Never pressure someone to change their limits.'
-  },
   {
     id: 'lvl5-t-002',
     type: 'truth',
@@ -25,7 +10,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Fantasy disclosure is safe. Acting on extreme fantasies requires extensive negotiation and safety planning.'
   },
   {
@@ -36,19 +20,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Group play requires enthusiastic consent from all parties. Discuss boundaries extensively beforehand.'
-  },
-  {
-    id: 'lvl5-t-004',
-    type: 'truth',
-    content: "What's a taboo fantasy you've had that scares you a little? Why does it excite you?",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Taboo fantasies are normal. Acting on them requires careful consideration of ethics and safety.'
   },
   {
     id: 'lvl5-t-005',
@@ -58,19 +30,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Extended scenes require meal planning, rest periods, and clear end points.'
-  },
-  {
-    id: 'lvl5-t-006',
-    type: 'truth',
-    content: "What's the most degrading thing you'd consent to? Where is your line?",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Degradation play requires extensive aftercare and reaffirmation of worth and love.'
   },
   {
     id: 'lvl5-t-007',
@@ -80,19 +40,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '3 min',
-    requires: [],
     safetyNotes: 'Total immobilization requires extreme safety measures. Never leave unattended. Monitor breathing constantly.'
-  },
-  {
-    id: 'lvl5-t-008',
-    type: 'truth',
-    content: "What's an edge play activity that intrigues you? (Breath play, blood play, knife play, etc.)",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Edge play carries real risks. Research thoroughly. Consider professional instruction.'
   },
   {
     id: 'lvl5-t-009',
@@ -102,19 +50,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'communication',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: '24/7 dynamics require extensive negotiation, regular check-ins, and ability to step out of roles.'
-  },
-  {
-    id: 'lvl5-t-010',
-    type: 'truth',
-    content: "What's the most pain you'd be willing to take for pleasure? What kind of pain?",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Pain play requires understanding of anatomy. Avoid joints, spine, kidneys, and neck.'
   },
   {
     id: 'lvl5-t-011',
@@ -124,19 +60,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Group scenarios require STI discussions, birth control, and extensive safety planning.'
-  },
-  {
-    id: 'lvl5-t-012',
-    type: 'truth',
-    content: "What's a dark desire you have that you've never told anyone?",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: [],
-    safetyNotes: 'Dark fantasies are common. Distinguish between fantasy and desire to act.'
   },
   {
     id: 'lvl5-t-013',
@@ -146,19 +70,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'CNC requires extensive negotiation, multiple safewords, and thorough aftercare. Debrief extensively.'
-  },
-  {
-    id: 'lvl5-t-014',
-    type: 'truth',
-    content: "What's the longest you'd be willing to be denied orgasm? Days? Weeks?",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: [],
-    safetyNotes: 'Extended denial should not cause physical harm. Regular check-ins essential.'
   },
   {
     id: 'lvl5-t-015',
@@ -168,21 +80,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '3 min',
-    requires: [],
     safetyNotes: 'Boundary pushing requires explicit consent and ability to stop at any moment.'
-  },
-
-  // ─── DARE (15 cards) ─────────────────────────────────────
-  {
-    id: 'lvl5-d-001',
-    type: 'dare',
-    content: "Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I'm completely helpless.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '30 min',
-    requires: ['restraints', 'gag', 'blindfold'],
-    safetyNotes: 'Never leave restrained person alone. Check circulation constantly. Establish non-verbal safeword. Keep safety shears nearby.'
   },
   {
     id: 'lvl5-d-002',
@@ -203,19 +101,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'EXTREME RISK. Never compress arteries. Never restrict blood flow to brain. Research extensively before attempting.'
-  },
-  {
-    id: 'lvl5-d-004',
-    type: 'dare',
-    content: "Forced orgasm session: Restrain me. Use vibrator. Don't stop even when I beg. Make me come until I can't anymore.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '20 min',
-    requires: ['restraints', 'vibrator'],
-    safetyNotes: 'Watch for overstimulation and discomfort. Provide water and comfort after. Stop if genuine distress.'
   },
   {
     id: 'lvl5-d-005',
@@ -225,7 +111,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '60 min',
-    requires: [],
     safetyNotes: 'Total power exchange requires pre-negotiated limits and ability to safeword. Plan for aftercare.'
   },
   {
@@ -247,7 +132,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Urine is generally sterile but can transmit infections. Avoid contact with eyes or open wounds. Shower after.'
   },
   {
@@ -258,7 +142,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Public play laws vary. Ensure no non-consenting people can see. Risk of arrest in many jurisdictions.'
   },
   {
@@ -291,7 +174,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '20 min',
-    requires: [],
     safetyNotes: 'CNC requires extensive pre-negotiation. Establish multiple safewords. Debrief extensively after.'
   },
   {
@@ -313,19 +195,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Hypnosis requires training. Cannot make someone do something against their values. Always bring out of trance properly.'
-  },
-  {
-    id: 'lvl5-d-014',
-    type: 'dare',
-    content: "24-hour chastity: Lock me in a device or agreement. I can't touch myself or orgasm without your permission.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'ongoing',
-    requires: ['chastity-device'],
-    safetyNotes: 'Chastity devices must fit properly. Remove if discoloration or numbness occurs. Maintain hygiene.'
   },
   {
     id: 'lvl5-d-015',
@@ -335,11 +205,8 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'physical',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Marks should not last more than a week. Avoid areas with major blood vessels. Consider social/professional visibility.'
   },
-
-  // ─── CHALLENGE (15 cards) ────────────────────────────────
   {
     id: 'lvl5-c-001',
     type: 'challenge',
@@ -348,7 +215,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'ongoing',
-    requires: [],
     safetyNotes: 'Extended scenes require meal planning, sleep arrangements, and regular check-ins. Plan debrief time.'
   },
   {
@@ -359,7 +225,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'ongoing',
-    requires: [],
     safetyNotes: 'Extended denial should not cause physical pain or distress. Allow release if genuinely needed.'
   },
   {
@@ -370,7 +235,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'ongoing',
-    requires: [],
     safetyNotes: 'TPE requires work/social boundaries. Maintain ability to safeword. Schedule regular check-ins.'
   },
   {
@@ -403,19 +267,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '60 min',
-    requires: [],
     safetyNotes: 'High-protocol scenes require clear instruction. Be patient with learning. Positive reinforcement.'
-  },
-  {
-    id: 'lvl5-c-007',
-    type: 'challenge',
-    content: "Edge play exploration: Try one edge play activity you've both researched and agreed on. Go slowly. Communicate constantly.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '30 min',
-    requires: [],
-    safetyNotes: 'Edge play carries real risks. Research extensively. Have safety plan. Know when to stop.'
   },
   {
     id: 'lvl5-c-008',
@@ -425,7 +277,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Humiliation can trigger real insecurities. Extensive aftercare required. Reaffirm love and value.'
   },
   {
@@ -447,7 +298,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'ongoing',
-    requires: [],
     safetyNotes: 'Service submission should be rewarding. Check in about enjoyment. Provide appreciation and aftercare.'
   },
   {
@@ -458,7 +308,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Fear play requires high trust. Never truly endanger. Debrief thoroughly. Provide extensive comfort after.'
   },
   {
@@ -469,7 +318,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'physical',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Build intensity gradually. Watch for overwhelm. Aftercare should be gentle and loving.'
   },
   {
@@ -480,7 +328,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '60 min',
-    requires: [],
     safetyNotes: 'CNC requires trust and communication. Multiple safewords recommended. Aftercare is non-negotiable.'
   },
   {
@@ -491,7 +338,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'communication',
     isPremium: true,
     estimatedTime: '60 min',
-    requires: [],
     safetyNotes: 'Group play requires consent from all. Discuss boundaries extensively. Have safe sex supplies ready.'
   },
   {
@@ -502,11 +348,8 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'emotional',
     isPremium: true,
     estimatedTime: '60 min',
-    requires: [],
     safetyNotes: 'Aftercare is essential for all intense play. Customize to partner needs. Never skip it.'
   },
-
-  // ─── FANTASY (8 cards) ───────────────────────────────────
   {
     id: 'lvl5-fn-001',
     type: 'fantasy',
@@ -515,7 +358,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Kink venues require understanding of house rules and consent protocols.'
   },
   {
@@ -526,7 +368,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: '24/7 dynamics require extensive negotiation and ability to step out of roles when needed.'
   },
   {
@@ -537,19 +378,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '10 min',
-    requires: [],
     safetyNotes: 'Group scenarios require STI discussions, birth control, and extensive safety planning.'
-  },
-  {
-    id: 'lvl5-fn-004',
-    type: 'fantasy',
-    content: "Imagine an extreme CNC scenario. How does it start? What happens? How does it end? What's the safeword?",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: [],
-    safetyNotes: 'CNC requires extensive negotiation. Multiple safewords. Thorough aftercare. Debrief extensively.'
   },
   {
     id: 'lvl5-fn-005',
@@ -559,7 +388,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Edge play carries real risks. Research thoroughly before attempting.'
   },
   {
@@ -570,7 +398,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Objectification requires extensive aftercare and reaffirmation of humanity and worth.'
   },
   {
@@ -581,7 +408,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Public play must not involve non-consenting observers. Consider legal and social risks.'
   },
   {
@@ -592,21 +418,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '5 min',
-    requires: [],
     safetyNotes: 'Transformation play requires clear boundaries and ability to return to normal headspace.'
-  },
-
-  // ─── ROLEPLAY (7 cards) ──────────────────────────────────
-  {
-    id: 'lvl5-rp-001',
-    type: 'roleplay',
-    content: "Master/Mistress and Slave: You own me completely. I have no rights, no will, no purpose except to serve you. Prove your ownership.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '30 min',
-    requires: [],
-    safetyNotes: "Slavery roleplay requires extensive negotiation. Remember: it's roleplay. Either can stop at any time."
   },
   {
     id: 'lvl5-rp-002',
@@ -616,8 +428,140 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '20 min',
-    requires: [],
     safetyNotes: 'Predator/prey play can trigger past trauma. Check in frequently. Clear safeword essential.'
+  },
+  {
+    id: 'lvl5-t-001',
+    type: 'truth',
+    content: "What's your absolute hard limit—something you would never do, no matter what?",
+    intensity: 5,
+    category: 'communication',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Hard limits must be respected absolutely. Never pressure someone to change their limits.'
+  },
+  {
+    id: 'lvl5-t-004',
+    type: 'truth',
+    content: "What's a taboo fantasy you've had that scares you a little? Why does it excite you?",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Taboo fantasies are normal. Acting on them requires careful consideration of ethics and safety.'
+  },
+  {
+    id: 'lvl5-t-006',
+    type: 'truth',
+    content: "What's the most degrading thing you'd consent to? Where is your line?",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Degradation play requires extensive aftercare and reaffirmation of worth and love.'
+  },
+  {
+    id: 'lvl5-t-008',
+    type: 'truth',
+    content: "What's an edge play activity that intrigues you? (Breath play, blood play, knife play, etc.)",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Edge play carries real risks. Research thoroughly. Consider professional instruction.'
+  },
+  {
+    id: 'lvl5-t-010',
+    type: 'truth',
+    content: "What's the most pain you'd be willing to take for pleasure? What kind of pain?",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Pain play requires understanding of anatomy. Avoid joints, spine, kidneys, and neck.'
+  },
+  {
+    id: 'lvl5-t-012',
+    type: 'truth',
+    content: "What's a dark desire you have that you've never told anyone?",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    safetyNotes: 'Dark fantasies are common. Distinguish between fantasy and desire to act.'
+  },
+  {
+    id: 'lvl5-t-014',
+    type: 'truth',
+    content: "What's the longest you'd be willing to be denied orgasm? Days? Weeks?",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min',
+    safetyNotes: 'Extended denial should not cause physical harm. Regular check-ins essential.'
+  },
+  {
+    id: 'lvl5-d-001',
+    type: 'dare',
+    content: "Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I'm completely helpless.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '30 min',
+    requires: ['restraints', 'gag', 'blindfold'],
+    safetyNotes: 'Never leave restrained person alone. Check circulation constantly. Establish non-verbal safeword. Keep safety shears nearby.'
+  },
+  {
+    id: 'lvl5-d-004',
+    type: 'dare',
+    content: "Forced orgasm session: Restrain me. Use vibrator. Don't stop even when I beg. Make me come until I can't anymore.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '20 min',
+    requires: ['restraints', 'vibrator'],
+    safetyNotes: 'Watch for overstimulation and discomfort. Provide water and comfort after. Stop if genuine distress.'
+  },
+  {
+    id: 'lvl5-d-014',
+    type: 'dare',
+    content: "24-hour chastity: Lock me in a device or agreement. I can't touch myself or orgasm without your permission.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'ongoing',
+    requires: ['chastity-device'],
+    safetyNotes: 'Chastity devices must fit properly. Remove if discoloration or numbness occurs. Maintain hygiene.'
+  },
+  {
+    id: 'lvl5-c-007',
+    type: 'challenge',
+    content: "Edge play exploration: Try one edge play activity you've both researched and agreed on. Go slowly. Communicate constantly.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '30 min',
+    safetyNotes: 'Edge play carries real risks. Research extensively. Have safety plan. Know when to stop.'
+  },
+  {
+    id: 'lvl5-fn-004',
+    type: 'fantasy',
+    content: "Imagine an extreme CNC scenario. How does it start? What happens? How does it end? What's the safeword?",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min',
+    safetyNotes: 'CNC requires extensive negotiation. Multiple safewords. Thorough aftercare. Debrief extensively.'
+  },
+  {
+    id: 'lvl5-rp-001',
+    type: 'roleplay',
+    content: "Master/Mistress and Slave: You own me completely. I have no rights, no will, no purpose except to serve you. Prove your ownership.",
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '30 min',
+    safetyNotes: 'Slavery roleplay requires extensive negotiation. Remember: it\'s roleplay. Either can stop at any time.'
   },
   {
     id: 'lvl5-rp-003',
@@ -627,7 +571,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Pet play requires understanding of animal behavior simulation vs. actual bestiality (which is never acceptable).'
   },
   {
@@ -638,7 +581,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Interrogation play can be psychologically intense. Debrief thoroughly. Provide extensive aftercare.'
   },
   {
@@ -649,7 +591,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Deity worship allows for creative power dynamics. Ensure partner feels valued, not actually sacrificed.'
   },
   {
@@ -660,7 +601,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '20 min',
-    requires: [],
     safetyNotes: 'CNC requires extensive pre-negotiation. Multiple safewords. Thorough aftercare. Debrief extensively.'
   },
   {
@@ -671,7 +611,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 min',
-    requires: [],
     safetyNotes: 'Medical/scientific play requires understanding of actual anatomy. Avoid dangerous practices.'
   }
 ];
