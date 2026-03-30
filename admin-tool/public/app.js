@@ -80,7 +80,7 @@ function renderCards(cardsToRender) {
       </div>
       <div class="item-content">${escapeHtml(card.content)}</div>
       <div class="item-meta">
-        <span>⏱️ ${card.estimatedTime}</span>
+        ${card.estimatedTime && card.estimatedTime !== 'N/A' ? `<span>⏱️ ${card.estimatedTime}</span>` : ''}
         <span>📂 ${card.category}</span>
         ${card.requires?.length ? `<span>🎭 ${card.requires.join(', ')}</span>` : ''}
         ${card.safetyNotes ? `<span>⚠️ Safety notes</span>` : ''}
@@ -113,6 +113,20 @@ function openCardModal(card = null) {
   const modal = document.getElementById('card-modal');
   const title = document.getElementById('card-modal-title');
   
+  // Initialize time mode selector
+  const timeModeSelect = document.getElementById('card-time-mode');
+  const timeValueInput = document.getElementById('card-time-value');
+  const timeUnitSelect = document.getElementById('card-time-unit');
+  
+  // Add change listener for time mode
+  timeModeSelect.onchange = () => {
+    const isTimed = timeModeSelect.value === 'timed';
+    timeValueInput.disabled = !isTimed;
+    timeUnitSelect.disabled = !isTimed;
+    timeValueInput.style.opacity = isTimed ? '1' : '0.5';
+    timeUnitSelect.style.opacity = isTimed ? '1' : '0.5';
+  };
+  
   if (card) {
     title.textContent = 'Edit Card';
     document.getElementById('card-id').value = card.id;
@@ -122,10 +136,24 @@ function openCardModal(card = null) {
     document.getElementById('card-premium').value = String(card.isPremium);
     document.getElementById('card-content').value = card.content;
     
-    const timeMatch = card.estimatedTime.match(/(\d+)\s*(sec|min|hour)/);
-    if (timeMatch) {
-      document.getElementById('card-time-value').value = timeMatch[1];
-      document.getElementById('card-time-unit').value = timeMatch[2];
+    // Handle time display
+    if (card.estimatedTime === 'N/A' || card.estimatedTime === '') {
+      timeModeSelect.value = 'na';
+      timeValueInput.disabled = true;
+      timeUnitSelect.disabled = true;
+      timeValueInput.style.opacity = '0.5';
+      timeUnitSelect.style.opacity = '0.5';
+    } else {
+      const timeMatch = card.estimatedTime.match(/(\d+)\s*(sec|min|hour)/);
+      if (timeMatch) {
+        timeModeSelect.value = 'timed';
+        timeValueInput.value = timeMatch[1];
+        timeUnitSelect.value = timeMatch[2];
+        timeValueInput.disabled = false;
+        timeUnitSelect.disabled = false;
+        timeValueInput.style.opacity = '1';
+        timeUnitSelect.style.opacity = '1';
+      }
     }
     
     document.getElementById('card-requires').value = card.requires?.join(', ') || '';
@@ -134,6 +162,11 @@ function openCardModal(card = null) {
     title.textContent = 'Add New Card';
     document.getElementById('card-form').reset();
     document.getElementById('card-id').value = '';
+    timeModeSelect.value = 'timed';
+    timeValueInput.disabled = false;
+    timeUnitSelect.disabled = false;
+    timeValueInput.style.opacity = '1';
+    timeUnitSelect.style.opacity = '1';
   }
   
   modal.classList.add('active');
@@ -152,8 +185,16 @@ async function saveCard(e) {
   e.preventDefault();
   
   const id = document.getElementById('card-id').value;
-  const timeValue = document.getElementById('card-time-value').value;
-  const timeUnit = document.getElementById('card-time-unit').value;
+  const timeMode = document.getElementById('card-time-mode').value;
+  
+  let estimatedTime;
+  if (timeMode === 'na') {
+    estimatedTime = 'N/A';
+  } else {
+    const timeValue = document.getElementById('card-time-value').value;
+    const timeUnit = document.getElementById('card-time-unit').value;
+    estimatedTime = `${timeValue} ${timeUnit}`;
+  }
   
   const cardData = {
     type: document.getElementById('card-type').value,
@@ -161,7 +202,7 @@ async function saveCard(e) {
     category: document.getElementById('card-category').value,
     isPremium: document.getElementById('card-premium').value === 'true',
     content: document.getElementById('card-content').value,
-    estimatedTime: `${timeValue} ${timeUnit}`,
+    estimatedTime: estimatedTime,
     requires: document.getElementById('card-requires').value.split(',').map(s => s.trim()).filter(Boolean),
     safetyNotes: document.getElementById('card-safety').value
   };

@@ -156,8 +156,12 @@
           <div class="form-group">
             <label>Estimated Time</label>
             <div class="time-input">
-              <input type="number" id="card-time-value" min="1" value="5">
-              <select id="card-time-unit">
+              <select id="card-time-mode" style="width: 100px;">
+                <option value="timed">Timed</option>
+                <option value="na">N/A</option>
+              </select>
+              <input type="number" id="card-time-value" min="1" value="5" style="flex: 1;">
+              <select id="card-time-unit" style="width: 100px;">
                 <option value="sec">seconds</option>
                 <option value="min" selected>minutes</option>
                 <option value="hour">hours</option>
