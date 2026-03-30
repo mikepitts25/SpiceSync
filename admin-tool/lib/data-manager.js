@@ -113,9 +113,120 @@ class DataManager {
   }
 
   loadConversationStarters(lang) {
-    // This would parse conversation starter files
-    // For now, placeholder
-    this.conversationStarters[lang] = [];
+    const categories = [
+      'getting_to_know',
+      'relationship',
+      'date_night',
+      'spicy',
+      'love_languages'
+    ];
+    
+    for (const category of categories) {
+      const fileName = `conversation_starters_${category}${lang === 'es' ? '.es' : ''}.ts`;
+      const filePath = path.join(this.dataDir, fileName);
+      
+      if (fs.existsSync(filePath)) {
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const starters = this.parseConversationStartersFromTs(content, category, fileName);
+        this.conversationStarters[lang].push(...starters);
+      }
+    }
+  }
+
+  parseConversationStartersFromTs(content, defaultCategory, sourceFile) {
+    const starters = [];
+    
+    // Match complete conversation starter objects
+    // Use a simpler approach - find each object's boundaries first
+    const lines = content.split('\n');
+    let inObject = false;
+    let currentObject = [];
+    let braceCount = 0;
+    
+    for (const line of lines) {
+      const trimmed = line.trim();
+      
+      if (trimmed.startsWith('{') && !inObject) {
+        inObject = true;
+        braceCount = 1;
+        currentObject = [line];
+        continue;
+      }
+      
+      if (inObject) {
+        currentObject.push(line);
+        braceCount += (line.match(/\{/g) || []).length;
+        braceCount -= (line.match(/\}/g) || []).length;
+        
+        if (braceCount === 0) {
+          // Object complete
+          const objText = currentObject.join('\n');
+          
+          // Check if this is a conversation starter (has id: 'conv-')
+          if (objText.includes("id: 'conv-") || objText.includes('id: "conv-')) {
+            const idMatch = objText.match(/id:\s*['"](conv-[\w-]+)['"]/);
+            const categoryMatch = objText.match(/category:\s*['"]([^'"]+)['"]/);
+            const intensityMatch = objText.match(/intensity:\s*(\d)/);
+            
+            // Extract question - handle both single and double quotes
+            let question = '';
+            const questionMatch = objText.match(/question:\s*["']([\s\S]*?)["']\s*,\s*$/m);
+            if (questionMatch) {
+              question = questionMatch[1].trim();
+            }
+            
+            // Extract followUps
+            let followUps = [];
+            const followUpsStart = objText.indexOf('followUps:');
+            if (followUpsStart !== -1) {
+              const followUpsEnd = objText.indexOf(']', followUpsStart);
+              const followUpsText = objText.substring(followUpsStart, followUpsEnd + 1);
+              const followUpsMatches = followUpsText.match(/["']([^"']+)["']/g);
+              if (followUpsMatches) {
+                followUps = followUpsMatches.map(s => s.replace(/["']/g, ''));
+              }
+            }
+            
+            // Extract context
+            let context = '';
+            const contextMatch = objText.match(/context:\s*["']([\s\S]*?)["']\s*,?\s*$/m);
+            if (contextMatch) {
+              context = contextMatch[1].trim();
+            }
+            
+            // Extract tags
+            let tags = [];
+            const tagsStart = objText.indexOf('tags:');
+            if (tagsStart !== -1) {
+              const tagsEnd = objText.indexOf(']', tagsStart);
+              const tagsText = objText.substring(tagsStart, tagsEnd + 1);
+              const tagsMatches = tagsText.match(/["']([^"']+)["']/g);
+              if (tagsMatches) {
+                tags = tagsMatches.map(s => s.replace(/["']/g, ''));
+              }
+            }
+            
+            if (idMatch && question) {
+              starters.push({
+                id: idMatch[1],
+                category: categoryMatch ? categoryMatch[1] : defaultCategory,
+                intensity: intensityMatch ? parseInt(intensityMatch[1]) : 1,
+                question: question,
+                followUps: followUps,
+                context: context,
+                tags: tags,
+                sourceFile: sourceFile
+              });
+            }
+          }
+          
+          inObject = false;
+          currentObject = [];
+        }
+      }
+    }
+    
+    return starters;
   }
 
   // ===== CARD OPERATIONS =====
@@ -258,11 +369,16 @@ class DataManager {
   }
 
   createConversationStarter(data, lang) {
+    const newId = this.generateConversationStarterId(data.category, lang);
     const starter = {
-      id: data.id || `cs-${Date.now()}`,
-      category: data.category,
+      id: newId,
+      category: data.category || 'getting_to_know',
       question: data.question,
-      intensity: parseInt(data.intensity) || 1
+      intensity: parseInt(data.intensity) || 1,
+      followUps: Array.isArray(data.followUps) ? data.followUps : (data.followUps ? data.followUps.split('\n').filter(Boolean) : []),
+      context: data.context || '',
+      tags: Array.isArray(data.tags) ? data.tags : (data.tags ? data.tags.split(',').map(s => s.trim()) : []),
+      sourceFile: data.sourceFile || `conversation_starters_${data.category || 'getting_to_know'}${lang === 'es' ? '.es' : ''}.ts`
     };
     this.conversationStarters[lang].push(starter);
     return starter;
@@ -274,7 +390,12 @@ class DataManager {
 
     this.conversationStarters[lang][index] = {
       ...this.conversationStarters[lang][index],
-      ...data
+      category: data.category || this.conversationStarters[lang][index].category,
+      question: data.question || this.conversationStarters[lang][index].question,
+      intensity: parseInt(data.intensity) || this.conversationStarters[lang][index].intensity,
+      followUps: Array.isArray(data.followUps) ? data.followUps : (data.followUps ? data.followUps.split('\n').filter(Boolean) : this.conversationStarters[lang][index].followUps),
+      context: data.context !== undefined ? data.context : this.conversationStarters[lang][index].context,
+      tags: Array.isArray(data.tags) ? data.tags : (data.tags ? data.tags.split(',').map(s => s.trim()) : this.conversationStarters[lang][index].tags)
     };
     return this.conversationStarters[lang][index];
   }
@@ -284,6 +405,16 @@ class DataManager {
     if (index === -1 || index === undefined) return false;
     this.conversationStarters[lang].splice(index, 1);
     return true;
+  }
+
+  generateConversationStarterId(category, lang) {
+    const prefix = `conv-${category?.substring(0, 3) || 'get'}`;
+    const existing = this.conversationStarters[lang].filter(s => s.id.startsWith(prefix));
+    const maxNum = existing.reduce((max, s) => {
+      const match = s.id.match(/(\d+)$/);
+      return Math.max(max, match ? parseInt(match[1]) : 0);
+    }, 0);
+    return `${prefix}-${String(maxNum + 1).padStart(3, '0')}`;
   }
 
   // ===== SAVE OPERATIONS =====

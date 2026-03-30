@@ -418,9 +418,14 @@ async function deleteKink(id) {
 // ===== CONVERSATIONS =====
 
 function initConversationsTab() {
-  document.getElementById('add-conv-btn').addEventListener('click', () => {
-    showToast('Conversation starters - Coming soon', 'error');
-  });
+  document.getElementById('add-conv-btn').addEventListener('click', () => openConvModal());
+  document.getElementById('conv-form').addEventListener('submit', saveConv);
+  document.getElementById('conv-lang-filter').addEventListener('change', loadConversations);
+  document.getElementById('conv-category-filter').addEventListener('change', filterConversations);
+  document.getElementById('conv-intensity-filter').addEventListener('change', filterConversations);
+  document.getElementById('conv-search').addEventListener('input', filterConversations);
+  
+  document.querySelector('#conv-modal .close-btn').addEventListener('click', closeConvModal);
 }
 
 async function loadConversations() {
@@ -447,14 +452,127 @@ function renderConversations(convs) {
     <div class="item-card" data-id="${conv.id}">
       <div class="item-header">
         <span class="item-id">${conv.id}</span>
-        <span class="badge badge-intensity-${conv.intensity}">Level ${conv.intensity}</span>
+        <div class="item-badges">
+          <span class="badge badge-intensity-${conv.intensity}">Level ${conv.intensity}</span>
+          <span class="badge badge-type-${conv.category}">${conv.category.replace(/_/g, ' ')}</span>
+        </div>
       </div>
       <div class="item-content">${escapeHtml(conv.question)}</div>
+      ${conv.context ? `<p style="margin-top: 10px; color: var(--text-secondary); font-size: 13px;">${escapeHtml(conv.context)}</p>` : ''}
       <div class="item-meta">
-        <span>📂 ${conv.category}</span>
+        ${conv.followUps?.length ? `<span>💬 ${conv.followUps.length} follow-ups</span>` : ''}
+        ${conv.tags?.length ? `<span>🏷️ ${conv.tags.join(', ')}</span>` : ''}
+      </div>
+      <div class="item-actions">
+        <button class="btn-secondary" onclick="editConv('${conv.id}')">Edit</button>
+        <button class="btn-danger" onclick="deleteConv('${conv.id}')">Delete</button>
       </div>
     </div>
   `).join('');
+}
+
+function filterConversations() {
+  const category = document.getElementById('conv-category-filter').value;
+  const intensity = document.getElementById('conv-intensity-filter').value;
+  const search = document.getElementById('conv-search').value.toLowerCase();
+  
+  let filtered = conversations;
+  
+  if (category) filtered = filtered.filter(c => c.category === category);
+  if (intensity) filtered = filtered.filter(c => c.intensity === parseInt(intensity));
+  if (search) filtered = filtered.filter(c => c.question.toLowerCase().includes(search));
+  
+  renderConversations(filtered);
+}
+
+function openConvModal(conv = null) {
+  const modal = document.getElementById('conv-modal');
+  const title = document.getElementById('conv-modal-title');
+  
+  if (conv) {
+    title.textContent = 'Edit Conversation Starter';
+    document.getElementById('conv-id').value = conv.id;
+    document.getElementById('conv-category').value = conv.category;
+    document.getElementById('conv-intensity').value = conv.intensity;
+    document.getElementById('conv-question').value = conv.question;
+    document.getElementById('conv-followups').value = conv.followUps?.join('\n') || '';
+    document.getElementById('conv-context').value = conv.context || '';
+    document.getElementById('conv-tags').value = conv.tags?.join(', ') || '';
+  } else {
+    title.textContent = 'Add New Conversation Starter';
+    document.getElementById('conv-form').reset();
+    document.getElementById('conv-id').value = '';
+  }
+  
+  modal.classList.add('active');
+}
+
+function closeConvModal() {
+  document.getElementById('conv-modal').classList.remove('active');
+}
+
+async function editConv(id) {
+  const conv = conversations.find(c => c.id === id);
+  if (conv) openConvModal(conv);
+}
+
+async function saveConv(e) {
+  e.preventDefault();
+  
+  const id = document.getElementById('conv-id').value;
+  const lang = document.getElementById('conv-lang-filter').value;
+  
+  const convData = {
+    category: document.getElementById('conv-category').value,
+    intensity: parseInt(document.getElementById('conv-intensity').value),
+    question: document.getElementById('conv-question').value,
+    followUps: document.getElementById('conv-followups').value.split('\n').map(s => s.trim()).filter(Boolean),
+    context: document.getElementById('conv-context').value,
+    tags: document.getElementById('conv-tags').value.split(',').map(s => s.trim()).filter(Boolean)
+  };
+  
+  try {
+    const url = id ? `${API_BASE}/api/conversations/${id}?lang=${lang}` : `${API_BASE}/api/conversations?lang=${lang}`;
+    const method = id ? 'PUT' : 'POST';
+    
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(convData)
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      showToast(id ? 'Conversation starter updated' : 'Conversation starter created', 'success');
+      closeConvModal();
+      await loadConversations();
+      filterConversations();
+    } else {
+      showToast(data.error || 'Failed to save', 'error');
+    }
+  } catch (err) {
+    showToast('Failed to save conversation starter', 'error');
+  }
+}
+
+async function deleteConv(id) {
+  if (!confirm('Are you sure you want to delete this conversation starter?')) return;
+  
+  const lang = document.getElementById('conv-lang-filter').value;
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/conversations/${id}?lang=${lang}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast('Conversation starter deleted', 'success');
+      await loadConversations();
+      filterConversations();
+    } else {
+      showToast(data.error || 'Failed to delete', 'error');
+    }
+  } catch (err) {
+    showToast('Failed to delete conversation starter', 'error');
+  }
 }
 
 // ===== GIT =====

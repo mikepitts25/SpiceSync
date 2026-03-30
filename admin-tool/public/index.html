@@ -84,6 +84,20 @@
               <option value="en">English</option>
               <option value="es">Spanish</option>
             </select>
+            <select id="conv-category-filter">
+              <option value="">All Categories</option>
+              <option value="getting_to_know">Getting to Know</option>
+              <option value="relationship">Relationship</option>
+              <option value="date_night">Date Night</option>
+              <option value="spicy">Spicy</option>
+              <option value="love_languages">Love Languages</option>
+            </select>
+            <select id="conv-intensity-filter">
+              <option value="">All Intensities</option>
+              <option value="1">Level 1</option>
+              <option value="2">Level 2</option>
+              <option value="3">Level 3</option>
+            </select>
             <input type="text" id="conv-search" placeholder="Search conversation starters...">
           </div>
           <button id="add-conv-btn" class="btn-primary">+ Add Starter</button>
@@ -241,6 +255,59 @@
         <div class="form-actions">
           <button type="button" class="btn-secondary" onclick="closeKinkModal()">Cancel</button>
           <button type="submit" class="btn-primary">Save Kink</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Conversation Starter Modal -->
+  <div id="conv-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="conv-modal-title">Edit Conversation Starter</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="conv-form">
+        <input type="hidden" id="conv-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="conv-category" required>
+              <option value="getting_to_know">Getting to Know</option>
+              <option value="relationship">Relationship</option>
+              <option value="date_night">Date Night</option>
+              <option value="spicy">Spicy</option>
+              <option value="love_languages">Love Languages</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Intensity</label>
+            <select id="conv-intensity" required>
+              <option value="1">1 - Light</option>
+              <option value="2">2 - Moderate</option>
+              <option value="3">3 - Deep</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Question</label>
+          <textarea id="conv-question" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Follow-up Questions (one per line)</label>
+          <textarea id="conv-followups" rows="3" placeholder="How did that make you feel?&#10;What would you do differently?"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Context/Explanation</label>
+          <textarea id="conv-context" rows="2" placeholder="Why this question matters..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Tags (comma separated)</label>
+          <input type="text" id="conv-tags" placeholder="deep, communication, trust...">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeConvModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Starter</button>
         </div>
       </form>
     </div>
