@@ -221,7 +221,9 @@ async function saveCard(e) {
     if (data.success) {
       showToast(id ? 'Card updated' : 'Card created', 'success');
       closeModal();
-      loadCards();
+      // Reload cards but preserve filters
+      await loadCards();
+      filterCards();
     } else {
       showToast(data.error || 'Failed to save', 'error');
     }
@@ -238,7 +240,9 @@ async function deleteCard(id) {
     const data = await res.json();
     if (data.success) {
       showToast('Card deleted', 'success');
-      loadCards();
+      // Reload cards but preserve filters
+      await loadCards();
+      filterCards();
     } else {
       showToast(data.error || 'Failed to delete', 'error');
     }
@@ -379,7 +383,9 @@ async function saveKink(e) {
     if (data.success) {
       showToast(id ? 'Kink updated' : 'Kink created', 'success');
       closeKinkModal();
-      loadKinks();
+      // Reload kinks but preserve filters
+      await loadKinks();
+      filterKinks();
     } else {
       showToast(data.error || 'Failed to save', 'error');
     }
@@ -398,7 +404,9 @@ async function deleteKink(id) {
     const data = await res.json();
     if (data.success) {
       showToast('Kink deleted', 'success');
-      loadKinks();
+      // Reload kinks but preserve filters
+      await loadKinks();
+      filterKinks();
     } else {
       showToast(data.error || 'Failed to delete', 'error');
     }
