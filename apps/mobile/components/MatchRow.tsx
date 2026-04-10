@@ -1,7 +1,10 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { MessageCircle } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 
 import type { VoteValue } from '../src/stores/votes';
+import { COLORS } from '../constants/theme';
 
 type VoteVal = VoteValue | undefined;
 
@@ -48,7 +51,9 @@ type Props = {
   bEmoji?: string | null;
   aVote: VoteVal;
   bVote: VoteVal;
-  onDiscuss?: () => void;
+  kinkSlug?: string;
+  kinkTier?: string;
+  showConversationButton?: boolean;
 };
 
 const MatchRow: React.FC<Props> = ({
@@ -58,8 +63,23 @@ const MatchRow: React.FC<Props> = ({
   bEmoji,
   aVote,
   bVote,
-  onDiscuss,
+  kinkSlug,
+  showConversationButton = true,
 }) => {
+  const router = useRouter();
+  const isMutualYes = aVote === 'yes' && bVote === 'yes';
+  // Show discuss button for any mutual yes match that has a slug (all kinks do)
+  const shouldShowButton = showConversationButton && !!kinkSlug && isMutualYes;
+
+  const handleConversationPress = () => {
+    if (kinkSlug) {
+      router.push({
+        pathname: '/(conversation)/kink-topics',
+        params: { kinkSlug, kinkTitle: title },
+      });
+    }
+  };
+
   return (
     <View style={styles.wrap}>
       <View style={styles.topRow}>
@@ -67,21 +87,21 @@ const MatchRow: React.FC<Props> = ({
           <Text style={styles.title}>{title}</Text>
           {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
         </View>
-        {onDiscuss && (
-          <Pressable
-            style={styles.discussBtn}
-            onPress={onDiscuss}
-            accessibilityRole="button"
-            accessibilityLabel={`Discuss ${title}`}
-          >
-            <Text style={styles.discussBtnText}>💬 Discuss</Text>
-          </Pressable>
-        )}
       </View>
       <View style={styles.chipsRow}>
         <VoteChip emoji={aEmoji} vote={aVote} />
         <VoteChip emoji={bEmoji} vote={bVote} />
       </View>
+      {shouldShowButton && (
+        <TouchableOpacity
+          style={styles.conversationButton}
+          onPress={handleConversationPress}
+          activeOpacity={0.8}
+        >
+          <MessageCircle size={16} color={COLORS.primary} />
+          <Text style={styles.conversationButtonText}>💬 Talk About This</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -94,7 +114,6 @@ const styles = StyleSheet.create({
   topRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 8,
   },
   textWrap: {
     flex: 1,
@@ -129,17 +148,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 14,
   },
-  discussBtn: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    backgroundColor: '#1d3a5e',
-    borderWidth: 1,
-    borderColor: '#2563eb',
+  conversationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     alignSelf: 'flex-start',
+    backgroundColor: `${COLORS.primary}20`,
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginTop: 4,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: `${COLORS.primary}40`,
   },
-  discussBtnText: {
-    color: '#93c5fd',
+  conversationButtonText: {
+    color: COLORS.primary,
     fontWeight: '700',
     fontSize: 13,
   },

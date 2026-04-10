@@ -1,0 +1,12 @@
+
+╔════════════════════════════════════════════════════════╗
+║         SpiceSync Admin Tool                           ║
+║                                                        ║
+║  Server running on http://0.0.0.0:3333              ║
+║                                                        ║
+║  For SSH tunnel from your machine:                     ║
+║  ssh -L 3333:localhost:3333 root@<server-ip>           ║
+║                                                        ║
+║  Then open http://localhost:3333 on your machine       ║
+╚════════════════════════════════════════════════════════╝
+  

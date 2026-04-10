@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpiceSync Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>🎴 SpiceSync Admin</h1>
+      <nav class="nav">
+        <button class="nav-btn active" data-tab="gamecards">Game Cards</button>
+        <button class="nav-btn" data-tab="kinks">Kinks</button>
+        <button class="nav-btn" data-tab="conversation-starters">Conversation Starters</button>
+      </nav>
+      <div class="header-actions">
+        <button id="refresh-btn" class="btn btn-secondary">🔄 Refresh</button>
+        <button id="create-btn" class="btn btn-primary">+ Create New</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Status Bar -->
+      <div id="status-bar" class="status-bar hidden">
+        <span id="status-message"></span>
+        <button id="status-close" class="btn-close">&times;</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <input type="text" id="search-input" placeholder="Search..." class="search-input">
+        <select id="filter-type" class="filter-select">
+          <option value="">All Types</option>
+        </select>
+        <select id="filter-intensity" class="filter-select">
+          <option value="">All Intensities</option>
+          <option value="1">1 - Mild</option>
+          <option value="2">2 - Playful</option>
+          <option value="3">3 - Spicy</option>
+          <option value="4">4 - Hot</option>
+          <option value="5">5 - Extreme</option>
+        </select>
+        <select id="filter-category" class="filter-select">
+          <option value="">All Categories</option>
+        </select>
+      </div>
+
+      <!-- Content List -->
+      <div id="content-list" class="content-list">
+        <div class="loading">Loading...</div>
+      </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 id="modal-title">Edit Item</h2>
+          <button class="modal-close">&times;</button>
+        </header>
+        <div class="modal-body">
+          <form id="edit-form">
+            <!-- Form fields injected dynamically -->
+          </form>
+        </div>
+        <footer class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-btn">Save Changes</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content modal-small">
+        <header class="modal-header">
+          <h2>Confirm Delete</h2>
+        </header>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+        </div>
+        <footer class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="delete-cancel">Cancel</button>
+          <button type="button" class="btn btn-danger" id="delete-confirm">Delete</button>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

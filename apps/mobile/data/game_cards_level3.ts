@@ -1,31 +1,7 @@
-// SpiceSync - Level 3: Spicy & Adventurous (60 cards)
-// Clear sexual tension and exploration
-// PREMIUM tier
-
+// SpiceSync - Level 3 Cards
 import { GameCard } from './gameCards';
 
 export const LEVEL3_CARDS: GameCard[] = [
-  // ─── TRUTH (15 cards) ────────────────────────────────────
-  {
-    id: 'lvl3-t-001',
-    type: 'truth',
-    content: "Describe a specific fantasy location where you'd want to have sex with me. Why there?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-t-002',
-    type: 'truth',
-    content: "What's a sexual boundary you have that you want me to know about?",
-    intensity: 3,
-    category: 'communication',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
   {
     id: 'lvl3-t-003',
     type: 'truth',
@@ -33,18 +9,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-t-004',
-    type: 'truth',
-    content: "What's something you've seen in a movie or read that you want to try with me?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl3-t-005',
@@ -53,18 +18,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-t-006',
-    type: 'truth',
-    content: "What's your favorite position with me and what makes it so good?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl3-t-007',
@@ -73,18 +27,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-t-008',
-    type: 'truth',
-    content: "What's the most adventurous place you've ever had sex or wanted to?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl3-t-009',
@@ -93,28 +36,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-t-010',
-    type: 'truth',
-    content: "What's a sexual skill you wish you were better at? I can help you practice.",
-    intensity: 3,
-    category: 'communication',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-t-011',
-    type: 'truth',
-    content: "What's the dirtiest text message you've ever wanted to send me but didn't?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl3-t-012',
@@ -123,18 +45,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-t-013',
-    type: 'truth',
-    content: "What's something you've always been curious about sexually but never tried?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl3-t-014',
@@ -143,21 +54,8 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
-  {
-    id: 'lvl3-t-015',
-    type: 'truth',
-    content: "What's a 'secret' spot on your body that drives you wild when touched?",
-    intensity: 3,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-
-  // ─── DARE (15 cards) ─────────────────────────────────────
   {
     id: 'lvl3-d-001',
     type: 'dare',
@@ -167,16 +65,6 @@ export const LEVEL3_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '5 min',
     requires: ['music']
-  },
-  {
-    id: 'lvl3-d-002',
-    type: 'dare',
-    content: "Blindfold me and explore my body with your hands and mouth for 5 minutes. I can't see anything.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: ['blindfold']
   },
   {
     id: 'lvl3-d-003',
@@ -195,8 +83,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl3-d-005',
@@ -205,8 +92,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl3-d-006',
@@ -225,8 +111,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl3-d-008',
@@ -235,28 +120,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-d-009',
-    type: 'dare',
-    content: "Suck on my fingers like you're giving me oral sex. Show me your skills.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-d-010',
-    type: 'dare',
-    content: "Tie my wrists loosely with a scarf or tie. Tease me for 5 minutes while I'm 'restrained'.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: ['scarf']
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl3-d-011',
@@ -265,8 +129,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl3-d-012',
@@ -285,8 +148,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl3-d-014',
@@ -295,30 +157,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '2 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-d-015',
-    type: 'dare',
-    content: "Give me a 'preview' of what you want to do later—using only your body language and sounds.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
-  },
-
-  // ─── CHALLENGE (15 cards) ────────────────────────────────
-  {
-    id: 'lvl3-c-001',
-    type: 'challenge',
-    content: "Red Light, Green Light: Touch me however you want. I'll say 'red' to freeze you, 'green' to continue. 5 rounds minimum.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '2 min'
   },
   {
     id: 'lvl3-c-002',
@@ -331,44 +170,13 @@ export const LEVEL3_CARDS: GameCard[] = [
     requires: ['ice']
   },
   {
-    id: 'lvl3-c-003',
-    type: 'challenge',
-    content: "Strip Dice: Roll a die. That's how many items of clothing you remove. Then I roll for you. Continue until someone is naked.",
-    intensity: 3,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: ['dice']
-  },
-  {
-    id: 'lvl3-c-004',
-    type: 'challenge',
-    content: "Mirror Game: Whatever I do to you, you copy back on me. We escalate until someone can't take it anymore.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
-  },
-  {
     id: 'lvl3-c-005',
     type: 'challenge',
     content: "No Hands: Pleasure me for 5 minutes using only your mouth. No hands allowed.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-c-006',
-    type: 'challenge',
-    content: "Alphabet Challenge: Go down on me and trace every letter of the alphabet with your tongue. Don't skip any.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl3-c-007',
@@ -377,8 +185,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
-    requires: []
+    estimatedTime: '15 min'
   },
   {
     id: 'lvl3-c-008',
@@ -391,24 +198,13 @@ export const LEVEL3_CARDS: GameCard[] = [
     requires: ['blindfold', 'feather']
   },
   {
-    id: 'lvl3-c-009',
-    type: 'challenge',
-    content: "Dirty 20 Questions: I'm thinking of something explicit. You have 20 yes/no questions. Wrong guess means you do it anyway.",
-    intensity: 3,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
-  },
-  {
     id: 'lvl3-c-010',
     type: 'challenge',
     content: "Copy Cat: You do something to me, I copy it exactly on you. Keep going, escalating each round.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '10 min'
   },
   {
     id: 'lvl3-c-011',
@@ -417,8 +213,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
-    requires: []
+    estimatedTime: '3 min'
   },
   {
     id: 'lvl3-c-012',
@@ -427,8 +222,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl3-c-013',
@@ -437,18 +231,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-c-014',
-    type: 'challenge',
-    content: "Simon Says - Dirty Edition: 'Simon says touch yourself.' 'Simon says kiss my neck.' Move without Simon says? Lose clothing.",
-    intensity: 3,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '10 min'
   },
   {
     id: 'lvl3-c-015',
@@ -457,40 +240,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-
-  // ─── FANTASY (8 cards) ───────────────────────────────────
-  {
-    id: 'lvl3-fn-001',
-    type: 'fantasy',
-    content: "Describe a scenario where we're in a secluded spot in the countryside. What do we do?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-fn-002',
-    type: 'fantasy',
-    content: "Pretend we're strangers who meet at a salsa club in Cali. The chemistry is instant. Act out our first encounter.",
-    intensity: 3,
-    category: 'playful',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-fn-003',
-    type: 'fantasy',
-    content: "Imagine we're in a hotel room with a view of the city. Describe how you'd take me against the window.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl3-fn-004',
@@ -499,80 +249,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-fn-005',
-    type: 'fantasy',
-    content: "Pretend we're at a friend's party and sneak away to a bathroom or closet. Quick, quiet, intense.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-fn-006',
-    type: 'fantasy',
-    content: "Describe a rainy afternoon where we're stuck inside with nothing to do but each other.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-fn-007',
-    type: 'fantasy',
-    content: "Imagine we're on a boat in the Caribbean. The sun is setting. What happens next?",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-fn-008',
-    type: 'fantasy',
-    content: "Describe a scenario where I'm wearing something that drives you crazy and you can't keep your hands off me.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '5 min',
-    requires: []
-  },
-
-  // ─── ROLEPLAY (7 cards) ──────────────────────────────────
-  {
-    id: 'lvl3-rp-001',
-    type: 'roleplay',
-    content: "Boss and Employee: I'm here for my performance review. What exactly am I being graded on? Show me.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-rp-002',
-    type: 'roleplay',
-    content: "Doctor and Patient: Give me a very thorough examination. Check everything. Don't miss a spot.",
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
-  },
-  {
-    id: 'lvl3-rp-003',
-    type: 'roleplay',
-    content: "Personal Trainer: Put me through an intense workout session. Get me sweating. Use your hands to 'adjust' my form.",
-    intensity: 3,
-    category: 'physical',
-    isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '5 min'
   },
   {
     id: 'lvl3-rp-004',
@@ -581,8 +258,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '10 min'
   },
   {
     id: 'lvl3-rp-005',
@@ -591,8 +267,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '10 min'
   },
   {
     id: 'lvl3-rp-006',
@@ -611,7 +286,270 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
-    requires: []
+    estimatedTime: '10 min'
+  },
+  {
+    id: 'lvl3-t-001',
+    type: 'truth',
+    content: "Describe a specific fantasy location where you'd want to have sex with me. Why there?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl3-t-002',
+    type: 'truth',
+    content: "What's a sexual boundary you have that you want me to know about?",
+    intensity: 3,
+    category: 'communication',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl3-t-004',
+    type: 'truth',
+    content: "What's something you've seen in a movie or read that you want to try with me?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl3-t-006',
+    type: 'truth',
+    content: "What's your favorite position with me and what makes it so good?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl3-t-008',
+    type: 'truth',
+    content: "What's the most adventurous place you've ever had sex or wanted to?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl3-t-010',
+    type: 'truth',
+    content: "What's a sexual skill you wish you were better at? I can help you practice.",
+    intensity: 3,
+    category: 'communication',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl3-t-011',
+    type: 'truth',
+    content: "What's the dirtiest text message you've ever wanted to send me but didn't?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl3-t-013',
+    type: 'truth',
+    content: "What's something you've always been curious about sexually but never tried?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl3-t-015',
+    type: 'truth',
+    content: "What's a 'secret' spot on your body that drives you wild when touched?",
+    intensity: 3,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl3-d-002',
+    type: 'dare',
+    content: "Blindfold me and explore my body with your hands and mouth for 5 minutes. I can't see anything.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    requires: ['blindfold']
+  },
+  {
+    id: 'lvl3-d-009',
+    type: 'dare',
+    content: "Suck on my fingers like you're giving me oral sex. Show me your skills.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '2 min'
+  },
+  {
+    id: 'lvl3-d-010',
+    type: 'dare',
+    content: "Tie my wrists loosely with a scarf or tie. Tease me for 5 minutes while I'm 'restrained'.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min',
+    requires: ['scarf']
+  },
+  {
+    id: 'lvl3-d-015',
+    type: 'dare',
+    content: "Give me a 'preview' of what you want to do later—using only your body language and sounds.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '3 min'
+  },
+  {
+    id: 'lvl3-c-001',
+    type: 'challenge',
+    content: "Red Light, Green Light: Touch me however you want. I'll say 'red' to freeze you, 'green' to continue. 5 rounds minimum.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min'
+  },
+  {
+    id: 'lvl3-c-003',
+    type: 'challenge',
+    content: "Strip Dice: Roll a die. That's how many items of clothing you remove. Then I roll for you. Continue until someone is naked.",
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '5 min',
+    requires: ['dice']
+  },
+  {
+    id: 'lvl3-c-004',
+    type: 'challenge',
+    content: "Mirror Game: Whatever I do to you, you copy back on me. We escalate until someone can't take it anymore.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min'
+  },
+  {
+    id: 'lvl3-c-006',
+    type: 'challenge',
+    content: "Alphabet Challenge: Go down on me and trace every letter of the alphabet with your tongue. Don't skip any.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-c-009',
+    type: 'challenge',
+    content: "Dirty 20 Questions: I'm thinking of something explicit. You have 20 yes/no questions. Wrong guess means you do it anyway.",
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '10 min'
+  },
+  {
+    id: 'lvl3-c-014',
+    type: 'challenge',
+    content: "Simon Says - Dirty Edition: 'Simon says touch yourself.' 'Simon says kiss my neck.' Move without Simon says? Lose clothing.",
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '10 min'
+  },
+  {
+    id: 'lvl3-fn-001',
+    type: 'fantasy',
+    content: "Describe a scenario where we're in a secluded spot in the countryside. What do we do?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-fn-002',
+    type: 'fantasy',
+    content: "Pretend we're strangers who meet at a salsa club in Cali. The chemistry is instant. Act out our first encounter.",
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-fn-003',
+    type: 'fantasy',
+    content: "Imagine we're in a hotel room with a view of the city. Describe how you'd take me against the window.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-fn-005',
+    type: 'fantasy',
+    content: "Pretend we're at a friend's party and sneak away to a bathroom or closet. Quick, quiet, intense.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-fn-006',
+    type: 'fantasy',
+    content: "Describe a rainy afternoon where we're stuck inside with nothing to do but each other.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-fn-007',
+    type: 'fantasy',
+    content: "Imagine we're on a boat in the Caribbean. The sun is setting. What happens next?",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-fn-008',
+    type: 'fantasy',
+    content: "Describe a scenario where I'm wearing something that drives you crazy and you can't keep your hands off me.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '5 min'
+  },
+  {
+    id: 'lvl3-rp-001',
+    type: 'roleplay',
+    content: "Boss and Employee: I'm here for my performance review. What exactly am I being graded on? Show me.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min'
+  },
+  {
+    id: 'lvl3-rp-002',
+    type: 'roleplay',
+    content: "Doctor and Patient: Give me a very thorough examination. Check everything. Don't miss a spot.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '10 min'
+  },
+  {
+    id: 'lvl3-rp-003',
+    type: 'roleplay',
+    content: "Personal Trainer: Put me through an intense workout session. Get me sweating. Use your hands to 'adjust' my form.",
+    intensity: 3,
+    category: 'physical',
+    isPremium: true,
+    estimatedTime: '10 min'
   }
 ];

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpiceSync Admin Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔥 SpiceSync Admin Tool</h1>
+      <nav>
+        <button class="nav-btn active" data-tab="cards">Game Cards</button>
+        <button class="nav-btn" data-tab="kinks">Kinks</button>
+        <button class="nav-btn" data-tab="conversations">Conversations</button>
+        <button class="nav-btn" data-tab="stats">Stats</button>
+      </nav>
+      <div class="actions">
+        <button id="git-status-btn" class="btn-secondary">Git Status</button>
+        <button id="commit-btn" class="btn-primary">Commit & Push</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Cards Tab -->
+      <section id="cards-tab" class="tab active">
+        <div class="toolbar">
+          <div class="filters">
+            <select id="card-type-filter">
+              <option value="">All Types</option>
+              <option value="truth">Truth</option>
+              <option value="dare">Dare</option>
+              <option value="challenge">Challenge</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="roleplay">Roleplay</option>
+            </select>
+            <select id="card-intensity-filter">
+              <option value="">All Intensities</option>
+              <option value="1">Level 1</option>
+              <option value="2">Level 2</option>
+              <option value="3">Level 3</option>
+              <option value="4">Level 4</option>
+              <option value="5">Level 5</option>
+            </select>
+            <select id="card-premium-filter">
+              <option value="">All</option>
+              <option value="false">Free</option>
+              <option value="true">Premium</option>
+            </select>
+            <input type="text" id="card-search" placeholder="Search cards...">
+          </div>
+          <button id="add-card-btn" class="btn-primary">+ Add Card</button>
+        </div>
+        <div id="cards-list" class="items-list"></div>
+      </section>
+
+      <!-- Kinks Tab -->
+      <section id="kinks-tab" class="tab">
+        <div class="toolbar">
+          <div class="filters">
+            <select id="kink-lang-filter">
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+            </select>
+            <select id="kink-tier-filter">
+              <option value="">All Tiers</option>
+              <option value="soft">Soft</option>
+              <option value="naughty">Naughty</option>
+              <option value="xxx">XXX</option>
+            </select>
+            <input type="text" id="kink-search" placeholder="Search kinks...">
+          </div>
+          <button id="add-kink-btn" class="btn-primary">+ Add Kink</button>
+        </div>
+        <div id="kinks-list" class="items-list"></div>
+      </section>
+
+      <!-- Conversations Tab -->
+      <section id="conversations-tab" class="tab">
+        <div class="toolbar">
+          <div class="filters">
+            <select id="conv-lang-filter">
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+            </select>
+            <select id="conv-category-filter">
+              <option value="">All Categories</option>
+              <option value="getting_to_know">Getting to Know</option>
+              <option value="relationship">Relationship</option>
+              <option value="date_night">Date Night</option>
+              <option value="spicy">Spicy</option>
+              <option value="love_languages">Love Languages</option>
+            </select>
+            <select id="conv-intensity-filter">
+              <option value="">All Intensities</option>
+              <option value="1">Level 1</option>
+              <option value="2">Level 2</option>
+              <option value="3">Level 3</option>
+            </select>
+            <input type="text" id="conv-search" placeholder="Search conversation starters...">
+          </div>
+          <button id="add-conv-btn" class="btn-primary">+ Add Starter</button>
+        </div>
+        <div id="conversations-list" class="items-list"></div>
+      </section>
+
+      <!-- Stats Tab -->
+      <section id="stats-tab" class="tab">
+        <div id="stats-content"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Card Modal -->
+  <div id="card-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="card-modal-title">Edit Card</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="card-form">
+        <input type="hidden" id="card-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Type</label>
+            <select id="card-type" required>
+              <option value="truth">Truth</option>
+              <option value="dare">Dare</option>
+              <option value="challenge">Challenge</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="roleplay">Roleplay</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Intensity</label>
+            <select id="card-intensity" required>
+              <option value="1">1 - Mild</option>
+              <option value="2">2 - Playful</option>
+              <option value="3">3 - Spicy</option>
+              <option value="4">4 - Hot</option>
+              <option value="5">5 - Extreme</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="card-category" required>
+              <option value="communication">Communication</option>
+              <option value="physical">Physical</option>
+              <option value="emotional">Emotional</option>
+              <option value="playful">Playful</option>
+              <option value="intimate">Intimate</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Premium</label>
+            <select id="card-premium">
+              <option value="false">Free</option>
+              <option value="true">Premium</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Content</label>
+          <textarea id="card-content" rows="4" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Estimated Time</label>
+            <div class="time-input">
+              <select id="card-time-mode" style="width: 100px;">
+                <option value="timed">Timed</option>
+                <option value="na">N/A</option>
+              </select>
+              <input type="number" id="card-time-value" min="1" value="5" style="flex: 1;">
+              <select id="card-time-unit" style="width: 100px;">
+                <option value="sec">seconds</option>
+                <option value="min" selected>minutes</option>
+                <option value="hour">hours</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Toy/Prop Requirements (comma separated)</label>
+            <input type="text" id="card-requires" placeholder="ice, scarf, blindfold...">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Safety Notes</label>
+          <textarea id="card-safety" rows="2" placeholder="⚠️ Safety warnings..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Card</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Kink Modal -->
+  <div id="kink-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="kink-modal-title">Edit Kink</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="kink-form">
+        <input type="hidden" id="kink-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Title (EN)</label>
+            <input type="text" id="kink-title" required>
+          </div>
+          <div class="form-group">
+            <label>Title (ES)</label>
+            <input type="text" id="kink-title-es">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description (EN)</label>
+          <textarea id="kink-description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Description (ES)</label>
+          <textarea id="kink-description-es" rows="3"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <input type="text" id="kink-category" required>
+          </div>
+          <div class="form-group">
+            <label>Intensity Scale (1-3)</label>
+            <select id="kink-intensity">
+              <option value="1">1 - Soft</option>
+              <option value="2">2 - Medium</option>
+              <option value="3">3 - Intense</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tier</label>
+            <select id="kink-tier">
+              <option value="soft">Soft</option>
+              <option value="naughty">Naughty</option>
+              <option value="xxx">XXX</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tags (comma separated)</label>
+          <input type="text" id="kink-tags" placeholder="touch, intimacy, foreplay...">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeKinkModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Kink</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Conversation Starter Modal -->
+  <div id="conv-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="conv-modal-title">Edit Conversation Starter</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="conv-form">
+        <input type="hidden" id="conv-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="conv-category" required>
+              <option value="getting_to_know">Getting to Know</option>
+              <option value="relationship">Relationship</option>
+              <option value="date_night">Date Night</option>
+              <option value="spicy">Spicy</option>
+              <option value="love_languages">Love Languages</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Intensity</label>
+            <select id="conv-intensity" required>
+              <option value="1">1 - Light</option>
+              <option value="2">2 - Moderate</option>
+              <option value="3">3 - Deep</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Question</label>
+          <textarea id="conv-question" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Follow-up Questions (one per line)</label>
+          <textarea id="conv-followups" rows="3" placeholder="How did that make you feel?&#10;What would you do differently?"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Context/Explanation</label>
+          <textarea id="conv-context" rows="2" placeholder="Why this question matters..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Tags (comma separated)</label>
+          <input type="text" id="conv-tags" placeholder="deep, communication, trust...">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeConvModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Starter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Commit Modal -->
+  <div id="commit-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Commit Changes</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="commit-form">
+        <div class="form-group">
+          <label>Commit Message</label>
+          <input type="text" id="commit-message" value="Update content via admin tool" required>
+        </div>
+        <div id="git-status-display" class="git-status"></div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeCommitModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Commit & Push</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
