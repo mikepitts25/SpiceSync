@@ -1,7 +1,7 @@
 // Spice Dice - Couples Game Cards (Spanish)
 // 25 Free + 75 Premium
 
-import { GameCard, GameCardType, GameCardCategory } from './gameCards';
+import type { GameCard, GameCardType, GameCardCategory } from './gameCards';
 
 // FREE TIER - 25 Cards
 export const FREE_CARDS_ES: GameCard[] = [

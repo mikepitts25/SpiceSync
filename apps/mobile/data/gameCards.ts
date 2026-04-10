@@ -2,6 +2,10 @@
 // Philosophy: Every card is playable RIGHT NOW. No "plan for later". No "do this tonight".
 // If it can't be acted on in the next 15 minutes, it's cut.
 
+// ─── IMPORTS (all at top to avoid Metro initialization issues) ─────────────
+import { FREE_CARDS_ES, ALL_CARDS_ES } from './gameCards.es';
+import { EXPANSION_CARDS, LEVEL1_CARDS, LEVEL2_CARDS, LEVEL3_CARDS, LEVEL4_CARDS, LEVEL5_CARDS } from './game_cards_expansion';
+
 export type GameCardType = 'truth' | 'dare' | 'challenge' | 'fantasy' | 'roleplay';
 export type GameCardCategory = 'communication' | 'physical' | 'emotional' | 'playful' | 'intimate';
 
@@ -110,4 +114,26 @@ export const getRandomCard = (type: GameCardType | 'all', unlocked: boolean): Ga
 export const getCardsByIntensity = (min: number, max: number, unlocked: boolean): GameCard[] => {
   const cards = unlocked ? ALL_CARDS : FREE_CARDS;
   return cards.filter((c) => c.intensity >= min && c.intensity <= max);
+};
+
+// ─── EXPANSION + MASTER DECK ───────────────────────────────────────────────
+export { EXPANSION_CARDS, LEVEL1_CARDS, LEVEL2_CARDS, LEVEL3_CARDS, LEVEL4_CARDS, LEVEL5_CARDS };
+
+export const MASTER_DECK: GameCard[] = [...ALL_CARDS, ...EXPANSION_CARDS];
+
+// ─── LANGUAGE HELPERS ──────────────────────────────────────────────────────
+export const getCardsByLanguage = (lang: 'en' | 'es', unlocked: boolean): GameCard[] => {
+  if (lang === 'es') return unlocked ? ALL_CARDS_ES : FREE_CARDS_ES;
+  return unlocked ? MASTER_DECK : FREE_CARDS;
+};
+
+export const getRandomCardByLang = (
+  type: GameCardType | 'all',
+  unlocked: boolean,
+  lang: 'en' | 'es'
+): GameCard | null => {
+  const pool = getCardsByLanguage(lang, unlocked);
+  const cards = type === 'all' ? pool : pool.filter((c) => c.type === type);
+  if (!cards.length) return null;
+  return cards[Math.floor(Math.random() * cards.length)];
 };
