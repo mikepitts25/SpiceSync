@@ -1,7 +1,7 @@
 // SpiceSync - Combined Card Export
 // All 300 expansion cards organized by level
 
-import { GameCard } from './gameCards';
+import type { GameCard } from './gameCards';
 import { LEVEL1_CARDS } from './game_cards_level1';
 import { LEVEL2_CARDS } from './game_cards_level2';
 import { LEVEL3_CARDS } from './game_cards_level3';

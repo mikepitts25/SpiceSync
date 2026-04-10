@@ -126,7 +126,7 @@ export default function HomeScreen() {
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
-            <Text style={styles.statNumber}>{MASTER_DECK.length}</Text>
+            <Text style={styles.statNumber}>{MASTER_DECK?.length ?? '400+'}</Text>
             <Text style={styles.statLabel}>Game Cards</Text>
           </View>
           <View style={styles.statDivider} />

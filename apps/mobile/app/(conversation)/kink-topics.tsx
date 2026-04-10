@@ -21,15 +21,32 @@ import {
   Sparkles,
   Heart,
   Shield,
-  ArrowRight,
 } from 'lucide-react-native';
 
-import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
-import { getKinkConversationTopics, hasKinkConversationTopics } from '../../data/kinkConversationTopics';
+import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { getKinkConversationTopics } from '../../data/kinkConversationTopics';
+import { getTopicsForKink } from '../../data/kink_conversation_topics';
 import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 
 const { width } = Dimensions.get('window');
+
+type Approach = {
+  title: string;
+  description: string;
+  starter: string;
+  followUps: string[];
+};
+
+// Convert category-based topic to approach format
+function categoryTopicToApproach(topic: ReturnType<typeof getTopicsForKink>[number]): Approach {
+  return {
+    title: `${topic.approachIcon} ${topic.approach}`,
+    description: topic.context,
+    starter: topic.prompt,
+    followUps: topic.followUps,
+  };
+}
 
 // Approach card component
 const ApproachCard = ({
@@ -38,22 +55,20 @@ const ApproachCard = ({
   isExpanded,
   onToggle,
 }: {
-  approach: {
-    title: string;
-    description: string;
-    starter: string;
-    followUps: string[];
-  };
+  approach: Approach;
   index: number;
   isExpanded: boolean;
   onToggle: () => void;
 }) => {
-  const colors = [
+  const colors: [string, string][] = [
     ['#8B5CF6', '#C084FC'],
     ['#F472B6', '#EF4444'],
     ['#00D9FF', '#8B5CF6'],
+    ['#F59E0B', '#EF4444'],
+    ['#10B981', '#3B82F6'],
+    ['#EC4899', '#8B5CF6'],
   ];
-  const gradient = colors[index % colors.length] as [string, string];
+  const gradient = colors[index % colors.length];
 
   return (
     <View style={styles.approachCard}>
@@ -69,7 +84,9 @@ const ApproachCard = ({
           </View>
           <View style={styles.approachTitleContainer}>
             <Text style={styles.approachTitle}>{approach.title}</Text>
-            <Text style={styles.approachDescription}>{approach.description}</Text>
+            <Text style={styles.approachDescription} numberOfLines={isExpanded ? undefined : 1}>
+              {approach.description}
+            </Text>
           </View>
           <ChevronLeft
             size={24}
@@ -114,8 +131,8 @@ const ApproachCard = ({
               <Text style={styles.tipsLabel}>Tips for Success</Text>
             </View>
             <Text style={styles.tipsText}>
-              Choose a relaxed, private moment. Start with curiosity, not pressure. 
-              Listen more than you talk. Be open to your partner's response, whether 
+              Choose a relaxed, private moment. Start with curiosity, not pressure.
+              Listen more than you talk. Be open to your partner's response, whether
               it's enthusiastic, hesitant, or a "not right now."
             </Text>
           </View>
@@ -132,11 +149,21 @@ export default function KinkTopicsScreen() {
   const language = useSettingsStore((state) => state.language);
   const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
 
-  const topics = kinkSlug ? getKinkConversationTopics(kinkSlug) : undefined;
-  const kink = kinkSlug ? Object.values(kinksById).find(k => k.slug === kinkSlug) : undefined;
+  // Find kink by slug
+  const kink = kinkSlug ? Object.values(kinksById).find((k) => k.slug === kinkSlug) : undefined;
   const displayTitle = kinkTitle || kink?.title || 'Kink Topics';
 
-  if (!topics || !hasKinkConversationTopics(kinkSlug || '')) {
+  // Build approaches: prefer per-kink topics, fall back to category topics
+  const approaches: Approach[] = (() => {
+    const perKink = kinkSlug ? getKinkConversationTopics(kinkSlug) : undefined;
+    if (perKink?.approaches?.length) return perKink.approaches;
+    if (kink) {
+      return getTopicsForKink(kink.slug, kink.category).map(categoryTopicToApproach);
+    }
+    return [];
+  })();
+
+  if (!kink && !kinkTitle) {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
         <StatusBar style="light" />
@@ -148,11 +175,8 @@ export default function KinkTopicsScreen() {
         </View>
         <View style={styles.emptyState}>
           <Shield size={64} color={COLORS.textSecondary} />
-          <Text style={styles.emptyTitle}>No Topics Available</Text>
-          <Text style={styles.emptyText}>
-            We haven't created conversation topics for this kink yet. 
-            Check back in a future update!
-          </Text>
+          <Text style={styles.emptyTitle}>Kink Not Found</Text>
+          <Text style={styles.emptyText}>We couldn't load topics for this kink.</Text>
           <TouchableOpacity style={styles.backToMatchesButton} onPress={() => router.back()}>
             <Text style={styles.backToMatchesText}>Back to Matches</Text>
           </TouchableOpacity>
@@ -160,6 +184,9 @@ export default function KinkTopicsScreen() {
       </SafeAreaView>
     );
   }
+
+  const tierColor =
+    kink?.tier === 'soft' ? '#FF6B9D' : kink?.tier === 'naughty' ? '#F472B6' : '#EF4444';
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -172,39 +199,46 @@ export default function KinkTopicsScreen() {
         </TouchableOpacity>
         <View style={styles.headerText}>
           <Text style={styles.headerTitle}>Let's Talk About</Text>
-          <Text style={styles.headerSubtitle}>{displayTitle}</Text>
+          <Text style={styles.headerKinkName} numberOfLines={1}>{displayTitle}</Text>
         </View>
       </View>
 
       <ScrollView
-        style={styles.scrollView}
+        style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Intro Card */}
-        <View style={styles.introCard}>
+        {/* Kink info card */}
+        {kink && (
           <LinearGradient
-            colors={['#1E1E2E', '#252538']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.introGradient}
+            colors={['#1A1A2E', '#16213E']}
+            style={styles.kinkInfoCard}
           >
-            <View style={styles.introIconContainer}>
-              <MessageCircle size={32} color={COLORS.primary} />
+            <View style={styles.kinkBadgeRow}>
+              {kink.tier && (
+                <View style={[styles.tierBadge, { backgroundColor: `${tierColor}25` }]}>
+                  <Text style={[styles.tierBadgeText, { color: tierColor }]}>
+                    {kink.tier.toUpperCase()}
+                  </Text>
+                </View>
+              )}
+              <View style={styles.categoryBadge}>
+                <Text style={styles.categoryBadgeText}>
+                  {kink.category.replace(/_/g, ' ')}
+                </Text>
+              </View>
             </View>
-            <Text style={styles.introTitle}>Start the Conversation</Text>
-            <Text style={styles.introText}>
-              You both matched on this kink! Here are different ways to bring it 
-              up with your partner. Each approach offers a unique angle—choose 
-              the one that feels most natural for your relationship.
-            </Text>
+            <Text style={styles.kinkDescription}>{kink.description}</Text>
           </LinearGradient>
-        </View>
+        )}
 
-        {/* Approaches */}
-        <Text style={styles.sectionTitle}>Choose Your Approach</Text>
-        
-        {topics.approaches.map((approach, index) => (
+        {/* Intro */}
+        <Text style={styles.sectionIntro}>
+          {approaches.length} ways to start this conversation
+        </Text>
+
+        {/* Approach cards */}
+        {approaches.map((approach, index) => (
           <ApproachCard
             key={index}
             approach={approach}
@@ -214,35 +248,17 @@ export default function KinkTopicsScreen() {
           />
         ))}
 
-        {/* Safety Note */}
+        {/* Safety reminder */}
         <View style={styles.safetyCard}>
           <View style={styles.safetyHeader}>
             <Shield size={20} color="#22C55E" />
-            <Text style={styles.safetyTitle}>Remember</Text>
+            <Text style={styles.safetyTitle}>A Gentle Reminder</Text>
           </View>
           <Text style={styles.safetyText}>
-            These conversation starters are designed to open dialogue, not pressure. 
-            Your partner's comfort and consent always come first. If they're not ready 
-            to explore this, that's completely okay. The goal is honest communication, 
-            not immediate agreement.
+            These conversations work best when both partners feel safe to say yes, no, or
+            "I need more time." There's no wrong answer — curiosity is the goal.
           </Text>
         </View>
-
-        {/* Navigation */}
-        <TouchableOpacity
-          style={styles.conversationButton}
-          onPress={() => router.push('/(conversation)')}
-        >
-          <LinearGradient
-            colors={GRADIENTS.primary}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.conversationButtonGradient}
-          >
-            <Text style={styles.conversationButtonText}>Browse All Conversations</Text>
-            <ArrowRight size={20} color="#fff" />
-          </LinearGradient>
-        </TouchableOpacity>
 
         <View style={{ height: 40 }} />
       </ScrollView>
@@ -255,13 +271,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
+
+  // Header
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: SIZES.padding,
-    paddingVertical: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
+    gap: 12,
   },
   backButton: {
     width: 44,
@@ -270,78 +289,85 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
   },
   headerText: {
     flex: 1,
   },
   headerTitle: {
-    fontSize: SIZES.small,
+    fontSize: SIZES.body,
+    fontWeight: '600',
     color: COLORS.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
   },
-  headerSubtitle: {
+  headerKinkName: {
     fontSize: SIZES.h3,
-    fontWeight: '700',
+    fontWeight: '800',
     color: COLORS.text,
+    marginTop: 2,
   },
-  scrollView: {
-    flex: 1,
-  },
+
+  // Scroll
+  scroll: { flex: 1 },
   scrollContent: {
-    padding: SIZES.padding,
+    padding: 16,
     paddingBottom: 40,
   },
 
-  // Intro Card
-  introCard: {
-    marginBottom: 24,
+  // Kink info card
+  kinkInfoCard: {
     borderRadius: SIZES.radiusLarge,
-    overflow: 'hidden',
-    ...SHADOWS.large,
+    padding: 20,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
-  introGradient: {
-    padding: 24,
-    alignItems: 'center',
-  },
-  introIconContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: `${COLORS.primary}20`,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  introTitle: {
-    fontSize: SIZES.h3,
-    fontWeight: '700',
-    color: COLORS.text,
+  kinkBadgeRow: {
+    flexDirection: 'row',
+    gap: 8,
     marginBottom: 12,
-    textAlign: 'center',
   },
-  introText: {
+  tierBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
+  tierBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
+  categoryBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 20,
+    backgroundColor: `${COLORS.textSecondary}20`,
+  },
+  categoryBadgeText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+    textTransform: 'capitalize',
+  },
+  kinkDescription: {
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
-    textAlign: 'center',
     lineHeight: 22,
   },
 
-  // Section Title
-  sectionTitle: {
-    fontSize: SIZES.h4,
+  // Section intro
+  sectionIntro: {
+    fontSize: SIZES.small,
     fontWeight: '700',
-    color: COLORS.text,
-    marginBottom: 16,
+    color: COLORS.textSecondary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginBottom: 14,
   },
 
-  // Approach Card
+  // Approach card
   approachCard: {
-    marginBottom: 16,
+    marginBottom: 12,
     borderRadius: SIZES.radiusLarge,
     overflow: 'hidden',
-    backgroundColor: COLORS.card,
     borderWidth: 1,
     borderColor: COLORS.border,
     ...SHADOWS.medium,
@@ -350,6 +376,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
+    gap: 12,
   },
   approachNumber: {
     width: 36,
@@ -358,7 +385,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 14,
   },
   approachNumberText: {
     fontSize: 18,
@@ -455,7 +481,7 @@ const styles = StyleSheet.create({
 
   // Tips
   tipsContainer: {
-    backgroundColor: `${COLORS.secondary}10`,
+    backgroundColor: `${COLORS.secondary ?? '#EF4444'}10`,
     borderRadius: SIZES.radius,
     padding: 16,
   },
@@ -478,7 +504,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
-  // Safety Card
+  // Safety card
   safetyCard: {
     backgroundColor: '#064E3B',
     borderRadius: SIZES.radiusLarge,
@@ -503,26 +529,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
-  // Conversation Button
-  conversationButton: {
-    borderRadius: SIZES.radiusLarge,
-    overflow: 'hidden',
-    ...SHADOWS.large,
-  },
-  conversationButtonGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    gap: 12,
-  },
-  conversationButtonText: {
-    fontSize: SIZES.medium,
-    fontWeight: '700',
-    color: '#fff',
-  },
-
-  // Empty State
+  // Empty state
   emptyState: {
     flex: 1,
     justifyContent: 'center',

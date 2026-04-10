@@ -4,7 +4,6 @@ import { MessageCircle } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 
 import type { VoteValue } from '../src/stores/votes';
-import { hasKinkConversationTopics } from '../data/kinkConversationTopics';
 import { COLORS } from '../constants/theme';
 
 type VoteVal = VoteValue | undefined;
@@ -65,14 +64,12 @@ const MatchRow: React.FC<Props> = ({
   aVote,
   bVote,
   kinkSlug,
-  kinkTier,
   showConversationButton = true,
 }) => {
   const router = useRouter();
-  const hasTopics = kinkSlug && hasKinkConversationTopics(kinkSlug);
   const isMutualYes = aVote === 'yes' && bVote === 'yes';
-  const isNaughtyOrXXX = kinkTier === 'naughty' || kinkTier === 'xxx';
-  const shouldShowButton = showConversationButton && hasTopics && isMutualYes && isNaughtyOrXXX;
+  // Show discuss button for any mutual yes match that has a slug (all kinks do)
+  const shouldShowButton = showConversationButton && !!kinkSlug && isMutualYes;
 
   const handleConversationPress = () => {
     if (kinkSlug) {
@@ -85,9 +82,11 @@ const MatchRow: React.FC<Props> = ({
 
   return (
     <View style={styles.wrap}>
-      <View style={styles.textWrap}>
-        <Text style={styles.title}>{title}</Text>
-        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      <View style={styles.topRow}>
+        <View style={styles.textWrap}>
+          <Text style={styles.title}>{title}</Text>
+          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        </View>
       </View>
       <View style={styles.chipsRow}>
         <VoteChip emoji={aEmoji} vote={aVote} />
@@ -100,7 +99,7 @@ const MatchRow: React.FC<Props> = ({
           activeOpacity={0.8}
         >
           <MessageCircle size={16} color={COLORS.primary} />
-          <Text style={styles.conversationButtonText}>Talk About This</Text>
+          <Text style={styles.conversationButtonText}>💬 Talk About This</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -112,7 +111,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     gap: 8,
   },
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
   textWrap: {
+    flex: 1,
     gap: 4,
   },
   title: {
