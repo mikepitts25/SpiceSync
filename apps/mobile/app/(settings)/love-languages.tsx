@@ -189,8 +189,8 @@ export default function LoveLanguagesQuizScreen() {
                           </Text>
                           {partnerResult ? (
                             <Text style={styles.partnerLoveLang}>
-                              {LOVE_LANGUAGE_EMOJIS[partnerResult.result.primary]}{' '}
-                              {LOVE_LANGUAGE_NAMES[partnerResult.result.primary]}
+                              {LOVE_LANGUAGE_EMOJIS[partnerResult.result.primary as LoveLanguage]}{' '}
+                              {LOVE_LANGUAGE_NAMES[partnerResult.result.primary as LoveLanguage]}
                             </Text>
                           ) : (
                             <Text style={styles.partnerNotTaken}>Not taken yet</Text>

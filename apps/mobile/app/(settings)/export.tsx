@@ -18,8 +18,11 @@ export default function ExportMatches() {
   const insets = useSafeAreaInsets();
   const unlocked = useSettingsStore((state) => state.unlocked);
   const language = useSettingsStore((state) => state.language);
+  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const votes = useVotesStore((state) => state.votes);
+  const votes = useVotesStore((state) =>
+    activeProfileId ? state.votesByProfile[activeProfileId] ?? {} : {}
+  );
   
   const [exporting, setExporting] = useState(false);
 

@@ -15,8 +15,8 @@ import Animated, {
   interpolateColor,
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-// import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, GRADIENTS, FONTS, SIZES, SHADOWS, ANIMATIONS } from '../constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, GRADIENTS, FONTS, SIZES, SHADOWS, ANIMATIONS, type GradientTuple } from '../constants/theme';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const CARD_W = Math.min(SCREEN_W * 0.9, 420);
@@ -41,7 +41,7 @@ type Props = {
   totalCount?: number;
 };
 
-const TIER_GRADIENTS: Record<string, string[]> = {
+const TIER_GRADIENTS: Record<string, GradientTuple> = {
   soft: GRADIENTS.soft,
   naughty: GRADIENTS.naughty,
   xxx: GRADIENTS.xxx,

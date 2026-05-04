@@ -7,7 +7,7 @@ import { GameCard, GameCardType } from './gameCards';
 import cardData from './game_cards.json';
 
 // Export all cards from JSON
-export const ALL_CARDS_FROM_JSON: GameCard[] = cardData.cards;
+export const ALL_CARDS_FROM_JSON: GameCard[] = cardData.cards as GameCard[];
 
 // Filter by level
 export const FREE_CARDS_JSON = ALL_CARDS_FROM_JSON.filter(c => !c.isPremium);

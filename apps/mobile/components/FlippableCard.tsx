@@ -148,7 +148,9 @@ export default function FlippableCard({
         swipeX.value = withTiming(targetX, { duration: 200 });
         
         runOnJS(cardDraw)();
-        runOnJS(onSwipe)?.(direction as 'yes' | 'no' | 'maybe');
+        if (onSwipe) {
+          runOnJS(onSwipe)(direction as 'yes' | 'no' | 'maybe');
+        }
         
         // Reset after animation
         setTimeout(() => {

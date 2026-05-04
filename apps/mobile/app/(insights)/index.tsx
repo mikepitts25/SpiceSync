@@ -35,8 +35,11 @@ function StatCard({ title, value, emoji, subtitle }: StatCardProps) {
 export default function InsightsDashboard() {
   const insets = useSafeAreaInsets();
   const language = useSettingsStore((state) => state.language);
+  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const votes = useVotesStore((state) => state.votes);
+  const votes = useVotesStore((state) =>
+    activeProfileId ? state.votesByProfile[activeProfileId] ?? {} : {}
+  );
 
   const insights = useMemo(() => {
     const allVotes = Object.values(votes);

@@ -18,8 +18,11 @@ export default function ActivityDetail() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const language = useSettingsStore((state) => state.language);
+  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const votes = useVotesStore((state) => state.votes);
+  const votes = useVotesStore((state) =>
+    activeProfileId ? state.votesByProfile[activeProfileId] ?? {} : {}
+  );
   const setVote = useVotesStore((state) => state.setVote);
 
   const activity = kinks.find(k => k.id === id);
@@ -40,7 +43,8 @@ export default function ActivityDetail() {
   }
 
   const handleVote = (vote: 'yes' | 'no' | 'maybe') => {
-    setVote(activity.id, vote);
+    if (!activeProfileId) return;
+    setVote(activeProfileId, activity.id, vote);
   };
 
   const getCategoryColor = (category: string) => {

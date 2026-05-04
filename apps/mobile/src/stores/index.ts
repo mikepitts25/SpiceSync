@@ -19,7 +19,7 @@ export type { Achievement, AchievementTier } from './achievements';
 
 // Leveling
 export { useLevelingStore } from './leveling';
-export type { Level, LevelAction } from './leveling';
+export type { Level } from './leveling';
 
 // Custom Activities
 export { useCustomActivitiesStore } from './customActivities';

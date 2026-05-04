@@ -10,11 +10,11 @@ import SwipeDeck from '../../components/SwipeDeckRedesigned';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
-import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
+import { COLORS, GRADIENTS, SIZES, SHADOWS, type GradientTuple } from '../../constants/theme';
 
 type VoteValue = 'yes' | 'no' | 'maybe';
 
-const TIER_GRADIENTS: Record<string, string[]> = {
+const TIER_GRADIENTS: Record<string, GradientTuple> = {
   soft: GRADIENTS.soft,
   naughty: GRADIENTS.naughty,
   xxx: GRADIENTS.xxx,

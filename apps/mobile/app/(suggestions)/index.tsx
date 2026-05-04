@@ -28,8 +28,11 @@ export default function SuggestionsHub() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
+  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const votes = useVotesStore((state) => state.votes);
+  const votes = useVotesStore((state) =>
+    activeProfileId ? state.votesByProfile[activeProfileId] ?? {} : {}
+  );
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {

@@ -96,7 +96,7 @@ const getTranslatedCategory = (categoryId: string, ct: any) => {
     case 'relationship':
       return { title: ct.relationship, subtitle: ct.relationshipSubtitle, description: ct.relationshipDesc };
     case 'date_night':
-      return { title: ct.dateNight, subtitle: ct.dateNightSubtitle, description: ct.dateNightDesc };
+      return { title: ct.dateNight, subtitle: ct.dateNightCategorySubtitle, description: ct.dateNightDesc };
     case 'spicy':
       return { title: ct.spicy, subtitle: ct.spicySubtitle, description: ct.spicyDesc };
     case 'love_languages':

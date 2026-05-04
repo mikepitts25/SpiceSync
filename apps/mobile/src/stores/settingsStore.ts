@@ -33,7 +33,7 @@ export interface SettingsState {
   
   // Actions
   setActiveProfile: (id: string) => void;
-  addProfile: (profile: Omit<Profile, 'id' | 'createdAt'>) => void;
+  addProfile: (profile: Omit<Profile, 'id' | 'createdAt'>) => Profile;
   removeProfile: (id: string) => void;
   updateProfile: (id: string, updates: Partial<Profile>) => void;
   

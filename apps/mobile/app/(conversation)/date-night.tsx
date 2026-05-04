@@ -298,6 +298,13 @@ const DateNightCard = ({
   );
 };
 
+type DateNightSettings = {
+  timerEnabled: boolean;
+  timerMinutes: number;
+  includeSpicy: boolean;
+  backgroundTheme: BackgroundTheme;
+};
+
 // Settings modal
 const SettingsModal = ({
   visible,
@@ -307,13 +314,8 @@ const SettingsModal = ({
 }: {
   visible: boolean;
   onClose: () => void;
-  settings: {
-    timerEnabled: boolean;
-    timerMinutes: number;
-    includeSpicy: boolean;
-    backgroundTheme: BackgroundTheme;
-  };
-  onUpdate: (settings: Partial<typeof settings>) => void;
+  settings: DateNightSettings;
+  onUpdate: (settings: Partial<DateNightSettings>) => void;
 }) => {
   if (!visible) return null;
 

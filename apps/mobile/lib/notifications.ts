@@ -100,11 +100,11 @@ export async function scheduleDailyNotification(
         sound: 'default',
       },
       trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.DAILY,
         hour,
         minute,
-        repeats: true,
         channelId: Platform.OS === 'android' ? DAILY_REMINDER_CHANNEL_ID : undefined,
-      } as Notifications.DailyTriggerInput,
+      },
     });
     
     // Save settings
@@ -243,11 +243,11 @@ export async function scheduleDailyConversationNotification(
         sound: 'default',
       },
       trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.DAILY,
         hour,
         minute,
-        repeats: true,
         channelId: Platform.OS === 'android' ? DAILY_REMINDER_CHANNEL_ID : undefined,
-      } as Notifications.DailyTriggerInput,
+      },
     });
     
     // Save settings

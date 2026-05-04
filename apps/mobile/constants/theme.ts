@@ -55,7 +55,9 @@ export const COLORS = {
   overlay: 'rgba(0, 0, 0, 0.7)',
 };
 
-export const GRADIENTS = {
+export type GradientTuple = readonly [string, string, ...string[]];
+
+export const GRADIENTS: Record<string, GradientTuple> = {
   background: ['#0D0D15', '#151520', '#1A1A2E'],
   card: ['#1E1E2E', '#252538'],
   soft: ['#FF6B9D', '#C084FC'],
@@ -76,6 +78,26 @@ export const FONTS = {
   
   // Display font for headers (more playful)
   display: 'SpaceGrotesk-Bold',
+
+  // Legacy style aliases used by older screens.
+  h1: {
+    fontFamily: 'SpaceGrotesk-Bold',
+    fontSize: 36,
+    fontWeight: '700' as const,
+  },
+  h3: {
+    fontFamily: 'Inter-Bold',
+    fontSize: 24,
+    fontWeight: '700' as const,
+  },
+  body: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+  },
+  small: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 14,
+  },
 };
 
 export const SIZES = {
@@ -93,6 +115,7 @@ export const SIZES = {
   h2: 28,
   h1: 36,
   display: 48,
+  maxWidth: 420,
   
   // Spacing
   padding: 16,
