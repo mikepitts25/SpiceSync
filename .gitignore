@@ -18,6 +18,7 @@ android/build/
 # IDE
 .idea/
 .vscode/
+.obsidian/
 *.swp
 *.swo
 *~
@@ -40,3 +41,6 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Root package lock is accidental unless the repo root has a package.json.
+/package-lock.json
