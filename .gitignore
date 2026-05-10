@@ -41,6 +41,7 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+.worktrees/
 
 # Root package lock is accidental unless the repo root has a package.json.
 /package-lock.json
