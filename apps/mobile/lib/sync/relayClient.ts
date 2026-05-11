@@ -2,6 +2,7 @@ import type {
   AcceptInviteRequest,
   AcceptInviteResponse,
   AppendEventRequest,
+  CoupleResponse,
   CreateInviteRequest,
   CreateInviteResponse,
   InviteResponse,
@@ -16,7 +17,7 @@ export class RelayHttpError extends Error {
   constructor(
     public readonly status: number,
     public readonly code: string,
-    message: string,
+    message: string
   ) {
     super(message);
     this.name = 'RelayHttpError';
@@ -49,30 +50,47 @@ export class RelayClient {
     });
   }
 
-  acceptInvite(inviteId: string, body: AcceptInviteRequest): Promise<AcceptInviteResponse> {
+  acceptInvite(
+    inviteId: string,
+    body: AcceptInviteRequest
+  ): Promise<AcceptInviteResponse> {
     return this.request(`/invites/${encodeURIComponent(inviteId)}/accept`, {
       method: 'POST',
       body,
     });
   }
 
-  appendEvent(coupleId: string, body: AppendEventRequest): Promise<SyncEventResponse> {
+  getCouple(coupleId: string): Promise<CoupleResponse> {
+    return this.request(`/couples/${encodeURIComponent(coupleId)}`, {
+      method: 'GET',
+    });
+  }
+
+  appendEvent(
+    coupleId: string,
+    body: AppendEventRequest
+  ): Promise<SyncEventResponse> {
     return this.request(`/couples/${encodeURIComponent(coupleId)}/events`, {
       method: 'POST',
       body,
     });
   }
 
-  listEvents(coupleId: string, afterServerSequence: number): Promise<ListEventsResponse> {
+  listEvents(
+    coupleId: string,
+    afterServerSequence: number
+  ): Promise<ListEventsResponse> {
     return this.request(
       `/couples/${encodeURIComponent(coupleId)}/events?after=${encodeURIComponent(
-        String(afterServerSequence),
+        String(afterServerSequence)
       )}`,
-      { method: 'GET' },
+      { method: 'GET' }
     );
   }
 
-  revokeCouple(coupleId: string): Promise<{ coupleId: string; revokedAt: number | null }> {
+  revokeCouple(
+    coupleId: string
+  ): Promise<{ coupleId: string; revokedAt: number | null }> {
     return this.request(`/couples/${encodeURIComponent(coupleId)}/revoke`, {
       method: 'POST',
     });
@@ -80,7 +98,7 @@ export class RelayClient {
 
   private async request<T>(
     path: string,
-    options: { method: 'GET' | 'POST'; body?: unknown },
+    options: { method: 'GET' | 'POST'; body?: unknown }
   ): Promise<T> {
     const init: RequestInit = {
       method: options.method,
@@ -92,14 +110,17 @@ export class RelayClient {
     }
 
     const response = await this.fetchImpl(`${this.baseUrl}${path}`, init);
-    const json = (await response.json().catch(() => ({}))) as T | RelayErrorBody;
+    const json = (await response.json().catch(() => ({}))) as
+      | T
+      | RelayErrorBody;
 
     if (!response.ok) {
       const errorBody = json as RelayErrorBody;
       throw new RelayHttpError(
         response.status,
         errorBody.error?.code || 'HTTP_ERROR',
-        errorBody.error?.message || `Relay request failed with status ${response.status}`,
+        errorBody.error?.message ||
+          `Relay request failed with status ${response.status}`
       );
     }
 

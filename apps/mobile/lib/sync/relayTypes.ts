@@ -37,6 +37,16 @@ export type AcceptInviteResponse = {
   createdAt: number;
 };
 
+export type CoupleResponse = {
+  coupleId: string;
+  memberADeviceId: string;
+  memberBDeviceId: string;
+  memberAPublicKey: string;
+  memberBPublicKey: string;
+  createdAt: number;
+  revokedAt: number | null;
+};
+
 export type AppendEventRequest = {
   eventId: string;
   authorDeviceId: string;
