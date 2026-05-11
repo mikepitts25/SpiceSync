@@ -1,8 +1,10 @@
 // apps/mobile/app/_layout.tsx
-// Must be first import for gesture handler initialization
+// Must be first imports: gesture handler, then crypto polyfill before noble libs touch crypto.getRandomValues
 import 'react-native-gesture-handler';
+import 'react-native-get-random-values';
 
 import React, { useEffect } from 'react';
+import { AppState } from 'react-native';
 import { Stack, usePathname } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -12,43 +14,64 @@ import { COLORS } from '../constants/theme';
 import { initializeNotifications } from '../lib/notifications';
 import { useStreakStore } from '../lib/achievements';
 import AppMenu from '../src/components/AppMenu';
+import { useCoupleLinkStore } from '../lib/sync/coupleLink';
+import { startSyncLoop, stopSyncLoop, syncOnce } from '../lib/sync/syncLoop';
+import { startVoteSync } from '../lib/sync/voteSync';
 
 // Screens where menu button should be hidden
-const HIDE_MENU_ON = [
-  '/(onboarding)',
-  '/welcome',
-  'onboarding',
-];
+const HIDE_MENU_ON = ['/(onboarding)', '/welcome', 'onboarding'];
 
 function AppMenuWrapper() {
   const pathname = usePathname();
-  
+
   // Hide menu button on certain screens
-  const shouldHide = HIDE_MENU_ON.some(path => 
-    pathname?.includes(path) || pathname?.startsWith(path)
+  const shouldHide = HIDE_MENU_ON.some(
+    (path) => pathname?.includes(path) || pathname?.startsWith(path)
   );
-  
+
   if (shouldHide) return null;
-  
+
   return <AppMenu />;
 }
 
 export default function RootLayout() {
-  // Initialize notifications and check streak on app start
   useEffect(() => {
-    // Initialize notifications
     initializeNotifications().then((success) => {
       if (success) {
         console.log('[App] Notifications initialized');
       }
     });
-    
-    // Check and update streak
+
     const { checkAndUpdateStreak } = useStreakStore.getState();
     const result = checkAndUpdateStreak();
     if (result.streakUpdated) {
       console.log('[App] Streak updated:', result);
     }
+  }, []);
+
+  useEffect(() => {
+    startVoteSync();
+    const link = useCoupleLinkStore.getState().link;
+    if (link && link.status === 'active') startSyncLoop();
+
+    const unsubLink = useCoupleLinkStore.subscribe((state) => {
+      if (state.link?.status === 'active') startSyncLoop();
+      else stopSyncLoop();
+    });
+
+    const appStateSub = AppState.addEventListener('change', (next) => {
+      if (next === 'active') {
+        const current = useCoupleLinkStore.getState().link;
+        if (current?.status === 'active')
+          void syncOnce().catch(() => undefined);
+      }
+    });
+
+    return () => {
+      unsubLink();
+      appStateSub.remove();
+      stopSyncLoop();
+    };
   }, []);
 
   return (
