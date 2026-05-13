@@ -65,6 +65,17 @@ type PartnerOption = {
   label: string;
 };
 
+const getComplementarySlug = (slug?: string): string | null => {
+  if (!slug) return null;
+  if (slug.endsWith('-give')) {
+    return `${slug.slice(0, -5)}-receive`;
+  }
+  if (slug.endsWith('-receive')) {
+    return `${slug.slice(0, -8)}-give`;
+  }
+  return null;
+};
+
 export default function MatchesScreen() {
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
@@ -212,6 +223,38 @@ export default function MatchesScreen() {
     const mutualMaybe: string[] = [];
     const partialYes: string[] = [];
 
+    const comparedPairs = new Set<string>();
+
+    const processPair = (activeKinkId: string, partnerKinkId: string) => {
+      const pairKey = `${activeKinkId}::${partnerKinkId}`;
+      if (comparedPairs.has(pairKey)) return;
+      comparedPairs.add(pairKey);
+
+      const aVote = activeVotes[activeKinkId];
+      const bVote = partnerVotes[partnerKinkId];
+      if (!aVote || !bVote) return;
+
+      if (aVote === 'yes' && bVote === 'yes') {
+        mutualYes.push(activeKinkId);
+        return;
+      }
+      if (aVote === 'no' && bVote === 'no') {
+        mutualNo.push(activeKinkId);
+        return;
+      }
+      if (aVote === 'maybe' && bVote === 'maybe') {
+        mutualMaybe.push(activeKinkId);
+        return;
+      }
+
+      if (
+        (aVote === 'yes' && bVote === 'maybe') ||
+        (aVote === 'maybe' && bVote === 'yes')
+      ) {
+        partialYes.push(activeKinkId);
+      }
+    };
+
     const keys = new Set<string>();
     for (const key of Object.keys(activeVotes)) {
       if (partnerVotes[key] !== undefined) {
@@ -220,33 +263,25 @@ export default function MatchesScreen() {
     }
 
     keys.forEach((kinkId) => {
-      const aVote = activeVotes[kinkId];
-      const bVote = partnerVotes[kinkId];
-      if (!aVote || !bVote) return;
+      processPair(kinkId, kinkId);
+    });
 
-      if (aVote === 'yes' && bVote === 'yes') {
-        mutualYes.push(kinkId);
-        return;
-      }
-      if (aVote === 'no' && bVote === 'no') {
-        mutualNo.push(kinkId);
-        return;
-      }
-      if (aVote === 'maybe' && bVote === 'maybe') {
-        mutualMaybe.push(kinkId);
-        return;
-      }
+    Object.keys(activeVotes).forEach((activeKinkId) => {
+      const activeKink = kinksById[activeKinkId];
+      const complementarySlug = getComplementarySlug(activeKink?.slug);
+      if (!complementarySlug) return;
 
-      if (
-        (aVote === 'yes' && bVote === 'maybe') ||
-        (aVote === 'maybe' && bVote === 'yes')
-      ) {
-        partialYes.push(kinkId);
-      }
+      const partnerKink = Object.values(kinksById).find(
+        (kink) => kink.slug === complementarySlug
+      );
+      if (!partnerKink) return;
+      if (partnerVotes[partnerKink.id] === undefined) return;
+
+      processPair(activeKinkId, partnerKink.id);
     });
 
     return { mutualYes, mutualNo, mutualMaybe, partialYes };
-  }, [activeId, partnerId, activeVotes, partnerVotes]);
+  }, [activeId, partnerId, activeVotes, partnerVotes, kinksById]);
 
   const visibleBuckets = useMemo(() => {
     if (gateOpen) return rawBuckets;
