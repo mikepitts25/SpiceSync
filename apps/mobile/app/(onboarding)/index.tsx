@@ -43,7 +43,7 @@ export default function OnboardingFlow() {
     case 'profile':
       return <ProfileScreen onNext={goToNext} />;
     case 'invite':
-      return <InviteScreen onComplete={goToNext} />;
+      return <InviteScreen />;
     default:
       return null;
   }

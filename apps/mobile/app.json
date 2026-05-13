@@ -7,9 +7,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0B0B0E"
+      "backgroundColor": "#0D0006"
     },
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -20,14 +20,22 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0B0B0E"
+        "backgroundColor": "#0D0006"
       },
       "package": "com.anonymous.spicesync"
     },
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "expo-font"
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow SpiceSync to use Face ID to keep your private content locked."
+        }
+      ],
+      "expo-font",
+      "@react-native-community/datetimepicker",
+      "expo-sqlite"
     ],
     "extra": {
       "eas": {

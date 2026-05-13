@@ -7,6 +7,6 @@ module.exports = {
     '^expo-constants$': '<rootDir>/__mocks__/expo-constants.js',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(@react-native|react-native|react-native-mmkv|react-native-reanimated|@noble)/)',
+    'node_modules/(?!(@react-native|react-native|react-native-mmkv|react-native-reanimated|@noble|expo)/)',
   ],
 };

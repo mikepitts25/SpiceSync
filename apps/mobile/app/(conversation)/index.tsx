@@ -1,875 +1,659 @@
-// apps/mobile/app/(conversation)/index.tsx
-// Deep Dives - Main Conversation Starters Screen
-// Browse categories, pick random topics, save favorites
-
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Dimensions,
+  FlatList,
+  Pressable,
   Share,
-  Animated,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
+import { useRouter } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
 import {
-  Heart,
-  Sparkles,
-  Users,
-  Flame,
-  Shuffle,
+  ChevronLeft,
   ChevronRight,
+  Heart,
   Share2,
-  Bookmark,
   X,
-  MessageCircle,
-  Moon,
 } from 'lucide-react-native';
 
-import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../../constants/theme';
 import {
-  ConversationStarter,
-  categoryInfo,
-  INTENSITY_LABELS,
-  getRandomStarterByLanguage,
+  AccentBar,
+  ActionCircle,
+  AppHeader,
+  AppTabBar,
+  CardAccentTop,
+} from '../../components/app-chrome';
+import { ScreenTour } from '../../components/ScreenTour';
+import {
+  type ConversationStarter,
   getDailyStarterByLanguage,
+  getRandomStarterByLanguage,
+  getStartersByCategoryAndLanguage,
 } from '../../lib/conversationStarters';
+import {
+  CONVERSATION_CATEGORY_FILTERS,
+  LOVE_LANGUAGE_PROMPT_CATEGORY,
+  LOVE_LANGUAGE_QUIZ_ROUTE,
+  getLoveLanguageModuleCopy,
+} from '../../lib/conversationExperience';
+import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
 import { useConversationStore } from '../../lib/state/conversationStore';
+import { useProfilesStore } from '../../lib/state/profiles';
 import { useConversationTranslation } from '../../lib/i18n';
-
-const { width, height } = Dimensions.get('window');
-const CARD_WIDTH = width * 0.85;
-
-// Icon mapping
-const CategoryIcon = ({ name, size = 24, color = '#fff' }: { name: string; size?: number; color?: string }) => {
-  switch (name) {
-    case 'heart':
-      return <Heart size={size} color={color} />;
-    case 'users':
-      return <Users size={size} color={color} />;
-    case 'sparkles':
-      return <Sparkles size={size} color={color} />;
-    case 'flame':
-      return <Flame size={size} color={color} />;
-    case 'heart-handshake':
-      return (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Heart size={size * 0.7} color={color} style={{ marginRight: -size * 0.3 }} />
-          <Users size={size} color={color} />
-        </View>
-      );
-    default:
-      return <MessageCircle size={size} color={color} />;
-  }
-};
-
-// Intensity badge component
-const IntensityBadge = ({ level, ct }: { level: number; ct: any }) => {
-  const info = INTENSITY_LABELS[level];
-  const getLabel = () => {
-    switch (level) {
-      case 1: return ct.light;
-      case 2: return ct.warm;
-      case 3: return ct.deep;
-      case 4: return ct.intimate;
-      default: return info.label;
-    }
-  };
-  return (
-    <View style={[styles.intensityBadge, { backgroundColor: `${info.color}30` }]}>
-      <View style={[styles.intensityDot, { backgroundColor: info.color }]} />
-      <Text style={[styles.intensityText, { color: info.color }]}>{getLabel()}</Text>
-    </View>
-  );
-};
-
-// Helper to get translated category info
-const getTranslatedCategory = (categoryId: string, ct: any) => {
-  switch (categoryId) {
-    case 'getting_to_know':
-      return { title: ct.gettingToKnow, subtitle: ct.gettingToKnowSubtitle, description: ct.gettingToKnowDesc };
-    case 'relationship':
-      return { title: ct.relationship, subtitle: ct.relationshipSubtitle, description: ct.relationshipDesc };
-    case 'date_night':
-      return { title: ct.dateNight, subtitle: ct.dateNightCategorySubtitle, description: ct.dateNightDesc };
-    case 'spicy':
-      return { title: ct.spicy, subtitle: ct.spicySubtitle, description: ct.spicyDesc };
-    case 'love_languages':
-      return { title: ct.loveLanguages, subtitle: ct.loveLanguagesSubtitle, description: ct.loveLanguagesDesc };
-    default:
-      return { title: '', subtitle: '', description: '' };
-  }
-};
-
-// Category card component
-const CategoryCard = ({
-  category,
-  onPress,
-  ct,
-}: {
-  category: (typeof categoryInfo)[0];
-  onPress: () => void;
-  ct: any;
-}) => {
-  const translated = getTranslatedCategory(category.id, ct);
-  return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
-      <LinearGradient
-        colors={category.gradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.categoryCard}
-      >
-        <View style={styles.categoryIconContainer}>
-          <CategoryIcon name={category.icon} size={28} color="#fff" />
-        </View>
-        <View style={styles.categoryContent}>
-          <Text style={styles.categoryTitle}>{translated.title}</Text>
-          <Text style={styles.categorySubtitle}>{translated.subtitle}</Text>
-          <Text style={styles.categoryDescription} numberOfLines={2}>
-            {translated.description}
-          </Text>
-        </View>
-        <View style={styles.categoryCount}>
-          <Text style={styles.categoryCountText}>{category.count}</Text>
-          <Text style={styles.categoryCountLabel}>prompts</Text>
-        </View>
-        <ChevronRight size={20} color="rgba(255,255,255,0.6)" style={styles.categoryArrow} />
-      </LinearGradient>
-    </TouchableOpacity>
-  );
-};
-
-// Conversation card component
-const ConversationCard = ({
-  starter,
-  onNext,
-  onFavorite,
-  onShare,
-  isFavorite,
-  ct,
-}: {
-  starter: ConversationStarter;
-  onNext: () => void;
-  onFavorite: () => void;
-  onShare: () => void;
-  isFavorite: boolean;
-  ct: any;
-}) => {
-  const [showFollowUps, setShowFollowUps] = useState(false);
-  const category = categoryInfo.find((c) => c.id === starter.category);
-  const translatedCategory = getTranslatedCategory(starter.category, ct);
-
-  return (
-    <View style={styles.cardContainer}>
-      <LinearGradient
-        colors={['#1E1E2E', '#252538']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.card}
-      >
-        {/* Header */}
-        <View style={styles.cardHeader}>
-          <View style={styles.cardMeta}>
-            <IntensityBadge level={starter.intensity} ct={ct} />
-            {category && (
-              <View style={[styles.categoryTag, { backgroundColor: `${category.color}30` }]}>
-                <CategoryIcon name={category.icon} size={12} color={category.color} />
-                <Text style={[styles.categoryTagText, { color: category.color }]}>
-                  {translatedCategory.subtitle}
-                </Text>
-              </View>
-            )}
-          </View>
-          <TouchableOpacity onPress={onFavorite} style={styles.favoriteButton}>
-            <Heart
-              size={24}
-              color={isFavorite ? '#FF2D92' : 'rgba(255,255,255,0.5)'}
-              fill={isFavorite ? '#FF2D92' : 'transparent'}
-            />
-          </TouchableOpacity>
-        </View>
-
-        {/* Main Question */}
-        <View style={styles.questionContainer}>
-          <Text style={styles.questionText}>{starter.question}</Text>
-        </View>
-
-        {/* Context */}
-        {starter.context && (
-          <View style={styles.contextContainer}>
-            <Text style={styles.contextText}>{starter.context}</Text>
-          </View>
-        )}
-
-        {/* Follow-ups Toggle */}
-        {starter.followUps && starter.followUps.length > 0 && (
-          <TouchableOpacity
-            style={styles.followUpsToggle}
-            onPress={() => setShowFollowUps(!showFollowUps)}
-          >
-            <Text style={styles.followUpsToggleText}>
-              {showFollowUps ? ct.hideFollowUps : ct.showFollowUps}
-            </Text>
-            <ChevronRight
-              size={16}
-              color={COLORS.primary}
-              style={{ transform: [{ rotate: showFollowUps ? '90deg' : '0deg' }] }}
-            />
-          </TouchableOpacity>
-        )}
-
-        {/* Follow-ups */}
-        {showFollowUps && starter.followUps && (
-          <View style={styles.followUpsContainer}>
-            {starter.followUps.map((followUp, index) => (
-              <View key={index} style={styles.followUpItem}>
-                <View style={styles.followUpBullet} />
-                <Text style={styles.followUpText}>{followUp}</Text>
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Actions */}
-        <View style={styles.cardActions}>
-          <TouchableOpacity style={styles.actionButton} onPress={onShare}>
-            <Share2 size={20} color={COLORS.textSecondary} />
-            <Text style={styles.actionButtonText}>{ct.share}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.nextButton} onPress={onNext}>
-            <LinearGradient
-              colors={GRADIENTS.primary}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.nextButtonGradient}
-            >
-              <Shuffle size={20} color="#fff" />
-              <Text style={styles.nextButtonText}>{ct.nextTopic}</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-      </LinearGradient>
-    </View>
-  );
-};
+import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
+import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../constants/theme';
 
 export default function ConversationScreen() {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<ConversationStarter['category'] | null>(null);
-  const [currentStarter, setCurrentStarter] = useState<ConversationStarter | null>(null);
-  const [showDaily, setShowDaily] = useState(false);
-
   const { favorites, toggleFavorite, addToHistory } = useConversationStore();
-  const { ct, language } = useConversationTranslation();
+  const { language } = useConversationTranslation();
+  const { activeId, profiles } = useProfilesStore(
+    useShallow((state) => ({
+      activeId: state.getActiveProfileId(),
+      profiles: state.getProfiles(),
+    }))
+  );
+  const loveLanguageResults = useLoveLanguagesStore((state) => state.results);
+  const [selectedCategory, setSelectedCategory] =
+    useState<ConversationStarter['category']>('date_night');
+  const [currentStarter, setCurrentStarter] = useState<ConversationStarter>(
+    () => getDailyStarterByLanguage(language)
+  );
+  const [questionIndex, setQuestionIndex] = useState(0);
 
-  // Get daily starter
-  const dailyStarter = useMemo(() => getDailyStarterByLanguage(language), [language]);
+  const categoryPool = useMemo(
+    () => getStartersByCategoryAndLanguage(selectedCategory, language),
+    [language, selectedCategory]
+  );
 
-  // Pick a random starter
-  const pickRandomStarter = useCallback(() => {
-    const starter = getRandomStarterByLanguage(
-      language,
-      selectedCategory ? { category: selectedCategory } : undefined
-    );
-    if (starter) {
-      setCurrentStarter(starter);
-      addToHistory(starter.id);
-    }
-  }, [selectedCategory, addToHistory, language]);
+  const loveLanguageCopy = useMemo(
+    () =>
+      getLoveLanguageModuleCopy(
+        activeId ? loveLanguageResults[activeId] : undefined,
+        profiles
+          .filter((profile) => profile.id !== activeId)
+          .map((profile) => ({
+            name: profile.displayName ?? profile.name,
+            result: loveLanguageResults[profile.id],
+          }))
+      ),
+    [activeId, loveLanguageResults, profiles]
+  );
 
-  // Handle category selection
-  const handleCategoryPress = (categoryId: ConversationStarter['category']) => {
-    setSelectedCategory(categoryId);
-    const starter = getRandomStarterByLanguage(language, { category: categoryId });
-    if (starter) {
-      setCurrentStarter(starter);
-      addToHistory(starter.id);
-    }
-  };
+  useEffect(() => {
+    const starter =
+      getRandomStarterByLanguage(language, { category: selectedCategory }) ??
+      getDailyStarterByLanguage(language);
+    setCurrentStarter(starter);
+    setQuestionIndex(0);
+    addToHistory(starter.id);
+  }, [addToHistory, language, selectedCategory]);
 
-  // Handle share
-  const handleShare = async (starter: ConversationStarter) => {
+  const isFavorite = favorites.includes(currentStarter.id);
+
+  const showStarter = useCallback(
+    (offset: number) => {
+      if (!categoryPool.length) return;
+      const nextIndex =
+        (questionIndex + offset + categoryPool.length) % categoryPool.length;
+      const next = categoryPool[nextIndex];
+      setQuestionIndex(nextIndex);
+      setCurrentStarter(next);
+      addToHistory(next.id);
+    },
+    [addToHistory, categoryPool, questionIndex]
+  );
+
+  const pickRandom = useCallback(() => {
+    const starter =
+      getRandomStarterByLanguage(language, { category: selectedCategory }) ??
+      getDailyStarterByLanguage(language);
+    const index = categoryPool.findIndex((item) => item.id === starter.id);
+    setCurrentStarter(starter);
+    setQuestionIndex(index >= 0 ? index : 0);
+    addToHistory(starter.id);
+  }, [addToHistory, categoryPool, language, selectedCategory]);
+
+  const handleShare = useCallback(async () => {
     try {
       await Share.share({
-        message: `💬 ${starter.question}\n\nFrom SpiceSync Deep Dives - Conversation starters for couples`,
+        message: `SpiceSync conversation starter: ${currentStarter.question}`,
       });
-    } catch (error) {
-      console.error('Error sharing:', error);
+    } catch {
+      // Native share cancellation does not need UI.
     }
-  };
+  }, [currentStarter.question]);
 
-  // Show daily starter
-  const handleShowDaily = () => {
-    setCurrentStarter(dailyStarter);
-    setShowDaily(true);
-    addToHistory(dailyStarter.id);
-  };
+  const handleSave = useCallback(() => {
+    toggleFavorite(currentStarter.id);
+  }, [currentStarter.id, toggleFavorite]);
 
-  // Clear selection and go back to categories
-  const handleBack = () => {
-    setSelectedCategory(null);
-    setCurrentStarter(null);
-    setShowDaily(false);
-  };
-
-  // Navigate to date night mode
-  const handleDateNightMode = () => {
-    router.push('/(conversation)/date-night');
-  };
+  const showLoveLanguagePrompts = useCallback(() => {
+    setSelectedCategory(LOVE_LANGUAGE_PROMPT_CATEGORY);
+  }, []);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
       <StatusBar style="light" />
+      <AppHeader />
 
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          {currentStarter ? (
-            <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-              <X size={24} color={COLORS.text} />
-            </TouchableOpacity>
-          ) : (
-            <View style={styles.headerIcon}>
-              <MessageCircle size={24} color={COLORS.primary} />
+      <View style={styles.tourWrap}>
+        <ScreenTour
+          screenId="conversation"
+          screenLabel="Conversation"
+          steps={MAIN_SCREEN_TOURS.conversation}
+        />
+      </View>
+
+      <View style={styles.loveModule}>
+        <View style={styles.loveCard}>
+          <CardAccentTop />
+          <View style={styles.loveInner}>
+            <View style={styles.loveTopRow}>
+              <View style={styles.loveCopy}>
+                <Text style={styles.loveEyebrow}>
+                  {loveLanguageCopy.eyebrow}
+                </Text>
+                <Text style={styles.loveTitle}>{loveLanguageCopy.title}</Text>
+                <Text style={styles.loveDescription}>
+                  {loveLanguageCopy.description}
+                </Text>
+              </View>
+              <Text style={styles.loveMark}>♡</Text>
             </View>
-          )}
-          <View style={styles.headerText}>
-            <Text style={styles.headerTitle}>
-              {currentStarter ? (showDaily ? ct.todaysQuestion : ct.title) : ct.title}
-            </Text>
-            <Text style={styles.headerSubtitle}>
-              {currentStarter
-                ? ct.conversationStarters
-                : ct.subtitle}
-            </Text>
+
+            {loveLanguageCopy.activePrimary ? (
+              <View style={styles.loveResultRow}>
+                <View style={styles.loveResultBlock}>
+                  <Text style={styles.loveResultLabel}>PRIMARY</Text>
+                  <Text style={styles.loveResultValue}>
+                    {loveLanguageCopy.activePrimary}
+                  </Text>
+                </View>
+                {loveLanguageCopy.activeSecondary ? (
+                  <View style={styles.loveResultBlock}>
+                    <Text style={styles.loveResultLabel}>SECONDARY</Text>
+                    <Text style={styles.loveResultValue}>
+                      {loveLanguageCopy.activeSecondary}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+            ) : null}
+
+            {loveLanguageCopy.partnerSummary ? (
+              <Text style={styles.lovePartner}>
+                {loveLanguageCopy.partnerSummary}
+              </Text>
+            ) : null}
+
+            <View style={styles.loveActions}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push(LOVE_LANGUAGE_QUIZ_ROUTE as never)}
+                style={styles.lovePrimaryPress}
+              >
+                <LinearGradient
+                  colors={GRADIENTS.primary}
+                  start={{ x: 0, y: 0.5 }}
+                  end={{ x: 1, y: 0.5 }}
+                  style={styles.lovePrimaryButton}
+                >
+                  <Text style={styles.lovePrimaryText}>
+                    {loveLanguageCopy.ctaLabel}
+                  </Text>
+                </LinearGradient>
+              </Pressable>
+
+              <Pressable
+                accessibilityRole="button"
+                onPress={showLoveLanguagePrompts}
+                style={[
+                  styles.lovePromptButton,
+                  selectedCategory === LOVE_LANGUAGE_PROMPT_CATEGORY &&
+                    styles.lovePromptButtonActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.lovePromptText,
+                    selectedCategory === LOVE_LANGUAGE_PROMPT_CATEGORY &&
+                      styles.lovePromptTextActive,
+                  ]}
+                >
+                  {selectedCategory === LOVE_LANGUAGE_PROMPT_CATEGORY
+                    ? 'Showing prompts'
+                    : loveLanguageCopy.promptLabel}
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
 
-      {/* Content */}
-      {currentStarter ? (
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
-          <ConversationCard
-            starter={currentStarter}
-            onNext={pickRandomStarter}
-            onFavorite={() => toggleFavorite(currentStarter.id)}
-            onShare={() => handleShare(currentStarter)}
-            isFavorite={favorites.includes(currentStarter.id)}
-            ct={ct}
-          />
+      <View style={styles.categoryRow}>
+        <FlatList
+          horizontal
+          data={CONVERSATION_CATEGORY_FILTERS}
+          keyExtractor={(item) => item.id}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.categoryList}
+          renderItem={({ item }) => {
+            const active = selectedCategory === item.id;
+            return (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityState={{ selected: active }}
+                onPress={() => setSelectedCategory(item.id)}
+                style={styles.categoryPress}
+              >
+                {active ? (
+                  <LinearGradient
+                    colors={GRADIENTS.primary}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={styles.categoryActive}
+                  >
+                    <Text style={styles.categoryActiveText}>{item.label}</Text>
+                  </LinearGradient>
+                ) : (
+                  <View style={styles.categoryInactive}>
+                    <Text style={styles.categoryInactiveText}>
+                      {item.label}
+                    </Text>
+                  </View>
+                )}
+              </Pressable>
+            );
+          }}
+        />
+      </View>
 
-          {/* Category filter hint */}
-          {selectedCategory && (
-            <TouchableOpacity style={styles.filterHint} onPress={handleBack}>
-              <Text style={styles.filterHintText}>
-                {ct.showing} {categoryInfo.find((c) => c.id === selectedCategory)?.title}
+      <View style={styles.content}>
+        <View style={styles.conversationCard}>
+          <CardAccentTop />
+          <View style={styles.cardInner}>
+            <View style={styles.cardTopRow}>
+              <Text style={styles.cardCategory}>
+                {CONVERSATION_CATEGORY_FILTERS.find(
+                  (item) => item.id === selectedCategory
+                )?.label.toUpperCase()}
               </Text>
-              <Text style={styles.filterHintAction}>{ct.changeCategory}</Text>
-            </TouchableOpacity>
-          )}
-        </ScrollView>
-      ) : (
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.categoriesContent}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Daily Starter Button */}
-          <TouchableOpacity style={styles.dailyButton} onPress={handleShowDaily}>
-            <LinearGradient
-              colors={GRADIENTS.soft}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.dailyButtonGradient}
-            >
-              <View style={styles.dailyIconContainer}>
-                <Sparkles size={28} color="#fff" />
-              </View>
-              <View style={styles.dailyTextContainer}>
-                <Text style={styles.dailyTitle}>{ct.dailyTitle}</Text>
-                <Text style={styles.dailySubtitle}>
-                  {ct.dailySubtitle}
-                </Text>
-              </View>
-              <ChevronRight size={24} color="#fff" />
-            </LinearGradient>
-          </TouchableOpacity>
-
-          {/* Random Button */}
-          <TouchableOpacity style={styles.randomButton} onPress={pickRandomStarter}>
-            <LinearGradient
-              colors={GRADIENTS.primary}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.randomButtonGradient}
-            >
-              <Shuffle size={24} color="#fff" />
-              <Text style={styles.randomButtonText}>{ct.randomButton}</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-
-          {/* Date Night Mode Button */}
-          <TouchableOpacity style={styles.dateNightCard} onPress={handleDateNightMode}>
-            <LinearGradient
-              colors={['#1E1E2E', '#252538']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.dateNightCardGradient}
-            >
-              <View style={styles.dateNightIconContainer}>
-                <Moon size={32} color={COLORS.accent} />
-              </View>
-              <View style={styles.dateNightTextContainer}>
-                <Text style={styles.dateNightTitle}>{ct.dateNightMode}</Text>
-                <Text style={styles.dateNightSubtitle}>
-                  {ct.dateNightSubtitle}
-                </Text>
-              </View>
-              <ChevronRight size={24} color={COLORS.accent} />
-            </LinearGradient>
-          </TouchableOpacity>
-
-          {/* Categories */}
-          <Text style={styles.sectionTitle}>{ct.browseByCategory}</Text>
-          {categoryInfo.map((category) => (
-            <CategoryCard
-              key={category.id}
-              category={category}
-              onPress={() => handleCategoryPress(category.id)}
-              ct={ct}
-            />
-          ))}
-
-          {/* Favorites hint */}
-          {favorites.length > 0 && (
-            <View style={styles.favoritesHint}>
-              <Heart size={16} color={COLORS.primary} fill={COLORS.primary} />
-              <Text style={styles.favoritesHintText}>
-                {favorites.length} {favorites.length !== 1 ? ct.favoritesPlural : ct.favorites}
+              <Text style={styles.questionCount}>
+                QUESTION {Math.min(questionIndex + 1, categoryPool.length || 1)}{' '}
+                OF {categoryPool.length || 1}
               </Text>
             </View>
-          )}
-        </ScrollView>
-      )}
+            <AccentBar />
+
+            <Text style={styles.questionText}>{currentStarter.question}</Text>
+
+            <Text style={styles.tipText}>
+              {currentStarter.context ||
+                "Take turns sharing. Really listen to each other's answer."}
+            </Text>
+
+            {isFavorite ? (
+              <View style={styles.savedBadge}>
+                <Heart size={14} color={COLORS.pink} fill={COLORS.pink} />
+                <Text style={styles.savedText}>Saved to favorites</Text>
+              </View>
+            ) : null}
+
+            <View style={styles.navRow}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Previous question"
+                onPress={() => showStarter(-1)}
+                style={styles.prevButton}
+              >
+                <ChevronLeft size={20} color="rgba(255,255,255,0.37)" />
+              </Pressable>
+
+              <View style={styles.progressDots}>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      styles.progressDot,
+                      index <= questionIndex % 5 && styles.progressDotActive,
+                    ]}
+                  />
+                ))}
+              </View>
+
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Next question"
+                onPress={() => showStarter(1)}
+                style={styles.nextButtonPress}
+              >
+                <LinearGradient
+                  colors={GRADIENTS.primary}
+                  start={{ x: 0, y: 0.5 }}
+                  end={{ x: 1, y: 0.5 }}
+                  style={styles.nextButton}
+                >
+                  <ChevronRight size={21} color={COLORS.textPrimary} />
+                </LinearGradient>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.actionRow}>
+          <ActionCircle
+            label="SKIP"
+            icon={X}
+            color={COLORS.no}
+            onPress={pickRandom}
+          />
+          <ActionCircle
+            label="SAVE"
+            icon={Heart}
+            variant="gradient"
+            color={COLORS.pink}
+            size={66}
+            iconSize={28}
+            onPress={handleSave}
+          />
+          <ActionCircle
+            label="SHARE"
+            icon={Share2}
+            color={COLORS.maybe}
+            onPress={handleShare}
+          />
+        </View>
+      </View>
+
+      <AppTabBar active="convo" />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.bg,
   },
-  header: {
-    paddingHorizontal: SIZES.padding,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+  tourWrap: {
+    paddingHorizontal: 16,
+    paddingBottom: 10,
   },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  loveModule: {
+    paddingHorizontal: 16,
+    paddingBottom: 10,
   },
-  backButton: {
-    width: 40,
-    height: 40,
+  loveCard: {
     borderRadius: 20,
     backgroundColor: COLORS.card,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  headerIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: `${COLORS.primary}20`,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  headerText: {
-    flex: 1,
-  },
-  headerTitle: {
-    fontSize: SIZES.h3,
-    fontWeight: '700',
-    color: COLORS.text,
-  },
-  headerSubtitle: {
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginTop: 2,
-  },
-  dateNightButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: `${COLORS.accent}20`,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: SIZES.padding,
-  },
-  categoriesContent: {
-    padding: SIZES.padding,
-    paddingBottom: 40,
-  },
-
-  // Daily Button
-  dailyButton: {
-    marginBottom: 16,
-    borderRadius: SIZES.radiusLarge,
+    borderWidth: 1,
+    borderColor: COLORS.border,
     overflow: 'hidden',
-    ...SHADOWS.large,
+    ...SHADOWS.card,
   },
-  dailyButtonGradient: {
+  loveInner: {
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    gap: 9,
+  },
+  loveTopRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-  },
-  dailyIconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  dailyTextContainer: {
-    flex: 1,
-  },
-  dailyTitle: {
-    fontSize: SIZES.large,
-    fontWeight: '700',
-    color: '#fff',
-  },
-  dailySubtitle: {
-    fontSize: SIZES.small,
-    color: 'rgba(255,255,255,0.8)',
-    marginTop: 4,
-  },
-
-  // Random Button
-  randomButton: {
-    marginBottom: 16,
-    borderRadius: SIZES.radiusLarge,
-    overflow: 'hidden',
-    ...SHADOWS.large,
-  },
-  randomButtonGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 18,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     gap: 12,
   },
-  randomButtonText: {
-    fontSize: SIZES.medium,
-    fontWeight: '700',
-    color: '#fff',
-  },
-
-  // Date Night Card
-  dateNightCard: {
-    marginBottom: 24,
-    borderRadius: SIZES.radiusLarge,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  dateNightCardGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-  },
-  dateNightIconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: `${COLORS.accent}20`,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  dateNightTextContainer: {
+  loveCopy: {
     flex: 1,
+    gap: 3,
   },
-  dateNightTitle: {
-    fontSize: SIZES.large,
-    fontWeight: '700',
-    color: COLORS.text,
-  },
-  dateNightSubtitle: {
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginTop: 4,
-  },
-
-  // Section Title
-  sectionTitle: {
-    fontSize: SIZES.h4,
-    fontWeight: '700',
-    color: COLORS.text,
-    marginBottom: 16,
-  },
-
-  // Category Card
-  categoryCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: SIZES.radiusLarge,
-    marginBottom: 12,
-  },
-  categoryIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 14,
-  },
-  categoryContent: {
-    flex: 1,
-  },
-  categoryTitle: {
-    fontSize: SIZES.body,
-    fontWeight: '700',
-    color: '#fff',
-  },
-  categorySubtitle: {
-    fontSize: SIZES.xs,
-    color: 'rgba(255,255,255,0.7)',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginTop: 2,
-  },
-  categoryDescription: {
-    fontSize: SIZES.small,
-    color: 'rgba(255,255,255,0.6)',
-    marginTop: 4,
-  },
-  categoryCount: {
-    alignItems: 'center',
-    marginRight: 8,
-  },
-  categoryCountText: {
-    fontSize: SIZES.h3,
-    fontWeight: '800',
-    color: '#fff',
-  },
-  categoryCountLabel: {
+  loveEyebrow: {
+    color: COLORS.maybe,
     fontSize: 10,
-    color: 'rgba(255,255,255,0.6)',
-    textTransform: 'uppercase',
+    fontWeight: '800',
+    letterSpacing: 1.2,
   },
-  categoryArrow: {
-    marginLeft: 4,
+  loveTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: '800',
   },
-
-  // Conversation Card
-  cardContainer: {
-    marginBottom: 16,
+  loveDescription: {
+    color: COLORS.textSub,
+    fontSize: 12,
+    lineHeight: 17,
   },
-  card: {
-    borderRadius: SIZES.radiusLarge,
-    padding: 24,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+  loveMark: {
+    color: COLORS.pink,
+    fontSize: 28,
+    lineHeight: 31,
   },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  cardMeta: {
+  loveResultRow: {
     flexDirection: 'row',
     gap: 8,
   },
-  intensityBadge: {
+  loveResultBlock: {
+    flex: 1,
+    minHeight: 48,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    gap: 3,
+  },
+  loveResultLabel: {
+    color: COLORS.textMuted,
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
+  loveResultValue: {
+    color: COLORS.textPrimary,
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: '700',
+  },
+  lovePartner: {
+    color: COLORS.textSub,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  loveActions: {
+    flexDirection: 'row',
+    gap: 9,
+  },
+  lovePrimaryPress: {
+    flex: 1,
+    borderRadius: 18,
+    overflow: 'hidden',
+  },
+  lovePrimaryButton: {
+    minHeight: 38,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 14,
+  },
+  lovePrimaryText: {
+    color: COLORS.textPrimary,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  lovePromptButton: {
+    flex: 1,
+    minHeight: 38,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 14,
+  },
+  lovePromptButtonActive: {
+    backgroundColor: 'rgba(245,158,11,0.12)',
+    borderColor: 'rgba(245,158,11,0.28)',
+  },
+  lovePromptText: {
+    color: COLORS.textSub,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  lovePromptTextActive: {
+    color: COLORS.maybe,
+  },
+  categoryRow: {
+    paddingBottom: 2,
+  },
+  categoryList: {
+    gap: 8,
+    paddingHorizontal: 16,
+  },
+  categoryPress: {
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  categoryActive: {
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+  },
+  categoryActiveText: {
+    color: COLORS.textPrimary,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  categoryInactive: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+  },
+  categoryInactiveText: {
+    color: 'rgba(255,255,255,0.37)',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  content: {
+    flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+    gap: 12,
+  },
+  conversationCard: {
+    flex: 1,
+    borderRadius: RADII.card,
+    backgroundColor: COLORS.card,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    overflow: 'hidden',
+    ...SHADOWS.card,
+  },
+  cardInner: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 18,
+    gap: 14,
+  },
+  cardTopRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  cardCategory: {
+    color: COLORS.pink,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 1.4,
+  },
+  questionCount: {
+    color: COLORS.textMuted,
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  questionText: {
+    flex: 1,
+    color: COLORS.textPrimary,
+    fontSize: 22,
+    lineHeight: 29,
+    fontWeight: '800',
+  },
+  tipText: {
+    color: 'rgba(255,255,255,0.31)',
+    fontSize: 12,
+    lineHeight: 18,
+  },
+  savedBadge: {
+    alignSelf: 'flex-start',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(194,24,91,0.25)',
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 20,
-    gap: 6,
-  },
-  intensityDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  intensityText: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  categoryTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 20,
     gap: 6,
   },
-  categoryTagText: {
-    fontSize: 12,
+  savedText: {
+    color: 'rgba(255,45,146,0.5)',
+    fontSize: 11,
     fontWeight: '600',
   },
-  favoriteButton: {
+  navRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  prevButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: COLORS.backgroundSecondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  questionContainer: {
-    marginBottom: 16,
-  },
-  questionText: {
-    fontSize: SIZES.h2,
-    fontWeight: '700',
-    color: COLORS.text,
-    lineHeight: 36,
-  },
-  contextContainer: {
-    backgroundColor: COLORS.backgroundSecondary,
-    padding: 16,
-    borderRadius: SIZES.radius,
-    marginBottom: 16,
-  },
-  contextText: {
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-    fontStyle: 'italic',
-    lineHeight: 22,
-  },
-  followUpsToggle: {
-    flexDirection: 'row',
+    backgroundColor: COLORS.uiDark,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    marginBottom: 16,
   },
-  followUpsToggleText: {
-    fontSize: SIZES.body,
-    color: COLORS.primary,
-    fontWeight: '600',
-    marginRight: 8,
-  },
-  followUpsContainer: {
-    backgroundColor: COLORS.backgroundSecondary,
-    padding: 16,
-    borderRadius: SIZES.radius,
-    marginBottom: 16,
-  },
-  followUpItem: {
+  progressDots: {
     flexDirection: 'row',
-    marginBottom: 12,
+    gap: 5,
   },
-  followUpBullet: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: COLORS.primary,
-    marginTop: 8,
-    marginRight: 12,
+  progressDot: {
+    width: 20,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(255,255,255,0.12)',
   },
-  followUpText: {
-    flex: 1,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-    lineHeight: 22,
+  progressDotActive: {
+    backgroundColor: COLORS.pink,
   },
-  cardActions: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    backgroundColor: COLORS.backgroundSecondary,
-    borderRadius: SIZES.radius,
-    gap: 8,
-    flex: 1,
-  },
-  actionButtonText: {
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-    fontWeight: '600',
-  },
-  nextButton: {
-    flex: 2,
-    borderRadius: SIZES.radius,
+  nextButtonPress: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     overflow: 'hidden',
   },
-  nextButtonGradient: {
-    flexDirection: 'row',
+  nextButton: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 14,
-    gap: 8,
   },
-  nextButtonText: {
-    fontSize: SIZES.body,
-    color: '#fff',
-    fontWeight: '700',
-  },
-
-  // Filter hint
-  filterHint: {
+  actionRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: 16,
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    gap: 8,
-  },
-  filterHintText: {
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-  },
-  filterHintAction: {
-    fontSize: SIZES.small,
-    color: COLORS.primary,
-    fontWeight: '600',
-  },
-
-  // Favorites hint
-  favoritesHint: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-    gap: 8,
-  },
-  favoritesHintText: {
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
+    gap: 28,
   },
 });

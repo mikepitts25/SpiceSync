@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { mmkvStorage } from '../../lib/storage/mmkv';
+import { normalizeProfileAvatar } from '../constants/emojis';
 
 // Unified Settings Store - Single source of truth
 // Consolidates: useStore (legacy) + useSettingsStore (age-gate)
@@ -16,36 +17,36 @@ export interface SettingsState {
   // Profile Management
   activeProfileId: string | null;
   profiles: Profile[];
-  
+
   // App Preferences
   language: 'en' | 'es';
-  discreteMode: boolean;
+  biometricLockEnabled: boolean;
   hapticsEnabled: boolean;
-  
+
   // Age Verification (consolidated from age-gate store)
   ageVerified: boolean;
-  
+
   // Premium Status
   unlocked: boolean;
-  
+
   // Game Modes
   drinkingMode: boolean;
-  
+
   // Actions
   setActiveProfile: (id: string) => void;
   addProfile: (profile: Omit<Profile, 'id' | 'createdAt'>) => Profile;
   removeProfile: (id: string) => void;
   updateProfile: (id: string, updates: Partial<Profile>) => void;
-  
+
   setLanguage: (lang: 'en' | 'es') => void;
-  setDiscreteMode: (enabled: boolean) => void;
+  setBiometricLockEnabled: (enabled: boolean) => void;
   setHapticsEnabled: (enabled: boolean) => void;
-  
+
   verifyAge: () => void;
   resetAgeVerification: () => void;
-  
+
   setUnlocked: (unlocked: boolean) => void;
-  
+
   setDrinkingMode: (enabled: boolean) => void;
 }
 
@@ -55,23 +56,24 @@ export const useSettingsStore = create<SettingsState>()(
       // Initial State
       activeProfileId: null,
       profiles: [],
-      
+
       language: 'en',
-      discreteMode: false,
+      biometricLockEnabled: false,
       hapticsEnabled: true,
-      
+
       ageVerified: false,
-      
+
       unlocked: false,
-      
+
       drinkingMode: false,
-      
+
       // Profile Actions
       setActiveProfile: (id) => set({ activeProfileId: id }),
-      
+
       addProfile: (profile) => {
         const newProfile: Profile = {
           ...profile,
+          emoji: normalizeProfileAvatar(profile.emoji),
           id: `profile-${Date.now()}`,
           createdAt: Date.now(),
         };
@@ -81,40 +83,50 @@ export const useSettingsStore = create<SettingsState>()(
         }));
         return newProfile;
       },
-      
+
       removeProfile: (id) => {
         set((state) => {
           const newProfiles = state.profiles.filter((p) => p.id !== id);
           return {
             profiles: newProfiles,
-            activeProfileId: 
-              state.activeProfileId === id 
-                ? newProfiles[0]?.id || null 
+            activeProfileId:
+              state.activeProfileId === id
+                ? newProfiles[0]?.id || null
                 : state.activeProfileId,
           };
         });
       },
-      
+
       updateProfile: (id, updates) => {
         set((state) => ({
           profiles: state.profiles.map((p) =>
-            p.id === id ? { ...p, ...updates } : p
+            p.id === id
+              ? {
+                  ...p,
+                  ...updates,
+                  emoji:
+                    updates.emoji === undefined
+                      ? p.emoji
+                      : normalizeProfileAvatar(updates.emoji),
+                }
+              : p
           ),
         }));
       },
-      
+
       // Preference Actions
       setLanguage: (language) => set({ language }),
-      setDiscreteMode: (discreteMode) => set({ discreteMode }),
+      setBiometricLockEnabled: (biometricLockEnabled) =>
+        set({ biometricLockEnabled }),
       setHapticsEnabled: (hapticsEnabled) => set({ hapticsEnabled }),
-      
+
       // Age Verification
       verifyAge: () => set({ ageVerified: true }),
       resetAgeVerification: () => set({ ageVerified: false }),
-      
+
       // Premium
       setUnlocked: (unlocked) => set({ unlocked }),
-      
+
       // Game Modes
       setDrinkingMode: (drinkingMode) => set({ drinkingMode }),
     }),

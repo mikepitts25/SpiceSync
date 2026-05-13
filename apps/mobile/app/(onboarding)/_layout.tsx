@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Stack } from 'expo-router';
+import { STACK_SCREEN_OPTIONS } from '../../lib/navigation/transitions';
 
 export default function OnboardingLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack screenOptions={STACK_SCREEN_OPTIONS}>
       <Stack.Screen name="brand" />
       <Stack.Screen name="value" />
       <Stack.Screen name="privacy" />

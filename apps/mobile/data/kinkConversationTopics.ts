@@ -1440,56 +1440,6 @@ export const kinkConversationTopics: Record<string, KinkConversationTopic> = {
     ]
   },
 
-  "knife-play": {
-    id: "kct-knife-play",
-    kinkSlug: "knife-play",
-    approaches: [
-      {
-        title: "The Psychological Thrill",
-        description: "Focus on the mind",
-        starter: "I want to explore knife play with you—not to cut, but for the psychological intensity. The cold blade, the danger, the trust required. Does that mental edge appeal to you?",
-        followUps: ["Does the idea of a blade near you excite or scare you?", "Would you want to be blindfolded?", "How would we ensure absolute safety?"]
-      },
-      {
-        title: "The Sensation Play",
-        description: "Use the blade for sensation",
-        starter: "What if we used a knife just for sensation—the flat of the blade, the point tracing without breaking skin? The intensity without actual cutting. Interested?",
-        followUps: ["Would you trust me with a blade against your skin?", "What areas would be okay for this?", "Should we have a dull blade for practice first?"]
-      },
-      {
-        title: "The Fear Factor",
-        description: "Embrace the adrenaline",
-        starter: "The fear and adrenaline from knife play can be incredibly intense. I want to take you on that edge—safely, but intensely. Are you brave enough for that experience?",
-        followUps: ["How do you handle fear and adrenaline?", "What aftercare would you need after something this intense?", "Would you want to try cutting or keep it sensation-only?"]
-      }
-    ]
-  },
-
-  "fire-play": {
-    id: "kct-fire-play",
-    kinkSlug: "fire-play",
-    approaches: [
-      {
-        title: "The Brief Heat",
-        description: "Quick flame exposure",
-        starter: "Fire play involves brief, controlled exposure to flame—just a quick flash of heat on the skin. It's intense but over quickly. Would you be curious to try?",
-        followUps: ["Are you comfortable around fire?", "What areas would you want to try this on?", "How would we prepare safety equipment?"]
-      },
-      {
-        title: "The Alcohol Technique",
-        description: "Use alcohol for controlled burns",
-        starter: "One technique uses alcohol on the skin, briefly ignited and extinguished. The heat is intense but fleeting. Does that controlled danger interest you?",
-        followUps: ["Would you want to be the one ignited or watch first?", "How would we practice the safety protocols?", "What would make you feel secure during this?"]
-      },
-      {
-        title: "The Ritual Aspect",
-        description: "Make it ceremonial",
-        starter: "Fire has been used in rituals for centuries. What if we created our own ritual around fire—marking transitions, claiming each other? Does that spiritual aspect appeal to you?",
-        followUps: ["Would you want this to be symbolic or purely physical?", "What would the ritual signify for us?", "How would we make it meaningful?"]
-      }
-    ]
-  },
-
   "wax-play": {
     id: "kct-wax-play",
     kinkSlug: "wax-play",
@@ -1536,81 +1486,6 @@ export const kinkConversationTopics: Record<string, KinkConversationTopic> = {
         description: "Experience the burn",
         starter: "I want you to experience the unique, building burn of fresh ginger. It intensifies over time and there's no way to stop it except removal. Does that helplessness appeal to you?",
         followUps: ["Does the idea of enduring an unstoppable sensation excite you?", "Would you want to be restrained while figged?", "What would help you endure the intensity?"]
-      }
-    ]
-  },
-
-  "sounding": {
-    id: "kct-sounding",
-    kinkSlug: "sounding",
-    approaches: [
-      {
-        title: "The Urethral Exploration",
-        description: "Introduce the concept",
-        starter: "Sounding involves inserting smooth rods into the urethra—it can create intense internal sensations and prostate stimulation. Would you be open to discussing this intimate exploration?",
-        followUps: ["What concerns do you have about this?", "Would you want to start with very small sounds?", "How would we ensure sterile technique?"]
-      },
-      {
-        title: "The Sensation Seeking",
-        description: "Focus on unique feelings",
-        starter: "The sensation of something sliding into the urethra is unlike anything else—intense, invasive, deeply personal. I want to take you on that journey. Interested?",
-        followUps: ["Are you drawn to intense, unique sensations?", "Would you want to do this to yourself first?", "How would you communicate during this delicate play?"]
-      },
-      {
-        title: "The Medical Fantasy",
-        description: "Combine with medical play",
-        starter: "What if we combined sounding with a medical scene—me as the doctor performing a procedure on you? The clinical context could add another layer. Does that appeal to you?",
-        followUps: ["Would the medical context make it easier or harder?", "What kind of 'procedure' would we roleplay?", "How would we handle the vulnerability?"]
-      }
-    ]
-  },
-
-  "needle-play": {
-    id: "kct-needle-play",
-    kinkSlug: "needle-play",
-    approaches: [
-      {
-        title: "The Endorphin Rush",
-        description: "Focus on the body's response",
-        starter: "Needle play triggers massive endorphin release—the body's natural response to the piercing. It can create a euphoric, floaty state. Would you want to experience that high?",
-        followUps: ["Are you comfortable with needles in general?", "What areas would you consider for needle play?", "Have you ever experienced an endorphin high?"]
-      },
-      {
-        title: "The Artistic Piercing",
-        description: "Create temporary art",
-        starter: "Needles can be arranged in beautiful patterns, creating temporary body art. The visual combined with the sensation. Would you want to be my canvas for a needle scene?",
-        followUps: ["What patterns would you find beautiful?", "How many needles would you want to try?", "Would you want to see the results in a mirror?"]
-      },
-      {
-        title: "The Ritual Intensity",
-        description: "Make it ceremonial",
-        starter: "Needle play can be deeply ritualistic—the preparation, the piercing, the aftercare. I want to take you through that complete journey. Are you ready for that intensity?",
-        followUps: ["Would you want this to be a special occasion?", "What would help you prepare mentally?", "What aftercare would you need?"]
-      }
-    ]
-  },
-
-  "blood-play": {
-    id: "kct-blood-play",
-    kinkSlug: "blood-play",
-    approaches: [
-      {
-        title: "The Primal Connection",
-        description: "Focus on the ancient symbolism",
-        starter: "Blood has been sacred in human culture forever—life force, sacrifice, deep connection. Sharing blood play could be incredibly bonding. Would you want to explore that primal connection?",
-        followUps: ["What does blood symbolize to you?", "Would you want to give blood, receive it, or both?", "How would we ensure medical safety?"]
-      },
-      {
-        title: "The Small Cut",
-        description: "Start minimal",
-        starter: "We could start very small—just a tiny scratch with a sterile blade, enough to see red but nothing serious. A taste of the intensity. Would that be a good starting point?",
-        followUps: ["Would a small scratch feel manageable?", "What areas would be safe for this?", "How would we handle aftercare for the wound?"]
-      },
-      {
-        title: "The Vampire Fantasy",
-        description: "Play with feeding",
-        starter: "What if we played with vampire dynamics—me feeding from you, marking you as my victim? The dark romance of it could be thrilling. Does that fantasy appeal to you?",
-        followUps: ["Would you want to be the vampire or the victim?", "How would we make it feel authentic?", "What would the 'feeding' look like?"]
       }
     ]
   },
@@ -1690,31 +1565,6 @@ export const kinkConversationTopics: Record<string, KinkConversationTopic> = {
     ]
   },
 
-  "intense-cbt": {
-    id: "kct-intense-cbt",
-    kinkSlug: "intense-cbt",
-    approaches: [
-      {
-        title: "The Pain Endurance",
-        description: "Test limits",
-        starter: "I want to push your genital pain limits—impact, pressure, constriction. Finding where your edge is and holding you there. Do you have the endurance for that intensity?",
-        followUps: ["What types of genital pain have you experienced?", "What would be your hard limits?", "How would you communicate during this intense play?"]
-      },
-      {
-        title: "The Torture Devices",
-        description: "Use specialized equipment",
-        starter: "There are devices designed specifically for genital torture—ball crushers, parachutes, weights. Should we explore what these tools can do?",
-        followUps: ["What devices intrigue you?", "What scares you?", "How would we ensure no permanent damage?"]
-      },
-      {
-        title: "The Orgasm Denial Mix",
-        description: "Combine pain with pleasure control",
-        starter: "What if we combined intense CBT with orgasm control—pain when you're close, stopping just before release? The frustration would be maddening. Interested?",
-        followUps: ["Would the pain enhance or ruin your pleasure?", "How many cycles could you endure?", "What would your reward be for enduring?"]
-      }
-    ]
-  },
-
   "mummification": {
     id: "kct-mummification",
     kinkSlug: "mummification",
@@ -1761,56 +1611,6 @@ export const kinkConversationTopics: Record<string, KinkConversationTopic> = {
         description: "Stay suspended for time",
         starter: "Imagine being suspended for an extended period—minutes or longer—while I do whatever I want to your exposed, helpless body. The endurance challenge. Could you handle that?",
         followUps: ["How long do you think you could endure?", "What would you want me to do while you're suspended?", "How would we monitor your physical condition?"]
-      }
-    ]
-  },
-
-  "branding": {
-    id: "kct-branding",
-    kinkSlug: "branding",
-    approaches: [
-      {
-        title: "The Permanent Mark",
-        description: "Discuss the commitment",
-        starter: "Branding would leave a permanent mark—my symbol on your body forever. It's the ultimate claim. Are you ready for that level of permanent commitment to me?",
-        followUps: ["What would you want branded on you?", "Where on your body would you want it?", "Have you thought about how you'd explain it to others?"]
-      },
-      {
-        title: "The Temporary Test",
-        description: "Try temporary first",
-        starter: "Before we consider permanent branding, what if we tried temporary methods—henna, temporary tattoos, play piercing patterns? See how it feels to wear my mark. Sound reasonable?",
-        followUps: ["Would you want to test a temporary mark first?", "How long would you want to wear it?", "What would help you decide about going permanent?"]
-      },
-      {
-        title: "The Ceremony",
-        description: "Make it meaningful",
-        starter: "If we do this, I want it to be ceremonial—meaningful, intentional, something we both remember forever. A ritual of ownership. How would you want that ceremony to look?",
-        followUps: ["Would you want it private or witnessed?", "What would make it meaningful to you?", "How would we celebrate afterward?"]
-      }
-    ]
-  },
-
-  "scarification": {
-    id: "kct-scarification",
-    kinkSlug: "scarification",
-    approaches: [
-      {
-        title: "The Art of Scars",
-        description: "Create permanent body art",
-        starter: "Scarification creates permanent designs through controlled cutting. The healed scars become body art. Would you want to wear my art on your body forever?",
-        followUps: ["What designs would you want scarred into you?", "Where would you want these scars?", "Are you prepared for the healing process?"]
-      },
-      {
-        title: "The Cutting Ritual",
-        description: "Make it ceremonial",
-        starter: "The cutting itself can be ritualistic—intentional, meaningful, a shared experience of pain and creation. I want to cut you carefully, artistically. Does that appeal to you?",
-        followUps: ["Would you want it to be a long, drawn-out process or quick?", "How would you handle the pain?", "What atmosphere would you want?"]
-      },
-      {
-        title: "The Healing Journey",
-        description: "Focus on aftercare",
-        starter: "Scarification requires weeks of careful aftercare—I'll need to tend to your wounds, watch them heal, see my art form. Are you ready for that extended journey together?",
-        followUps: ["Would you be committed to the aftercare process?", "How would you feel about me caring for your wounds?", "What would the healed scars mean to you?"]
       }
     ]
   },
@@ -2036,31 +1836,6 @@ export const kinkConversationTopics: Record<string, KinkConversationTopic> = {
         description: "Work toward complete suspension",
         starter: "Eventually I want to suspend you completely—off the ground, fully supported by rope, helpless and beautiful. Are you willing to work toward that goal with me?",
         followUps: ["What would your first full suspension look like?", "How would we build up your tolerance?", "What would be your safe signal?"]
-      }
-    ]
-  },
-
-  "breath-play": {
-    id: "kct-breath-play",
-    kinkSlug: "breath-play",
-    approaches: [
-      {
-        title: "The Edge of Consciousness",
-        description: "Discuss the risks",
-        starter: "Breath play is extremely dangerous but some find the edge of consciousness incredibly erotic. I want to discuss whether this is something we'd ever consider, knowing the risks.",
-        followUps: ["Are you aware of how dangerous this is?", "Is this a hard limit for you?", "Would safer alternatives like holding breath voluntarily interest you?"]
-      },
-      {
-        "title": "The Psychological Thrill",
-        description: "Focus on the mind game",
-        starter: "Even without actual restriction, the threat of breath control—the hand at the throat, the psychological dominance—can be intense. Would that mental aspect satisfy you?",
-        followUps: ["Would the threat without actual restriction work?", "How would you want me to dominate you psychologically?", "What would be your absolute limits?"]
-      },
-      {
-        title: "The Safer Alternatives",
-        description: "Find other ways",
-        starter: "If actual breath restriction is too dangerous, what about alternatives—gas masks, rebreather bags, other ways to control air without direct choking? Would any of those interest you?",
-        followUps: ["Would controlled air devices feel safer?", "What level of control would you want me to have?", "How would we monitor your safety?"]
       }
     ]
   },

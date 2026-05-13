@@ -1,195 +1,260 @@
-// apps/mobile/app/constants/theme.ts
-// Complete visual overhaul - Modern, sexy, fun design system
-
 export const COLORS = {
-  // Base
-  background: '#0D0D15',
-  backgroundSecondary: '#151520',
-  card: '#1E1E2E',
-  cardElevated: '#252538',
-  
-  // Accents - Vibrant gradient-ready colors
-  primary: '#FF2D92',        // Hot pink
-  primaryLight: '#FF6B9D',
-  secondary: '#8B5CF6',      // Purple
-  accent: '#00D9FF',         // Cyan
-  
-  // Tier colors - Gradient pairs
-  soft: {
-    start: '#FF6B9D',
-    end: '#C084FC',
-    glow: 'rgba(255, 107, 157, 0.4)',
-  },
-  naughty: {
-    start: '#F472B6',
-    end: '#EF4444',
-    glow: 'rgba(244, 114, 182, 0.4)',
-  },
-  xxx: {
-    start: '#EF4444',
-    end: '#DC2626',
-    glow: 'rgba(239, 68, 68, 0.4)',
-  },
-  
-  // Actions
+  bg: '#0D0006',
+  card: '#120008',
+  cardAlt: '#1A080E',
+  uiDark: '#1E1E2E',
+  tabBar: '#1A0810',
+
+  pink: '#FF2D92',
+  crimson: '#C2185B',
+  purple: '#8B5CF6',
+  purpleLight: '#A78BFA',
+
   yes: '#22C55E',
-  yesGlow: 'rgba(34, 197, 94, 0.5)',
   no: '#EF4444',
-  noGlow: 'rgba(239, 68, 68, 0.5)',
   maybe: '#F59E0B',
-  maybeGlow: 'rgba(245, 158, 11, 0.5)',
-  
-  // Legacy action colors (for backward compatibility)
+
+  textPrimary: '#FFFFFF',
+  textSub: 'rgba(255,255,255,0.5)',
+  textMuted: 'rgba(255,255,255,0.25)',
+  border: 'rgba(194,24,91,0.33)',
+  borderFaint: 'rgba(255,255,255,0.063)',
+
+  // Backward-compatible aliases used by older screens.
+  background: '#0D0006',
+  backgroundSecondary: '#1A080E',
+  cardElevated: '#1A080E',
+  surface: '#1A080E',
+  primary: '#FF2D92',
+  primaryLight: '#FF6B9D',
+  secondary: '#8B5CF6',
+  accent: '#A78BFA',
+  text: '#FFFFFF',
+  textSecondary: 'rgba(255,255,255,0.5)',
   success: '#22C55E',
   danger: '#EF4444',
   warning: '#F59E0B',
-  
-  // Text
-  text: '#FFFFFF',
-  textSecondary: 'rgba(255, 255, 255, 0.7)',
-  textMuted: 'rgba(255, 255, 255, 0.5)',
-  
-  // UI
-  border: 'rgba(255, 255, 255, 0.1)',
-  borderHover: 'rgba(255, 255, 255, 0.2)',
-  overlay: 'rgba(0, 0, 0, 0.7)',
-};
+  error: '#EF4444',
+  info: '#A78BFA',
+  divider: 'rgba(255,255,255,0.063)',
+  borderHover: 'rgba(194,24,91,0.45)',
+  overlay: 'rgba(0,0,0,0.7)',
+  yesGlow: 'rgba(34,197,94,0.5)',
+  noGlow: 'rgba(239,68,68,0.5)',
+  maybeGlow: 'rgba(245,158,11,0.5)',
+  matchYes: '#22C55E',
+  matchMaybe: '#F59E0B',
+  matchNo: '#EF4444',
+  gradientStart: '#C2185B',
+  gradientEnd: '#FF2D92',
+
+  soft: {
+    start: '#FF2D92',
+    end: '#8B5CF6',
+    glow: 'rgba(255,45,146,0.4)',
+  },
+  naughty: {
+    start: '#A78BFA',
+    end: '#8B5CF6',
+    glow: 'rgba(139,92,246,0.4)',
+  },
+  xxx: {
+    start: '#EF4444',
+    end: '#C2185B',
+    glow: 'rgba(239,68,68,0.4)',
+  },
+} as const;
 
 export type GradientTuple = readonly [string, string, ...string[]];
 
-export const GRADIENTS: Record<string, GradientTuple> = {
-  background: ['#0D0D15', '#151520', '#1A1A2E'],
-  card: ['#1E1E2E', '#252538'],
-  soft: ['#FF6B9D', '#C084FC'],
-  naughty: ['#F472B6', '#EF4444'],
-  xxx: ['#EF4444', '#DC2626'],
-  primary: ['#FF2D92', '#FF6B9D'],
-  button: ['#FF2D92', '#FF6B9D'],
-  buttonPressed: ['#E11D84', '#FF5A8F'],
-};
+export const GRADIENTS = {
+  primary: ['#C2185B', '#FF2D92'] as GradientTuple,
+  primaryGradient: ['#C2185B', '#FF2D92'] as GradientTuple,
+  purple: ['#A78BFA', '#8B5CF6'] as GradientTuple,
+  purpleGradient: ['#A78BFA', '#8B5CF6'] as GradientTuple,
+  cardAccentBar: ['#C2185B', '#FF2D92', '#FF4500'] as GradientTuple,
+  accentBar: ['#C2185B', '#FF6B00'] as GradientTuple,
+
+  // Backward-compatible aliases.
+  background: ['#0D0006', '#120008', '#1A080E'] as GradientTuple,
+  card: ['#120008', '#1A080E'] as GradientTuple,
+  soft: ['#FF2D92', '#8B5CF6'] as GradientTuple,
+  naughty: ['#A78BFA', '#8B5CF6'] as GradientTuple,
+  xxx: ['#EF4444', '#C2185B'] as GradientTuple,
+  button: ['#C2185B', '#FF2D92'] as GradientTuple,
+  buttonPressed: ['#A7134B', '#E32783'] as GradientTuple,
+} as const;
+
+export const TYPOGRAPHY = {
+  headingLarge: {
+    fontSize: 34,
+    fontWeight: '800' as const,
+    color: COLORS.textPrimary,
+  },
+  headingMedium: {
+    fontSize: 24,
+    fontWeight: '800' as const,
+    color: COLORS.textPrimary,
+  },
+  body: {
+    fontSize: 13,
+    fontWeight: '400' as const,
+    lineHeight: 20,
+    color: COLORS.textSub,
+  },
+  label: {
+    fontSize: 11,
+    fontWeight: '700' as const,
+    letterSpacing: 1.4,
+  },
+  subtext: {
+    fontSize: 10,
+    fontWeight: '600' as const,
+    letterSpacing: 0.7,
+  },
+} as const;
+
+export const RADII = {
+  screen: 44,
+  card: 24,
+  tabBar: 32,
+  activeTab: 26,
+  pill: 20,
+  row: 16,
+  iconBadge: 17,
+} as const;
+
+export const SPACING = {
+  screenX: 16,
+  contentTop: 10,
+  contentBottom: 8,
+} as const;
 
 export const FONTS = {
-  // Modern, clean font stack
   regular: 'Inter-Regular',
   medium: 'Inter-Medium',
   semiBold: 'Inter-SemiBold',
   bold: 'Inter-Bold',
   extraBold: 'Inter-ExtraBold',
-  
-  // Display font for headers (more playful)
-  display: 'SpaceGrotesk-Bold',
+  display: 'Inter-ExtraBold',
 
-  // Legacy style aliases used by older screens.
   h1: {
-    fontFamily: 'SpaceGrotesk-Bold',
-    fontSize: 36,
-    fontWeight: '700' as const,
+    fontSize: 34,
+    fontWeight: '800' as const,
   },
   h3: {
-    fontFamily: 'Inter-Bold',
     fontSize: 24,
-    fontWeight: '700' as const,
+    fontWeight: '800' as const,
   },
   body: {
-    fontFamily: 'Inter-Regular',
-    fontSize: 16,
+    fontSize: 13,
+    fontWeight: '400' as const,
+    lineHeight: 20,
   },
   small: {
-    fontFamily: 'Inter-Regular',
-    fontSize: 14,
+    fontSize: 12,
+    fontWeight: '600' as const,
   },
 };
 
 export const SIZES = {
-  // Base
   base: 8,
-  
-  // Typography
-  xs: 12,
-  small: 14,
-  body: 16,
+  xs: 10,
+  small: 12,
+  body: 13,
   medium: 18,
   large: 20,
   h4: 22,
   h3: 24,
   h2: 28,
-  h1: 36,
+  h1: 34,
   display: 48,
+  caption: 11,
   maxWidth: 420,
-  
-  // Spacing
   padding: 16,
   paddingLarge: 24,
-  
-  // Radius
   radius: 12,
+  radiusMedium: 16,
   radiusLarge: 20,
-  radiusXL: 28,
+  radiusXL: 24,
   radiusFull: 9999,
-  
-  // Legacy (for backward compatibility)
-  caption: 12,
+  buttonHeight: 56,
+  inputHeight: 56,
+  iconSize: 24,
+  iconSizeLarge: 32,
+  iconSizeSmall: 16,
 };
 
 export const SHADOWS = {
+  card: {
+    shadowColor: COLORS.crimson,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 28,
+    elevation: 8,
+  },
+  secondary: {
+    shadowColor: COLORS.pink,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 14,
+    elevation: 5,
+  },
   small: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowColor: COLORS.pink,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
     elevation: 3,
   },
   sm: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowColor: COLORS.pink,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
     elevation: 3,
   },
   medium: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
+    shadowColor: COLORS.crimson,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 28,
+    elevation: 8,
   },
   md: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
+    shadowColor: COLORS.crimson,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 28,
+    elevation: 8,
   },
   large: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4,
-    shadowRadius: 16,
-    elevation: 10,
+    shadowColor: COLORS.crimson,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 28,
+    elevation: 8,
   },
   lg: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4,
-    shadowRadius: 16,
-    elevation: 10,
+    shadowColor: COLORS.crimson,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 28,
+    elevation: 8,
   },
   glow: (color: string) => ({
     shadowColor: color,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.6,
+    shadowOpacity: 0.35,
     shadowRadius: 20,
     elevation: 10,
   }),
-};
+} as const;
 
 export const ANIMATIONS = {
-  // Timing
   fast: 150,
   normal: 300,
   slow: 500,
-  
-  // Spring configs
   spring: {
     damping: 15,
     stiffness: 150,
@@ -198,4 +263,4 @@ export const ANIMATIONS = {
     damping: 10,
     stiffness: 200,
   },
-};
+} as const;

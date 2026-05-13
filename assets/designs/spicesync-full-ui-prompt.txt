@@ -1,0 +1,213 @@
+Build the complete SpiceSync app UI — a privacy-first couples interest-matching app. Arrange all screens in a 4-column grid layout, rows stacked vertically with 60px gaps, on a dark canvas (#080006). Each screen is 390x844px with 44px corner radius. Label every screen above it with white muted text.
+
+=== DESIGN SYSTEM (Variant D — Scarlet Pulse) ===
+Background: #0D0006 (deep crimson-black)
+Card background: #120008
+Primary gradient: #C2185B (crimson) → #FF2D92 (hot pink)
+Accent orange: #FF4500
+Card border: 2px, #C2185B55
+Card glow: subtle outer shadow, blur 28, #C2185B28
+Top accent stripe on cards: 3px gradient #C2185B → #FF2D92 → #FF4500
+Muted text: #FFFFFF40-#FFFFFF70
+Font: Inter throughout
+Tag pills: dark bg, 1px #C2185B35 stroke, 12px corner radius
+Action buttons:
+  - PASS: dark circle #1E1E2E, red X icon
+  - YES: gradient circle #C2185B→#FF2D92, white check (66px)
+  - MAYBE: dark circle #1E1E2E, amber dots icon
+Tab bar: pill-style, bg #1A0810, active pill gradient #C2185B→#FF2D92
+Logo: "Spice" in gradient #C2185B→#FF2D92, "Sync" in #FF2D92, Inter 24px 800
+Subtitle: "DISCOVER TOGETHER" 8px 600 #FFFFFF45 tracked
+Avatar button (top-right): 38x38 circle, gradient #C2185B→#FF2D92, contains 🌶️ emoji
+
+=== STATUS BAR (all screens) ===
+9:41 white 16px bold left, signal+wifi+battery icons right, 22px top padding
+
+=== SCREENS TO BUILD ===
+
+--- ROW 1: ONBOARDING ---
+
+Screen 1 — Splash / Welcome:
+Label: "Splash Screen"
+Full-screen centered layout, no status bar icons visible, pure dark bg #0D0006.
+Large centered SpiceSync logo: "Spice" crimson→pink gradient 48px 800, "Sync" hot pink 48px 800, stacked vertically with a small chili 🌶️ icon (36px) above the wordmark.
+Below logo: "DISCOVER TOGETHER" tracked caps 12px #FFFFFF45.
+Below that, 40px gap: tagline text "Explore what you both crave. Together." 18px #FFFFFF80 centered, max-width 260px, centered.
+Bottom area: large gradient CTA button "GET STARTED →" full-width (minus 40px margins), 56px tall, gradient #C2185B→#FF2D92, white bold text 16px 700, 28px corner radius.
+Below button: "Already have a code? Redeem →" 13px #FF2D92 centered.
+Very subtle radial glow behind the logo: large ellipse with blur, #C2185B at 15% opacity.
+
+Screen 2 — Age Gate:
+Label: "Age Gate"
+Status bar. Dark bg #0D0006.
+Top: SpiceSync mini logo (24px) + 🌶️ top-left, no avatar button.
+Centered content group:
+  Large icon: a lock emoji 🔒 in a 72x72 circle with gradient bg #C2185B→#FF2D92.
+  "Adults Only" heading 28px 800 white.
+  "You must be 18 or older to use SpiceSync. This app contains mature content." 14px #FFFFFF60 centered fixed-width, lineHeight 1.5.
+Two buttons stacked, 16px gap:
+  "I Am 18 Or Older" — full-width gradient button #C2185B→#FF2D92, 54px, 28px radius, white 15px 700.
+  "I Am Under 18" — full-width dark outline button, border 1px #FFFFFF20, 54px, 28px radius, #FFFFFF50 text.
+Bottom note: "🔒 No account required. All data stays on your device." 11px #FFFFFF35 centered.
+
+Screen 3 — Profile Setup:
+Label: "Profile Setup"
+Status bar. Dark bg #0D0006.
+Header row: back arrow left, "Create Profile" 17px 700 white center, skip right #FF2D92.
+Content card (#120008, 24px radius, crimson border, no top stripe):
+  Section: "Choose your emoji" 11px #FFFFFF40 tracked caps.
+  Emoji grid: 4 columns, 8 emojis in rows — selected one has a gradient circle bg (#C2185B→#FF2D92), others have dark bg. Emojis: 😈 🔥 💜 🌙 ⚡ 🌶️ 💋 🖤
+  Section: "Your name" 11px #FFFFFF40 tracked caps, 12px gap.
+  Text input field: dark bg #1E0010, 1px crimson border, 16px "Alex" placeholder white, 48px tall, 12px radius, 16px padding.
+  Section: "Choose a color" 11px #FFFFFF40 tracked caps, 12px gap.
+  Color swatch row: 6 circular swatches (40x40 each): crimson, pink, purple, teal, orange, gold. Selected has a white ring.
+Bottom outside card: gradient CTA button "Save Profile →" full-width, 54px, gradient #C2185B→#FF2D92.
+
+Screen 4 — Partner Connect:
+Label: "Partner Connect"
+Status bar. Dark bg #0D0006.
+Header: back arrow, "Connect Partner" centered 17px 700, no right action.
+Below header, two tabs: "Share Code" | "Enter Code" — pill tabs, active=#FF2D92 bg, inactive=transparent border.
+Active tab shows Share Code view:
+  Instruction text: "Share this code with your partner" 14px #FFFFFF60 centered.
+  Large code display box (#120008 bg, crimson border, 24px radius, padding 24):
+    Code "SPICE-4829" in 32px 800 gradient #C2185B→#FF2D92, centered, letter-spacing 0.1.
+    Below code: 6px gradient progress/divider line pink→cyan.
+    QR code placeholder: 160x160 dark square (#1A0010) with rounded corners 12px, centered, containing a simple QR-like grid pattern using small dark rectangles on slightly lighter bg.
+  Share button row: two icon-buttons side by side — "Copy Code" (clipboard icon, crimson) and "Share" (share icon, pink). Each in dark pill #1E0010, 48px tall, 12px radius, icon + label.
+Bottom: "Partner codes expire after 24 hours" 11px #FFFFFF30 centered.
+
+--- ROW 2: MAIN TABS ---
+
+Screen 5 — Browse (Kink Explorer):
+Label: "Browse — Discover"
+Status bar. Dark bg #0D0006.
+Header row: SpiceSync mini logo left, 🌶️ avatar button right.
+Search bar: dark input (#1A0010), magnifier icon #FF2D92, "Search kinks..." placeholder #FFFFFF30, 44px tall, 22px radius, border 1px #C2185B25.
+Category filter chips row (horizontal scroll): "All" (active, gradient bg), "Sensation", "Intimacy", "Roleplay", "Bondage", "Verbal" — pill chips 32px tall, 16px padding, active has gradient fill, inactive has dark bg + crimson border.
+Below filters: "Soft" section header with intensity flame icons (one 🌶️ for soft). Then a 2-column card grid:
+  Card 1: dark card (#120008, 16px radius, crimson border 1px), "Massage & Touch" title 15px 700, "Connecting through..." desc 12px muted, tag "touch" pill, small right arrow.
+  Card 2: "Blindfold Play" same style.
+  Card 3: "Naughty" section header (two 🌶️🌶️). "Roleplay" card. "Teasing" card.
+  Each card 160px wide approx, with the 2-col grid.
+Tab bar at bottom (same style as Variant D, BROWSE tab active with gradient pill).
+
+Screen 6 — Deck (Swipe) [Reference only — use Variant D style]:
+Label: "Deck — Swipe"
+This is already built as Variant D. Recreate with 🌶️ instead of 🔥:
+Same layout as Variant D exactly — SENSATION card, Blindfold & Trust, partner status, PASS/YES/MAYBE, tab bar with DECK active.
+
+Screen 7 — Matches:
+Label: "Matches — Mutual"
+Status bar. Dark bg #0D0006.
+Header: SpiceSync mini logo left, 🌶️ avatar right.
+Subheader section: "💞 7 Mutual Matches" in gradient text #C2185B→#FF2D92, 22px 800. Below: "You both said YES to these" 13px #FFFFFF50.
+6px gradient divider line crimson→pink.
+Match list — vertical cards (one per row), each card #120008, 16px radius, 1px crimson border, padding 16:
+  Left: small intensity dot (🌶️ for soft, 🌶️🌶️ for naughty) — use colored dots instead: green for soft, orange for naughty, red for xxx.
+  Center: match title 16px 700 white, category 11px #FF2D92 tracked caps, short desc 12px muted.
+  Right: small arrow chevron #FFFFFF30.
+  Show 4 match cards: "Blindfold & Trust" (SENSATION, soft), "Roleplay Scenario" (ROLEPLAY, naughty), "Massage Ritual" (SENSATION, soft), "Whisper Commands" (VERBAL, naughty).
+Bottom tab bar, MATCHES tab active.
+
+Screen 8 — Conversation Starters:
+Label: "Convo — Starters"
+Status bar. Dark bg #0D0006.
+Header: SpiceSync mini logo left, 🌶️ avatar right.
+Title: "Conversation Starters" 20px 800 white.
+Subtitle: "Break the ice. Go deeper." 13px #FFFFFF50.
+Category cards — 2 column grid, each card is tall (approx 140px), rounded 20px:
+  Card A: gradient bg #C2185B→#FF2D92, "Date Night" label 15px 700 white, "🌙" large emoji, "Set the mood" desc 12px white.
+  Card B: dark card #120008 crimson border, "Getting Closer" 15px 700 white, "💬" emoji, "Deepen connection" desc 12px muted.
+  Card C: dark card #120008 crimson border, "Love Languages" 15px 700 white, "💝" emoji, "Express your love" desc 12px muted.
+  Card D: gradient bg #7C3AED→#4F46E5, "Spicy Topics" 15px 700 white, "🌶️" emoji, "Get adventurous" desc 12px white.
+Below grid: "Daily Prompt" section — horizontal card (#1A0010, 16px radius, left border 3px crimson), "Today's question:" 10px tracked caps #FF2D92, below it: "What's one thing you've always wanted to try together?" 15px white lineHeight 1.5.
+Tab bar with CONVO active.
+
+--- ROW 3: GAME + RESULTS ---
+
+Screen 9 — Game Screen:
+Label: "Game — Draw a Card"
+Status bar. Dark bg #0D0006.
+Header: back arrow left, "Couples Game" 17px 700 white center, "Level 2" badge right (small gradient pill #C2185B→#FF2D92, 11px).
+Progress bar: 5 segment dots below header, 3 filled (crimson), 2 empty.
+Main game card — large, centered, takes most of screen (#120008 bg, 24px radius, crimson glow border, subtle shadow):
+  Top of card: 3px gradient accent stripe crimson→pink→orange.
+  Category: "DARE" in crimson 11px tracked caps.
+  Large card number "Card 3 of 5" dots pagination right.
+  Big bold prompt: "Take turns describing your dream date night in full detail. No skipping!" 26px 800 white, fixed-width wrapping.
+  Below: thin divider, then timer row: "⏱ 2 min" in crimson. And skip button link "Skip →" #FFFFFF30.
+Bottom: two buttons side by side: "Done ✓" (gradient pill #C2185B→#FF2D92, full-width flexible, 52px) and "Skip →" (dark outline, 52px, #FFFFFF20 border).
+Below buttons: "2 cards remaining" 12px #FFFFFF30.
+
+Screen 10 — Match Celebration:
+Label: "Match! Celebration"
+Status bar. Dark bg #0D0006.
+Full-height centered celebration layout:
+Top: small confetti-like colored dots scattered (4-5 small circles: pink, crimson, orange, purple — use absolute positioned small ellipses).
+Large centered icon: 🎉 in 88x88 gradient circle bg #C2185B→#FF2D92.
+"It's a Match!" heading 32px 800 white, centered, with gradient text color #C2185B→#FF2D92.
+"You both chose" 15px #FFFFFF60 centered.
+Highlighted match card below: #120008, 24px radius, crimson border, centered, padding 20:
+  "SENSATION" 10px crimson tracked caps.
+  "Blindfold & Trust" 22px 800 white.
+  Tag pills row: "trust" "sensory" "intimate".
+Two action buttons:
+  "Start Conversation →" gradient #C2185B→#FF2D92, full-width, 54px, 28px radius.
+  "Keep Swiping" dark outline, full-width, 54px, 28px radius, border #FFFFFF20, #FFFFFF60 text.
+Bottom: "7 mutual matches total" 12px #FFFFFF30 centered.
+
+Screen 11 — Unlock Premium:
+Label: "Unlock — Premium"
+Status bar. Dark bg #0D0006.
+Full gradient background overlay: very subtle top-down gradient from #1A0006 to #0D0006.
+Top: "✨ SpiceSync Premium" header — gradient pill badge (crimson→pink→orange), centered.
+Hero text: "Unlock Everything" 30px 800 white centered. Subtext: "All kinks, all packs, no limits." 15px #FFFFFF60 centered.
+Features list — 4 rows, left-aligned, each with a crimson dot bullet and white text 14px:
+  "🌶️ 500+ kink categories"
+  "💞 Unlimited match history"
+  "🎮 All game card levels"
+  "🔒 Biometric lock"
+Pricing card (#120008, 24px radius, crimson border, padding 20):
+  Two price options side by side:
+    Left: "Monthly" dark pill, "$4.99/mo" 20px 700 white, "Billed monthly" 10px muted.
+    Right: "Annual" gradient pill (active/selected, #C2185B→#FF2D92), "$2.99/mo" 20px 700 white, "Billed $35.99/yr" 10px white, "SAVE 40%" badge top-right orange #FF4500.
+CTA: "Start 7-Day Free Trial →" gradient full-width button 56px #C2185B→#FF2D92.
+Below: "Cancel anytime · No commitment" 11px #FFFFFF30 centered.
+
+Screen 12 — Settings / Profile:
+Label: "Settings — Profile"
+Status bar. Dark bg #0D0006.
+Header: back arrow, "Settings" 17px 700 white center.
+Profile card at top (#120008, 24px radius, crimson border, padding 20):
+  Large avatar circle (64px, gradient #C2185B→#FF2D92, emoji "😈" 32px inside).
+  "Alex" 20px 700 white.
+  "Profile · Active" 12px #FFFFFF50.
+  Edit button: small pill "Edit" #FF2D92 12px.
+Settings groups — section labels in tracked caps #FFFFFF35, each row: dark separator, icon left (16px crimson icon_font), label white 15px, right chevron #FFFFFF30:
+  "PREFERENCES" section:
+    Discrete Mode (with toggle switch on right — crimson when on)
+    Language (value "English" right, muted)
+    Intensity Level (value "All" right)
+  "PARTNER" section:
+    Connected Partner (value "Jordan 💜" right)
+    Share New Code
+  "SECURITY" section:
+    Biometric Lock (toggle)
+    Change PIN
+  "ABOUT" section:
+    Privacy Policy
+    Rate SpiceSync
+    Version "1.0.0" muted right
+Bottom: "Sign Out" text button centered 14px #EF4444 (red for danger action).
+
+=== LAYOUT ===
+Arrange screens in a 4-column grid:
+Row 1 (y=60): Screens 1, 2, 3, 4 (Splash, Age Gate, Profile Setup, Partner Connect)
+Row 2 (y=1001): Screens 5, 6, 7, 8 (Browse, Deck, Matches, Convo)
+Row 3 (y=1942): Screens 9, 10, 11, 12 (Game, Match Celebration, Premium, Settings)
+
+Horizontal spacing: 60px between screens, 60px left margin.
+Each row's screens share the same y coordinate.
+
+Make every screen pixel-perfect, production-quality. Use the Scarlet Pulse design language throughout: crimson-pink gradients, dark near-black backgrounds, Inter font, subtle card glows. The app should feel premium, intimate, and exciting — like opening it gives couples a frisson of anticipation.

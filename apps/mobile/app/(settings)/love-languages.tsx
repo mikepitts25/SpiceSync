@@ -6,10 +6,13 @@ import {
   StyleSheet,
   ScrollView,
   SafeAreaView,
-  Dimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import Animated, { FadeInRight, FadeInLeft, FadeInUp } from 'react-native-reanimated';
+import Animated, {
+  FadeInRight,
+  FadeInLeft,
+  FadeInUp,
+} from 'react-native-reanimated';
 import { ChevronLeft, RotateCcw } from 'lucide-react-native';
 import {
   QUIZ_QUESTIONS,
@@ -22,53 +25,53 @@ import {
 } from '../../lib/loveLanguages';
 import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
 import { useProfilesStore } from '../../src/stores/profiles';
-import { useSettingsStore } from '../../src/stores/settingsStore';
-import { useTranslation } from '../../lib/i18n';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
-
-const { width: SCREEN_W } = Dimensions.get('window');
+import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 
 export default function LoveLanguagesQuizScreen() {
   const router = useRouter();
-  const { t } = useTranslation();
-  const language = useSettingsStore((state) => state.language);
-  
+
   const { activeId, profiles } = useProfilesStore((state) => ({
     activeId: state.getActiveProfileId(),
     profiles: state.getProfiles(),
   }));
-  
+
   const { setResult, getResult } = useLoveLanguagesStore();
-  
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<LoveLanguage[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [result, setResultState] = useState<QuizResult | null>(null);
-  const [animationDirection, setAnimationDirection] = useState<'left' | 'right'>('right');
+  const [animationDirection, setAnimationDirection] = useState<
+    'left' | 'right'
+  >('right');
 
   const activeProfile = profiles.find((p) => p.id === activeId);
   const existingResult = activeId ? getResult(activeId) : undefined;
 
-  const handleAnswer = useCallback((type: LoveLanguage) => {
-    const newAnswers = [...answers, type];
-    setAnswers(newAnswers);
-    
-    if (currentQuestion < QUIZ_QUESTIONS.length - 1) {
-      setAnimationDirection('left');
-      setTimeout(() => {
-        setCurrentQuestion(currentQuestion + 1);
-        setAnimationDirection('right');
-      }, 100);
-    } else {
-      // Quiz complete
-      const quizResult = calculateResults(newAnswers);
-      setResultState(quizResult);
-      if (activeId) {
-        setResult(activeId, quizResult);
+  const handleAnswer = useCallback(
+    (type: LoveLanguage) => {
+      const newAnswers = [...answers, type];
+      setAnswers(newAnswers);
+
+      if (currentQuestion < QUIZ_QUESTIONS.length - 1) {
+        setAnimationDirection('left');
+        setTimeout(() => {
+          setCurrentQuestion(currentQuestion + 1);
+          setAnimationDirection('right');
+        }, 100);
+      } else {
+        // Quiz complete
+        const quizResult = calculateResults(newAnswers);
+        setResultState(quizResult);
+        if (activeId) {
+          setResult(activeId, quizResult);
+        }
+        setShowResults(true);
       }
-      setShowResults(true);
-    }
-  }, [answers, currentQuestion, activeId, setResult]);
+    },
+    [answers, currentQuestion, activeId, setResult]
+  );
 
   const handleRestart = useCallback(() => {
     setCurrentQuestion(0);
@@ -103,7 +106,10 @@ export default function LoveLanguagesQuizScreen() {
           <Text style={styles.noProfileText}>
             Please create a profile first to take the Love Languages quiz.
           </Text>
-          <Pressable style={styles.backButtonLarge} onPress={() => router.back()}>
+          <Pressable
+            style={styles.backButtonLarge}
+            onPress={() => router.back()}
+          >
             <Text style={styles.backButtonText}>Go Back</Text>
           </Pressable>
         </View>
@@ -120,17 +126,29 @@ export default function LoveLanguagesQuizScreen() {
 
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.resultsScroll} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.resultsScroll}
+          showsVerticalScrollIndicator={false}
+        >
           <Animated.View entering={FadeInUp} style={styles.resultsContainer}>
             <Text style={styles.resultsTitle}>Your Love Language</Text>
-            <Text style={styles.resultsProfile}>
-              {activeProfile.emoji} {activeProfile.displayName || activeProfile.name}
-            </Text>
+            <View style={styles.profileLabel}>
+              <ProfileAvatarIcon
+                avatar={activeProfile.emoji}
+                size={22}
+                framed={false}
+              />
+              <Text style={styles.resultsProfile}>
+                {activeProfile.displayName || activeProfile.name}
+              </Text>
+            </View>
 
             {/* Primary Love Language */}
             <View style={styles.primaryCard}>
               <Text style={styles.primaryEmoji}>{primaryEmoji}</Text>
-              <Text style={styles.primaryLabel}>Your Primary Love Language</Text>
+              <Text style={styles.primaryLabel}>
+                Your Primary Love Language
+              </Text>
               <Text style={styles.primaryName}>{primaryName}</Text>
               <Text style={styles.primaryDesc}>{primaryDesc}</Text>
             </View>
@@ -138,7 +156,9 @@ export default function LoveLanguagesQuizScreen() {
             {/* Secondary Love Language */}
             <View style={styles.secondaryCard}>
               <Text style={styles.secondaryEmoji}>{secondaryEmoji}</Text>
-              <Text style={styles.secondaryLabel}>Your Secondary Love Language</Text>
+              <Text style={styles.secondaryLabel}>
+                Your Secondary Love Language
+              </Text>
               <Text style={styles.secondaryName}>{secondaryName}</Text>
             </View>
 
@@ -149,8 +169,12 @@ export default function LoveLanguagesQuizScreen() {
                 .sort((a, b) => b[1] - a[1])
                 .map(([type, score]) => (
                   <View key={type} style={styles.scoreRow}>
-                    <Text style={styles.scoreEmoji}>{LOVE_LANGUAGE_EMOJIS[type as LoveLanguage]}</Text>
-                    <Text style={styles.scoreName}>{LOVE_LANGUAGE_NAMES[type as LoveLanguage]}</Text>
+                    <Text style={styles.scoreEmoji}>
+                      {LOVE_LANGUAGE_EMOJIS[type as LoveLanguage]}
+                    </Text>
+                    <Text style={styles.scoreName}>
+                      {LOVE_LANGUAGE_NAMES[type as LoveLanguage]}
+                    </Text>
                     <View style={styles.scoreBarContainer}>
                       <View
                         style={[
@@ -161,8 +185,8 @@ export default function LoveLanguagesQuizScreen() {
                               type === result.primary
                                 ? COLORS.primary
                                 : type === result.secondary
-                                ? COLORS.accent
-                                : COLORS.border,
+                                  ? COLORS.accent
+                                  : COLORS.border,
                           },
                         ]}
                       />
@@ -182,18 +206,28 @@ export default function LoveLanguagesQuizScreen() {
                     const partnerResult = getResult(partner.id);
                     return (
                       <View key={partner.id} style={styles.partnerRow}>
-                        <Text style={styles.partnerEmoji}>{partner.emoji}</Text>
+                        <ProfileAvatarIcon avatar={partner.emoji} size={28} />
                         <View style={styles.partnerInfo}>
                           <Text style={styles.partnerName}>
                             {partner.displayName || partner.name}
                           </Text>
                           {partnerResult ? (
                             <Text style={styles.partnerLoveLang}>
-                              {LOVE_LANGUAGE_EMOJIS[partnerResult.result.primary as LoveLanguage]}{' '}
-                              {LOVE_LANGUAGE_NAMES[partnerResult.result.primary as LoveLanguage]}
+                              {
+                                LOVE_LANGUAGE_EMOJIS[
+                                  partnerResult.result.primary as LoveLanguage
+                                ]
+                              }{' '}
+                              {
+                                LOVE_LANGUAGE_NAMES[
+                                  partnerResult.result.primary as LoveLanguage
+                                ]
+                              }
                             </Text>
                           ) : (
-                            <Text style={styles.partnerNotTaken}>Not taken yet</Text>
+                            <Text style={styles.partnerNotTaken}>
+                              Not taken yet
+                            </Text>
                           )}
                         </View>
                       </View>
@@ -208,7 +242,10 @@ export default function LoveLanguagesQuizScreen() {
                 <RotateCcw size={20} color={COLORS.primary} />
                 <Text style={styles.restartButtonText}>Retake Quiz</Text>
               </Pressable>
-              <Pressable style={styles.doneButton} onPress={() => router.back()}>
+              <Pressable
+                style={styles.doneButton}
+                onPress={() => router.back()}
+              >
                 <Text style={styles.doneButtonText}>Done</Text>
               </Pressable>
             </View>
@@ -227,9 +264,16 @@ export default function LoveLanguagesQuizScreen() {
         </Pressable>
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>Love Languages</Text>
-          <Text style={styles.headerProfile}>
-            {activeProfile.emoji} {activeProfile.displayName || activeProfile.name}
-          </Text>
+          <View style={styles.headerProfileRow}>
+            <ProfileAvatarIcon
+              avatar={activeProfile.emoji}
+              size={16}
+              framed={false}
+            />
+            <Text style={styles.headerProfile}>
+              {activeProfile.displayName || activeProfile.name}
+            </Text>
+          </View>
         </View>
         <View style={styles.headerSpacer} />
       </View>
@@ -245,13 +289,18 @@ export default function LoveLanguagesQuizScreen() {
       </View>
 
       {/* Question */}
-      <ScrollView contentContainerStyle={styles.questionScroll} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.questionScroll}
+        showsVerticalScrollIndicator={false}
+      >
         <Animated.View
           key={currentQuestion}
           entering={animationDirection === 'right' ? FadeInRight : FadeInLeft}
           style={styles.questionContainer}
         >
-          <Text style={styles.questionNumber}>Question {currentQuestion + 1}</Text>
+          <Text style={styles.questionNumber}>
+            Question {currentQuestion + 1}
+          </Text>
           <Text style={styles.questionText}>Which would you prefer?</Text>
 
           <View style={styles.optionsContainer}>
@@ -274,10 +323,13 @@ export default function LoveLanguagesQuizScreen() {
         </Animated.View>
 
         {existingResult && (
-          <Pressable style={styles.viewResultsBtn} onPress={() => {
-            setResultState(existingResult.result);
-            setShowResults(true);
-          }}>
+          <Pressable
+            style={styles.viewResultsBtn}
+            onPress={() => {
+              setResultState(existingResult.result);
+              setShowResults(true);
+            }}
+          >
             <Text style={styles.viewResultsText}>View Previous Results</Text>
           </Pressable>
         )}
@@ -320,6 +372,11 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
+  },
+  headerProfileRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
     marginTop: 2,
   },
   headerSpacer: {
@@ -471,6 +528,11 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
+  },
+  profileLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
     marginBottom: 24,
   },
 
@@ -610,10 +672,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
-  },
-  partnerEmoji: {
-    fontSize: 28,
-    marginRight: 12,
   },
   partnerInfo: {
     flex: 1,

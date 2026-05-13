@@ -8,11 +8,16 @@ import {
   Animated,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
+import { PROFILE_AVATAR_OPTIONS } from '../../src/constants/emojis';
 
-const EMOJIS = ['💑', '❤️', '🔥', '✨', '🌹', '🥂', '🌙', '💫', '🦋', '🌺'];
+const AVATARS = PROFILE_AVATAR_OPTIONS.slice(0, 10);
 
 interface ProfileScreenProps {
   onNext: () => void;
@@ -22,9 +27,9 @@ export default function ProfileScreen({ onNext }: ProfileScreenProps) {
   const insets = useSafeAreaInsets();
   const addProfile = useSettingsStore((state) => state.addProfile);
   const setActiveProfile = useSettingsStore((state) => state.setActiveProfile);
-  
+
   const [name, setName] = useState('');
-  const [selectedEmoji, setSelectedEmoji] = useState(EMOJIS[0]);
+  const [selectedEmoji, setSelectedEmoji] = useState(AVATARS[0].id);
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -58,20 +63,27 @@ export default function ProfileScreen({ onNext }: ProfileScreenProps) {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.avatarSection}>
-            <Text style={styles.selectedEmoji}>{selectedEmoji}</Text>
+            <ProfileAvatarIcon avatar={selectedEmoji} size={84} selected />
             <Text style={styles.emojiLabel}>Choose your avatar</Text>
-            
+
             <View style={styles.emojiGrid}>
-              {EMOJIS.map((emoji) => (
+              {AVATARS.map((avatar) => (
                 <Pressable
-                  key={emoji}
+                  key={avatar.id}
                   style={[
                     styles.emojiButton,
-                    selectedEmoji === emoji && styles.emojiButtonSelected,
+                    selectedEmoji === avatar.id && styles.emojiButtonSelected,
                   ]}
-                  onPress={() => setSelectedEmoji(emoji)}
+                  onPress={() => setSelectedEmoji(avatar.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${avatar.label} avatar`}
+                  accessibilityState={{ selected: selectedEmoji === avatar.id }}
                 >
-                  <Text style={styles.emojiText}>{emoji}</Text>
+                  <ProfileAvatarIcon
+                    avatar={avatar.id}
+                    size={44}
+                    selected={selectedEmoji === avatar.id}
+                  />
                 </Pressable>
               ))}
             </View>
@@ -95,10 +107,10 @@ export default function ProfileScreen({ onNext }: ProfileScreenProps) {
         </ScrollView>
       </Animated.View>
 
-      <Animated.View 
+      <Animated.View
         style={[
-          styles.footer, 
-          { 
+          styles.footer,
+          {
             opacity: fadeAnim,
             paddingBottom: insets.bottom + 20,
           },
@@ -107,7 +119,7 @@ export default function ProfileScreen({ onNext }: ProfileScreenProps) {
         <View style={styles.progressBar}>
           <View style={[styles.progressFill, { width: '80%' }]} />
         </View>
-        <Pressable 
+        <Pressable
           style={[styles.button, !isValid && styles.buttonDisabled]}
           onPress={handleContinue}
           disabled={!isValid}
@@ -147,14 +159,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: SIZES.padding * 3,
   },
-  selectedEmoji: {
-    fontSize: 80,
-    marginBottom: SIZES.padding,
-  },
   emojiLabel: {
     fontFamily: FONTS.medium,
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
+    marginTop: SIZES.padding,
     marginBottom: SIZES.padding,
   },
   emojiGrid: {
@@ -176,9 +185,6 @@ const styles = StyleSheet.create({
   emojiButtonSelected: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
-  },
-  emojiText: {
-    fontSize: 28,
   },
   inputSection: {
     marginBottom: SIZES.padding * 2,

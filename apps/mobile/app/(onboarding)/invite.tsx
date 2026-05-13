@@ -1,40 +1,96 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Animated,
-  Share,
-} from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
+import { Share, StyleSheet, Text, View, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Heart, Link2, Share2 } from 'lucide-react-native';
 
-interface InviteScreenProps {
-  onComplete: () => void;
+import { BackHeader } from '../../components/app-chrome';
+import { usePartnerStore } from '../../src/stores/partner';
+import { COLORS, GRADIENTS } from '../../constants/theme';
+
+function ConnectVisual() {
+  return (
+    <View style={visual.wrap}>
+      <LinearGradient
+        colors={GRADIENTS.primary}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={visual.circle}
+      >
+        <Text style={visual.circleEmoji}>🌶️</Text>
+      </LinearGradient>
+
+      <View style={visual.connector}>
+        <View style={visual.line} />
+        <View style={visual.heartWrap}>
+          <Heart size={18} color={COLORS.pink} fill={COLORS.pink} />
+        </View>
+        <View style={visual.line} />
+      </View>
+
+      <LinearGradient
+        colors={GRADIENTS.purple}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={visual.circle}
+      >
+        <Text style={visual.circleEmoji}>💜</Text>
+      </LinearGradient>
+    </View>
+  );
 }
 
-// Generate a simple invite code
-function generateInviteCode(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let code = '';
-  for (let i = 0; i < 6; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return `${code.slice(0, 3)}-${code.slice(3)}`;
-}
+const visual = StyleSheet.create({
+  wrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 0,
+    marginVertical: 8,
+  },
+  circle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  circleEmoji: {
+    fontSize: 34,
+  },
+  connector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 80,
+  },
+  line: {
+    flex: 1,
+    height: 2,
+    backgroundColor: COLORS.border,
+  },
+  heartWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
-export default function InviteScreen({ onComplete }: InviteScreenProps) {
-  const insets = useSafeAreaInsets();
-  const [inviteCode] = React.useState(generateInviteCode);
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+export default function InviteScreen() {
+  const { pendingInvite, generateInviteCode } = usePartnerStore();
 
-  React.useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
+  const inviteCode = React.useMemo(() => {
+    if (
+      pendingInvite?.status === 'pending' &&
+      Date.now() < pendingInvite.expiresAt
+    ) {
+      return pendingInvite.code;
+    }
+    return generateInviteCode();
   }, []);
 
   const handleShare = async () => {
@@ -43,214 +99,173 @@ export default function InviteScreen({ onComplete }: InviteScreenProps) {
         message: `Join me on SpiceSync! Use code: ${inviteCode}\n\nDownload the app and enter this code to connect.`,
         title: 'Join me on SpiceSync',
       });
-    } catch (error) {
-      console.error('Share failed:', error);
+    } catch {
+      // user cancelled share sheet
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-        <Text style={styles.emoji}>📲</Text>
-        <Text style={styles.header}>Invite Your Partner</Text>
-        <Text style={styles.subheader}>
-          Share this code with your partner to connect
-        </Text>
+    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right', 'bottom']}>
+      <StatusBar style="light" />
+      <BackHeader title="Connect Partner" />
 
+      <View style={styles.content}>
+        <ConnectVisual />
+        <Text style={styles.heading}>Invite Your Partner</Text>
+        <Text style={styles.sub}>Share this code with your partner to connect</Text>
+
+        {/* Code card */}
         <View style={styles.codeCard}>
-          <Text style={styles.codeLabel}>Your Invite Code</Text>
+          <Text style={styles.codeLabel}>YOUR INVITE CODE</Text>
           <Text style={styles.codeValue}>{inviteCode}</Text>
-          <Pressable style={styles.shareButton} onPress={handleShare}>
-            <Text style={styles.shareButtonText}>Share Code</Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={handleShare}
+            style={styles.sharePress}
+          >
+            <LinearGradient
+              colors={GRADIENTS.primary}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+              style={styles.shareButton}
+            >
+              <Share2 size={16} color="#fff" />
+              <Text style={styles.shareText}>Share Code</Text>
+            </LinearGradient>
           </Pressable>
         </View>
 
-        <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>How it works:</Text>
-          <View style={styles.infoSteps}>
-            <View style={styles.step}>
-              <Text style={styles.stepNumber}>1</Text>
-              <Text style={styles.stepText}>
-                Share the code with your partner
-              </Text>
+        {/* Steps */}
+        <View style={styles.stepsCard}>
+          <Text style={styles.stepsTitle}>How it works</Text>
+          {[
+            'Share this code with your partner.',
+            'They download SpiceSync and enter the code.',
+            'Both vote on activities — matches appear in the Matches tab.',
+          ].map((text, i) => (
+            <View key={i} style={styles.step}>
+              <LinearGradient
+                colors={GRADIENTS.primary}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+                style={styles.stepBadge}
+              >
+                <Text style={styles.stepNumber}>{i + 1}</Text>
+              </LinearGradient>
+              <Text style={styles.stepText}>{text}</Text>
             </View>
-            <View style={styles.step}>
-              <Text style={styles.stepNumber}>2</Text>
-              <Text style={styles.stepText}>
-                They download SpiceSync and enter the code
-              </Text>
-            </View>
-            <View style={styles.step}>
-              <Text style={styles.stepNumber}>3</Text>
-              <Text style={styles.stepText}>
-                Start discovering together!
-              </Text>
-            </View>
-          </View>
+          ))}
         </View>
-      </Animated.View>
-
-      <Animated.View 
-        style={[
-          styles.footer, 
-          { 
-            opacity: fadeAnim,
-            paddingBottom: insets.bottom + 20,
-          },
-        ]}
-      >
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '100%' }]} />
-        </View>
-        <Pressable style={styles.button} onPress={onComplete}>
-          <Text style={styles.buttonText}>Start Exploring</Text>
-        </Pressable>
-        <Pressable style={styles.skipButton} onPress={onComplete}>
-          <Text style={styles.skipButtonText}>Skip for now</Text>
-        </Pressable>
-      </Animated.View>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.bg,
   },
   content: {
     flex: 1,
-    paddingHorizontal: SIZES.padding * 2,
-    paddingTop: 40,
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: 24,
     alignItems: 'center',
+    gap: 20,
   },
-  emoji: {
-    fontSize: 64,
-    marginBottom: SIZES.padding,
-  },
-  header: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h1,
-    color: COLORS.text,
+  heading: {
+    color: COLORS.textPrimary,
+    fontSize: 26,
+    fontWeight: '800',
     textAlign: 'center',
-    marginBottom: SIZES.padding,
   },
-  subheader: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
+  sub: {
+    color: COLORS.textSub,
+    fontSize: 14,
     textAlign: 'center',
-    marginBottom: SIZES.padding * 3,
+    lineHeight: 20,
+    marginTop: -8,
   },
+
+  // Code card
   codeCard: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusLarge,
-    padding: SIZES.padding * 2,
     width: '100%',
-    alignItems: 'center',
-    borderWidth: 1,
+    backgroundColor: COLORS.card,
+    borderRadius: 20,
+    borderWidth: 2,
     borderColor: COLORS.border,
-    marginBottom: SIZES.padding * 2,
+    padding: 24,
+    alignItems: 'center',
+    gap: 12,
   },
   codeLabel: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginBottom: SIZES.padding,
+    color: COLORS.textMuted,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 1.4,
   },
   codeValue: {
-    fontFamily: FONTS.bold,
-    fontSize: 36,
-    color: COLORS.primary,
-    letterSpacing: 4,
-    marginBottom: SIZES.padding * 1.5,
+    color: COLORS.pink,
+    fontSize: 38,
+    fontWeight: '800',
+    letterSpacing: 5,
+  },
+  sharePress: {
+    borderRadius: 22,
+    overflow: 'hidden',
+    marginTop: 4,
   },
   shareButton: {
-    backgroundColor: COLORS.secondary,
-    paddingHorizontal: SIZES.padding * 2,
-    paddingVertical: SIZES.padding,
-    borderRadius: SIZES.radius,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
   },
-  shareButtonText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
+  shareText: {
     color: '#fff',
+    fontSize: 14,
+    fontWeight: '700',
   },
-  infoCard: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding * 1.5,
+
+  // Steps
+  stepsCard: {
     width: '100%',
+    backgroundColor: COLORS.card,
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: 'rgba(255,255,255,0.06)',
+    padding: 18,
+    gap: 14,
   },
-  infoTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-    marginBottom: SIZES.padding,
-  },
-  infoSteps: {
-    gap: SIZES.padding,
+  stepsTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   step: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
   },
-  stepNumber: {
+  stepBadge: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stepNumber: {
     color: '#fff',
-    fontFamily: FONTS.bold,
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 28,
-    marginRight: SIZES.padding,
+    fontSize: 13,
+    fontWeight: '800',
   },
   stepText: {
     flex: 1,
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-  },
-  footer: {
-    padding: SIZES.padding * 2,
-    paddingTop: 0,
-    width: '100%',
-  },
-  progressBar: {
-    height: 4,
-    backgroundColor: COLORS.border,
-    borderRadius: 2,
-    overflow: 'hidden',
-    marginBottom: SIZES.padding * 2,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: COLORS.primary,
-    borderRadius: 2,
-  },
-  button: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: SIZES.padding * 1.5,
-    borderRadius: SIZES.radius,
-    alignItems: 'center',
-    marginBottom: SIZES.padding,
-  },
-  buttonText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: '#fff',
-  },
-  skipButton: {
-    alignItems: 'center',
-    paddingVertical: SIZES.padding,
-  },
-  skipButtonText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
+    color: COLORS.textSub,
+    fontSize: 13,
+    lineHeight: 18,
   },
 });

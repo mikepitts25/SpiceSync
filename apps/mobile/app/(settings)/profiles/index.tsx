@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Alert,
   FlatList,
@@ -8,81 +8,44 @@ import {
   Text,
   TextInput,
   View,
-  Platform,
-  ToastAndroid,
-  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
-import Animated, { FadeInUp } from 'react-native-reanimated';
-import {
-  Users,
-  Plus,
-  Lock,
-  Trash2,
-  X,
-  ChevronLeft,
-  Check,
-} from 'lucide-react-native';
+import { Check, ChevronRight, Lock, Plus } from 'lucide-react-native';
 
 import {
   setActiveProfile,
   useProfilesStore,
   type Profile,
 } from '../../../lib/state/profiles';
+import { BackHeader } from '../../../components/app-chrome';
+import ProfileAvatarIcon from '../../../components/ProfileAvatarIcon';
 import { useTranslation, interpolate } from '../../../lib/i18n';
-import { COLORS, SIZES, SHADOWS, FONTS } from '../../../constants/theme';
+import { getProfileManageDestination } from '../../../lib/profile-management';
+import { COLORS, GRADIENTS } from '../../../constants/theme';
 
-type PinModalState = {
-  id: string;
-  name: string;
-  pin: string;
-} | null;
+const DOT_COLORS = [
+  COLORS.pink,
+  COLORS.purple,
+  COLORS.yes,
+  COLORS.maybe,
+  COLORS.no,
+];
 
-type SetPinModalState = {
-  id: string;
-  name: string;
-  hasPin: boolean;
+type PinPrompt = {
+  profile: Profile;
 } | null;
 
 export default function ProfilesScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const { profiles, activeProfileId, updateProfile, deleteProfile, verifyPin, setPin, clearPin } =
+  const { profiles, activeProfileId, verifyPin, deleteProfile } =
     useProfilesStore();
-
-  const activeProfile = useMemo(
-    () => profiles.find((profile) => profile.id === activeProfileId) ?? null,
-    [profiles, activeProfileId]
-  );
-
-  const [pinPrompt, setPinPrompt] = useState<PinModalState>(null);
+  const [pinPrompt, setPinPrompt] = useState<PinPrompt>(null);
   const [enteredPin, setEnteredPin] = useState('');
   const [pinError, setPinError] = useState<string | null>(null);
-
-  const [addPinModal, setAddPinModal] = useState<SetPinModalState>(null);
-  const [newPin, setNewPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
-  const [addPinError, setAddPinError] = useState<string | null>(null);
-  const [addPinStep, setAddPinStep] = useState<'new' | 'confirm'>('new');
-
-  const notifySwitch = (name: string) => {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(`${name} is now active`, ToastAndroid.SHORT);
-    } else {
-      Alert.alert(t.profiles.profileSwitched, interpolate(t.profiles.nowActive, { name }));
-    }
-  };
-
-  const openPinPrompt = (profile: Profile) => {
-    setPinPrompt({
-      id: profile.id,
-      name: profile.name,
-      pin: profile.pin ?? '',
-    });
-    setEnteredPin('');
-    setPinError(null);
-  };
 
   const closePinPrompt = () => {
     setPinPrompt(null);
@@ -90,103 +53,32 @@ export default function ProfilesScreen() {
     setPinError(null);
   };
 
-  const openAddPinModal = (profile: Profile) => {
-    setAddPinModal({
-      id: profile.id,
-      name: profile.name,
-      hasPin: !!profile.pin,
-    });
-    setNewPin('');
-    setConfirmPin('');
-    setAddPinError(null);
-    setAddPinStep('new');
-  };
-
-  const closeAddPinModal = () => {
-    setAddPinModal(null);
-    setNewPin('');
-    setConfirmPin('');
-    setAddPinError(null);
-    setAddPinStep('new');
-  };
-
-  const handleSetPin = () => {
-    if (!addPinModal) return;
-
-    if (addPinStep === 'new') {
-      if (newPin.length !== 4) {
-        setAddPinError(t.profiles.pinLength);
-        return;
-      }
-      setAddPinStep('confirm');
-      setAddPinError(null);
-      return;
-    }
-
-    if (newPin !== confirmPin) {
-      setAddPinError(t.profiles.pinMismatch);
-      return;
-    }
-
-    setPin(addPinModal.id, newPin);
-    closeAddPinModal();
-
-    if (Platform.OS === 'android') {
-      ToastAndroid.show('PIN set successfully', ToastAndroid.SHORT);
-    } else {
-      Alert.alert('Success', 'PIN has been set for this profile');
-    }
-  };
-
-  const handleClearPin = () => {
-    if (!addPinModal) return;
-
-    Alert.alert(
-      'Remove PIN?',
-      'This will remove PIN protection from this profile.',
-      [
-        { text: t.common.cancel, style: 'cancel' },
-        {
-          text: 'Remove',
-          style: 'destructive',
-          onPress: () => {
-            clearPin(addPinModal.id);
-            closeAddPinModal();
-            if (Platform.OS === 'android') {
-              ToastAndroid.show('PIN removed', ToastAndroid.SHORT);
-            }
-          },
-        },
-      ]
-    );
-  };
-
-  const handleSwitch = (profile: Profile) => {
+  const activateProfile = (profile: Profile) => {
     if (profile.id === activeProfileId) return;
     if (profile.pin) {
-      openPinPrompt(profile);
+      setPinPrompt({ profile });
+      setEnteredPin('');
+      setPinError(null);
       return;
     }
     setActiveProfile(profile.id);
-    notifySwitch(profile.name);
   };
 
-  const handleUnlock = () => {
+  const unlockProfile = () => {
     if (!pinPrompt) return;
     if (enteredPin.length !== 4) {
       setPinError(t.profiles.enterPin);
       return;
     }
-    if (verifyPin(pinPrompt.id, enteredPin)) {
-      setActiveProfile(pinPrompt.id);
-      notifySwitch(pinPrompt.name);
-      closePinPrompt();
-    } else {
+    if (!verifyPin(pinPrompt.profile.id, enteredPin)) {
       setPinError(t.profiles.incorrectPin);
+      return;
     }
+    setActiveProfile(pinPrompt.profile.id);
+    closePinPrompt();
   };
 
-  const handleDelete = (profile: Profile) => {
+  const confirmDelete = (profile: Profile) => {
     Alert.alert(
       t.profiles.deleteProfile,
       interpolate(t.profiles.deleteProfileDesc, { name: profile.name }),
@@ -201,106 +93,94 @@ export default function ProfilesScreen() {
     );
   };
 
-  const renderProfile = ({ item, index }: { item: Profile; index: number }) => {
-    const isActive = item.id === activeProfileId;
-    return (
-      <Animated.View entering={FadeInUp.delay(100 + index * 100)}>
-        <Pressable
-          style={[styles.profileCard, isActive && styles.profileCardActive]}
-          onPress={() => handleSwitch(item)}
-        >
-          <View style={styles.profileHeader}>
-            <View style={styles.profileEmojiContainer}>
-              <Text style={styles.profileEmoji}>{item.emoji}</Text>
-            </View>
-            <View style={styles.profileInfo}>
-              <Text style={styles.profileName}>{item.name}</Text>
-              <View style={styles.profileMetaRow}>
-                {item.pin && (
-                  <View style={styles.pinBadge}>
-                    <Lock size={12} color={COLORS.textMuted} />
-                    <Text style={styles.pinBadgeText}>PIN</Text>
-                  </View>
-                )}
-                {isActive && (
-                  <View style={styles.activeBadge}>
-                    <Check size={12} color="#fff" />
-                    <Text style={styles.activeBadgeText}>{t.profiles.active}</Text>
-                  </View>
-                )}
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.profileActions}>
-            <TextInput
-              style={styles.nameInput}
-              value={item.name}
-              onChangeText={(value) => updateProfile?.(item.id, { name: value })}
-              placeholder={t.profiles.nameLabel}
-              placeholderTextColor={COLORS.textMuted}
-            />
-            <Pressable
-              style={[styles.iconButton, item.pin && styles.iconButtonActive]}
-              onPress={() => openAddPinModal(item)}
-            >
-              <Lock size={18} color={item.pin ? COLORS.primary : COLORS.textSecondary} />
-            </Pressable>
-            <Pressable
-              style={[styles.iconButton, styles.iconButtonDanger]}
-              onPress={() => handleDelete(item)}
-            >
-              <Trash2 size={18} color="#fff" />
-            </Pressable>
-          </View>
-        </Pressable>
-      </Animated.View>
-    );
-  };
-
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <ChevronLeft size={28} color={COLORS.text} />
-        </Pressable>
-        <View style={styles.headerContent}>
-          <View style={styles.headerIconContainer}>
-            <Users size={24} color={COLORS.primary} />
-          </View>
-          <Text style={styles.headerTitle}>{t.profiles.title}</Text>
-          <Text style={styles.headerSubtitle}>{t.profiles.tapToSwitch}</Text>
-        </View>
-        <Pressable
-          style={styles.addButton}
-          onPress={() => router.push('/(settings)/profiles/new')}
-        >
-          <Plus size={24} color="#fff" />
-        </Pressable>
-      </View>
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
+      <StatusBar style="light" />
+      <BackHeader title="Profiles" />
 
-      {/* Profiles List */}
-      {profiles.length > 0 ? (
-        <FlatList
-          data={profiles}
-          keyExtractor={(item) => item.id}
-          renderItem={renderProfile}
-          contentContainerStyle={styles.listContent}
-          ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        <View style={styles.emptyState}>
-          <View style={styles.emptyIconContainer}>
-            <Users size={48} color={COLORS.textMuted} />
-          </View>
-          <Text style={styles.emptyTitle}>{t.profiles.noProfiles}</Text>
-          <Text style={styles.emptyBody}>{t.profiles.createProfile}</Text>
-        </View>
-      )}
+      <FlatList
+        data={profiles}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
+        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        renderItem={({ item, index }) => {
+          const active = item.id === activeProfileId;
+          const dotColor = item.color ?? DOT_COLORS[index % DOT_COLORS.length];
+          return (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
+              onPress={() => activateProfile(item)}
+              onLongPress={() => confirmDelete(item)}
+              style={[styles.profileCard, active && styles.profileCardActive]}
+            >
+              <ProfileAvatarIcon
+                avatar={item.emoji}
+                size={44}
+                selected={active}
+              />
 
-      {/* PIN Prompt Modal */}
+              <View style={styles.profileCopy}>
+                <View style={styles.nameRow}>
+                  <Text style={styles.profileName}>
+                    {item.displayName ?? item.name}
+                  </Text>
+                  {item.pin ? (
+                    <Lock size={13} color={COLORS.textMuted} />
+                  ) : null}
+                </View>
+                <View style={styles.metaRow}>
+                  <View
+                    style={[styles.colorDot, { backgroundColor: dotColor }]}
+                  />
+                  {active ? (
+                    <View style={styles.activePill}>
+                      <Check size={11} color={COLORS.pink} />
+                      <Text style={styles.activePillText}>Active</Text>
+                    </View>
+                  ) : (
+                    <Text style={styles.profileHint}>Tap to switch</Text>
+                  )}
+                </View>
+              </View>
+
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`Manage ${item.displayName ?? item.name}`}
+                hitSlop={10}
+                onPress={(event) => {
+                  event.stopPropagation();
+                  router.push(getProfileManageDestination(item.id));
+                }}
+                style={styles.manageButton}
+              >
+                <ChevronRight size={18} color={COLORS.textMuted} />
+              </Pressable>
+            </Pressable>
+          );
+        }}
+        ListFooterComponent={
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push('/(settings)/profiles/new')}
+            style={styles.addButton}
+          >
+            <Plus size={18} color={COLORS.pink} />
+            <Text style={styles.addButtonText}>Add Profile</Text>
+          </Pressable>
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>{t.profiles.noProfiles}</Text>
+            <Text style={styles.emptyCopy}>{t.profiles.createProfile}</Text>
+          </View>
+        }
+      />
+
       <Modal
         visible={!!pinPrompt}
         transparent
@@ -309,16 +189,15 @@ export default function ProfilesScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalCard}>
-            <View style={styles.modalHeader}>
-              <Lock size={32} color={COLORS.primary} />
-              <Text style={styles.modalTitle}>{t.profiles.enterPin}</Text>
-              <Text style={styles.modalSubtitle}>
-                {pinPrompt ? interpolate(t.profiles.unlockProfile, { name: pinPrompt.name }) : ''}
-              </Text>
-            </View>
-
+            <Text style={styles.modalTitle}>{t.profiles.enterPin}</Text>
+            <Text style={styles.modalCopy}>
+              {pinPrompt
+                ? interpolate(t.profiles.unlockProfile, {
+                    name: pinPrompt.profile.name,
+                  })
+                : ''}
+            </Text>
             <TextInput
-              style={styles.pinInput}
               value={enteredPin}
               onChangeText={(value) => {
                 setEnteredPin(value.replace(/\D/g, '').slice(0, 4));
@@ -329,81 +208,25 @@ export default function ProfilesScreen() {
               maxLength={4}
               placeholder="••••"
               placeholderTextColor={COLORS.textMuted}
-            />
-
-            {pinError ? <Text style={styles.pinError}>{pinError}</Text> : null}
-
-            <View style={styles.modalActions}>
-              <Pressable style={styles.modalButtonSecondary} onPress={closePinPrompt}>
-                <Text style={styles.modalButtonSecondaryText}>{t.common.cancel}</Text>
-              </Pressable>
-              <Pressable style={styles.modalButtonPrimary} onPress={handleUnlock}>
-                <Text style={styles.modalButtonPrimaryText}>{t.profiles.unlock}</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      {/* Set PIN Modal */}
-      <Modal
-        visible={!!addPinModal}
-        transparent
-        animationType="fade"
-        onRequestClose={closeAddPinModal}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <View style={styles.modalHeader}>
-              <Lock size={32} color={COLORS.primary} />
-              <Text style={styles.modalTitle}>
-                {addPinModal?.hasPin ? 'Change PIN' : 'Set PIN'}
-              </Text>
-              <Text style={styles.modalSubtitle}>
-                {addPinStep === 'new'
-                  ? `Enter a 4-digit PIN for ${addPinModal?.name}`
-                  : 'Confirm your PIN'}
-              </Text>
-            </View>
-
-            <TextInput
               style={styles.pinInput}
-              value={addPinStep === 'new' ? newPin : confirmPin}
-              onChangeText={(value) => {
-                const cleaned = value.replace(/\D/g, '').slice(0, 4);
-                if (addPinStep === 'new') {
-                  setNewPin(cleaned);
-                } else {
-                  setConfirmPin(cleaned);
-                }
-                setAddPinError(null);
-              }}
-              keyboardType="number-pad"
-              secureTextEntry
-              maxLength={4}
-              placeholder="••••"
-              placeholderTextColor={COLORS.textMuted}
-              autoFocus
             />
-
-            {addPinError ? <Text style={styles.pinError}>{addPinError}</Text> : null}
-
+            {pinError ? <Text style={styles.pinError}>{pinError}</Text> : null}
             <View style={styles.modalActions}>
-              <Pressable style={styles.modalButtonSecondary} onPress={closeAddPinModal}>
-                <Text style={styles.modalButtonSecondaryText}>{t.common.cancel}</Text>
+              <Pressable style={styles.modalCancel} onPress={closePinPrompt}>
+                <Text style={styles.modalCancelText}>{t.common.cancel}</Text>
               </Pressable>
-              {addPinModal?.hasPin && addPinStep === 'new' && (
-                <Pressable
-                  style={[styles.modalButtonSecondary, styles.modalButtonDanger]}
-                  onPress={handleClearPin}
+              <Pressable
+                style={styles.modalConfirmPress}
+                onPress={unlockProfile}
+              >
+                <LinearGradient
+                  colors={GRADIENTS.primary}
+                  start={{ x: 0, y: 0.5 }}
+                  end={{ x: 1, y: 0.5 }}
+                  style={styles.modalConfirm}
                 >
-                  <Text style={styles.modalButtonSecondaryText}>Remove</Text>
-                </Pressable>
-              )}
-              <Pressable style={styles.modalButtonPrimary} onPress={handleSetPin}>
-                <Text style={styles.modalButtonPrimaryText}>
-                  {addPinStep === 'new' ? 'Next' : 'Save'}
-                </Text>
+                  <Text style={styles.modalConfirmText}>Unlock</Text>
+                </LinearGradient>
               </Pressable>
             </View>
           </View>
@@ -414,293 +237,191 @@ export default function ProfilesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.bg,
   },
-  
-  // Header
-  header: {
+  listContent: {
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 24,
+  },
+  profileCard: {
+    minHeight: 78,
+    borderRadius: 18,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SIZES.paddingLarge,
     gap: 12,
-  },
-  backButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: COLORS.card,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  headerContent: {
-    flex: 1,
-  },
-  headerIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: `${COLORS.primary}20`,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  headerTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h2,
-    color: COLORS.text,
-  },
-  headerSubtitle: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginTop: 2,
-  },
-  addButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: COLORS.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...SHADOWS.md,
-  },
-  
-  // List
-  listContent: {
-    padding: SIZES.paddingLarge,
-    paddingTop: 0,
-  },
-  
-  // Profile Card
-  profileCard: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusLarge,
-    padding: SIZES.paddingLarge,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    ...SHADOWS.sm,
   },
   profileCardActive: {
-    borderColor: COLORS.primary,
-    backgroundColor: `${COLORS.primary}10`,
+    borderColor: COLORS.border,
   },
-  profileHeader: {
+  profileCopy: {
+    flex: 1,
+    gap: 7,
+  },
+  nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
-    gap: 12,
-  },
-  profileEmojiContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: COLORS.backgroundSecondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  profileEmoji: {
-    fontSize: 32,
-  },
-  profileInfo: {
-    flex: 1,
+    gap: 6,
   },
   profileName: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h4,
-    color: COLORS.text,
-    marginBottom: 6,
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '700',
   },
-  profileMetaRow: {
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  colorDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  activePill: {
+    borderRadius: 12,
+    backgroundColor: 'rgba(194,24,91,0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(194,24,91,0.25)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  activePillText: {
+    color: COLORS.pink,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  profileHint: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  manageButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addButton: {
+    marginTop: 12,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: COLORS.border,
+    alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
     gap: 8,
   },
-  pinBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: COLORS.backgroundSecondary,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
+  addButtonText: {
+    color: COLORS.pink,
+    fontSize: 13,
+    fontWeight: '700',
   },
-  pinBadgeText: {
-    fontFamily: FONTS.medium,
-    fontSize: 11,
-    color: COLORS.textMuted,
-  },
-  activeBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: COLORS.success,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  activeBadgeText: {
-    fontFamily: FONTS.bold,
-    fontSize: 11,
-    color: '#fff',
-  },
-  profileActions: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  nameInput: {
-    flex: 1,
-    backgroundColor: COLORS.backgroundSecondary,
-    borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    color: COLORS.text,
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-  },
-  iconButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: COLORS.backgroundSecondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  iconButtonActive: {
-    backgroundColor: `${COLORS.primary}20`,
-    borderColor: COLORS.primary,
-  },
-  iconButtonDanger: {
-    backgroundColor: COLORS.danger,
-    borderColor: COLORS.danger,
-  },
-  
-  // Empty State
   emptyState: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: SIZES.paddingLarge * 2,
-  },
-  emptyIconContainer: {
-    width: 96,
-    height: 96,
-    borderRadius: 28,
-    backgroundColor: COLORS.card,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    paddingVertical: 36,
+    gap: 8,
   },
   emptyTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
-    color: COLORS.text,
-    marginBottom: 8,
+    color: COLORS.textPrimary,
+    fontSize: 18,
+    fontWeight: '800',
   },
-  emptyBody: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-    textAlign: 'center',
+  emptyCopy: {
+    color: COLORS.textSub,
+    fontSize: 13,
   },
-  
-  // Modal
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.72)',
     alignItems: 'center',
-    padding: 24,
+    justifyContent: 'center',
+    padding: 20,
   },
   modalCard: {
     width: '100%',
-    maxWidth: 340,
+    borderRadius: 24,
     backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusXL,
-    padding: SIZES.paddingLarge * 1.5,
     borderWidth: 1,
     borderColor: COLORS.border,
-    ...SHADOWS.lg,
-  },
-  modalHeader: {
-    alignItems: 'center',
-    marginBottom: 24,
+    padding: 18,
+    gap: 12,
   },
   modalTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
-    color: COLORS.text,
-    marginTop: 12,
-    marginBottom: 4,
+    color: COLORS.textPrimary,
+    fontSize: 20,
+    fontWeight: '800',
+    textAlign: 'center',
   },
-  modalSubtitle: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
+  modalCopy: {
+    color: COLORS.textSub,
+    fontSize: 13,
+    lineHeight: 20,
     textAlign: 'center',
   },
   pinInput: {
-    backgroundColor: COLORS.backgroundSecondary,
-    borderRadius: SIZES.radiusLarge,
+    height: 52,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    color: COLORS.text,
-    fontSize: 32,
-    letterSpacing: 16,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: COLORS.cardAlt,
+    color: COLORS.textPrimary,
     textAlign: 'center',
-    fontFamily: FONTS.bold,
-    marginBottom: 16,
+    fontSize: 22,
+    fontWeight: '800',
+    letterSpacing: 8,
   },
   pinError: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.danger,
+    color: COLORS.no,
+    fontSize: 12,
+    fontWeight: '700',
     textAlign: 'center',
-    marginBottom: 16,
   },
   modalActions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
   },
-  modalButtonSecondary: {
+  modalCancel: {
     flex: 1,
-    paddingVertical: 14,
-    borderRadius: SIZES.radius,
-    backgroundColor: COLORS.backgroundSecondary,
-    alignItems: 'center',
+    height: 44,
+    borderRadius: 22,
     borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  modalButtonSecondaryText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-  },
-  modalButtonDanger: {
-    backgroundColor: `${COLORS.danger}20`,
-    borderColor: COLORS.danger,
-  },
-  modalButtonPrimary: {
-    flex: 1,
-    paddingVertical: 14,
-    borderRadius: SIZES.radius,
-    backgroundColor: COLORS.primary,
+    borderColor: COLORS.borderFaint,
     alignItems: 'center',
-    ...SHADOWS.sm,
+    justifyContent: 'center',
   },
-  modalButtonPrimaryText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: '#fff',
+  modalCancelText: {
+    color: COLORS.textSub,
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  modalConfirmPress: {
+    flex: 1,
+    height: 44,
+    borderRadius: 22,
+    overflow: 'hidden',
+  },
+  modalConfirm: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalConfirmText: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '800',
   },
 });

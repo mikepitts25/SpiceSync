@@ -1,68 +1,44 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import {
-  Alert,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
+import { Check, Ellipsis, Heart, Share2 } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
-import PinVerifyModal from '../../components/PinVerifyModal';
-import MatchRow from '../../components/MatchRow';
-import { useProfilesStore } from '../../src/stores/profiles';
-import type { Profile } from '../../src/stores/profiles';
 import {
-  useVotesStore,
-  type VoteBuckets,
-  type VoteValue,
-} from '../../src/stores/votes';
-import { useSettingsStore } from '../../src/stores/settingsStore';
+  AppHeader,
+  AppTabBar,
+  CardAccentTop,
+} from '../../components/app-chrome';
+import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
+import { ScreenTour } from '../../components/ScreenTour';
 import { useKinks } from '../../lib/data';
-import { usePrivacyGate } from '../../src/stores/privacyGate';
-import { useTranslation, interpolate } from '../../lib/i18n';
+import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
+import { useProfilesStore, type Profile } from '../../src/stores/profiles';
+import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useVotesStore, type VoteValue } from '../../src/stores/votes';
+import { useTranslation } from '../../lib/i18n';
+import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
 const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, VoteValue>;
 
-const EMPTY_VISIBLE_BUCKETS: VoteBuckets = {
-  mutualYes: [],
-  mutualNo: [],
-  mutualMaybe: [],
-  partialYes: [],
-};
-
-type TabKey = 'mutualYes' | 'mutualNo' | 'mutualMaybe' | 'partialYes';
-
-type TabOption = {
-  key: TabKey;
-  label: string;
-  count?: number;
-  locked?: boolean;
-};
-
-type MatchRowItem = {
+type MatchItem = {
   id: string;
-  slug?: string;
-  tier?: string;
   title: string;
-  subtitle?: string | null;
-  aVote: VoteValue | undefined;
-  bVote: VoteValue | undefined;
-  sortCategory: string;
+  category: string;
 };
 
-type PartnerOption = {
-  id: string;
-  label: string;
+const getComplementarySlug = (slug?: string): string | null => {
+  if (!slug) return null;
+  if (slug.endsWith('-give')) {
+    return `${slug.slice(0, -5)}-receive`;
+  }
+  if (slug.endsWith('-receive')) {
+    return `${slug.slice(0, -8)}-give`;
+  }
+  return null;
 };
 
 const getComplementarySlug = (slug?: string): string | null => {
@@ -93,13 +69,6 @@ export default function MatchesScreen() {
   const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(
     null
   );
-  const [selectedTab, setSelectedTab] = useState<TabKey>('mutualYes');
-  const [pinModalVisible, setPinModalVisible] = useState(false);
-  const [pinModalProfiles, setPinModalProfiles] = useState<Profile[]>([]);
-  const [pendingReveal, setPendingReveal] = useState<
-    'partial' | 'unlock' | null
-  >(null);
-  const previousPartnerId = useRef<string | null>(null);
 
   const partners = useMemo(() => {
     if (!activeId) return [] as Profile[];
@@ -112,6 +81,12 @@ export default function MatchesScreen() {
   );
 
   useEffect(() => {
+    if (hydrated && !activeId) {
+      router.replace('/welcome');
+    }
+  }, [hydrated, activeId, router]);
+
+  useEffect(() => {
     if (!partners.length) {
       setSelectedPartnerId(null);
       setPartnerPickerOpen(false);
@@ -119,7 +94,7 @@ export default function MatchesScreen() {
     }
     if (
       !selectedPartnerId ||
-      !partners.some((p) => p.id === selectedPartnerId)
+      !partners.some((profile) => profile.id === selectedPartnerId)
     ) {
       setSelectedPartnerId(partners[0].id);
     }
@@ -135,10 +110,8 @@ export default function MatchesScreen() {
     );
   }, [partners, selectedPartnerId]);
 
-  const partnerId = partnerProfile?.id ?? null;
-
   const activeKey = activeId ? String(activeId) : null;
-  const partnerKey = partnerId ? String(partnerId) : null;
+  const partnerKey = partnerProfile?.id ? String(partnerProfile.id) : null;
 
   const [activeVotes, partnerVotes] = useVotesStore(
     useShallow((state) => [
@@ -151,119 +124,38 @@ export default function MatchesScreen() {
     ])
   );
 
-  const {
-    verified,
-    isExpired,
-    verify: verifyProfile,
-    clear,
-    closeForPair,
-  } = usePrivacyGate(
-    useShallow((state) => ({
-      verified: state.verified,
-      isExpired: state.isExpired,
-      verify: state.verify,
-      clear: state.clear,
-      closeForPair: state.closeForPair,
-    }))
-  );
-
   const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
 
-  useEffect(() => {
-    if (hydrated && !activeId) {
-      router.replace('/welcome');
-    }
-  }, [hydrated, activeId, router]);
-
-  useEffect(() => {
-    if (isExpired?.()) {
-      clear();
-      setSelectedTab('mutualYes');
-      setPendingReveal(null);
-      setPinModalProfiles([]);
-    }
-  }, [isExpired, clear]);
-
-  useEffect(() => {
-    if (!activeId || !partnerId) {
-      previousPartnerId.current = partnerId;
-      return;
-    }
-
-    if (previousPartnerId.current && previousPartnerId.current !== partnerId) {
-      closeForPair?.(activeId, previousPartnerId.current);
-      setSelectedTab('mutualYes');
-      setPendingReveal(null);
-      setPinModalProfiles([]);
-    }
-
-    previousPartnerId.current = partnerId;
-  }, [activeId, partnerId, closeForPair]);
-
-  const gateOpen = useMemo(() => {
-    if (!activeId || !partnerId) return false;
-    if (isExpired?.()) return false;
-    return !!verified[activeId] && !!verified[partnerId];
-  }, [verified, activeId, partnerId, isExpired]);
-
-  useEffect(() => {
-    if (!gateOpen && selectedTab === 'partialYes') {
-      setSelectedTab('mutualYes');
-    }
-  }, [gateOpen, selectedTab]);
-
-  useEffect(() => {
-    setSelectedTab('mutualYes');
-  }, [partnerId]);
-
-  const rawBuckets = useMemo<VoteBuckets>(() => {
-    if (!activeId || !partnerId) return EMPTY_VISIBLE_BUCKETS;
-    const mutualYes: string[] = [];
-    const mutualNo: string[] = [];
-    const mutualMaybe: string[] = [];
-    const partialYes: string[] = [];
+  const { mutualYes, mutualMaybe } = useMemo(() => {
+    const yes: MatchItem[] = [];
+    const maybe: MatchItem[] = [];
 
     const comparedPairs = new Set<string>();
 
-    const processPair = (activeKinkId: string, partnerKinkId: string) => {
+    const addMatchedPair = (activeKinkId: string, partnerKinkId: string) => {
       const pairKey = `${activeKinkId}::${partnerKinkId}`;
       if (comparedPairs.has(pairKey)) return;
       comparedPairs.add(pairKey);
 
-      const aVote = activeVotes[activeKinkId];
-      const bVote = partnerVotes[partnerKinkId];
-      if (!aVote || !bVote) return;
+      const mine = activeVotes[activeKinkId];
+      const theirs = partnerVotes[partnerKinkId];
+      if (!mine || mine !== theirs) return;
 
-      if (aVote === 'yes' && bVote === 'yes') {
-        mutualYes.push(activeKinkId);
-        return;
-      }
-      if (aVote === 'no' && bVote === 'no') {
-        mutualNo.push(activeKinkId);
-        return;
-      }
-      if (aVote === 'maybe' && bVote === 'maybe') {
-        mutualMaybe.push(activeKinkId);
-        return;
-      }
-
-      if (
-        (aVote === 'yes' && bVote === 'maybe') ||
-        (aVote === 'maybe' && bVote === 'yes')
-      ) {
-        partialYes.push(activeKinkId);
-      }
+      const activeKink = kinksById[activeKinkId];
+      const partnerKink = kinksById[partnerKinkId];
+      const item = {
+        id: activeKinkId,
+        title: activeKink?.title ?? partnerKink?.title ?? activeKinkId,
+        category: activeKink?.category ?? partnerKink?.category ?? 'Activity',
+      };
+      if (mine === 'yes') yes.push(item);
+      if (mine === 'maybe') maybe.push(item);
     };
 
-    const keys = new Set<string>();
-    for (const key of Object.keys(activeVotes)) {
-      if (partnerVotes[key] !== undefined) {
-        keys.add(key);
+    Object.keys(activeVotes).forEach((id) => {
+      if (partnerVotes[id] !== undefined) {
+        addMatchedPair(id, id);
       }
-    }
-
-    keys.forEach((kinkId) => {
-      processPair(kinkId, kinkId);
     });
 
     Object.keys(activeVotes).forEach((activeKinkId) => {
@@ -277,501 +169,400 @@ export default function MatchesScreen() {
       if (!partnerKink) return;
       if (partnerVotes[partnerKink.id] === undefined) return;
 
-      processPair(activeKinkId, partnerKink.id);
+      addMatchedPair(activeKinkId, partnerKink.id);
     });
 
-    return { mutualYes, mutualNo, mutualMaybe, partialYes };
-  }, [activeId, partnerId, activeVotes, partnerVotes, kinksById]);
-
-  const visibleBuckets = useMemo(() => {
-    if (gateOpen) return rawBuckets;
-    return {
-      mutualYes: rawBuckets.mutualYes,
-      mutualNo: rawBuckets.mutualNo,
-      mutualMaybe: rawBuckets.mutualMaybe,
-      partialYes: [],
-    };
-  }, [rawBuckets, gateOpen]);
-
-  const mapKinksToRows = useCallback(
-    (ids: string[]): MatchRowItem[] => {
-      const mapped = ids.map((id) => {
-        const item = kinksById[id];
-        const category = item?.category ?? 'Other';
-        const tier = item?.tier ? item.tier.toUpperCase() : null;
-        const subtitle =
-          tier && category
-            ? `${category} • ${tier}`
-            : (tier ?? category ?? null);
-        return {
-          id: item?.id ?? id,
-          slug: item?.slug,
-          tier: item?.tier,
-          title: item?.title ?? id,
-          subtitle,
-          aVote: activeVotes[id],
-          bVote: partnerVotes[id],
-          sortCategory: category.toLowerCase(),
-        } satisfies MatchRowItem;
-      });
-      return mapped.sort((a, b) => {
-        if (a.sortCategory === b.sortCategory) {
-          return a.title.localeCompare(b.title);
-        }
-        return a.sortCategory.localeCompare(b.sortCategory);
-      });
-    },
-    [activeVotes, kinksById, partnerVotes]
-  );
-
-  const tabOptions: TabOption[] = useMemo(() => {
-    const options: TabOption[] = [
-      {
-        key: 'mutualYes',
-        label: t.matches.mutualYes,
-        count: visibleBuckets.mutualYes.length,
-      },
-      {
-        key: 'mutualNo',
-        label: t.matches.mutualNo,
-        count: visibleBuckets.mutualNo.length,
-      },
-      {
-        key: 'mutualMaybe',
-        label: t.matches.mutualMaybe,
-        count: visibleBuckets.mutualMaybe.length,
-      },
-    ];
-
-    if (gateOpen) {
-      options.push({
-        key: 'partialYes',
-        label: t.matches.partialMatch,
-        count: rawBuckets.partialYes.length,
-      });
-    } else {
-      options.push({
-        key: 'partialYes',
-        label: t.matches.partialMatch,
-        locked: true,
-      });
-    }
-
-    return options;
-  }, [
-    gateOpen,
-    rawBuckets.partialYes.length,
-    visibleBuckets.mutualMaybe.length,
-    visibleBuckets.mutualNo.length,
-    visibleBuckets.mutualYes.length,
-    t,
-  ]);
-
-  const rows: MatchRowItem[] = useMemo(() => {
-    switch (selectedTab) {
-      case 'mutualYes':
-        return mapKinksToRows(visibleBuckets.mutualYes);
-      case 'mutualNo':
-        return mapKinksToRows(visibleBuckets.mutualNo);
-      case 'mutualMaybe':
-        return mapKinksToRows(visibleBuckets.mutualMaybe);
-      case 'partialYes':
-        return gateOpen ? mapKinksToRows(visibleBuckets.partialYes) : [];
-      default:
-        return [];
-    }
-  }, [gateOpen, mapKinksToRows, selectedTab, visibleBuckets]);
-
-  const hasAnyMatches = useMemo(() => {
-    if (
-      visibleBuckets.mutualYes.length ||
-      visibleBuckets.mutualNo.length ||
-      visibleBuckets.mutualMaybe.length
-    ) {
-      return true;
-    }
-    if (gateOpen && visibleBuckets.partialYes.length) {
-      return true;
-    }
-    return false;
-  }, [gateOpen, visibleBuckets]);
-
-  const verificationQueue = useMemo<Profile[]>(() => {
-    if (!activeProfile || !partnerProfile) return [];
-    return [activeProfile, partnerProfile];
-  }, [activeProfile, partnerProfile]);
-
-  const openPinModal = useCallback(
-    (mode: 'partial' | 'unlock') => {
-      if (!verificationQueue.length) return;
-      const missingPinProfile = verificationQueue.find(
-        (profile) => !profile.pin
+    const sortRows = (rows: MatchItem[]) =>
+      rows.sort((a, b) =>
+        a.category === b.category
+          ? a.title.localeCompare(b.title)
+          : a.category.localeCompare(b.category)
       );
-      if (missingPinProfile) {
-        const name = missingPinProfile.displayName ?? missingPinProfile.name;
-        Alert.alert(
-          t.matches.pinRequired,
-          interpolate(t.matches.pinRequiredDesc, { name }),
-          [
-            { text: t.common.cancel, style: 'cancel' },
-            { text: t.matches.openSettings, onPress: () => router.push('/(settings)') },
-          ]
-        );
-        return;
-      }
-      setPendingReveal(mode);
-      setPinModalProfiles(verificationQueue);
-      setPinModalVisible(true);
-    },
-    [verificationQueue, router]
-  );
 
-  const handlePartnerToggle = useCallback(() => {
-    setPartnerPickerOpen((prev) => !prev);
-  }, []);
+    return { mutualYes: sortRows(yes), mutualMaybe: sortRows(maybe) };
+  }, [activeVotes, kinksById, partnerVotes]);
+
+  const totalMatches = mutualYes.length + mutualMaybe.length;
 
   const handlePartnerSelect = useCallback((id: string) => {
     setSelectedPartnerId(id);
     setPartnerPickerOpen(false);
   }, []);
 
-  const handleLockSensitive = useCallback(() => {
-    clear();
-    setSelectedTab('mutualYes');
-    setPendingReveal(null);
-    setPinModalProfiles([]);
-  }, [clear]);
-
-  const handlePinModalClose = useCallback(() => {
-    setPinModalVisible(false);
-    setPendingReveal(null);
-    setPinModalProfiles([]);
-  }, []);
-
-  const handleVerifyProfilePin = useCallback(
-    (profile: Profile, pin: string) => {
-      if (!profile.pin) {
-        return { success: false, error: 'PIN not set for this profile.' };
-      }
-      if (profile.pin !== pin) {
-        return { success: false, error: 'Incorrect PIN' };
-      }
-      verifyProfile(profile.id);
-      return { success: true };
-    },
-    [verifyProfile]
-  );
-
-  const handlePinModalSuccess = useCallback(() => {
-    setPinModalVisible(false);
-    if (pendingReveal === 'partial') {
-      setSelectedTab('partialYes');
+  const handleShare = useCallback(async () => {
+    try {
+      await Share.share({
+        message: `SpiceSync results: ${mutualYes.length} mutual yes and ${mutualMaybe.length} mutual maybe matches.`,
+      });
+    } catch {
+      Alert.alert(t.common.error, 'Unable to share results right now.');
     }
-    setPendingReveal(null);
-    setPinModalProfiles([]);
-  }, [pendingReveal]);
-
-  const handleTabPress = useCallback(
-    (option: TabOption) => {
-      if (option.locked && !gateOpen) {
-        openPinModal('partial');
-        return;
-      }
-      setSelectedTab(option.key);
-    },
-    [gateOpen, openPinModal]
-  );
-
-  const handleUnlockPress = useCallback(() => {
-    if (!gateOpen) {
-      openPinModal('unlock');
-    }
-  }, [gateOpen, openPinModal]);
+  }, [mutualMaybe.length, mutualYes.length, t.common.error]);
 
   if (!hydrated || !activeId) {
     return null;
   }
 
-  if (!profiles.length) {
+  if (!profiles.length || !activeProfile) {
     return (
-      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>{t.profiles.noProfile}</Text>
-        <Text style={styles.p}>
-          {t.profiles.createPartner}
-        </Text>
+      <SafeAreaView
+        style={styles.screen}
+        edges={['top', 'left', 'right', 'bottom']}
+      >
+        <StatusBar style="light" />
+        <AppHeader />
+        <View style={styles.centerState}>
+          <Text style={styles.emptyTitle}>{t.profiles.noProfile}</Text>
+          <Text style={styles.emptyCopy}>{t.profiles.createPartner}</Text>
+        </View>
+        <AppTabBar active="matches" />
       </SafeAreaView>
     );
   }
 
-  if (!partners.length || !partnerProfile || !activeProfile) {
+  if (!partners.length || !partnerProfile) {
     return (
-      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>{t.profiles.needPartner}</Text>
-        <Text style={styles.p}>
-          {t.profiles.createPartner}
-        </Text>
+      <SafeAreaView
+        style={styles.screen}
+        edges={['top', 'left', 'right', 'bottom']}
+      >
+        <StatusBar style="light" />
+        <AppHeader />
+        <View style={styles.centerState}>
+          <Text style={styles.emptyTitle}>{t.profiles.needPartner}</Text>
+          <Text style={styles.emptyCopy}>{t.profiles.createPartner}</Text>
+        </View>
+        <AppTabBar active="matches" />
       </SafeAreaView>
     );
   }
-
-  const partnerOptions: PartnerOption[] = partners.map((profile) => ({
-    id: profile.id,
-    label: `${profile.emoji} ${profile.displayName ?? profile.name}`,
-  }));
 
   return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{t.matches.title}</Text>
-        <Text style={styles.subtitle}>
-          {activeProfile.emoji}{' '}
-          {activeProfile.displayName ?? activeProfile.name} •{' '}
-          {partnerProfile.emoji}{' '}
-          {partnerProfile.displayName ?? partnerProfile.name}
-        </Text>
-      </View>
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
+      <StatusBar style="light" />
+      <AppHeader />
 
-      {partners.length > 1 ? (
-        <View style={styles.partnerPicker}>
-          <Pressable
-            style={styles.partnerButton}
-            accessibilityRole="button"
-            accessibilityLabel={t.matches.choosePartner}
-            onPress={handlePartnerToggle}
-          >
-            <Text style={styles.partnerButtonLabel}>
-              {partnerProfile.emoji}{' '}
-              {partnerProfile.displayName ?? partnerProfile.name}
-            </Text>
-          </Pressable>
-          {partnerPickerOpen ? (
-            <View style={styles.partnerDropdown}>
-              {partnerOptions.map((option) => (
-                <Pressable
-                  key={option.id}
-                  style={[
-                    styles.partnerOption,
-                    option.id === partnerProfile.id &&
-                      styles.partnerOptionActive,
-                  ]}
-                  onPress={() => handlePartnerSelect(option.id)}
-                  accessibilityRole="button"
-                >
-                  <Text
+      <View style={styles.content}>
+        <ScreenTour
+          screenId="matches"
+          screenLabel="Matches"
+          steps={MAIN_SCREEN_TOURS.matches}
+        />
+
+        <View style={styles.partnerBanner}>
+          <CardAccentTop />
+          <View style={styles.partnerBannerInner}>
+            <View style={styles.avatarPair}>
+              <ProfileAvatarIcon
+                avatar={activeProfile.emoji}
+                size={52}
+                selected
+              />
+
+              <Pressable
+                style={styles.matchCenter}
+                onPress={() => setPartnerPickerOpen((open) => !open)}
+                accessibilityRole="button"
+              >
+                <Heart size={20} color={COLORS.pink} fill={COLORS.pink} />
+                <Text style={styles.matchCount}>{totalMatches} matches</Text>
+              </Pressable>
+
+              <ProfileAvatarIcon avatar={partnerProfile.emoji} size={52} />
+            </View>
+
+            <View style={styles.partnerLabels}>
+              <Text style={styles.partnerLabel}>You</Text>
+              <Text style={styles.partnerLabel}>Last synced: Just now</Text>
+              <Text style={styles.partnerLabel}>
+                {partnerProfile.displayName ?? partnerProfile.name}
+              </Text>
+            </View>
+
+            {partnerPickerOpen && partners.length > 1 ? (
+              <View style={styles.partnerDropdown}>
+                {partners.map((profile) => (
+                  <Pressable
+                    key={profile.id}
+                    onPress={() => handlePartnerSelect(profile.id)}
                     style={[
-                      styles.partnerOptionLabel,
-                      option.id === partnerProfile.id &&
-                        styles.partnerOptionLabelActive,
+                      styles.partnerOption,
+                      profile.id === partnerProfile.id &&
+                        styles.partnerOptionActive,
                     ]}
                   >
-                    {option.label}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
-          ) : null}
+                    <View style={styles.partnerOptionLabel}>
+                      <ProfileAvatarIcon
+                        avatar={profile.emoji}
+                        size={22}
+                        framed={false}
+                      />
+                      <Text style={styles.partnerOptionText}>
+                        {profile.displayName ?? profile.name}
+                      </Text>
+                    </View>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+          </View>
         </View>
-      ) : null}
 
-      <View style={styles.tabs}>
-        {tabOptions.map((option) => (
-          <Pressable
-            key={option.key}
-            style={[
-              styles.tabButton,
-              selectedTab === option.key && styles.tabButtonActive,
-            ]}
-            accessibilityRole="button"
-            accessibilityState={{ selected: selectedTab === option.key }}
-            onPress={() => handleTabPress(option)}
+        <MatchSection
+          tone="yes"
+          icon={Check}
+          title="MUTUAL YES"
+          rows={mutualYes}
+        />
+        <MatchSection
+          tone="maybe"
+          icon={Ellipsis}
+          title="MUTUAL MAYBE"
+          rows={mutualMaybe}
+        />
+
+        <Pressable
+          style={styles.sharePress}
+          onPress={handleShare}
+          accessibilityRole="button"
+        >
+          <LinearGradient
+            colors={GRADIENTS.primary}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={styles.shareButton}
           >
-            <Text
-              style={[
-                styles.tabLabel,
-                selectedTab === option.key && styles.tabLabelActive,
-              ]}
-            >
-              {option.label}
-              {typeof option.count === 'number'
-                ? ` (${option.count})`
-                : option.locked
-                  ? ' 🔒'
-                  : ''}
-            </Text>
-          </Pressable>
-        ))}
+            <Share2 size={17} color={COLORS.textPrimary} />
+            <Text style={styles.shareText}>SHARE RESULTS</Text>
+          </LinearGradient>
+        </Pressable>
       </View>
 
-      <View style={styles.sensitiveBanner}>
-        {gateOpen ? (
-          <View style={{ gap: 8 }}>
-            <Text style={styles.sensitiveTitle}>{t.matches.partialYesUnlocked}</Text>
-            <Text style={styles.sensitiveCopy}>{t.matches.lockCopy}</Text>
-            <Pressable
-              style={styles.lockButton}
-              onPress={handleLockSensitive}
-              accessibilityRole="button"
-            >
-              <Text style={styles.lockButtonLabel}>{t.matches.lockPartialYes}</Text>
-            </Pressable>
-          </View>
-        ) : (
-          <View style={{ gap: 8 }}>
-            <Text style={styles.sensitiveTitle}>{t.matches.partialYesLocked}</Text>
-            <Text style={styles.sensitiveCopy}>{t.matches.unlockCopy}</Text>
-            <Pressable
-              style={styles.unlockButton}
-              onPress={handleUnlockPress}
-              accessibilityRole="button"
-            >
-              <Text style={styles.unlockButtonLabel}>{t.matches.unlockPartialYes}</Text>
-            </Pressable>
-          </View>
-        )}
-      </View>
-
-      {hasAnyMatches ? (
-        rows.length ? (
-          <FlatList
-            data={rows}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <MatchRow
-                title={item.title}
-                subtitle={item.subtitle}
-                aEmoji={activeProfile?.emoji}
-                bEmoji={partnerProfile?.emoji}
-                aVote={item.aVote}
-                bVote={item.bVote}
-                kinkSlug={item.slug}
-                kinkTier={item.tier}
-              />
-            )}
-            ItemSeparatorComponent={() => <View style={styles.separator} />}
-            contentContainerStyle={styles.listContent}
-          />
-        ) : (
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>
-              {interpolate(t.matches.noTabMatches, {
-                tab: tabOptions.find((tab) => tab.key === selectedTab)?.label.toLowerCase() ?? '',
-              })}
-            </Text>
-            <Text style={styles.emptyCopy}>{t.matches.keepSwipingMore}</Text>
-          </View>
-        )
-      ) : (
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyTitle}>{t.matches.noMatchesYet}</Text>
-          <Text style={styles.emptyCopy}>{t.matches.keepSwiping}</Text>
-        </View>
-      )}
-
-      <PinVerifyModal
-        open={pinModalVisible}
-        profiles={pinModalProfiles}
-        onClose={handlePinModalClose}
-        onSuccess={handlePinModalSuccess}
-        onVerifyProfile={handleVerifyProfilePin}
-      />
-
+      <AppTabBar active="matches" />
     </SafeAreaView>
   );
 }
 
+function MatchSection({
+  tone,
+  icon: Icon,
+  title,
+  rows,
+}: {
+  tone: 'yes' | 'maybe';
+  icon: typeof Check;
+  title: string;
+  rows: MatchItem[];
+}) {
+  const color = tone === 'yes' ? COLORS.yes : COLORS.maybe;
+  const bg = tone === 'yes' ? 'rgba(34,197,94,0.04)' : 'rgba(245,158,11,0.06)';
+  const border =
+    tone === 'yes' ? 'rgba(34,197,94,0.19)' : 'rgba(245,158,11,0.22)';
+
+  return (
+    <View
+      style={[styles.section, { backgroundColor: bg, borderColor: border }]}
+    >
+      <View style={styles.sectionHeader}>
+        <View style={styles.sectionTitleRow}>
+          <Icon size={16} color={color} />
+          <Text style={[styles.sectionTitle, { color }]}>{title}</Text>
+        </View>
+        <View style={[styles.countBadge, { backgroundColor: `${color}1F` }]}>
+          <Text style={[styles.countBadgeText, { color }]}>{rows.length}</Text>
+        </View>
+      </View>
+
+      <View style={styles.rowList}>
+        {rows.length ? (
+          rows.slice(0, 4).map((item) => (
+            <View key={item.id} style={styles.resultRow}>
+              <Text style={styles.resultTitle}>{item.title}</Text>
+              <Text style={styles.resultCategory}>
+                {item.category.toUpperCase()}
+              </Text>
+            </View>
+          ))
+        ) : (
+          <View style={styles.resultRow}>
+            <Text style={styles.resultTitle}>No shared picks yet</Text>
+            <Text style={styles.resultCategory}>KEEP SWIPING</Text>
+          </View>
+        )}
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#0b0f14', paddingBottom: 12 },
-  wrap: {
+  screen: {
     flex: 1,
-    backgroundColor: '#0b0f14',
-    padding: 16,
+    backgroundColor: COLORS.bg,
+  },
+  content: {
+    flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
     gap: 12,
+  },
+  partnerBanner: {
+    borderRadius: 24,
+    backgroundColor: COLORS.card,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    overflow: 'hidden',
+    ...SHADOWS.card,
+  },
+  partnerBannerInner: {
+    paddingHorizontal: 18,
+    paddingVertical: 16,
+    gap: 10,
+  },
+  avatarPair: {
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
+    gap: 16,
   },
-  h1: { color: 'white', fontWeight: '900', fontSize: 22 },
-  p: { color: '#94a3b8' },
-  header: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 12, gap: 6 },
-  title: { color: 'white', fontSize: 24, fontWeight: '900' },
-  subtitle: { color: '#93c5fd', fontWeight: '600' },
-  partnerPicker: { paddingHorizontal: 16, marginBottom: 8 },
-  partnerButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#1f2937',
-    backgroundColor: '#111827',
+  matchCenter: {
+    alignItems: 'center',
+    gap: 4,
+    minWidth: 78,
   },
-  partnerButtonLabel: { color: 'white', fontWeight: '700' },
+  matchCount: {
+    color: COLORS.pink,
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  partnerLabels: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  partnerLabel: {
+    color: 'rgba(255,255,255,0.37)',
+    fontSize: 11,
+    fontWeight: '600',
+  },
   partnerDropdown: {
-    marginTop: 6,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#1f2937',
-    backgroundColor: '#111827',
+    borderColor: COLORS.borderFaint,
     overflow: 'hidden',
   },
-  partnerOption: { paddingVertical: 10, paddingHorizontal: 14 },
-  partnerOptionActive: { backgroundColor: '#1d4ed8' },
-  partnerOptionLabel: { color: 'white', fontWeight: '600' },
-  partnerOptionLabelActive: { color: 'white' },
-  tabs: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    gap: 8,
-    marginBottom: 12,
-  },
-  tabButton: {
-    flex: 1,
-    borderRadius: 12,
-    paddingVertical: 10,
+  partnerOption: {
+    paddingVertical: 9,
     paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#1f2937',
-    backgroundColor: '#111827',
-    alignItems: 'center',
+    backgroundColor: COLORS.cardAlt,
   },
-  tabButtonActive: {
-    backgroundColor: '#1d4ed8',
-    borderColor: '#1d4ed8',
+  partnerOptionActive: {
+    backgroundColor: 'rgba(194,24,91,0.2)',
   },
-  tabLabel: { color: '#cbd5e1', fontWeight: '700' },
-  tabLabelActive: { color: 'white' },
-  sensitiveBanner: {
-    marginHorizontal: 16,
-    marginBottom: 16,
-    padding: 14,
-    borderRadius: 14,
-    backgroundColor: '#111827',
-    borderWidth: 1,
-    borderColor: '#1f2937',
-  },
-  sensitiveTitle: { color: 'white', fontWeight: '800', fontSize: 16 },
-  sensitiveCopy: { color: '#94a3b8' },
-  unlockButton: {
-    marginTop: 10,
-    paddingVertical: 10,
-    borderRadius: 12,
-    alignItems: 'center',
-    backgroundColor: '#2563eb',
-  },
-  unlockButtonLabel: { color: 'white', fontWeight: '800' },
-  lockButton: {
-    marginTop: 10,
-    paddingVertical: 10,
-    borderRadius: 12,
-    alignItems: 'center',
-    backgroundColor: '#1f2937',
-  },
-  lockButtonLabel: { color: '#f97316', fontWeight: '700' },
-  listContent: { paddingBottom: 24, paddingHorizontal: 16 },
-  separator: { height: 1, backgroundColor: '#111827' },
-  emptyState: {
-    marginTop: 32,
+  partnerOptionLabel: {
+    flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    paddingHorizontal: 16,
   },
-  emptyTitle: { color: 'white', fontWeight: '800', fontSize: 18 },
-  emptyCopy: { color: '#94a3b8', textAlign: 'center' },
+  partnerOptionText: {
+    color: COLORS.textPrimary,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  section: {
+    borderRadius: 18,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    gap: 12,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  sectionTitle: {
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 1.2,
+  },
+  countBadge: {
+    minWidth: 24,
+    height: 22,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+  },
+  countBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+  },
+  rowList: {
+    gap: 8,
+  },
+  resultRow: {
+    borderRadius: 10,
+    backgroundColor: 'rgba(255,255,255,0.024)',
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  resultTitle: {
+    flex: 1,
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  resultCategory: {
+    color: 'rgba(255,45,146,0.5)',
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  sharePress: {
+    height: 44,
+    borderRadius: 22,
+    overflow: 'hidden',
+  },
+  shareButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 9,
+  },
+  shareText: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  centerState: {
+    flex: 1,
+    padding: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  emptyTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 22,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  emptyCopy: {
+    color: COLORS.textSub,
+    fontSize: 13,
+    textAlign: 'center',
+  },
 });

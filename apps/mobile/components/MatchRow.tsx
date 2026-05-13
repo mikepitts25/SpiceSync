@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 
 import type { VoteValue } from '../src/stores/votes';
 import { COLORS } from '../constants/theme';
+import ProfileAvatarIcon from './ProfileAvatarIcon';
 
 type VoteVal = VoteValue | undefined;
 
@@ -38,7 +39,7 @@ function VoteChip({ emoji, vote }: ChipProps) {
         },
       ]}
     >
-      <Text style={styles.chipEmoji}>{emoji ?? '🙂'}</Text>
+      <ProfileAvatarIcon avatar={emoji} size={16} framed={false} />
       <Text style={styles.chipText}>{voteLabel(vote)}</Text>
     </View>
   );
@@ -139,9 +140,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     gap: 6,
-  },
-  chipEmoji: {
-    fontSize: 16,
   },
   chipText: {
     color: 'white',

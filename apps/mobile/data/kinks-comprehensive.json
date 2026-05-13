@@ -782,23 +782,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0205",
-    "slug": "breath-play",
-    "title": "Breath Play",
-    "titleEs": "Juego de Respiraci\u00f3n",
-    "description": "Control or restrict breathing for intense sensations. This is edge play and requires extreme caution, clear communication, and thorough knowledge of safety.",
-    "descriptionEs": "Controlen o restrinjan la respiraci\u00f3n para sensaciones intensas. Esto es juego de borde y requiere extrema precauci\u00f3n, comunicaci\u00f3n clara y conocimiento profundo de seguridad.",
-    "tags": [
-      "breath",
-      "edge",
-      "intensity",
-      "danger"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0206",
     "slug": "chastity",
     "title": "Chastity Play",

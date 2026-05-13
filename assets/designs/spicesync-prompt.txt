@@ -1,0 +1,69 @@
+Create a professional mobile app UI design canvas showing 3 side-by-side iPhone mockups (390x844px each) for the SpiceSync app — a dark-themed couples interest matching app. Space them 60px apart horizontally on a dark canvas (#080810 background). Add a label above each artboard.
+
+DESIGN SYSTEM:
+- Background deep dark: #0D0D15
+- Card bg: #1E1E2E
+- Hot pink: #FF2D92
+- Purple: #8B5CF6
+- Lavender: #A78BFA
+- Cyan: #00D9FF
+- White text: #FFFFFF
+- Muted text: rgba(255,255,255,0.45)
+- Font: Inter or system sans-serif
+
+LOGO (used in all 3): "SpiceSync" wordmark — "Spice" in hot pink #FF2D92, "Sync" in purple #8B5CF6. Below it: "DISCOVER TOGETHER" in tiny letter-spaced muted gray caps. Top-right: circular avatar button (purple gradient bg) containing a fire emoji.
+
+CARD CONTENT (same across all 3):
+- Category label "SENSATION" in hot pink, uppercase tiny tracking
+- Three dots pagination indicator (two filled, one empty) top-right of card
+- Big bold title "Blindfold & Trust" (~40px white bold)
+- Body: "Surrender your senses and let your partner guide every touch, sound, and sensation."
+- Short gradient accent divider line (pink to cyan, ~60px wide)
+- Tag pills: "trust" "sensory" "intimate" — rounded pill outline style
+- Progress text "12 of 48" small muted
+- Section label "PARTNER STATUS" in tiny muted caps
+- Avatar row: purple circle with heart emoji, text "Jordan hasn't voted yet" bold white, "Waiting on their swipe" small muted
+- Mutual matches box: "MUTUAL MATCHES" label left, "7" large pink right, gradient progress bar below (~30% filled, pink to cyan)
+
+BOTTOM CONTROLS (below card):
+- Three action buttons in a row centered:
+  - Left: dark circle, red X icon, label "PASS" below in small muted red
+  - Center: large bright pink circle (#FF2D92), white checkmark, label "YES" below in pink
+  - Right: dark circle, amber dots, label "MAYBE" below in amber
+- Tab bar at very bottom: icons + labels for BROWSE / DECK (active, pink) / MATCHES / CONVO / GAME
+
+---
+
+VARIANT A — "Nocturnal" (leftmost):
+Label above: "Option A — Nocturnal"
+- Full background: #0D0D15
+- Logo: "spice" in white, "sync" in #FF2D92 hot pink, all lowercase bold
+- Thin horizontal divider line below logo area: pink to cyan gradient
+- Card: #1E1E2E rounded 24px, solid dark fill
+- Thin pink to cyan gradient accent strip at top edge of card
+- All card text: white or muted white
+- Tag pills: dark outline rounded
+- Mutual matches box: slightly lighter dark inset
+
+VARIANT B — "Phosphor" (center):
+Label above: "Option C — Phosphor"
+- Background: #0A0A10
+- Logo: "SpiceSync" — "Spice" in #FF2D92, "Sync" in #A78BFA lavender
+- Card: large rounded card with vibrant gradient fill — top-left hot pink #FF2D92, through purple #8B5CF6, to bottom-right sky blue #60A5FA
+- All card text white
+- Tag pills: solid black rounded with white text — pop against the gradient
+- Partner avatar: dark purple circle
+- Mutual matches box: semi-transparent dark overlay inside card
+- YES button: gradient circle (pink to purple)
+
+VARIANT C — "Nocturnal Glow" (rightmost):
+Label above: "Variant 3 — Nocturnal Glow"
+- Background: #0D0D15 with a subtle dark purple radial glow behind the card
+- Logo: "SpiceSync" — gradient text from pink to purple/lavender
+- Card: #1A1A2E dark navy, rounded 24px, with faint pink glow border effect
+- Top accent: pink gradient line at top of card
+- Avatar circle: pink to purple gradient background
+- Mutual matches bar: pink to cyan gradient fill
+- Tag pills: dark subtle outline
+
+Make it crisp, high fidelity, production-quality. Tight spacing, clean typography, pixel-perfect alignment.

@@ -1,33 +1,256 @@
 import React, {
-  useEffect,
-  useMemo,
-  useState,
+  forwardRef,
   useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
   useRef,
+  useState,
 } from 'react';
-import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SwipeDeck, {
-  type SwipeDeckHandle,
-  type SwipeDirection,
-} from '../../components/SwipeDeck';
-import VoteButtons from '../../components/VoteButtons';
-import EndOfDeck from '../../components/EndOfDeck';
-import { useKinks } from '../../lib/data';
-import { useFilters } from '../../lib/state/filters';
-import { useProfilesStore } from '../../lib/state/profiles';
-import { useVotesStore, type VoteValue } from '../../src/stores/votes';
-import { useSettingsStore } from '../../src/stores/settingsStore';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
+import { Check, Ellipsis, X } from 'lucide-react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
-import { useTranslation } from '../../lib/i18n';
 
-const { width: SCREEN_W } = Dimensions.get('window');
+import {
+  AccentBar,
+  ActionCircle,
+  AppHeader,
+  AppTabBar,
+  IntensityDots,
+} from '../../components/app-chrome';
+import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
+import { ScreenTour } from '../../components/ScreenTour';
+import { useKinks, type KinkItem } from '../../lib/data';
+import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
+import {
+  describeTierFilter,
+  filterKinksByTier,
+  TIER_FILTER_OPTIONS,
+  useFilters,
+  type Tier,
+} from '../../lib/state/filters';
+import { useProfilesStore } from '../../lib/state/profiles';
+import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useVotesStore, type VoteValue } from '../../src/stores/votes';
+import { useTranslation } from '../../lib/i18n';
+import {
+  COLORS,
+  GRADIENTS,
+  RADII,
+  SHADOWS,
+  TYPOGRAPHY,
+} from '../../constants/theme';
+
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
+const OFFSCREEN_X = SCREEN_W * 1.4;
+const OFFSCREEN_Y = SCREEN_H * 1.1;
+
+type SwipeDirection = 'left' | 'right' | 'up';
+
+type SwipeDeckHandle = {
+  programmaticSwipe: (dir: SwipeDirection) => void;
+  isAnimating: () => boolean;
+};
+
+const TIER_COLORS: Record<string, string> = {
+  soft: COLORS.pink,
+  naughty: COLORS.purple,
+  xxx: COLORS.no,
+};
+
+const SwipeableKinkCard = forwardRef<
+  SwipeDeckHandle,
+  {
+    item: KinkItem;
+    partnerName: string;
+    partnerEmoji?: string | null;
+    partnerVoted: boolean;
+    onSwipe: (dir: SwipeDirection) => void;
+    onSwipeStart: () => void;
+    onSwipeEnd: () => void;
+  }
+>(function SwipeableKinkCard(
+  {
+    item,
+    partnerName,
+    partnerEmoji,
+    partnerVoted,
+    onSwipe,
+    onSwipeStart,
+    onSwipeEnd,
+  },
+  ref
+) {
+  const x = useSharedValue(0);
+  const y = useSharedValue(0);
+  const animating = useSharedValue(false);
+  const tierColor = item.tier
+    ? (TIER_COLORS[item.tier] ?? COLORS.pink)
+    : COLORS.pink;
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: x.value },
+      { translateY: y.value },
+      { rotate: `${x.value / 24}deg` },
+    ],
+  }));
+
+  const reset = () => {
+    'worklet';
+    x.value = withSpring(0, { damping: 15, stiffness: 150 });
+    y.value = withSpring(0, { damping: 15, stiffness: 150 });
+  };
+
+  const performSwipe = (dir: SwipeDirection) => {
+    'worklet';
+    const targetX =
+      dir === 'right' ? OFFSCREEN_X : dir === 'left' ? -OFFSCREEN_X : 0;
+    const targetY = dir === 'up' ? -OFFSCREEN_Y : 0;
+    const finish = (finished?: boolean) => {
+      'worklet';
+      animating.value = false;
+      x.value = 0;
+      y.value = 0;
+      runOnJS(onSwipeEnd)();
+      if (finished) {
+        runOnJS(onSwipe)(dir);
+      }
+    };
+
+    if (dir === 'up') {
+      y.value = withTiming(
+        targetY,
+        { duration: 230, easing: Easing.out(Easing.cubic) },
+        finish
+      );
+      x.value = withTiming(targetX, {
+        duration: 230,
+        easing: Easing.out(Easing.cubic),
+      });
+    } else {
+      x.value = withTiming(
+        targetX,
+        { duration: 230, easing: Easing.out(Easing.cubic) },
+        finish
+      );
+      y.value = withTiming(targetY, {
+        duration: 230,
+        easing: Easing.out(Easing.cubic),
+      });
+    }
+  };
+
+  const triggerSwipe = (dir: SwipeDirection) => {
+    if (animating.value) return;
+    animating.value = true;
+    onSwipeStart();
+    performSwipe(dir);
+  };
+
+  const handleEnd = (dx: number, dy: number) => {
+    'worklet';
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx > 100) {
+        runOnJS(triggerSwipe)('right');
+        return;
+      }
+      if (dx < -100) {
+        runOnJS(triggerSwipe)('left');
+        return;
+      }
+    } else if (dy < -80) {
+      runOnJS(triggerSwipe)('up');
+      return;
+    }
+    reset();
+  };
+
+  useImperativeHandle(ref, () => ({
+    programmaticSwipe: (dir: SwipeDirection) => triggerSwipe(dir),
+    isAnimating: () => animating.value,
+  }));
+
+  return (
+    <PanGestureHandler
+      onGestureEvent={(event) => {
+        x.value = Number(event.nativeEvent.translationX ?? 0);
+        y.value = Number(event.nativeEvent.translationY ?? 0);
+      }}
+      onEnded={(event) => {
+        handleEnd(
+          Number(event.nativeEvent.translationX ?? 0),
+          Number(event.nativeEvent.translationY ?? 0)
+        );
+      }}
+    >
+      <Animated.View style={[styles.kinkCard, animatedStyle]}>
+        <LinearGradient
+          colors={GRADIENTS.cardAccentBar}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.progressRail}
+        />
+
+        <View style={styles.cardInner}>
+          <View style={styles.cardTopRow}>
+            <Text style={styles.categoryLabel}>
+              {(item.category || 'Sensation').toUpperCase()}
+            </Text>
+            <IntensityDots value={item.intensityScale ?? 1} color={tierColor} />
+          </View>
+
+          <AccentBar />
+
+          <Text style={styles.kinkTitle}>{item.title}</Text>
+          <Text style={styles.kinkBody}>{item.description}</Text>
+
+          <View style={styles.tagRow}>
+            {(item.tags ?? []).slice(0, 3).map((tag) => (
+              <View key={tag} style={styles.tagPill}>
+                <Text style={styles.tagText}>{tag}</Text>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.partnerBlock}>
+            <View style={styles.partnerPill}>
+              <ProfileAvatarIcon
+                avatar={partnerEmoji}
+                size={24}
+                framed={false}
+              />
+              <View style={styles.partnerCopy}>
+                <Text style={styles.partnerName}>{partnerName}</Text>
+                <Text style={styles.partnerStatus}>
+                  {partnerVoted ? 'voted ✓' : "hasn't voted yet"}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Animated.View>
+    </PanGestureHandler>
+  );
+});
 
 export default function DeckScreen() {
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
-  const { selectedTier } = useFilters();
+  const { selectedTier, setTier, clearTier } = useFilters();
   const { t } = useTranslation();
   const { isHydrated, hasActive, profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
@@ -48,15 +271,21 @@ export default function DeckScreen() {
     () => profiles.find((profile) => profile.id === activeProfileId) ?? null,
     [profiles, activeProfileId]
   );
+  const partnerProfile = useMemo(
+    () => profiles.find((profile) => profile.id !== activeProfileId) ?? null,
+    [profiles, activeProfileId]
+  );
   const activeProfileIdValue = activeProfile?.id ?? null;
+  const partnerProfileIdValue = partnerProfile?.id ?? null;
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const setVote = useVotesStore((state) => state.setVote);
   const clearVotesForKinks = useVotesStore((state) => state.clearVotesForKinks);
 
   const filteredKinks = useMemo(
-    () => (selectedTier ? kinks.filter((k) => k.tier === selectedTier) : kinks),
+    () => filterKinksByTier(kinks, selectedTier),
     [kinks, selectedTier]
   );
+  const activeFilterLabel = describeTierFilter(selectedTier);
 
   const allKinkIdsInFilter = useMemo(
     () => filteredKinks.map((k) => k.id),
@@ -66,6 +295,11 @@ export default function DeckScreen() {
   const activeProfileVotes = useVotesStore((state) =>
     activeProfileIdValue
       ? state.votesByProfile[activeProfileIdValue]
+      : undefined
+  );
+  const partnerVotes = useVotesStore((state) =>
+    partnerProfileIdValue
+      ? state.votesByProfile[partnerProfileIdValue]
       : undefined
   );
 
@@ -103,26 +337,6 @@ export default function DeckScreen() {
     }, [])
   );
 
-  const updateIndex = useCallback(
-    (updater: (current: number) => number) => {
-      setIndexByKey((prev) => {
-        const currentValue = prev[key] ?? 0;
-        const nextValue = Math.max(
-          0,
-          Math.min(queue.length, updater(currentValue))
-        );
-        if (nextValue === currentValue) {
-          return prev;
-        }
-        return {
-          ...prev,
-          [key]: nextValue,
-        };
-      });
-    },
-    [key, queue.length]
-  );
-
   const handleSwipeResult = useCallback(
     (dir: SwipeDirection) => {
       if (!current || !activeProfileIdValue) {
@@ -134,7 +348,7 @@ export default function DeckScreen() {
       const directionToVote: Record<SwipeDirection, VoteValue> = {
         left: 'no',
         right: 'yes',
-        down: 'maybe',
+        up: 'maybe',
       };
 
       const voteValue = queuedVoteRef.current ?? directionToVote[dir];
@@ -154,7 +368,7 @@ export default function DeckScreen() {
       const valueToDirection: Record<VoteValue, SwipeDirection> = {
         yes: 'right',
         no: 'left',
-        maybe: 'down',
+        maybe: 'up',
       };
 
       queuedVoteRef.current = value;
@@ -163,120 +377,445 @@ export default function DeckScreen() {
     [cardAnimating, current]
   );
 
+  const applyTierFilter = useCallback(
+    (tier: Tier) => {
+      if (tier) {
+        setTier(tier);
+      } else {
+        clearTier();
+      }
+    },
+    [clearTier, setTier]
+  );
+
   if (!isHydrated || !hasActive) {
     return null;
   }
 
   if (!activeProfile) {
     return (
-      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>{t.profiles.chooseProfile}</Text>
-        <Text style={styles.p}>{t.profiles.selectProfileToSwipe}</Text>
+      <SafeAreaView
+        style={styles.screen}
+        edges={['top', 'left', 'right', 'bottom']}
+      >
+        <StatusBar style="light" />
+        <AppHeader />
+        <View style={styles.centerState}>
+          <Text style={styles.emptyTitle}>{t.profiles.chooseProfile}</Text>
+          <Text style={styles.emptyCopy}>
+            {t.profiles.selectProfileToSwipe}
+          </Text>
+        </View>
+        <AppTabBar active="deck" />
       </SafeAreaView>
     );
   }
 
   if (!filteredKinks.length) {
     return (
-      <SafeAreaView style={styles.wrap} edges={['top', 'left', 'right']}>
-        <Text style={styles.h1}>{t.deck.noItemsInCategory}</Text>
-        <Text style={styles.p}>{t.deck.tryAnotherCategory}</Text>
+      <SafeAreaView
+        style={styles.screen}
+        edges={['top', 'left', 'right', 'bottom']}
+      >
+        <StatusBar style="light" />
+        <AppHeader />
+        <View style={styles.centerState}>
+          <Text style={styles.emptyTitle}>{t.deck.noItemsInCategory}</Text>
+          <Text style={styles.emptyCopy}>{t.deck.tryAnotherCategory}</Text>
+        </View>
+        <AppTabBar active="deck" />
       </SafeAreaView>
     );
   }
 
   if (!queue.length || !current) {
     return (
-      <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-        <EndOfDeck
-          onReset={() => {
-            if (!activeProfileIdValue) return;
-            clearVotesForKinks(activeProfileIdValue, allKinkIdsInFilter);
-            setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
-          }}
-          onViewMatches={() => router.navigate('/matches')}
-        />
+      <SafeAreaView
+        style={styles.screen}
+        edges={['top', 'left', 'right', 'bottom']}
+      >
+        <StatusBar style="light" />
+        <AppHeader />
+        <View style={styles.centerState}>
+          <Text style={styles.emptyTitle}>You're all caught up</Text>
+          <Text style={styles.emptyCopy}>
+            Review matches or reset this deck to swipe again.
+          </Text>
+          <View style={styles.emptyActions}>
+            <Pressable
+              style={styles.outlineButton}
+              onPress={() => {
+                if (!activeProfileIdValue) return;
+                clearVotesForKinks(activeProfileIdValue, allKinkIdsInFilter);
+                setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
+              }}
+            >
+              <Text style={styles.outlineButtonText}>RESET DECK</Text>
+            </Pressable>
+            <Pressable
+              style={styles.gradientButtonPress}
+              onPress={() => router.navigate('/(tabs)/matches')}
+            >
+              <LinearGradient
+                colors={GRADIENTS.primary}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+                style={styles.gradientButton}
+              >
+                <Text style={styles.gradientButtonText}>VIEW MATCHES</Text>
+              </LinearGradient>
+            </Pressable>
+          </View>
+        </View>
+        <AppTabBar active="deck" />
       </SafeAreaView>
     );
   }
 
-  const me = activeProfile;
+  const partnerName =
+    partnerProfile?.displayName ?? partnerProfile?.name ?? 'Partner';
+  const partnerEmoji = partnerProfile?.emoji;
+  const partnerVoted = !!partnerVotes?.[current.id];
 
   return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-      <View style={styles.topBar}>
-        <Pressable onPress={() => router.navigate('/(tabs)/categories')} style={styles.backButton}>
-          <Text style={styles.backArrow}>←</Text>
-        </Pressable>
-        {selectedTier ? (
-          <Text style={styles.tier}>{selectedTier?.toUpperCase()}</Text>
-        ) : null}
-        <Text style={styles.user}>
-          {me?.emoji} {me?.displayName ?? me?.name}
-        </Text>
-      </View>
-      <View style={styles.deckArea}>
-        <View style={styles.cardMaxW}>
-          <SwipeDeck
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
+      <StatusBar style="light" />
+      <AppHeader />
+
+      <View style={styles.content}>
+        <LinearGradient
+          colors={GRADIENTS.cardAccentBar}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.topProgress}
+        />
+
+        <ScreenTour
+          screenId="deck"
+          screenLabel="Deck"
+          steps={MAIN_SCREEN_TOURS.deck}
+          style={styles.tourCard}
+        />
+
+        <View style={styles.filterBlock}>
+          <View style={styles.filterHeader}>
+            <Text style={styles.filterTitle}>INTENSITY</Text>
+            <Text style={styles.filterSummary}>{activeFilterLabel}</Text>
+          </View>
+
+          <View style={styles.tierRow}>
+            {TIER_FILTER_OPTIONS.map((option) => {
+              const active = selectedTier === option.value;
+              return (
+                <Pressable
+                  key={option.label}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: active }}
+                  onPress={() => applyTierFilter(option.value)}
+                  style={styles.tierPress}
+                >
+                  {active ? (
+                    <LinearGradient
+                      colors={GRADIENTS.primary}
+                      start={{ x: 0, y: 0.5 }}
+                      end={{ x: 1, y: 0.5 }}
+                      style={styles.tierActive}
+                    >
+                      <Text style={styles.tierActiveText}>{option.label}</Text>
+                    </LinearGradient>
+                  ) : (
+                    <View style={styles.tierInactive}>
+                      <Text style={styles.tierInactiveText}>
+                        {option.label}
+                      </Text>
+                    </View>
+                  )}
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+
+        <View style={styles.deckArea}>
+          <SwipeableKinkCard
             ref={topCardRef}
             item={current}
+            partnerName={partnerName}
+            partnerEmoji={partnerEmoji}
+            partnerVoted={partnerVoted}
             onSwipe={handleSwipeResult}
-            onUndo={() => updateIndex((prev) => prev - 1)}
             onSwipeStart={() => setCardAnimating(true)}
             onSwipeEnd={() => setCardAnimating(false)}
           />
         </View>
+
+        <View style={styles.actionRow}>
+          <ActionCircle
+            label="PASS"
+            icon={X}
+            color={COLORS.no}
+            onPress={() => handleButtonVote('no')}
+          />
+          <ActionCircle
+            label="YES"
+            icon={Check}
+            variant="gradient"
+            color={COLORS.pink}
+            size={66}
+            iconSize={28}
+            onPress={() => handleButtonVote('yes')}
+          />
+          <ActionCircle
+            label="MAYBE"
+            icon={Ellipsis}
+            color={COLORS.maybe}
+            onPress={() => handleButtonVote('maybe')}
+          />
+        </View>
       </View>
 
-      <VoteButtons
-        currentKinkId={current?.id}
-        onVote={handleButtonVote}
-        disabled={cardAnimating || !current}
-      />
+      <AppTabBar active="deck" />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, padding: 12, backgroundColor: '#0b0f14' },
-  wrap: {
+  screen: {
     flex: 1,
-    padding: 16,
-    gap: 12,
-    justifyContent: 'center',
-    backgroundColor: '#0b0f14',
+    backgroundColor: COLORS.bg,
   },
-  h1: { fontSize: 22, fontWeight: '800', color: 'white' },
-  p: { fontSize: 16, color: '#94a3b8' },
-  topBar: {
+  content: {
+    flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  topProgress: {
+    height: 3,
+    borderRadius: 2,
+    marginBottom: 8,
+  },
+  tourCard: {
+    marginBottom: 10,
+  },
+  filterBlock: {
+    gap: 8,
+    paddingBottom: 10,
+  },
+  filterHeader: {
+    minHeight: 18,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  filterTitle: {
+    color: COLORS.pink,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 1.3,
+  },
+  filterSummary: {
+    flexShrink: 1,
+    color: COLORS.textSub,
+    fontSize: 11,
+    fontWeight: '700',
+    textAlign: 'right',
+  },
+  tierRow: {
+    flexDirection: 'row',
+    gap: 7,
+  },
+  tierPress: {
+    flex: 1,
+    minWidth: 0,
+    borderRadius: 15,
+    overflow: 'hidden',
+  },
+  tierActive: {
+    minHeight: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 5,
+  },
+  tierActiveText: {
+    color: COLORS.textPrimary,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.7,
+  },
+  tierInactive: {
+    minHeight: 30,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 5,
+    backgroundColor: COLORS.cardAlt,
+  },
+  tierInactiveText: {
+    color: 'rgba(255,255,255,0.43)',
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.7,
+  },
+  deckArea: {
+    flex: 1,
+  },
+  kinkCard: {
+    flex: 1,
+    width: '100%',
+    maxWidth: Math.min(SCREEN_W - 32, 460),
+    alignSelf: 'center',
+    borderRadius: RADII.card,
+    backgroundColor: COLORS.card,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    overflow: 'hidden',
+    ...SHADOWS.card,
+  },
+  progressRail: {
+    height: 3,
+    width: '100%',
+  },
+  cardInner: {
+    flex: 1,
+    paddingHorizontal: 18,
+    paddingTop: 16,
+    paddingBottom: 18,
+    gap: 12,
+  },
+  cardTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  categoryLabel: {
+    color: COLORS.pink,
+    ...TYPOGRAPHY.label,
+  },
+  kinkTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 34,
+    lineHeight: 38,
+    fontWeight: '800',
+  },
+  kinkBody: {
+    ...TYPOGRAPHY.body,
+  },
+  tagRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  tagPill: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(194,24,91,0.21)',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+  },
+  tagText: {
+    color: COLORS.pink,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  partnerBlock: {
+    gap: 8,
+  },
+  partnerLabel: {
+    color: COLORS.textMuted,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 1.4,
+  },
+  partnerPill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    paddingHorizontal: 4,
-    marginBottom: 6,
+    backgroundColor: COLORS.cardAlt,
+    borderRadius: 12,
+    padding: 10,
   },
-  backButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#1f2937',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  backArrow: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: '700',
-  },
-  tier: { color: '#9ca3af', fontWeight: '600' },
-  user: { marginLeft: 'auto', color: '#93c5fd', fontWeight: '800' },
-
-  deckArea: {
+  partnerCopy: {
     flex: 1,
-    paddingBottom: 8,
+  },
+  partnerName: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  partnerStatus: {
+    color: COLORS.textSub,
+    fontSize: 11,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  actionRow: {
+    paddingTop: 10,
+    paddingBottom: 6,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 28,
+  },
+  centerState: {
+    flex: 1,
+    padding: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  emptyTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 24,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  emptyCopy: {
+    color: COLORS.textSub,
+    fontSize: 13,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  emptyActions: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 8,
+  },
+  outlineButton: {
+    height: 44,
+    borderRadius: 22,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  outlineButtonText: {
+    color: COLORS.pink,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  gradientButtonPress: {
+    height: 44,
+    borderRadius: 22,
+    overflow: 'hidden',
+  },
+  gradientButton: {
+    flex: 1,
+    paddingHorizontal: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cardMaxW: { maxWidth: Math.min(SCREEN_W, 520), alignSelf: 'center' },
-  settingsFooter: { marginTop: 12, paddingBottom: 84 },
+  gradientButtonText: {
+    color: COLORS.textPrimary,
+    fontSize: 12,
+    fontWeight: '800',
+  },
 });

@@ -1,13 +1,11 @@
 import React from 'react';
+import { View, Text, StyleSheet, Pressable, Animated } from 'react-native';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Animated,
-} from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
+import { SpiceSyncLogo } from '../../components/app-chrome';
 
 interface ValuePropScreenProps {
   onNext: () => void;
@@ -46,7 +44,9 @@ export default function ValuePropScreen({ onNext }: ValuePropScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-        <Text style={styles.header}>Welcome to SpiceSync</Text>
+        <View style={styles.logoWrap}>
+          <SpiceSyncLogo width={300} height={114} />
+        </View>
         <Text style={styles.subheader}>
           The most private way for couples to explore together
         </Text>
@@ -64,10 +64,10 @@ export default function ValuePropScreen({ onNext }: ValuePropScreenProps) {
         </View>
       </Animated.View>
 
-      <Animated.View 
+      <Animated.View
         style={[
-          styles.footer, 
-          { 
+          styles.footer,
+          {
             opacity: fadeAnim,
             paddingBottom: insets.bottom + 20,
           },
@@ -94,11 +94,8 @@ const styles = StyleSheet.create({
     padding: SIZES.padding * 2,
     paddingTop: 40,
   },
-  header: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h1,
-    color: COLORS.text,
-    textAlign: 'center',
+  logoWrap: {
+    alignItems: 'center',
     marginBottom: SIZES.padding,
   },
   subheader: {

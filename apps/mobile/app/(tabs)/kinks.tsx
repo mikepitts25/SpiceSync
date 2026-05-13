@@ -12,6 +12,7 @@ import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useProfiles } from '../../lib/state/profiles';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { useTranslation, interpolate } from '../../lib/i18n';
+import { AppTabBar } from '../../components/app-chrome';
 
 const TIERS = [
   {
@@ -66,7 +67,10 @@ export default function KinksScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+    <SafeAreaView
+      style={styles.container}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <Animated.View entering={FadeInUp.delay(100)} style={styles.header}>
@@ -132,6 +136,7 @@ export default function KinksScreen() {
 
         <View style={{ height: 40 }} />
       </ScrollView>
+      <AppTabBar active="deck" />
     </SafeAreaView>
   );
 }

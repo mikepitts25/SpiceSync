@@ -1,327 +1,336 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-  Animated,
-} from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
-import { useSettingsStore } from '../../src/stores/settingsStore';
-import { GameCardType, getCardsByLanguage, ALL_CARDS } from '../../data/gameCards';
-import { useTranslation, interpolate } from '../../lib/i18n';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
+import { RefreshCw, Share2, Timer, X } from 'lucide-react-native';
 
-const GAME_TYPES: { id: GameCardType | 'all'; name: string; emoji: string; color: string }[] = [
-  { id: 'all', name: 'Surprise Me', emoji: '🎲', color: COLORS.primary },
-  { id: 'truth', name: 'Truth', emoji: '💭', color: '#3498DB' },
-  { id: 'dare', name: 'Dare', emoji: '🔥', color: '#E74C3C' },
-  { id: 'challenge', name: 'Challenge', emoji: '💪', color: '#2ECC71' },
-  { id: 'fantasy', name: 'Fantasy', emoji: '✨', color: '#9B59B6' },
-  { id: 'roleplay', name: 'Roleplay', emoji: '🎭', color: '#F39C12' },
-];
+import {
+  AccentBar,
+  ActionCircle,
+  AppHeader,
+  AppTabBar,
+  CardAccentTop,
+  IntensityDots,
+} from '../../components/app-chrome';
+import { ScreenTour } from '../../components/ScreenTour';
+import { type GameCard, getCardsByLanguage } from '../../data/gameCards';
+import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
+import { useSettingsStore } from '../../src/stores/settingsStore';
+import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../constants/theme';
+
+const LEVEL_LABELS = ['Warm-Up', 'Playful', 'Bold', 'Heated', 'Wild'];
+
+function pickRandom(cards: GameCard[]) {
+  if (!cards.length) return null;
+  return cards[Math.floor(Math.random() * cards.length)];
+}
 
 export default function GameHub() {
-  const insets = useSafeAreaInsets();
-  const router = useRouter();
   const unlocked = useSettingsStore((state) => state.unlocked);
   const language = useSettingsStore((state) => state.language);
-  const drinkingMode = useSettingsStore((state) => state.drinkingMode);
-  const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
-  const [selectedType, setSelectedType] = useState<GameCardType | 'all'>('all');
-  const [intensity, setIntensity] = useState(3);
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
-  const { t } = useTranslation();
+  const [selectedLevel, setSelectedLevel] = useState(2);
+  const [currentCard, setCurrentCard] = useState<GameCard | null>(null);
+  const [drawCount, setDrawCount] = useState(1);
 
-  // Get cards based on language
-  const cards = getCardsByLanguage(language, unlocked);
-  const freeCards = getCardsByLanguage(language, false);
-  const totalCards = cards.length;
-  const freeCardCount = freeCards.length;
+  const cards = useMemo(
+    () => getCardsByLanguage(language, unlocked),
+    [language, unlocked]
+  );
 
-  // Translate game type names
-  const getTranslatedName = (id: string) => {
-    switch (id) {
-      case 'all': return t.game.surprise;
-      case 'truth': return t.game.truth;
-      case 'dare': return t.game.dare;
-      case 'challenge': return t.game.challenge;
-      case 'fantasy': return t.game.fantasy;
-      case 'roleplay': return t.game.roleplay;
-      default: return id;
+  const levelCards = useMemo(() => {
+    const exact = cards.filter((card) => card.intensity === selectedLevel);
+    return exact.length ? exact : cards;
+  }, [cards, selectedLevel]);
+
+  useEffect(() => {
+    setCurrentCard(pickRandom(levelCards));
+    setDrawCount(1);
+  }, [levelCards]);
+
+  const drawCard = useCallback(() => {
+    setCurrentCard(pickRandom(levelCards));
+    setDrawCount((count) =>
+      Math.min(count + 1, Math.max(levelCards.length, 1))
+    );
+  }, [levelCards]);
+
+  const handleShare = useCallback(async () => {
+    if (!currentCard) return;
+    try {
+      await Share.share({
+        message: `SpiceSync Game Night: ${currentCard.content}`,
+      });
+    } catch {
+      // Native share cancellation does not need UI.
     }
-  };
+  }, [currentCard]);
 
-  React.useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 400,
-      useNativeDriver: true,
-    }).start();
-  }, []);
-
-  // Using language-aware counts calculated above
-
-  const startGame = () => {
-    // Navigate to card draw screen with selected type and intensity
-    router.push({
-      pathname: '/(game)/draw',
-      params: { type: selectedType, intensity, drinkingMode: drinkingMode ? 'true' : 'false' },
-    });
-  };
+  const typeLabel = currentCard?.type
+    ? currentCard.type.toUpperCase()
+    : 'CHALLENGE';
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>{t.game.title}</Text>
-          <Text style={styles.subtitle}>
-            {unlocked 
-              ? interpolate(t.game.cardsToExplore, { count: String(totalCards) })
-              : interpolate(t.game.freeCardsCount, { 
-                  free: String(freeCardCount), 
-                  premium: String(ALL_CARDS.length - freeCardCount) 
-                })}
-          </Text>
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
+      <StatusBar style="light" />
+      <AppHeader />
+
+      <View style={styles.content}>
+        <ScreenTour
+          screenId="game"
+          screenLabel="Game"
+          steps={MAIN_SCREEN_TOURS.game}
+        />
+
+        <View style={styles.headingRow}>
+          <Text style={styles.heading}>GAME NIGHT</Text>
+          <Text style={styles.levelCopy}>Level {selectedLevel} of 5</Text>
         </View>
 
-        <ScrollView 
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
-        >
-          {/* Game Type Selection */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.game.chooseCategory}</Text>
-            <View style={styles.typeGrid}>
-              {GAME_TYPES.map((type) => (
-                <Pressable
-                  key={type.id}
-                  style={[
-                    styles.typeCard,
-                    selectedType === type.id && { 
-                      backgroundColor: type.color,
-                      borderColor: type.color,
-                    },
-                  ]}
-                  onPress={() => setSelectedType(type.id)}
-                >
-                  <Text style={styles.typeEmoji}>{type.emoji}</Text>
-                  <Text style={[
-                    styles.typeName,
-                    selectedType === type.id && styles.typeNameSelected
-                  ]}>
-                    {getTranslatedName(type.id)}
-                  </Text>
-                </Pressable>
-              ))}
+        <View style={styles.levelRow}>
+          {[1, 2, 3, 4, 5].map((level) => {
+            const active = selectedLevel === level;
+            return (
+              <Pressable
+                key={level}
+                accessibilityRole="button"
+                accessibilityState={{ selected: active }}
+                onPress={() => setSelectedLevel(level)}
+                style={styles.levelPress}
+              >
+                {active ? (
+                  <LinearGradient
+                    colors={GRADIENTS.primary}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={styles.levelActive}
+                  >
+                    <Text style={styles.levelActiveText}>L{level}</Text>
+                  </LinearGradient>
+                ) : (
+                  <View style={styles.levelInactive}>
+                    <Text style={styles.levelInactiveText}>L{level}</Text>
+                  </View>
+                )}
+              </Pressable>
+            );
+          })}
+        </View>
+
+        <View style={styles.gameCard}>
+          <CardAccentTop />
+          <View style={styles.cardInner}>
+            <View style={styles.cardTopRow}>
+              <Text style={styles.categoryLabel}>{typeLabel}</Text>
+              <IntensityDots value={selectedLevel} max={5} />
+            </View>
+            <AccentBar />
+
+            <Text style={styles.cardTitle}>
+              {currentCard ? titleForCard(currentCard) : 'Truth Seeker'}
+            </Text>
+            <Text style={styles.cardBody}>
+              {currentCard?.content ?? 'Draw a card to begin.'}
+            </Text>
+
+            <View style={styles.timerBadge}>
+              <Timer size={14} color={COLORS.maybe} />
+              <Text style={styles.timerText}>
+                {currentCard?.estimatedTime &&
+                currentCard.estimatedTime !== 'N/A'
+                  ? currentCard.estimatedTime
+                  : 'No time limit'}
+              </Text>
+            </View>
+
+            <View style={styles.footerRow}>
+              <Text style={styles.footerText}>
+                Card {Math.min(drawCount, Math.max(levelCards.length, 1))} of{' '}
+                {Math.max(levelCards.length, 1)}
+              </Text>
+              <Text style={styles.footerText}>
+                Level {selectedLevel} · {LEVEL_LABELS[selectedLevel - 1]}
+              </Text>
             </View>
           </View>
+        </View>
 
-          {/* Intensity Selection */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.game.intensity}</Text>
-            <View style={styles.intensityContainer}>
-              {[1, 2, 3, 4, 5].map((level) => (
-                <Pressable
-                  key={level}
-                  style={[
-                    styles.intensityDot,
-                    intensity >= level && styles.intensityDotActive,
-                    { opacity: 0.3 + (level * 0.14) }
-                  ]}
-                  onPress={() => setIntensity(level)}
-                />
-              ))}
-            </View>
-            <View style={styles.intensityLabels}>
-              <Text style={styles.intensityLabel}>{t.discover.soft}</Text>
-              <Text style={styles.intensityLabel}>{t.discover.xxx}</Text>
-            </View>
-          </View>
+        <View style={styles.actionRow}>
+          <ActionCircle
+            label="SKIP"
+            icon={X}
+            color={COLORS.no}
+            onPress={drawCard}
+          />
+          <ActionCircle
+            label="DRAW"
+            icon={RefreshCw}
+            variant="gradient"
+            color={COLORS.pink}
+            size={66}
+            iconSize={28}
+            onPress={drawCard}
+          />
+          <ActionCircle
+            label="SHARE"
+            icon={Share2}
+            color={COLORS.maybe}
+            onPress={handleShare}
+          />
+        </View>
+      </View>
 
-          {/* Drinking Mode Toggle */}
-          <View style={styles.section}>
-            <Pressable 
-              style={styles.drinkingModeContainer}
-              onPress={() => setDrinkingMode(!drinkingMode)}
-            >
-              <View style={styles.drinkingModeLeft}>
-                <Text style={styles.drinkingModeEmoji}>🍺</Text>
-                <View>
-                  <Text style={styles.drinkingModeTitle}>Drinking Mode</Text>
-                  <Text style={styles.drinkingModeSubtitle}>Do this or take a drink</Text>
-                </View>
-              </View>
-              <View style={[
-                styles.toggle,
-                drinkingMode && styles.toggleActive
-              ]}>
-                <View style={[
-                  styles.toggleKnob,
-                  drinkingMode && styles.toggleKnobActive
-                ]} />
-              </View>
-            </Pressable>
-          </View>
-
-          {/* Start Button */}
-          <Pressable 
-            style={styles.startButton}
-            onPress={startGame}
-          >
-            <Text style={styles.startButtonText}>{t.game.startGame}</Text>
-          </Pressable>
-        </ScrollView>
-      </Animated.View>
+      <AppTabBar active="game" />
     </SafeAreaView>
   );
 }
 
+function titleForCard(card: GameCard) {
+  switch (card.type) {
+    case 'truth':
+      return 'Truth Seeker';
+    case 'dare':
+      return 'Dare Drop';
+    case 'challenge':
+      return 'Challenge Round';
+    case 'fantasy':
+      return 'Fantasy Spark';
+    case 'roleplay':
+      return 'Role Play';
+    default:
+      return 'Game Card';
+  }
+}
+
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.bg,
   },
   content: {
     flex: 1,
-    padding: SIZES.padding,
-  },
-  header: {
-    marginBottom: SIZES.padding * 1.5,
-  },
-  title: {
-    ...FONTS.h1,
-    color: COLORS.text,
-    marginBottom: 8,
-  },
-  subtitle: {
-    ...FONTS.body,
-    color: COLORS.textSecondary,
-  },
-  section: {
-    marginBottom: SIZES.padding * 1.5,
-  },
-  sectionTitle: {
-    ...FONTS.h3,
-    color: COLORS.text,
-    marginBottom: 16,
-  },
-  typeGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    paddingTop: 10,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
     gap: 12,
   },
-  typeCard: {
-    width: '31%',
-    aspectRatio: 1,
-    backgroundColor: COLORS.card,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...SHADOWS.small,
-  },
-  typeEmoji: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  typeName: {
-    ...FONTS.body,
-    color: COLORS.text,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  typeNameSelected: {
-    color: '#fff',
-    fontWeight: '700',
-  },
-  intensityContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 12,
-  },
-  intensityDot: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: COLORS.primary,
-  },
-  intensityDotActive: {
-    borderWidth: 3,
-    borderColor: '#fff',
-  },
-  intensityLabels: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 12,
-    paddingHorizontal: 20,
-  },
-  intensityLabel: {
-    ...FONTS.small,
-    color: COLORS.textSecondary,
-  },
-  startButton: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: 18,
-    borderRadius: 16,
-    alignItems: 'center',
-    marginTop: 8,
-    ...SHADOWS.medium,
-  },
-  startButtonText: {
-    ...FONTS.h3,
-    color: '#fff',
-    fontWeight: '700',
-  },
-  drinkingModeContainer: {
+  headingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: COLORS.card,
-    padding: SIZES.padding * 1.5,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: COLORS.border,
   },
-  drinkingModeLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
+  heading: {
+    color: COLORS.textPrimary,
+    fontSize: 22,
+    fontWeight: '800',
   },
-  drinkingModeEmoji: {
-    fontSize: 28,
-  },
-  drinkingModeTitle: {
-    ...FONTS.body,
-    color: COLORS.text,
+  levelCopy: {
+    color: COLORS.textMuted,
+    fontSize: 12,
     fontWeight: '700',
   },
-  drinkingModeSubtitle: {
-    ...FONTS.small,
-    color: COLORS.textSecondary,
+  levelRow: {
+    flexDirection: 'row',
+    gap: 8,
   },
-  toggle: {
-    width: 52,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: COLORS.border,
-    padding: 4,
+  levelPress: {
+    borderRadius: 20,
+    overflow: 'hidden',
   },
-  toggleActive: {
-    backgroundColor: COLORS.primary,
+  levelActive: {
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 7,
   },
-  toggleKnob: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: '#fff',
-    transform: [{ translateX: 0 }],
+  levelActiveText: {
+    color: COLORS.textPrimary,
+    fontSize: 12,
+    fontWeight: '700',
   },
-  toggleKnobActive: {
-    transform: [{ translateX: 20 }],
+  levelInactive: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 16,
+    paddingVertical: 7,
+  },
+  levelInactiveText: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  gameCard: {
+    flex: 1,
+    borderRadius: RADII.card,
+    backgroundColor: COLORS.card,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    overflow: 'hidden',
+    ...SHADOWS.card,
+  },
+  cardInner: {
+    flex: 1,
+    paddingHorizontal: 18,
+    paddingVertical: 16,
+    gap: 12,
+  },
+  cardTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  categoryLabel: {
+    color: COLORS.pink,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 1.4,
+  },
+  cardTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 30,
+    lineHeight: 35,
+    fontWeight: '800',
+  },
+  cardBody: {
+    flex: 1,
+    color: COLORS.textSub,
+    fontSize: 13,
+    lineHeight: 20,
+  },
+  timerBadge: {
+    alignSelf: 'flex-start',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  timerText: {
+    color: COLORS.textSub,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  footerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  footerText: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  actionRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 28,
   },
 });

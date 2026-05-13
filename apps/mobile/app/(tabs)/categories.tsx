@@ -13,6 +13,7 @@ import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { MASTER_DECK } from '../../data/gameCards';
+import { AppTabBar, SpiceSyncLogo } from '../../components/app-chrome';
 
 const HOME_SECTIONS = [
   {
@@ -80,12 +81,17 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+    <SafeAreaView
+      style={styles.container}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
         <Animated.View entering={FadeInUp.delay(100)} style={styles.header}>
-          <Text style={styles.headerEmoji}>🔥</Text>
-          <Text style={styles.headerTitle}>SpiceSync</Text>
+          <SpiceSyncLogo width={280} height={106} />
           <Text style={styles.headerSubtitle}>
             Explore, play, and connect deeper
           </Text>
@@ -108,7 +114,9 @@ export default function HomeScreen() {
                   <Text style={styles.cardEmoji}>{section.emoji}</Text>
                   <Text style={styles.cardTitle}>{section.title}</Text>
                   <Text style={styles.cardSubtitle}>{section.subtitle}</Text>
-                  <Text style={styles.cardDescription}>{section.description}</Text>
+                  <Text style={styles.cardDescription}>
+                    {section.description}
+                  </Text>
                 </View>
                 <View style={styles.arrowContainer}>
                   <Text style={styles.arrow}>→</Text>
@@ -119,14 +127,19 @@ export default function HomeScreen() {
         </View>
 
         {/* Stats Section */}
-        <Animated.View entering={FadeIn.delay(700)} style={styles.statsContainer}>
+        <Animated.View
+          entering={FadeIn.delay(700)}
+          style={styles.statsContainer}
+        >
           <View style={styles.stat}>
             <Text style={styles.statNumber}>{kinks.length}</Text>
             <Text style={styles.statLabel}>Total Kinks</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
-            <Text style={styles.statNumber}>{MASTER_DECK?.length ?? '400+'}</Text>
+            <Text style={styles.statNumber}>
+              {MASTER_DECK?.length ?? '400+'}
+            </Text>
             <Text style={styles.statLabel}>Game Cards</Text>
           </View>
           <View style={styles.statDivider} />
@@ -138,6 +151,7 @@ export default function HomeScreen() {
 
         <View style={{ height: 40 }} />
       </ScrollView>
+      <AppTabBar />
     </SafeAreaView>
   );
 }
@@ -150,29 +164,18 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: SIZES.paddingLarge,
   },
-  
+
   // Header
   header: {
     alignItems: 'center',
     marginBottom: 32,
-  },
-  headerEmoji: {
-    fontSize: 56,
-    marginBottom: 12,
-  },
-  headerTitle: {
-    fontSize: SIZES.h1,
-    fontWeight: '800',
-    color: COLORS.text,
-    textAlign: 'center',
-    marginBottom: 8,
   },
   headerSubtitle: {
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
     textAlign: 'center',
   },
-  
+
   // Grid - Stacked layout (1 per row)
   gridContainer: {
     flexDirection: 'column',
@@ -227,7 +230,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.6)',
     fontWeight: '300',
   },
-  
+
   // Stats
   statsContainer: {
     flexDirection: 'row',

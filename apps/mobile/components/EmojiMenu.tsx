@@ -9,12 +9,13 @@ import {
   Platform,
 } from 'react-native';
 
-import { EMOJI_CHOICES } from '../src/constants/emojis';
+import ProfileAvatarIcon from './ProfileAvatarIcon';
+import { PROFILE_AVATAR_OPTIONS } from '../src/constants/emojis';
 
 type EmojiMenuProps = {
   visible: boolean;
   selected?: string;
-  onSelect: (emoji: string) => void;
+  onSelect: (avatar: string) => void;
   onClose: () => void;
 };
 
@@ -35,26 +36,31 @@ export default function EmojiMenu({
     >
       <Pressable style={styles.backdrop} onPress={onClose}>
         <Pressable style={styles.sheet}>
-          <Text style={styles.title}>Choose Emoji</Text>
+          <Text style={styles.title}>Choose Avatar</Text>
           <FlatList
-            data={EMOJI_CHOICES}
-            keyExtractor={(item) => item}
+            data={PROFILE_AVATAR_OPTIONS}
+            keyExtractor={(item) => item.id}
             numColumns={columns}
             contentContainerStyle={styles.grid}
             renderItem={({ item }) => {
-              const isSelected = item === selected;
+              const isSelected = item.id === selected;
               return (
                 <Pressable
-                  key={item}
+                  key={item.id}
                   accessibilityRole="button"
-                  accessibilityLabel={`Emoji ${item}`}
-                  onPress={() => onSelect(item)}
+                  accessibilityLabel={`${item.label} avatar`}
+                  accessibilityState={{ selected: isSelected }}
+                  onPress={() => onSelect(item.id)}
                   style={[
                     styles.emojiButton,
                     isSelected && styles.emojiSelected,
                   ]}
                 >
-                  <Text style={styles.emoji}>{item}</Text>
+                  <ProfileAvatarIcon
+                    avatar={item.id}
+                    size={52}
+                    selected={isSelected}
+                  />
                 </Pressable>
               );
             }}
@@ -110,9 +116,6 @@ const styles = StyleSheet.create({
   emojiSelected: {
     borderColor: '#60a5fa',
     backgroundColor: '#1e293b',
-  },
-  emoji: {
-    fontSize: 32,
   },
   closeButton: {
     marginTop: 8,

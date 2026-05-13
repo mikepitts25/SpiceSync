@@ -4,7 +4,7 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useKinks, KinkItem } from './data';
+import { useKinks as getKinksData, KinkItem } from './data';
 import { getDailyStarter } from './conversationStarters';
 
 // Notification identifiers
@@ -15,8 +15,10 @@ const DAILY_REMINDER_CHANNEL_ID = 'daily-reminder';
 // Storage keys
 const NOTIFICATION_ENABLED_KEY = '@spicesync_notifications_enabled';
 const NOTIFICATION_TIME_KEY = '@spicesync_notification_time';
-const CONVERSATION_NOTIFICATION_ENABLED_KEY = '@spicesync_conversation_notifications_enabled';
-const CONVERSATION_NOTIFICATION_TIME_KEY = '@spicesync_conversation_notification_time';
+const CONVERSATION_NOTIFICATION_ENABLED_KEY =
+  '@spicesync_conversation_notifications_enabled';
+const CONVERSATION_NOTIFICATION_TIME_KEY =
+  '@spicesync_conversation_notification_time';
 
 // Default notification time (8 PM)
 const DEFAULT_HOUR = 20;
@@ -26,6 +28,8 @@ const DEFAULT_MINUTE = 0;
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
   }),
@@ -35,29 +39,33 @@ Notifications.setNotificationHandler({
 export async function initializeNotifications(): Promise<boolean> {
   try {
     // Request permissions
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
-    
+
     if (existingStatus !== 'granted') {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
-    
+
     if (finalStatus !== 'granted') {
       console.log('[Notifications] Permission not granted');
       return false;
     }
-    
+
     // Configure Android channel
     if (Platform.OS === 'android') {
-      await Notifications.setNotificationChannelAsync(DAILY_REMINDER_CHANNEL_ID, {
-        name: 'Daily Activity Reminders',
-        importance: Notifications.AndroidImportance.HIGH,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF2D92',
-      });
+      await Notifications.setNotificationChannelAsync(
+        DAILY_REMINDER_CHANNEL_ID,
+        {
+          name: 'Daily Activity Reminders',
+          importance: Notifications.AndroidImportance.HIGH,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: '#FF2D92',
+        }
+      );
     }
-    
+
     console.log('[Notifications] Initialized successfully');
     return true;
   } catch (error) {
@@ -81,18 +89,18 @@ export async function scheduleDailyNotification(
   try {
     // Cancel existing notification
     await cancelDailyNotification();
-    
+
     // Get a random activity
-    const { kinks } = useKinks('en');
+    const { kinks } = getKinksData('en');
     const activity = getRandomActivity(kinks);
-    
+
     const identifier = await Notifications.scheduleNotificationAsync({
       content: {
         title: '💡 Daily Spice Idea',
-        body: activity 
+        body: activity
           ? `Today's idea: ${activity.title}`
           : 'Discover something new with your partner today!',
-        data: { 
+        data: {
           type: 'daily_card',
           activityId: activity?.id,
           screen: '(deck)',
@@ -103,15 +111,21 @@ export async function scheduleDailyNotification(
         type: Notifications.SchedulableTriggerInputTypes.DAILY,
         hour,
         minute,
-        channelId: Platform.OS === 'android' ? DAILY_REMINDER_CHANNEL_ID : undefined,
+        channelId:
+          Platform.OS === 'android' ? DAILY_REMINDER_CHANNEL_ID : undefined,
       },
     });
-    
+
     // Save settings
     await AsyncStorage.setItem(NOTIFICATION_ENABLED_KEY, 'true');
-    await AsyncStorage.setItem(NOTIFICATION_TIME_KEY, JSON.stringify({ hour, minute }));
-    
-    console.log(`[Notifications] Daily notification scheduled for ${hour}:${minute.toString().padStart(2, '0')}`);
+    await AsyncStorage.setItem(
+      NOTIFICATION_TIME_KEY,
+      JSON.stringify({ hour, minute })
+    );
+
+    console.log(
+      `[Notifications] Daily notification scheduled for ${hour}:${minute.toString().padStart(2, '0')}`
+    );
     return identifier;
   } catch (error) {
     console.error('[Notifications] Scheduling error:', error);
@@ -125,7 +139,9 @@ export async function cancelDailyNotification(): Promise<void> {
     const scheduled = await Notifications.getAllScheduledNotificationsAsync();
     for (const notification of scheduled) {
       if (notification.content.data?.type === 'daily_card') {
-        await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+        await Notifications.cancelScheduledNotificationAsync(
+          notification.identifier
+        );
       }
     }
     await AsyncStorage.setItem(NOTIFICATION_ENABLED_KEY, 'false');
@@ -144,9 +160,11 @@ export async function getNotificationSettings(): Promise<{
   try {
     const enabled = await AsyncStorage.getItem(NOTIFICATION_ENABLED_KEY);
     const timeStr = await AsyncStorage.getItem(NOTIFICATION_TIME_KEY);
-    
-    const time = timeStr ? JSON.parse(timeStr) : { hour: DEFAULT_HOUR, minute: DEFAULT_MINUTE };
-    
+
+    const time = timeStr
+      ? JSON.parse(timeStr)
+      : { hour: DEFAULT_HOUR, minute: DEFAULT_MINUTE };
+
     return {
       enabled: enabled === 'true',
       hour: time.hour ?? DEFAULT_HOUR,
@@ -165,13 +183,16 @@ export async function updateNotificationTime(
 ): Promise<boolean> {
   try {
     const settings = await getNotificationSettings();
-    
+
     if (settings.enabled) {
       await scheduleDailyNotification(hour, minute);
     } else {
-      await AsyncStorage.setItem(NOTIFICATION_TIME_KEY, JSON.stringify({ hour, minute }));
+      await AsyncStorage.setItem(
+        NOTIFICATION_TIME_KEY,
+        JSON.stringify({ hour, minute })
+      );
     }
-    
+
     return true;
   } catch (error) {
     console.error('[Notifications] Error updating time:', error);
@@ -198,13 +219,13 @@ export async function toggleNotifications(enabled: boolean): Promise<boolean> {
 // Send immediate test notification
 export async function sendTestNotification(): Promise<void> {
   try {
-    const { kinks } = useKinks('en');
+    const { kinks } = getKinksData('en');
     const activity = getRandomActivity(kinks);
-    
+
     await Notifications.scheduleNotificationAsync({
       content: {
         title: '💡 Test Notification',
-        body: activity 
+        body: activity
           ? `Sample: ${activity.title}`
           : 'This is how your daily notifications will look!',
         data: { type: 'test', screen: '(deck)' },
@@ -227,15 +248,17 @@ export async function scheduleDailyConversationNotification(
   try {
     // Cancel existing notification
     await cancelDailyConversationNotification();
-    
+
     // Get today's conversation starter
     const starter = getDailyStarter();
-    
+
     const identifier = await Notifications.scheduleNotificationAsync({
       content: {
-        title: '💬 Today\'s Conversation Starter',
-        body: starter.question.substring(0, 100) + (starter.question.length > 100 ? '...' : ''),
-        data: { 
+        title: "💬 Today's Conversation Starter",
+        body:
+          starter.question.substring(0, 100) +
+          (starter.question.length > 100 ? '...' : ''),
+        data: {
           type: 'daily_conversation',
           starterId: starter.id,
           screen: '(conversation)',
@@ -246,15 +269,21 @@ export async function scheduleDailyConversationNotification(
         type: Notifications.SchedulableTriggerInputTypes.DAILY,
         hour,
         minute,
-        channelId: Platform.OS === 'android' ? DAILY_REMINDER_CHANNEL_ID : undefined,
+        channelId:
+          Platform.OS === 'android' ? DAILY_REMINDER_CHANNEL_ID : undefined,
       },
     });
-    
+
     // Save settings
     await AsyncStorage.setItem(CONVERSATION_NOTIFICATION_ENABLED_KEY, 'true');
-    await AsyncStorage.setItem(CONVERSATION_NOTIFICATION_TIME_KEY, JSON.stringify({ hour, minute }));
-    
-    console.log(`[Notifications] Daily conversation notification scheduled for ${hour}:${minute.toString().padStart(2, '0')}`);
+    await AsyncStorage.setItem(
+      CONVERSATION_NOTIFICATION_TIME_KEY,
+      JSON.stringify({ hour, minute })
+    );
+
+    console.log(
+      `[Notifications] Daily conversation notification scheduled for ${hour}:${minute.toString().padStart(2, '0')}`
+    );
     return identifier;
   } catch (error) {
     console.error('[Notifications] Conversation scheduling error:', error);
@@ -268,7 +297,9 @@ export async function cancelDailyConversationNotification(): Promise<void> {
     const scheduled = await Notifications.getAllScheduledNotificationsAsync();
     for (const notification of scheduled) {
       if (notification.content.data?.type === 'daily_conversation') {
-        await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+        await Notifications.cancelScheduledNotificationAsync(
+          notification.identifier
+        );
       }
     }
     await AsyncStorage.setItem(CONVERSATION_NOTIFICATION_ENABLED_KEY, 'false');
@@ -285,18 +316,25 @@ export async function getConversationNotificationSettings(): Promise<{
   minute: number;
 }> {
   try {
-    const enabled = await AsyncStorage.getItem(CONVERSATION_NOTIFICATION_ENABLED_KEY);
-    const timeStr = await AsyncStorage.getItem(CONVERSATION_NOTIFICATION_TIME_KEY);
-    
+    const enabled = await AsyncStorage.getItem(
+      CONVERSATION_NOTIFICATION_ENABLED_KEY
+    );
+    const timeStr = await AsyncStorage.getItem(
+      CONVERSATION_NOTIFICATION_TIME_KEY
+    );
+
     const time = timeStr ? JSON.parse(timeStr) : { hour: 9, minute: 0 };
-    
+
     return {
       enabled: enabled === 'true',
       hour: time.hour ?? 9,
       minute: time.minute ?? 0,
     };
   } catch (error) {
-    console.error('[Notifications] Error getting conversation settings:', error);
+    console.error(
+      '[Notifications] Error getting conversation settings:',
+      error
+    );
     return { enabled: false, hour: 9, minute: 0 };
   }
 }
@@ -308,13 +346,16 @@ export async function updateConversationNotificationTime(
 ): Promise<boolean> {
   try {
     const settings = await getConversationNotificationSettings();
-    
+
     if (settings.enabled) {
       await scheduleDailyConversationNotification(hour, minute);
     } else {
-      await AsyncStorage.setItem(CONVERSATION_NOTIFICATION_TIME_KEY, JSON.stringify({ hour, minute }));
+      await AsyncStorage.setItem(
+        CONVERSATION_NOTIFICATION_TIME_KEY,
+        JSON.stringify({ hour, minute })
+      );
     }
-    
+
     return true;
   } catch (error) {
     console.error('[Notifications] Error updating conversation time:', error);
@@ -323,17 +364,25 @@ export async function updateConversationNotificationTime(
 }
 
 // Toggle conversation notifications on/off
-export async function toggleConversationNotifications(enabled: boolean): Promise<boolean> {
+export async function toggleConversationNotifications(
+  enabled: boolean
+): Promise<boolean> {
   try {
     if (enabled) {
       const settings = await getConversationNotificationSettings();
-      await scheduleDailyConversationNotification(settings.hour, settings.minute);
+      await scheduleDailyConversationNotification(
+        settings.hour,
+        settings.minute
+      );
     } else {
       await cancelDailyConversationNotification();
     }
     return true;
   } catch (error) {
-    console.error('[Notifications] Error toggling conversation notifications:', error);
+    console.error(
+      '[Notifications] Error toggling conversation notifications:',
+      error
+    );
     return false;
   }
 }
@@ -342,18 +391,23 @@ export async function toggleConversationNotifications(enabled: boolean): Promise
 export async function sendTestConversationNotification(): Promise<void> {
   try {
     const starter = getDailyStarter();
-    
+
     await Notifications.scheduleNotificationAsync({
       content: {
         title: '💬 Test: Conversation Starter',
-        body: starter.question.substring(0, 100) + (starter.question.length > 100 ? '...' : ''),
+        body:
+          starter.question.substring(0, 100) +
+          (starter.question.length > 100 ? '...' : ''),
         data: { type: 'test_conversation', screen: '(conversation)' },
         sound: 'default',
       },
       trigger: null, // Immediate
     });
   } catch (error) {
-    console.error('[Notifications] Test conversation notification error:', error);
+    console.error(
+      '[Notifications] Test conversation notification error:',
+      error
+    );
   }
 }
 

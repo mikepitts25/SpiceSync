@@ -28,7 +28,6 @@ const MENU_ITEMS = [
   { id: 'game', label: 'Game', emoji: '🎲', icon: Gamepad2, route: '/(tabs)/game' },
   { id: 'matches', label: 'Matches', emoji: '💕', icon: Heart, route: '/(tabs)/matches' },
   { id: 'conversation', label: 'Conversation', emoji: '💬', icon: MessageCircle, route: '/(tabs)/conversation' },
-  { id: 'loveLanguages', label: 'Love Languages', emoji: '💝', icon: Heart, route: '/(settings)/love-languages' },
   { id: 'settings', label: 'Settings', emoji: '⚙️', icon: Settings, route: '/(settings)' },
 ];
 

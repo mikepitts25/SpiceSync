@@ -663,23 +663,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0110",
-    "slug": "breath-play",
-    "title": "Breath Control Play",
-    "titleEs": "Juego de Control de Respiración",
-    "description": "Control your partner's breathing through choking or covering mouth/nose. EXTREME RISK - requires extensive education.",
-    "descriptionEs": "Controlen la respiración de su pareja. RIESGO EXTREMO.",
-    "tags": [
-      "breath",
-      "control",
-      "edge-play",
-      "dangerous"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0021",
     "slug": "blindfolded-touch",
     "title": "Blindfolded Touch",
@@ -1105,40 +1088,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0116",
-    "slug": "knife-play",
-    "title": "Knife Play",
-    "titleEs": "Juego con Cuchillos",
-    "description": "Use dull knives or the flat side of blades for sensation and fear play. Never break skin.",
-    "descriptionEs": "Usen cuchillos sin filo para juego de sensación y miedo.",
-    "tags": [
-      "knife",
-      "fear",
-      "sensation",
-      "edge-play"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0117",
-    "slug": "fire-play",
-    "title": "Fire Play",
-    "titleEs": "Juego con Fuego",
-    "description": "Use alcohol and fire for brief, controlled heat sensations on the skin. Requires training.",
-    "descriptionEs": "Usen alcohol y fuego para sensaciones de calor breves y controladas.",
-    "tags": [
-      "fire",
-      "temperature",
-      "sensation",
-      "dangerous"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0118",
     "slug": "wax-play",
     "title": "Hot Wax Play",
@@ -1167,23 +1116,6 @@
       "ginger",
       "sensation",
       "anal"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0120",
-    "slug": "sounding",
-    "title": "Sounding",
-    "titleEs": "Sondaje",
-    "description": "Insert smooth, sterile rods into the urethra for unique internal stimulation. Requires sterile technique.",
-    "descriptionEs": "Inserten varillas suaves y estériles en la uretra.",
-    "tags": [
-      "sounding",
-      "urethral",
-      "intense",
-      "medical"
     ],
     "category": "sensory",
     "intensityScale": 3,
@@ -1887,40 +1819,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0122",
-    "slug": "needle-play",
-    "title": "Needle Play",
-    "titleEs": "Juego con Agujas",
-    "description": "Use sterile needles for temporary piercings. Requires training and sterile technique.",
-    "descriptionEs": "Usen agujas estériles para perforaciones temporales.",
-    "tags": [
-      "needles",
-      "piercing",
-      "medical",
-      "extreme"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0123",
-    "slug": "blood-play",
-    "title": "Blood Play",
-    "titleEs": "Juego con Sangre",
-    "description": "Explore consensual cutting or blood drawing. EXTREME RISK - requires extensive knowledge.",
-    "descriptionEs": "Exploren corte consensual o extracción de sangre. RIESGO EXTREMO.",
-    "tags": [
-      "blood",
-      "cutting",
-      "edge-play",
-      "dangerous"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0124",
     "slug": "scat-play",
     "title": "Scat Play",
@@ -1972,23 +1870,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0127",
-    "slug": "intense-cbt",
-    "title": "Intense CBT",
-    "titleEs": "CBT Intenso",
-    "description": "Cock and ball torture with significant pain and restriction.",
-    "descriptionEs": "Tortura de pene y testículos con dolor significativo.",
-    "tags": [
-      "cbt",
-      "pain",
-      "genitals",
-      "extreme"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0128",
     "slug": "mummification",
     "title": "Mummification",
@@ -2019,40 +1900,6 @@
       "dangerous"
     ],
     "category": "light_restraint",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0130",
-    "slug": "branding",
-    "title": "Branding",
-    "titleEs": "Marcado",
-    "description": "Permanent marking through heat or cold branding. IRREVERSIBLE - requires extreme caution.",
-    "descriptionEs": "Marcado permanente mediante calor o frío. IRREVERSIBLE.",
-    "tags": [
-      "branding",
-      "permanent",
-      "marking",
-      "extreme"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0131",
-    "slug": "scarification",
-    "title": "Scarification",
-    "titleEs": "Escarificación",
-    "description": "Create permanent scars as body art. IRREVERSIBLE - requires professional training.",
-    "descriptionEs": "Crear cicatrices permanentes como arte corporal. IRREVERSIBLE.",
-    "tags": [
-      "scarification",
-      "permanent",
-      "cutting",
-      "extreme"
-    ],
-    "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
   },

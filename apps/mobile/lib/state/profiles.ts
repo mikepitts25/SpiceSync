@@ -1,7 +1,11 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { EMOJI_CHOICES } from '../../src/constants/emojis';
+import {
+  PROFILE_AVATAR_CHOICES,
+  isRecognizedProfileAvatar,
+  normalizeProfileAvatar,
+} from '../../src/constants/emojis';
 
 export type Profile = {
   id: string;
@@ -48,23 +52,18 @@ const PROFILES_KEY = 'profiles';
 const ACTIVE_ID_KEY = 'activeProfileId';
 const LEGACY_ACTIVE_KEY = 'currentUserId';
 
-const ALLOWED_EMOJI = new Set<string>(EMOJI_CHOICES);
-
 const isDigits4 = (value?: string | null): boolean =>
   !!value && /^[0-9]{4}$/.test(value);
 
 function ensureEmoji(input: string | null | undefined): string {
-  if (typeof input !== 'string' || !ALLOWED_EMOJI.has(input)) {
+  if (typeof input !== 'string' || !isRecognizedProfileAvatar(input)) {
     throw new Error('Invalid emoji');
   }
-  return input;
+  return normalizeProfileAvatar(input);
 }
 
 function sanitizeEmoji(input: string | null | undefined): string {
-  if (typeof input === 'string' && ALLOWED_EMOJI.has(input)) {
-    return input;
-  }
-  return EMOJI_CHOICES[0];
+  return normalizeProfileAvatar(input);
 }
 
 async function loadAsync<T>(key: string, fallback: T): Promise<T> {
@@ -84,16 +83,6 @@ async function saveAsync<T>(key: string, value: T): Promise<void> {
   } catch (error) {
     console.warn('[profiles] failed to save key', key, error);
   }
-}
-
-// Sync versions for compatibility
-function load<T>(key: string, fallback: T): T {
-  // Return fallback immediately - actual load happens in hydrate
-  return fallback;
-}
-
-function save<T>(key: string, value: T) {
-  saveAsync(key, value).catch(() => {});
 }
 
 type PersistedProfile = Partial<Profile> & {
@@ -161,7 +150,10 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
 
     const legacyActiveRaw = await AsyncStorage.getItem(LEGACY_ACTIVE_KEY);
     const legacyActive = legacyActiveRaw ? JSON.parse(legacyActiveRaw) : null;
-    const storedActive = await loadAsync<string | null>(ACTIVE_ID_KEY, legacyActive);
+    const storedActive = await loadAsync<string | null>(
+      ACTIVE_ID_KEY,
+      legacyActive
+    );
 
     let nextActive: string | null =
       typeof storedActive === 'string' ? storedActive : null;
@@ -288,8 +280,11 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
         }
 
         let nextEmoji = profile.emoji;
-        if (typeof patch.emoji === 'string' && ALLOWED_EMOJI.has(patch.emoji)) {
-          nextEmoji = patch.emoji;
+        if (
+          typeof patch.emoji === 'string' &&
+          isRecognizedProfileAvatar(patch.emoji)
+        ) {
+          nextEmoji = normalizeProfileAvatar(patch.emoji);
         }
 
         return {
@@ -406,7 +401,7 @@ export const useProfiles = useProfilesStore;
 // Auto-hydrate on load
 useProfilesStore.getState().hydrate();
 
-export const EMOJI_OPTIONS = EMOJI_CHOICES;
+export const EMOJI_OPTIONS = PROFILE_AVATAR_CHOICES;
 
 export function getProfiles(): Profile[] {
   return useProfilesStore.getState().getProfiles();

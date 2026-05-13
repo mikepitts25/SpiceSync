@@ -26,8 +26,10 @@ import {
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { startSyncLoop } from '../../lib/sync/syncLoop';
 import { startVoteSync, useVoteSyncStore } from '../../lib/sync/voteSync';
+import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
+import { PROFILE_AVATAR_OPTIONS } from '../../src/constants/emojis';
 
-const EMOJIS = ['💑', '❤️', '🔥', '✨', '🌹', '🥂', '🌙', '💫'];
+const AVATARS = PROFILE_AVATAR_OPTIONS.slice(0, 8);
 type Mode = 'menu' | 'code' | 'remote-create' | 'remote-accept';
 
 export default function PartnerConnect() {
@@ -44,7 +46,6 @@ export default function PartnerConnect() {
   }>();
 
   const {
-    partner,
     acceptInvite: acceptLocalInvite,
     hasPartner,
   } = usePartnerStore();
@@ -60,7 +61,7 @@ export default function PartnerConnect() {
   });
   const [code, setCode] = useState(incomingCode || '');
   const [partnerName, setPartnerName] = useState('');
-  const [selectedEmoji, setSelectedEmoji] = useState(EMOJIS[0]);
+  const [selectedEmoji, setSelectedEmoji] = useState(AVATARS[0].id);
   const [isConnecting, setIsConnecting] = useState(false);
   const [pendingInvite, setPendingInvite] = useState<InviteHandle | null>(null);
   const [pollError, setPollError] = useState<string | null>(null);
@@ -385,16 +386,23 @@ export default function PartnerConnect() {
         <View style={styles.inputSection}>
           <Text style={styles.label}>Their Avatar</Text>
           <View style={styles.emojiGrid}>
-            {EMOJIS.map((emoji) => (
+            {AVATARS.map((avatar) => (
               <Pressable
-                key={emoji}
+                key={avatar.id}
                 style={[
                   styles.emojiButton,
-                  selectedEmoji === emoji && styles.emojiButtonSelected,
+                  selectedEmoji === avatar.id && styles.emojiButtonSelected,
                 ]}
-                onPress={() => setSelectedEmoji(emoji)}
+                onPress={() => setSelectedEmoji(avatar.id)}
+                accessibilityRole="button"
+                accessibilityLabel={`${avatar.label} avatar`}
+                accessibilityState={{ selected: selectedEmoji === avatar.id }}
               >
-                <Text style={styles.emojiText}>{emoji}</Text>
+                <ProfileAvatarIcon
+                  avatar={avatar.id}
+                  size={44}
+                  selected={selectedEmoji === avatar.id}
+                />
               </Pressable>
             ))}
           </View>
@@ -512,9 +520,6 @@ const styles = StyleSheet.create({
   emojiButtonSelected: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
-  },
-  emojiText: {
-    fontSize: 28,
   },
   infoBox: {
     flexDirection: 'row',

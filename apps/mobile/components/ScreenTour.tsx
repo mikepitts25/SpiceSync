@@ -1,0 +1,225 @@
+import React, { useState } from 'react';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+
+import {
+  COLORS,
+  GRADIENTS,
+  RADII,
+  SHADOWS,
+  TYPOGRAPHY,
+} from '../constants/theme';
+import {
+  type MainTourScreenId,
+  type TourStep,
+} from '../lib/main-screen-tours';
+import { useScreenToursStore } from '../src/stores/screenTours';
+
+type VisibleTourStep = {
+  step: TourStep;
+  index: number;
+  progressLabel: string;
+  primaryLabel: 'Next' | 'Done';
+  isLastStep: boolean;
+};
+
+type ScreenTourProps = {
+  screenId: MainTourScreenId;
+  screenLabel: string;
+  steps: TourStep[];
+  style?: StyleProp<ViewStyle>;
+};
+
+export function getVisibleTourStep(
+  steps: TourStep[],
+  requestedIndex: number
+): VisibleTourStep | null {
+  const visibleSteps = steps.filter(
+    (step) => step.title.trim() && step.body.trim()
+  );
+
+  if (!visibleSteps.length) {
+    return null;
+  }
+
+  const index = Math.max(
+    0,
+    Math.min(requestedIndex, visibleSteps.length - 1)
+  );
+  const step = visibleSteps[index];
+  const isLastStep = index === visibleSteps.length - 1;
+
+  return {
+    step,
+    index,
+    progressLabel: `${index + 1} of ${visibleSteps.length}`,
+    primaryLabel: isLastStep ? 'Done' : 'Next',
+    isLastStep,
+  };
+}
+
+export function ScreenTour({
+  screenId,
+  screenLabel,
+  steps,
+  style,
+}: ScreenTourProps) {
+  const [stepIndex, setStepIndex] = useState(0);
+  const isDismissed = useScreenToursStore((state) =>
+    state.isTourDismissed(screenId)
+  );
+  const dismissTour = useScreenToursStore((state) => state.dismissTour);
+  const visibleStep = getVisibleTourStep(steps, stepIndex);
+
+  if (isDismissed || !visibleStep) {
+    return null;
+  }
+
+  const handlePrimaryPress = () => {
+    if (visibleStep.isLastStep) {
+      dismissTour(screenId);
+      return;
+    }
+
+    setStepIndex((index) => index + 1);
+  };
+
+  return (
+    <View style={[styles.card, style]}>
+      <LinearGradient
+        colors={GRADIENTS.cardAccentBar}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.accent}
+      />
+      <View style={styles.inner}>
+        <View style={styles.topRow}>
+          <Text style={styles.eyebrow}>QUICK TOUR</Text>
+          <Text style={styles.progress}>{visibleStep.progressLabel}</Text>
+        </View>
+
+        <Text style={styles.title}>{visibleStep.step.title}</Text>
+        <Text style={styles.body}>{visibleStep.step.body}</Text>
+
+        <View style={styles.actions}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Skip ${screenLabel} tour`}
+            onPress={() => dismissTour(screenId)}
+            style={styles.skipButton}
+          >
+            <Text style={styles.skipText}>Skip tour</Text>
+          </Pressable>
+
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={
+              visibleStep.isLastStep
+                ? `Finish ${screenLabel} tour`
+                : `Next ${screenLabel} tour step`
+            }
+            onPress={handlePrimaryPress}
+            style={styles.primaryPress}
+          >
+            <LinearGradient
+              colors={GRADIENTS.primary}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+              style={styles.primaryButton}
+            >
+              <Text style={styles.primaryText}>
+                {visibleStep.primaryLabel}
+              </Text>
+            </LinearGradient>
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    borderRadius: RADII.card,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    overflow: 'hidden',
+    ...SHADOWS.card,
+  },
+  accent: {
+    height: 3,
+  },
+  inner: {
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    gap: 8,
+  },
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  eyebrow: {
+    color: COLORS.pink,
+    ...TYPOGRAPHY.label,
+  },
+  progress: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  title: {
+    color: COLORS.textPrimary,
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: '800',
+  },
+  body: {
+    color: COLORS.textSub,
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  actions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    paddingTop: 2,
+  },
+  skipButton: {
+    minHeight: 38,
+    justifyContent: 'center',
+    paddingHorizontal: 2,
+  },
+  skipText: {
+    color: COLORS.textSub,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  primaryPress: {
+    minWidth: 96,
+    height: 38,
+    borderRadius: 19,
+    overflow: 'hidden',
+  },
+  primaryButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  primaryText: {
+    color: COLORS.textPrimary,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+});

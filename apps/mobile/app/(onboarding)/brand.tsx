@@ -1,21 +1,16 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Animated,
-} from 'react-native';
+import { View, StyleSheet, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
-
-const { width: SCREEN_W } = Dimensions.get('window');
+import { COLORS, SIZES } from '../../constants/theme';
+import { SpiceSyncLogo } from '../../components/app-chrome';
 
 interface BrandMomentScreenProps {
   onComplete: () => void;
 }
 
-export default function BrandMomentScreen({ onComplete }: BrandMomentScreenProps) {
+export default function BrandMomentScreen({
+  onComplete,
+}: BrandMomentScreenProps) {
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
   const scaleAnim = React.useRef(new Animated.Value(0.8)).current;
 
@@ -42,7 +37,7 @@ export default function BrandMomentScreen({ onComplete }: BrandMomentScreenProps
 
   return (
     <SafeAreaView style={styles.container}>
-      <Animated.View 
+      <Animated.View
         style={[
           styles.content,
           {
@@ -51,9 +46,7 @@ export default function BrandMomentScreen({ onComplete }: BrandMomentScreenProps
           },
         ]}
       >
-        <Text style={styles.logo}>💑</Text>
-        <Text style={styles.brandName}>SpiceSync</Text>
-        <Text style={styles.tagline}>Discover together</Text>
+        <SpiceSyncLogo width={310} height={118} />
       </Animated.View>
 
       <Animated.View style={[styles.footer, { opacity: fadeAnim }]}>
@@ -74,21 +67,6 @@ const styles = StyleSheet.create({
   },
   content: {
     alignItems: 'center',
-  },
-  logo: {
-    fontSize: 80,
-    marginBottom: SIZES.padding * 2,
-  },
-  brandName: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h1,
-    color: COLORS.text,
-    marginBottom: SIZES.padding,
-  },
-  tagline: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.h4,
-    color: COLORS.textSecondary,
   },
   footer: {
     position: 'absolute',

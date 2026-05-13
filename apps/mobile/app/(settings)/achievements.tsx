@@ -1,484 +1,215 @@
-// Achievements Screen
-// Displays user achievements and streak information
-
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withDelay,
-  withSpring,
-} from 'react-native-reanimated';
-import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
+
+import { BackHeader, GradientText } from '../../components/app-chrome';
 import {
   ACHIEVEMENTS,
   useStreakStore,
-  Achievement,
-  AchievementId,
+  type Achievement,
 } from '../../lib/achievements';
-import AnimatedButton from '../../components/AnimatedButton';
-import { useRouter } from 'expo-router';
-import { useTranslation, interpolate } from '../../lib/i18n';
-
-const { width: SCREEN_W } = Dimensions.get('window');
-
-// Achievement Card Component
-function AchievementCard({
-  achievement,
-  unlocked,
-  progress,
-  index,
-  ta,
-}: {
-  achievement: Achievement;
-  unlocked: boolean;
-  progress: number;
-  index: number;
-  ta: any;
-}) {
-  const scale = useSharedValue(0);
-  
-  // Staggered animation
-  React.useEffect(() => {
-    scale.value = withDelay(
-      index * 50,
-      withSpring(1, { damping: 15, stiffness: 200 })
-    );
-  }, [scale, index]);
-  
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-  
-  return (
-    <Animated.View
-      style={[
-        styles.achievementCard,
-        !unlocked && styles.achievementCardLocked,
-        animatedStyle,
-      ]}
-    >
-      {/* Icon */}
-      <View style={[styles.iconContainer, unlocked && styles.iconContainerUnlocked]}>
-        <Text style={styles.icon}>{achievement.icon}</Text>
-        {unlocked && <View style={styles.unlockedBadge}><Text>✓</Text></View>}
-      </View>
-      
-      {/* Content */}
-      <View style={styles.achievementContent}>
-        <Text style={[styles.achievementTitle, !unlocked && styles.lockedText]}>
-          {achievement.title}
-        </Text>
-        <Text style={styles.achievementDescription}>
-          {achievement.description}
-        </Text>
-        
-        {/* Progress bar */}
-        {!unlocked && (
-          <View style={styles.progressContainer}>
-            <View style={styles.progressBar}>
-              <View 
-                style={[
-                  styles.progressFill, 
-                  { width: `${progress * 100}%` }
-                ]} 
-              />
-            </View>
-            <Text style={styles.progressText}>{Math.round(progress * 100)}%</Text>
-          </View>
-        )}
-        
-        {unlocked && (
-          <Text style={styles.unlockedText}>{ta.unlockedText}</Text>
-        )}
-      </View>
-    </Animated.View>
-  );
-}
-
-// Streak Card Component
-function StreakCard({ ta }: { ta: any }) {
-  const { currentStreak, longestStreak, daysActive } = useStreakStore();
-
-  return (
-    <View style={styles.streakCard}>
-      <Text style={styles.streakTitle}>{ta.streak}</Text>
-
-      <View style={styles.streakStats}>
-        <View style={styles.streakStat}>
-          <Text style={styles.streakNumber}>{currentStreak}</Text>
-          <Text style={styles.streakLabel}>{ta.current}</Text>
-        </View>
-
-        <View style={styles.streakDivider} />
-
-        <View style={styles.streakStat}>
-          <Text style={styles.streakNumber}>{longestStreak}</Text>
-          <Text style={styles.streakLabel}>{ta.best}</Text>
-        </View>
-
-        <View style={styles.streakDivider} />
-
-        <View style={styles.streakStat}>
-          <Text style={styles.streakNumber}>{daysActive.length}</Text>
-          <Text style={styles.streakLabel}>{ta.totalDays}</Text>
-        </View>
-      </View>
-
-      {/* Streak message */}
-      <Text style={styles.streakMessage}>
-        {currentStreak >= 7
-          ? ta.streakOnFire
-          : currentStreak >= 3
-            ? ta.streakGood
-            : ta.streakStart}
-      </Text>
-    </View>
-  );
-}
-
-// Category Progress Component
-function CategoryProgress({ ta }: { ta: any }) {
-  const { categoriesCompleted } = useStreakStore();
-  const categories = Object.entries(categoriesCompleted);
-
-  if (categories.length === 0) {
-    return (
-      <View style={styles.emptyState}>
-        <Text style={styles.emptyEmoji}>🎯</Text>
-        <Text style={styles.emptyText}>{ta.startExploring}</Text>
-      </View>
-    );
-  }
-
-  return (
-    <View style={styles.categorySection}>
-      <Text style={styles.sectionTitle}>{ta.categoryProgress}</Text>
-      {categories.map(([category, activities]) => (
-        <View key={category} style={styles.categoryItem}>
-          <View style={styles.categoryHeader}>
-            <Text style={styles.categoryName}>{category}</Text>
-            <Text style={styles.categoryCount}>{(activities as any[]).length} {ta.activities}</Text>
-          </View>
-          <View style={styles.categoryBar}>
-            <View
-              style={[
-                styles.categoryFill,
-                { width: `${Math.min((activities as any[]).length * 10, 100)}%` },
-              ]}
-            />
-          </View>
-        </View>
-      ))}
-    </View>
-  );
-}
+import { COLORS, GRADIENTS } from '../../constants/theme';
 
 export default function AchievementsScreen() {
-  const router = useRouter();
-  const { t } = useTranslation();
-  const ta = t.achievements;
-  const unlockedAchievements = useStreakStore((state) => state.unlockedAchievements);
-  const getProgress = useStreakStore((state) => state.getProgress);
-
-  // Separate unlocked and locked achievements
-  const unlocked = ACHIEVEMENTS.filter(a => unlockedAchievements.includes(a.id));
-  const locked = ACHIEVEMENTS.filter(a => !unlockedAchievements.includes(a.id));
+  const { currentStreak, daysActive, unlockedAchievements, getProgress } =
+    useStreakStore();
+  const unlockedCount = unlockedAchievements.length;
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>{ta.title}</Text>
-        <Text style={styles.headerSubtitle}>
-          {interpolate(ta.countUnlocked, { unlocked: String(unlocked.length), total: String(ACHIEVEMENTS.length) })}
-        </Text>
-      </View>
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
+      <StatusBar style="light" />
+      <BackHeader title="Achievements" subtitle="ACHIEVEMENTS" />
 
       <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.content}
       >
-        {/* Streak Card */}
-        <StreakCard ta={ta} />
+        <View style={styles.statsRow}>
+          <StatPill label="TOTAL" value={String(ACHIEVEMENTS.length)} />
+          <StatPill label="STREAK" value={String(currentStreak)} />
+          <StatPill label="UNLOCKED" value={String(unlockedCount)} />
+        </View>
 
-        {/* Category Progress */}
-        <CategoryProgress ta={ta} />
-
-        {/* Unlocked Achievements */}
-        {unlocked.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{ta.unlockedSection}</Text>
-            {unlocked.map((achievement, index) => (
+        <View style={styles.grid}>
+          {ACHIEVEMENTS.map((achievement) => {
+            const unlocked = unlockedAchievements.includes(achievement.id);
+            const progress = unlocked ? 1 : getProgress(achievement.id);
+            return (
               <AchievementCard
                 key={achievement.id}
                 achievement={achievement}
-                unlocked={true}
-                progress={1}
-                index={index}
-                ta={ta}
+                unlocked={unlocked}
+                progress={progress}
               />
-            ))}
-          </View>
-        )}
+            );
+          })}
+        </View>
 
-        {/* Locked Achievements */}
-        {locked.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{ta.lockedSection}</Text>
-            {locked.map((achievement, index) => (
-              <AchievementCard
-                key={achievement.id}
-                achievement={achievement}
-                unlocked={false}
-                progress={getProgress(achievement.id)}
-                index={index + unlocked.length}
-                ta={ta}
-              />
-            ))}
-          </View>
-        )}
-
-        {/* Back Button */}
-        <AnimatedButton
-          title={ta.backButton}
-          variant="outline"
-          onPress={() => router.back()}
-          style={styles.backButton}
-        />
+        <Text style={styles.footerText}>
+          {daysActive.length} active days tracked locally
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
+function StatPill({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.statPill}>
+      <GradientText
+        text={value}
+        width={54}
+        height={30}
+        fontSize={24}
+        colors={GRADIENTS.primary}
+      />
+      <Text style={styles.statLabel}>{label}</Text>
+    </View>
+  );
+}
+
+function AchievementCard({
+  achievement,
+  unlocked,
+  progress,
+}: {
+  achievement: Achievement;
+  unlocked: boolean;
+  progress: number;
+}) {
+  return (
+    <View style={[styles.badgeCard, unlocked && styles.badgeCardUnlocked]}>
+      <Text style={styles.badgeIcon}>{achievement.icon}</Text>
+      <Text style={styles.badgeName} numberOfLines={2}>
+        {achievement.title}
+      </Text>
+      <Text style={styles.badgeDescription} numberOfLines={3}>
+        {achievement.description}
+      </Text>
+
+      {!unlocked ? (
+        <View style={styles.progressTrack}>
+          <LinearGradient
+            colors={GRADIENTS.primary}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={[
+              styles.progressFill,
+              { width: `${Math.max(6, Math.min(progress, 1) * 100)}%` },
+            ]}
+          />
+        </View>
+      ) : null}
+
+      {!unlocked ? (
+        <View style={styles.lockedOverlay}>
+          <Text style={styles.lockedText}>Locked</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.bg,
   },
-  header: {
-    paddingHorizontal: SIZES.padding * 2,
-    paddingVertical: SIZES.padding,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+  content: {
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 24,
+    gap: 14,
   },
-  headerTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h1,
-    color: COLORS.text,
-  },
-  headerSubtitle: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-    marginTop: 4,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: SIZES.padding * 2,
-    gap: SIZES.padding * 2,
-  },
-  streakCard: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusLarge,
-    padding: SIZES.padding * 2,
-    ...SHADOWS.md,
-  },
-  streakTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
-    color: COLORS.text,
-    marginBottom: SIZES.padding,
-  },
-  streakStats: {
+  statsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    gap: 10,
   },
-  streakStat: {
-    alignItems: 'center',
-  },
-  streakNumber: {
-    fontFamily: FONTS.extraBold,
-    fontSize: SIZES.display,
-    color: COLORS.primary,
-  },
-  streakLabel: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    marginTop: 4,
-  },
-  streakDivider: {
-    width: 1,
-    height: 50,
-    backgroundColor: COLORS.border,
-  },
-  streakMessage: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-    textAlign: 'center',
-    marginTop: SIZES.padding,
-  },
-  section: {
-    gap: SIZES.padding,
-  },
-  sectionTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
-    color: COLORS.text,
-    marginBottom: SIZES.padding / 2,
-  },
-  achievementCard: {
-    flexDirection: 'row',
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusLarge,
-    padding: SIZES.padding,
-    gap: SIZES.padding,
-    ...SHADOWS.sm,
-  },
-  achievementCardLocked: {
-    opacity: 0.7,
-    backgroundColor: COLORS.backgroundSecondary,
-  },
-  iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: COLORS.cardElevated,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  iconContainerUnlocked: {
-    backgroundColor: `${COLORS.primary}20`,
-  },
-  icon: {
-    fontSize: 28,
-  },
-  unlockedBadge: {
-    position: 'absolute',
-    bottom: -2,
-    right: -2,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: COLORS.yes,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  achievementContent: {
+  statPill: {
     flex: 1,
+    minHeight: 70,
+    borderRadius: 18,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: 'rgba(194,24,91,0.19)',
+    alignItems: 'center',
     justifyContent: 'center',
+    gap: 4,
   },
-  achievementTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-    marginBottom: 2,
-  },
-  lockedText: {
+  statLabel: {
     color: COLORS.textMuted,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 1.1,
   },
-  achievementDescription: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-  },
-  progressContainer: {
+  grid: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  badgeCard: {
+    width: '48%',
+    minHeight: 184,
+    borderRadius: 18,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
+    padding: 14,
     alignItems: 'center',
     gap: 8,
-    marginTop: 8,
+    overflow: 'hidden',
   },
-  progressBar: {
-    flex: 1,
-    height: 4,
-    backgroundColor: COLORS.border,
-    borderRadius: 2,
+  badgeCardUnlocked: {
+    borderColor: COLORS.border,
+  },
+  badgeIcon: {
+    fontSize: 32,
+  },
+  badgeName: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  badgeDescription: {
+    color: COLORS.textSub,
+    fontSize: 11,
+    lineHeight: 15,
+    textAlign: 'center',
+  },
+  progressTrack: {
+    marginTop: 'auto',
+    width: '100%',
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'rgba(255,255,255,0.08)',
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: COLORS.primary,
-    borderRadius: 2,
-  },
-  progressText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.xs,
-    color: COLORS.textMuted,
-    minWidth: 30,
-    textAlign: 'right',
-  },
-  unlockedText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.yes,
-    marginTop: 4,
-  },
-  categorySection: {
-    gap: SIZES.padding,
-  },
-  categoryItem: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding,
-  },
-  categoryHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  categoryName: {
-    fontFamily: FONTS.semiBold,
-    fontSize: SIZES.body,
-    color: COLORS.text,
-    textTransform: 'capitalize',
-  },
-  categoryCount: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-  },
-  categoryBar: {
-    height: 6,
-    backgroundColor: COLORS.border,
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  categoryFill: {
-    height: '100%',
-    backgroundColor: COLORS.primary,
     borderRadius: 3,
   },
-  emptyState: {
+  lockedOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)',
     alignItems: 'center',
-    padding: SIZES.padding * 2,
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radiusLarge,
+    justifyContent: 'center',
   },
-  emptyEmoji: {
-    fontSize: 40,
-    marginBottom: SIZES.padding,
+  lockedText: {
+    color: COLORS.textSub,
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 1.1,
   },
-  emptyText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
+  footerText: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    fontWeight: '600',
     textAlign: 'center',
-  },
-  backButton: {
-    marginTop: SIZES.padding,
   },
 });
