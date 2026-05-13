@@ -18,6 +18,7 @@
     "build:kinks": "node scripts/build-kinks.js"
   },
   "dependencies": {
+    "@expo/metro-runtime": "~6.1.2",
     "@expo/vector-icons": "^15.0.3",
     "@noble/ciphers": "^1.1.0",
     "@noble/curves": "^1.7.0",

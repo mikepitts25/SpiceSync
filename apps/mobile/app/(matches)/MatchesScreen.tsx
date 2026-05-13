@@ -41,17 +41,6 @@ const getComplementarySlug = (slug?: string): string | null => {
   return null;
 };
 
-const getComplementarySlug = (slug?: string): string | null => {
-  if (!slug) return null;
-  if (slug.endsWith('-give')) {
-    return `${slug.slice(0, -5)}-receive`;
-  }
-  if (slug.endsWith('-receive')) {
-    return `${slug.slice(0, -8)}-give`;
-  }
-  return null;
-};
-
 export default function MatchesScreen() {
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
