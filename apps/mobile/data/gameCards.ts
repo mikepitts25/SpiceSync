@@ -404,15 +404,6 @@ export const PREMIUM_CARDS: GameCard[] = [
     estimatedTime: 'N/A'
   },
   {
-    id: 'p-c5',
-    type: 'challenge',
-    content: 'Orgasm Race: We both touch ourselves. First to finish wins. Loser gives the winner oral right now.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A'
-  },
-  {
     id: 'p-c7',
     type: 'challenge',
     content: 'Edging x3: Bring me right to the edge—then stop. 30 second wait. Do it 3 times. Then finish me.',
