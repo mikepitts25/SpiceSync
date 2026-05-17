@@ -8,7 +8,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-005',
@@ -17,7 +17,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-007',
@@ -26,7 +26,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-009',
@@ -35,7 +35,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-012',
@@ -44,7 +44,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-014',
@@ -53,7 +53,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-001',
@@ -62,7 +62,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['music']
   },
   {
@@ -72,7 +72,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['ice']
   },
   {
@@ -82,7 +82,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-005',
@@ -91,7 +91,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-006',
@@ -100,7 +100,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['feather']
   },
   {
@@ -110,7 +110,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-008',
@@ -128,7 +128,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-012',
@@ -137,7 +137,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['honey']
   },
   {
@@ -147,7 +147,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-014',
@@ -156,7 +156,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-002',
@@ -165,7 +165,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['ice']
   },
   {
@@ -193,7 +193,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['blindfold', 'feather']
   },
   {
@@ -203,7 +203,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-011',
@@ -221,7 +221,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-013',
@@ -248,7 +248,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-rp-004',
@@ -257,7 +257,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-rp-005',
@@ -266,7 +266,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-rp-006',
@@ -275,7 +275,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['oil-or-lotion']
   },
   {
@@ -285,7 +285,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-001',
@@ -294,7 +294,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-002',
@@ -303,7 +303,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-004',
@@ -312,7 +312,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-006',
@@ -321,7 +321,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-008',
@@ -330,7 +330,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-010',
@@ -339,7 +339,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-011',
@@ -348,7 +348,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-013',
@@ -357,7 +357,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-t-015',
@@ -366,7 +366,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-002',
@@ -385,7 +385,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-010',
@@ -404,7 +404,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-001',
@@ -413,7 +413,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-003',
@@ -422,7 +422,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['dice']
   },
   {
@@ -432,7 +432,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-006',
@@ -441,7 +441,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-009',
@@ -450,7 +450,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-c-014',
@@ -459,7 +459,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-fn-001',
@@ -468,7 +468,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-fn-002',
@@ -477,7 +477,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-fn-003',
@@ -486,7 +486,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-fn-005',
@@ -495,7 +495,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-fn-006',
@@ -504,7 +504,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-fn-007',
@@ -513,7 +513,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-fn-008',
@@ -522,7 +522,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-rp-001',
@@ -531,7 +531,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-rp-002',
@@ -540,7 +540,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-rp-003',
@@ -549,6 +549,6 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   }
 ];

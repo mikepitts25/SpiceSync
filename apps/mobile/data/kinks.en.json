@@ -120,37 +120,43 @@
   },
   {
     "id": "0008",
-    "slug": "oral-pleasure-giving",
-    "title": "Oral Pleasure Focus",
-    "titleEs": "Enfoque en Placer Oral",
-    "description": "Devote yourself entirely to your partner's pleasure with your mouth. Take your time, explore, respond to their reactions.",
-    "descriptionEs": "Dedíquense enteramente al placer de su pareja con la boca.",
+    "slug": "oral-pleasure-give",
+    "title": "Oral Pleasure (Giving)",
+    "titleEs": "Placer Oral (Dar)",
+    "description": "Focus on giving your partner oral pleasure with attention to comfort, rhythm, and feedback.",
+    "descriptionEs": "Concéntrate en dar placer oral a tu pareja con atención a comodidad, ritmo y señales.",
     "tags": [
       "oral",
-      "giving",
       "pleasure",
+      "give",
+      "giving",
       "focus"
     ],
-    "category": "sensory",
+    "category": "paired_play",
     "intensityScale": 1,
-    "tier": "soft"
+    "tier": "soft",
+    "pairKey": "oral-pleasure",
+    "pairRole": "give"
   },
   {
     "id": "0009",
-    "slug": "light-teasing",
-    "title": "Light Teasing",
-    "titleEs": "Provocación Ligera",
-    "description": "Brush fingertips along sensitive areas without fully touching where they want it most. Kiss everywhere except the lips.",
-    "descriptionEs": "Pasen las yemas de los dedos por áreas sensibles sin tocar completamente donde más lo desean.",
+    "slug": "light-teasing-give",
+    "title": "Light Teasing (Giving)",
+    "titleEs": "Provocación Ligera (Dar)",
+    "description": "Tease your partner lightly with touch, pauses, and playful restraint while watching their reactions.",
+    "descriptionEs": "Provoca suavemente a tu pareja con caricias, pausas y contención juguetona mientras observas sus reacciones.",
     "tags": [
       "teasing",
       "anticipation",
-      "foreplay",
-      "denial"
+      "give",
+      "giving",
+      "foreplay"
     ],
-    "category": "sensory",
+    "category": "paired_play",
     "intensityScale": 1,
-    "tier": "soft"
+    "tier": "soft",
+    "pairKey": "light-teasing",
+    "pairRole": "give"
   },
   {
     "id": "0010",
@@ -340,55 +346,24 @@
     "tier": "soft"
   },
   {
-    "id": "0051",
-    "slug": "light-spanking",
-    "title": "Light Spanking",
-    "titleEs": "Nalgadas Ligeras",
-    "description": "Gentle, playful swats on the backside during intimate moments. Start soft, gauge reactions, and build intensity slowly.",
-    "descriptionEs": "Golpecitos suaves y juguetones en las nalgas durante momentos íntimos.",
-    "tags": [
-      "impact",
-      "pain-pleasure",
-      "playful",
-      "power-exchange"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 2,
-    "tier": "naughty"
-  },
-  {
     "id": "0052",
-    "slug": "wrist-restraints",
-    "title": "Wrist Restraint Play",
-    "titleEs": "Juego de Restricción de Muñecas",
-    "description": "Use soft cuffs, scarves, or ties to gently bind wrists together or to the bed.",
-    "descriptionEs": "Usen esposas suaves, pañuelos o corbatas para atar suavemente las muñecas.",
+    "slug": "wrist-restraints-give",
+    "title": "Wrist Restraints (Giving)",
+    "titleEs": "Restricción de Muñecas (Dar)",
+    "description": "Use soft restraints on your partner's wrists, checking fit, comfort, and escape signals before play continues.",
+    "descriptionEs": "Usa restricciones suaves en las muñecas de tu pareja, revisando ajuste, comodidad y señales antes de continuar.",
     "tags": [
       "bondage",
       "restraint",
-      "vulnerability",
+      "give",
+      "giving",
       "trust"
     ],
-    "category": "light_restraint",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
-  },
-  {
-    "id": "0053",
-    "slug": "vibrator-play",
-    "title": "Vibrator Play",
-    "titleEs": "Juego con Vibrador",
-    "description": "Incorporate a vibrator into your play. Use it on various body parts, take turns controlling it.",
-    "descriptionEs": "Incorporén un vibrador en su juego. Úsenlo en varias partes del cuerpo.",
-    "tags": [
-      "toys",
-      "vibration",
-      "pleasure",
-      "stimulation"
-    ],
-    "category": "props_and_toys",
-    "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "wrist-restraints",
+    "pairRole": "give"
   },
   {
     "id": "0054",
@@ -460,54 +435,63 @@
   },
   {
     "id": "0058",
-    "slug": "nipple-play",
-    "title": "Nipple Play",
-    "titleEs": "Juego con Pezones",
-    "description": "Explore your partner's nipples with fingers, tongue, and varying pressure. These sensitive peaks respond beautifully.",
-    "descriptionEs": "Exploren los pezones de su pareja con dedos, lengua y presión variable.",
+    "slug": "nipple-play-give",
+    "title": "Nipple Play (Giving)",
+    "titleEs": "Juego con Pezones (Dar)",
+    "description": "Explore your partner's nipples with varied pressure, warmth, and teasing while checking sensitivity.",
+    "descriptionEs": "Explora los pezones de tu pareja con presión variable, calor y provocación mientras revisas sensibilidad.",
     "tags": [
       "nipples",
       "sensory",
-      "teasing",
-      "erogenous"
+      "give",
+      "giving",
+      "teasing"
     ],
-    "category": "sensory",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "nipple-play",
+    "pairRole": "give"
   },
   {
     "id": "0059",
-    "slug": "biting",
-    "title": "Sensual Biting",
-    "titleEs": "Mordidas Sensuales",
-    "description": "Use teeth to create sharp, pleasurable sensations. Start with gentle nibbles on shoulders, neck, and thighs.",
-    "descriptionEs": "Usen los dientes para crear sensaciones agudas y placenteras.",
+    "slug": "biting-give",
+    "title": "Sensual Biting (Giving)",
+    "titleEs": "Mordidas Sensuales (Dar)",
+    "description": "Use gentle bites or nibbles on agreed areas, building sensation only as your partner welcomes it.",
+    "descriptionEs": "Usa mordidas suaves en zonas acordadas, aumentando la sensación solo si tu pareja lo desea.",
     "tags": [
       "biting",
-      "pain-pleasure",
-      "marking",
-      "sensory"
+      "sensory",
+      "give",
+      "giving",
+      "consent"
     ],
-    "category": "sensory",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "biting",
+    "pairRole": "give"
   },
   {
     "id": "0060",
-    "slug": "hair-pulling",
-    "title": "Controlled Hair Pulling",
-    "titleEs": "Jalón de Cabello Controlado",
-    "description": "Gently but firmly grasp their hair near the roots and pull. The scalp is sensitive.",
-    "descriptionEs": "Agárren suave pero firmemente el cabello cerca de las raíces y tiren.",
+    "slug": "hair-pulling-give",
+    "title": "Controlled Hair Pulling (Giving)",
+    "titleEs": "Jalón de Cabello Controlado (Dar)",
+    "description": "Hold near the roots and guide your partner's hair only within agreed pressure and positioning.",
+    "descriptionEs": "Sujeta cerca de la raíz y guía el cabello de tu pareja solo con presión y postura acordadas.",
     "tags": [
       "hair",
       "control",
-      "sensation",
-      "dominance"
+      "give",
+      "giving",
+      "consent"
     ],
-    "category": "light_restraint",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "hair-pulling",
+    "pairRole": "give"
   },
   {
     "id": "0101",
@@ -562,37 +546,43 @@
   },
   {
     "id": "0104",
-    "slug": "chastity-play",
-    "title": "Chastity Play",
-    "titleEs": "Juego de Castidad",
-    "description": "One partner wears a chastity device, giving the other complete control over their pleasure. The keyholder decides when release is allowed.",
-    "descriptionEs": "Una pareja usa un dispositivo de castidad, dando a la otra control completo.",
+    "slug": "chastity-give",
+    "title": "Chastity Control (Giving)",
+    "titleEs": "Control de Castidad (Dar)",
+    "description": "Hold control of your partner's release using negotiated rules, check-ins, and a clear end point.",
+    "descriptionEs": "Controla la liberación de tu pareja con reglas negociadas, revisiones y un punto final claro.",
     "tags": [
       "chastity",
       "control",
-      "denial",
-      "power"
+      "give",
+      "giving",
+      "denial"
     ],
-    "category": "props_and_toys",
+    "category": "paired_play",
     "intensityScale": 3,
-    "tier": "xxx"
+    "tier": "xxx",
+    "pairKey": "chastity",
+    "pairRole": "give"
   },
   {
     "id": "0105",
-    "slug": "degradation",
-    "title": "Consensual Degradation",
-    "titleEs": "Degradación Consensuada",
-    "description": "Use words and actions to humiliate and degrade your partner in a consensual, negotiated scene.",
-    "descriptionEs": "Usen palabras y acciones para humillar y degradar a su pareja de forma consensuada.",
+    "slug": "degradation-give",
+    "title": "Consensual Degradation (Giving)",
+    "titleEs": "Degradación Consensuada (Dar)",
+    "description": "Use negotiated words or roles that your partner has explicitly welcomed, with limits and aftercare clear.",
+    "descriptionEs": "Usa palabras o roles negociados que tu pareja haya aceptado explícitamente, con límites y aftercare claros.",
     "tags": [
       "degradation",
       "humiliation",
-      "verbal",
-      "intense"
+      "give",
+      "giving",
+      "consent"
     ],
-    "category": "communication",
+    "category": "paired_play",
     "intensityScale": 3,
-    "tier": "xxx"
+    "tier": "xxx",
+    "pairKey": "degradation",
+    "pairRole": "give"
   },
   {
     "id": "0106",
@@ -868,20 +858,23 @@
   },
   {
     "id": "0064",
-    "slug": "dildo-play",
-    "title": "Dildo Play",
-    "titleEs": "Juego con Dildo",
-    "description": "Use a dildo for penetration, either on your partner or watching them use it on themselves.",
-    "descriptionEs": "Usen un dildo para penetración, ya sea en su pareja o viéndolos usarlo.",
+    "slug": "dildo-give",
+    "title": "Dildo Play (Giving)",
+    "titleEs": "Juego con Dildo (Dar)",
+    "description": "Use a dildo with your partner while controlling pace, angle, and comfort through active feedback.",
+    "descriptionEs": "Usa un dildo con tu pareja controlando ritmo, ángulo y comodidad con comunicación activa.",
     "tags": [
       "dildo",
-      "penetration",
       "toys",
-      "versatile"
+      "give",
+      "giving",
+      "penetration"
     ],
-    "category": "props_and_toys",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "dildo",
+    "pairRole": "give"
   },
   {
     "id": "0065",
@@ -1939,54 +1932,63 @@
   },
   {
     "id": "0096",
-    "slug": "collaring",
-    "title": "Collaring Ceremony",
-    "titleEs": "Ceremonia de Collar",
-    "description": "Symbolically collar your partner as a sign of commitment in your power dynamic.",
-    "descriptionEs": "Coloquen simbólicamente un collar a su pareja como signo de compromiso.",
+    "slug": "collaring-give",
+    "title": "Collaring (Giving)",
+    "titleEs": "Collar Simbólico (Dar)",
+    "description": "Offer or place a collar as a negotiated symbol of dynamic, commitment, or scene role.",
+    "descriptionEs": "Ofrece o coloca un collar como símbolo negociado de dinámica, compromiso o rol de escena.",
     "tags": [
       "collar",
-      "commitment",
       "symbolism",
+      "give",
+      "giving",
       "bdsm"
     ],
-    "category": "light_restraint",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "collaring",
+    "pairRole": "give"
   },
   {
     "id": "0097",
-    "slug": "leash-play",
-    "title": "Leash Play",
-    "titleEs": "Juego con Correa",
-    "description": "Attach a leash to your partner's collar and guide them.",
-    "descriptionEs": "Adjunten una correa al collar de su pareja y guíenlos.",
+    "slug": "leash-play-give",
+    "title": "Leash Play (Giving)",
+    "titleEs": "Juego con Correa (Dar)",
+    "description": "Guide your partner with a leash or collar cue only within negotiated comfort and movement limits.",
+    "descriptionEs": "Guía a tu pareja con correa o señal de collar solo dentro de comodidad y movimiento negociados.",
     "tags": [
       "leash",
       "collar",
-      "control",
-      "petplay"
+      "give",
+      "giving",
+      "control"
     ],
-    "category": "light_restraint",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "leash-play",
+    "pairRole": "give"
   },
   {
     "id": "0098",
-    "slug": "spanking-paddle",
-    "title": "Paddle Spanking",
-    "titleEs": "Nalgadas con Paleta",
-    "description": "Use a paddle for more intense impact play. The broad surface creates a different sensation.",
-    "descriptionEs": "Usen una paleta para juego de impacto más intenso.",
+    "slug": "paddle-spanking-give",
+    "title": "Paddle Spanking (Giving)",
+    "titleEs": "Nalgadas con Paleta (Dar)",
+    "description": "Use a paddle for negotiated impact play, starting light and checking comfort after each change.",
+    "descriptionEs": "Usa una paleta para impacto negociado, empezando suave y revisando comodidad tras cada cambio.",
     "tags": [
       "paddle",
       "impact",
-      "spanking",
-      "toys"
+      "give",
+      "giving",
+      "spanking"
     ],
-    "category": "light_restraint",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "paddle-spanking",
+    "pairRole": "give"
   },
   {
     "id": "0099",
@@ -2126,54 +2128,63 @@
   },
   {
     "id": "0150",
-    "slug": "long-term-chastity",
-    "title": "Long-Term Chastity",
-    "titleEs": "Castidad a Largo Plazo",
-    "description": "Lock your partner in chastity for weeks or months.",
-    "descriptionEs": "Encierren a su pareja en castidad por semanas o meses.",
+    "slug": "chastity-receive",
+    "title": "Chastity Control (Receiving)",
+    "titleEs": "Control de Castidad (Recibir)",
+    "description": "Give your partner negotiated control over release for an agreed scene or short-term play window.",
+    "descriptionEs": "Cede a tu pareja control negociado sobre la liberación durante una escena o un periodo corto acordado.",
     "tags": [
       "chastity",
-      "long-term",
-      "denial",
-      "control"
+      "control",
+      "receive",
+      "receiving",
+      "denial"
     ],
-    "category": "props_and_toys",
+    "category": "paired_play",
     "intensityScale": 3,
-    "tier": "xxx"
+    "tier": "xxx",
+    "pairKey": "chastity",
+    "pairRole": "receive"
   },
   {
     "id": "0151",
     "slug": "spanking-give",
-    "title": "Spanking (Giving)",
-    "titleEs": "Nalgadas (Dar)",
-    "description": "You take control of rhythm and intensity, delivering swats while checking in on your partner’s reactions.",
-    "descriptionEs": "Tú controlas el ritmo y la intensidad, dando nalgadas mientras verificas las reacciones de tu pareja.",
+    "title": "Light Spanking (Giving)",
+    "titleEs": "Nalgadas Ligeras (Dar)",
+    "description": "Give gentle, consensual swats while controlling rhythm, intensity, and check-ins.",
+    "descriptionEs": "Da nalgadas suaves y consensuadas mientras controlas ritmo, intensidad y revisiones.",
     "tags": [
       "impact-play",
+      "spanking",
+      "give",
       "giving",
-      "control",
       "consent"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "spanking",
+    "pairRole": "give"
   },
   {
     "id": "0152",
     "slug": "spanking-receive",
-    "title": "Spanking (Receiving)",
-    "titleEs": "Nalgadas (Recibir)",
-    "description": "You offer your body to receive impact, focusing on sensation, trust, and clear communication.",
-    "descriptionEs": "Ofreces tu cuerpo para recibir impacto, enfocándote en sensación, confianza y comunicación clara.",
+    "title": "Light Spanking (Receiving)",
+    "titleEs": "Nalgadas Ligeras (Recibir)",
+    "description": "Receive gentle, consensual impact while staying connected through feedback and agreed signals.",
+    "descriptionEs": "Recibe impacto suave y consensuado manteniendo conexión mediante señales y comentarios acordados.",
     "tags": [
       "impact-play",
+      "spanking",
+      "receive",
       "receiving",
-      "sensation",
       "trust"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "spanking",
+    "pairRole": "receive"
   },
   {
     "id": "0153",
@@ -2181,67 +2192,79 @@
     "title": "Handcuffs (Giving)",
     "titleEs": "Esposas (Dar)",
     "description": "Restrain your partner with cuffs and guide the scene with teasing, commands, and attentive aftercare.",
-    "descriptionEs": "Restringe a tu pareja con esposas y guía la escena con provocación, órdenes y buen aftercare.",
+    "descriptionEs": "Sujeta a tu pareja con esposas y guía la escena con provocación, instrucciones y aftercare atento.",
     "tags": [
       "restraint",
+      "handcuffs",
+      "give",
       "giving",
-      "dominance",
-      "metal"
+      "dominance"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "handcuffs",
+    "pairRole": "give"
   },
   {
     "id": "0154",
     "slug": "handcuffs-receive",
     "title": "Handcuffs (Receiving)",
     "titleEs": "Esposas (Recibir)",
-    "description": "Your wrists are restrained while your partner takes the lead, heightening anticipation and vulnerability.",
-    "descriptionEs": "Tus muñecas quedan restringidas mientras tu pareja lidera, aumentando anticipación y vulnerabilidad.",
+    "description": "Have your wrists restrained while your partner takes the lead and keeps the scene negotiated.",
+    "descriptionEs": "Deja que sujeten tus muñecas mientras tu pareja lidera y mantiene la escena negociada.",
     "tags": [
       "restraint",
+      "handcuffs",
+      "receive",
       "receiving",
-      "vulnerability",
       "trust"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "handcuffs",
+    "pairRole": "receive"
   },
   {
     "id": "0155",
     "slug": "vibrator-give",
     "title": "Vibrator Play (Giving)",
     "titleEs": "Vibrador (Dar)",
-    "description": "Use a vibrator on your partner and control speed, pressure, and timing to build intense pleasure.",
-    "descriptionEs": "Usa un vibrador en tu pareja y controla velocidad, presión y ritmo para elevar el placer.",
+    "description": "Use a vibrator on your partner and control speed, pressure, and timing with steady feedback.",
+    "descriptionEs": "Usa un vibrador en tu pareja y controla velocidad, presión y ritmo con comunicación constante.",
     "tags": [
       "toys",
+      "vibrator",
+      "give",
       "giving",
-      "teasing",
-      "control"
+      "teasing"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "vibrator",
+    "pairRole": "give"
   },
   {
     "id": "0156",
     "slug": "vibrator-receive",
     "title": "Vibrator Play (Receiving)",
     "titleEs": "Vibrador (Recibir)",
-    "description": "Let your partner control the toy while you focus on sensation and surrender to the build-up.",
-    "descriptionEs": "Deja que tu pareja controle el juguete mientras te enfocas en la sensación y te entregas al aumento.",
+    "description": "Let your partner control the vibrator while you focus on sensation and communicate what works.",
+    "descriptionEs": "Deja que tu pareja controle el vibrador mientras te enfocas en la sensación y comunicas qué funciona.",
     "tags": [
       "toys",
+      "vibrator",
+      "receive",
       "receiving",
-      "sensation",
-      "surrender"
+      "sensation"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "vibrator",
+    "pairRole": "receive"
   },
   {
     "id": "0157",
@@ -2249,33 +2272,39 @@
     "title": "Nipple Clamps (Giving)",
     "titleEs": "Pinzas de Pezones (Dar)",
     "description": "Apply and remove clamps with care, mixing pressure, release, and teasing touch.",
-    "descriptionEs": "Coloca y retira pinzas con cuidado, mezclando presión, liberación y toques provocativos.",
+    "descriptionEs": "Coloca y retira pinzas con cuidado, mezclando presión, alivio y caricias provocativas.",
     "tags": [
       "toys",
+      "nipple-clamps",
+      "give",
       "giving",
-      "pain-pleasure",
       "control"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "nipple-clamps",
+    "pairRole": "give"
   },
   {
     "id": "0158",
     "slug": "nipple-clamps-receive",
     "title": "Nipple Clamps (Receiving)",
     "titleEs": "Pinzas de Pezones (Recibir)",
-    "description": "Experience the pinch and rush of sensation as your partner controls pressure and timing.",
-    "descriptionEs": "Experimenta el pellizco y el aumento de sensación mientras tu pareja controla presión y ritmo.",
+    "description": "Receive clamp play while your partner controls pressure, timing, and release within agreed limits.",
+    "descriptionEs": "Recibe juego con pinzas mientras tu pareja controla presión, ritmo y alivio dentro de límites acordados.",
     "tags": [
       "toys",
+      "nipple-clamps",
+      "receive",
       "receiving",
-      "pain-pleasure",
       "sensation"
     ],
     "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "nipple-clamps",
+    "pairRole": "receive"
   },
   {
     "id": "0159",
@@ -2296,20 +2325,23 @@
   },
   {
     "id": "0160",
-    "slug": "foot-worship",
-    "title": "Foot Worship",
-    "titleEs": "Adoracion de Pies",
-    "description": "Give focused attention to feet through massage, kissing, praise, or gentle worship within agreed boundaries.",
-    "descriptionEs": "Dedica atencion a los pies con masajes, besos, elogios o adoracion suave dentro de limites acordados.",
+    "slug": "foot-worship-give",
+    "title": "Foot Worship (Giving)",
+    "titleEs": "Adoración de Pies (Dar)",
+    "description": "Give focused attention to your partner's feet through massage, praise, or worship within agreed boundaries.",
+    "descriptionEs": "Dedica atención a los pies de tu pareja con masaje, elogios o adoración dentro de límites acordados.",
     "tags": [
       "feet",
       "worship",
-      "massage",
+      "give",
+      "giving",
       "fetish"
     ],
-    "category": "sensory",
+    "category": "paired_play",
     "intensityScale": 2,
-    "tier": "naughty"
+    "tier": "naughty",
+    "pairKey": "foot-worship",
+    "pairRole": "give"
   },
   {
     "id": "0161",
@@ -2993,20 +3025,23 @@
   },
   {
     "id": "0201",
-    "slug": "praise-kink",
-    "title": "Praise Kink",
-    "titleEs": "Kink de Elogios",
-    "description": "Use sincere praise, approval, and encouragement as the main turn-on during intimate moments.",
-    "descriptionEs": "Usen elogios sinceros, aprobacion y animo como el principal estimulo durante momentos intimos.",
+    "slug": "praise-give",
+    "title": "Praise Kink (Giving)",
+    "titleEs": "Elogios (Dar)",
+    "description": "Give sincere praise, approval, and encouragement as the central source of excitement.",
+    "descriptionEs": "Da elogios sinceros, aprobación y ánimo como fuente central de excitación.",
     "tags": [
       "praise",
       "affirmation",
-      "dirty-talk",
-      "confidence"
+      "give",
+      "giving",
+      "communication"
     ],
-    "category": "communication",
+    "category": "paired_play",
     "intensityScale": 1,
-    "tier": "soft"
+    "tier": "soft",
+    "pairKey": "praise",
+    "pairRole": "give"
   },
   {
     "id": "0202",
@@ -4282,5 +4317,345 @@
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft"
+  },
+  {
+    "id": "0277",
+    "slug": "oral-pleasure-receive",
+    "title": "Oral Pleasure (Receiving)",
+    "titleEs": "Placer Oral (Recibir)",
+    "description": "Receive focused oral attention while guiding your partner with clear feedback and encouragement.",
+    "descriptionEs": "Recibe atención oral enfocada mientras guías a tu pareja con señales claras y ánimo.",
+    "tags": [
+      "oral",
+      "pleasure",
+      "receive",
+      "receiving",
+      "focus"
+    ],
+    "category": "paired_play",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairKey": "oral-pleasure",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0278",
+    "slug": "light-teasing-receive",
+    "title": "Light Teasing (Receiving)",
+    "titleEs": "Provocación Ligera (Recibir)",
+    "description": "Let your partner tease you slowly, using your reactions to shape the pace and intensity.",
+    "descriptionEs": "Deja que tu pareja te provoque lentamente, usando tus reacciones para ajustar ritmo e intensidad.",
+    "tags": [
+      "teasing",
+      "anticipation",
+      "receive",
+      "receiving",
+      "foreplay"
+    ],
+    "category": "paired_play",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairKey": "light-teasing",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0279",
+    "slug": "wrist-restraints-receive",
+    "title": "Wrist Restraints (Receiving)",
+    "titleEs": "Restricción de Muñecas (Recibir)",
+    "description": "Have your wrists gently restrained while your partner leads with agreed boundaries and check-ins.",
+    "descriptionEs": "Permite que sujeten tus muñecas suavemente mientras tu pareja guía con límites acordados y revisiones.",
+    "tags": [
+      "bondage",
+      "restraint",
+      "receive",
+      "receiving",
+      "trust"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "wrist-restraints",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0280",
+    "slug": "nipple-play-receive",
+    "title": "Nipple Play (Receiving)",
+    "titleEs": "Juego con Pezones (Recibir)",
+    "description": "Receive focused nipple attention while guiding pressure, pace, and sensitivity boundaries.",
+    "descriptionEs": "Recibe atención enfocada en los pezones mientras guías presión, ritmo y límites de sensibilidad.",
+    "tags": [
+      "nipples",
+      "sensory",
+      "receive",
+      "receiving",
+      "teasing"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "nipple-play",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0281",
+    "slug": "biting-receive",
+    "title": "Sensual Biting (Receiving)",
+    "titleEs": "Mordidas Sensuales (Recibir)",
+    "description": "Receive gentle biting or nibbling in agreed areas while guiding pressure and boundaries.",
+    "descriptionEs": "Recibe mordidas suaves en zonas acordadas mientras guías presión y límites.",
+    "tags": [
+      "biting",
+      "sensory",
+      "receive",
+      "receiving",
+      "consent"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "biting",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0282",
+    "slug": "hair-pulling-receive",
+    "title": "Controlled Hair Pulling (Receiving)",
+    "titleEs": "Jalón de Cabello Controlado (Recibir)",
+    "description": "Receive controlled hair pulling while setting clear limits for grip, direction, and intensity.",
+    "descriptionEs": "Recibe jalones controlados de cabello mientras defines límites claros de agarre, dirección e intensidad.",
+    "tags": [
+      "hair",
+      "control",
+      "receive",
+      "receiving",
+      "consent"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "hair-pulling",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0283",
+    "slug": "dildo-receive",
+    "title": "Dildo Play (Receiving)",
+    "titleEs": "Juego con Dildo (Recibir)",
+    "description": "Receive dildo play while guiding your partner on pace, angle, depth, and comfort.",
+    "descriptionEs": "Recibe juego con dildo mientras guías a tu pareja sobre ritmo, ángulo, profundidad y comodidad.",
+    "tags": [
+      "dildo",
+      "toys",
+      "receive",
+      "receiving",
+      "penetration"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "dildo",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0284",
+    "slug": "paddle-spanking-receive",
+    "title": "Paddle Spanking (Receiving)",
+    "titleEs": "Nalgadas con Paleta (Recibir)",
+    "description": "Receive paddle impact within negotiated limits while using feedback to shape the scene.",
+    "descriptionEs": "Recibe impacto con paleta dentro de límites negociados mientras usas señales para guiar la escena.",
+    "tags": [
+      "paddle",
+      "impact",
+      "receive",
+      "receiving",
+      "spanking"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "paddle-spanking",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0285",
+    "slug": "degradation-receive",
+    "title": "Consensual Degradation (Receiving)",
+    "titleEs": "Degradación Consensuada (Recibir)",
+    "description": "Receive negotiated degradation only within words, roles, and limits you have clearly approved.",
+    "descriptionEs": "Recibe degradación negociada solo dentro de palabras, roles y límites que hayas aprobado claramente.",
+    "tags": [
+      "degradation",
+      "humiliation",
+      "receive",
+      "receiving",
+      "consent"
+    ],
+    "category": "paired_play",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "pairKey": "degradation",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0286",
+    "slug": "foot-worship-receive",
+    "title": "Foot Worship (Receiving)",
+    "titleEs": "Adoración de Pies (Recibir)",
+    "description": "Receive focused foot worship while setting what kinds of touch, praise, or attention feel welcome.",
+    "descriptionEs": "Recibe adoración de pies definiendo qué tipo de contacto, elogios o atención te resulta bienvenida.",
+    "tags": [
+      "feet",
+      "worship",
+      "receive",
+      "receiving",
+      "fetish"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "foot-worship",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0287",
+    "slug": "collaring-receive",
+    "title": "Collaring (Receiving)",
+    "titleEs": "Collar Simbólico (Recibir)",
+    "description": "Receive a collar as an agreed symbol of dynamic, commitment, or scene role.",
+    "descriptionEs": "Recibe un collar como símbolo acordado de dinámica, compromiso o rol de escena.",
+    "tags": [
+      "collar",
+      "symbolism",
+      "receive",
+      "receiving",
+      "bdsm"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "collaring",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0288",
+    "slug": "leash-play-receive",
+    "title": "Leash Play (Receiving)",
+    "titleEs": "Juego con Correa (Recibir)",
+    "description": "Be guided by a leash or collar cue while keeping movement, posture, and comfort limits explicit.",
+    "descriptionEs": "Deja que te guíen con correa o señal de collar manteniendo explícitos movimiento, postura y comodidad.",
+    "tags": [
+      "leash",
+      "collar",
+      "receive",
+      "receiving",
+      "control"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "leash-play",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0289",
+    "slug": "praise-receive",
+    "title": "Praise Kink (Receiving)",
+    "titleEs": "Elogios (Recibir)",
+    "description": "Receive sincere praise, approval, and encouragement as the central source of excitement.",
+    "descriptionEs": "Recibe elogios sinceros, aprobación y ánimo como fuente central de excitación.",
+    "tags": [
+      "praise",
+      "affirmation",
+      "receive",
+      "receiving",
+      "communication"
+    ],
+    "category": "paired_play",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairKey": "praise",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0290",
+    "slug": "strap-on-give",
+    "title": "Strap-On Play (Giving)",
+    "titleEs": "Juego con Strap-On (Dar)",
+    "description": "Use a strap-on with your partner while managing fit, pace, angle, and comfort through check-ins.",
+    "descriptionEs": "Usa un strap-on con tu pareja controlando ajuste, ritmo, ángulo y comodidad con revisiones.",
+    "tags": [
+      "strap-on",
+      "toys",
+      "give",
+      "giving",
+      "roles"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "strap-on",
+    "pairRole": "give"
+  },
+  {
+    "id": "0291",
+    "slug": "strap-on-receive",
+    "title": "Strap-On Play (Receiving)",
+    "titleEs": "Juego con Strap-On (Recibir)",
+    "description": "Receive strap-on play while guiding fit, pace, angle, and comfort boundaries.",
+    "descriptionEs": "Recibe juego con strap-on mientras guías ajuste, ritmo, ángulo y límites de comodidad.",
+    "tags": [
+      "strap-on",
+      "toys",
+      "receive",
+      "receiving",
+      "roles"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "strap-on",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0292",
+    "slug": "pegging-give",
+    "title": "Pegging (Giving)",
+    "titleEs": "Pegging (Dar)",
+    "description": "Give pegging play with clear preparation, lube, pacing, and ongoing comfort checks.",
+    "descriptionEs": "Da juego de pegging con preparación clara, lubricante, ritmo y revisiones continuas de comodidad.",
+    "tags": [
+      "pegging",
+      "anal",
+      "give",
+      "giving",
+      "boundaries"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "pegging",
+    "pairRole": "give"
+  },
+  {
+    "id": "0293",
+    "slug": "pegging-receive",
+    "title": "Pegging (Receiving)",
+    "titleEs": "Pegging (Recibir)",
+    "description": "Receive pegging play only with clear preparation, lube, pacing, and comfort boundaries.",
+    "descriptionEs": "Recibe juego de pegging solo con preparación clara, lubricante, ritmo y límites de comodidad.",
+    "tags": [
+      "pegging",
+      "anal",
+      "receive",
+      "receiving",
+      "boundaries"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairKey": "pegging",
+    "pairRole": "receive"
   }
 ]

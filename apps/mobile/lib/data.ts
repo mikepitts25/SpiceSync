@@ -15,6 +15,8 @@ export type KinkItem = {
   aliases: string[];
   createdBy: 'system' | 'user';
   tier?: Tier;
+  pairKey?: string;
+  pairRole?: 'give' | 'receive';
 };
 
 const SPICY_HINTS = new Set([

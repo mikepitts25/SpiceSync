@@ -48,7 +48,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'f-t5',
@@ -75,7 +75,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'f-d3',
@@ -84,7 +84,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'f-d5',
@@ -112,7 +112,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: []
   },
   {
@@ -132,7 +132,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['ice']
   },
   {
@@ -162,7 +162,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: []
   },
   {
@@ -172,7 +172,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: []
   },
   {
@@ -182,7 +182,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: []
   },
   {
@@ -192,7 +192,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: []
   }
 ];
@@ -215,7 +215,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     requires: []
   },
   {
@@ -225,7 +225,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-t6',
@@ -234,7 +234,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-t10',
@@ -243,7 +243,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-t11',
@@ -252,7 +252,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-t12',
@@ -261,7 +261,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-t14',
@@ -270,7 +270,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d2',
@@ -279,7 +279,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d3',
@@ -307,7 +307,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d8',
@@ -316,7 +316,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     safetyNotes: '⚠️ IMPACT PLAY: Start light and build up. Avoid kidneys, tailbone, and joints. Check in frequently.'
   },
   {
@@ -326,7 +326,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['honey/syrup']
   },
   {
@@ -336,7 +336,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d12',
@@ -345,7 +345,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['ice']
   },
   {
@@ -355,7 +355,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d15',
@@ -364,7 +364,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d16',
@@ -373,7 +373,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     safetyNotes: '⚠️ BREATH PLAY: Never restrict airflow. Light pressure on sides only. Establish clear safeword before starting.'
   },
   {
@@ -383,7 +383,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d19',
@@ -392,7 +392,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-d20',
@@ -401,16 +401,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
-  },
-  {
-    id: 'p-c4',
-    type: 'challenge',
-    content: 'Torture Timer: Set 1 minute. You have to keep me at the edge without letting me finish until it goes off.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-c5',
@@ -419,7 +410,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-c7',
@@ -437,7 +428,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-c10',
@@ -473,7 +464,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-r2',
@@ -482,7 +473,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-r7',
@@ -491,7 +482,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-r11',
@@ -500,7 +491,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-fn3',
@@ -509,7 +500,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-fn4',
@@ -518,7 +509,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'p-fn5',
@@ -527,7 +518,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'k-ch3',
@@ -536,7 +527,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'k-i1',
@@ -545,7 +536,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'k-i2',
@@ -554,7 +545,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['ice']
   },
   {
@@ -564,7 +555,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['candle'],
     safetyNotes: '⚠️ WAX PLAY: Use only body-safe candles (soy or paraffin, NOT beeswax). Test temperature on wrist first. Avoid face and genitals.'
   },
@@ -575,7 +566,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['collar']
   },
   {
@@ -585,7 +576,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['buttplug']
   },
   {
@@ -595,7 +586,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['nippleclamps']
   },
   {
@@ -614,7 +605,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'k-o4',
@@ -623,16 +614,16 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'k-h1',
     type: 'dare',
-    content: 'Write one word on my body somewhere hidden. Your word. Your choice. I wear it the rest of the night.',
+    content: 'Write one word on my body somewhere hidden. Your word. Your choice. I wear it for the next 3 turns.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['body-safemarker'],
     safetyNotes: '⚠️ MARKING: Use only body-safe markers. Test for allergies first. Avoid sensitive areas and broken skin.'
   },
@@ -643,7 +634,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'k-g2',
@@ -652,7 +643,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   }
 ];
 

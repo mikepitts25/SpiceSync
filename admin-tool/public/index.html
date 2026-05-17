@@ -69,6 +69,13 @@
               <option value="naughty">Naughty</option>
               <option value="xxx">XXX</option>
             </select>
+            <select id="kink-pair-filter">
+              <option value="">All Pairing</option>
+              <option value="paired">Partnered Versions</option>
+              <option value="unpaired">Unpaired Only</option>
+              <option value="give">Give Versions</option>
+              <option value="receive">Receive Versions</option>
+            </select>
             <input type="text" id="kink-search" placeholder="Search kinks...">
           </div>
           <button id="add-kink-btn" class="btn-primary">+ Add Kink</button>
@@ -334,6 +341,7 @@
     </div>
   </div>
 
+  <script src="kinkFilters.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -32,7 +32,8 @@ const REMOVED_PHYSICAL_HARM_SLUGS = [
 
 const KINK_MATCH_EXPANSION_SLUGS = [
   'latex-leather-fetish',
-  'foot-worship',
+  'foot-worship-give',
+  'foot-worship-receive',
   'cock-ball-teasing',
   'gag-play',
   'edge-play-boundaries',
@@ -73,7 +74,8 @@ const KINK_MATCH_EXPANSION_SLUGS = [
   'watching-female-female-porn',
   'service-submission',
   'service-top',
-  'praise-kink',
+  'praise-give',
+  'praise-receive',
   'rules-rituals',
   'low-protocol-ds',
   'high-protocol-fantasy',
@@ -138,7 +140,11 @@ const KINK_MATCH_EXPANSION_SLUGS = [
   'remote-control-toy',
   'toy-shopping-together',
   'strap-on-discussion',
+  'strap-on-give',
+  'strap-on-receive',
   'pegging-discussion',
+  'pegging-give',
+  'pegging-receive',
   'anal-training-boundaries',
   'soft-swap-discussion',
   'watching-partner-flirt',
@@ -177,6 +183,47 @@ const KINK_MATCH_EXCLUDED_EXPANSION_SLUGS = [
   'fisting',
   'consensual-slavery',
   'vacuum-bedding',
+];
+
+const PAIRED_KINK_KEYS = [
+  'oral-pleasure',
+  'light-teasing',
+  'spanking',
+  'wrist-restraints',
+  'handcuffs',
+  'vibrator',
+  'nipple-play',
+  'nipple-clamps',
+  'biting',
+  'hair-pulling',
+  'dildo',
+  'paddle-spanking',
+  'chastity',
+  'degradation',
+  'foot-worship',
+  'collaring',
+  'leash-play',
+  'praise',
+  'strap-on',
+  'pegging',
+];
+
+const REMOVED_AMBIGUOUS_DIRECTIONAL_SLUGS = [
+  'light-spanking',
+  'wrist-restraints',
+  'vibrator-play',
+  'nipple-play',
+  'biting',
+  'hair-pulling',
+  'dildo-play',
+  'spanking-paddle',
+  'chastity-play',
+  'long-term-chastity',
+  'degradation',
+  'foot-worship',
+  'collaring',
+  'leash-play',
+  'praise-kink',
 ];
 
 function duplicates(values: string[]) {
@@ -225,6 +272,49 @@ describe('kink content policy', () => {
         removedSlugs.has(slug)
       )
     ).toEqual([]);
+  });
+
+  it('models directional kink activities as give and receive pairs in both languages', () => {
+    for (const [language, kinks] of [
+      ['en', kinksEN],
+      ['es', kinksES],
+    ] as const) {
+      for (const pairKey of PAIRED_KINK_KEYS) {
+        const pairItems = kinks.filter((kink) => kink.pairKey === pairKey);
+
+        expect({
+          language,
+          pairKey,
+          roles: pairItems.map((kink) => kink.pairRole).sort(),
+        }).toEqual({
+          language,
+          pairKey,
+          roles: ['give', 'receive'],
+        });
+
+        for (const item of pairItems) {
+          expect(item.category).toBe('paired_play');
+          expect(item.tags).toContain(item.pairRole);
+          expect(item.slug).toContain(item.pairRole);
+        }
+      }
+    }
+  });
+
+  it('does not keep ambiguous one-card versions of directional kink activities', () => {
+    for (const [language, kinks] of [
+      ['en', kinksEN],
+      ['es', kinksES],
+    ] as const) {
+      expect({
+        language,
+        slugs: kinks
+          .filter((kink) =>
+            REMOVED_AMBIGUOUS_DIRECTIONAL_SLUGS.includes(kink.slug)
+          )
+          .map((kink) => kink.slug),
+      }).toEqual({ language, slugs: [] });
+    }
   });
 
   it('includes the allowed Kink Match expansion concepts in primary language data', () => {

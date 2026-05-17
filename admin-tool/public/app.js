@@ -258,6 +258,7 @@ function initKinksTab() {
   document.getElementById('kink-form').addEventListener('submit', saveKink);
   document.getElementById('kink-lang-filter').addEventListener('change', loadKinks);
   document.getElementById('kink-tier-filter').addEventListener('change', filterKinks);
+  document.getElementById('kink-pair-filter').addEventListener('change', filterKinks);
   document.getElementById('kink-search').addEventListener('input', filterKinks);
   
   document.querySelector('#kink-modal .close-btn').addEventListener('click', closeKinkModal);
@@ -286,6 +287,7 @@ function renderKinks(kinksToRender) {
         <div class="item-badges">
           <span class="badge badge-intensity-${kink.intensityScale}">Intensity ${kink.intensityScale}</span>
           <span class="badge badge-type-${kink.tier}">${kink.tier}</span>
+          ${window.kinkFilterUtils.isPairedKink(kink) ? `<span class="badge badge-category">Partnered ${escapeHtml(kink.pairRole)}</span>` : ''}
         </div>
       </div>
       <div class="item-content">
@@ -294,6 +296,7 @@ function renderKinks(kinksToRender) {
       </div>
       <div class="item-meta">
         <span>📂 ${kink.category}</span>
+        ${window.kinkFilterUtils.isPairedKink(kink) ? `<span>🔗 ${escapeHtml(window.kinkFilterUtils.getPairFilterLabel(kink))}</span>` : ''}
         <span>🏷️ ${kink.tags?.join(', ') || 'No tags'}</span>
       </div>
       <div class="item-actions">
@@ -306,14 +309,19 @@ function renderKinks(kinksToRender) {
 
 function filterKinks() {
   const tier = document.getElementById('kink-tier-filter').value;
+  const pairFilter = document.getElementById('kink-pair-filter').value;
   const search = document.getElementById('kink-search').value.toLowerCase();
   
   let filtered = kinks;
   
   if (tier) filtered = filtered.filter(k => k.tier === tier);
+  if (pairFilter) filtered = filtered.filter(k => window.kinkFilterUtils.matchesPairFilter(k, pairFilter));
   if (search) filtered = filtered.filter(k => 
     k.title.toLowerCase().includes(search) || 
-    k.description.toLowerCase().includes(search)
+    k.description.toLowerCase().includes(search) ||
+    k.slug?.toLowerCase().includes(search) ||
+    k.pairKey?.toLowerCase().includes(search) ||
+    k.pairRole?.toLowerCase().includes(search)
   );
   
   renderKinks(filtered);

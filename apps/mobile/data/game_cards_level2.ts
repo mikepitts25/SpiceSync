@@ -8,7 +8,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-006',
@@ -17,7 +17,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-008',
@@ -26,7 +26,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-009',
@@ -35,7 +35,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-011',
@@ -44,7 +44,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-015',
@@ -53,7 +53,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-001',
@@ -62,7 +62,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['oil-or-lotion']
   },
   {
@@ -72,7 +72,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['fruit']
   },
   {
@@ -82,7 +82,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-004',
@@ -91,7 +91,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-006',
@@ -100,7 +100,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl2-d-007',
@@ -109,7 +109,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-008',
@@ -118,7 +118,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-009',
@@ -127,7 +127,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['music']
   },
   {
@@ -137,7 +137,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-011',
@@ -146,7 +146,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-012',
@@ -155,7 +155,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-013',
@@ -164,7 +164,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-015',
@@ -173,7 +173,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-c-001',
@@ -182,7 +182,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['blindfold']
   },
   {
@@ -192,7 +192,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['music']
   },
   {
@@ -202,7 +202,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-c-004',
@@ -229,7 +229,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['paper', 'pen']
   },
   {
@@ -239,7 +239,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['kitchen']
   },
   {
@@ -249,7 +249,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['paper', 'pen']
   },
   {
@@ -259,7 +259,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-c-014',
@@ -268,7 +268,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-c-015',
@@ -277,7 +277,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['blindfold']
   },
   {
@@ -287,7 +287,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-rp-001',
@@ -296,7 +296,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['oil-or-lotion']
   },
   {
@@ -306,7 +306,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-rp-005',
@@ -315,7 +315,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-rp-006',
@@ -324,7 +324,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-001',
@@ -333,7 +333,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-002',
@@ -342,7 +342,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-004',
@@ -351,7 +351,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-005',
@@ -360,7 +360,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-007',
@@ -369,7 +369,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-010',
@@ -378,7 +378,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-012',
@@ -387,7 +387,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-013',
@@ -396,7 +396,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-t-014',
@@ -405,7 +405,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-005',
@@ -414,7 +414,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-d-014',
@@ -423,7 +423,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-c-008',
@@ -432,7 +432,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-c-010',
@@ -441,7 +441,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['ice', 'warm-cloth']
   },
   {
@@ -451,7 +451,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-c-012',
@@ -469,7 +469,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-fn-003',
@@ -478,7 +478,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-fn-004',
@@ -487,7 +487,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-fn-005',
@@ -496,7 +496,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-fn-006',
@@ -505,7 +505,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-fn-007',
@@ -514,7 +514,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-fn-008',
@@ -523,7 +523,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '30 sec'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-rp-002',
@@ -532,7 +532,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-rp-004',
@@ -541,7 +541,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl2-rp-007',
@@ -550,6 +550,6 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   }
 ];

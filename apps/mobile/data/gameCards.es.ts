@@ -13,7 +13,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-2',
@@ -22,7 +22,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-3',
@@ -31,7 +31,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-4',
@@ -40,7 +40,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-5',
@@ -49,7 +49,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
 
   // DARE (5)
@@ -69,7 +69,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-3',
@@ -78,7 +78,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-4',
@@ -87,7 +87,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-5',
@@ -116,7 +116,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'challenge-3',
@@ -125,7 +125,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'challenge-4',
@@ -134,7 +134,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'challenge-5',
@@ -143,7 +143,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 
   // FANTASY (5)
@@ -154,7 +154,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'fantasy-2',
@@ -163,7 +163,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'fantasy-3',
@@ -172,7 +172,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'fantasy-4',
@@ -181,7 +181,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'fantasy-5',
@@ -190,7 +190,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
 
   // ROLEPLAY (5)
@@ -201,7 +201,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'roleplay-2',
@@ -210,7 +210,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'roleplay-3',
@@ -219,7 +219,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'roleplay-4',
@@ -228,7 +228,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'roleplay-5',
@@ -237,7 +237,7 @@ export const FREE_CARDS_ES: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 ];
 
@@ -251,7 +251,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-7',
@@ -260,7 +260,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-8',
@@ -269,7 +269,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-9',
@@ -278,7 +278,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-10',
@@ -287,7 +287,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-11',
@@ -296,7 +296,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-12',
@@ -305,7 +305,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-13',
@@ -314,7 +314,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-14',
@@ -323,7 +323,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'truth-15',
@@ -332,7 +332,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
 
   // Additional Dare (10)
@@ -343,7 +343,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-7',
@@ -352,7 +352,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-8',
@@ -366,11 +366,11 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
   {
     id: 'dare-9',
     type: 'dare',
-    content: "Susurrarme al oído todas las cosas que quieres hacerme esta noche.",
+    content: "Susúrrame al oído todas las cosas que quieres hacerme ahora mismo.",
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-10',
@@ -389,7 +389,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['blindfold'],
   },
   {
@@ -399,7 +399,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-13',
@@ -408,7 +408,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-14',
@@ -417,7 +417,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'dare-15',
@@ -437,7 +437,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'challenge-7',
@@ -446,7 +446,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'challenge-8',
@@ -455,7 +455,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'challenge-9',
@@ -464,7 +464,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'challenge-10',
@@ -473,7 +473,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 
   // CASTIDAD Y CONTROL DE ORGASMO
@@ -484,17 +484,17 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
     id: 'kink-chastity-2',
     type: 'challenge',
-    content: "Semana de negación: No pueden tener orgasmos por 1 minuto. Provócalos cada día pero nunca dejes que terminen. Míralos volverse desesperados.",
+    content: "Negación de 4 turnos: No pueden tener orgasmos. Provócalos en cada turno, pero no los dejes terminar.",
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-chastity-3',
@@ -503,18 +503,18 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
 
   // KINK-BASED CARDS - Gender, Transformation & Humiliation
   {
     id: 'kink-gender-1',
     type: 'dare',
-    content: "Desafío de cross-dressing: Elige un atuendo para tu pareja—lencería, vestido o disfraz. Lo usará durante la próxima hora.",
+    content: "Desafío de cross-dressing: Elige un atuendo para tu pareja—lencería, vestido o disfraz. Lo usará durante los próximos 3 turnos.",
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
@@ -524,7 +524,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-fem-1',
@@ -533,7 +533,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
@@ -543,7 +543,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-humiliation-1',
@@ -552,7 +552,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['public'],
   },
   {
@@ -562,7 +562,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-humiliation-2',
@@ -571,7 +571,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-gender-3',
@@ -580,7 +580,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
 
   // ORAL Y PROVOCACIÓN
@@ -600,7 +600,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-oral-3',
@@ -609,7 +609,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-oral-4',
@@ -618,7 +618,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-edge-1',
@@ -627,7 +627,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 
   // IMPACTO Y SENSACIÓN
@@ -638,7 +638,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-impact-2',
@@ -647,7 +647,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-sensory-1',
@@ -656,7 +656,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
@@ -666,7 +666,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
 
@@ -678,7 +678,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
@@ -688,7 +688,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
@@ -698,7 +698,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
 
@@ -710,7 +710,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-power-2',
@@ -719,7 +719,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-power-3',
@@ -728,7 +728,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 
   // JUGUETES Y PLUGS
@@ -739,7 +739,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
@@ -749,7 +749,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
   {
@@ -759,7 +759,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props'],
   },
 
@@ -771,7 +771,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-anal-2',
@@ -780,7 +780,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 
   // PÚBLICO Y ARRIESGADO
@@ -791,7 +791,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['public'],
   },
   {
@@ -801,7 +801,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['props', 'public'],
   },
 
@@ -813,7 +813,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-rough-2',
@@ -822,7 +822,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-rough-3',
@@ -831,7 +831,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 
   // CNC Y AVANZADO
@@ -842,7 +842,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-forced-1',
@@ -851,7 +851,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 
   // GRUPO Y COMPARTIR
@@ -862,7 +862,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-group-2',
@@ -871,7 +871,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'kink-group-3',
@@ -880,7 +880,7 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
 ];
 

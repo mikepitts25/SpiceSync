@@ -15,6 +15,7 @@ import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { GameCard, GameCardType, getCardsByLanguage } from '../../data/gameCards';
 import { useTranslation } from '../../lib/i18n';
+import { parseGameCardTimerSeconds } from '../../lib/gameTimer';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -71,20 +72,6 @@ export default function CardDraw() {
   const flipAnim = React.useRef(new Animated.Value(0)).current;
   const scaleAnim = React.useRef(new Animated.Value(0.8)).current;
 
-  // Parse estimated time to seconds
-  const parseTimeToSeconds = (timeStr: string): number => {
-    if (timeStr.includes('min')) {
-      const mins = parseInt(timeStr);
-      return isNaN(mins) ? 0 : mins * 60;
-    } else if (timeStr.includes('sec')) {
-      const secs = parseInt(timeStr);
-      return isNaN(secs) ? 0 : secs;
-    } else if (timeStr.includes('ongoing')) {
-      return 300; // 5 minutes default for ongoing
-    }
-    return 60; // default 1 minute
-  };
-
   // Play buzzer sound using vibration
   const playBuzzerSound = useCallback(async () => {
     try {
@@ -116,7 +103,7 @@ export default function CardDraw() {
   const resetTimer = useCallback(() => {
     stopTimer();
     if (card) {
-      const totalSeconds = parseTimeToSeconds(card.estimatedTime);
+      const totalSeconds = parseGameCardTimerSeconds(card.estimatedTime);
       setTimerSeconds(totalSeconds);
       setTimerProgress(1);
     }
@@ -125,7 +112,7 @@ export default function CardDraw() {
   // Timer effect
   useEffect(() => {
     if (isTimerRunning && timerSeconds > 0) {
-      const totalSeconds = card ? parseTimeToSeconds(card.estimatedTime) : 60;
+      const totalSeconds = card ? parseGameCardTimerSeconds(card.estimatedTime) : 60;
       timerIntervalRef.current = setInterval(() => {
         setTimerSeconds((prev) => {
           const newValue = prev - 1;
@@ -197,7 +184,7 @@ export default function CardDraw() {
       setIsPremiumLocked(randomCard.isPremium && !unlocked);
       
       // Initialize timer based on card's estimated time
-      const totalSeconds = parseTimeToSeconds(randomCard.estimatedTime);
+      const totalSeconds = parseGameCardTimerSeconds(randomCard.estimatedTime);
       setTimerSeconds(totalSeconds);
       setTimerProgress(1);
       setIsTimerRunning(false);
