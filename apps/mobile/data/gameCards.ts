@@ -404,15 +404,6 @@ export const PREMIUM_CARDS: GameCard[] = [
     estimatedTime: 'N/A'
   },
   {
-    id: 'p-c7',
-    type: 'challenge',
-    content: 'Edging x3: Bring me right to the edge—then stop. 30 second wait. Do it 3 times. Then finish me.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '1 min'
-  },
-  {
     id: 'p-c8',
     type: 'challenge',
     content: 'Body Map: I touch 5 spots on you in order. You have to touch them back on me in reverse. Miss one—lose an item.',
