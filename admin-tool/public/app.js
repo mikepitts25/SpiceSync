@@ -6,6 +6,35 @@ let kinks = [];
 let conversations = [];
 let currentTab = 'cards';
 
+const CONVERSATION_SOURCE_BY_CATEGORY = {
+  getting_to_know: 'conversation_starters_getting_to_know.ts',
+  relationship: 'conversation_starters_relationship.ts',
+  date_night: 'conversation_starters_date_night.ts',
+  spicy: 'conversation_starters_spicy.ts',
+  love_languages: 'conversation_starters_love_languages.ts',
+};
+
+function normalizeConversationSource(sourceFile) {
+  return sourceFile ? sourceFile.replace('.es.ts', '.ts') : '';
+}
+
+function sourceFileForLanguage(sourceFile, lang) {
+  const normalized = normalizeConversationSource(sourceFile);
+  return lang === 'es' ? normalized.replace('.ts', '.es.ts') : normalized;
+}
+
+function updateSelectOptions(select, values, label) {
+  const currentValue = select.value;
+  select.innerHTML = `<option value="">${label}</option>`;
+  values.forEach((value) => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value.replace(/_/g, ' ');
+    select.appendChild(option);
+  });
+  select.value = values.includes(currentValue) ? currentValue : '';
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
@@ -48,6 +77,8 @@ function initCardsTab() {
   document.getElementById('card-type-filter').addEventListener('change', filterCards);
   document.getElementById('card-intensity-filter').addEventListener('change', filterCards);
   document.getElementById('card-premium-filter').addEventListener('change', filterCards);
+  document.getElementById('card-source-filter').addEventListener('change', filterCards);
+  document.getElementById('card-category-filter').addEventListener('change', filterCards);
   document.getElementById('card-search').addEventListener('input', filterCards);
   
   document.querySelector('#card-modal .close-btn').addEventListener('click', closeModal);
@@ -59,6 +90,11 @@ async function loadCards() {
     const data = await res.json();
     if (data.success) {
       cards = data.data;
+      updateSelectOptions(
+        document.getElementById('card-category-filter'),
+        [...new Set(cards.map((card) => card.category).filter(Boolean))].sort(),
+        'All Categories'
+      );
       renderCards(cards);
     }
   } catch (err) {
@@ -82,6 +118,7 @@ function renderCards(cardsToRender) {
       <div class="item-meta">
         ${card.estimatedTime && card.estimatedTime !== 'N/A' ? `<span>⏱️ ${card.estimatedTime}</span>` : ''}
         <span>📂 ${card.category}</span>
+        <span>🗂️ ${card.sourceFile || 'gameCards.ts'}</span>
         ${card.requires?.length ? `<span>🎭 ${card.requires.join(', ')}</span>` : ''}
         ${card.safetyNotes ? `<span>⚠️ Safety notes</span>` : ''}
       </div>
@@ -97,6 +134,8 @@ function filterCards() {
   const type = document.getElementById('card-type-filter').value;
   const intensity = document.getElementById('card-intensity-filter').value;
   const premium = document.getElementById('card-premium-filter').value;
+  const source = document.getElementById('card-source-filter').value;
+  const category = document.getElementById('card-category-filter').value;
   const search = document.getElementById('card-search').value.toLowerCase();
   
   let filtered = cards;
@@ -104,6 +143,8 @@ function filterCards() {
   if (type) filtered = filtered.filter(c => c.type === type);
   if (intensity) filtered = filtered.filter(c => c.intensity === parseInt(intensity));
   if (premium) filtered = filtered.filter(c => String(c.isPremium) === premium);
+  if (source) filtered = filtered.filter(c => (c.sourceFile || 'gameCards.ts') === source);
+  if (category) filtered = filtered.filter(c => c.category === category);
   if (search) filtered = filtered.filter(c => c.content.toLowerCase().includes(search));
   
   renderCards(filtered);
@@ -134,6 +175,7 @@ function openCardModal(card = null) {
     document.getElementById('card-intensity').value = card.intensity;
     document.getElementById('card-category').value = card.category;
     document.getElementById('card-premium').value = String(card.isPremium);
+    document.getElementById('card-source').value = card.sourceFile || 'gameCards.ts';
     document.getElementById('card-content').value = card.content;
     
     // Handle time display
@@ -162,6 +204,7 @@ function openCardModal(card = null) {
     title.textContent = 'Add New Card';
     document.getElementById('card-form').reset();
     document.getElementById('card-id').value = '';
+    document.getElementById('card-source').value = 'gameCards.ts';
     timeModeSelect.value = 'timed';
     timeValueInput.disabled = false;
     timeUnitSelect.disabled = false;
@@ -201,6 +244,7 @@ async function saveCard(e) {
     intensity: parseInt(document.getElementById('card-intensity').value),
     category: document.getElementById('card-category').value,
     isPremium: document.getElementById('card-premium').value === 'true',
+    sourceFile: document.getElementById('card-source').value,
     content: document.getElementById('card-content').value,
     estimatedTime: estimatedTime,
     requires: document.getElementById('card-requires').value.split(',').map(s => s.trim()).filter(Boolean),
@@ -258,6 +302,7 @@ function initKinksTab() {
   document.getElementById('kink-form').addEventListener('submit', saveKink);
   document.getElementById('kink-lang-filter').addEventListener('change', loadKinks);
   document.getElementById('kink-tier-filter').addEventListener('change', filterKinks);
+  document.getElementById('kink-category-filter').addEventListener('change', filterKinks);
   document.getElementById('kink-pair-filter').addEventListener('change', filterKinks);
   document.getElementById('kink-search').addEventListener('input', filterKinks);
   
@@ -271,6 +316,11 @@ async function loadKinks() {
     const data = await res.json();
     if (data.success) {
       kinks = data.data;
+      updateSelectOptions(
+        document.getElementById('kink-category-filter'),
+        [...new Set(kinks.map((kink) => kink.category).filter(Boolean))].sort(),
+        'All Categories'
+      );
       renderKinks(kinks);
     }
   } catch (err) {
@@ -309,16 +359,20 @@ function renderKinks(kinksToRender) {
 
 function filterKinks() {
   const tier = document.getElementById('kink-tier-filter').value;
+  const category = document.getElementById('kink-category-filter').value;
   const pairFilter = document.getElementById('kink-pair-filter').value;
   const search = document.getElementById('kink-search').value.toLowerCase();
   
   let filtered = kinks;
   
   if (tier) filtered = filtered.filter(k => k.tier === tier);
+  if (category) filtered = filtered.filter(k => k.category === category);
   if (pairFilter) filtered = filtered.filter(k => window.kinkFilterUtils.matchesPairFilter(k, pairFilter));
   if (search) filtered = filtered.filter(k => 
-    k.title.toLowerCase().includes(search) || 
+    k.title.toLowerCase().includes(search) ||
     k.description.toLowerCase().includes(search) ||
+    k.category?.toLowerCase().includes(search) ||
+    k.tags?.join(' ').toLowerCase().includes(search) ||
     k.slug?.toLowerCase().includes(search) ||
     k.pairKey?.toLowerCase().includes(search) ||
     k.pairRole?.toLowerCase().includes(search)
@@ -430,8 +484,14 @@ function initConversationsTab() {
   document.getElementById('conv-form').addEventListener('submit', saveConv);
   document.getElementById('conv-lang-filter').addEventListener('change', loadConversations);
   document.getElementById('conv-category-filter').addEventListener('change', filterConversations);
+  document.getElementById('conv-source-filter').addEventListener('change', filterConversations);
   document.getElementById('conv-intensity-filter').addEventListener('change', filterConversations);
   document.getElementById('conv-search').addEventListener('input', filterConversations);
+  document.getElementById('conv-category').addEventListener('change', (event) => {
+    document.getElementById('conv-source').value =
+      CONVERSATION_SOURCE_BY_CATEGORY[event.target.value] ||
+      'conversation_starters_getting_to_know.ts';
+  });
   
   document.querySelector('#conv-modal .close-btn').addEventListener('click', closeConvModal);
 }
@@ -443,6 +503,9 @@ async function loadConversations() {
     const data = await res.json();
     if (data.success) {
       conversations = data.data;
+      const sourceFilter = document.getElementById('conv-source-filter');
+      const currentValue = sourceFilter.value;
+      sourceFilter.value = currentValue;
       renderConversations(conversations);
     }
   } catch (err) {
@@ -468,6 +531,7 @@ function renderConversations(convs) {
       <div class="item-content">${escapeHtml(conv.question)}</div>
       ${conv.context ? `<p style="margin-top: 10px; color: var(--text-secondary); font-size: 13px;">${escapeHtml(conv.context)}</p>` : ''}
       <div class="item-meta">
+        <span>🗂️ ${normalizeConversationSource(conv.sourceFile || CONVERSATION_SOURCE_BY_CATEGORY[conv.category] || '')}</span>
         ${conv.followUps?.length ? `<span>💬 ${conv.followUps.length} follow-ups</span>` : ''}
         ${conv.tags?.length ? `<span>🏷️ ${conv.tags.join(', ')}</span>` : ''}
       </div>
@@ -481,14 +545,21 @@ function renderConversations(convs) {
 
 function filterConversations() {
   const category = document.getElementById('conv-category-filter').value;
+  const source = document.getElementById('conv-source-filter').value;
   const intensity = document.getElementById('conv-intensity-filter').value;
   const search = document.getElementById('conv-search').value.toLowerCase();
   
   let filtered = conversations;
   
   if (category) filtered = filtered.filter(c => c.category === category);
+  if (source) filtered = filtered.filter(c => normalizeConversationSource(c.sourceFile || CONVERSATION_SOURCE_BY_CATEGORY[c.category]) === source);
   if (intensity) filtered = filtered.filter(c => c.intensity === parseInt(intensity));
-  if (search) filtered = filtered.filter(c => c.question.toLowerCase().includes(search));
+  if (search) filtered = filtered.filter(c =>
+    c.question.toLowerCase().includes(search) ||
+    c.context?.toLowerCase().includes(search) ||
+    c.tags?.join(' ').toLowerCase().includes(search) ||
+    normalizeConversationSource(c.sourceFile || '').toLowerCase().includes(search)
+  );
   
   renderConversations(filtered);
 }
@@ -502,6 +573,7 @@ function openConvModal(conv = null) {
     document.getElementById('conv-id').value = conv.id;
     document.getElementById('conv-category').value = conv.category;
     document.getElementById('conv-intensity').value = conv.intensity;
+    document.getElementById('conv-source').value = normalizeConversationSource(conv.sourceFile || CONVERSATION_SOURCE_BY_CATEGORY[conv.category]);
     document.getElementById('conv-question').value = conv.question;
     document.getElementById('conv-followups').value = conv.followUps?.join('\n') || '';
     document.getElementById('conv-context').value = conv.context || '';
@@ -510,6 +582,7 @@ function openConvModal(conv = null) {
     title.textContent = 'Add New Conversation Starter';
     document.getElementById('conv-form').reset();
     document.getElementById('conv-id').value = '';
+    document.getElementById('conv-source').value = 'conversation_starters_getting_to_know.ts';
   }
   
   modal.classList.add('active');
@@ -529,10 +602,12 @@ async function saveConv(e) {
   
   const id = document.getElementById('conv-id').value;
   const lang = document.getElementById('conv-lang-filter').value;
+  const sourceFile = sourceFileForLanguage(document.getElementById('conv-source').value, lang);
   
   const convData = {
     category: document.getElementById('conv-category').value,
     intensity: parseInt(document.getElementById('conv-intensity').value),
+    sourceFile,
     question: document.getElementById('conv-question').value,
     followUps: document.getElementById('conv-followups').value.split('\n').map(s => s.trim()).filter(Boolean),
     context: document.getElementById('conv-context').value,

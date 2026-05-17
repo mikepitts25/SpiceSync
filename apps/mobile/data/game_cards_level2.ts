@@ -551,5 +551,61 @@ export const LEVEL2_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl2-d-016',
+    type: 'dare',
+    content: 'Closet Swap: Your partner completely dresses you in something from their closet for the remainder of the game, or until they decide you have had enough.',
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl2-d-017',
+    type: 'dare',
+    content: 'Nail Salon: Your partner must paint your nails or toenails with a color of their choice.',
+    intensity: 2,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '1 min',
+    requires: ['nail polish']
+  },
+  {
+    id: 'lvl2-c-016',
+    type: 'challenge',
+    content: 'Runway Round: We each put on one item from the other person\'s closet and do a 20-second runway walk. Best attitude wins.',
+    intensity: 2,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '1 min'
+  },
+  {
+    id: 'lvl2-rp-008',
+    type: 'roleplay',
+    content: 'Makeover Artist: Style my hair, add a little makeup, or accessorize me. Then tell me why I look irresistible.',
+    intensity: 2,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '1 min',
+    requires: ['makeup']
+  },
+  {
+    id: 'lvl2-d-018',
+    type: 'dare',
+    content: 'Hidden Claim: Your partner chooses one of their clothing items for you to wear under your outfit for the rest of the game.',
+    intensity: 2,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl2-c-017',
+    type: 'challenge',
+    content: 'Outfit Rules: Your partner dresses you in one of their items and gives you three rules for how to sit, stand, pose, or behave while wearing it.',
+    intensity: 2,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: 'N/A'
   }
 ];

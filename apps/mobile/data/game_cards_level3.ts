@@ -550,5 +550,89 @@ export const LEVEL3_CARDS: GameCard[] = [
     category: 'physical',
     isPremium: true,
     estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl3-d-016',
+    type: 'dare',
+    content: 'Underwear Dare: You have to wear your partner\'s underwear for the rest of the game.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl3-d-017',
+    type: 'dare',
+    content: 'Makeup Mirror: Let me put lipstick, eyeliner, or blush on you. Hold eye contact while I do it, then give me your best pose.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '1 min',
+    requires: ['makeup']
+  },
+  {
+    id: 'lvl3-c-016',
+    type: 'challenge',
+    content: 'Full Swap: Trade one visible clothing item and one hidden clothing item for the next 3 turns. Act like you picked the better outfit.',
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '1 min'
+  },
+  {
+    id: 'lvl3-d-018',
+    type: 'dare',
+    content: 'Owned Outfit: Your partner picks an outfit from their closet that makes you look the most submissive, slutty, pretty, or ridiculous. Wear it until they release you.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl3-d-019',
+    type: 'dare',
+    content: 'Inspection: After your partner dresses you, stand still while they inspect every detail and make any adjustments they want.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl3-c-017',
+    type: 'challenge',
+    content: 'Partner\'s Doll: Your partner gets full control of your look: clothes, hair, makeup, pose, and attitude. Stay in character for the next 3 turns.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A',
+    requires: ['makeup']
+  },
+  {
+    id: 'lvl3-c-018',
+    type: 'challenge',
+    content: 'Underwear Modeling: Your partner chooses a clean pair of their underwear for you. Put it on, model it, and let them decide if you are allowed to change back.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A'
+  },
+  {
+    id: 'lvl3-rp-008',
+    type: 'roleplay',
+    content: 'Forced Makeover: Your partner is in charge of turning you into their ideal plaything. They choose the clothes, the makeup, the name, and how you act.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A',
+    requires: ['makeup']
+  },
+  {
+    id: 'lvl3-rp-009',
+    type: 'roleplay',
+    content: 'Laundry Thief: You got caught wearing your partner\'s clothes. They decide what you keep on, what gets taken off, and how you make it up to them.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: 'N/A'
   }
 ];

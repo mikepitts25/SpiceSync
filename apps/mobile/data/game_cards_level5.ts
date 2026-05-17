@@ -9,7 +9,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Fantasy disclosure is safe. Acting on extreme fantasies requires extensive negotiation and safety planning.'
   },
   {
     id: 'lvl5-t-003',
@@ -29,7 +28,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Extended scenes require meal planning, rest periods, and clear end points.'
   },
   {
     id: 'lvl5-t-007',
@@ -49,7 +47,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'communication',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: '24/7 dynamics require extensive negotiation, regular check-ins, and ability to step out of roles.'
   },
   {
     id: 'lvl5-t-011',
@@ -79,7 +76,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Boundary pushing requires explicit consent and ability to stop at any moment.'
   },
   {
     id: 'lvl5-d-002',
@@ -110,7 +106,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Total power exchange requires pre-negotiated limits and ability to safeword. Plan for aftercare.'
   },
   {
     id: 'lvl5-d-006',
@@ -214,7 +209,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Extended scenes require meal planning, sleep arrangements, and regular check-ins. Plan debrief time.'
   },
   {
     id: 'lvl5-c-002',
@@ -224,7 +218,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Extended denial should not cause physical pain or distress. Allow release if genuinely needed.'
   },
   {
     id: 'lvl5-c-003',
@@ -234,7 +227,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'TPE requires work/social boundaries. Maintain ability to safeword. Schedule regular check-ins.'
   },
   {
     id: 'lvl5-c-004',
@@ -266,7 +258,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'High-protocol scenes require clear instruction. Be patient with learning. Positive reinforcement.'
   },
   {
     id: 'lvl5-c-008',
@@ -297,7 +288,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Service submission should be rewarding. Check in about enjoyment. Provide appreciation and aftercare.'
   },
   {
     id: 'lvl5-c-011',
@@ -347,7 +337,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'emotional',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Aftercare is essential for all intense play. Customize to partner needs. Never skip it.'
   },
   {
     id: 'lvl5-fn-001',
@@ -357,7 +346,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Kink venues require understanding of house rules and consent protocols.'
   },
   {
     id: 'lvl5-fn-002',
@@ -367,7 +355,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: '24/7 dynamics require extensive negotiation and ability to step out of roles when needed.'
   },
   {
     id: 'lvl5-fn-003',
@@ -397,7 +384,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Objectification requires extensive aftercare and reaffirmation of humanity and worth.'
   },
   {
     id: 'lvl5-fn-007',
@@ -417,7 +403,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Transformation play requires clear boundaries and ability to return to normal headspace.'
   },
   {
     id: 'lvl5-rp-002',
@@ -427,7 +412,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Predator/prey play can trigger past trauma. Check in frequently. Clear safeword essential.'
   },
   {
     id: 'lvl5-t-001',
@@ -437,7 +421,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'communication',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Hard limits must be respected absolutely. Never pressure someone to change their limits.'
   },
   {
     id: 'lvl5-t-004',
@@ -447,7 +430,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Taboo fantasies are normal. Acting on them requires careful consideration of ethics and safety.'
   },
   {
     id: 'lvl5-t-006',
@@ -457,7 +439,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Degradation play requires extensive aftercare and reaffirmation of worth and love.'
   },
   {
     id: 'lvl5-t-008',
@@ -487,7 +468,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Dark fantasies are common. Distinguish between fantasy and desire to act.'
   },
   {
     id: 'lvl5-t-014',
@@ -497,7 +477,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Extended denial should not cause physical harm. Regular check-ins essential.'
   },
   {
     id: 'lvl5-d-001',
@@ -519,7 +498,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: 'N/A',
     requires: ['restraints', 'vibrator'],
-    safetyNotes: 'Watch for overstimulation and discomfort. Provide water and comfort after. Stop if genuine distress.'
   },
   {
     id: 'lvl5-d-014',
@@ -560,7 +538,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Slavery roleplay requires extensive negotiation. Remember: it\'s roleplay. Either can stop at any time.'
   },
   {
     id: 'lvl5-rp-003',
@@ -570,7 +547,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Pet play requires understanding of animal behavior simulation vs. actual bestiality (which is never acceptable).'
   },
   {
     id: 'lvl5-rp-004',
@@ -580,7 +556,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Interrogation play can be psychologically intense. Debrief thoroughly. Provide extensive aftercare.'
   },
   {
     id: 'lvl5-rp-005',
@@ -590,7 +565,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Deity worship allows for creative power dynamics. Ensure partner feels valued, not actually sacrificed.'
   },
   {
     id: 'lvl5-rp-006',
@@ -610,6 +584,5 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-    safetyNotes: 'Medical/scientific play requires understanding of actual anatomy. Avoid dangerous practices.'
   }
 ];

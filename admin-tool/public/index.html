@@ -48,6 +48,23 @@
               <option value="false">Free</option>
               <option value="true">Premium</option>
             </select>
+            <select id="card-source-filter">
+              <option value="">All Decks</option>
+              <option value="gameCards.ts">Main Deck</option>
+              <option value="game_cards_level1.ts">Level 1</option>
+              <option value="game_cards_level2.ts">Level 2</option>
+              <option value="game_cards_level3.ts">Level 3</option>
+              <option value="game_cards_level4.ts">Level 4</option>
+              <option value="game_cards_level5.ts">Level 5</option>
+            </select>
+            <select id="card-category-filter">
+              <option value="">All Categories</option>
+              <option value="communication">Communication</option>
+              <option value="physical">Physical</option>
+              <option value="emotional">Emotional</option>
+              <option value="playful">Playful</option>
+              <option value="intimate">Intimate</option>
+            </select>
             <input type="text" id="card-search" placeholder="Search cards...">
           </div>
           <button id="add-card-btn" class="btn-primary">+ Add Card</button>
@@ -68,6 +85,9 @@
               <option value="soft">Soft</option>
               <option value="naughty">Naughty</option>
               <option value="xxx">XXX</option>
+            </select>
+            <select id="kink-category-filter">
+              <option value="">All Categories</option>
             </select>
             <select id="kink-pair-filter">
               <option value="">All Pairing</option>
@@ -99,11 +119,20 @@
               <option value="spicy">Spicy</option>
               <option value="love_languages">Love Languages</option>
             </select>
+            <select id="conv-source-filter">
+              <option value="">All Prompt Packs</option>
+              <option value="conversation_starters_getting_to_know.ts">Getting to Know</option>
+              <option value="conversation_starters_relationship.ts">Relationship</option>
+              <option value="conversation_starters_date_night.ts">Date Night</option>
+              <option value="conversation_starters_spicy.ts">Spicy</option>
+              <option value="conversation_starters_love_languages.ts">Love Languages</option>
+            </select>
             <select id="conv-intensity-filter">
               <option value="">All Intensities</option>
               <option value="1">Level 1</option>
               <option value="2">Level 2</option>
               <option value="3">Level 3</option>
+              <option value="4">Level 4</option>
             </select>
             <input type="text" id="conv-search" placeholder="Search conversation starters...">
           </div>
@@ -166,6 +195,17 @@
             <select id="card-premium">
               <option value="false">Free</option>
               <option value="true">Premium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Deck Source</label>
+            <select id="card-source">
+              <option value="gameCards.ts">Main Deck</option>
+              <option value="game_cards_level1.ts">Level 1</option>
+              <option value="game_cards_level2.ts">Level 2</option>
+              <option value="game_cards_level3.ts">Level 3</option>
+              <option value="game_cards_level4.ts">Level 4</option>
+              <option value="game_cards_level5.ts">Level 5</option>
             </select>
           </div>
         </div>
@@ -293,6 +333,17 @@
               <option value="1">1 - Light</option>
               <option value="2">2 - Moderate</option>
               <option value="3">3 - Deep</option>
+              <option value="4">4 - Intimate</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Prompt Pack</label>
+            <select id="conv-source">
+              <option value="conversation_starters_getting_to_know.ts">Getting to Know</option>
+              <option value="conversation_starters_relationship.ts">Relationship</option>
+              <option value="conversation_starters_date_night.ts">Date Night</option>
+              <option value="conversation_starters_spicy.ts">Spicy</option>
+              <option value="conversation_starters_love_languages.ts">Love Languages</option>
             </select>
           </div>
         </div>

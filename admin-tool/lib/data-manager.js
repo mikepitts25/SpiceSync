@@ -1,5 +1,185 @@
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
+
+const CARD_LEVELS = [1, 2, 3, 4, 5];
+
+const CONVERSATION_SOURCES = [
+  {
+    category: 'getting_to_know',
+    fileBase: 'conversation_starters_getting_to_know',
+    arrayName: 'gettingToKnowStarters',
+    comment: 'Getting to Know You - Deep questions for new couples',
+  },
+  {
+    category: 'relationship',
+    fileBase: 'conversation_starters_relationship',
+    arrayName: 'relationshipStarters',
+    comment: 'Relationship Deep Dive - Questions for established couples',
+  },
+  {
+    category: 'date_night',
+    fileBase: 'conversation_starters_date_night',
+    arrayName: 'dateNightStarters',
+    comment: 'Date Night Fun - 50 conversation prompts',
+  },
+  {
+    category: 'spicy',
+    fileBase: 'conversation_starters_spicy',
+    arrayName: 'spicyStarters',
+    comment: 'Spicy Questions - Turn up the heat',
+  },
+  {
+    category: 'love_languages',
+    fileBase: 'conversation_starters_love_languages',
+    arrayName: 'loveLanguagesStarters',
+    comment: 'Love Languages - Understanding how you give and receive love',
+  },
+];
+
+function findTypeScriptArrayLiteralRange(content, arrayName) {
+  const marker = new RegExp(`export\\s+const\\s+${arrayName}\\b`).exec(content);
+  if (!marker) return null;
+
+  const equalsIndex = content.indexOf('=', marker.index);
+  if (equalsIndex === -1) return null;
+
+  const startIndex = content.indexOf('[', equalsIndex);
+  if (startIndex === -1) return null;
+
+  let depth = 0;
+  let quote = null;
+  let escaped = false;
+  let lineComment = false;
+  let blockComment = false;
+
+  for (let i = startIndex; i < content.length; i += 1) {
+    const char = content[i];
+    const next = content[i + 1];
+
+    if (lineComment) {
+      if (char === '\n') lineComment = false;
+      continue;
+    }
+
+    if (blockComment) {
+      if (char === '*' && next === '/') {
+        blockComment = false;
+        i += 1;
+      }
+      continue;
+    }
+
+    if (quote) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === quote) {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (char === '/' && next === '/') {
+      lineComment = true;
+      i += 1;
+      continue;
+    }
+
+    if (char === '/' && next === '*') {
+      blockComment = true;
+      i += 1;
+      continue;
+    }
+
+    if (char === '\'' || char === '"' || char === '`') {
+      quote = char;
+      continue;
+    }
+
+    if (char === '[') {
+      depth += 1;
+    } else if (char === ']') {
+      depth -= 1;
+      if (depth === 0) {
+        return {
+          declarationStart: marker.index,
+          start: startIndex,
+          end: i + 1,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+function parseTypeScriptArray(content, arrayName) {
+  const range = findTypeScriptArrayLiteralRange(content, arrayName);
+  if (!range) return [];
+
+  try {
+    return vm.runInNewContext(`(${content.slice(range.start, range.end)})`, {}, { timeout: 1000 });
+  } catch (error) {
+    console.error(`Failed to parse ${arrayName}:`, error.message);
+    return [];
+  }
+}
+
+function formatTypeScriptValue(value) {
+  if (value === null) return 'null';
+  if (typeof value === 'string') {
+    return `'${value
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/\r?\n/g, '\\n')}'`;
+  }
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  if (Array.isArray(value)) return `[${value.map(formatTypeScriptValue).join(', ')}]`;
+  return JSON.stringify(value, null, 2);
+}
+
+function serializeTypeScriptArray(arrayName, data, typeAnnotation) {
+  const items = data.map((item) => {
+    const fields = Object.entries(item)
+      .filter(([, value]) => value !== undefined && value !== '')
+      .map(([key, value]) => `    ${key}: ${formatTypeScriptValue(value)}`)
+      .join(',\n');
+
+    return `  {\n${fields}\n  }`;
+  });
+
+  return `export const ${arrayName}: ${typeAnnotation} = [\n${items.join(',\n')}\n];`;
+}
+
+function replaceExportedArray(content, arrayName, data, typeAnnotation) {
+  const serialized = serializeTypeScriptArray(arrayName, data, typeAnnotation);
+  const range = findTypeScriptArrayLiteralRange(content, arrayName);
+
+  if (!range) {
+    return `${content.trimEnd()}\n\n${serialized}\n`;
+  }
+
+  const semicolonIndex = content.indexOf(';', range.end);
+  const replaceEnd = semicolonIndex === -1 ? range.end : semicolonIndex + 1;
+
+  return `${content.slice(0, range.declarationStart)}${serialized}${content.slice(replaceEnd)}`;
+}
+
+function cleanInternalFields(item) {
+  const clean = { ...item };
+  delete clean.sourceFile;
+  return clean;
+}
+
+function conversationFileName(source, lang) {
+  return `${source.fileBase}${lang === 'es' ? '.es' : ''}.ts`;
+}
+
+function conversationArrayName(source, lang) {
+  return `${source.arrayName}${lang === 'es' ? 'ES' : ''}`;
+}
 
 class DataManager {
   constructor(dataDir) {
@@ -21,32 +201,31 @@ class DataManager {
   }
 
   loadCards() {
+    this.cards = [];
+
     // Load main gameCards.ts
     const gameCardsPath = path.join(this.dataDir, 'gameCards.ts');
     const gameCardsContent = fs.readFileSync(gameCardsPath, 'utf-8');
-    
-    // Parse FREE_CARDS
-    const freeMatch = gameCardsContent.match(/export const FREE_CARDS: GameCard\[\] = ([\s\S]*?);\n\n\/\/ ─── PREMIUM/);
-    if (freeMatch) {
-      this.cards.push(...this.parseCardsFromTs(freeMatch[1], false, 'gameCards.ts'));
-    }
-    
-    // Parse PREMIUM_CARDS
-    const premiumMatch = gameCardsContent.match(/export const PREMIUM_CARDS: GameCard\[\] = ([\s\S]*?);\n\n\/\/ ─── COMBINED/);
-    if (premiumMatch) {
-      this.cards.push(...this.parseCardsFromTs(premiumMatch[1], true, 'gameCards.ts'));
-    }
+
+    const freeCards = parseTypeScriptArray(gameCardsContent, 'FREE_CARDS');
+    freeCards.forEach((card) => {
+      this.cards.push({ ...card, isPremium: false, sourceFile: 'gameCards.ts' });
+    });
+
+    const premiumCards = parseTypeScriptArray(gameCardsContent, 'PREMIUM_CARDS');
+    premiumCards.forEach((card) => {
+      this.cards.push({ ...card, isPremium: true, sourceFile: 'gameCards.ts' });
+    });
 
     // Load expansion files
-    const levels = [1, 2, 3, 4, 5];
-    for (const level of levels) {
+    for (const level of CARD_LEVELS) {
       const filePath = path.join(this.dataDir, `game_cards_level${level}.ts`);
       if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, 'utf-8');
-        const match = content.match(/export const LEVEL\d+_CARDS: GameCard\[\] = ([\s\S]*?);\s*$/);
-        if (match) {
-          this.cards.push(...this.parseCardsFromTs(match[1], level >= 2, `game_cards_level${level}.ts`));
-        }
+        const cards = parseTypeScriptArray(content, `LEVEL${level}_CARDS`);
+        cards.forEach((card) => {
+          this.cards.push({ ...card, sourceFile: `game_cards_level${level}.ts` });
+        });
       }
     }
   }
@@ -113,22 +292,18 @@ class DataManager {
   }
 
   loadConversationStarters(lang) {
-    const categories = [
-      'getting_to_know',
-      'relationship',
-      'date_night',
-      'spicy',
-      'love_languages'
-    ];
+    this.conversationStarters[lang] = [];
     
-    for (const category of categories) {
-      const fileName = `conversation_starters_${category}${lang === 'es' ? '.es' : ''}.ts`;
+    for (const source of CONVERSATION_SOURCES) {
+      const fileName = conversationFileName(source, lang);
       const filePath = path.join(this.dataDir, fileName);
       
       if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, 'utf-8');
-        const starters = this.parseConversationStartersFromTs(content, category, fileName);
-        this.conversationStarters[lang].push(...starters);
+        const starters = parseTypeScriptArray(content, conversationArrayName(source, lang));
+        starters.forEach((starter) => {
+          this.conversationStarters[lang].push({ ...starter, sourceFile: fileName });
+        });
       }
     }
   }
@@ -270,7 +445,8 @@ class DataManager {
       isPremium: data.isPremium !== undefined ? (data.isPremium === true || data.isPremium === 'true') : this.cards[index].isPremium,
       estimatedTime: data.estimatedTime || this.cards[index].estimatedTime,
       requires: Array.isArray(data.requires) ? data.requires : (data.requires ? data.requires.split(',').map(s => s.trim()) : this.cards[index].requires),
-      safetyNotes: data.safetyNotes !== undefined ? data.safetyNotes : this.cards[index].safetyNotes
+      safetyNotes: data.safetyNotes !== undefined ? data.safetyNotes : this.cards[index].safetyNotes,
+      sourceFile: data.sourceFile || this.cards[index].sourceFile
     };
     return this.cards[index];
   }
@@ -395,7 +571,8 @@ class DataManager {
       intensity: parseInt(data.intensity) || this.conversationStarters[lang][index].intensity,
       followUps: Array.isArray(data.followUps) ? data.followUps : (data.followUps ? data.followUps.split('\n').filter(Boolean) : this.conversationStarters[lang][index].followUps),
       context: data.context !== undefined ? data.context : this.conversationStarters[lang][index].context,
-      tags: Array.isArray(data.tags) ? data.tags : (data.tags ? data.tags.split(',').map(s => s.trim()) : this.conversationStarters[lang][index].tags)
+      tags: Array.isArray(data.tags) ? data.tags : (data.tags ? data.tags.split(',').map(s => s.trim()) : this.conversationStarters[lang][index].tags),
+      sourceFile: data.sourceFile || this.conversationStarters[lang][index].sourceFile
     };
     return this.conversationStarters[lang][index];
   }
@@ -420,30 +597,28 @@ class DataManager {
   // ===== SAVE OPERATIONS =====
 
   async saveCards() {
-    // Group cards by source file
-    const byFile = {};
-    for (const card of this.cards) {
-      const file = card.sourceFile || 'gameCards.ts';
-      if (!byFile[file]) byFile[file] = [];
-      byFile[file].push(card);
-    }
+    const mainPath = path.join(this.dataDir, 'gameCards.ts');
+    let mainContent = fs.readFileSync(mainPath, 'utf-8');
+    const mainCards = this.cards.filter((card) => (card.sourceFile || 'gameCards.ts') === 'gameCards.ts');
+    const freeCards = mainCards.filter((card) => !card.isPremium).map(cleanInternalFields);
+    const premiumCards = mainCards.filter((card) => card.isPremium).map(cleanInternalFields);
 
-    // Save main gameCards.ts
-    if (byFile['gameCards.ts']) {
-      const freeCards = byFile['gameCards.ts'].filter(c => !c.isPremium);
-      const premiumCards = byFile['gameCards.ts'].filter(c => c.isPremium);
-      
-      const content = this.generateGameCardsTs(freeCards, premiumCards);
-      fs.writeFileSync(path.join(this.dataDir, 'gameCards.ts'), content, 'utf-8');
-    }
+    mainContent = replaceExportedArray(mainContent, 'FREE_CARDS', freeCards, 'GameCard[]');
+    mainContent = replaceExportedArray(mainContent, 'PREMIUM_CARDS', premiumCards, 'GameCard[]');
+    fs.writeFileSync(mainPath, mainContent, 'utf-8');
 
-    // Save expansion files
-    for (let level = 1; level <= 5; level++) {
+    for (const level of CARD_LEVELS) {
       const fileName = `game_cards_level${level}.ts`;
-      if (byFile[fileName]) {
-        const content = this.generateLevelTs(byFile[fileName], level);
-        fs.writeFileSync(path.join(this.dataDir, fileName), content, 'utf-8');
-      }
+      const filePath = path.join(this.dataDir, fileName);
+      const cards = this.cards
+        .filter((card) => card.sourceFile === fileName)
+        .map(cleanInternalFields);
+
+      const existing = fs.existsSync(filePath)
+        ? fs.readFileSync(filePath, 'utf-8')
+        : `import { GameCard } from './gameCards';\n\n`;
+      const content = replaceExportedArray(existing, `LEVEL${level}_CARDS`, cards, 'GameCard[]');
+      fs.writeFileSync(filePath, content, 'utf-8');
     }
   }
 
@@ -526,7 +701,23 @@ ${cards.map(cardToString).join(',\n')}
   }
 
   async saveConversationStarters(lang) {
-    // Implement when conversation starters are fully defined
+    for (const source of CONVERSATION_SOURCES) {
+      const fileName = conversationFileName(source, lang);
+      const filePath = path.join(this.dataDir, fileName);
+      const arrayName = conversationArrayName(source, lang);
+      const starters = this.conversationStarters[lang]
+        .filter((starter) => {
+          if (starter.sourceFile) return starter.sourceFile === fileName;
+          return starter.category === source.category;
+        })
+        .map(cleanInternalFields);
+
+      const existing = fs.existsSync(filePath)
+        ? fs.readFileSync(filePath, 'utf-8')
+        : `// apps/mobile/data/${fileName}\n// ${source.comment}\n\nimport { ConversationStarter } from '../lib/conversationStarters';\n\n`;
+      const content = replaceExportedArray(existing, arrayName, starters, 'ConversationStarter[]');
+      fs.writeFileSync(filePath, content, 'utf-8');
+    }
   }
 
   // ===== STATS =====
