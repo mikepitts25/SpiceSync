@@ -182,7 +182,8 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min',
+    requires: []
   },
   {
     id: 'f-r5',
