@@ -172,7 +172,8 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min',
+    requires: []
   },
   {
     id: 'f-r4',
