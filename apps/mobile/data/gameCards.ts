@@ -112,7 +112,8 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min',
+    requires: []
   },
   {
     id: 'f-c3',

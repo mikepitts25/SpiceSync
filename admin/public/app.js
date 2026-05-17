@@ -157,16 +157,41 @@ async function requestJson(url, options) {
   return payload;
 }
 
-async function loadItems() {
+function restoreScrollPosition(scrollY) {
+  requestAnimationFrame(() => {
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const top = Math.min(scrollY, maxScroll);
+
+    if (typeof window.scrollTo === 'function') {
+      window.scrollTo(0, top);
+      return;
+    }
+
+    const scrollElement = document.scrollingElement || document.documentElement || document.body;
+    if (scrollElement) {
+      scrollElement.scrollTop = top;
+    }
+  });
+}
+
+async function loadItems(options = {}) {
   const config = getConfig();
-  elements.contentList.innerHTML = '<div class="loading">Loading...</div>';
-  hideStatus();
+  const { preserveScroll = false, scrollY = window.scrollY } = options;
+
+  if (!preserveScroll) {
+    elements.contentList.innerHTML = '<div class="loading">Loading...</div>';
+    hideStatus();
+  }
 
   try {
     const payload = await requestJson(config.endpoint);
     state.items = payload.data || [];
     updateFilterOptions();
     applyFilters();
+
+    if (preserveScroll) {
+      restoreScrollPosition(scrollY);
+    }
   } catch (error) {
     state.items = [];
     state.filteredItems = [];
@@ -419,6 +444,7 @@ async function saveItem(event) {
 
   const config = getConfig();
   const data = collectFormData();
+  const scrollY = window.scrollY;
   const isEditing = Boolean(state.editingItem);
   const url = isEditing
     ? `${config.endpoint}/${encodeURIComponent(getItemId(state.editingItem))}`
@@ -430,8 +456,9 @@ async function saveItem(event) {
       body: JSON.stringify(data),
     });
     closeEditModal();
-    await loadItems();
+    await loadItems({ preserveScroll: true, scrollY });
     showStatus(`${config.label} ${isEditing ? 'updated' : 'created'}.`);
+    restoreScrollPosition(scrollY);
   } catch (error) {
     showStatus(error.message, 'error');
   }
@@ -454,10 +481,12 @@ async function deleteItem() {
   const id = getItemId(state.deletingItem);
 
   try {
+    const scrollY = window.scrollY;
     await requestJson(`${config.endpoint}/${encodeURIComponent(id)}`, { method: 'DELETE' });
     closeDeleteModal();
-    await loadItems();
+    await loadItems({ preserveScroll: true, scrollY });
     showStatus(`${config.label} deleted.`);
+    restoreScrollPosition(scrollY);
   } catch (error) {
     showStatus(error.message, 'error');
   }
