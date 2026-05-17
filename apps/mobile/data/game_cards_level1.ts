@@ -8,7 +8,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-004',
@@ -17,7 +17,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-007',
@@ -26,7 +26,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-009',
@@ -35,7 +35,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-011',
@@ -44,7 +44,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-015',
@@ -53,16 +53,16 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-d-001',
     type: 'dare',
-    content: 'Hold my hand for the next 5 minutes without letting go, no matter what.',
+    content: 'Hold my hand for the next 1 minute without letting go, no matter what.',
     intensity: 1,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-d-002',
@@ -71,7 +71,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-d-003',
@@ -98,17 +98,17 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min',
+    estimatedTime: '1 min',
     requires: ['food']
   },
   {
     id: 'lvl1-d-007',
     type: 'dare',
-    content: 'Play with my hair for 3 minutes while we talk about our day.',
+    content: 'Play with my hair for 1 minute while we talk about our day.',
     intensity: 1,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-d-008',
@@ -117,7 +117,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-d-009',
@@ -135,7 +135,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-d-013',
@@ -153,7 +153,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-d-015',
@@ -162,7 +162,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-002',
@@ -171,7 +171,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['music']
   },
   {
@@ -181,7 +181,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['paper', 'pen']
   },
   {
@@ -191,16 +191,16 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '10 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-005',
     type: 'challenge',
-    content: 'Mirror Me: Copy everything I do for 2 minutes—every movement, every expression. Try to make me laugh.',
+    content: 'Mirror Me: Copy everything I do for 1 minute—every movement, every expression. Try to make me laugh.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-006',
@@ -209,7 +209,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-007',
@@ -218,7 +218,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['music-app']
   },
   {
@@ -228,16 +228,16 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '10 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-011',
     type: 'challenge',
-    content: 'Breathing Sync: Sit facing each other, hold hands, and try to breathe in sync for 3 minutes.',
+    content: 'Breathing Sync: Sit facing each other, hold hands, and try to breathe in sync for 1 minute.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-012',
@@ -246,7 +246,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-013',
@@ -255,7 +255,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '10 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-014',
@@ -264,7 +264,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-fn-003',
@@ -273,7 +273,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-fn-006',
@@ -282,7 +282,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-fn-007',
@@ -291,7 +291,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-rp-006',
@@ -300,7 +300,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-t-001',
@@ -309,7 +309,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-003',
@@ -318,7 +318,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-005',
@@ -327,7 +327,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-006',
@@ -336,7 +336,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-008',
@@ -345,7 +345,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-010',
@@ -354,7 +354,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-012',
@@ -372,7 +372,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-t-014',
@@ -381,7 +381,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-d-005',
@@ -390,7 +390,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-d-011',
@@ -413,11 +413,11 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-c-001',
     type: 'challenge',
-    content: 'Eye Gazing Challenge: Stare into each other\'s eyes for 2 minutes without talking or looking away. First to break eye contact gives the other a kiss.',
+    content: 'Eye Gazing Challenge: Stare into each other\'s eyes for 1 minute without talking or looking away. First to break eye contact gives the other a kiss.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-008',
@@ -426,7 +426,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-010',
@@ -435,7 +435,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-c-015',
@@ -444,7 +444,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-fn-001',
@@ -453,7 +453,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-fn-002',
@@ -462,7 +462,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-fn-004',
@@ -471,7 +471,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-fn-005',
@@ -480,7 +480,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-fn-008',
@@ -489,7 +489,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'lvl1-rp-001',
@@ -498,7 +498,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-rp-002',
@@ -507,7 +507,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-rp-003',
@@ -516,7 +516,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-rp-004',
@@ -525,7 +525,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-rp-005',
@@ -534,7 +534,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'lvl1-rp-007',
@@ -543,6 +543,6 @@ export const LEVEL1_CARDS: GameCard[] = [
     intensity: 1,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   }
 ];

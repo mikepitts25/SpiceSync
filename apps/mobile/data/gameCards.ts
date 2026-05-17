@@ -1,6 +1,6 @@
 // Spice Dice - Couples Game Cards (REVAMPED)
 // Philosophy: Every card is playable RIGHT NOW. No "plan for later". No "do this tonight".
-// If it can't be acted on in the next 15 minutes, it's cut.
+// If it can't be acted on in the next 1 minute, it's cut.
 
 // ─── IMPORTS (all at top to avoid Metro initialization issues) ─────────────
 import { FREE_CARDS_ES, ALL_CARDS_ES } from './gameCards.es';
@@ -132,7 +132,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '2 min',
+    estimatedTime: '1 min',
     requires: ['ice']
   },
   {
@@ -225,7 +225,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'p-t6',
@@ -234,7 +234,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'p-t10',
@@ -243,7 +243,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'p-t11',
@@ -266,7 +266,7 @@ export const PREMIUM_CARDS: GameCard[] = [
   {
     id: 'p-t14',
     type: 'truth',
-    content: 'If I only had 10 minutes and one body part to work with—what would you choose and why?',
+    content: 'If I only had 30 seconds and one body part to work with—what would you choose and why?',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -279,26 +279,26 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-d3',
     type: 'dare',
-    content: 'Tie my wrists with a scarf. 5 minutes. Do whatever you want to me.',
+    content: 'Tie my wrists with a scarf. 1 minute. Do whatever you want to me.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['scarf']
   },
   {
     id: 'p-d5',
     type: 'dare',
-    content: 'Lap dance. 2 minutes. Use me like a chair. Make me want you.',
+    content: 'Lap dance. 1 minute. Use me like a chair. Make me want you.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-d7',
@@ -307,7 +307,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-d8',
@@ -316,7 +316,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
+    estimatedTime: '1 min',
     safetyNotes: '⚠️ IMPACT PLAY: Start light and build up. Avoid kidneys, tailbone, and joints. Check in frequently.'
   },
   {
@@ -326,7 +326,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['honey/syrup']
   },
   {
@@ -336,7 +336,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-d12',
@@ -345,7 +345,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['ice']
   },
   {
@@ -355,7 +355,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-d15',
@@ -364,7 +364,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-d16',
@@ -383,7 +383,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-d19',
@@ -401,16 +401,16 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c4',
     type: 'challenge',
-    content: 'Torture Timer: Set 5 minutes. You have to keep me at the edge without letting me finish until it goes off.',
+    content: 'Torture Timer: Set 1 minute. You have to keep me at the edge without letting me finish until it goes off.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c5',
@@ -419,7 +419,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c7',
@@ -428,7 +428,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c8',
@@ -437,34 +437,34 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c10',
     type: 'challenge',
-    content: 'Hold Still: I do whatever I want to you for 2 minutes. You are not allowed to move or make noise. If you do—you have to start over.',
+    content: 'Hold Still: I do whatever I want to you for 1 minute. You are not allowed to move or make noise. If you do—you have to start over.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c12',
     type: 'challenge',
-    content: 'Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count spots. Beat my record next round.',
+    content: 'Kiss Marathon: 1 minute. Kiss every part of my body you can reach. I count spots. Beat my record next round.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c14',
     type: 'challenge',
-    content: 'No Talking: For the next 5 minutes, no words. Only touch. Communicate entirely with your body.',
+    content: 'No Talking: For the next 1 minute, no words. Only touch. Communicate entirely with your body.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-c15',
@@ -473,7 +473,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-r2',
@@ -482,7 +482,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '10 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-r7',
@@ -491,7 +491,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '10 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-r11',
@@ -500,7 +500,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'p-fn3',
@@ -509,7 +509,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'p-fn4',
@@ -518,7 +518,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'p-fn5',
@@ -527,7 +527,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'k-ch3',
@@ -536,7 +536,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'k-i1',
@@ -545,7 +545,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'k-i2',
@@ -554,7 +554,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '1 min',
     requires: ['ice']
   },
   {
@@ -564,7 +564,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['candle'],
     safetyNotes: '⚠️ WAX PLAY: Use only body-safe candles (soy or paraffin, NOT beeswax). Test temperature on wrist first. Avoid face and genitals.'
   },
@@ -575,17 +575,8 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['collar']
-  },
-  {
-    id: 'k-p3',
-    type: 'dare',
-    content: 'Orgasm control: Decide when I get to finish. Bring me there—then deny me. I earn it.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '10 min'
   },
   {
     id: 'k-t2',
@@ -594,7 +585,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['buttplug']
   },
   {
@@ -604,17 +595,17 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['nippleclamps']
   },
   {
     id: 'k-o1',
     type: 'dare',
-    content: 'Tease me everywhere EXCEPT where I want it most. 3 minutes. Make me beg before you give in.',
+    content: 'Tease me everywhere EXCEPT where I want it most. 1 minute. Make me beg before you give in.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'k-o3',
@@ -623,7 +614,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'k-o4',
@@ -632,7 +623,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '1 min'
   },
   {
     id: 'k-h1',
@@ -641,7 +632,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['body-safemarker'],
     safetyNotes: '⚠️ MARKING: Use only body-safe markers. Test for allergies first. Avoid sensitive areas and broken skin.'
   },
@@ -652,7 +643,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   },
   {
     id: 'k-g2',
@@ -661,7 +652,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec'
   }
 ];
 

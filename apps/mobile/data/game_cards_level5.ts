@@ -8,7 +8,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Fantasy disclosure is safe. Acting on extreme fantasies requires extensive negotiation and safety planning.'
   },
   {
@@ -18,7 +18,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Group play requires enthusiastic consent from all parties. Discuss boundaries extensively beforehand.'
   },
   {
@@ -28,7 +28,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Extended scenes require meal planning, rest periods, and clear end points.'
   },
   {
@@ -38,7 +38,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Total immobilization requires extreme safety measures. Never leave unattended. Monitor breathing constantly.'
   },
   {
@@ -48,7 +48,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: '24/7 dynamics require extensive negotiation, regular check-ins, and ability to step out of roles.'
   },
   {
@@ -58,7 +58,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Group scenarios require STI discussions, birth control, and extensive safety planning.'
   },
   {
@@ -68,7 +68,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'CNC requires extensive negotiation, multiple safewords, and thorough aftercare. Debrief extensively.'
   },
   {
@@ -78,7 +78,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Boundary pushing requires explicit consent and ability to stop at any moment.'
   },
   {
@@ -88,7 +88,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '20 min',
+    estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes: 'Warm up gradually. Target buttocks and thighs only. Check in every 10 strikes. Watch for skin damage.'
   },
@@ -99,7 +99,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     safetyNotes: 'EXTREME RISK. Never compress arteries. Never restrict blood flow to brain. Research extensively before attempting.'
   },
   {
@@ -109,7 +109,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '60 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Total power exchange requires pre-negotiated limits and ability to safeword. Plan for aftercare.'
   },
   {
@@ -119,7 +119,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['knife'],
     safetyNotes: 'EXTREME RISK. Use blunt knife for beginners. Never cut toward body. Consider fake knife for psychological effect.'
   },
@@ -130,7 +130,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Urine is generally sterile but can transmit infections. Avoid contact with eyes or open wounds. Shower after.'
   },
   {
@@ -140,7 +140,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Public play laws vary. Ensure no non-consenting people can see. Risk of arrest in many jurisdictions.'
   },
   {
@@ -150,7 +150,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     requires: ['toys'],
     safetyNotes: 'Use copious lube. Go slowly. Stop if pain occurs. Never use without flared base.'
   },
@@ -161,7 +161,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     requires: ['lube'],
     safetyNotes: 'EXTENSIVE preparation required. Use more lube than you think necessary. Stop immediately if resistance or pain.'
   },
@@ -172,7 +172,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '20 min',
+    estimatedTime: '1 min',
     safetyNotes: 'CNC requires extensive pre-negotiation. Establish multiple safewords. Debrief extensively after.'
   },
   {
@@ -182,7 +182,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     requires: ['tens-unit'],
     safetyNotes: 'Never use above waist. Avoid if pregnant or have heart condition. Start at lowest setting.'
   },
@@ -193,7 +193,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Hypnosis requires training. Cannot make someone do something against their values. Always bring out of trance properly.'
   },
   {
@@ -203,7 +203,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Marks should not last more than a week. Avoid areas with major blood vessels. Consider social/professional visibility.'
   },
   {
@@ -213,7 +213,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'ongoing',
+    estimatedTime: '1 min',
     safetyNotes: 'Extended scenes require meal planning, sleep arrangements, and regular check-ins. Plan debrief time.'
   },
   {
@@ -223,7 +223,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'ongoing',
+    estimatedTime: '1 min',
     safetyNotes: 'Extended denial should not cause physical pain or distress. Allow release if genuinely needed.'
   },
   {
@@ -233,7 +233,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'ongoing',
+    estimatedTime: '1 min',
     safetyNotes: 'TPE requires work/social boundaries. Maintain ability to safeword. Schedule regular check-ins.'
   },
   {
@@ -243,7 +243,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes: 'Build slowly. Use breathing techniques. Stop at any request. Aftercare is essential.'
   },
@@ -254,7 +254,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '60 min',
+    estimatedTime: '1 min',
     requires: ['blindfold', 'earplugs', 'restraints'],
     safetyNotes: 'Extended deprivation can cause disorientation. Never leave alone. Monitor for distress.'
   },
@@ -265,7 +265,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '60 min',
+    estimatedTime: '1 min',
     safetyNotes: 'High-protocol scenes require clear instruction. Be patient with learning. Positive reinforcement.'
   },
   {
@@ -275,7 +275,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Humiliation can trigger real insecurities. Extensive aftercare required. Reaffirm love and value.'
   },
   {
@@ -285,9 +285,9 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '120 min',
+    estimatedTime: '1 min',
     requires: ['restraints'],
-    safetyNotes: 'Position must not strain joints. Check circulation every 15 minutes. Provide water and bathroom breaks.'
+    safetyNotes: 'Position must not strain joints. Check circulation frequently. Provide water and bathroom breaks.'
   },
   {
     id: 'lvl5-c-010',
@@ -296,7 +296,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'ongoing',
+    estimatedTime: '1 min',
     safetyNotes: 'Service submission should be rewarding. Check in about enjoyment. Provide appreciation and aftercare.'
   },
   {
@@ -306,7 +306,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Fear play requires high trust. Never truly endanger. Debrief thoroughly. Provide extensive comfort after.'
   },
   {
@@ -316,7 +316,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Build intensity gradually. Watch for overwhelm. Aftercare should be gentle and loving.'
   },
   {
@@ -326,7 +326,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '60 min',
+    estimatedTime: '1 min',
     safetyNotes: 'CNC requires trust and communication. Multiple safewords recommended. Aftercare is non-negotiable.'
   },
   {
@@ -336,7 +336,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '60 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Group play requires consent from all. Discuss boundaries extensively. Have safe sex supplies ready.'
   },
   {
@@ -346,7 +346,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '60 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Aftercare is essential for all intense play. Customize to partner needs. Never skip it.'
   },
   {
@@ -356,7 +356,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Kink venues require understanding of house rules and consent protocols.'
   },
   {
@@ -366,7 +366,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '30 sec',
     safetyNotes: '24/7 dynamics require extensive negotiation and ability to step out of roles when needed.'
   },
   {
@@ -376,7 +376,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Group scenarios require STI discussions, birth control, and extensive safety planning.'
   },
   {
@@ -386,7 +386,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Edge play carries real risks. Research thoroughly before attempting.'
   },
   {
@@ -396,7 +396,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Objectification requires extensive aftercare and reaffirmation of humanity and worth.'
   },
   {
@@ -406,7 +406,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Public play must not involve non-consenting observers. Consider legal and social risks.'
   },
   {
@@ -416,7 +416,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Transformation play requires clear boundaries and ability to return to normal headspace.'
   },
   {
@@ -426,7 +426,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '20 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Predator/prey play can trigger past trauma. Check in frequently. Clear safeword essential.'
   },
   {
@@ -436,7 +436,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Hard limits must be respected absolutely. Never pressure someone to change their limits.'
   },
   {
@@ -446,7 +446,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Taboo fantasies are normal. Acting on them requires careful consideration of ethics and safety.'
   },
   {
@@ -456,7 +456,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Degradation play requires extensive aftercare and reaffirmation of worth and love.'
   },
   {
@@ -466,7 +466,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Edge play carries real risks. Research thoroughly. Consider professional instruction.'
   },
   {
@@ -476,7 +476,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Pain play requires understanding of anatomy. Avoid joints, spine, kidneys, and neck.'
   },
   {
@@ -486,7 +486,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Dark fantasies are common. Distinguish between fantasy and desire to act.'
   },
   {
@@ -496,17 +496,17 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Extended denial should not cause physical harm. Regular check-ins essential.'
   },
   {
     id: 'lvl5-d-001',
     type: 'dare',
-    content: 'Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I\'m completely helpless.',
+    content: 'Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 1 minute. I\'m completely helpless.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     requires: ['restraints', 'gag', 'blindfold'],
     safetyNotes: 'Never leave restrained person alone. Check circulation constantly. Establish non-verbal safeword. Keep safety shears nearby.'
   },
@@ -517,7 +517,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '20 min',
+    estimatedTime: '1 min',
     requires: ['restraints', 'vibrator'],
     safetyNotes: 'Watch for overstimulation and discomfort. Provide water and comfort after. Stop if genuine distress.'
   },
@@ -528,7 +528,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'ongoing',
+    estimatedTime: '1 min',
     requires: ['chastity-device'],
     safetyNotes: 'Chastity devices must fit properly. Remove if discoloration or numbness occurs. Maintain hygiene.'
   },
@@ -539,7 +539,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Edge play carries real risks. Research extensively. Have safety plan. Know when to stop.'
   },
   {
@@ -549,7 +549,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'CNC requires extensive negotiation. Multiple safewords. Thorough aftercare. Debrief extensively.'
   },
   {
@@ -559,7 +559,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Slavery roleplay requires extensive negotiation. Remember: it\'s roleplay. Either can stop at any time.'
   },
   {
@@ -569,7 +569,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Pet play requires understanding of animal behavior simulation vs. actual bestiality (which is never acceptable).'
   },
   {
@@ -579,7 +579,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Interrogation play can be psychologically intense. Debrief thoroughly. Provide extensive aftercare.'
   },
   {
@@ -589,7 +589,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Deity worship allows for creative power dynamics. Ensure partner feels valued, not actually sacrificed.'
   },
   {
@@ -599,7 +599,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '20 min',
+    estimatedTime: '1 min',
     safetyNotes: 'CNC requires extensive pre-negotiation. Multiple safewords. Thorough aftercare. Debrief extensively.'
   },
   {
@@ -609,7 +609,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Medical/scientific play requires understanding of actual anatomy. Avoid dangerous practices.'
   }
 ];

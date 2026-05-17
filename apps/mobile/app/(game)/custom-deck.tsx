@@ -65,7 +65,7 @@ export default function CustomDeckBuilder() {
       intensity: intensity as 1 | 2 | 3 | 4 | 5,
       category: 'playful',
       isPremium: true,
-      estimatedTime: '5-10 min',
+      estimatedTime: '1 min',
     };
 
     setCustomCards([...customCards, newCard]);

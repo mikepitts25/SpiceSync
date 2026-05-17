@@ -37,7 +37,7 @@
         "intensity": "1-5 (required)",
         "category": "From categories list (required)",
         "isPremium": "true/false (required)",
-        "estimatedTime": "e.g., '5 min', '10 min' (required)",
+        "estimatedTime": "e.g., '30 sec', '1 min' (required)",
         "requires": "Array of required items (optional)",
         "safetyNotes": "Safety warnings for intense cards (optional)"
       }
@@ -119,11 +119,11 @@
     {
       "id": "f-c1",
       "type": "challenge",
-      "content": "7 Minutes in Heaven: You have 7 minutes. Hands, mouth, anywhere above the waist. No stopping, no talking. GO.",
+      "content": "1 minute in Heaven: You have 1 minute. Hands, mouth, anywhere above the waist. No stopping, no talking. GO.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": false,
-      "estimatedTime": "7 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "f-c2",
@@ -132,16 +132,16 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "f-c3",
       "type": "challenge",
-      "content": "No Hands: Touch me for 5 minutes without using your hands. Mouth, body, anything else.",
+      "content": "No Hands: Touch me for 1 minute without using your hands. Mouth, body, anything else.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "f-c4",
@@ -150,7 +150,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice"
       ]
@@ -162,7 +162,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "f-fn4",
@@ -171,7 +171,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "f-r2",
@@ -180,7 +180,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "f-r3",
@@ -189,7 +189,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "f-r4",
@@ -198,7 +198,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "f-r5",
@@ -207,7 +207,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-t2",
@@ -225,7 +225,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "p-t4",
@@ -234,7 +234,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "p-t6",
@@ -243,7 +243,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "p-t10",
@@ -252,7 +252,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "p-t11",
@@ -275,7 +275,7 @@
     {
       "id": "p-t14",
       "type": "truth",
-      "content": "If I only had 10 minutes and one body part to work with—what would you choose and why?",
+      "content": "If I only had 30 seconds and one body part to work with—what would you choose and why?",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
@@ -288,16 +288,16 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-d3",
       "type": "dare",
-      "content": "Tie my wrists with a scarf. 5 minutes. Do whatever you want to me.",
+      "content": "Tie my wrists with a scarf. 1 minute. Do whatever you want to me.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "scarf"
       ]
@@ -305,11 +305,11 @@
     {
       "id": "p-d5",
       "type": "dare",
-      "content": "Lap dance. 2 minutes. Use me like a chair. Make me want you.",
+      "content": "Lap dance. 1 minute. Use me like a chair. Make me want you.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-d7",
@@ -318,7 +318,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-d8",
@@ -327,7 +327,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "⚠️ IMPACT PLAY: Start light and build up. Avoid kidneys, tailbone, and joints. Check in frequently."
     },
     {
@@ -337,7 +337,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "honey/syrup"
       ]
@@ -349,7 +349,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-d12",
@@ -358,7 +358,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice"
       ]
@@ -370,7 +370,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-d15",
@@ -379,7 +379,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-d16",
@@ -398,7 +398,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-d19",
@@ -416,16 +416,16 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c4",
       "type": "challenge",
-      "content": "Torture Timer: Set 5 minutes. You have to keep me at the edge without letting me finish until it goes off.",
+      "content": "Torture Timer: Set 1 minute. You have to keep me at the edge without letting me finish until it goes off.",
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c5",
@@ -434,7 +434,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c7",
@@ -443,7 +443,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c8",
@@ -452,34 +452,34 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c10",
       "type": "challenge",
-      "content": "Hold Still: I do whatever I want to you for 2 minutes. You are not allowed to move or make noise. If you do—you have to start over.",
+      "content": "Hold Still: I do whatever I want to you for 1 minute. You are not allowed to move or make noise. If you do—you have to start over.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c12",
       "type": "challenge",
-      "content": "Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count spots. Beat my record next round.",
+      "content": "Kiss Marathon: 1 minute. Kiss every part of my body you can reach. I count spots. Beat my record next round.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c14",
       "type": "challenge",
-      "content": "No Talking: For the next 5 minutes, no words. Only touch. Communicate entirely with your body.",
+      "content": "No Talking: For the next 1 minute, no words. Only touch. Communicate entirely with your body.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-c15",
@@ -488,7 +488,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-r2",
@@ -497,7 +497,7 @@
       "intensity": 4,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-r7",
@@ -506,7 +506,7 @@
       "intensity": 4,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-r11",
@@ -515,7 +515,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "p-fn3",
@@ -524,7 +524,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "p-fn4",
@@ -533,7 +533,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "p-fn5",
@@ -542,7 +542,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "k-ch3",
@@ -551,7 +551,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "k-i1",
@@ -560,7 +560,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "k-i2",
@@ -569,7 +569,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice"
       ]
@@ -581,7 +581,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "candle"
       ],
@@ -594,7 +594,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "collar"
       ]
@@ -606,7 +606,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "k-t2",
@@ -615,7 +615,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "butt plug"
       ]
@@ -627,7 +627,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "nipple clamps"
       ]
@@ -635,11 +635,11 @@
     {
       "id": "k-o1",
       "type": "dare",
-      "content": "Tease me everywhere EXCEPT where I want it most. 3 minutes. Make me beg before you give in.",
+      "content": "Tease me everywhere EXCEPT where I want it most. 1 minute. Make me beg before you give in.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "k-o3",
@@ -648,7 +648,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "k-o4",
@@ -657,7 +657,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "k-h1",
@@ -666,7 +666,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "body-safe marker"
       ],
@@ -679,7 +679,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "k-g2",
@@ -688,7 +688,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-001",
@@ -697,7 +697,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-002",
@@ -706,7 +706,7 @@
       "intensity": 1,
       "category": "communication",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-003",
@@ -715,7 +715,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-004",
@@ -724,7 +724,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-005",
@@ -733,7 +733,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-006",
@@ -742,7 +742,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-007",
@@ -751,7 +751,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-008",
@@ -760,7 +760,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-009",
@@ -769,7 +769,7 @@
       "intensity": 1,
       "category": "communication",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-010",
@@ -778,7 +778,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-011",
@@ -787,7 +787,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-012",
@@ -805,7 +805,7 @@
       "intensity": 1,
       "category": "communication",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-014",
@@ -814,7 +814,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-t-015",
@@ -823,16 +823,16 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-d-001",
       "type": "dare",
-      "content": "Hold my hand for the next 5 minutes without letting go, no matter what.",
+      "content": "Hold my hand for the next 1 minute without letting go, no matter what.",
       "intensity": 1,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-d-002",
@@ -841,7 +841,7 @@
       "intensity": 1,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-d-003",
@@ -868,7 +868,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-d-006",
@@ -877,7 +877,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min",
+      "estimatedTime": "1 min",
       "requires": [
         "food"
       ]
@@ -885,11 +885,11 @@
     {
       "id": "lvl1-d-007",
       "type": "dare",
-      "content": "Play with my hair for 3 minutes while we talk about our day.",
+      "content": "Play with my hair for 1 minute while we talk about our day.",
       "intensity": 1,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-d-008",
@@ -898,7 +898,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-d-009",
@@ -916,7 +916,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-d-011",
@@ -952,7 +952,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-d-015",
@@ -961,7 +961,7 @@
       "intensity": 1,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-001",
@@ -970,7 +970,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-002",
@@ -979,7 +979,7 @@
       "intensity": 1,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "music"
       ]
@@ -991,7 +991,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "paper",
         "pen"
@@ -1004,16 +1004,16 @@
       "intensity": 1,
       "category": "communication",
       "isPremium": false,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-005",
       "type": "challenge",
-      "content": "Mirror Me: Copy everything I do for 2 minutes—every movement, every expression. Try to make me laugh.",
+      "content": "Mirror Me: Copy everything I do for 1 minute—every movement, every expression. Try to make me laugh.",
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-006",
@@ -1022,7 +1022,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-007",
@@ -1031,7 +1031,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "music-app"
       ]
@@ -1043,7 +1043,7 @@
       "intensity": 1,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-009",
@@ -1052,7 +1052,7 @@
       "intensity": 1,
       "category": "communication",
       "isPremium": false,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-010",
@@ -1061,16 +1061,16 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-011",
       "type": "challenge",
-      "content": "Breathing Sync: Sit facing each other, hold hands, and try to breathe in sync for 3 minutes.",
+      "content": "Breathing Sync: Sit facing each other, hold hands, and try to breathe in sync for 1 minute.",
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-012",
@@ -1079,7 +1079,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-013",
@@ -1088,7 +1088,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-014",
@@ -1097,7 +1097,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-c-015",
@@ -1106,7 +1106,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-fn-001",
@@ -1115,7 +1115,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-fn-002",
@@ -1124,7 +1124,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-fn-003",
@@ -1133,7 +1133,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-fn-004",
@@ -1142,7 +1142,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-fn-005",
@@ -1151,7 +1151,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-fn-006",
@@ -1160,7 +1160,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-fn-007",
@@ -1169,7 +1169,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-fn-008",
@@ -1178,7 +1178,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl1-rp-001",
@@ -1187,7 +1187,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-rp-002",
@@ -1196,7 +1196,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-rp-003",
@@ -1205,7 +1205,7 @@
       "intensity": 1,
       "category": "playful",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-rp-004",
@@ -1214,7 +1214,7 @@
       "intensity": 1,
       "category": "emotional",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-rp-005",
@@ -1223,7 +1223,7 @@
       "intensity": 1,
       "category": "communication",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-rp-006",
@@ -1232,7 +1232,7 @@
       "intensity": 1,
       "category": "physical",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl1-rp-007",
@@ -1241,7 +1241,7 @@
       "intensity": 1,
       "category": "communication",
       "isPremium": false,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-t-001",
@@ -1250,7 +1250,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-002",
@@ -1259,7 +1259,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-003",
@@ -1268,7 +1268,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-004",
@@ -1277,7 +1277,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-005",
@@ -1286,7 +1286,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-006",
@@ -1295,7 +1295,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-007",
@@ -1304,7 +1304,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-008",
@@ -1313,7 +1313,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-009",
@@ -1322,7 +1322,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-010",
@@ -1331,7 +1331,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-011",
@@ -1340,7 +1340,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-012",
@@ -1349,7 +1349,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-013",
@@ -1358,7 +1358,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-014",
@@ -1367,7 +1367,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-t-015",
@@ -1376,7 +1376,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-d-001",
@@ -1385,7 +1385,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "oil-or-lotion"
       ]
@@ -1397,7 +1397,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "2 min",
+      "estimatedTime": "1 min",
       "requires": [
         "fruit"
       ]
@@ -1409,7 +1409,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-004",
@@ -1418,7 +1418,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-005",
@@ -1427,7 +1427,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-006",
@@ -1445,7 +1445,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-008",
@@ -1454,7 +1454,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-009",
@@ -1463,7 +1463,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "music"
       ]
@@ -1475,7 +1475,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-011",
@@ -1484,16 +1484,16 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-012",
       "type": "dare",
-      "content": "Kiss my collarbone and shoulder area for 2 minutes, varying pressure and speed.",
+      "content": "Kiss my collarbone and shoulder area for 1 minute, varying pressure and speed.",
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-013",
@@ -1511,16 +1511,16 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-d-015",
       "type": "dare",
-      "content": "Give me a scalp massage for 3 minutes while I relax completely.",
+      "content": "Give me a scalp massage for 1 minute while I relax completely.",
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-001",
@@ -1529,7 +1529,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold"
       ]
@@ -1541,7 +1541,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "music"
       ]
@@ -1553,25 +1553,25 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-004",
       "type": "challenge",
-      "content": "Question Deep Dive: Take turns asking each other increasingly personal questions for 15 minutes. No dodging.",
+      "content": "Question Deep Dive: Take turns asking each other increasingly personal questions for 1 minute. No dodging.",
       "intensity": 2,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "15 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-005",
       "type": "challenge",
-      "content": "Mirror Touch: One person touches themselves somewhere, the other mirrors it on themselves. Take turns for 5 minutes.",
+      "content": "Mirror Touch: One person touches themselves somewhere, the other mirrors it on themselves. Take turns for 1 minute.",
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-006",
@@ -1580,7 +1580,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "paper",
         "pen"
@@ -1593,7 +1593,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "kitchen"
       ]
@@ -1605,7 +1605,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-009",
@@ -1614,7 +1614,7 @@
       "intensity": 2,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "paper",
         "pen"
@@ -1627,7 +1627,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice",
         "warm-cloth"
@@ -1640,7 +1640,7 @@
       "intensity": 2,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-012",
@@ -1649,7 +1649,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-013",
@@ -1658,7 +1658,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-014",
@@ -1667,7 +1667,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-c-015",
@@ -1676,7 +1676,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold"
       ]
@@ -1688,7 +1688,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-fn-002",
@@ -1697,7 +1697,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-fn-003",
@@ -1706,7 +1706,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-fn-004",
@@ -1715,7 +1715,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-fn-005",
@@ -1724,7 +1724,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-fn-006",
@@ -1733,7 +1733,7 @@
       "intensity": 2,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-fn-007",
@@ -1742,7 +1742,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-fn-008",
@@ -1751,7 +1751,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-rp-001",
@@ -1760,7 +1760,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "oil-or-lotion"
       ]
@@ -1772,7 +1772,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-rp-003",
@@ -1781,7 +1781,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-rp-004",
@@ -1790,7 +1790,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-rp-005",
@@ -1799,7 +1799,7 @@
       "intensity": 2,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-rp-006",
@@ -1808,7 +1808,7 @@
       "intensity": 2,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl2-rp-007",
@@ -1817,7 +1817,7 @@
       "intensity": 2,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-t-001",
@@ -1826,7 +1826,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-002",
@@ -1835,16 +1835,16 @@
       "intensity": 3,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-003",
       "type": "truth",
-      "content": "If you could only use one body part to pleasure me for the next 10 minutes, which would you choose and why?",
+      "content": "If you could only use one body part to pleasure me for the next 30 seconds, which would you choose and why?",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-004",
@@ -1853,7 +1853,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-005",
@@ -1862,7 +1862,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-006",
@@ -1871,7 +1871,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-007",
@@ -1880,7 +1880,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-008",
@@ -1889,7 +1889,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-009",
@@ -1898,7 +1898,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-010",
@@ -1907,7 +1907,7 @@
       "intensity": 3,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-011",
@@ -1916,7 +1916,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-012",
@@ -1925,7 +1925,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-013",
@@ -1934,7 +1934,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-014",
@@ -1943,7 +1943,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-t-015",
@@ -1952,7 +1952,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-d-001",
@@ -1961,7 +1961,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "music"
       ]
@@ -1969,11 +1969,11 @@
     {
       "id": "lvl3-d-002",
       "type": "dare",
-      "content": "Blindfold me and explore my body with your hands and mouth for 5 minutes. I can",
+      "content": "Blindfold me and explore my body with your hands and mouth for 1 minute. I can",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold"
       ]
@@ -1985,7 +1985,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice"
       ]
@@ -1997,7 +1997,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-005",
@@ -2006,7 +2006,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-006",
@@ -2015,7 +2015,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "feather"
       ]
@@ -2027,16 +2027,16 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-008",
       "type": "dare",
-      "content": "Give me a lap dance for 3 minutes. Use me. Make me hard/wet.",
+      "content": "Give me a lap dance for 1 minute. Use me. Make me hard/wet.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-009",
@@ -2045,16 +2045,16 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-010",
       "type": "dare",
-      "content": "Tie my wrists loosely with a scarf or tie. Tease me for 5 minutes while I",
+      "content": "Tie my wrists loosely with a scarf or tie. Tease me for 1 minute while I",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "scarf"
       ]
@@ -2066,7 +2066,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-012",
@@ -2075,7 +2075,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "honey"
       ]
@@ -2087,7 +2087,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-014",
@@ -2096,7 +2096,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "2 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-d-015",
@@ -2105,7 +2105,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-001",
@@ -2114,7 +2114,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-002",
@@ -2123,7 +2123,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice"
       ]
@@ -2135,7 +2135,7 @@
       "intensity": 3,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "dice"
       ]
@@ -2147,16 +2147,16 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-005",
       "type": "challenge",
-      "content": "No Hands: Pleasure me for 5 minutes using only your mouth. No hands allowed.",
+      "content": "No Hands: Pleasure me for 1 minute using only your mouth. No hands allowed.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-006",
@@ -2165,7 +2165,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-007",
@@ -2174,7 +2174,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-008",
@@ -2183,7 +2183,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold",
         "feather"
@@ -2196,7 +2196,7 @@
       "intensity": 3,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-010",
@@ -2205,16 +2205,16 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-011",
       "type": "challenge",
-      "content": "Hold Still: I get to do whatever I want to you for 3 minutes. You cannot move or make noise. Break the rules? Start over.",
+      "content": "Hold Still: I get to do whatever I want to you for 1 minute. You cannot move or make noise. Break the rules? Start over.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-012",
@@ -2223,16 +2223,16 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-013",
       "type": "challenge",
-      "content": "No Talking: For the next 10 minutes, no words. Only touch, sounds, and eye contact. Communicate everything with your body.",
+      "content": "No Talking: For the next 1 minute, no words. Only touch, sounds, and eye contact. Communicate everything with your body.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-014",
@@ -2241,16 +2241,16 @@
       "intensity": 3,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-c-015",
       "type": "challenge",
-      "content": "Kiss Marathon: 5 minutes. Kiss every part of my body you can reach. I count the spots. Try to beat your record.",
+      "content": "Kiss Marathon: 1 minute. Kiss every part of my body you can reach. I count the spots. Try to beat your record.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-fn-001",
@@ -2259,7 +2259,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-fn-002",
@@ -2268,7 +2268,7 @@
       "intensity": 3,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-fn-003",
@@ -2277,7 +2277,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-fn-004",
@@ -2286,7 +2286,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-fn-005",
@@ -2295,7 +2295,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-fn-006",
@@ -2304,7 +2304,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-fn-007",
@@ -2313,7 +2313,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-fn-008",
@@ -2322,7 +2322,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min"
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl3-rp-001",
@@ -2331,7 +2331,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-rp-002",
@@ -2340,7 +2340,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-rp-003",
@@ -2349,7 +2349,7 @@
       "intensity": 3,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-rp-004",
@@ -2358,7 +2358,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-rp-005",
@@ -2367,7 +2367,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl3-rp-006",
@@ -2376,7 +2376,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "oil-or-lotion"
       ]
@@ -2388,7 +2388,7 @@
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min"
+      "estimatedTime": "1 min"
     },
     {
       "id": "lvl4-t-001",
@@ -2397,7 +2397,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Discuss boundaries and establish safewords before exploring BDSM activities."
     },
     {
@@ -2407,7 +2407,7 @@
       "intensity": 4,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Power dynamics require trust and clear communication. Discuss limits beforehand."
     },
     {
@@ -2417,7 +2417,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Establish safewords and aftercare protocols before power exchange play."
     },
     {
@@ -2427,7 +2427,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Trust-based activities require established consent and the ability to stop at any time."
     },
     {
@@ -2437,7 +2437,7 @@
       "intensity": 4,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Start light and build up. Check in frequently. Avoid dangerous areas like kidneys or neck."
     },
     {
@@ -2447,7 +2447,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Blindfold play requires established trust and clear verbal communication or safe signals."
     },
     {
@@ -2457,7 +2457,7 @@
       "intensity": 4,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "2 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Hard limits must always be respected without question or pressure."
     },
     {
@@ -2467,7 +2467,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Orgasm control requires check-ins. Never deny orgasm beyond pre-negotiated time limits."
     },
     {
@@ -2477,7 +2477,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Degradation play requires extensive aftercare. Check in during and after."
     },
     {
@@ -2487,7 +2487,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Never leave a restrained person alone. Keep safety shears nearby. Check circulation."
     },
     {
@@ -2497,7 +2497,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Submissive activities require clear boundaries and the ability to safeword out."
     },
     {
@@ -2507,7 +2507,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Voyeurism/exhibitionism requires complete privacy and consent from all parties."
     },
     {
@@ -2517,7 +2517,7 @@
       "intensity": 4,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Fantasy discussion is safe. Acting on fantasies requires additional negotiation."
     },
     {
@@ -2527,7 +2527,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Marking should avoid areas with major blood vessels. Consider visibility for work/social situations."
     },
     {
@@ -2537,30 +2537,30 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Plan for aftercare before beginning any D/s session. Hydration and comfort are essential."
     },
     {
       "id": "lvl4-d-001",
       "type": "dare",
-      "content": "Tie my wrists to the bed/frame with soft restraints. You have 10 minutes to do whatever you want.",
+      "content": "Tie my wrists to the bed/frame with soft restraints. You have 1 minute to do whatever you want.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "restraints"
       ],
-      "safetyNotes": "Use quick-release knots or safety clips. Never leave restrained partner unattended. Check circulation every few minutes."
+      "safetyNotes": "Use quick-release knots or safety clips. Never leave restrained partner unattended. Check circulation frequently."
     },
     {
       "id": "lvl4-d-002",
       "type": "dare",
-      "content": "Blindfold me completely. No peeking. Explore my body with various sensations for 10 minutes.",
+      "content": "Blindfold me completely. No peeking. Explore my body with various sensations for 1 minute.",
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold"
       ],
@@ -2573,7 +2573,7 @@
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Target fleshy parts of buttocks and thighs only. Avoid tailbone, hips, and kidneys."
     },
     {
@@ -2583,7 +2583,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Roleplay requires clear boundaries. Establish safewords before beginning."
     },
     {
@@ -2593,7 +2593,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Edging should not cause physical discomfort. Allow release if requested or after reasonable time."
     },
     {
@@ -2603,7 +2603,7 @@
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice"
       ],
@@ -2616,7 +2616,7 @@
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Wrist pinning should not cause pain. Release immediately if requested."
     },
     {
@@ -2626,7 +2626,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Hair pulling should grab hair close to scalp, not ends. Avoid neck strain."
     },
     {
@@ -2636,7 +2636,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "2 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Breath play is edge play. Never restrict blood flow to brain. Keep pressure on sides only, never front."
     },
     {
@@ -2646,17 +2646,17 @@
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Biting should not break skin. Avoid areas near major blood vessels."
     },
     {
       "id": "lvl4-d-011",
       "type": "dare",
-      "content": "Tease me with a vibrator for 5 minutes, bringing me close but never letting me finish. Control my pleasure.",
+      "content": "Tease me with a vibrator for 1 minute, bringing me close but never letting me finish. Control my pleasure.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "requires": [
         "vibrator"
       ],
@@ -2669,7 +2669,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "collar"
       ],
@@ -2682,7 +2682,7 @@
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "candle"
       ],
@@ -2695,7 +2695,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "1 min",
       "requires": [
         "body-safe-marker"
       ],
@@ -2708,7 +2708,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Voyeurism requires complete privacy. Check in to ensure comfort throughout."
     },
     {
@@ -2718,7 +2718,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "ongoing",
+      "estimatedTime": "1 min",
       "safetyNotes": "Establish clear limits, safewords, and check-in times before beginning. Either party can end at any time."
     },
     {
@@ -2728,17 +2728,17 @@
       "intensity": 4,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "ongoing",
+      "estimatedTime": "1 min",
       "safetyNotes": "Public play must be truly discreet. Never involve non-consenting people."
     },
     {
       "id": "lvl4-c-003",
       "type": "challenge",
-      "content": "Sensory Deprivation: Blindfold and headphones on me. You have 15 minutes to do whatever you want. I won",
+      "content": "Sensory Deprivation: Blindfold and headphones on me. You have 1 minute to do whatever you want. I won",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold",
         "headphones"
@@ -2752,7 +2752,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "20 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Denial should not cause pain. Allow release after reasonable time or if genuinely requested."
     },
     {
@@ -2762,7 +2762,7 @@
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "paddle"
       ],
@@ -2775,11 +2775,11 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "restraints"
       ],
-      "safetyNotes": "Keep safety shears nearby. Check circulation every 5 minutes. Never leave alone."
+      "safetyNotes": "Keep safety shears nearby. Check circulation frequently. Never leave alone."
     },
     {
       "id": "lvl4-c-007",
@@ -2788,7 +2788,7 @@
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "ice",
         "oil"
@@ -2798,31 +2798,31 @@
     {
       "id": "lvl4-c-008",
       "type": "challenge",
-      "content": "Command Performance: For 15 minutes, I must follow every command you give.",
+      "content": "Command Performance: For 1 minute, I must follow every command you give.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Commands must respect pre-negotiated limits. Safeword immediately stops all play."
     },
     {
       "id": "lvl4-c-009",
       "type": "challenge",
-      "content": "Edging Marathon: Bring me to the edge 5 times over 30 minutes. Final release only with your permission.",
+      "content": "Edging Marathon: Bring me to the edge 5 times over 1 minute. Final release only with your permission.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Extended edging can be intense. Provide release if requested or after session."
     },
     {
       "id": "lvl4-c-010",
       "type": "challenge",
-      "content": "Objectification Scene: For 10 minutes, I",
+      "content": "Objectification Scene: For 1 minute, I",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Objectification requires extensive aftercare. Remind partner of your care and respect afterward."
     },
     {
@@ -2832,7 +2832,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Roleplay punishment must be clearly distinguished from real conflict. Debrief after."
     },
     {
@@ -2842,7 +2842,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "vibrator"
       ],
@@ -2851,11 +2851,11 @@
     {
       "id": "lvl4-c-013",
       "type": "challenge",
-      "content": "Service Submission: For 30 minutes, you serve me—massage, fetch drinks, pleasure me on demand. Your only goal is my satisfaction.",
+      "content": "Service Submission: For 1 minute, you serve me—massage, fetch drinks, pleasure me on demand. Your only goal is my satisfaction.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Service submission should be rewarding for both. Check in about enjoyment."
     },
     {
@@ -2865,7 +2865,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold"
       ],
@@ -2878,7 +2878,7 @@
       "intensity": 4,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Aftercare is essential for all intense play. Never skip it. Adjust to partner needs."
     },
     {
@@ -2888,7 +2888,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "CNC requires extensive negotiation, clear safewords, and thorough aftercare. Discuss in detail before acting."
     },
     {
@@ -2898,7 +2898,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Captivity fantasies require clear boundaries and safety protocols in reality."
     },
     {
@@ -2908,7 +2908,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Total power exchange requires trust and check-ins. Plan for aftercare."
     },
     {
@@ -2918,7 +2918,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Kink clubs require consent from all attendees. Research safe practices before visiting."
     },
     {
@@ -2928,7 +2928,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Extended power exchange requires meal breaks, rest, and ability to safeword out."
     },
     {
@@ -2938,7 +2938,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Punishment play must be clearly separate from real conflict. Aftercare is essential."
     },
     {
@@ -2948,7 +2948,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Dungeon equipment requires training for safe use. Start with basics."
     },
     {
@@ -2958,7 +2958,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Body worship is generally low-risk. Ensure physical comfort for extended positions."
     },
     {
@@ -2968,7 +2968,7 @@
       "intensity": 4,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Roleplay should not normalize actual abuse of power. Keep it clearly fictional."
     },
     {
@@ -2978,7 +2978,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "restraints"
       ],
@@ -2991,7 +2991,7 @@
       "intensity": 4,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Age gap roleplay should clearly involve adults. Avoid anything resembling actual minors."
     },
     {
@@ -3001,7 +3001,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Service roleplay should include appreciation for the submissive partner."
     },
     {
@@ -3011,7 +3011,7 @@
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Interrogation play can be intense. Check in about psychological comfort."
     },
     {
@@ -3021,7 +3021,7 @@
       "intensity": 4,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Casting couch scenarios should not normalize actual exploitation in entertainment industry."
     },
     {
@@ -3031,7 +3031,7 @@
       "intensity": 4,
       "category": "playful",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Villain/hero play allows for creative restraint and power exchange scenarios."
     },
     {
@@ -3041,7 +3041,7 @@
       "intensity": 5,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Hard limits must be respected absolutely. Never pressure someone to change their limits."
     },
     {
@@ -3051,7 +3051,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Fantasy disclosure is safe. Acting on extreme fantasies requires extensive negotiation and safety planning."
     },
     {
@@ -3061,7 +3061,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Group play requires enthusiastic consent from all parties. Discuss boundaries extensively beforehand."
     },
     {
@@ -3071,7 +3071,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Taboo fantasies are normal. Acting on them requires careful consideration of ethics and safety."
     },
     {
@@ -3081,7 +3081,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Extended scenes require meal planning, rest periods, and clear end points."
     },
     {
@@ -3091,7 +3091,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Degradation play requires extensive aftercare and reaffirmation of worth and love."
     },
     {
@@ -3101,7 +3101,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Total immobilization requires extreme safety measures. Never leave unattended. Monitor breathing constantly."
     },
     {
@@ -3111,7 +3111,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Edge play carries real risks. Research thoroughly. Consider professional instruction."
     },
     {
@@ -3121,7 +3121,7 @@
       "intensity": 5,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "24/7 dynamics require extensive negotiation, regular check-ins, and ability to step out of roles."
     },
     {
@@ -3131,7 +3131,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Pain play requires understanding of anatomy. Avoid joints, spine, kidneys, and neck."
     },
     {
@@ -3141,7 +3141,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Group scenarios require STI discussions, birth control, and extensive safety planning."
     },
     {
@@ -3151,7 +3151,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Dark fantasies are common. Distinguish between fantasy and desire to act."
     },
     {
@@ -3161,7 +3161,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "CNC requires extensive negotiation, multiple safewords, and thorough aftercare. Debrief extensively."
     },
     {
@@ -3171,7 +3171,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Extended denial should not cause physical harm. Regular check-ins essential."
     },
     {
@@ -3181,17 +3181,17 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "3 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Boundary pushing requires explicit consent and ability to stop at any moment."
     },
     {
       "id": "lvl5-d-001",
       "type": "dare",
-      "content": "Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I",
+      "content": "Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 1 minute. I",
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "requires": [
         "restraints",
         "gag",
@@ -3206,7 +3206,7 @@
       "intensity": 5,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "20 min",
+      "estimatedTime": "1 min",
       "requires": [
         "paddle"
       ],
@@ -3219,7 +3219,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "EXTREME RISK. Never compress arteries. Never restrict blood flow to brain. Research extensively before attempting."
     },
     {
@@ -3229,7 +3229,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "20 min",
+      "estimatedTime": "1 min",
       "requires": [
         "restraints",
         "vibrator"
@@ -3243,7 +3243,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "60 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Total power exchange requires pre-negotiated limits and ability to safeword. Plan for aftercare."
     },
     {
@@ -3253,7 +3253,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "requires": [
         "knife"
       ],
@@ -3266,7 +3266,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Urine is generally sterile but can transmit infections. Avoid contact with eyes or open wounds. Shower after."
     },
     {
@@ -3276,7 +3276,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Public play laws vary. Ensure no non-consenting people can see. Risk of arrest in many jurisdictions."
     },
     {
@@ -3286,7 +3286,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "requires": [
         "toys"
       ],
@@ -3299,7 +3299,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "requires": [
         "lube"
       ],
@@ -3312,7 +3312,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "20 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "CNC requires extensive pre-negotiation. Establish multiple safewords. Debrief extensively after."
     },
     {
@@ -3322,7 +3322,7 @@
       "intensity": 5,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "15 min",
+      "estimatedTime": "1 min",
       "requires": [
         "tens-unit"
       ],
@@ -3335,7 +3335,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Hypnosis requires training. Cannot make someone do something against their values. Always bring out of trance properly."
     },
     {
@@ -3345,7 +3345,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "ongoing",
+      "estimatedTime": "1 min",
       "requires": [
         "chastity-device"
       ],
@@ -3358,7 +3358,7 @@
       "intensity": 5,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Marks should not last more than a week. Avoid areas with major blood vessels. Consider social/professional visibility."
     },
     {
@@ -3368,7 +3368,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "ongoing",
+      "estimatedTime": "1 min",
       "safetyNotes": "Extended scenes require meal planning, sleep arrangements, and regular check-ins. Plan debrief time."
     },
     {
@@ -3378,7 +3378,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "ongoing",
+      "estimatedTime": "1 min",
       "safetyNotes": "Extended denial should not cause physical pain or distress. Allow release if genuinely needed."
     },
     {
@@ -3388,7 +3388,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "ongoing",
+      "estimatedTime": "1 min",
       "safetyNotes": "TPE requires work/social boundaries. Maintain ability to safeword. Schedule regular check-ins."
     },
     {
@@ -3398,7 +3398,7 @@
       "intensity": 5,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "requires": [
         "paddle"
       ],
@@ -3411,7 +3411,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "60 min",
+      "estimatedTime": "1 min",
       "requires": [
         "blindfold",
         "earplugs",
@@ -3426,7 +3426,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "60 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "High-protocol scenes require clear instruction. Be patient with learning. Positive reinforcement."
     },
     {
@@ -3436,7 +3436,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Edge play carries real risks. Research extensively. Have safety plan. Know when to stop."
     },
     {
@@ -3446,7 +3446,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Humiliation can trigger real insecurities. Extensive aftercare required. Reaffirm love and value."
     },
     {
@@ -3456,11 +3456,11 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "120 min",
+      "estimatedTime": "1 min",
       "requires": [
         "restraints"
       ],
-      "safetyNotes": "Position must not strain joints. Check circulation every 15 minutes. Provide water and bathroom breaks."
+      "safetyNotes": "Position must not strain joints. Check circulation frequently. Provide water and bathroom breaks."
     },
     {
       "id": "lvl5-c-010",
@@ -3469,7 +3469,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "ongoing",
+      "estimatedTime": "1 min",
       "safetyNotes": "Service submission should be rewarding. Check in about enjoyment. Provide appreciation and aftercare."
     },
     {
@@ -3479,7 +3479,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Fear play requires high trust. Never truly endanger. Debrief thoroughly. Provide extensive comfort after."
     },
     {
@@ -3489,7 +3489,7 @@
       "intensity": 5,
       "category": "physical",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Build intensity gradually. Watch for overwhelm. Aftercare should be gentle and loving."
     },
     {
@@ -3499,7 +3499,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "60 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "CNC requires trust and communication. Multiple safewords recommended. Aftercare is non-negotiable."
     },
     {
@@ -3509,7 +3509,7 @@
       "intensity": 5,
       "category": "communication",
       "isPremium": true,
-      "estimatedTime": "60 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Group play requires consent from all. Discuss boundaries extensively. Have safe sex supplies ready."
     },
     {
@@ -3519,7 +3519,7 @@
       "intensity": 5,
       "category": "emotional",
       "isPremium": true,
-      "estimatedTime": "60 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Aftercare is essential for all intense play. Customize to partner needs. Never skip it."
     },
     {
@@ -3529,7 +3529,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Kink venues require understanding of house rules and consent protocols."
     },
     {
@@ -3539,7 +3539,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "24/7 dynamics require extensive negotiation and ability to step out of roles when needed."
     },
     {
@@ -3549,7 +3549,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Group scenarios require STI discussions, birth control, and extensive safety planning."
     },
     {
@@ -3559,7 +3559,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "10 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "CNC requires extensive negotiation. Multiple safewords. Thorough aftercare. Debrief extensively."
     },
     {
@@ -3569,7 +3569,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Edge play carries real risks. Research thoroughly before attempting."
     },
     {
@@ -3579,7 +3579,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Objectification requires extensive aftercare and reaffirmation of humanity and worth."
     },
     {
@@ -3589,7 +3589,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Public play must not involve non-consenting observers. Consider legal and social risks."
     },
     {
@@ -3599,7 +3599,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "5 min",
+      "estimatedTime": "30 sec",
       "safetyNotes": "Transformation play requires clear boundaries and ability to return to normal headspace."
     },
     {
@@ -3609,7 +3609,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Slavery roleplay requires extensive negotiation. Remember: it"
     },
     {
@@ -3619,7 +3619,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "20 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Predator/prey play can trigger past trauma. Check in frequently. Clear safeword essential."
     },
     {
@@ -3629,7 +3629,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Pet play requires understanding of animal behavior simulation vs. actual bestiality (which is never acceptable)."
     },
     {
@@ -3639,7 +3639,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Interrogation play can be psychologically intense. Debrief thoroughly. Provide extensive aftercare."
     },
     {
@@ -3649,7 +3649,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Deity worship allows for creative power dynamics. Ensure partner feels valued, not actually sacrificed."
     },
     {
@@ -3659,7 +3659,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "20 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "CNC requires extensive pre-negotiation. Multiple safewords. Thorough aftercare. Debrief extensively."
     },
     {
@@ -3669,7 +3669,7 @@
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
-      "estimatedTime": "30 min",
+      "estimatedTime": "1 min",
       "safetyNotes": "Medical/scientific play requires understanding of actual anatomy. Avoid dangerous practices."
     }
   ]

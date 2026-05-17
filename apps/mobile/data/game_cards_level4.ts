@@ -8,7 +8,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Discuss boundaries and establish safewords before exploring BDSM activities.'
   },
   {
@@ -18,7 +18,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Power dynamics require trust and clear communication. Discuss limits beforehand.'
   },
   {
@@ -28,7 +28,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Blindfold play requires established trust and clear verbal communication or safe signals.'
   },
   {
@@ -38,7 +38,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Never leave a restrained person alone. Keep safety shears nearby. Check circulation.'
   },
   {
@@ -48,7 +48,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Voyeurism/exhibitionism requires complete privacy and consent from all parties.'
   },
   {
@@ -58,7 +58,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Marking should avoid areas with major blood vessels. Consider visibility for work/social situations.'
   },
   {
@@ -68,28 +68,28 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Plan for aftercare before beginning any D/s session. Hydration and comfort are essential.'
   },
   {
     id: 'lvl4-d-001',
     type: 'dare',
-    content: 'Tie my wrists to the bed/frame with soft restraints. You have 10 minutes to do whatever you want.',
+    content: 'Tie my wrists to the bed/frame with soft restraints. You have 1 minute to do whatever you want.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['restraints'],
-    safetyNotes: 'Use quick-release knots or safety clips. Never leave restrained partner unattended. Check circulation every few minutes.'
+    safetyNotes: 'Use quick-release knots or safety clips. Never leave restrained partner unattended. Check circulation frequently.'
   },
   {
     id: 'lvl4-d-002',
     type: 'dare',
-    content: 'Blindfold me completely. No peeking. Explore my body with various sensations for 10 minutes.',
+    content: 'Blindfold me completely. No peeking. Explore my body with various sensations for 1 minute.',
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['blindfold'],
     safetyNotes: 'Blindfolded person should feel safe to speak up. Keep play area clear of hazards.'
   },
@@ -100,7 +100,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Target fleshy parts of buttocks and thighs only. Avoid tailbone, hips, and kidneys.'
   },
   {
@@ -110,7 +110,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Edging should not cause physical discomfort. Allow release if requested or after reasonable time.'
   },
   {
@@ -120,7 +120,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['ice'],
     safetyNotes: 'Ice can cause numbness. Limit exposure to 30 seconds per area. Warm up between applications.'
   },
@@ -131,7 +131,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Hair pulling should grab hair close to scalp, not ends. Avoid neck strain.'
   },
   {
@@ -141,7 +141,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Breath play is edge play. Never restrict blood flow to brain. Keep pressure on sides only, never front.'
   },
   {
@@ -151,17 +151,17 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Biting should not break skin. Avoid areas near major blood vessels.'
   },
   {
     id: 'lvl4-d-011',
     type: 'dare',
-    content: 'Tease me with a vibrator for 5 minutes, bringing me close but never letting me finish. Control my pleasure.',
+    content: 'Tease me with a vibrator for 1 minute, bringing me close but never letting me finish. Control my pleasure.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     requires: ['vibrator'],
     safetyNotes: 'Vibrators can cause numbness with prolonged use. Take breaks and vary intensity.'
   },
@@ -172,7 +172,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['collar'],
     safetyNotes: 'Collars should fit snugly but not restrict breathing. Never pull hard on neck.'
   },
@@ -183,7 +183,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['candle'],
     safetyNotes: 'Use only body-safe candles designed for wax play. Test temperature first. Avoid face and genitals.'
   },
@@ -194,7 +194,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'ongoing',
+    estimatedTime: '1 min',
     safetyNotes: 'Establish clear limits, safewords, and check-in times before beginning. Either party can end at any time.'
   },
   {
@@ -204,7 +204,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes: 'Start light and warm up. Target buttocks and thighs only. Check in frequently.'
   },
@@ -215,9 +215,9 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     requires: ['restraints'],
-    safetyNotes: 'Keep safety shears nearby. Check circulation every 5 minutes. Never leave alone.'
+    safetyNotes: 'Keep safety shears nearby. Check circulation frequently. Never leave alone.'
   },
   {
     id: 'lvl4-c-007',
@@ -226,28 +226,28 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     requires: ['ice', 'oil'],
     safetyNotes: 'Monitor skin reactions. Stop if skin becomes too red or numb.'
   },
   {
     id: 'lvl4-c-009',
     type: 'challenge',
-    content: 'Edging Marathon: Bring me to the edge 5 times over 30 minutes. Final release only with your permission.',
+    content: 'Edging Marathon: Bring me to the edge 5 times over 1 minute. Final release only with your permission.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Extended edging can be intense. Provide release if requested or after session.'
   },
   {
     id: 'lvl4-c-013',
     type: 'challenge',
-    content: 'Service Submission: For 30 minutes, you serve me—massage, fetch drinks, pleasure me on demand. Your only goal is my satisfaction.',
+    content: 'Service Submission: For 1 minute, you serve me—massage, fetch drinks, pleasure me on demand. Your only goal is my satisfaction.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Service submission should be rewarding for both. Check in about enjoyment.'
   },
   {
@@ -257,7 +257,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['blindfold'],
     safetyNotes: 'Fear play requires high trust. Never truly endanger. Check in frequently.'
   },
@@ -268,7 +268,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'emotional',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Aftercare is essential for all intense play. Never skip it. Adjust to partner needs.'
   },
   {
@@ -278,7 +278,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Extended power exchange requires meal breaks, rest, and ability to safeword out.'
   },
   {
@@ -288,7 +288,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Age gap roleplay should clearly involve adults. Avoid anything resembling actual minors.'
   },
   {
@@ -298,7 +298,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Service roleplay should include appreciation for the submissive partner.'
   },
   {
@@ -308,7 +308,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Casting couch scenarios should not normalize actual exploitation in entertainment industry.'
   },
   {
@@ -318,7 +318,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Establish safewords and aftercare protocols before power exchange play.'
   },
   {
@@ -328,7 +328,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Trust-based activities require established consent and the ability to stop at any time.'
   },
   {
@@ -338,7 +338,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Start light and build up. Check in frequently. Avoid dangerous areas like kidneys or neck.'
   },
   {
@@ -348,7 +348,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '2 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Hard limits must always be respected without question or pressure.'
   },
   {
@@ -358,7 +358,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Orgasm control requires check-ins. Never deny orgasm beyond pre-negotiated time limits.'
   },
   {
@@ -368,7 +368,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Degradation play requires extensive aftercare. Check in during and after.'
   },
   {
@@ -378,7 +378,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Submissive activities require clear boundaries and the ability to safeword out.'
   },
   {
@@ -388,7 +388,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Fantasy discussion is safe. Acting on fantasies requires additional negotiation.'
   },
   {
@@ -398,7 +398,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Roleplay requires clear boundaries. Establish safewords before beginning.'
   },
   {
@@ -408,7 +408,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Wrist pinning should not cause pain. Release immediately if requested.'
   },
   {
@@ -418,7 +418,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '3 min',
+    estimatedTime: '1 min',
     requires: ['body-safe-marker'],
     safetyNotes: 'Use only body-safe markers. Test for allergies first. Avoid mucous membranes.'
   },
@@ -429,7 +429,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Voyeurism requires complete privacy. Check in to ensure comfort throughout.'
   },
   {
@@ -439,17 +439,17 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: 'ongoing',
+    estimatedTime: '1 min',
     safetyNotes: 'Public play must be truly discreet. Never involve non-consenting people.'
   },
   {
     id: 'lvl4-c-003',
     type: 'challenge',
-    content: 'Sensory Deprivation: Blindfold and headphones on me. You have 15 minutes to do whatever you want. I won\'t know what\'s coming.',
+    content: 'Sensory Deprivation: Blindfold and headphones on me. You have 1 minute to do whatever you want. I won\'t know what\'s coming.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     requires: ['blindfold', 'headphones'],
     safetyNotes: 'Sensory deprivation can cause disorientation. Stay in physical contact. Check in verbally.'
   },
@@ -460,27 +460,27 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '20 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Denial should not cause pain. Allow release after reasonable time or if genuinely requested.'
   },
   {
     id: 'lvl4-c-008',
     type: 'challenge',
-    content: 'Command Performance: For 15 minutes, I must follow every command you give. \'Kneel.\' \'Open your mouth.\' \'Touch yourself.\'',
+    content: 'Command Performance: For 1 minute, I must follow every command you give. \'Kneel.\' \'Open your mouth.\' \'Touch yourself.\'',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Commands must respect pre-negotiated limits. Safeword immediately stops all play.'
   },
   {
     id: 'lvl4-c-010',
     type: 'challenge',
-    content: 'Objectification Scene: For 10 minutes, I\'m just a body for your pleasure. No names, no talking. Use me.',
+    content: 'Objectification Scene: For 1 minute, I\'m just a body for your pleasure. No names, no talking. Use me.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Objectification requires extensive aftercare. Remind partner of your care and respect afterward.'
   },
   {
@@ -490,7 +490,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Roleplay punishment must be clearly distinguished from real conflict. Debrief after.'
   },
   {
@@ -500,7 +500,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     requires: ['vibrator'],
     safetyNotes: 'Listen for safeword. Numbness means stop. Provide aftercare and gentleness after.'
   },
@@ -511,7 +511,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'CNC requires extensive negotiation, clear safewords, and thorough aftercare. Discuss in detail before acting.'
   },
   {
@@ -521,7 +521,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Captivity fantasies require clear boundaries and safety protocols in reality.'
   },
   {
@@ -531,7 +531,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Total power exchange requires trust and check-ins. Plan for aftercare.'
   },
   {
@@ -541,7 +541,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Kink clubs require consent from all attendees. Research safe practices before visiting.'
   },
   {
@@ -551,7 +551,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Punishment play must be clearly separate from real conflict. Aftercare is essential.'
   },
   {
@@ -561,7 +561,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Dungeon equipment requires training for safe use. Start with basics.'
   },
   {
@@ -571,7 +571,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '5 min',
+    estimatedTime: '30 sec',
     safetyNotes: 'Body worship is generally low-risk. Ensure physical comfort for extended positions.'
   },
   {
@@ -581,7 +581,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Roleplay should not normalize actual abuse of power. Keep it clearly fictional.'
   },
   {
@@ -591,7 +591,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     requires: ['restraints'],
     safetyNotes: 'Captivity play requires easy release and constant monitoring. Never leave alone.'
   },
@@ -602,7 +602,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '15 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Interrogation play can be intense. Check in about psychological comfort.'
   },
   {
@@ -612,7 +612,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '10 min',
+    estimatedTime: '1 min',
     safetyNotes: 'Villain/hero play allows for creative restraint and power exchange scenarios.'
   }
 ];
