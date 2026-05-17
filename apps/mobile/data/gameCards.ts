@@ -118,11 +118,12 @@ export const FREE_CARDS: GameCard[] = [
   {
     id: 'f-c3',
     type: 'challenge',
-    content: 'No Hands: Touch me for 5 minutes without using your hands. Mouth, body, anything else.',
+    content: 'No Hands: Touch me for 30 seconds without using your hands. Mouth, body, anything else.',
     intensity: 4,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: '30 sec',
+    requires: []
   },
   {
     id: 'f-c4',
