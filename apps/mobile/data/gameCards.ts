@@ -215,7 +215,8 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '2 min'
+    estimatedTime: '30 sec',
+    requires: []
   },
   {
     id: 'p-t4',
