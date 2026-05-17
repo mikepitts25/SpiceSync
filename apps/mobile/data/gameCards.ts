@@ -138,11 +138,12 @@ export const FREE_CARDS: GameCard[] = [
   {
     id: 'f-fn3',
     type: 'fantasy',
-    content: 'First date: Act like we just met and can barely keep your hands to yourself.',
+    content: 'Act like we just met and give me your best line.',
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: 'N/A',
+    requires: []
   },
   {
     id: 'f-fn4',
