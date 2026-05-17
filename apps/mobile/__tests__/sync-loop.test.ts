@@ -11,6 +11,7 @@ import { _resetCacheForTests, setIdentityDeps } from '../lib/sync/identity';
 import { usePartnerVotesStore } from '../lib/sync/partnerVotes';
 import { RelayClient } from '../lib/sync/relayClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
+import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import { flushPending, pullPartnerEvents } from '../lib/sync/syncLoop';
 
 function buildIdentityDeps(
@@ -65,6 +66,7 @@ describe('sync loop', () => {
     useEventQueueStore.setState({ pending: [], nextClientSequence: 1 });
     useCoupleLinkStore.setState({ link: null });
     usePartnerVotesStore.setState({ byCardId: {}, answeredCount: 0 });
+    useRevealConsentStore.setState({ local: {}, partner: {} });
     _resetCacheForTests();
     _resetRelayClientForTests();
   });
@@ -191,5 +193,66 @@ describe('sync loop', () => {
     expect(useCoupleLinkStore.getState().link?.lastPulledServerSequence).toBe(
       4
     );
+  });
+
+  it('pulls partner reveal unlock consent and applies it', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    const deps = buildIdentityDeps(mySigning, myEncryption, 'dev_me');
+    setIdentityDeps(deps);
+
+    useCoupleLinkStore.getState().setLink({
+      coupleId: 'couple-1',
+      myDeviceId: 'dev_me',
+      partnerDeviceId: 'dev_partner',
+      partnerSigningPublicKey: '',
+      partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
+      linkedAt: Date.now(),
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      status: 'active',
+    });
+
+    const plainEvent = {
+      schemaVersion: 1 as const,
+      eventType: 'reveal.unlock' as const,
+      eventId: 'evt_partner_unlock_1',
+      authorDeviceId: 'dev_partner',
+      bucket: 'mutualMaybe' as const,
+      updatedAt: 1800,
+    };
+    const { encryptedPayload, payloadHash } = encryptForPartner(
+      partnerEncryption.privateKey,
+      myEncryption.publicKey,
+      JSON.stringify(plainEvent)
+    );
+
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        events: [
+          {
+            serverSequence: 5,
+            eventId: 'evt_partner_unlock_1',
+            coupleId: 'couple-1',
+            authorDeviceId: 'dev_partner',
+            clientSequence: 1,
+            encryptedPayload,
+            payloadHash,
+            createdAt: 1800,
+            expiresAt: null,
+          },
+        ],
+        cursor: 5,
+      }),
+    });
+    _resetRelayClientForTests(
+      new RelayClient('https://relay.test', fetchMock as any)
+    );
+
+    const result = await pullPartnerEvents();
+    expect(result.applied).toBe(1);
+    expect(useRevealConsentStore.getState().partner.mutualMaybe).toBe(1800);
   });
 });

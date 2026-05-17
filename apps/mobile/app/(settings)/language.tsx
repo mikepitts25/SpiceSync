@@ -7,16 +7,28 @@ import { Check } from 'lucide-react-native';
 
 import { AccentBar, BackHeader } from '../../components/app-chrome';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useTranslation } from '../../lib/i18n';
 import { COLORS, GRADIENTS } from '../../constants/theme';
 
 const OPTIONS = [
-  { code: 'en' as const, flag: '🇺🇸', name: 'English', native: 'English' },
-  { code: 'es' as const, flag: '🇪🇸', name: 'Spanish', native: 'Español' },
+  {
+    code: 'en' as const,
+    flag: '🇺🇸',
+    nameKey: 'english' as const,
+    native: 'English',
+  },
+  {
+    code: 'es' as const,
+    flag: '🇪🇸',
+    nameKey: 'spanishName' as const,
+    native: 'Español',
+  },
 ];
 
 export default function LanguageScreen() {
   const language = useSettingsStore((state) => state.language);
   const setLanguage = useSettingsStore((state) => state.setLanguage);
+  const { t } = useTranslation();
 
   return (
     <SafeAreaView
@@ -24,7 +36,7 @@ export default function LanguageScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Language" />
+      <BackHeader title={t.settings.language} />
 
       <View style={styles.content}>
         {OPTIONS.map((option) => {
@@ -40,7 +52,9 @@ export default function LanguageScreen() {
               {active ? <AccentBar style={styles.leftAccent} /> : null}
               <Text style={styles.flag}>{option.flag}</Text>
               <View style={styles.optionCopy}>
-                <Text style={styles.optionName}>{option.name}</Text>
+                <Text style={styles.optionName}>
+                  {t.settings[option.nameKey]}
+                </Text>
                 <Text style={styles.optionNative}>{option.native}</Text>
               </View>
               {active ? (

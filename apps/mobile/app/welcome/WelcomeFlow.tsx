@@ -6,8 +6,6 @@ import {
   Text,
   useWindowDimensions,
   View,
-  type StyleProp,
-  type ViewStyle,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -35,6 +33,7 @@ import {
   SHADOWS,
 } from '../../constants/theme';
 import { SpiceSyncLogo } from '../../components/app-chrome';
+import { interpolate, useTranslation } from '../../lib/i18n';
 import {
   WELCOME_SCREEN_ORDER,
   WELCOME_VALUE_SCREEN_BY_ID,
@@ -47,6 +46,7 @@ import { getWelcomeCompletionDestination } from './routing';
 export default function WelcomeFlow() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   const setAgeConfirmed = useSettings((state) => state.setAgeConfirmed);
   const { hydrated, hasActiveProfile } = useProfilesStore((state) => ({
     hydrated: state.isHydrated(),
@@ -86,11 +86,18 @@ export default function WelcomeFlow() {
   const renderScreen = () => {
     switch (currentScreen) {
       case 'brand':
-        return <BrandScreen onContinue={() => transitionTo('explore')} />;
+        return (
+          <BrandScreen
+            onContinue={() => transitionTo('explore')}
+            copy={t.welcome}
+          />
+        );
       case 'explore':
         return (
           <ValuePropScreen
             screen={WELCOME_VALUE_SCREEN_BY_ID.explore}
+            copy={t.welcome.screens.explore}
+            labels={t.welcome}
             onContinue={() => transitionTo('answer')}
             onBack={() => transitionTo('brand')}
           />
@@ -99,6 +106,8 @@ export default function WelcomeFlow() {
         return (
           <ValuePropScreen
             screen={WELCOME_VALUE_SCREEN_BY_ID.answer}
+            copy={t.welcome.screens.answer}
+            labels={t.welcome}
             onContinue={() => transitionTo('overlap')}
             onBack={() => transitionTo('explore')}
           />
@@ -107,6 +116,8 @@ export default function WelcomeFlow() {
         return (
           <ValuePropScreen
             screen={WELCOME_VALUE_SCREEN_BY_ID.overlap}
+            copy={t.welcome.screens.overlap}
+            labels={t.welcome}
             onContinue={() => transitionTo('agegate')}
             onBack={() => transitionTo('answer')}
           />
@@ -114,6 +125,7 @@ export default function WelcomeFlow() {
       case 'agegate':
         return (
           <AgeGateScreen
+            copy={t.welcome}
             onAccept={handleAgeGateAccept}
             onBack={() => transitionTo('overlap')}
           />
@@ -151,7 +163,10 @@ export default function WelcomeFlow() {
           ))}
         </View>
         <Text style={styles.progressText}>
-          {currentIndex + 1} of {screens.length}
+          {interpolate(t.common.progressOf, {
+            current: currentIndex + 1,
+            total: screens.length,
+          })}
         </Text>
       </View>
     </SafeAreaView>
@@ -159,7 +174,13 @@ export default function WelcomeFlow() {
 }
 
 // Screen 1: Brand Moment
-function BrandScreen({ onContinue }: { onContinue: () => void }) {
+function BrandScreen({
+  onContinue,
+  copy,
+}: {
+  onContinue: () => void;
+  copy: ReturnType<typeof useTranslation>['t']['welcome'];
+}) {
   const [scaleAnim] = useState(new Animated.Value(0.8));
   const [opacityAnim] = useState(new Animated.Value(0));
 
@@ -188,10 +209,8 @@ function BrandScreen({ onContinue }: { onContinue: () => void }) {
         ]}
       >
         <SpiceSyncLogo width={320} height={120} />
-        <Text style={styles.brandTagline}>Discover what you both want</Text>
-        <Text style={styles.brandSubtitle}>
-          A private space for couples to explore
-        </Text>
+        <Text style={styles.brandTagline}>{copy.brandTagline}</Text>
+        <Text style={styles.brandSubtitle}>{copy.brandSubtitle}</Text>
       </Animated.View>
 
       <Pressable
@@ -199,7 +218,7 @@ function BrandScreen({ onContinue }: { onContinue: () => void }) {
         onPress={onContinue}
         accessibilityRole="button"
       >
-        <Text style={styles.primaryButtonText}>Get Started</Text>
+        <Text style={styles.primaryButtonText}>{copy.getStarted}</Text>
       </Pressable>
     </View>
   );
@@ -208,10 +227,14 @@ function BrandScreen({ onContinue }: { onContinue: () => void }) {
 // Screen 2-4: Value Propositions
 function ValuePropScreen({
   screen,
+  copy,
+  labels,
   onContinue,
   onBack,
 }: {
   screen: WelcomeValueScreen;
+  copy: { title: string; description: string };
+  labels: ReturnType<typeof useTranslation>['t']['welcome'];
   onContinue: () => void;
   onBack: () => void;
 }) {
@@ -229,10 +252,7 @@ function ValuePropScreen({
 
   return (
     <View
-      style={[
-        styles.screenContainer,
-        isOrbHero && styles.screenContainerTop,
-      ]}
+      style={[styles.screenContainer, isOrbHero && styles.screenContainerTop]}
     >
       <Animated.View
         style={[
@@ -241,8 +261,8 @@ function ValuePropScreen({
         ]}
       >
         <WelcomeIllustrationView illustration={screen.illustration} />
-        <Text style={styles.valueTitle}>{screen.title}</Text>
-        <Text style={styles.valueDescription}>{screen.description}</Text>
+        <Text style={styles.valueTitle}>{copy.title}</Text>
+        <Text style={styles.valueDescription}>{copy.description}</Text>
       </Animated.View>
 
       {isOrbHero && <View style={{ flex: 1 }} />}
@@ -253,14 +273,14 @@ function ValuePropScreen({
           onPress={onBack}
           accessibilityRole="button"
         >
-          <Text style={styles.secondaryButtonText}>Back</Text>
+          <Text style={styles.secondaryButtonText}>{labels.back}</Text>
         </Pressable>
         <Pressable
           style={[styles.primaryButton, styles.groupButton]}
           onPress={onContinue}
           accessibilityRole="button"
         >
-          <Text style={styles.primaryButtonText}>Continue</Text>
+          <Text style={styles.primaryButtonText}>{labels.continue}</Text>
         </Pressable>
       </View>
     </View>
@@ -323,55 +343,8 @@ function ExploreIllustration() {
   );
 }
 
-function ActivityCard({
-  title,
-  subtitle,
-  highlighted,
-  style,
-}: {
-  title: string;
-  subtitle: string;
-  highlighted?: boolean;
-  style?: StyleProp<ViewStyle>;
-}) {
-  const content = (
-    <>
-      <Text
-        style={[
-          styles.activityCardTitle,
-          highlighted && styles.activityCardTitleHighlighted,
-        ]}
-      >
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.activityCardSubtitle,
-          highlighted && styles.activityCardSubtitleHighlighted,
-        ]}
-      >
-        {subtitle}
-      </Text>
-    </>
-  );
-
-  if (highlighted) {
-    return (
-      <LinearGradient
-        colors={GRADIENTS.primary}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}
-        style={style}
-      >
-        {content}
-      </LinearGradient>
-    );
-  }
-
-  return <View style={style}>{content}</View>;
-}
-
 function PrivateVotesIllustration() {
+  const { t } = useTranslation();
   return (
     <IllustrationFrame>
       <View style={styles.pvProfileRow}>
@@ -382,7 +355,9 @@ function PrivateVotesIllustration() {
             </View>
             <View style={styles.pvActiveDot} />
           </View>
-          <Text style={[styles.pvLabel, styles.pvLabelActive]}>YOU</Text>
+          <Text style={[styles.pvLabel, styles.pvLabelActive]}>
+            {t.welcome.you.toUpperCase()}
+          </Text>
         </View>
 
         <View style={styles.pvConnector}>
@@ -395,9 +370,13 @@ function PrivateVotesIllustration() {
 
         <View style={styles.pvProfileWrap}>
           <View style={styles.pvCircle}>
-            <UserRound size={34} color={COLORS.textSecondary} strokeWidth={1.5} />
+            <UserRound
+              size={34}
+              color={COLORS.textSecondary}
+              strokeWidth={1.5}
+            />
           </View>
-          <Text style={styles.pvLabel}>PARTNER</Text>
+          <Text style={styles.pvLabel}>{t.welcome.partner.toUpperCase()}</Text>
         </View>
       </View>
 
@@ -417,13 +396,16 @@ function PrivateVotesIllustration() {
 }
 
 function OverlapIllustration() {
+  const { t } = useTranslation();
   return (
     <IllustrationFrame>
       <View style={styles.vennCircleLeft} />
       <View style={styles.vennCircleRight} />
       <View style={styles.vennIntersection} />
-      <Text style={styles.vennLabelLeft}>YOU</Text>
-      <Text style={styles.vennLabelRight}>PARTNER</Text>
+      <Text style={styles.vennLabelLeft}>{t.welcome.you.toUpperCase()}</Text>
+      <Text style={styles.vennLabelRight}>
+        {t.welcome.partner.toUpperCase()}
+      </Text>
       <View style={styles.vennHeartWrap}>
         <Heart size={32} color={COLORS.primary} fill={COLORS.primary} />
       </View>
@@ -431,7 +413,9 @@ function OverlapIllustration() {
       <View style={styles.vennSparkleB} />
       <View style={styles.vennMatchBadge}>
         <Check size={12} color={COLORS.primary} strokeWidth={2.5} />
-        <Text style={styles.vennMatchText}>MATCH</Text>
+        <Text style={styles.vennMatchText}>
+          {t.welcome.match.toUpperCase()}
+        </Text>
       </View>
     </IllustrationFrame>
   );
@@ -439,9 +423,11 @@ function OverlapIllustration() {
 
 // Screen 5: Age Gate
 function AgeGateScreen({
+  copy,
   onAccept,
   onBack,
 }: {
+  copy: ReturnType<typeof useTranslation>['t']['welcome'];
   onAccept: () => void;
   onBack: () => void;
 }) {
@@ -467,11 +453,8 @@ function AgeGateScreen({
           </View>
         </LinearGradient>
 
-        <Text style={styles.ageGateTitle}>For consenting adults</Text>
-        <Text style={styles.ageGateDescription}>
-          SpiceSync is for adults exploring together with mutual respect. By
-          continuing, you confirm you are at least 18 years old.
-        </Text>
+        <Text style={styles.ageGateTitle}>{copy.ageTitle}</Text>
+        <Text style={styles.ageGateDescription}>{copy.ageDescription}</Text>
       </View>
 
       <View style={styles.buttonGroup}>
@@ -480,14 +463,14 @@ function AgeGateScreen({
           onPress={onBack}
           accessibilityRole="button"
         >
-          <Text style={styles.secondaryButtonText}>Back</Text>
+          <Text style={styles.secondaryButtonText}>{copy.back}</Text>
         </Pressable>
         <Pressable
           style={styles.ageGateButton}
           onPress={onAccept}
           accessibilityRole="button"
         >
-          <Text style={styles.ageGateButtonText}>I'm 18 or Older</Text>
+          <Text style={styles.ageGateButtonText}>{copy.ageConfirm}</Text>
         </Pressable>
       </View>
     </View>

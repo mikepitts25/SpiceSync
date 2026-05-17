@@ -10,7 +10,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { AppHeader, AppTabBar } from '../../components/app-chrome';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
-import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
+import { interpolate, useTranslation } from '../../lib/i18n';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useVotesStore } from '../../src/stores/votes';
 import { usePartnerStore } from '../../src/stores/partner';
@@ -26,6 +26,7 @@ const PROFILE_COLORS = [
 
 export default function ProfilesHubScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const { profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
@@ -74,8 +75,8 @@ export default function ProfilesHubScreen() {
       >
         <ScreenTour
           screenId="profiles"
-          screenLabel="Profiles"
-          steps={MAIN_SCREEN_TOURS.profiles}
+          screenLabel={t.tabs.profiles}
+          steps={t.tours.profiles}
         />
 
         {/* Active Profile Card */}
@@ -90,13 +91,15 @@ export default function ProfilesHubScreen() {
               <Text style={styles.profileName}>
                 {activeProfile?.displayName ??
                   activeProfile?.name ??
-                  'No Profile'}
+                  t.kinks.noProfile}
               </Text>
-              <Text style={styles.profileSubtitle}>Active Profile</Text>
+              <Text style={styles.profileSubtitle}>
+                {t.kinks.activeProfileTitle}
+              </Text>
             </View>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Manage profiles"
+              accessibilityLabel={t.settings.manageProfiles}
               onPress={() => router.push('/(settings)/profiles')}
               hitSlop={10}
             >
@@ -107,27 +110,27 @@ export default function ProfilesHubScreen() {
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>{totalVoted}</Text>
-              <Text style={styles.statLabel}>Voted</Text>
+              <Text style={styles.statLabel}>{t.kinks.voted}</Text>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.yes }]}>
                 {yesCount}
               </Text>
-              <Text style={styles.statLabel}>Yes</Text>
+              <Text style={styles.statLabel}>{t.common.yes}</Text>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.maybe }]}>
                 {maybeCount}
               </Text>
-              <Text style={styles.statLabel}>Maybe</Text>
+              <Text style={styles.statLabel}>{t.deck.maybe}</Text>
             </View>
           </View>
 
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="View my votes"
+            accessibilityLabel={t.kinks.viewMyVotes}
             onPress={() => router.push('/(settings)/my-votes')}
             style={styles.viewVotesPress}
           >
@@ -137,7 +140,9 @@ export default function ProfilesHubScreen() {
               end={{ x: 1, y: 0.5 }}
               style={styles.viewVotesButton}
             >
-              <Text style={styles.viewVotesText}>VIEW MY VOTES</Text>
+              <Text style={styles.viewVotesText}>
+                {t.kinks.viewMyVotes.toUpperCase()}
+              </Text>
             </LinearGradient>
           </Pressable>
         </View>
@@ -145,12 +150,14 @@ export default function ProfilesHubScreen() {
         {/* Profiles Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionLabel}>PROFILES</Text>
+            <Text style={styles.sectionLabel}>
+              {t.tabs.profiles.toUpperCase()}
+            </Text>
             <Pressable
               accessibilityRole="button"
               onPress={() => router.push('/(settings)/profiles')}
             >
-              <Text style={styles.sectionAction}>Manage →</Text>
+              <Text style={styles.sectionAction}>{t.kinks.manage} →</Text>
             </Pressable>
           </View>
           <View style={styles.sectionCard}>
@@ -192,7 +199,7 @@ export default function ProfilesHubScreen() {
               })}
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Add profile"
+                accessibilityLabel={t.profiles.addProfile}
                 onPress={() => router.push('/(settings)/profiles/new')}
                 style={[styles.avatarCircle, styles.addCircle]}
               >
@@ -205,7 +212,9 @@ export default function ProfilesHubScreen() {
         {/* Partner Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionLabel}>PARTNER</Text>
+            <Text style={styles.sectionLabel}>
+              {t.kinks.partner.toUpperCase()}
+            </Text>
           </View>
           <View style={styles.sectionCard}>
             {partner ? (
@@ -226,7 +235,7 @@ export default function ProfilesHubScreen() {
                   <View style={styles.partnerNameRow}>
                     <Text style={styles.partnerName}>{partner.name}</Text>
                     <View style={styles.linkedBadge}>
-                      <Text style={styles.linkedText}>Linked</Text>
+                      <Text style={styles.linkedText}>{t.kinks.linked}</Text>
                     </View>
                   </View>
                   {inviteCode ? (
@@ -245,8 +254,8 @@ export default function ProfilesHubScreen() {
               >
                 <Text style={styles.connectLabel}>
                   {inviteCode
-                    ? `Your code: ${inviteCode}`
-                    : 'Connect with Partner'}
+                    ? interpolate(t.kinks.yourCode, { code: inviteCode })
+                    : t.kinks.connectWithPartner}
                 </Text>
                 <ChevronRight size={16} color={COLORS.pink} />
               </Pressable>

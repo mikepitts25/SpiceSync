@@ -19,7 +19,6 @@ import {
   Gamepad2,
   Gift,
   Globe,
-  Grid3X3,
   Heart,
   Info,
   Layers,
@@ -53,8 +52,15 @@ import {
   SHADOWS,
   type GradientTuple,
 } from '../constants/theme';
+import { useTranslation } from '../lib/i18n';
 
-export type TabKey = 'profiles' | 'browse' | 'deck' | 'matches' | 'convo' | 'game';
+export type TabKey =
+  | 'profiles'
+  | 'browse'
+  | 'deck'
+  | 'matches'
+  | 'convo'
+  | 'game';
 
 export const SPICESYNC_LOGO = require('../assets/logo-spicesync.png');
 
@@ -124,6 +130,7 @@ export function GradientText({
 
 export function AppHeader({ onRightPress }: { onRightPress?: () => void }) {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.header}>
@@ -131,7 +138,7 @@ export function AppHeader({ onRightPress }: { onRightPress?: () => void }) {
 
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Open settings"
+        accessibilityLabel={t.common.openSettings}
         onPress={onRightPress ?? (() => router.push('/(settings)'))}
         style={styles.headerButton}
       >
@@ -151,12 +158,13 @@ export function BackHeader({
   onBack?: () => void;
 }) {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.backHeader}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Go back"
+        accessibilityLabel={t.common.goBack}
         onPress={onBack ?? (() => router.back())}
         style={styles.backButton}
       >
@@ -176,20 +184,21 @@ const TAB_ITEMS: {
   icon: LucideIcon;
   route: string;
 }[] = [
-  { key: 'profiles', label: 'PROFILES', icon: User, route: '/(tabs)/profiles' },
-  { key: 'deck', label: 'DECK', icon: Layers, route: '/(tabs)/deck' },
-  { key: 'matches', label: 'MATCHES', icon: Heart, route: '/(tabs)/matches' },
+  { key: 'profiles', label: 'profiles', icon: User, route: '/(tabs)/profiles' },
+  { key: 'deck', label: 'deck', icon: Layers, route: '/(tabs)/deck' },
+  { key: 'matches', label: 'matches', icon: Heart, route: '/(tabs)/matches' },
   {
     key: 'convo',
-    label: 'CONVO',
+    label: 'convo',
     icon: MessageCircle,
     route: '/(tabs)/conversation',
   },
-  { key: 'game', label: 'GAME', icon: Gamepad2, route: '/(tabs)/game' },
+  { key: 'game', label: 'game', icon: Gamepad2, route: '/(tabs)/game' },
 ];
 
 export function AppTabBar({ active }: { active?: TabKey }) {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.tabBar}>
@@ -209,7 +218,7 @@ export function AppTabBar({ active }: { active?: TabKey }) {
               strokeWidth={2.2}
             />
             <Text style={[styles.tabLabel, selected && styles.tabLabelActive]}>
-              {item.label}
+              {t.tabs[item.label as keyof typeof t.tabs].toUpperCase()}
             </Text>
           </>
         );

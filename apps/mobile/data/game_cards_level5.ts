@@ -1,11 +1,10 @@
-// SpiceSync - Level 5 Cards
 import { GameCard } from './gameCards';
 
 export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-002',
     type: 'truth',
-    content: "Describe your most extreme fantasy—the one you barely admit to yourself. No judgment.",
+    content: 'Describe your most extreme fantasy—the one you barely admit to yourself. No judgment.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -15,7 +14,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-003',
     type: 'truth',
-    content: "Would you ever want to involve another person in our sex life? Who and in what capacity?",
+    content: 'Would you ever want to involve another person in our sex life? Who and in what capacity?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -25,7 +24,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-005',
     type: 'truth',
-    content: "Describe your ideal weekend-long kink experience. What would happen Friday night through Sunday morning?",
+    content: 'Describe your ideal weekend-long kink experience. What would happen Friday night through Sunday morning?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -35,7 +34,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-007',
     type: 'truth',
-    content: "Would you want to be completely immobilized—bound, gagged, blindfolded, at my total mercy?",
+    content: 'Would you want to be completely immobilized—bound, gagged, blindfolded, at my total mercy?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -45,7 +44,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-009',
     type: 'truth',
-    content: "Describe a 24/7 power exchange relationship. Would you want that? In what capacity?",
+    content: 'Describe a 24/7 power exchange relationship. Would you want that? In what capacity?',
     intensity: 5,
     category: 'communication',
     isPremium: true,
@@ -55,7 +54,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-011',
     type: 'truth',
-    content: "Would you want to be shared? Passed around? Completely used by multiple people?",
+    content: 'Would you want to be shared? Passed around? Completely used by multiple people?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -65,7 +64,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-013',
     type: 'truth',
-    content: "Describe your ideal CNC (consensual non-consent) scene in explicit detail. Safewords? Aftercare?",
+    content: 'Describe your ideal CNC (consensual non-consent) scene in explicit detail. Safewords? Aftercare?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -75,7 +74,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-015',
     type: 'truth',
-    content: "If you could push one boundary with me tonight, what would it be?",
+    content: 'If you could push one boundary with me tonight, what would it be?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -85,7 +84,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-002',
     type: 'dare',
-    content: "Intense impact scene: 50 strikes with paddle, flogger, or cane. Build intensity. Make me feel every one.",
+    content: 'Intense impact scene: 50 strikes with paddle, flogger, or cane. Build intensity. Make me feel every one.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
@@ -96,7 +95,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-003',
     type: 'dare',
-    content: "Breath play: Control my breathing. Light pressure on throat or covering mouth/nose briefly. Total trust required.",
+    content: 'Breath play: Control my breathing. Light pressure on throat or covering mouth/nose briefly. Total trust required.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -106,7 +105,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-005',
     type: 'dare',
-    content: "Complete submission: For the next hour, I am your property. Use me however you want. I obey without question.",
+    content: 'Complete submission: For the next hour, I am your property. Use me however you want. I obey without question.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -116,7 +115,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-006',
     type: 'dare',
-    content: "Edge play: Use a knife to cut off my clothing. Carefully. The threat, the danger, the trust.",
+    content: 'Edge play: Use a knife to cut off my clothing. Carefully. The threat, the danger, the trust.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -127,7 +126,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-007',
     type: 'dare',
-    content: "Watersports: Piss on me or have me piss on you. Complete degradation and acceptance.",
+    content: 'Watersports: Piss on me or have me piss on you. Complete degradation and acceptance.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -137,7 +136,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-008',
     type: 'dare',
-    content: "Public risk: Touch me intimately in a semi-public place where we might get caught. The thrill of almost being seen.",
+    content: 'Public risk: Touch me intimately in a semi-public place where we might get caught. The thrill of almost being seen.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -147,7 +146,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-009',
     type: 'dare',
-    content: "Anal training: Use progressively larger toys on me. Stretch me. Prepare me for you.",
+    content: 'Anal training: Use progressively larger toys on me. Stretch me. Prepare me for you.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -158,7 +157,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-010',
     type: 'dare',
-    content: "Fisting: Work your hand inside me. Slowly. Carefully. The ultimate fullness.",
+    content: 'Fisting: Work your hand inside me. Slowly. Carefully. The ultimate fullness.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -169,7 +168,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-011',
     type: 'dare',
-    content: "CNC scene: Act out a consensual non-consent scenario. I resist. You overpower. Safeword always stops everything.",
+    content: 'CNC scene: Act out a consensual non-consent scenario. I resist. You overpower. Safeword always stops everything.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -179,7 +178,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-012',
     type: 'dare',
-    content: "Electrostimulation: Use a TENS unit or violet wand on me. The electricity, the control, the sensation.",
+    content: 'Electrostimulation: Use a TENS unit or violet wand on me. The electricity, the control, the sensation.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
@@ -190,7 +189,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-013',
     type: 'dare',
-    content: "Hypnosis play: Put me in trance. Give me suggestions. Control my mind, not just my body.",
+    content: 'Hypnosis play: Put me in trance. Give me suggestions. Control my mind, not just my body.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -200,7 +199,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-015',
     type: 'dare',
-    content: "Marking: Leave lasting marks—deep hickeys, scratches, bruises. Claim me for days.",
+    content: 'Marking: Leave lasting marks—deep hickeys, scratches, bruises. Claim me for days.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
@@ -210,7 +209,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-001',
     type: 'challenge',
-    content: "Weekend-long scene: Friday evening through Sunday morning in a power dynamic. Meals, sleep, everything negotiated.",
+    content: 'Weekend-long scene: Friday evening through Sunday morning in a power dynamic. Meals, sleep, everything negotiated.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -220,7 +219,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-002',
     type: 'challenge',
-    content: "Orgasm denial week: Seven days. No touching yourself. No orgasms. I control all pleasure. Daily check-ins.",
+    content: 'Orgasm denial week: Seven days. No touching yourself. No orgasms. I control all pleasure. Daily check-ins.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -230,7 +229,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-003',
     type: 'challenge',
-    content: "Total power exchange trial: One week where I make all decisions—what you wear, when you eat, when you pleasure me.",
+    content: 'Total power exchange trial: One week where I make all decisions—what you wear, when you eat, when you pleasure me.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -240,7 +239,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-004',
     type: 'challenge',
-    content: "Pain processing: Take increasing impact. Learn to breathe through it. Transform pain into pleasure.",
+    content: 'Pain processing: Take increasing impact. Learn to breathe through it. Transform pain into pleasure.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
@@ -251,7 +250,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-005',
     type: 'challenge',
-    content: "Sensory deprivation extreme: Blindfold, earplugs, restraints. 1 hour. You control everything I experience.",
+    content: 'Sensory deprivation extreme: Blindfold, earplugs, restraints. 1 hour. You control everything I experience.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -262,7 +261,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-006',
     type: 'challenge',
-    content: "Protocol training: Learn specific positions, responses, and behaviors. Practice until perfect. Serve me exactly as commanded.",
+    content: 'Protocol training: Learn specific positions, responses, and behaviors. Practice until perfect. Serve me exactly as commanded.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -272,7 +271,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-008',
     type: 'challenge',
-    content: "Humiliation scene: Degrade me thoroughly. Make me feel small. Then build me back up with intense aftercare.",
+    content: 'Humiliation scene: Degrade me thoroughly. Make me feel small. Then build me back up with intense aftercare.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -282,7 +281,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-009',
     type: 'challenge',
-    content: "Multi-hour bondage: Restrained in a comfortable position for 2+ hours. Used periodically. Completely helpless.",
+    content: 'Multi-hour bondage: Restrained in a comfortable position for 2+ hours. Used periodically. Completely helpless.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -293,7 +292,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-010',
     type: 'challenge',
-    content: "Slave for a day: Complete service submission. Cook, clean, massage, pleasure—all for me. No expectation of reciprocation.",
+    content: 'Slave for a day: Complete service submission. Cook, clean, massage, pleasure—all for me. No expectation of reciprocation.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -303,7 +302,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-011',
     type: 'challenge',
-    content: "Fear play: Create a scene that scares me—in a controlled way. Push psychological boundaries. Then hold me after.",
+    content: 'Fear play: Create a scene that scares me—in a controlled way. Push psychological boundaries. Then hold me after.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -313,7 +312,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-012',
     type: 'challenge',
-    content: "Pain and pleasure mix: Alternate intense sensation with pleasure. Learn to associate the two. Transform your response.",
+    content: 'Pain and pleasure mix: Alternate intense sensation with pleasure. Learn to associate the two. Transform your response.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
@@ -323,7 +322,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-013',
     type: 'challenge',
-    content: "CNC full scene: Extensive negotiation beforehand. Act out the scenario. Safeword stops everything. Debrief extensively after.",
+    content: 'CNC full scene: Extensive negotiation beforehand. Act out the scenario. Safeword stops everything. Debrief extensively after.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -333,7 +332,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-014',
     type: 'challenge',
-    content: "Group scene preparation: Plan a threesome or moresome. Discuss boundaries, STI status, birth control, and aftercare for all.",
+    content: 'Group scene preparation: Plan a threesome or moresome. Discuss boundaries, STI status, birth control, and aftercare for all.',
     intensity: 5,
     category: 'communication',
     isPremium: true,
@@ -343,7 +342,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-015',
     type: 'challenge',
-    content: "Aftercare intensive: Create an elaborate aftercare ritual for intense play. Practice it now—bath, massage, food, cuddling, debrief.",
+    content: 'Aftercare intensive: Create an elaborate aftercare ritual for intense play. Practice it now—bath, massage, food, cuddling, debrief.',
     intensity: 5,
     category: 'emotional',
     isPremium: true,
@@ -353,7 +352,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-001',
     type: 'fantasy',
-    content: "Describe a full weekend at a kink resort or dungeon. What rooms would we use? What equipment? What scenes?",
+    content: 'Describe a full weekend at a kink resort or dungeon. What rooms would we use? What equipment? What scenes?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -363,7 +362,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-002',
     type: 'fantasy',
-    content: "Imagine a 24/7 D/s relationship. What would our daily life look like? Rules? Rituals? Rewards and punishments?",
+    content: 'Imagine a 24/7 D/s relationship. What would our daily life look like? Rules? Rituals? Rewards and punishments?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -373,7 +372,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-003',
     type: 'fantasy',
-    content: "Describe a group scene with 3+ people. Who are they? What happens? What are the boundaries?",
+    content: 'Describe a group scene with 3+ people. Who are they? What happens? What are the boundaries?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -383,7 +382,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-005',
     type: 'fantasy',
-    content: "Describe your ultimate edge play fantasy. The risk, the danger, the trust required.",
+    content: 'Describe your ultimate edge play fantasy. The risk, the danger, the trust required.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -393,7 +392,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-006',
     type: 'fantasy',
-    content: "Imagine being completely objectified—used as furniture, a toy, a thing. No humanity, just utility. Then being brought back.",
+    content: 'Imagine being completely objectified—used as furniture, a toy, a thing. No humanity, just utility. Then being brought back.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -403,7 +402,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-007',
     type: 'fantasy',
-    content: "Describe a public humiliation scene—being paraded, displayed, used while others watch. The shame and the arousal.",
+    content: 'Describe a public humiliation scene—being paraded, displayed, used while others watch. The shame and the arousal.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -413,7 +412,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-008',
     type: 'fantasy',
-    content: "Imagine a transformation scene—pet play, dollification, dehumanization. Becoming something else entirely for a time.",
+    content: 'Imagine a transformation scene—pet play, dollification, dehumanization. Becoming something else entirely for a time.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -423,7 +422,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-rp-002',
     type: 'roleplay',
-    content: "Predator and Prey: You hunt me. I run. You catch me. You consume me. The chase, the capture, the claiming.",
+    content: 'Predator and Prey: You hunt me. I run. You catch me. You consume me. The chase, the capture, the claiming.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -433,7 +432,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-001',
     type: 'truth',
-    content: "What's your absolute hard limit—something you would never do, no matter what?",
+    content: 'What\'s your absolute hard limit—something you would never do, no matter what?',
     intensity: 5,
     category: 'communication',
     isPremium: true,
@@ -443,7 +442,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-004',
     type: 'truth',
-    content: "What's a taboo fantasy you've had that scares you a little? Why does it excite you?",
+    content: 'What\'s a taboo fantasy you\'ve had that scares you a little? Why does it excite you?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -453,7 +452,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-006',
     type: 'truth',
-    content: "What's the most degrading thing you'd consent to? Where is your line?",
+    content: 'What\'s the most degrading thing you\'d consent to? Where is your line?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -463,7 +462,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-008',
     type: 'truth',
-    content: "What's an edge play activity that intrigues you? (Breath play, blood play, knife play, etc.)",
+    content: 'What\'s an edge play activity that intrigues you? (Breath play, blood play, knife play, etc.)',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -473,7 +472,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-010',
     type: 'truth',
-    content: "What's the most pain you'd be willing to take for pleasure? What kind of pain?",
+    content: 'What\'s the most pain you\'d be willing to take for pleasure? What kind of pain?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -483,7 +482,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-012',
     type: 'truth',
-    content: "What's a dark desire you have that you've never told anyone?",
+    content: 'What\'s a dark desire you have that you\'ve never told anyone?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -493,7 +492,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-t-014',
     type: 'truth',
-    content: "What's the longest you'd be willing to be denied orgasm? Days? Weeks?",
+    content: 'What\'s the longest you\'d be willing to be denied orgasm? Days? Weeks?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -503,7 +502,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-001',
     type: 'dare',
-    content: "Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I'm completely helpless.",
+    content: 'Full restraint: Tie my wrists and ankles to the bed. Gag me. Blindfold me. You have 30 minutes. I\'m completely helpless.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -514,7 +513,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-004',
     type: 'dare',
-    content: "Forced orgasm session: Restrain me. Use vibrator. Don't stop even when I beg. Make me come until I can't anymore.",
+    content: 'Forced orgasm session: Restrain me. Use vibrator. Don\'t stop even when I beg. Make me come until I can\'t anymore.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -525,7 +524,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-d-014',
     type: 'dare',
-    content: "24-hour chastity: Lock me in a device or agreement. I can't touch myself or orgasm without your permission.",
+    content: '24-hour chastity: Lock me in a device or agreement. I can\'t touch myself or orgasm without your permission.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -536,7 +535,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-c-007',
     type: 'challenge',
-    content: "Edge play exploration: Try one edge play activity you've both researched and agreed on. Go slowly. Communicate constantly.",
+    content: 'Edge play exploration: Try one edge play activity you\'ve both researched and agreed on. Go slowly. Communicate constantly.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -546,7 +545,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-fn-004',
     type: 'fantasy',
-    content: "Imagine an extreme CNC scenario. How does it start? What happens? How does it end? What's the safeword?",
+    content: 'Imagine an extreme CNC scenario. How does it start? What happens? How does it end? What\'s the safeword?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -556,7 +555,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-rp-001',
     type: 'roleplay',
-    content: "Master/Mistress and Slave: You own me completely. I have no rights, no will, no purpose except to serve you. Prove your ownership.",
+    content: 'Master/Mistress and Slave: You own me completely. I have no rights, no will, no purpose except to serve you. Prove your ownership.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -566,7 +565,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-rp-003',
     type: 'roleplay',
-    content: "Owner and Pet: I'm your pet—dog, cat, pony. Train me. Reward me. Discipline me. I exist for your amusement.",
+    content: 'Owner and Pet: I\'m your pet—dog, cat, pony. Train me. Reward me. Discipline me. I exist for your amusement.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -576,7 +575,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-rp-004',
     type: 'roleplay',
-    content: "Interrogator and Prisoner: You need information. You'll do anything to get it. I resist. You break me.",
+    content: 'Interrogator and Prisoner: You need information. You\'ll do anything to get it. I resist. You break me.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -586,7 +585,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-rp-005',
     type: 'roleplay',
-    content: "Deity and Worshipper: You're a god/goddess. I'm your devoted follower. I'll do anything to please you. Sacrifice everything.",
+    content: 'Deity and Worshipper: You\'re a god/goddess. I\'m your devoted follower. I\'ll do anything to please you. Sacrifice everything.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -596,7 +595,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-rp-006',
     type: 'roleplay',
-    content: "CNC Scene: We've negotiated everything beforehand. Now I resist. You overpower. I say no. You take anyway. Safeword stops all.",
+    content: 'CNC Scene: We\'ve negotiated everything beforehand. Now I resist. You overpower. I say no. You take anyway. Safeword stops all.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -606,7 +605,7 @@ export const LEVEL5_CARDS: GameCard[] = [
   {
     id: 'lvl5-rp-007',
     type: 'roleplay',
-    content: "Mad Scientist and Experiment: I'm your creation. You're testing my responses. Pushing my limits. Recording everything.",
+    content: 'Mad Scientist and Experiment: I\'m your creation. You\'re testing my responses. Pushing my limits. Recording everything.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,

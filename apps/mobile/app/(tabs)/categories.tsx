@@ -19,9 +19,6 @@ const HOME_SECTIONS = [
   {
     id: 'kinks',
     emoji: '🔥',
-    title: 'Kinks',
-    subtitle: 'Discover together',
-    description: 'Soft, naughty, and XXX kinks to explore',
     color: '#FF6B9D',
     gradient: ['#FF6B9D', '#F472B6'],
     route: '/(tabs)/kinks',
@@ -29,9 +26,6 @@ const HOME_SECTIONS = [
   {
     id: 'game',
     emoji: '🎲',
-    title: 'Game',
-    subtitle: 'Play together',
-    description: 'Truth, dares, and spicy challenges',
     color: '#8B5CF6',
     gradient: ['#8B5CF6', '#A78BFA'],
     route: '/(tabs)/game',
@@ -39,9 +33,6 @@ const HOME_SECTIONS = [
   {
     id: 'matches',
     emoji: '💕',
-    title: 'Matches',
-    subtitle: 'Your connections',
-    description: 'See what you both like',
     color: '#10B981',
     gradient: ['#10B981', '#34D399'],
     route: '/(tabs)/matches',
@@ -49,14 +40,11 @@ const HOME_SECTIONS = [
   {
     id: 'conversation',
     emoji: '💬',
-    title: 'Conversation',
-    subtitle: 'Deep dives',
-    description: 'Questions to spark meaningful talks',
     color: '#3B82F6',
     gradient: ['#3B82F6', '#60A5FA'],
     route: '/(tabs)/conversation',
   },
-];
+] as const;
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -92,9 +80,7 @@ export default function HomeScreen() {
         {/* Header */}
         <Animated.View entering={FadeInUp.delay(100)} style={styles.header}>
           <SpiceSyncLogo width={280} height={106} />
-          <Text style={styles.headerSubtitle}>
-            Explore, play, and connect deeper
-          </Text>
+          <Text style={styles.headerSubtitle}>{t.home.subtitle}</Text>
         </Animated.View>
 
         {/* Main Sections Grid */}
@@ -107,15 +93,19 @@ export default function HomeScreen() {
             >
               <Pressable
                 style={[styles.sectionCard, { backgroundColor: section.color }]}
-                onPress={() => router.push(section.route as any)}
+                onPress={() => router.push(section.route as never)}
                 android_ripple={{ color: 'rgba(255,255,255,0.2)' }}
               >
                 <View style={styles.cardContent}>
                   <Text style={styles.cardEmoji}>{section.emoji}</Text>
-                  <Text style={styles.cardTitle}>{section.title}</Text>
-                  <Text style={styles.cardSubtitle}>{section.subtitle}</Text>
+                  <Text style={styles.cardTitle}>
+                    {t.home.sections[section.id].title}
+                  </Text>
+                  <Text style={styles.cardSubtitle}>
+                    {t.home.sections[section.id].subtitle}
+                  </Text>
                   <Text style={styles.cardDescription}>
-                    {section.description}
+                    {t.home.sections[section.id].description}
                   </Text>
                 </View>
                 <View style={styles.arrowContainer}>
@@ -133,19 +123,19 @@ export default function HomeScreen() {
         >
           <View style={styles.stat}>
             <Text style={styles.statNumber}>{kinks.length}</Text>
-            <Text style={styles.statLabel}>Total Kinks</Text>
+            <Text style={styles.statLabel}>{t.home.totalKinks}</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
             <Text style={styles.statNumber}>
               {MASTER_DECK?.length ?? '400+'}
             </Text>
-            <Text style={styles.statLabel}>Game Cards</Text>
+            <Text style={styles.statLabel}>{t.home.gameCards}</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
             <Text style={styles.statNumber}>200+</Text>
-            <Text style={styles.statLabel}>Conversations</Text>
+            <Text style={styles.statLabel}>{t.home.conversations}</Text>
           </View>
         </Animated.View>
 

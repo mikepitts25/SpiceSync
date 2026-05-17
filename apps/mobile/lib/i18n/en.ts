@@ -2,13 +2,16 @@
 export const en = {
   // Navigation / Tabs
   tabs: {
+    profiles: 'Profiles',
     discover: 'Discover',
+    deck: 'Deck',
     vote: 'Vote',
     game: 'Game',
     matches: 'Matches',
     browse: 'Browse',
     kinks: 'Kinks',
     conversation: 'Conversation',
+    convo: 'Convo',
     settings: 'Settings',
     menu: 'Menu',
   },
@@ -36,6 +39,14 @@ export const en = {
     filter: 'Filter',
     tier: 'Tier',
     intensity: 'Intensity',
+    quickTour: 'Quick Tour',
+    skipTour: 'Skip tour',
+    finishTour: 'Finish {{screen}} tour',
+    nextTourStep: 'Next {{screen}} tour step',
+    skipTourFor: 'Skip {{screen}} tour',
+    progressOf: '{{current}} of {{total}}',
+    openSettings: 'Open settings',
+    goBack: 'Go back',
   },
 
   // Onboarding
@@ -43,14 +54,48 @@ export const en = {
     welcome: 'Welcome to SpiceSync',
     tagline: 'Discover new experiences together',
     privacyTitle: 'Privacy First',
-    privacyText: 'Your data stays on your device. No accounts, no tracking, no cloud storage.',
+    privacyText:
+      'Your data stays on your device. No accounts, no tracking, no cloud storage.',
     ageTitle: 'Age Verification',
     ageText: 'You must be 18 or older to use this app.',
     ageConfirm: 'I am 18 or older',
     profileTitle: 'Create Your Profile',
-    profileText: 'Set up your profile to get started. You can add a partner later.',
+    profileText:
+      'Set up your profile to get started. You can add a partner later.',
     profileName: 'Your Name',
     profileEmoji: 'Choose an Emoji',
+  },
+
+  // Welcome Flow
+  welcome: {
+    brandTagline: 'Discover what you both want',
+    brandSubtitle: 'A private space for couples to explore',
+    getStarted: 'Get Started',
+    back: 'Back',
+    continue: 'Continue',
+    you: 'You',
+    partner: 'Partner',
+    match: 'Match',
+    ageTitle: 'For consenting adults',
+    ageDescription:
+      'SpiceSync is for adults exploring together with mutual respect. By continuing, you confirm you are at least 18 years old.',
+    ageConfirm: "I'm 18 or Older",
+    screens: {
+      explore: {
+        title: 'Explore without pressure',
+        description: 'Browse ideas privately and move at your own pace.',
+      },
+      answer: {
+        title: 'Rate in secret. Reveal together.',
+        description:
+          'Be brutally honest. Your partner sees nothing until you both decide to share your codes.',
+      },
+      overlap: {
+        title: 'No awkwardness. Ever.',
+        description:
+          'Matches only reveal shared interest. What you voted no on? Your partner never knows.',
+      },
+    },
   },
 
   // Settings
@@ -60,13 +105,37 @@ export const en = {
     profilesDesc: "Manage who's swiping, emoji, and names.",
     manageProfiles: 'Manage profiles',
     language: 'Language',
-    languageDesc: 'Choose your app language. Content and UI will switch instantly.',
+    languageDesc:
+      'Choose your app language. Content and UI will switch instantly.',
     english: 'English',
     spanish: 'Español',
+    spanishName: 'Spanish',
+    profileOptions: 'Profile Options',
+    chooseInProfiles: 'Choose in Profiles',
+    account: 'Account',
+    partnerCode: 'Partner Code',
+    qrCode: 'QR / Code',
+    preferences: 'Preferences',
+    daily: 'Daily',
+    security: 'Security',
+    biometricLock: 'Biometric Lock',
+    biometricUnavailable: 'Biometric lock unavailable',
+    enableBiometricLock: 'Enable Biometric Lock',
+    biometricEnableError: 'Could not enable biometric lock',
+    set: 'Set',
+    notSet: 'Not set',
+    premium: 'Premium',
+    upgradeToPremium: 'Upgrade to Premium',
+    unlockAll: 'Unlock all',
+    redeemGiftCode: 'Redeem Gift Code',
+    redeem: 'Redeem',
+    insights: 'Insights',
+    aboutSpiceSync: 'About SpiceSync',
     activeProfile: 'Active profile',
     noProfile: 'No profile selected',
     resetVotes: 'Reset selections?',
-    resetVotesDesc: "This will remove all votes for {{name}}. This cannot be undone.",
+    resetVotesDesc:
+      'This will remove all votes for {{name}}. This cannot be undone.',
     resetConfirm: 'Selections cleared',
     resetConfirmDesc: "{{name}}'s votes have been removed.",
     notifications: 'Notifications',
@@ -130,7 +199,8 @@ export const en = {
     xxxDesc: 'hard spice',
     skipCategory: 'Skip category → Start Swiping',
     noItems: 'No items yet',
-    noItemsDesc: 'No {{tier}} items available right now. Try a different category or add your own.',
+    noItemsDesc:
+      'No {{tier}} items available right now. Try a different category or add your own.',
   },
 
   // Deck / Voting
@@ -148,8 +218,19 @@ export const en = {
     tryAnotherCategory: 'Try another category or add content.',
     endOfDeck: "That's all!",
     endOfDeckDesc: "You've voted on everything in this category.",
+    caughtUpTitle: "You're all caught up",
+    caughtUpDesc: 'Review matches or reset this deck to swipe again.',
     resetCategory: 'Reset this category',
+    resetDeck: 'Reset Deck',
     viewMatches: 'View Matches',
+    partnerFallback: 'Partner',
+    partnerVoted: 'voted',
+    partnerNotVoted: "hasn't voted yet",
+    pass: 'Pass',
+    allFilter: 'All',
+    allIntensity: 'All intensity levels',
+    xxxIntensity: 'XXX intensity',
+    tierIntensity: '{{tier}} intensity',
   },
 
   // Matches
@@ -169,17 +250,32 @@ export const en = {
     enterPin: 'Enter PIN to view',
     partialYesLocked: 'Partial Yes locked',
     partialYesUnlocked: 'Partial Yes unlocked',
+    mutualMaybeLocked: 'Mutual Maybe locked',
     lockPartialYes: 'Lock Partial Yes',
     unlockPartialYes: 'Unlock Partial Yes',
-    lockCopy: 'They will lock again after inactivity or when you choose to hide them.',
-    unlockCopy: 'Unlock to reveal "Yes + Maybe" matches. Both profiles must enter their PIN.',
+    unlockMutualMaybe: 'Unlock Mutual Maybe',
+    waitingForPartner: 'Waiting for partner',
+    lockCopy:
+      'They will lock again after inactivity or when you choose to hide them.',
+    unlockCopy:
+      'Unlock to reveal "Yes + Maybe" matches. Both profiles must enter their PIN.',
     noMatchesYet: 'No matches yet',
     keepSwiping: 'Keep swiping together—only shared interest shows up here.',
     keepSwipingMore: 'Keep swiping to uncover more.',
     pinRequired: 'PIN required',
-    pinRequiredDesc: '{{name}} needs a PIN to unlock Partial Yes matches. Set a PIN in Settings.',
+    pinRequiredDesc:
+      '{{name}} needs a PIN to unlock Partial Yes matches. Set a PIN in Settings.',
     openSettings: 'Open Settings',
     noTabMatches: 'No {{tab}} yet',
+    matchCount: '{{count}} matches',
+    you: 'You',
+    lastSynced: 'Last synced: Just now',
+    shareResults: 'Share Results',
+    shareMessage:
+      'SpiceSync results: {{yes}} mutual yes and {{maybe}} mutual maybe matches.',
+    shareError: 'Unable to share results right now.',
+    noSharedPicks: 'No shared picks yet',
+    keepSwipingShort: 'Keep swiping',
   },
 
   // Love Languages
@@ -198,11 +294,16 @@ export const en = {
     receivingGifts: 'Receiving Gifts',
     actsOfService: 'Acts of Service',
     physicalTouch: 'Physical Touch',
-    wordsDesc: 'You feel loved when your partner gives you compliments and expresses appreciation verbally.',
-    timeDesc: 'You feel loved when your partner gives you their undivided attention and spends meaningful time with you.',
-    giftsDesc: 'You feel loved when your partner gives you thoughtful presents that show they were thinking of you.',
-    actsDesc: 'You feel loved when your partner does things to help you and makes your life easier.',
-    touchDesc: 'You feel loved through physical connection—hugs, kisses, holding hands, and affectionate touch.',
+    wordsDesc:
+      'You feel loved when your partner gives you compliments and expresses appreciation verbally.',
+    timeDesc:
+      'You feel loved when your partner gives you their undivided attention and spends meaningful time with you.',
+    giftsDesc:
+      'You feel loved when your partner gives you thoughtful presents that show they were thinking of you.',
+    actsDesc:
+      'You feel loved when your partner does things to help you and makes your life easier.',
+    touchDesc:
+      'You feel loved through physical connection—hugs, kisses, holding hands, and affectionate touch.',
     question: 'Question',
     of: 'of',
     whichPrefer: 'Which would you prefer?',
@@ -213,6 +314,27 @@ export const en = {
   // Game
   game: {
     title: '🎲 Spice Dice',
+    gameNight: 'Game Night',
+    levelOf: 'Level {{level}} of 5',
+    levelShort: 'L{{level}}',
+    cardOf: 'Card {{current}} of {{total}}',
+    levelWithLabel: 'Level {{level}} · {{label}}',
+    noTimeLimit: 'No time limit',
+    drawToBegin: 'Draw a card to begin.',
+    skip: 'Skip',
+    draw: 'Draw',
+    share: 'Share',
+    shareMessage: 'SpiceSync Game Night: {{content}}',
+    fallbackType: 'Challenge',
+    titles: {
+      truth: 'Truth Seeker',
+      dare: 'Dare Drop',
+      challenge: 'Challenge Round',
+      fantasy: 'Fantasy Spark',
+      roleplay: 'Role Play',
+      fallback: 'Game Card',
+    },
+    levels: ['Warm-Up', 'Playful', 'Bold', 'Heated', 'Wild'],
     subtitle: 'Pick a card',
     chooseCategory: 'Choose Category',
     truth: 'Truth',
@@ -245,8 +367,42 @@ export const en = {
   // Browse
   browse: {
     title: 'Browse',
+    searchPlaceholder: 'Search kinks...',
+    allCategory: 'All',
+    activityFallback: 'Activity',
+    noResults: 'No results',
+    noResultsDesc: 'Try another search or filter.',
     clearFilter: 'Clear filter',
     noItems: 'No items to show.',
+  },
+
+  home: {
+    subtitle: 'Explore, play, and connect deeper',
+    totalKinks: 'Total Kinks',
+    gameCards: 'Game Cards',
+    conversations: 'Conversations',
+    sections: {
+      kinks: {
+        title: 'Kinks',
+        subtitle: 'Discover together',
+        description: 'Soft, naughty, and XXX kinks to explore',
+      },
+      game: {
+        title: 'Game',
+        subtitle: 'Play together',
+        description: 'Truth, dares, and spicy challenges',
+      },
+      matches: {
+        title: 'Matches',
+        subtitle: 'Your connections',
+        description: 'See what you both like',
+      },
+      conversation: {
+        title: 'Conversation',
+        subtitle: 'Deep dives',
+        description: 'Questions to spark meaningful talks',
+      },
+    },
   },
 
   // Notifications
@@ -263,13 +419,15 @@ export const en = {
     dailyActivityCardDesc: 'Receive a new activity suggestion every day',
     notificationTime: 'Notification Time',
     tapToChange: 'Tap to change',
-    timeDescription: "We'll send you a fun new activity idea at this time every day. Default is 8:00 PM.",
+    timeDescription:
+      "We'll send you a fun new activity idea at this time every day. Default is 8:00 PM.",
     preview: 'Preview',
     dailySpiceIdea: 'Daily Spice Idea',
     todayIdea: "Today's idea: Try something new together",
     sendTest: 'Send Test Notification',
     tipsTitle: '💡 Tips',
-    tipsText: "• Notifications help you discover new activities\n• Each day brings a new surprise suggestion\n• Tap the notification to open the app directly\n• You can change the time or turn off anytime",
+    tipsText:
+      '• Notifications help you discover new activities\n• Each day brings a new surprise suggestion\n• Tap the notification to open the app directly\n• You can change the time or turn off anytime',
   },
 
   // Activity Details
@@ -318,6 +476,88 @@ export const en = {
     xxxSubtitle: 'Hard & Extreme',
     xxxDesc: 'Advanced play, CNC, group, and intense kinks',
     activeProfile: 'Active',
+    activeProfileTitle: 'Active Profile',
+    noProfile: 'No Profile',
+    voted: 'Voted',
+    viewMyVotes: 'View My Votes',
+    manage: 'Manage',
+    partner: 'Partner',
+    linked: 'Linked',
+    connectWithPartner: 'Connect with Partner',
+    yourCode: 'Your code: {{code}}',
+  },
+
+  tours: {
+    profiles: [
+      {
+        title: 'Your active profile',
+        body: 'The active profile controls which votes, matches, and preferences you are editing.',
+      },
+      {
+        title: 'Manage local profiles',
+        body: 'Switch profiles, add another person, or update profile details from this hub.',
+      },
+      {
+        title: 'Connect with your partner',
+        body: 'Use the partner area to create or enter an invite code when you are ready to compare.',
+      },
+    ],
+    deck: [
+      {
+        title: 'Choose an intensity',
+        body: 'Use the filter row to focus the deck on softer, bolder, or all activities.',
+      },
+      {
+        title: 'Vote on each card',
+        body: 'Tap Pass, Yes, or Maybe. You can also swipe left, right, or up.',
+      },
+      {
+        title: 'Votes stay local',
+        body: 'Choices save to the active profile on this device and feed your match results.',
+      },
+    ],
+    matches: [
+      {
+        title: 'Compare profiles',
+        body: 'The banner shows which two profiles are being compared for shared picks.',
+      },
+      {
+        title: 'Review shared picks',
+        body: 'Mutual Yes and Mutual Maybe sections show where both profiles chose the same answer.',
+      },
+      {
+        title: 'Share a summary',
+        body: 'Share Results sends a short count summary without syncing your private vote data.',
+      },
+    ],
+    conversation: [
+      {
+        title: 'Pick a prompt category',
+        body: 'Use the category row to change the kind of conversation starter you see.',
+      },
+      {
+        title: 'Use prompts together',
+        body: 'Move between prompts, skip to a random one, save favorites, or share a question.',
+      },
+      {
+        title: 'Love language prompts',
+        body: 'The love language module links to the quiz and can filter prompts around your results.',
+      },
+    ],
+    game: [
+      {
+        title: 'Choose a level',
+        body: 'Levels 1 through 5 control how warm, bold, or intense the game cards feel.',
+      },
+      {
+        title: 'Draw a card',
+        body: 'Draw gets a new card, Skip moves on, and Share sends the current card text.',
+      },
+      {
+        title: 'Play at your pace',
+        body: 'Timer labels are guidance only. Cards with no limit can take as long as you want.',
+      },
+    ],
   },
 
   // Onboarding Screens

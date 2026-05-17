@@ -11,6 +11,7 @@ import { getIdentityIfExists } from './identity';
 import { usePartnerVotesStore } from './partnerVotes';
 import { RelayHttpError } from './relayClient';
 import { getRelayClient } from './relayConfig';
+import { useRevealConsentStore } from './revealConsent';
 import type { SyncEventResponse } from './relayTypes';
 
 function signaturePayload(
@@ -83,6 +84,12 @@ function applyDecryptedEvent(event: PlainSyncEvent, receivedAt: number): void {
       updatedAt: event.updatedAt,
       receivedAt,
     });
+    return;
+  }
+  if (event.eventType === 'reveal.unlock') {
+    useRevealConsentStore
+      .getState()
+      .applyPartnerConsent(event.bucket, event.updatedAt);
     return;
   }
   if (event.eventType === 'progress.snapshot') {

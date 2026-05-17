@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import {
@@ -34,20 +33,23 @@ import {
   SectionRow,
   Toggle,
 } from '../../components/app-chrome';
+import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import {
   getActiveProfileCardDestination,
   getProfilePinActionLabel,
 } from '../../lib/profile-management';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useTranslation } from '../../lib/i18n';
 import {
   authenticateWithBiometrics,
   getBiometricSupport,
 } from '../../lib/lock';
-import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
+import { COLORS, SHADOWS } from '../../constants/theme';
 
 export default function SettingsScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const language = useSettingsStore((state) => state.language);
   const biometricLockEnabled = useSettingsStore(
     (state) => state.biometricLockEnabled
@@ -68,7 +70,7 @@ export default function SettingsScreen() {
     [activeProfileId, profiles]
   );
   const activeProfileName =
-    activeProfile?.displayName ?? activeProfile?.name ?? 'No active profile';
+    activeProfile?.displayName ?? activeProfile?.name ?? t.settings.noProfile;
 
   const handleBiometricToggle = async (enabled: boolean) => {
     if (biometricPending) return;
@@ -82,13 +84,15 @@ export default function SettingsScreen() {
     try {
       const support = await getBiometricSupport();
       if (!support.available) {
-        Alert.alert('Biometric lock unavailable', support.reason);
+        Alert.alert(t.settings.biometricUnavailable, support.reason);
         return;
       }
 
-      const result = await authenticateWithBiometrics('Enable Biometric Lock');
+      const result = await authenticateWithBiometrics(
+        t.settings.enableBiometricLock
+      );
       if (!result.ok) {
-        Alert.alert('Could not enable biometric lock', result.message);
+        Alert.alert(t.settings.biometricEnableError, result.message);
         return;
       }
 
@@ -115,7 +119,7 @@ export default function SettingsScreen() {
           accessibilityLabel={
             activeProfile
               ? `Manage ${activeProfileName}`
-              : 'Choose an active profile'
+              : t.profiles.chooseProfile
           }
           onPress={() =>
             router.push(getActiveProfileCardDestination(activeProfile?.id))
@@ -124,20 +128,13 @@ export default function SettingsScreen() {
         >
           <CardAccentTop />
           <View style={styles.profileInner}>
-            <LinearGradient
-              colors={GRADIENTS.primary}
-              start={{ x: 0, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-              style={styles.profileAvatar}
-            >
-              <Text style={styles.profileEmoji}>
-                {activeProfile?.emoji ?? '🌶️'}
-              </Text>
-            </LinearGradient>
+            <ProfileAvatarIcon avatar={activeProfile?.emoji} size={48} />
             <View style={styles.profileCopy}>
               <Text style={styles.profileName}>{activeProfileName}</Text>
               <Text style={styles.profileAction}>
-                {activeProfile ? 'Profile Options' : 'Choose in Profiles'}
+                {activeProfile
+                  ? t.settings.profileOptions
+                  : t.settings.chooseInProfiles}
               </Text>
             </View>
             <View style={styles.profileChevron}>
@@ -146,10 +143,10 @@ export default function SettingsScreen() {
           </View>
         </Pressable>
 
-        <SettingsSection title="ACCOUNT">
+        <SettingsSection title={t.settings.account.toUpperCase()}>
           <SectionRow
             icon={User}
-            label="Profiles"
+            label={t.settings.profiles}
             value={`${profiles.length || 0}`}
             tint={COLORS.crimson}
             badgeBg="rgba(194,24,91,0.15)"
@@ -157,8 +154,8 @@ export default function SettingsScreen() {
           />
           <SectionRow
             icon={LinkIcon}
-            label="Partner Code"
-            value="QR / Code"
+            label={t.settings.partnerCode}
+            value={t.settings.qrCode}
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.15)"
             onPress={() => router.push('/(onboarding)/invite')}
@@ -166,10 +163,10 @@ export default function SettingsScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title="PREFERENCES">
+        <SettingsSection title={t.settings.preferences.toUpperCase()}>
           <SectionRow
             icon={Globe}
-            label="Language"
+            label={t.settings.language}
             value={language.toUpperCase()}
             tint="#00D9FF"
             badgeBg="rgba(0,217,255,0.1)"
@@ -177,8 +174,8 @@ export default function SettingsScreen() {
           />
           <SectionRow
             icon={Bell}
-            label="Notifications"
-            value="Daily"
+            label={t.settings.notifications}
+            value={t.settings.daily}
             tint={COLORS.maybe}
             badgeBg="rgba(245,158,11,0.1)"
             onPress={() => router.push('/(settings)/notifications')}
@@ -186,10 +183,10 @@ export default function SettingsScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title="SECURITY">
+        <SettingsSection title={t.settings.security.toUpperCase()}>
           <SectionRow
             icon={Fingerprint}
-            label="Biometric Lock"
+            label={t.settings.biometricLock}
             tint={COLORS.yes}
             badgeBg="rgba(34,197,94,0.1)"
             toggle={
@@ -202,7 +199,7 @@ export default function SettingsScreen() {
           <SectionRow
             icon={Lock}
             label={getProfilePinActionLabel(!!activeProfile?.pin)}
-            value={activeProfile?.pin ? 'Set' : 'Not set'}
+            value={activeProfile?.pin ? t.settings.set : t.settings.notSet}
             tint={COLORS.crimson}
             badgeBg="rgba(194,24,91,0.1)"
             onPress={() =>
@@ -217,18 +214,18 @@ export default function SettingsScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title="PREMIUM">
+        <SettingsSection title={t.settings.premium.toUpperCase()}>
           <SectionRow
             icon={Star}
-            label="Upgrade to Premium"
-            value="Unlock all"
+            label={t.settings.upgradeToPremium}
+            value={t.settings.unlockAll}
             gradientBadge
             onPress={() => router.push('/(unlock)')}
           />
           <SectionRow
             icon={Gift}
-            label="Redeem Gift Code"
-            value="Redeem"
+            label={t.settings.redeemGiftCode}
+            value={t.settings.redeem}
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.15)"
             onPress={() => router.push('/(redeem)')}
@@ -236,24 +233,24 @@ export default function SettingsScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title="ABOUT">
+        <SettingsSection title={t.settings.about.toUpperCase()}>
           <SectionRow
             icon={Trophy}
-            label="Achievements"
+            label={t.settings.achievements}
             tint={COLORS.maybe}
             badgeBg="rgba(245,158,11,0.15)"
             onPress={() => router.push('/(settings)/achievements')}
           />
           <SectionRow
             icon={BarChart3}
-            label="Insights"
+            label={t.settings.insights}
             tint={COLORS.yes}
             badgeBg="rgba(34,197,94,0.15)"
             onPress={() => router.push('/(insights)')}
           />
           <SectionRow
             icon={Info}
-            label="About SpiceSync"
+            label={t.settings.aboutSpiceSync}
             tint={COLORS.textSub}
             badgeBg="rgba(255,255,255,0.06)"
             onPress={() => router.push('/(settings)/about')}
@@ -307,16 +304,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-  },
-  profileAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profileEmoji: {
-    fontSize: 22,
   },
   profileCopy: {
     flex: 1,

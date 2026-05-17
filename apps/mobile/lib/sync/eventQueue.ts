@@ -7,6 +7,7 @@ import { randomBytes } from './crypto';
 
 export type SyncEventType =
   | 'vote.upsert'
+  | 'reveal.unlock'
   | 'progress.snapshot'
   | 'couple.unlink';
 
@@ -18,6 +19,14 @@ export type PlainSyncEvent =
       authorDeviceId: string;
       cardId: string;
       vote: 'yes' | 'maybe' | 'no';
+      updatedAt: number;
+    }
+  | {
+      schemaVersion: 1;
+      eventType: 'reveal.unlock';
+      eventId: string;
+      authorDeviceId: string;
+      bucket: 'partialYesMaybe' | 'mutualMaybe';
       updatedAt: number;
     }
   | {

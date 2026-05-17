@@ -40,10 +40,14 @@ import {
   LOVE_LANGUAGE_QUIZ_ROUTE,
   getLoveLanguageModuleCopy,
 } from '../../lib/conversationExperience';
-import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
+import {
+  CONVERSATION_CARD_MIN_FONT_SCALE,
+  CONVERSATION_CARD_QUESTION_LINES,
+  getConversationCardQuestionTextStyle,
+} from '../../lib/conversationCardText';
 import { useConversationStore } from '../../lib/state/conversationStore';
 import { useProfilesStore } from '../../lib/state/profiles';
-import { useConversationTranslation } from '../../lib/i18n';
+import { useConversationTranslation, useTranslation } from '../../lib/i18n';
 import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
 import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../constants/theme';
 
@@ -51,6 +55,7 @@ export default function ConversationScreen() {
   const router = useRouter();
   const { favorites, toggleFavorite, addToHistory } = useConversationStore();
   const { language } = useConversationTranslation();
+  const { t } = useTranslation();
   const { activeId, profiles } = useProfilesStore(
     useShallow((state) => ({
       activeId: state.getActiveProfileId(),
@@ -147,8 +152,8 @@ export default function ConversationScreen() {
       <View style={styles.tourWrap}>
         <ScreenTour
           screenId="conversation"
-          screenLabel="Conversation"
-          steps={MAIN_SCREEN_TOURS.conversation}
+          screenLabel={t.tabs.conversation}
+          steps={t.tours.conversation}
         />
       </View>
 
@@ -293,9 +298,24 @@ export default function ConversationScreen() {
             </View>
             <AccentBar />
 
-            <Text style={styles.questionText}>{currentStarter.question}</Text>
+            <Text
+              adjustsFontSizeToFit
+              minimumFontScale={CONVERSATION_CARD_MIN_FONT_SCALE}
+              numberOfLines={CONVERSATION_CARD_QUESTION_LINES}
+              style={[
+                styles.questionText,
+                getConversationCardQuestionTextStyle(currentStarter.question),
+              ]}
+            >
+              {currentStarter.question}
+            </Text>
 
-            <Text style={styles.tipText}>
+            <Text
+              adjustsFontSizeToFit
+              minimumFontScale={0.85}
+              numberOfLines={3}
+              style={styles.tipText}
+            >
               {currentStarter.context ||
                 "Take turns sharing. Really listen to each other's answer."}
             </Text>

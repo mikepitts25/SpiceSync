@@ -4,13 +4,16 @@ import { Translations } from './en';
 export const es: Translations = {
   // Navigation / Tabs
   tabs: {
+    profiles: 'Perfiles',
     discover: 'Descubrir',
+    deck: 'Cartas',
     vote: 'Votar',
     game: 'Juego',
-    matches: 'Matches',
+    matches: 'Coincidencias',
     browse: 'Explorar',
-    kinks: 'Kinks',
+    kinks: 'Intereses',
     conversation: 'Conversación',
+    convo: 'Charla',
     settings: 'Configuración',
     menu: 'Menú',
   },
@@ -38,6 +41,14 @@ export const es: Translations = {
     filter: 'Filtro',
     tier: 'Nivel',
     intensity: 'Intensidad',
+    quickTour: 'Tour rápido',
+    skipTour: 'Omitir tour',
+    finishTour: 'Terminar tour de {{screen}}',
+    nextTourStep: 'Siguiente paso del tour de {{screen}}',
+    skipTourFor: 'Omitir tour de {{screen}}',
+    progressOf: '{{current}} de {{total}}',
+    openSettings: 'Abrir configuración',
+    goBack: 'Volver',
   },
 
   // Onboarding
@@ -45,14 +56,48 @@ export const es: Translations = {
     welcome: 'Bienvenido a SpiceSync',
     tagline: 'Descubre nuevas experiencias juntos',
     privacyTitle: 'Privacidad Primero',
-    privacyText: 'Tus datos se quedan en tu dispositivo. Sin cuentas, sin rastreo, sin almacenamiento en la nube.',
+    privacyText:
+      'Tus datos se quedan en tu dispositivo. Sin cuentas, sin rastreo, sin almacenamiento en la nube.',
     ageTitle: 'Verificación de Edad',
     ageText: 'Debes tener 18 años o más para usar esta aplicación.',
     ageConfirm: 'Tengo 18 años o más',
     profileTitle: 'Crea tu Perfil',
-    profileText: 'Configura tu perfil para comenzar. Puedes agregar una pareja más tarde.',
+    profileText:
+      'Configura tu perfil para comenzar. Puedes agregar una pareja más tarde.',
     profileName: 'Tu Nombre',
     profileEmoji: 'Elige un Emoji',
+  },
+
+  // Welcome Flow
+  welcome: {
+    brandTagline: 'Descubran lo que ambos quieren',
+    brandSubtitle: 'Un espacio privado para explorar en pareja',
+    getStarted: 'Comenzar',
+    back: 'Atrás',
+    continue: 'Continuar',
+    you: 'Tú',
+    partner: 'Pareja',
+    match: 'Coincidencia',
+    ageTitle: 'Para adultos con consentimiento',
+    ageDescription:
+      'SpiceSync es para adultos que exploran juntos con respeto mutuo. Al continuar, confirmas que tienes al menos 18 años.',
+    ageConfirm: 'Tengo 18 años o más',
+    screens: {
+      explore: {
+        title: 'Exploren sin presión',
+        description: 'Vean ideas en privado y avancen a su propio ritmo.',
+      },
+      answer: {
+        title: 'Vota en secreto. Revelen juntos.',
+        description:
+          'Sé totalmente honesto. Tu pareja no ve nada hasta que ambos decidan compartir sus códigos.',
+      },
+      overlap: {
+        title: 'Sin incomodidad. Nunca.',
+        description:
+          'Solo se muestran los intereses compartidos. ¿Lo que votaste que no? Tu pareja nunca lo sabe.',
+      },
+    },
   },
 
   // Settings
@@ -62,17 +107,42 @@ export const es: Translations = {
     profilesDesc: 'Gestiona quién vota, emojis y nombres.',
     manageProfiles: 'Gestionar perfiles',
     language: 'Idioma',
-    languageDesc: 'Elige el idioma de la aplicación. El contenido y la interfaz cambiarán instantáneamente.',
+    languageDesc:
+      'Elige el idioma de la aplicación. El contenido y la interfaz cambiarán instantáneamente.',
     english: 'English',
     spanish: 'Español',
+    spanishName: 'Español',
+    profileOptions: 'Opciones del perfil',
+    chooseInProfiles: 'Elegir en Perfiles',
+    account: 'Cuenta',
+    partnerCode: 'Código de pareja',
+    qrCode: 'QR / Código',
+    preferences: 'Preferencias',
+    daily: 'Diario',
+    security: 'Seguridad',
+    biometricLock: 'Bloqueo biométrico',
+    biometricUnavailable: 'Bloqueo biométrico no disponible',
+    enableBiometricLock: 'Activar bloqueo biométrico',
+    biometricEnableError: 'No se pudo activar el bloqueo biométrico',
+    set: 'Configurado',
+    notSet: 'No configurado',
+    premium: 'Premium',
+    upgradeToPremium: 'Actualizar a Premium',
+    unlockAll: 'Desbloquear todo',
+    redeemGiftCode: 'Canjear código de regalo',
+    redeem: 'Canjear',
+    insights: 'Estadísticas',
+    aboutSpiceSync: 'Acerca de SpiceSync',
     activeProfile: 'Perfil activo',
     noProfile: 'Ningún perfil seleccionado',
     resetVotes: '¿Reiniciar selecciones?',
-    resetVotesDesc: 'Esto eliminará todos los votos de {{name}}. Esto no se puede deshacer.',
+    resetVotesDesc:
+      'Esto eliminará todos los votos de {{name}}. Esto no se puede deshacer.',
     resetConfirm: 'Selecciones reiniciadas',
     resetConfirmDesc: 'Los votos de {{name}} han sido eliminados.',
     notifications: 'Notificaciones',
-    notificationsDesc: 'Recordatorios para revisar tus matches y sugerencias diarias.',
+    notificationsDesc:
+      'Recordatorios para revisar tus matches y sugerencias diarias.',
     achievements: 'Logros',
     achievementsDesc: 'Rastrea tu progreso y desbloquea insignias',
     exportData: 'Exportar Datos',
@@ -100,8 +170,10 @@ export const es: Translations = {
     needPartner: 'Necesitas otro perfil',
     createPartner: 'Crea un segundo perfil para generar matches.',
     chooseProfile: 'Elige un perfil',
-    selectProfileToSwipe: 'Abre Configuración → Perfiles para seleccionar quién vota.',
-    tapToSwitch: 'Toca un perfil para cambiar. Los perfiles protegidos requieren PIN.',
+    selectProfileToSwipe:
+      'Abre Configuración → Perfiles para seleccionar quién vota.',
+    tapToSwitch:
+      'Toca un perfil para cambiar. Los perfiles protegidos requieren PIN.',
     deleteProfile: '¿Eliminar perfil?',
     deleteProfileDesc: 'Esto elimina permanentemente a {{name}} y sus datos.',
     noProfiles: 'Aún no hay perfiles',
@@ -132,7 +204,8 @@ export const es: Translations = {
     xxxDesc: 'picante fuerte',
     skipCategory: 'Saltar categoría → Empezar a Votar',
     noItems: 'Sin ítems aún',
-    noItemsDesc: 'No hay ítems {{tier}} disponibles. Prueba otra categoría o agrega los tuyos.',
+    noItemsDesc:
+      'No hay ítems {{tier}} disponibles. Prueba otra categoría o agrega los tuyos.',
   },
 
   // Deck / Voting
@@ -150,8 +223,20 @@ export const es: Translations = {
     tryAnotherCategory: 'Prueba otra categoría o agrega contenido.',
     endOfDeck: '¡Eso es todo!',
     endOfDeckDesc: 'Has votado en todo en esta categoría.',
+    caughtUpTitle: 'Ya estás al día',
+    caughtUpDesc:
+      'Revisa coincidencias o reinicia esta baraja para volver a votar.',
     resetCategory: 'Reiniciar esta categoría',
+    resetDeck: 'Reiniciar cartas',
     viewMatches: 'Ver Matches',
+    partnerFallback: 'Pareja',
+    partnerVoted: 'votó',
+    partnerNotVoted: 'aún no ha votado',
+    pass: 'Pasar',
+    allFilter: 'Todo',
+    allIntensity: 'Todos los niveles de intensidad',
+    xxxIntensity: 'Intensidad XXX',
+    tierIntensity: 'Intensidad {{tier}}',
   },
 
   // Matches
@@ -171,17 +256,33 @@ export const es: Translations = {
     enterPin: 'Ingresa PIN para ver',
     partialYesLocked: 'Parcial Sí bloqueado',
     partialYesUnlocked: 'Parcial Sí desbloqueado',
+    mutualMaybeLocked: 'Tal vez mutuo bloqueado',
     lockPartialYes: 'Bloquear Parcial Sí',
     unlockPartialYes: 'Desbloquear Parcial Sí',
-    lockCopy: 'Se bloquearán de nuevo por inactividad o cuando elijas ocultarlos.',
-    unlockCopy: 'Desbloquea para ver los matches de "Sí + Tal vez". Ambos perfiles deben ingresar su PIN.',
+    unlockMutualMaybe: 'Desbloquear Tal vez mutuo',
+    waitingForPartner: 'Esperando a tu pareja',
+    lockCopy:
+      'Se bloquearán de nuevo por inactividad o cuando elijas ocultarlos.',
+    unlockCopy:
+      'Desbloquea para ver los matches de "Sí + Tal vez". Ambos perfiles deben ingresar su PIN.',
     noMatchesYet: 'Aún no hay matches',
-    keepSwiping: 'Sigan votando juntos—solo los intereses compartidos aparecen aquí.',
+    keepSwiping:
+      'Sigan votando juntos—solo los intereses compartidos aparecen aquí.',
     keepSwipingMore: 'Sigue votando para descubrir más.',
     pinRequired: 'PIN requerido',
-    pinRequiredDesc: '{{name}} necesita un PIN para desbloquear los matches Parcial Sí. Configura un PIN en Ajustes.',
+    pinRequiredDesc:
+      '{{name}} necesita un PIN para desbloquear los matches Parcial Sí. Configura un PIN en Ajustes.',
     openSettings: 'Abrir Ajustes',
     noTabMatches: 'Aún no hay {{tab}}',
+    matchCount: '{{count}} coincidencias',
+    you: 'Tú',
+    lastSynced: 'Última sincronización: ahora',
+    shareResults: 'Compartir resultados',
+    shareMessage:
+      'Resultados de SpiceSync: {{yes}} sí mutuos y {{maybe}} tal vez mutuos.',
+    shareError: 'No se pueden compartir los resultados ahora.',
+    noSharedPicks: 'Aún no hay elecciones compartidas',
+    keepSwipingShort: 'Sigue votando',
   },
 
   // Love Languages
@@ -200,11 +301,16 @@ export const es: Translations = {
     receivingGifts: 'Recibir Regalos',
     actsOfService: 'Actos de Servicio',
     physicalTouch: 'Contacto Físico',
-    wordsDesc: 'Te sientes amado cuando tu pareja te da cumplidos y expresa aprecio verbalmente.',
-    timeDesc: 'Te sientes amado cuando tu pareja te da su atención completa y pasa tiempo significativo contigo.',
-    giftsDesc: 'Te sientes amado cuando tu pareja te da regalos pensados que muestran que estaba pensando en ti.',
-    actsDesc: 'Te sientes amado cuando tu pareja hace cosas para ayudarte y hace tu vida más fácil.',
-    touchDesc: 'Te sientes amado a través de la conexión física—abrazos, besos, tomarse de la mano y caricias afectuosas.',
+    wordsDesc:
+      'Te sientes amado cuando tu pareja te da cumplidos y expresa aprecio verbalmente.',
+    timeDesc:
+      'Te sientes amado cuando tu pareja te da su atención completa y pasa tiempo significativo contigo.',
+    giftsDesc:
+      'Te sientes amado cuando tu pareja te da regalos pensados que muestran que estaba pensando en ti.',
+    actsDesc:
+      'Te sientes amado cuando tu pareja hace cosas para ayudarte y hace tu vida más fácil.',
+    touchDesc:
+      'Te sientes amado a través de la conexión física—abrazos, besos, tomarse de la mano y caricias afectuosas.',
     question: 'Pregunta',
     of: 'de',
     whichPrefer: '¿Qué preferirías?',
@@ -215,6 +321,27 @@ export const es: Translations = {
   // Game
   game: {
     title: '🎲 Spice Dice',
+    gameNight: 'Noche de juego',
+    levelOf: 'Nivel {{level}} de 5',
+    levelShort: 'N{{level}}',
+    cardOf: 'Carta {{current}} de {{total}}',
+    levelWithLabel: 'Nivel {{level}} · {{label}}',
+    noTimeLimit: 'Sin límite de tiempo',
+    drawToBegin: 'Saca una carta para comenzar.',
+    skip: 'Saltar',
+    draw: 'Sacar',
+    share: 'Compartir',
+    shareMessage: 'Noche de juego en SpiceSync: {{content}}',
+    fallbackType: 'Desafío',
+    titles: {
+      truth: 'Buscador de verdad',
+      dare: 'Reto sorpresa',
+      challenge: 'Ronda de desafío',
+      fantasy: 'Chispa de fantasía',
+      roleplay: 'Juego de roles',
+      fallback: 'Carta de juego',
+    },
+    levels: ['Calentamiento', 'Juguetón', 'Atrevido', 'Intenso', 'Salvaje'],
     subtitle: 'Saca una carta',
     chooseCategory: 'Elige Categoría',
     truth: 'Verdad',
@@ -247,8 +374,42 @@ export const es: Translations = {
   // Browse
   browse: {
     title: 'Explorar',
+    searchPlaceholder: 'Buscar intereses...',
+    allCategory: 'Todo',
+    activityFallback: 'Actividad',
+    noResults: 'Sin resultados',
+    noResultsDesc: 'Prueba otra búsqueda o filtro.',
     clearFilter: 'Limpiar filtro',
     noItems: 'No hay ítems para mostrar.',
+  },
+
+  home: {
+    subtitle: 'Exploren, jueguen y conecten más',
+    totalKinks: 'Intereses totales',
+    gameCards: 'Cartas de juego',
+    conversations: 'Conversaciones',
+    sections: {
+      kinks: {
+        title: 'Intereses',
+        subtitle: 'Descubran juntos',
+        description: 'Intereses suaves, atrevidos y XXX para explorar',
+      },
+      game: {
+        title: 'Juego',
+        subtitle: 'Jueguen juntos',
+        description: 'Verdades, retos y desafíos picantes',
+      },
+      matches: {
+        title: 'Coincidencias',
+        subtitle: 'Sus conexiones',
+        description: 'Vean lo que les gusta a ambos',
+      },
+      conversation: {
+        title: 'Conversación',
+        subtitle: 'Charlas profundas',
+        description: 'Preguntas para iniciar conversaciones importantes',
+      },
+    },
   },
 
   // Notifications
@@ -256,7 +417,8 @@ export const es: Translations = {
     title: 'Notificaciones',
     subtitle: 'Recibe inspiración diaria',
     dailySuggestions: 'Sugerencias Diarias',
-    dailySuggestionsDesc: 'Recibe recordatorios para revisar nuevas actividades',
+    dailySuggestionsDesc:
+      'Recibe recordatorios para revisar nuevas actividades',
     matchAlerts: 'Alertas de Matches',
     matchAlertsDesc: 'Notifica cuando tengas nuevos matches',
     gameReminders: 'Recordatorios de Juego',
@@ -265,13 +427,15 @@ export const es: Translations = {
     dailyActivityCardDesc: 'Recibe una nueva sugerencia de actividad cada día',
     notificationTime: 'Hora de Notificación',
     tapToChange: 'Toca para cambiar',
-    timeDescription: 'Te enviaremos una nueva idea de actividad a esta hora todos los días. Por defecto: 8:00 PM.',
+    timeDescription:
+      'Te enviaremos una nueva idea de actividad a esta hora todos los días. Por defecto: 8:00 PM.',
     preview: 'Vista Previa',
     dailySpiceIdea: 'Idea Picante del Día',
     todayIdea: 'Idea de hoy: Prueba algo nuevo juntos',
     sendTest: 'Enviar Notificación de Prueba',
     tipsTitle: '💡 Consejos',
-    tipsText: '• Las notificaciones te ayudan a descubrir nuevas actividades\n• Cada día trae una nueva sugerencia sorpresa\n• Toca la notificación para abrir la app directamente\n• Puedes cambiar la hora o desactivar en cualquier momento',
+    tipsText:
+      '• Las notificaciones te ayudan a descubrir nuevas actividades\n• Cada día trae una nueva sugerencia sorpresa\n• Toca la notificación para abrir la app directamente\n• Puedes cambiar la hora o desactivar en cualquier momento',
   },
 
   // Activity Details
@@ -320,6 +484,88 @@ export const es: Translations = {
     xxxSubtitle: 'Duro y Extremo',
     xxxDesc: 'Juego avanzado, CNC, grupo y kinks intensos',
     activeProfile: 'Activo',
+    activeProfileTitle: 'Perfil activo',
+    noProfile: 'Sin perfil',
+    voted: 'Votado',
+    viewMyVotes: 'Ver mis votos',
+    manage: 'Gestionar',
+    partner: 'Pareja',
+    linked: 'Vinculado',
+    connectWithPartner: 'Conectar con pareja',
+    yourCode: 'Tu código: {{code}}',
+  },
+
+  tours: {
+    profiles: [
+      {
+        title: 'Tu perfil activo',
+        body: 'El perfil activo controla qué votos, coincidencias y preferencias estás editando.',
+      },
+      {
+        title: 'Gestiona perfiles locales',
+        body: 'Cambia de perfil, agrega otra persona o actualiza detalles desde este centro.',
+      },
+      {
+        title: 'Conecta con tu pareja',
+        body: 'Usa el área de pareja para crear o ingresar un código de invitación cuando estén listos para comparar.',
+      },
+    ],
+    deck: [
+      {
+        title: 'Elige una intensidad',
+        body: 'Usa la fila de filtros para enfocar las cartas en actividades más suaves, más atrevidas o todas.',
+      },
+      {
+        title: 'Vota cada carta',
+        body: 'Toca Pasar, Sí o Tal vez. También puedes deslizar a la izquierda, derecha o hacia arriba.',
+      },
+      {
+        title: 'Los votos se quedan locales',
+        body: 'Las elecciones se guardan en el perfil activo de este dispositivo y alimentan tus resultados.',
+      },
+    ],
+    matches: [
+      {
+        title: 'Compara perfiles',
+        body: 'El encabezado muestra qué dos perfiles se comparan para encontrar elecciones compartidas.',
+      },
+      {
+        title: 'Revisa elecciones compartidas',
+        body: 'Las secciones Sí mutuo y Tal vez mutuo muestran dónde ambos perfiles eligieron la misma respuesta.',
+      },
+      {
+        title: 'Comparte un resumen',
+        body: 'Compartir resultados envía un recuento breve sin sincronizar tus votos privados.',
+      },
+    ],
+    conversation: [
+      {
+        title: 'Elige una categoría de pregunta',
+        body: 'Usa la fila de categorías para cambiar el tipo de pregunta de conversación que ves.',
+      },
+      {
+        title: 'Usen preguntas juntos',
+        body: 'Avanza entre preguntas, salta a una aleatoria, guarda favoritas o comparte una pregunta.',
+      },
+      {
+        title: 'Preguntas de lenguajes del amor',
+        body: 'El módulo de lenguajes del amor enlaza al quiz y puede filtrar preguntas según sus resultados.',
+      },
+    ],
+    game: [
+      {
+        title: 'Elige un nivel',
+        body: 'Los niveles 1 a 5 controlan qué tan cálidas, atrevidas o intensas se sienten las cartas.',
+      },
+      {
+        title: 'Saca una carta',
+        body: 'Sacar trae una carta nueva, Saltar avanza y Compartir envía el texto actual.',
+      },
+      {
+        title: 'Jueguen a su ritmo',
+        body: 'Los tiempos son solo una guía. Las cartas sin límite pueden tomar el tiempo que quieran.',
+      },
+    ],
   },
 
   // Onboarding Screens

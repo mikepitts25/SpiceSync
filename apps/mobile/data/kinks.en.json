@@ -629,23 +629,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0108",
-    "slug": "fisting",
-    "title": "Gentle Fisting",
-    "titleEs": "Puñetingo Suave",
-    "description": "Gradually work up to inserting an entire hand. ",
-    "descriptionEs": "Trabajen gradualmente para insertar una mano completa.",
-    "tags": [
-      "fisting",
-      "intense",
-      "trust",
-      "advanced"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0109",
     "slug": "suspension",
     "title": "Rope Suspension",
@@ -1001,40 +984,6 @@
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty"
-  },
-  {
-    "id": "0111",
-    "slug": "water-sports",
-    "title": "Water Sports",
-    "titleEs": "Deportes Acuáticos",
-    "description": "Explore consensual pee play in the shower or with proper protection. Requires extensive negotiation.",
-    "descriptionEs": "Exploren juegos con orina consensuales en la ducha.",
-    "tags": [
-      "watersports",
-      "shower",
-      "taboo",
-      "negotiated"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0112",
-    "slug": "age-play",
-    "title": "Age Play",
-    "titleEs": "Juego de Edades",
-    "description": "Roleplay as different ages, from caregiver/little to other dynamics. Requires clear boundaries and aftercare.",
-    "descriptionEs": "Roleplay como edades diferentes, desde cuidador/pequeño.",
-    "tags": [
-      "ageplay",
-      "roleplay",
-      "caregiver",
-      "regression"
-    ],
-    "category": "roleplay",
-    "intensityScale": 3,
-    "tier": "xxx"
   },
   {
     "id": "0113",
@@ -1802,57 +1751,6 @@
     "tier": "naughty"
   },
   {
-    "id": "0121",
-    "slug": "extreme-bondage",
-    "title": "Extreme Bondage",
-    "titleEs": "Bondage Extremo",
-    "description": "Complex rope patterns, full immobilization, or predicament bondage.",
-    "descriptionEs": "Patrones complejos de cuerda, inmovilización total.",
-    "tags": [
-      "bondage",
-      "rope",
-      "extreme",
-      "immobilization"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0124",
-    "slug": "scat-play",
-    "title": "Scat Play",
-    "titleEs": "Juego con Heces",
-    "description": "Explore consensual scat play. EXTREME - requires extensive negotiation and safety.",
-    "descriptionEs": "Exploren juego consensual con heces. EXTREMO.",
-    "tags": [
-      "scat",
-      "taboo",
-      "extreme",
-      "negotiated"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0125",
-    "slug": "extreme-humiliation",
-    "title": "Extreme Humiliation",
-    "titleEs": "Humillación Extrema",
-    "description": "Intense verbal degradation and objectification. Requires extensive aftercare.",
-    "descriptionEs": "Degradación verbal intensa y cosificación.",
-    "tags": [
-      "humiliation",
-      "degradation",
-      "verbal",
-      "intense"
-    ],
-    "category": "communication",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0126",
     "slug": "public-exposure",
     "title": "Risky Public Exposure",
@@ -1883,57 +1781,6 @@
       "immobilization"
     ],
     "category": "light_restraint",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0129",
-    "slug": "extreme-suspension",
-    "title": "Extreme Suspension",
-    "titleEs": "Suspensión Extrema",
-    "description": "Full body suspension from ropes or harnesses. Requires extensive training.",
-    "descriptionEs": "Suspensión de cuerpo completo con cuerdas o arneses.",
-    "tags": [
-      "suspension",
-      "rope",
-      "extreme",
-      "dangerous"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0132",
-    "slug": "invasive-medical",
-    "title": "Invasive Medical Play",
-    "titleEs": "Juego Médico Invasivo",
-    "description": "Simulate invasive medical procedures. Requires knowledge and safety.",
-    "descriptionEs": "Simulen procedimientos médicos invasivos.",
-    "tags": [
-      "medical",
-      "invasive",
-      "roleplay",
-      "extreme"
-    ],
-    "category": "roleplay",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0133",
-    "slug": "extreme-age-play",
-    "title": "Extreme Age Play",
-    "titleEs": "Juego de Edades Extremo",
-    "description": "Deep regression to very young ages. Requires extensive negotiation.",
-    "descriptionEs": "Regresión profunda a edades muy jóvenes.",
-    "tags": [
-      "ageplay",
-      "regression",
-      "extreme",
-      "negotiated"
-    ],
-    "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
   },
@@ -1972,40 +1819,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0136",
-    "slug": "consensual-slavery",
-    "title": "Consensual Slavery",
-    "titleEs": "Esclavitud Consensuada",
-    "description": "Complete ownership dynamic with contracts and protocols.",
-    "descriptionEs": "Dinámica de propiedad completa con contratos.",
-    "tags": [
-      "slavery",
-      "ownership",
-      "contract",
-      "extreme"
-    ],
-    "category": "communication",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0137",
-    "slug": "extreme-objectification",
-    "title": "Extreme Objectification",
-    "titleEs": "Cosificación Extrema",
-    "description": "Treat your partner as a literal object - furniture, toy, etc.",
-    "descriptionEs": "Traten a su pareja como un objeto literal.",
-    "tags": [
-      "objectification",
-      "dehumanization",
-      "furniture",
-      "extreme"
-    ],
-    "category": "roleplay",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0138",
     "slug": "forced-orgasm",
     "title": "Forced Orgasm",
@@ -2036,23 +1849,6 @@
       "control"
     ],
     "category": "light_restraint",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0140",
-    "slug": "extreme-anal",
-    "title": "Extreme Anal Play",
-    "titleEs": "Juego Anal Extremo",
-    "description": "Large toys, deep penetration, or anal fisting. Requires extensive preparation.",
-    "descriptionEs": "Juguetes grandes, penetración profunda o puño anal.",
-    "tags": [
-      "anal",
-      "extreme",
-      "fisting",
-      "large-toys"
-    ],
-    "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
   },
@@ -2312,23 +2108,6 @@
     "tier": "xxx"
   },
   {
-    "id": "0146",
-    "slug": "extreme-stretching",
-    "title": "Extreme Stretching",
-    "titleEs": "Estiramiento Extremo",
-    "description": "Gradually stretch orifices to accommodate larger toys or fists.",
-    "descriptionEs": "Estiren gradualmente orificios para acomodar juguetes grandes.",
-    "tags": [
-      "stretching",
-      "extreme",
-      "large-toys",
-      "training"
-    ],
-    "category": "sensory",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
     "id": "0147",
     "slug": "inflation",
     "title": "Inflation Play",
@@ -2342,40 +2121,6 @@
       "toys"
     ],
     "category": "props_and_toys",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0148",
-    "slug": "vacuum-bedding",
-    "title": "Vacuum Bed",
-    "titleEs": "Cama de Vacío",
-    "description": "Seal your partner in a latex vacuum bed for total immobilization.",
-    "descriptionEs": "Sellen a su pareja en una cama de vacío de látex.",
-    "tags": [
-      "vacuum",
-      "latex",
-      "immobilization",
-      "extreme"
-    ],
-    "category": "light_restraint",
-    "intensityScale": 3,
-    "tier": "xxx"
-  },
-  {
-    "id": "0149",
-    "slug": "extreme-sensory",
-    "title": "Extreme Sensory Deprivation",
-    "titleEs": "Privación Sensorial Extrema",
-    "description": "Combine blindfolds, earplugs, hoods, and bondage for total sensory removal.",
-    "descriptionEs": "Combina vendas, tapones, capuchas y bondage para remoción sensorial total.",
-    "tags": [
-      "sensory-deprivation",
-      "extreme",
-      "isolation",
-      "intense"
-    ],
-    "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
   },
@@ -2531,5 +2276,2011 @@
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty"
+  },
+  {
+    "id": "0159",
+    "slug": "latex-leather-fetish",
+    "title": "Latex or Leather Fetish",
+    "titleEs": "Fetiche de Latex o Cuero",
+    "description": "Explore the look, texture, scent, and confidence of latex, leather, or similar fitted outfits together.",
+    "descriptionEs": "Exploren juntos el aspecto, la textura, el aroma y la confianza de usar latex, cuero o prendas ajustadas similares.",
+    "tags": [
+      "materials",
+      "clothing",
+      "texture",
+      "fetish"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0160",
+    "slug": "foot-worship",
+    "title": "Foot Worship",
+    "titleEs": "Adoracion de Pies",
+    "description": "Give focused attention to feet through massage, kissing, praise, or gentle worship within agreed boundaries.",
+    "descriptionEs": "Dedica atencion a los pies con masajes, besos, elogios o adoracion suave dentro de limites acordados.",
+    "tags": [
+      "feet",
+      "worship",
+      "massage",
+      "fetish"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0161",
+    "slug": "cock-ball-teasing",
+    "title": "Cock & Ball Teasing",
+    "titleEs": "Juego con Pene y Testiculos",
+    "description": "Use careful pressure, teasing touch, and clear check-ins around highly sensitive areas.",
+    "descriptionEs": "Usen presion cuidadosa, caricias provocativas y comunicacion clara en zonas muy sensibles.",
+    "tags": [
+      "genitals",
+      "teasing",
+      "sensation",
+      "trust"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0162",
+    "slug": "gag-play",
+    "title": "Gag Play",
+    "titleEs": "Juego con Mordaza",
+    "description": "Use a purpose-made gag or verbal restriction fantasy with nonverbal signals and frequent check-ins.",
+    "descriptionEs": "Usen una mordaza adecuada o una fantasia de restriccion verbal con senales no verbales y revisiones frecuentes.",
+    "tags": [
+      "restraint",
+      "communication",
+      "control",
+      "safety"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0163",
+    "slug": "edge-play-boundaries",
+    "title": "Edge Play Boundaries",
+    "titleEs": "Limites de Juego Intenso",
+    "description": "Discuss the thrill of higher-risk fantasies by naming hard limits, safety plans, and what stays fantasy-only.",
+    "descriptionEs": "Hablen del atractivo de fantasias de mayor riesgo definiendo limites firmes, planes de seguridad y lo que queda solo en fantasia.",
+    "tags": [
+      "boundaries",
+      "risk-aware",
+      "communication",
+      "fantasy"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0164",
+    "slug": "bisexual-fantasy-roleplay",
+    "title": "Bisexual Fantasy Roleplay",
+    "titleEs": "Fantasia Bisexual de Rol",
+    "description": "Explore same-gender curiosity or bisexual scenarios as consensual fantasy, dirty talk, or negotiated roleplay.",
+    "descriptionEs": "Exploren curiosidad del mismo genero o escenarios bisexuales como fantasia consensuada, charla erotica o rol negociado.",
+    "tags": [
+      "roleplay",
+      "fantasy",
+      "orientation",
+      "communication"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0165",
+    "slug": "forniphilia",
+    "title": "Forniphilia",
+    "titleEs": "Fornifilia",
+    "description": "Explore consensual objectification by posing as furniture or display, with comfort checks and breaks.",
+    "descriptionEs": "Exploren la cosificacion consensuada posando como mueble o exhibicion, con controles de comodidad y descansos.",
+    "tags": [
+      "objectification",
+      "restraint",
+      "roleplay",
+      "control"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0166",
+    "slug": "cum-play",
+    "title": "Cum Play",
+    "titleEs": "Juego con Semen",
+    "description": "Explore the visual, tactile, or symbolic side of ejaculation in a consensual and hygienic way.",
+    "descriptionEs": "Exploren el lado visual, tactil o simbolico de la eyaculacion de forma consensuada e higienica.",
+    "tags": [
+      "fluids",
+      "ejaculation",
+      "intimacy",
+      "cleanup"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0167",
+    "slug": "bukkake-fantasy",
+    "title": "Bukkake Fantasy",
+    "titleEs": "Fantasia de Bukkake",
+    "description": "Discuss or roleplay the fantasy of being the focus of multiple partners, keeping it consensual and fantasy-safe.",
+    "descriptionEs": "Hablen o jueguen con la fantasia de ser el centro de atencion de varias personas, manteniendola consensuada y segura.",
+    "tags": [
+      "fluids",
+      "group",
+      "fantasy",
+      "attention"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0168",
+    "slug": "cum-on-clothes",
+    "title": "Cum on Clothes",
+    "titleEs": "Semen en la Ropa",
+    "description": "Use clothing as part of the fantasy, focusing on permission, cleanup, and which items are okay to mark.",
+    "descriptionEs": "Usen la ropa como parte de la fantasia, cuidando el permiso, la limpieza y que prendas se pueden marcar.",
+    "tags": [
+      "fluids",
+      "clothing",
+      "marking",
+      "consent"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0169",
+    "slug": "lactation-fantasy",
+    "title": "Lactation Fantasy",
+    "titleEs": "Fantasia de Lactancia",
+    "description": "Explore nursing, milk, or lactation themes as fantasy or body-focused intimacy between consenting adults.",
+    "descriptionEs": "Exploren temas de lactancia, leche o amamantamiento como fantasia o intimidad corporal entre adultos que consienten.",
+    "tags": [
+      "body",
+      "nurturing",
+      "fantasy",
+      "intimacy"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0170",
+    "slug": "saliva-play",
+    "title": "Saliva Play",
+    "titleEs": "Juego con Saliva",
+    "description": "Explore spitting, drooling, messy kissing, or saliva-focused intimacy with explicit consent and hygiene.",
+    "descriptionEs": "Exploren escupir, babear, besos intensos o intimidad centrada en saliva con consentimiento explicito e higiene.",
+    "tags": [
+      "fluids",
+      "kissing",
+      "messy",
+      "consent"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0171",
+    "slug": "breast-expansion-fantasy",
+    "title": "Breast Expansion Fantasy",
+    "titleEs": "Fantasia de Expansion de Pechos",
+    "description": "Use fantasy, dirty talk, or visual imagination around breasts becoming fuller or more emphasized.",
+    "descriptionEs": "Usen fantasia, charla erotica o imaginacion visual sobre pechos que se vuelven mas llenos o destacados.",
+    "tags": [
+      "body",
+      "fantasy",
+      "breasts",
+      "transformation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0172",
+    "slug": "belly-expansion-fantasy",
+    "title": "Belly Expansion Fantasy",
+    "titleEs": "Fantasia de Expansion del Vientre",
+    "description": "Explore fantasies around a fuller belly, body change, or pregnancy-coded imagery by discussion or roleplay.",
+    "descriptionEs": "Exploren fantasias sobre un vientre mas lleno, cambios corporales o imagenes asociadas al embarazo mediante charla o rol.",
+    "tags": [
+      "body",
+      "fantasy",
+      "belly",
+      "transformation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0173",
+    "slug": "consensual-public-touch",
+    "title": "Consensual Public Touch Fantasy",
+    "titleEs": "Fantasia de Toques Publicos Consensuados",
+    "description": "Explore the thrill of discreet touch in public-adjacent settings while keeping consent, legality, and privacy first.",
+    "descriptionEs": "Exploren la emocion de toques discretos en entornos semipublicos priorizando consentimiento, legalidad y privacidad.",
+    "tags": [
+      "public",
+      "touch",
+      "risk-aware",
+      "consent"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0174",
+    "slug": "dogging-fantasy",
+    "title": "Dogging Fantasy",
+    "titleEs": "Fantasia de Dogging",
+    "description": "Discuss consensual watching or being watched in car or outdoor fantasies without involving unconsenting bystanders.",
+    "descriptionEs": "Hablen de mirar o ser vistos en fantasias de auto o exterior sin involucrar a personas que no consienten.",
+    "tags": [
+      "voyeur",
+      "exhibition",
+      "public",
+      "fantasy"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0175",
+    "slug": "swingers-club-spectating",
+    "title": "Swingers Club Spectating",
+    "titleEs": "Observar en Club Swinger",
+    "description": "Explore the idea of visiting an adult venue to watch, absorb the atmosphere, or discuss boundaries together.",
+    "descriptionEs": "Exploren la idea de visitar un lugar adulto para observar, sentir el ambiente o hablar de limites juntos.",
+    "tags": [
+      "voyeur",
+      "swinging",
+      "venue",
+      "discussion"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0176",
+    "slug": "gloryhole-fantasy",
+    "title": "Gloryhole Fantasy",
+    "titleEs": "Fantasia de Gloryhole",
+    "description": "Explore anonymous partition-play as fantasy or negotiated adult-venue discussion with clear safer-sex boundaries.",
+    "descriptionEs": "Exploren el juego anonimo con separacion como fantasia o charla sobre lugares adultos con limites claros de sexo seguro.",
+    "tags": [
+      "anonymous",
+      "oral",
+      "fantasy",
+      "venue"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0177",
+    "slug": "blindfolded-exhibitionism",
+    "title": "Blindfolded Exhibitionism",
+    "titleEs": "Exhibicionismo con Venda",
+    "description": "Combine consensual being-watched fantasies with a blindfold so attention and uncertainty become part of the thrill.",
+    "descriptionEs": "Combinen fantasias consensuadas de ser vistos con una venda para que la atencion y la incertidumbre sean parte del juego.",
+    "tags": [
+      "blindfold",
+      "exhibition",
+      "sensory",
+      "fantasy"
+    ],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0178",
+    "slug": "dare-play",
+    "title": "Dare Play",
+    "titleEs": "Juego de Retos",
+    "description": "Take turns giving playful or erotic dares, with veto power and a clear way to pass.",
+    "descriptionEs": "Turnense para proponer retos juguetones o eroticos, con derecho a veto y una forma clara de pasar.",
+    "tags": [
+      "game",
+      "challenge",
+      "spontaneity",
+      "consent"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0179",
+    "slug": "uniform-fetish",
+    "title": "Uniform Fetish",
+    "titleEs": "Fetiche de Uniformes",
+    "description": "Use uniforms or authority-coded outfits to heighten attraction, roleplay, and power dynamics.",
+    "descriptionEs": "Usen uniformes o prendas asociadas a autoridad para intensificar atraccion, rol y dinamicas de poder.",
+    "tags": [
+      "clothing",
+      "authority",
+      "roleplay",
+      "power"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0180",
+    "slug": "fmm-threesome-fantasy",
+    "title": "FMM Threesome Fantasy",
+    "titleEs": "Fantasia de Trio MHM",
+    "description": "Discuss a one-woman, two-men fantasy, including attention, boundaries, jealousy, and safer-sex expectations.",
+    "descriptionEs": "Hablen de una fantasia de una mujer y dos hombres, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
+    "tags": [
+      "group",
+      "threesome",
+      "fantasy",
+      "discussion"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0181",
+    "slug": "ffm-threesome-fantasy",
+    "title": "FFM Threesome Fantasy",
+    "titleEs": "Fantasia de Trio MMH",
+    "description": "Discuss a two-women, one-man fantasy, including attention, boundaries, jealousy, and safer-sex expectations.",
+    "descriptionEs": "Hablen de una fantasia de dos mujeres y un hombre, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
+    "tags": [
+      "group",
+      "threesome",
+      "fantasy",
+      "discussion"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0182",
+    "slug": "bed-sharing",
+    "title": "Bed-Sharing Fantasy",
+    "titleEs": "Fantasia de Compartir Cama",
+    "description": "Explore the intimacy and tension of sharing a bed, whether as a couple, roleplay, or negotiated group fantasy.",
+    "descriptionEs": "Exploren la intimidad y tension de compartir cama, como pareja, rol o fantasia grupal negociada.",
+    "tags": [
+      "bed",
+      "intimacy",
+      "fantasy",
+      "closeness"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0183",
+    "slug": "sleepy-wakeup-fantasy",
+    "title": "Sleepy Wake-Up Fantasy",
+    "titleEs": "Fantasia de Despertar Sensual",
+    "description": "Discuss pre-negotiated sleepy or wake-up intimacy where consent is agreed in advance and can be revoked anytime.",
+    "descriptionEs": "Hablen de intimidad somnolienta o al despertar, preacordada y revocable en cualquier momento.",
+    "tags": [
+      "sleepy",
+      "consent",
+      "fantasy",
+      "trust"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0184",
+    "slug": "travel-sex",
+    "title": "Travel Sex",
+    "titleEs": "Sexo de Viaje",
+    "description": "Explore the novelty of intimacy while traveling, from hotel rooms to vacation rules and getaway fantasies.",
+    "descriptionEs": "Exploren la novedad de la intimidad al viajar, desde habitaciones de hotel hasta reglas de vacaciones y escapadas.",
+    "tags": [
+      "travel",
+      "environment",
+      "novelty",
+      "fantasy"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0185",
+    "slug": "bar-club-sex",
+    "title": "Bar or Club Sex Fantasy",
+    "titleEs": "Fantasia de Sexo en Bar o Club",
+    "description": "Explore the fantasy of chemistry, music, flirting, and finding a private, legal place after a night out.",
+    "descriptionEs": "Exploren la fantasia de quimica, musica, coqueteo y encontrar un lugar privado y legal despues de salir.",
+    "tags": [
+      "nightlife",
+      "public-adjacent",
+      "flirting",
+      "fantasy"
+    ],
+    "category": "environment",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0186",
+    "slug": "barebacking-discussion",
+    "title": "Barebacking Discussion",
+    "titleEs": "Conversacion sobre Sexo sin Barrera",
+    "description": "Talk honestly about the fantasy of barrier-free sex, testing, contraception, trust, and risk tolerance.",
+    "descriptionEs": "Hablen honestamente sobre la fantasia de sexo sin barrera, pruebas, anticoncepcion, confianza y tolerancia al riesgo.",
+    "tags": [
+      "safer-sex",
+      "trust",
+      "risk-aware",
+      "discussion"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0187",
+    "slug": "genital-humiliation",
+    "title": "Genital Humiliation",
+    "titleEs": "Humillacion Genital",
+    "description": "Use consensual teasing or humiliation about genitals with agreed words, limits, and aftercare.",
+    "descriptionEs": "Usen bromas o humillacion consensuada sobre genitales con palabras acordadas, limites y cuidado posterior.",
+    "tags": [
+      "humiliation",
+      "dirty-talk",
+      "limits",
+      "aftercare"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0188",
+    "slug": "public-humiliation",
+    "title": "Public Humiliation Fantasy",
+    "titleEs": "Fantasia de Humillacion Publica",
+    "description": "Discuss humiliation scenarios with an audience element, keeping bystanders fictional or fully consenting.",
+    "descriptionEs": "Hablen de escenarios de humillacion con publico, manteniendo a terceros como fantasia o plenamente consensuados.",
+    "tags": [
+      "humiliation",
+      "public",
+      "fantasy",
+      "consent"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0189",
+    "slug": "seduction-play",
+    "title": "Seduction Play",
+    "titleEs": "Juego de Seduccion",
+    "description": "Build a scene around tempting, pursuing, resisting, and finally giving in to desire.",
+    "descriptionEs": "Construyan una escena de tentar, perseguir, resistir y finalmente ceder al deseo.",
+    "tags": [
+      "seduction",
+      "roleplay",
+      "teasing",
+      "anticipation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0190",
+    "slug": "blindfolded-group-play",
+    "title": "Blindfolded Group Play Fantasy",
+    "titleEs": "Fantasia de Juego Grupal con Venda",
+    "description": "Discuss a group fantasy where blindness, trust, and negotiated touch create the intensity.",
+    "descriptionEs": "Hablen de una fantasia grupal donde la ceguera temporal, la confianza y el tacto negociado crean intensidad.",
+    "tags": [
+      "blindfold",
+      "group",
+      "fantasy",
+      "trust"
+    ],
+    "category": "group",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0191",
+    "slug": "kinky-events",
+    "title": "Kinky Events",
+    "titleEs": "Eventos Kinky",
+    "description": "Explore interest in munches, workshops, play parties, or adult events as spectators or participants.",
+    "descriptionEs": "Exploren interes en reuniones, talleres, fiestas de juego o eventos adultos como observadores o participantes.",
+    "tags": [
+      "events",
+      "community",
+      "learning",
+      "discussion"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0192",
+    "slug": "aftercare-ritual",
+    "title": "Aftercare Ritual",
+    "titleEs": "Ritual de Cuidado Posterior",
+    "description": "Plan how you reconnect after intense play with touch, water, reassurance, quiet, or a check-in.",
+    "descriptionEs": "Planeen como reconectar despues de un juego intenso con contacto, agua, tranquilidad, palabras o una revision.",
+    "tags": [
+      "aftercare",
+      "care",
+      "communication",
+      "reconnection"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0193",
+    "slug": "arousal-play",
+    "title": "Arousal Play",
+    "titleEs": "Juego de Excitacion",
+    "description": "Focus on building, noticing, and prolonging arousal through teasing, pacing, and feedback.",
+    "descriptionEs": "Enfoquense en construir, notar y prolongar la excitacion con provocacion, ritmo y retroalimentacion.",
+    "tags": [
+      "arousal",
+      "teasing",
+      "pacing",
+      "feedback"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0194",
+    "slug": "breeding-kink",
+    "title": "Breeding Kink",
+    "titleEs": "Kink de Reproduccion",
+    "description": "Explore pregnancy-coded dirty talk, finishing fantasies, or possessive language while staying aligned on contraception.",
+    "descriptionEs": "Exploren charla erotica de embarazo, fantasia de terminar dentro o lenguaje posesivo, alineados sobre anticoncepcion.",
+    "tags": [
+      "fantasy",
+      "pregnancy-coded",
+      "dirty-talk",
+      "contraception"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0195",
+    "slug": "foam-bubble-fetish",
+    "title": "Foam or Bubble Fetish",
+    "titleEs": "Fetiche de Espuma o Burbujas",
+    "description": "Use foam, bubbles, or a bath setting as a playful sensory focus for touch and visual appeal.",
+    "descriptionEs": "Usen espuma, burbujas o un bano como enfoque sensorial jugueton para el tacto y lo visual.",
+    "tags": [
+      "bubbles",
+      "foam",
+      "sensory",
+      "bath"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0196",
+    "slug": "nudism",
+    "title": "Nudism",
+    "titleEs": "Nudismo",
+    "description": "Explore comfort, confidence, and intimacy around being nude together in private or appropriate adult spaces.",
+    "descriptionEs": "Exploren comodidad, confianza e intimidad al estar desnudos juntos en privado o en espacios adultos adecuados.",
+    "tags": [
+      "nudity",
+      "confidence",
+      "body",
+      "comfort"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0197",
+    "slug": "watching-male-male-porn",
+    "title": "Watching Male-Male Porn Together",
+    "titleEs": "Ver Porno Hombre-Hombre Juntos",
+    "description": "Discuss or watch male-male adult content together as a curiosity, fantasy, or shared turn-on.",
+    "descriptionEs": "Hablen o vean contenido adulto hombre-hombre juntos como curiosidad, fantasia o excitacion compartida.",
+    "tags": [
+      "porn",
+      "orientation",
+      "voyeur",
+      "discussion"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0198",
+    "slug": "watching-female-female-porn",
+    "title": "Watching Female-Female Porn Together",
+    "titleEs": "Ver Porno Mujer-Mujer Juntos",
+    "description": "Discuss or watch female-female adult content together as a curiosity, fantasy, or shared turn-on.",
+    "descriptionEs": "Hablen o vean contenido adulto mujer-mujer juntos como curiosidad, fantasia o excitacion compartida.",
+    "tags": [
+      "porn",
+      "orientation",
+      "voyeur",
+      "discussion"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0199",
+    "slug": "service-submission",
+    "title": "Service Submission",
+    "titleEs": "Sumision de Servicio",
+    "description": "Explore practical acts of care, attention, or helpfulness as a consensual power-exchange focus.",
+    "descriptionEs": "Exploren actos practicos de cuidado, atencion o ayuda como enfoque consensuado de intercambio de poder.",
+    "tags": [
+      "service",
+      "submission",
+      "care",
+      "power-exchange"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0200",
+    "slug": "service-top",
+    "title": "Service Topping",
+    "titleEs": "Top de Servicio",
+    "description": "One partner leads an agreed activity while centering the receiving partner's requested sensations and limits.",
+    "descriptionEs": "Una pareja guia una actividad acordada mientras centra las sensaciones y limites pedidos por quien recibe.",
+    "tags": [
+      "service",
+      "top",
+      "negotiation",
+      "scene"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0201",
+    "slug": "praise-kink",
+    "title": "Praise Kink",
+    "titleEs": "Kink de Elogios",
+    "description": "Use sincere praise, approval, and encouragement as the main turn-on during intimate moments.",
+    "descriptionEs": "Usen elogios sinceros, aprobacion y animo como el principal estimulo durante momentos intimos.",
+    "tags": [
+      "praise",
+      "affirmation",
+      "dirty-talk",
+      "confidence"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0202",
+    "slug": "rules-rituals",
+    "title": "Rules and Rituals",
+    "titleEs": "Reglas y Rituales",
+    "description": "Create small consensual rules or rituals that make a dynamic feel intentional without leaving everyday limits behind.",
+    "descriptionEs": "Creen pequenas reglas o rituales consensuados que hagan que una dinamica se sienta intencional sin salir de los limites diarios.",
+    "tags": [
+      "rules",
+      "rituals",
+      "dynamic",
+      "structure"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0203",
+    "slug": "low-protocol-ds",
+    "title": "Low-Protocol D/s",
+    "titleEs": "D/s de Bajo Protocolo",
+    "description": "Try a relaxed dominance and submission dynamic with light guidance, playful choices, and easy check-ins.",
+    "descriptionEs": "Prueben una dinamica relajada de dominacion y sumision con guia ligera, elecciones juguetonas y chequeos faciles.",
+    "tags": [
+      "dominance",
+      "submission",
+      "protocol",
+      "check-ins"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0204",
+    "slug": "high-protocol-fantasy",
+    "title": "High-Protocol Fantasy",
+    "titleEs": "Fantasia de Alto Protocolo",
+    "description": "Discuss or roleplay formal etiquette, posture, titles, and permission rules within a clearly negotiated scene.",
+    "descriptionEs": "Hablen o representen etiqueta formal, postura, titulos y reglas de permiso dentro de una escena claramente negociada.",
+    "tags": [
+      "protocol",
+      "ritual",
+      "permission",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0205",
+    "slug": "permission-play",
+    "title": "Permission Play",
+    "titleEs": "Juego de Permiso",
+    "description": "Build anticipation by asking for, granting, or denying permission around agreed intimate choices.",
+    "descriptionEs": "Creen anticipacion al pedir, conceder o negar permiso sobre elecciones intimas acordadas.",
+    "tags": [
+      "permission",
+      "control",
+      "anticipation",
+      "dynamic"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0206",
+    "slug": "task-based-teasing",
+    "title": "Task-Based Teasing",
+    "titleEs": "Provocacion con Tareas",
+    "description": "Give playful tasks, timed prompts, or private challenges that create anticipation before intimacy.",
+    "descriptionEs": "Den tareas juguetonas, indicaciones con tiempo o retos privados que creen anticipacion antes de la intimidad.",
+    "tags": [
+      "tasks",
+      "teasing",
+      "anticipation",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0207",
+    "slug": "obedience-games",
+    "title": "Obedience Games",
+    "titleEs": "Juegos de Obediencia",
+    "description": "Use simple, negotiated instructions and rewards to explore being guided or guiding a partner.",
+    "descriptionEs": "Usen instrucciones simples y negociadas con recompensas para explorar ser guiado o guiar a la pareja.",
+    "tags": [
+      "obedience",
+      "rewards",
+      "instructions",
+      "power-exchange"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0208",
+    "slug": "reward-system",
+    "title": "Reward System",
+    "titleEs": "Sistema de Recompensas",
+    "description": "Set up affectionate rewards for completed dares, tasks, or check-ins during a consensual scene.",
+    "descriptionEs": "Establezcan recompensas afectuosas por retos, tareas o chequeos completados durante una escena consensuada.",
+    "tags": [
+      "rewards",
+      "games",
+      "rules",
+      "aftercare"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0209",
+    "slug": "brat-taming",
+    "title": "Brat Taming",
+    "titleEs": "Domar al Brat",
+    "description": "Explore playful resistance, teasing pushback, and agreed consequences without real conflict.",
+    "descriptionEs": "Exploren resistencia juguetona, provocacion desafiante y consecuencias acordadas sin conflicto real.",
+    "tags": [
+      "brat",
+      "teasing",
+      "dominance",
+      "playful"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0210",
+    "slug": "gentle-discipline",
+    "title": "Gentle Discipline",
+    "titleEs": "Disciplina Suave",
+    "description": "Use mild, agreed structure or correction as a playful way to build tension and attention.",
+    "descriptionEs": "Usen estructura o correccion leve y acordada como forma juguetona de crear tension y atencion.",
+    "tags": [
+      "discipline",
+      "structure",
+      "control",
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0211",
+    "slug": "scene-negotiation",
+    "title": "Scene Negotiation",
+    "titleEs": "Negociacion de Escena",
+    "description": "Make the pre-scene conversation itself exciting by naming wants, limits, signals, and aftercare.",
+    "descriptionEs": "Hagan que la conversacion previa a la escena sea excitante al nombrar deseos, limites, senales y cuidado posterior.",
+    "tags": [
+      "negotiation",
+      "limits",
+      "consent",
+      "planning"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0212",
+    "slug": "safeword-practice",
+    "title": "Safeword Practice",
+    "titleEs": "Practica de Palabra Segura",
+    "description": "Practice pausing, slowing down, and stopping with agreed words or signals so both partners trust the system.",
+    "descriptionEs": "Practiquen pausar, bajar intensidad y detenerse con palabras o senales acordadas para que ambos confien en el sistema.",
+    "tags": [
+      "safeword",
+      "consent",
+      "check-ins",
+      "trust"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0213",
+    "slug": "check-in-pauses",
+    "title": "Check-In Pauses",
+    "titleEs": "Pausas de Chequeo",
+    "description": "Use brief verbal or nonverbal check-ins during intimacy to confirm comfort and keep the mood connected.",
+    "descriptionEs": "Usen chequeos breves verbales o no verbales durante la intimidad para confirmar comodidad y mantener conexion.",
+    "tags": [
+      "check-ins",
+      "consent",
+      "comfort",
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0214",
+    "slug": "aftercare-kit",
+    "title": "Aftercare Kit",
+    "titleEs": "Kit de Cuidado Posterior",
+    "description": "Prepare blankets, water, snacks, or calming items before a more intense scene.",
+    "descriptionEs": "Preparen mantas, agua, snacks o elementos calmantes antes de una escena mas intensa.",
+    "tags": [
+      "aftercare",
+      "comfort",
+      "planning",
+      "care"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0215",
+    "slug": "subspace-aftercare",
+    "title": "Subspace Aftercare",
+    "titleEs": "Cuidado Posterior de Subspace",
+    "description": "Plan grounding, reassurance, and quiet closeness after scenes that create a floaty or surrendered headspace.",
+    "descriptionEs": "Planifiquen arraigo, tranquilidad y cercania silenciosa despues de escenas que creen un estado mental flotante o entregado.",
+    "tags": [
+      "subspace",
+      "aftercare",
+      "grounding",
+      "care"
+    ],
+    "category": "aftercare",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0216",
+    "slug": "domspace-aftercare",
+    "title": "Domspace Aftercare",
+    "titleEs": "Cuidado Posterior de Domspace",
+    "description": "Offer grounding and reassurance for the leading partner after an intense power-exchange scene.",
+    "descriptionEs": "Ofrezcan arraigo y tranquilidad para la pareja que guia despues de una escena intensa de intercambio de poder.",
+    "tags": [
+      "domspace",
+      "aftercare",
+      "grounding",
+      "care"
+    ],
+    "category": "aftercare",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0217",
+    "slug": "collar-of-consideration",
+    "title": "Collar of Consideration",
+    "titleEs": "Collar de Consideracion",
+    "description": "Use a symbolic collar or token to mark curiosity, trust, or a temporary dynamic.",
+    "descriptionEs": "Usen un collar o simbolo para marcar curiosidad, confianza o una dinamica temporal.",
+    "tags": [
+      "collar",
+      "symbol",
+      "trust",
+      "dynamic"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0218",
+    "slug": "posture-training",
+    "title": "Posture Training",
+    "titleEs": "Entrenamiento de Postura",
+    "description": "Play with guided posture, presentation, or stillness as an aesthetic power-exchange ritual.",
+    "descriptionEs": "Jueguen con postura guiada, presentacion o quietud como ritual estetico de intercambio de poder.",
+    "tags": [
+      "posture",
+      "ritual",
+      "presentation",
+      "control"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0219",
+    "slug": "kneeling-rituals",
+    "title": "Kneeling Rituals",
+    "titleEs": "Rituales de Rodillas",
+    "description": "Explore kneeling, offering, or receiving attention as a symbolic scene opener or closer.",
+    "descriptionEs": "Exploren arrodillarse, ofrecer o recibir atencion como apertura o cierre simbolico de una escena.",
+    "tags": [
+      "kneeling",
+      "ritual",
+      "submission",
+      "symbolic"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0220",
+    "slug": "honorifics",
+    "title": "Honorifics",
+    "titleEs": "Honorificos",
+    "description": "Try agreed titles or forms of address that add formality, affection, or power exchange.",
+    "descriptionEs": "Prueben titulos o formas de dirigirse acordadas que agreguen formalidad, afecto o intercambio de poder.",
+    "tags": [
+      "titles",
+      "language",
+      "roleplay",
+      "power-exchange"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0221",
+    "slug": "body-worship",
+    "title": "Body Worship",
+    "titleEs": "Adoracion del Cuerpo",
+    "description": "Focus attention, compliments, kisses, or touch on appreciating a partner's whole body.",
+    "descriptionEs": "Concentren atencion, elogios, besos o tacto en apreciar todo el cuerpo de la pareja.",
+    "tags": [
+      "worship",
+      "body",
+      "praise",
+      "touch"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0222",
+    "slug": "hand-worship",
+    "title": "Hand Worship",
+    "titleEs": "Adoracion de Manos",
+    "description": "Make hands the focus through kissing, massage, scent, touch, or guided admiration.",
+    "descriptionEs": "Hagan de las manos el foco con besos, masaje, aroma, tacto o admiracion guiada.",
+    "tags": [
+      "hands",
+      "worship",
+      "touch",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0223",
+    "slug": "voice-arousal",
+    "title": "Voice Arousal",
+    "titleEs": "Excitacion por la Voz",
+    "description": "Use voice, tone, whispering, reading, or breathy conversation as the main source of anticipation.",
+    "descriptionEs": "Usen voz, tono, susurros, lectura o conversacion con respiracion como fuente principal de anticipacion.",
+    "tags": [
+      "voice",
+      "auralism",
+      "sound",
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0224",
+    "slug": "audio-erotica-together",
+    "title": "Audio Erotica Together",
+    "titleEs": "Audio Erotico Juntos",
+    "description": "Listen to consensual adult audio or record private spoken fantasies for each other.",
+    "descriptionEs": "Escuchen audio adulto consensual o graben fantasias habladas privadas para la pareja.",
+    "tags": [
+      "audio",
+      "fantasy",
+      "voice",
+      "digital"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0225",
+    "slug": "earplug-sensory-play",
+    "title": "Earplug Sensory Play",
+    "titleEs": "Juego Sensorial con Tapones",
+    "description": "Reduce sound with simple earplugs or headphones while relying on touch, signals, and check-ins.",
+    "descriptionEs": "Reduzcan el sonido con tapones o audifonos simples mientras dependen del tacto, senales y chequeos.",
+    "tags": [
+      "sensory-deprivation",
+      "sound",
+      "check-ins",
+      "touch"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0226",
+    "slug": "textured-gloves",
+    "title": "Textured Gloves",
+    "titleEs": "Guantes con Textura",
+    "description": "Use gloves with different textures to make familiar touch feel new and focused.",
+    "descriptionEs": "Usen guantes con distintas texturas para que el tacto familiar se sienta nuevo y enfocado.",
+    "tags": [
+      "texture",
+      "gloves",
+      "touch",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0227",
+    "slug": "satin-sheets",
+    "title": "Satin Sheets",
+    "titleEs": "Sabanas de Satin",
+    "description": "Make slick sheets, soft fabric, or smooth bedding the center of a sensory night.",
+    "descriptionEs": "Hagan que sabanas sedosas, tela suave o ropa de cama lisa sean el centro de una noche sensorial.",
+    "tags": [
+      "fabric",
+      "satin",
+      "bedding",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0228",
+    "slug": "stocking-fetish",
+    "title": "Stocking Fetish",
+    "titleEs": "Fetiche de Medias",
+    "description": "Focus on stockings, thigh highs, or hosiery as a visual and texture-based turn-on.",
+    "descriptionEs": "Enfoquense en medias, medias altas o calceteria como estimulo visual y de textura.",
+    "tags": [
+      "stockings",
+      "hosiery",
+      "clothing",
+      "fetish"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0229",
+    "slug": "corset-fetish",
+    "title": "Corset Fetish",
+    "titleEs": "Fetiche de Corset",
+    "description": "Explore the look, structure, and ritual of wearing or admiring a corset.",
+    "descriptionEs": "Exploren el aspecto, la estructura y el ritual de usar o admirar un corset.",
+    "tags": [
+      "corset",
+      "clothing",
+      "structure",
+      "fetish"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0230",
+    "slug": "shoe-fetish",
+    "title": "Shoe Fetish",
+    "titleEs": "Fetiche de Zapatos",
+    "description": "Use shoes, boots, or heels as a consensual visual focus or admiration ritual.",
+    "descriptionEs": "Usen zapatos, botas o tacones como foco visual consensuado o ritual de admiracion.",
+    "tags": [
+      "shoes",
+      "heels",
+      "boots",
+      "fetish"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0231",
+    "slug": "perfume-scent-play",
+    "title": "Perfume and Scent Play",
+    "titleEs": "Juego de Perfume y Aroma",
+    "description": "Use perfume, cologne, clean skin, or favorite scents to create memory and anticipation.",
+    "descriptionEs": "Usen perfume, colonia, piel limpia o aromas favoritos para crear memoria y anticipacion.",
+    "tags": [
+      "scent",
+      "perfume",
+      "memory",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0232",
+    "slug": "sweat-musk-appreciation",
+    "title": "Sweat and Musk Appreciation",
+    "titleEs": "Aprecio de Sudor y Aroma Natural",
+    "description": "Explore attraction to a partner's natural scent after movement, dancing, or closeness.",
+    "descriptionEs": "Exploren la atraccion por el aroma natural de la pareja despues de moverse, bailar o estar cerca.",
+    "tags": [
+      "scent",
+      "musk",
+      "body",
+      "sensory"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0233",
+    "slug": "towel-restraint",
+    "title": "Towel Restraint",
+    "titleEs": "Restriccion con Toalla",
+    "description": "Use a towel as a soft, low-intensity prop for symbolic restraint or guided stillness.",
+    "descriptionEs": "Usen una toalla como accesorio suave y de baja intensidad para restriccion simbolica o quietud guiada.",
+    "tags": [
+      "restraint",
+      "soft",
+      "prop",
+      "stillness"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0234",
+    "slug": "bed-restraints",
+    "title": "Bed Restraints",
+    "titleEs": "Restricciones de Cama",
+    "description": "Explore simple bed restraints with comfort checks, quick release, and clear positioning.",
+    "descriptionEs": "Exploren restricciones simples de cama con chequeos de comodidad, liberacion rapida y posicion clara.",
+    "tags": [
+      "restraints",
+      "bed",
+      "bondage",
+      "check-ins"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0235",
+    "slug": "decorative-shibari",
+    "title": "Decorative Shibari",
+    "titleEs": "Shibari Decorativo",
+    "description": "Treat rope as an aesthetic, photographed, or meditative experience rather than high-intensity restraint.",
+    "descriptionEs": "Traten la cuerda como experiencia estetica, fotografiada o meditativa en vez de restriccion de alta intensidad.",
+    "tags": [
+      "rope",
+      "shibari",
+      "aesthetic",
+      "bondage"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0236",
+    "slug": "rope-harness",
+    "title": "Rope Harness",
+    "titleEs": "Arnes de Cuerda",
+    "description": "Create a simple rope harness as a visual, tactile, or confidence-building focus.",
+    "descriptionEs": "Creen un arnes de cuerda simple como foco visual, tactil o de confianza.",
+    "tags": [
+      "rope",
+      "harness",
+      "visual",
+      "touch"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0237",
+    "slug": "rope-bunny-role",
+    "title": "Rope Bunny Role",
+    "titleEs": "Rol de Bunny de Cuerda",
+    "description": "Explore the receiving side of rope as a role centered on trust, presentation, and feedback.",
+    "descriptionEs": "Exploren el lado receptor de la cuerda como rol centrado en confianza, presentacion y retroalimentacion.",
+    "tags": [
+      "rope",
+      "role",
+      "trust",
+      "feedback"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0238",
+    "slug": "rigger-role",
+    "title": "Rigger Role",
+    "titleEs": "Rol de Rigger",
+    "description": "Explore the tying partner role with emphasis on planning, feedback, and simple safe ties.",
+    "descriptionEs": "Exploren el rol de quien ata con enfasis en planificacion, retroalimentacion y ataduras simples y seguras.",
+    "tags": [
+      "rope",
+      "rigger",
+      "planning",
+      "bondage"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0239",
+    "slug": "spreader-bar-fantasy",
+    "title": "Spreader Bar Fantasy",
+    "titleEs": "Fantasia de Barra Separadora",
+    "description": "Discuss or lightly roleplay the idea of being held open with clear comfort and mobility limits.",
+    "descriptionEs": "Hablen o representen suavemente la idea de estar mantenido abierto con limites claros de comodidad y movilidad.",
+    "tags": [
+      "restraint",
+      "fantasy",
+      "positioning",
+      "limits"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0240",
+    "slug": "light-ankle-restraints",
+    "title": "Light Ankle Restraints",
+    "titleEs": "Restricciones Ligeras de Tobillos",
+    "description": "Use gentle ankle restraints to create stillness, anticipation, or a playful sense of being held.",
+    "descriptionEs": "Usen restricciones suaves de tobillos para crear quietud, anticipacion o una sensacion juguetona de estar sujeto.",
+    "tags": [
+      "ankles",
+      "restraints",
+      "anticipation",
+      "bondage"
+    ],
+    "category": "light_restraint",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0241",
+    "slug": "over-the-clothes-teasing",
+    "title": "Over-the-Clothes Teasing",
+    "titleEs": "Provocacion Sobre la Ropa",
+    "description": "Keep clothing on while using touch, pressure, and restraint to build anticipation.",
+    "descriptionEs": "Mantengan la ropa puesta mientras usan tacto, presion y restriccion para crear anticipacion.",
+    "tags": [
+      "clothing",
+      "teasing",
+      "anticipation",
+      "touch"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0242",
+    "slug": "clothed-intimacy",
+    "title": "Clothed Intimacy",
+    "titleEs": "Intimidad con Ropa",
+    "description": "Make partially or fully clothed closeness the focus, emphasizing friction, fabric, and anticipation.",
+    "descriptionEs": "Hagan de la cercania parcial o totalmente vestida el foco, con enfasis en friccion, tela y anticipacion.",
+    "tags": [
+      "clothing",
+      "fabric",
+      "friction",
+      "anticipation"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0243",
+    "slug": "clothed-domination",
+    "title": "Clothed Domination",
+    "titleEs": "Dominacion con Ropa",
+    "description": "Use dressed-up authority, posture, and controlled touch while one or both partners stay clothed.",
+    "descriptionEs": "Usen autoridad vestida, postura y tacto controlado mientras una o ambas personas permanecen vestidas.",
+    "tags": [
+      "clothing",
+      "dominance",
+      "posture",
+      "control"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0244",
+    "slug": "lingerie-shopping-together",
+    "title": "Lingerie Shopping Together",
+    "titleEs": "Comprar Lenceria Juntos",
+    "description": "Pick lingerie, underwear, or intimate outfits together as flirtation and shared anticipation.",
+    "descriptionEs": "Elijan lenceria, ropa interior o atuendos intimos juntos como coqueteo y anticipacion compartida.",
+    "tags": [
+      "lingerie",
+      "shopping",
+      "anticipation",
+      "clothing"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0245",
+    "slug": "outfit-reveal",
+    "title": "Outfit Reveal",
+    "titleEs": "Revelacion de Atuendo",
+    "description": "Plan a private reveal of lingerie, roleplay clothing, or a favorite outfit.",
+    "descriptionEs": "Planifiquen una revelacion privada de lenceria, ropa de rol o un atuendo favorito.",
+    "tags": [
+      "outfit",
+      "reveal",
+      "lingerie",
+      "visual"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0246",
+    "slug": "mask-play",
+    "title": "Mask Play",
+    "titleEs": "Juego con Mascara",
+    "description": "Use masks, eye masks, or partial disguise to create mystery, confidence, or role distance.",
+    "descriptionEs": "Usen mascaras, antifaces o disfraz parcial para crear misterio, confianza o distancia de rol.",
+    "tags": [
+      "mask",
+      "mystery",
+      "roleplay",
+      "confidence"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0247",
+    "slug": "masquerade-roleplay",
+    "title": "Masquerade Roleplay",
+    "titleEs": "Roleplay de Mascarada",
+    "description": "Create a private masquerade scene with formal clothing, secret identities, and flirtatious discovery.",
+    "descriptionEs": "Creen una escena privada de mascarada con ropa formal, identidades secretas y descubrimiento coqueto.",
+    "tags": [
+      "masquerade",
+      "roleplay",
+      "mystery",
+      "clothing"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0248",
+    "slug": "cosplay-roleplay",
+    "title": "Cosplay Roleplay",
+    "titleEs": "Roleplay de Cosplay",
+    "description": "Use fictional characters, costumes, or fandom-inspired scenarios for playful adult roleplay.",
+    "descriptionEs": "Usen personajes ficticios, disfraces o escenarios inspirados en fandom para roleplay adulto y jugueton.",
+    "tags": [
+      "cosplay",
+      "costume",
+      "fantasy",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0249",
+    "slug": "photographer-model-roleplay",
+    "title": "Photographer and Model Roleplay",
+    "titleEs": "Roleplay de Fotografo y Modelo",
+    "description": "Roleplay a consensual photo session with posing, compliments, and clear image boundaries.",
+    "descriptionEs": "Representen una sesion fotografica consensuada con poses, elogios y limites claros sobre imagenes.",
+    "tags": [
+      "photography",
+      "model",
+      "roleplay",
+      "boundaries"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0250",
+    "slug": "artist-muse-roleplay",
+    "title": "Artist and Muse Roleplay",
+    "titleEs": "Roleplay de Artista y Musa",
+    "description": "Create a scene around being admired, posed, sketched, painted, or described.",
+    "descriptionEs": "Creen una escena alrededor de ser admirado, posado, dibujado, pintado o descrito.",
+    "tags": [
+      "artist",
+      "muse",
+      "admiration",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0251",
+    "slug": "royal-servant-roleplay",
+    "title": "Royal and Servant Roleplay",
+    "titleEs": "Roleplay de Realeza y Servicio",
+    "description": "Use formal titles, service gestures, and luxury cues in a fictional power-exchange scene.",
+    "descriptionEs": "Usen titulos formales, gestos de servicio y detalles de lujo en una escena ficticia de intercambio de poder.",
+    "tags": [
+      "royal",
+      "service",
+      "titles",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0252",
+    "slug": "detective-interview-roleplay",
+    "title": "Detective Interview Roleplay",
+    "titleEs": "Roleplay de Entrevista Detectivesca",
+    "description": "Play with questioning, secrets, and seductive interrogation while keeping consent and tone clear.",
+    "descriptionEs": "Jueguen con preguntas, secretos e interrogatorio seductor manteniendo consentimiento y tono claros.",
+    "tags": [
+      "detective",
+      "questions",
+      "secrets",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0253",
+    "slug": "vacation-fling-roleplay",
+    "title": "Vacation Fling Roleplay",
+    "titleEs": "Roleplay de Romance de Vacaciones",
+    "description": "Pretend to meet on vacation and build a flirtatious one-night story together.",
+    "descriptionEs": "Imaginen que se conocen de vacaciones y construyan juntos una historia coqueta de una noche.",
+    "tags": [
+      "vacation",
+      "flirting",
+      "strangers",
+      "roleplay"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0254",
+    "slug": "hotel-room-fantasy",
+    "title": "Hotel Room Fantasy",
+    "titleEs": "Fantasia de Habitacion de Hotel",
+    "description": "Use a hotel, guest room, or reset bedroom setup to make intimacy feel novel and intentional.",
+    "descriptionEs": "Usen hotel, cuarto de invitados o dormitorio renovado para que la intimidad se sienta nueva e intencional.",
+    "tags": [
+      "hotel",
+      "environment",
+      "novelty",
+      "travel"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0255",
+    "slug": "office-after-hours-fantasy",
+    "title": "After-Hours Office Fantasy",
+    "titleEs": "Fantasia de Oficina Fuera de Horario",
+    "description": "Discuss or roleplay a private after-hours office scenario without real workplace pressure.",
+    "descriptionEs": "Hablen o representen un escenario privado de oficina fuera de horario sin presion laboral real.",
+    "tags": [
+      "office",
+      "roleplay",
+      "environment",
+      "fantasy"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0256",
+    "slug": "elevator-fantasy",
+    "title": "Elevator Fantasy",
+    "titleEs": "Fantasia de Elevador",
+    "description": "Use the idea of a brief, private elevator moment as a fantasy or roleplay prompt.",
+    "descriptionEs": "Usen la idea de un momento breve y privado en elevador como fantasia o indicacion de roleplay.",
+    "tags": [
+      "elevator",
+      "fantasy",
+      "quick",
+      "roleplay"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0257",
+    "slug": "private-balcony-fantasy",
+    "title": "Private Balcony Fantasy",
+    "titleEs": "Fantasia de Balcon Privado",
+    "description": "Create a private balcony or window-view fantasy that keeps privacy and legality clear.",
+    "descriptionEs": "Creen una fantasia de balcon privado o vista por ventana manteniendo clara la privacidad y legalidad.",
+    "tags": [
+      "balcony",
+      "privacy",
+      "environment",
+      "fantasy"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0258",
+    "slug": "kitchen-counter-fantasy",
+    "title": "Kitchen Counter Fantasy",
+    "titleEs": "Fantasia de Encimera de Cocina",
+    "description": "Use the kitchen as a flirtatious fantasy setting with attention to comfort, privacy, and cleanup.",
+    "descriptionEs": "Usen la cocina como escenario coqueto de fantasia con atencion a comodidad, privacidad y limpieza.",
+    "tags": [
+      "kitchen",
+      "environment",
+      "fantasy",
+      "novelty"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0259",
+    "slug": "couch-play",
+    "title": "Couch Play",
+    "titleEs": "Juego en el Sofa",
+    "description": "Make the couch the setting for teasing, making out, or a different angle of closeness.",
+    "descriptionEs": "Hagan del sofa el escenario para provocar, besarse o explorar otro angulo de cercania.",
+    "tags": [
+      "couch",
+      "environment",
+      "teasing",
+      "comfort"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0260",
+    "slug": "floor-play",
+    "title": "Floor Play",
+    "titleEs": "Juego en el Suelo",
+    "description": "Use pillows, blankets, and open space to create a grounded, less routine intimate setup.",
+    "descriptionEs": "Usen almohadas, mantas y espacio abierto para crear un montaje intimo mas aterrizado y menos rutinario.",
+    "tags": [
+      "floor",
+      "environment",
+      "blankets",
+      "novelty"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0261",
+    "slug": "mirror-sex",
+    "title": "Mirror Sex",
+    "titleEs": "Sexo Frente al Espejo",
+    "description": "Use a mirror to watch, pose, or admire each other with shared consent and confidence.",
+    "descriptionEs": "Usen un espejo para mirar, posar o admirarse con consentimiento compartido y confianza.",
+    "tags": [
+      "mirror",
+      "voyeur",
+      "confidence",
+      "visual"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0262",
+    "slug": "mutual-porn-picks",
+    "title": "Mutual Porn Picks",
+    "titleEs": "Elecciones Mutuas de Porno",
+    "description": "Each partner chooses adult content to discuss or watch together, focusing on curiosity and boundaries.",
+    "descriptionEs": "Cada pareja elige contenido adulto para comentar o ver juntos, centrandose en curiosidad y limites.",
+    "tags": [
+      "porn",
+      "discussion",
+      "curiosity",
+      "boundaries"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0263",
+    "slug": "remote-control-toy",
+    "title": "Remote-Control Toy",
+    "titleEs": "Juguete de Control Remoto",
+    "description": "Use a remote-control toy with agreed timing, privacy, and stop signals.",
+    "descriptionEs": "Usen un juguete de control remoto con tiempos, privacidad y senales de parar acordadas.",
+    "tags": [
+      "toy",
+      "remote",
+      "control",
+      "signals"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0264",
+    "slug": "toy-shopping-together",
+    "title": "Toy Shopping Together",
+    "titleEs": "Comprar Juguetes Juntos",
+    "description": "Browse toys together and talk through curiosity, comfort, materials, and cleaning.",
+    "descriptionEs": "Miren juguetes juntos y hablen de curiosidad, comodidad, materiales y limpieza.",
+    "tags": [
+      "toys",
+      "shopping",
+      "conversation",
+      "comfort"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0265",
+    "slug": "strap-on-discussion",
+    "title": "Strap-On Discussion",
+    "titleEs": "Conversacion sobre Strap-On",
+    "description": "Discuss strap-on curiosity, roles, sizing, and comfort before deciding whether to try it.",
+    "descriptionEs": "Hablen de curiosidad por strap-on, roles, tamanos y comodidad antes de decidir si probarlo.",
+    "tags": [
+      "strap-on",
+      "discussion",
+      "roles",
+      "comfort"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0266",
+    "slug": "pegging-discussion",
+    "title": "Pegging Discussion",
+    "titleEs": "Conversacion sobre Pegging",
+    "description": "Talk through pegging interest, anatomy, prep, toys, and boundaries before any hands-on exploration.",
+    "descriptionEs": "Hablen del interes en pegging, anatomia, preparacion, juguetes y limites antes de cualquier exploracion practica.",
+    "tags": [
+      "pegging",
+      "discussion",
+      "anal",
+      "boundaries"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0267",
+    "slug": "anal-training-boundaries",
+    "title": "Anal Training Boundaries",
+    "titleEs": "Limites para Entrenamiento Anal",
+    "description": "Discuss gradual anal exploration, lube, pacing, and stop signals without turning it into pressure.",
+    "descriptionEs": "Hablen de exploracion anal gradual, lubricante, ritmo y senales de parar sin convertirlo en presion.",
+    "tags": [
+      "anal",
+      "training",
+      "boundaries",
+      "pacing"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0268",
+    "slug": "soft-swap-discussion",
+    "title": "Soft Swap Discussion",
+    "titleEs": "Conversacion de Soft Swap",
+    "description": "Discuss whether limited partner swapping fantasies appeal, including boundaries, jealousy, and safer-sex expectations.",
+    "descriptionEs": "Hablen de si atraen fantasias limitadas de intercambio de parejas, incluyendo limites, celos y expectativas de sexo seguro.",
+    "tags": [
+      "swinging",
+      "boundaries",
+      "jealousy",
+      "discussion"
+    ],
+    "category": "communication",
+    "intensityScale": 3,
+    "tier": "xxx"
+  },
+  {
+    "id": "0269",
+    "slug": "watching-partner-flirt",
+    "title": "Watching Partner Flirt",
+    "titleEs": "Ver a la Pareja Coquetear",
+    "description": "Explore the fantasy of watching a partner flirt in a consensual, agreed, and emotionally safe way.",
+    "descriptionEs": "Exploren la fantasia de ver a la pareja coquetear de forma consensuada, acordada y emocionalmente segura.",
+    "tags": [
+      "flirting",
+      "voyeur",
+      "compersion",
+      "boundaries"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0270",
+    "slug": "compersion-talk",
+    "title": "Compersion Talk",
+    "titleEs": "Conversacion sobre Compersion",
+    "description": "Talk about enjoying a partner's pleasure or attention from others while naming jealousy and boundaries.",
+    "descriptionEs": "Hablen de disfrutar el placer o la atencion que recibe la pareja de otras personas mientras nombran celos y limites.",
+    "tags": [
+      "compersion",
+      "jealousy",
+      "boundaries",
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0271",
+    "slug": "play-party-boundaries",
+    "title": "Play Party Boundaries",
+    "titleEs": "Limites para Fiesta Kinky",
+    "description": "Plan rules for attending a kink party, including observation only, touch limits, privacy, and exit signals.",
+    "descriptionEs": "Planifiquen reglas para asistir a una fiesta kinky, incluyendo solo observar, limites de tacto, privacidad y senales de salida.",
+    "tags": [
+      "party",
+      "boundaries",
+      "privacy",
+      "community"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0272",
+    "slug": "munch-date",
+    "title": "Munch Date",
+    "titleEs": "Cita en Munch",
+    "description": "Attend or discuss a casual kink social meetup as a low-pressure way to learn together.",
+    "descriptionEs": "Asistan o hablen de una reunion social kinky casual como forma de baja presion para aprender juntos.",
+    "tags": [
+      "munch",
+      "community",
+      "learning",
+      "date"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
+  },
+  {
+    "id": "0273",
+    "slug": "audio-message-teasing",
+    "title": "Audio Message Teasing",
+    "titleEs": "Provocacion por Mensaje de Audio",
+    "description": "Send private voice notes with compliments, hints, or anticipation-building prompts.",
+    "descriptionEs": "Envien notas de voz privadas con elogios, pistas o indicaciones que creen anticipacion.",
+    "tags": [
+      "audio",
+      "voice",
+      "teasing",
+      "digital"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0274",
+    "slug": "voice-note-dares",
+    "title": "Voice Note Dares",
+    "titleEs": "Retos por Nota de Voz",
+    "description": "Use voice notes to send playful dares, praise, or instructions with clear opt-out options.",
+    "descriptionEs": "Usen notas de voz para enviar retos juguetones, elogios o instrucciones con opciones claras para no participar.",
+    "tags": [
+      "voice",
+      "dares",
+      "digital",
+      "consent"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0275",
+    "slug": "remote-date-night",
+    "title": "Remote Date Night",
+    "titleEs": "Cita a Distancia",
+    "description": "Create an intimate video or phone date with shared prompts, outfit reveals, or synchronized touch.",
+    "descriptionEs": "Creen una cita intima por video o telefono con preguntas compartidas, revelacion de atuendo o tacto sincronizado.",
+    "tags": [
+      "remote",
+      "video",
+      "date",
+      "digital"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty"
+  },
+  {
+    "id": "0276",
+    "slug": "shared-fantasy-journal",
+    "title": "Shared Fantasy Journal",
+    "titleEs": "Diario de Fantasias Compartido",
+    "description": "Keep a private list of fantasies, maybes, and boundaries that both partners can revisit.",
+    "descriptionEs": "Mantengan una lista privada de fantasias, quizas y limites que ambas personas puedan revisar.",
+    "tags": [
+      "fantasy",
+      "journal",
+      "boundaries",
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft"
   }
 ]

@@ -23,8 +23,13 @@ export function useConversationTranslation() {
 }
 
 // Helper to interpolate values in translation strings
-export function interpolate(template: string, values: Record<string, string>): string {
-  return template.replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] || match);
+export function interpolate(
+  template: string,
+  values: Record<string, string | number>
+): string {
+  return template.replace(/\{\{(\w+)\}\}/g, (match, key) =>
+    values[key] === undefined ? match : String(values[key])
+  );
 }
 
 export type { Translations } from './en';

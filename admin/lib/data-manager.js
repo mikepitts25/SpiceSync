@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 
-const DATA_DIR = path.join(__dirname, '../apps/mobile/data');
+const DATA_DIR = path.join(__dirname, '..', '..', 'apps', 'mobile', 'data');
 
 // File paths for each content type
 const FILE_PATHS = {
@@ -27,63 +28,123 @@ const FILE_PATHS = {
   }
 };
 
-// Parse TypeScript array export from file content
-function parseTypeScriptArray(content, arrayName) {
-  const regex = new RegExp(`export\\s+const\\s+${arrayName}\\s*:\\s*\\w+\\[\\]\\s*=\\s*([\\s\\S]*?);\\s*(?:\\n|export|\\/\\/|$)`, 'm');
-  const match = content.match(regex);
-  
-  if (!match) {
-    return [];
+function findTypeScriptArrayLiteral(content, arrayName) {
+  const marker = new RegExp(`export\\s+const\\s+${arrayName}\\b`).exec(content);
+  if (!marker) return null;
+
+  const equalsIndex = content.indexOf('=', marker.index);
+  if (equalsIndex === -1) return null;
+
+  const startIndex = content.indexOf('[', equalsIndex);
+  if (startIndex === -1) return null;
+
+  let depth = 0;
+  let quote = null;
+  let escaped = false;
+  let lineComment = false;
+  let blockComment = false;
+
+  for (let i = startIndex; i < content.length; i += 1) {
+    const char = content[i];
+    const next = content[i + 1];
+
+    if (lineComment) {
+      if (char === '\n') lineComment = false;
+      continue;
+    }
+
+    if (blockComment) {
+      if (char === '*' && next === '/') {
+        blockComment = false;
+        i += 1;
+      }
+      continue;
+    }
+
+    if (quote) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === quote) {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (char === '/' && next === '/') {
+      lineComment = true;
+      i += 1;
+      continue;
+    }
+
+    if (char === '/' && next === '*') {
+      blockComment = true;
+      i += 1;
+      continue;
+    }
+
+    if (char === '\'' || char === '"' || char === '`') {
+      quote = char;
+      continue;
+    }
+
+    if (char === '[') {
+      depth += 1;
+    } else if (char === ']') {
+      depth -= 1;
+      if (depth === 0) {
+        return content.slice(startIndex, i + 1);
+      }
+    }
   }
-  
-  let arrayText = match[1].trim();
-  
-  // Remove TypeScript type annotations from objects
-  arrayText = arrayText.replace(/(\w+):\s*\w+(\[\])?\s*=>?/g, '$1:');
-  arrayText = arrayText.replace(/as\s+\w+(\[\])?/g, '');
-  
-  // Convert single quotes to double quotes for JSON parsing
-  arrayText = arrayText.replace(/'/g, '"');
-  
-  // Handle trailing commas
-  arrayText = arrayText.replace(/,\s*([}\]])/g, '$1');
-  
+
+  return null;
+}
+
+// Parse TypeScript array exports that use normal object literal syntax.
+function parseTypeScriptArray(content, arrayName) {
+  const arrayText = findTypeScriptArrayLiteral(content, arrayName);
+  if (!arrayText) return [];
+
   try {
-    return JSON.parse(arrayText);
+    return vm.runInNewContext(`(${arrayText})`, {}, { timeout: 1000 });
   } catch (e) {
     console.error(`Failed to parse ${arrayName}:`, e.message);
     return [];
   }
 }
 
+function formatTypeScriptValue(value) {
+  if (value === null) return 'null';
+
+  if (typeof value === 'string') {
+    const escaped = value
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/\r?\n/g, '\\n');
+    return `'${escaped}'`;
+  }
+
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value);
+  }
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) return '[]';
+    return `[${value.map(formatTypeScriptValue).join(', ')}]`;
+  }
+
+  return JSON.stringify(value, null, 2);
+}
+
 // Serialize array back to TypeScript format
 function serializeTypeScriptArray(arrayName, data, typeAnnotation = 'any[]') {
   const items = data.map(item => {
-    const fields = Object.entries(item).map(([key, value]) => {
-      let formattedValue;
-      
-      if (value === null || value === undefined) {
-        formattedValue = 'undefined';
-      } else if (typeof value === 'string') {
-        // Escape single quotes and newlines
-        const escaped = value.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
-        formattedValue = `'${escaped}'`;
-      } else if (typeof value === 'boolean') {
-        formattedValue = value ? 'true' : 'false';
-      } else if (Array.isArray(value)) {
-        if (value.length === 0) {
-          formattedValue = '[]';
-        } else if (typeof value[0] === 'string') {
-          formattedValue = `[${value.map(v => `'${v.replace(/'/g, "\\'")}'`).join(', ')}]`;
-        } else {
-          formattedValue = JSON.stringify(value);
-        }
-      } else {
-        formattedValue = JSON.stringify(value);
-      }
-      
-      return `    ${key}: ${formattedValue}`;
-    }).join(',\n');
+    const fields = Object.entries(item)
+      .filter(([, value]) => value !== undefined && value !== '')
+      .map(([key, value]) => `    ${key}: ${formatTypeScriptValue(value)}`)
+      .join(',\n');
     
     return `  {\n${fields}\n  }`;
   }).join(',\n');

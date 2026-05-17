@@ -31,6 +31,7 @@ import { useFilters } from '../../lib/state/filters';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore, type VoteValue } from '../../src/stores/votes';
+import { useTranslation } from '../../lib/i18n';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
 const TIER_OPTIONS: { label: string; value: Tier | null }[] = [
@@ -45,6 +46,16 @@ const TIER_COLORS: Record<string, string> = {
   naughty: COLORS.purple,
   xxx: COLORS.no,
 };
+
+function getTierOptionLabel(
+  tier: Tier | null,
+  t: ReturnType<typeof useTranslation>['t']
+) {
+  if (!tier) return t.deck.allFilter;
+  if (tier === 'soft') return t.discover.soft;
+  if (tier === 'naughty') return t.discover.naughty;
+  return t.discover.xxx;
+}
 
 function VoteBadge({ vote }: { vote?: VoteValue }) {
   const config = {
@@ -65,6 +76,7 @@ function VoteBadge({ vote }: { vote?: VoteValue }) {
 export default function BrowseScreen() {
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
+  const { t } = useTranslation();
   const { selectedTier, setTier, clearTier } = useFilters();
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const { isHydrated, hasActive, activeProfileId } = useProfilesStore(
@@ -78,7 +90,7 @@ export default function BrowseScreen() {
     activeProfileId ? state.votesByProfile[activeProfileId] : undefined
   );
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   useEffect(() => {
     if (isHydrated && !hasActive) {
@@ -90,15 +102,14 @@ export default function BrowseScreen() {
     const unique = Array.from(
       new Set(kinks.map((item) => item.category).filter(Boolean))
     );
-    return ['All', ...unique.slice(0, 8)];
+    return [null, ...unique.slice(0, 8)];
   }, [kinks]);
 
   const rows = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     return kinks.filter((item) => {
       if (selectedTier && item.tier !== selectedTier) return false;
-      if (selectedCategory !== 'All' && item.category !== selectedCategory)
-        return false;
+      if (selectedCategory && item.category !== selectedCategory) return false;
       if (!query) return true;
       return (
         item.title.toLowerCase().includes(query) ||
@@ -123,7 +134,11 @@ export default function BrowseScreen() {
         <View style={styles.itemLeft}>
           <View style={styles.itemMetaRow}>
             <Text style={[styles.itemCategory, { color: tierColor }]}>
-              {(item.category || item.tier || 'Activity').toUpperCase()}
+              {(
+                item.category ||
+                item.tier ||
+                t.browse.activityFallback
+              ).toUpperCase()}
             </Text>
             <IntensityDots value={item.intensityScale ?? 1} color={tierColor} />
           </View>
@@ -150,7 +165,7 @@ export default function BrowseScreen() {
           <Search size={17} color={COLORS.textMuted} />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search kinks..."
+            placeholder={t.browse.searchPlaceholder}
             placeholderTextColor="rgba(255,255,255,0.19)"
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -181,11 +196,15 @@ export default function BrowseScreen() {
                   end={{ x: 1, y: 0.5 }}
                   style={styles.tierActive}
                 >
-                  <Text style={styles.tierActiveText}>{option.label}</Text>
+                  <Text style={styles.tierActiveText}>
+                    {getTierOptionLabel(option.value, t).toUpperCase()}
+                  </Text>
                 </LinearGradient>
               ) : (
                 <View style={styles.tierInactive}>
-                  <Text style={styles.tierInactiveText}>{option.label}</Text>
+                  <Text style={styles.tierInactiveText}>
+                    {getTierOptionLabel(option.value, t).toUpperCase()}
+                  </Text>
                 </View>
               )}
             </Pressable>
@@ -197,7 +216,7 @@ export default function BrowseScreen() {
         <FlatList
           horizontal
           data={categories}
-          keyExtractor={(item) => item}
+          keyExtractor={(item) => item ?? 'all'}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.chipList}
           renderItem={({ item }) => {
@@ -218,7 +237,7 @@ export default function BrowseScreen() {
                     active && styles.categoryChipTextActive,
                   ]}
                 >
-                  {item}
+                  {item ?? t.browse.allCategory}
                 </Text>
               </Pressable>
             );
@@ -235,8 +254,8 @@ export default function BrowseScreen() {
         ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
         ListEmptyComponent={
           <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>No results</Text>
-            <Text style={styles.emptyCopy}>Try another search or filter.</Text>
+            <Text style={styles.emptyTitle}>{t.browse.noResults}</Text>
+            <Text style={styles.emptyCopy}>{t.browse.noResultsDesc}</Text>
           </View>
         }
       />

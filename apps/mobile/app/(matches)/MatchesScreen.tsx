@@ -3,7 +3,13 @@ import { Alert, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import { Check, Ellipsis, Heart, Share2 } from 'lucide-react-native';
+import {
+  Check,
+  Ellipsis,
+  Heart,
+  LockKeyhole,
+  Share2,
+} from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -15,11 +21,18 @@ import {
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
 import { useKinks } from '../../lib/data';
-import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
+import { computeRevealBuckets } from '../../lib/match/reveal';
+import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
+import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
+import {
+  requestRevealUnlock,
+  useRevealConsentStore,
+  type RevealConsentBucket,
+} from '../../lib/sync/revealConsent';
 import { useProfilesStore, type Profile } from '../../src/stores/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore, type VoteValue } from '../../src/stores/votes';
-import { useTranslation } from '../../lib/i18n';
+import { interpolate, useTranslation } from '../../lib/i18n';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
 const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, VoteValue>;
@@ -30,21 +43,12 @@ type MatchItem = {
   category: string;
 };
 
-const getComplementarySlug = (slug?: string): string | null => {
-  if (!slug) return null;
-  if (slug.endsWith('-give')) {
-    return `${slug.slice(0, -5)}-receive`;
-  }
-  if (slug.endsWith('-receive')) {
-    return `${slug.slice(0, -8)}-give`;
-  }
-  return null;
-};
-
 export default function MatchesScreen() {
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
   const { t } = useTranslation();
+  const coupleLink = useCoupleLinkStore((state) => state.link);
+  const isRemotePartner = coupleLink?.status === 'active';
 
   const { hydrated, activeId, profiles } = useProfilesStore(
     useShallow((state) => ({
@@ -76,6 +80,11 @@ export default function MatchesScreen() {
   }, [hydrated, activeId, router]);
 
   useEffect(() => {
+    if (isRemotePartner) {
+      setSelectedPartnerId(null);
+      setPartnerPickerOpen(false);
+      return;
+    }
     if (!partners.length) {
       setSelectedPartnerId(null);
       setPartnerPickerOpen(false);
@@ -87,7 +96,7 @@ export default function MatchesScreen() {
     ) {
       setSelectedPartnerId(partners[0].id);
     }
-  }, [partners, selectedPartnerId]);
+  }, [isRemotePartner, partners, selectedPartnerId]);
 
   const partnerProfile = useMemo<Profile | null>(() => {
     if (!partners.length) return null;
@@ -102,7 +111,7 @@ export default function MatchesScreen() {
   const activeKey = activeId ? String(activeId) : null;
   const partnerKey = partnerProfile?.id ? String(partnerProfile.id) : null;
 
-  const [activeVotes, partnerVotes] = useVotesStore(
+  const [activeVotes, localPartnerVotes] = useVotesStore(
     useShallow((state) => [
       activeKey
         ? (state.votesByProfile[activeKey] ?? EMPTY_PROFILE_VOTES)
@@ -113,80 +122,78 @@ export default function MatchesScreen() {
     ])
   );
 
-  const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
+  const remotePartnerVotes = usePartnerVotesStore((state) => state.byCardId);
+  const partnerVotes = useMemo(() => {
+    if (!isRemotePartner) return localPartnerVotes;
+    return Object.fromEntries(
+      Object.entries(remotePartnerVotes).map(([cardId, record]) => [
+        cardId,
+        record.vote,
+      ])
+    ) as Record<string, VoteValue>;
+  }, [isRemotePartner, localPartnerVotes, remotePartnerVotes]);
 
-  const { mutualYes, mutualMaybe } = useMemo(() => {
-    const yes: MatchItem[] = [];
-    const maybe: MatchItem[] = [];
+  const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 
-    const comparedPairs = new Set<string>();
+  const { mutualYes, partialYesMaybe, mutualMaybe } = useMemo(
+    () =>
+      computeRevealBuckets({
+        kinks,
+        mine: activeVotes,
+        theirs: partnerVotes,
+      }),
+    [activeVotes, kinks, partnerVotes]
+  );
 
-    const addMatchedPair = (activeKinkId: string, partnerKinkId: string) => {
-      const pairKey = `${activeKinkId}::${partnerKinkId}`;
-      if (comparedPairs.has(pairKey)) return;
-      comparedPairs.add(pairKey);
+  const {
+    partialUnlocked,
+    maybeUnlocked,
+    partialLocalConsent,
+    maybeLocalConsent,
+  } = useRevealConsentStore(
+    useShallow((state) => ({
+      partialUnlocked: state.hasUnlock('partialYesMaybe', isRemotePartner),
+      maybeUnlocked: state.hasUnlock('mutualMaybe', isRemotePartner),
+      partialLocalConsent: Boolean(state.local.partialYesMaybe),
+      maybeLocalConsent: Boolean(state.local.mutualMaybe),
+    }))
+  );
 
-      const mine = activeVotes[activeKinkId];
-      const theirs = partnerVotes[partnerKinkId];
-      if (!mine || mine !== theirs) return;
-
-      const activeKink = kinksById[activeKinkId];
-      const partnerKink = kinksById[partnerKinkId];
-      const item = {
-        id: activeKinkId,
-        title: activeKink?.title ?? partnerKink?.title ?? activeKinkId,
-        category: activeKink?.category ?? partnerKink?.category ?? 'Activity',
-      };
-      if (mine === 'yes') yes.push(item);
-      if (mine === 'maybe') maybe.push(item);
-    };
-
-    Object.keys(activeVotes).forEach((id) => {
-      if (partnerVotes[id] !== undefined) {
-        addMatchedPair(id, id);
-      }
-    });
-
-    Object.keys(activeVotes).forEach((activeKinkId) => {
-      const activeKink = kinksById[activeKinkId];
-      const complementarySlug = getComplementarySlug(activeKink?.slug);
-      if (!complementarySlug) return;
-
-      const partnerKink = Object.values(kinksById).find(
-        (kink) => kink.slug === complementarySlug
-      );
-      if (!partnerKink) return;
-      if (partnerVotes[partnerKink.id] === undefined) return;
-
-      addMatchedPair(activeKinkId, partnerKink.id);
-    });
-
-    const sortRows = (rows: MatchItem[]) =>
-      rows.sort((a, b) =>
-        a.category === b.category
-          ? a.title.localeCompare(b.title)
-          : a.category.localeCompare(b.category)
-      );
-
-    return { mutualYes: sortRows(yes), mutualMaybe: sortRows(maybe) };
-  }, [activeVotes, kinksById, partnerVotes]);
-
-  const totalMatches = mutualYes.length + mutualMaybe.length;
+  const totalMatches =
+    mutualYes.length + partialYesMaybe.length + mutualMaybe.length;
 
   const handlePartnerSelect = useCallback((id: string) => {
     setSelectedPartnerId(id);
     setPartnerPickerOpen(false);
   }, []);
 
+  const handleUnlock = useCallback((bucket: RevealConsentBucket) => {
+    void requestRevealUnlock(bucket);
+  }, []);
+
   const handleShare = useCallback(async () => {
     try {
       await Share.share({
-        message: `SpiceSync results: ${mutualYes.length} mutual yes and ${mutualMaybe.length} mutual maybe matches.`,
+        message: interpolate(t.matches.shareMessage, {
+          yes: mutualYes.length,
+          maybe:
+            (maybeUnlocked ? mutualMaybe.length : 0) +
+            (partialUnlocked ? partialYesMaybe.length : 0),
+        }),
       });
     } catch {
-      Alert.alert(t.common.error, 'Unable to share results right now.');
+      Alert.alert(t.common.error, t.matches.shareError);
     }
-  }, [mutualMaybe.length, mutualYes.length, t.common.error]);
+  }, [
+    maybeUnlocked,
+    mutualMaybe.length,
+    partialUnlocked,
+    partialYesMaybe.length,
+    mutualYes.length,
+    t.common.error,
+    t.matches.shareError,
+    t.matches.shareMessage,
+  ]);
 
   if (!hydrated || !activeId) {
     return null;
@@ -209,7 +216,7 @@ export default function MatchesScreen() {
     );
   }
 
-  if (!partners.length || !partnerProfile) {
+  if (!isRemotePartner && (!partners.length || !partnerProfile)) {
     return (
       <SafeAreaView
         style={styles.screen}
@@ -237,8 +244,8 @@ export default function MatchesScreen() {
       <View style={styles.content}>
         <ScreenTour
           screenId="matches"
-          screenLabel="Matches"
-          steps={MAIN_SCREEN_TOURS.matches}
+          screenLabel={t.tabs.matches}
+          steps={t.tours.matches}
         />
 
         <View style={styles.partnerBanner}>
@@ -257,21 +264,31 @@ export default function MatchesScreen() {
                 accessibilityRole="button"
               >
                 <Heart size={20} color={COLORS.pink} fill={COLORS.pink} />
-                <Text style={styles.matchCount}>{totalMatches} matches</Text>
+                <Text style={styles.matchCount}>
+                  {interpolate(t.matches.matchCount, { count: totalMatches })}
+                </Text>
               </Pressable>
 
-              <ProfileAvatarIcon avatar={partnerProfile.emoji} size={52} />
+              <ProfileAvatarIcon
+                avatar={isRemotePartner ? null : partnerProfile?.emoji}
+                size={52}
+              />
             </View>
 
             <View style={styles.partnerLabels}>
-              <Text style={styles.partnerLabel}>You</Text>
-              <Text style={styles.partnerLabel}>Last synced: Just now</Text>
+              <Text style={styles.partnerLabel}>{t.matches.you}</Text>
+              <Text style={styles.partnerLabel}>{t.matches.lastSynced}</Text>
               <Text style={styles.partnerLabel}>
-                {partnerProfile.displayName ?? partnerProfile.name}
+                {isRemotePartner
+                  ? t.deck.partnerFallback
+                  : (partnerProfile?.displayName ?? partnerProfile?.name)}
               </Text>
             </View>
 
-            {partnerPickerOpen && partners.length > 1 ? (
+            {!isRemotePartner &&
+            partnerProfile &&
+            partnerPickerOpen &&
+            partners.length > 1 ? (
               <View style={styles.partnerDropdown}>
                 {partners.map((profile) => (
                   <Pressable
@@ -303,14 +320,42 @@ export default function MatchesScreen() {
         <MatchSection
           tone="yes"
           icon={Check}
-          title="MUTUAL YES"
+          title={t.matches.mutualYes.toUpperCase()}
           rows={mutualYes}
+          emptyTitle={t.matches.noSharedPicks}
+          emptySubtitle={t.matches.keepSwipingShort}
+        />
+        <MatchSection
+          tone="partial"
+          icon={LockKeyhole}
+          title={t.matches.partialMatch.toUpperCase()}
+          rows={partialYesMaybe}
+          emptyTitle={t.matches.noSharedPicks}
+          emptySubtitle={t.matches.keepSwipingShort}
+          locked={!partialUnlocked}
+          lockTitle={t.matches.partialYesLocked}
+          unlockLabel={
+            isRemotePartner && partialLocalConsent
+              ? t.matches.waitingForPartner
+              : t.matches.unlockPartialYes
+          }
+          onUnlock={() => handleUnlock('partialYesMaybe')}
         />
         <MatchSection
           tone="maybe"
           icon={Ellipsis}
-          title="MUTUAL MAYBE"
+          title={t.matches.mutualMaybe.toUpperCase()}
           rows={mutualMaybe}
+          emptyTitle={t.matches.noSharedPicks}
+          emptySubtitle={t.matches.keepSwipingShort}
+          locked={!maybeUnlocked}
+          lockTitle={t.matches.mutualMaybeLocked}
+          unlockLabel={
+            isRemotePartner && maybeLocalConsent
+              ? t.matches.waitingForPartner
+              : t.matches.unlockMutualMaybe
+          }
+          onUnlock={() => handleUnlock('mutualMaybe')}
         />
 
         <Pressable
@@ -325,7 +370,9 @@ export default function MatchesScreen() {
             style={styles.shareButton}
           >
             <Share2 size={17} color={COLORS.textPrimary} />
-            <Text style={styles.shareText}>SHARE RESULTS</Text>
+            <Text style={styles.shareText}>
+              {t.matches.shareResults.toUpperCase()}
+            </Text>
           </LinearGradient>
         </Pressable>
       </View>
@@ -340,16 +387,42 @@ function MatchSection({
   icon: Icon,
   title,
   rows,
+  emptyTitle,
+  emptySubtitle,
+  locked = false,
+  lockTitle,
+  unlockLabel,
+  onUnlock,
 }: {
-  tone: 'yes' | 'maybe';
+  tone: 'yes' | 'partial' | 'maybe';
   icon: typeof Check;
   title: string;
   rows: MatchItem[];
+  emptyTitle: string;
+  emptySubtitle: string;
+  locked?: boolean;
+  lockTitle?: string;
+  unlockLabel?: string;
+  onUnlock?: () => void;
 }) {
-  const color = tone === 'yes' ? COLORS.yes : COLORS.maybe;
-  const bg = tone === 'yes' ? 'rgba(34,197,94,0.04)' : 'rgba(245,158,11,0.06)';
+  const color =
+    tone === 'yes'
+      ? COLORS.yes
+      : tone === 'partial'
+        ? COLORS.pink
+        : COLORS.maybe;
+  const bg =
+    tone === 'yes'
+      ? 'rgba(34,197,94,0.04)'
+      : tone === 'partial'
+        ? 'rgba(255,45,146,0.05)'
+        : 'rgba(245,158,11,0.06)';
   const border =
-    tone === 'yes' ? 'rgba(34,197,94,0.19)' : 'rgba(245,158,11,0.22)';
+    tone === 'yes'
+      ? 'rgba(34,197,94,0.19)'
+      : tone === 'partial'
+        ? 'rgba(255,45,146,0.22)'
+        : 'rgba(245,158,11,0.22)';
 
   return (
     <View
@@ -366,7 +439,30 @@ function MatchSection({
       </View>
 
       <View style={styles.rowList}>
-        {rows.length ? (
+        {locked && rows.length ? (
+          <>
+            <View style={styles.resultRow}>
+              <Text style={styles.resultTitle}>
+                {lockTitle ?? 'Locked matches'}
+              </Text>
+              <Text style={styles.resultCategory}>
+                {`${rows.length} ${rows.length === 1 ? 'ITEM' : 'ITEMS'}`}
+              </Text>
+            </View>
+            {unlockLabel && onUnlock ? (
+              <Pressable
+                style={[styles.unlockButton, { borderColor: color }]}
+                onPress={onUnlock}
+                accessibilityRole="button"
+              >
+                <LockKeyhole size={14} color={color} />
+                <Text style={[styles.unlockText, { color }]}>
+                  {unlockLabel.toUpperCase()}
+                </Text>
+              </Pressable>
+            ) : null}
+          </>
+        ) : rows.length ? (
           rows.slice(0, 4).map((item) => (
             <View key={item.id} style={styles.resultRow}>
               <Text style={styles.resultTitle}>{item.title}</Text>
@@ -377,8 +473,10 @@ function MatchSection({
           ))
         ) : (
           <View style={styles.resultRow}>
-            <Text style={styles.resultTitle}>No shared picks yet</Text>
-            <Text style={styles.resultCategory}>KEEP SWIPING</Text>
+            <Text style={styles.resultTitle}>{emptyTitle}</Text>
+            <Text style={styles.resultCategory}>
+              {emptySubtitle.toUpperCase()}
+            </Text>
           </View>
         )}
       </View>
@@ -518,6 +616,21 @@ const styles = StyleSheet.create({
     color: 'rgba(255,45,146,0.5)',
     fontSize: 10,
     fontWeight: '700',
+  },
+  unlockButton: {
+    minHeight: 38,
+    borderRadius: 12,
+    borderWidth: 1,
+    backgroundColor: 'rgba(255,255,255,0.026)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 12,
+  },
+  unlockText: {
+    fontSize: 11,
+    fontWeight: '800',
   },
   sharePress: {
     height: 44,

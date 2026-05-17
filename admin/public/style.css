@@ -303,6 +303,12 @@ body {
   line-height: 1.6;
 }
 
+.card-secondary {
+  color: var(--color-text-light) !important;
+  font-size: 0.9rem;
+  margin-top: var(--spacing-xs);
+}
+
 .card-meta {
   display: flex;
   gap: var(--spacing-md);

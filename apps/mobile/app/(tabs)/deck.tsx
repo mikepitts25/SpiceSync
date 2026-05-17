@@ -34,18 +34,18 @@ import {
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
 import { useKinks, type KinkItem } from '../../lib/data';
-import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
 import {
-  describeTierFilter,
   filterKinksByTier,
   TIER_FILTER_OPTIONS,
   useFilters,
   type Tier,
 } from '../../lib/state/filters';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
+import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore, type VoteValue } from '../../src/stores/votes';
-import { useTranslation } from '../../lib/i18n';
+import { interpolate, useTranslation } from '../../lib/i18n';
 import {
   COLORS,
   GRADIENTS,
@@ -71,6 +71,16 @@ const TIER_COLORS: Record<string, string> = {
   xxx: COLORS.no,
 };
 
+function getTierOptionLabel(
+  tier: Tier,
+  t: ReturnType<typeof useTranslation>['t']
+) {
+  if (!tier) return t.deck.allFilter;
+  if (tier === 'soft') return t.discover.soft;
+  if (tier === 'naughty') return t.discover.naughty;
+  return t.discover.xxx;
+}
+
 const SwipeableKinkCard = forwardRef<
   SwipeDeckHandle,
   {
@@ -78,6 +88,8 @@ const SwipeableKinkCard = forwardRef<
     partnerName: string;
     partnerEmoji?: string | null;
     partnerVoted: boolean;
+    partnerVotedLabel: string;
+    partnerNotVotedLabel: string;
     onSwipe: (dir: SwipeDirection) => void;
     onSwipeStart: () => void;
     onSwipeEnd: () => void;
@@ -88,6 +100,8 @@ const SwipeableKinkCard = forwardRef<
     partnerName,
     partnerEmoji,
     partnerVoted,
+    partnerVotedLabel,
+    partnerNotVotedLabel,
     onSwipe,
     onSwipeStart,
     onSwipeEnd,
@@ -236,7 +250,9 @@ const SwipeableKinkCard = forwardRef<
               <View style={styles.partnerCopy}>
                 <Text style={styles.partnerName}>{partnerName}</Text>
                 <Text style={styles.partnerStatus}>
-                  {partnerVoted ? 'voted ✓' : "hasn't voted yet"}
+                  {partnerVoted
+                    ? `${partnerVotedLabel} ✓`
+                    : partnerNotVotedLabel}
                 </Text>
               </View>
             </View>
@@ -252,6 +268,9 @@ export default function DeckScreen() {
   const language = useSettingsStore((state) => state.language);
   const { selectedTier, setTier, clearTier } = useFilters();
   const { t } = useTranslation();
+  const isRemotePartner = useCoupleLinkStore(
+    (state) => state.link?.status === 'active'
+  );
   const { isHydrated, hasActive, profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
       isHydrated: state.isHydrated(),
@@ -285,7 +304,18 @@ export default function DeckScreen() {
     () => filterKinksByTier(kinks, selectedTier),
     [kinks, selectedTier]
   );
-  const activeFilterLabel = describeTierFilter(selectedTier);
+  const activeFilterLabel = useMemo(() => {
+    if (!selectedTier) return t.deck.allIntensity;
+    if (selectedTier === 'xxx') return t.deck.xxxIntensity;
+    return interpolate(t.deck.tierIntensity, {
+      tier: selectedTier[0].toUpperCase() + selectedTier.slice(1),
+    });
+  }, [
+    selectedTier,
+    t.deck.allIntensity,
+    t.deck.tierIntensity,
+    t.deck.xxxIntensity,
+  ]);
 
   const allKinkIdsInFilter = useMemo(
     () => filteredKinks.map((k) => k.id),
@@ -302,6 +332,7 @@ export default function DeckScreen() {
       ? state.votesByProfile[partnerProfileIdValue]
       : undefined
   );
+  const remotePartnerVotes = usePartnerVotesStore((state) => state.byCardId);
 
   const queue = useMemo(() => {
     if (!activeProfileIdValue) return filteredKinks;
@@ -437,10 +468,8 @@ export default function DeckScreen() {
         <StatusBar style="light" />
         <AppHeader />
         <View style={styles.centerState}>
-          <Text style={styles.emptyTitle}>You're all caught up</Text>
-          <Text style={styles.emptyCopy}>
-            Review matches or reset this deck to swipe again.
-          </Text>
+          <Text style={styles.emptyTitle}>{t.deck.caughtUpTitle}</Text>
+          <Text style={styles.emptyCopy}>{t.deck.caughtUpDesc}</Text>
           <View style={styles.emptyActions}>
             <Pressable
               style={styles.outlineButton}
@@ -450,7 +479,9 @@ export default function DeckScreen() {
                 setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
               }}
             >
-              <Text style={styles.outlineButtonText}>RESET DECK</Text>
+              <Text style={styles.outlineButtonText}>
+                {t.deck.resetDeck.toUpperCase()}
+              </Text>
             </Pressable>
             <Pressable
               style={styles.gradientButtonPress}
@@ -462,7 +493,9 @@ export default function DeckScreen() {
                 end={{ x: 1, y: 0.5 }}
                 style={styles.gradientButton}
               >
-                <Text style={styles.gradientButtonText}>VIEW MATCHES</Text>
+                <Text style={styles.gradientButtonText}>
+                  {t.deck.viewMatches.toUpperCase()}
+                </Text>
               </LinearGradient>
             </Pressable>
           </View>
@@ -472,10 +505,15 @@ export default function DeckScreen() {
     );
   }
 
-  const partnerName =
-    partnerProfile?.displayName ?? partnerProfile?.name ?? 'Partner';
-  const partnerEmoji = partnerProfile?.emoji;
-  const partnerVoted = !!partnerVotes?.[current.id];
+  const partnerName = isRemotePartner
+    ? t.deck.partnerFallback
+    : (partnerProfile?.displayName ??
+      partnerProfile?.name ??
+      t.deck.partnerFallback);
+  const partnerEmoji = isRemotePartner ? null : partnerProfile?.emoji;
+  const partnerVoted = isRemotePartner
+    ? !!remotePartnerVotes[current.id]
+    : !!partnerVotes?.[current.id];
 
   return (
     <SafeAreaView
@@ -495,14 +533,16 @@ export default function DeckScreen() {
 
         <ScreenTour
           screenId="deck"
-          screenLabel="Deck"
-          steps={MAIN_SCREEN_TOURS.deck}
+          screenLabel={t.tabs.deck}
+          steps={t.tours.deck}
           style={styles.tourCard}
         />
 
         <View style={styles.filterBlock}>
           <View style={styles.filterHeader}>
-            <Text style={styles.filterTitle}>INTENSITY</Text>
+            <Text style={styles.filterTitle}>
+              {t.common.intensity.toUpperCase()}
+            </Text>
             <Text style={styles.filterSummary}>{activeFilterLabel}</Text>
           </View>
 
@@ -524,12 +564,14 @@ export default function DeckScreen() {
                       end={{ x: 1, y: 0.5 }}
                       style={styles.tierActive}
                     >
-                      <Text style={styles.tierActiveText}>{option.label}</Text>
+                      <Text style={styles.tierActiveText}>
+                        {getTierOptionLabel(option.value, t).toUpperCase()}
+                      </Text>
                     </LinearGradient>
                   ) : (
                     <View style={styles.tierInactive}>
                       <Text style={styles.tierInactiveText}>
-                        {option.label}
+                        {getTierOptionLabel(option.value, t).toUpperCase()}
                       </Text>
                     </View>
                   )}
@@ -546,6 +588,8 @@ export default function DeckScreen() {
             partnerName={partnerName}
             partnerEmoji={partnerEmoji}
             partnerVoted={partnerVoted}
+            partnerVotedLabel={t.deck.partnerVoted}
+            partnerNotVotedLabel={t.deck.partnerNotVoted}
             onSwipe={handleSwipeResult}
             onSwipeStart={() => setCardAnimating(true)}
             onSwipeEnd={() => setCardAnimating(false)}
@@ -554,13 +598,13 @@ export default function DeckScreen() {
 
         <View style={styles.actionRow}>
           <ActionCircle
-            label="PASS"
+            label={t.deck.pass.toUpperCase()}
             icon={X}
             color={COLORS.no}
             onPress={() => handleButtonVote('no')}
           />
           <ActionCircle
-            label="YES"
+            label={t.deck.yes.toUpperCase()}
             icon={Check}
             variant="gradient"
             color={COLORS.pink}
@@ -569,7 +613,7 @@ export default function DeckScreen() {
             onPress={() => handleButtonVote('yes')}
           />
           <ActionCircle
-            label="MAYBE"
+            label={t.deck.maybe.toUpperCase()}
             icon={Ellipsis}
             color={COLORS.maybe}
             onPress={() => handleButtonVote('maybe')}

@@ -16,10 +16,8 @@ import {
   SHADOWS,
   TYPOGRAPHY,
 } from '../constants/theme';
-import {
-  type MainTourScreenId,
-  type TourStep,
-} from '../lib/main-screen-tours';
+import { type MainTourScreenId, type TourStep } from '../lib/main-screen-tours';
+import { interpolate, useTranslation } from '../lib/i18n';
 import { useScreenToursStore } from '../src/stores/screenTours';
 
 type VisibleTourStep = {
@@ -49,10 +47,7 @@ export function getVisibleTourStep(
     return null;
   }
 
-  const index = Math.max(
-    0,
-    Math.min(requestedIndex, visibleSteps.length - 1)
-  );
+  const index = Math.max(0, Math.min(requestedIndex, visibleSteps.length - 1));
   const step = visibleSteps[index];
   const isLastStep = index === visibleSteps.length - 1;
 
@@ -71,6 +66,7 @@ export function ScreenTour({
   steps,
   style,
 }: ScreenTourProps) {
+  const { t } = useTranslation();
   const [stepIndex, setStepIndex] = useState(0);
   const isDismissed = useScreenToursStore((state) =>
     state.isTourDismissed(screenId)
@@ -90,6 +86,11 @@ export function ScreenTour({
 
     setStepIndex((index) => index + 1);
   };
+  const progressLabel = interpolate(t.common.progressOf, {
+    current: visibleStep.index + 1,
+    total: steps.filter((step) => step.title.trim() && step.body.trim()).length,
+  });
+  const primaryLabel = visibleStep.isLastStep ? t.common.done : t.common.next;
 
   return (
     <View style={[styles.card, style]}>
@@ -101,8 +102,8 @@ export function ScreenTour({
       />
       <View style={styles.inner}>
         <View style={styles.topRow}>
-          <Text style={styles.eyebrow}>QUICK TOUR</Text>
-          <Text style={styles.progress}>{visibleStep.progressLabel}</Text>
+          <Text style={styles.eyebrow}>{t.common.quickTour.toUpperCase()}</Text>
+          <Text style={styles.progress}>{progressLabel}</Text>
         </View>
 
         <Text style={styles.title}>{visibleStep.step.title}</Text>
@@ -111,19 +112,21 @@ export function ScreenTour({
         <View style={styles.actions}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={`Skip ${screenLabel} tour`}
+            accessibilityLabel={interpolate(t.common.skipTourFor, {
+              screen: screenLabel,
+            })}
             onPress={() => dismissTour(screenId)}
             style={styles.skipButton}
           >
-            <Text style={styles.skipText}>Skip tour</Text>
+            <Text style={styles.skipText}>{t.common.skipTour}</Text>
           </Pressable>
 
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={
               visibleStep.isLastStep
-                ? `Finish ${screenLabel} tour`
-                : `Next ${screenLabel} tour step`
+                ? interpolate(t.common.finishTour, { screen: screenLabel })
+                : interpolate(t.common.nextTourStep, { screen: screenLabel })
             }
             onPress={handlePrimaryPress}
             style={styles.primaryPress}
@@ -134,9 +137,7 @@ export function ScreenTour({
               end={{ x: 1, y: 0.5 }}
               style={styles.primaryButton}
             >
-              <Text style={styles.primaryText}>
-                {visibleStep.primaryLabel}
-              </Text>
+              <Text style={styles.primaryText}>{primaryLabel}</Text>
             </LinearGradient>
           </Pressable>
         </View>

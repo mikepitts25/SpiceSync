@@ -15,11 +15,9 @@ import {
 } from '../../components/app-chrome';
 import { ScreenTour } from '../../components/ScreenTour';
 import { type GameCard, getCardsByLanguage } from '../../data/gameCards';
-import { MAIN_SCREEN_TOURS } from '../../lib/main-screen-tours';
+import { interpolate, useTranslation } from '../../lib/i18n';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../constants/theme';
-
-const LEVEL_LABELS = ['Warm-Up', 'Playful', 'Bold', 'Heated', 'Wild'];
 
 function pickRandom(cards: GameCard[]) {
   if (!cards.length) return null;
@@ -27,6 +25,7 @@ function pickRandom(cards: GameCard[]) {
 }
 
 export default function GameHub() {
+  const { t } = useTranslation();
   const unlocked = useSettingsStore((state) => state.unlocked);
   const language = useSettingsStore((state) => state.language);
   const [selectedLevel, setSelectedLevel] = useState(2);
@@ -59,16 +58,18 @@ export default function GameHub() {
     if (!currentCard) return;
     try {
       await Share.share({
-        message: `SpiceSync Game Night: ${currentCard.content}`,
+        message: interpolate(t.game.shareMessage, {
+          content: currentCard.content,
+        }),
       });
     } catch {
       // Native share cancellation does not need UI.
     }
-  }, [currentCard]);
+  }, [currentCard, t.game.shareMessage]);
 
   const typeLabel = currentCard?.type
-    ? currentCard.type.toUpperCase()
-    : 'CHALLENGE';
+    ? t.game[currentCard.type].toUpperCase()
+    : t.game.fallbackType.toUpperCase();
 
   return (
     <SafeAreaView
@@ -81,13 +82,15 @@ export default function GameHub() {
       <View style={styles.content}>
         <ScreenTour
           screenId="game"
-          screenLabel="Game"
-          steps={MAIN_SCREEN_TOURS.game}
+          screenLabel={t.tabs.game}
+          steps={t.tours.game}
         />
 
         <View style={styles.headingRow}>
-          <Text style={styles.heading}>GAME NIGHT</Text>
-          <Text style={styles.levelCopy}>Level {selectedLevel} of 5</Text>
+          <Text style={styles.heading}>{t.game.gameNight.toUpperCase()}</Text>
+          <Text style={styles.levelCopy}>
+            {interpolate(t.game.levelOf, { level: selectedLevel })}
+          </Text>
         </View>
 
         <View style={styles.levelRow}>
@@ -108,11 +111,15 @@ export default function GameHub() {
                     end={{ x: 1, y: 0.5 }}
                     style={styles.levelActive}
                   >
-                    <Text style={styles.levelActiveText}>L{level}</Text>
+                    <Text style={styles.levelActiveText}>
+                      {interpolate(t.game.levelShort, { level })}
+                    </Text>
                   </LinearGradient>
                 ) : (
                   <View style={styles.levelInactive}>
-                    <Text style={styles.levelInactiveText}>L{level}</Text>
+                    <Text style={styles.levelInactiveText}>
+                      {interpolate(t.game.levelShort, { level })}
+                    </Text>
                   </View>
                 )}
               </Pressable>
@@ -130,10 +137,12 @@ export default function GameHub() {
             <AccentBar />
 
             <Text style={styles.cardTitle}>
-              {currentCard ? titleForCard(currentCard) : 'Truth Seeker'}
+              {currentCard
+                ? titleForCard(currentCard, t.game.titles)
+                : t.game.titles.truth}
             </Text>
             <Text style={styles.cardBody}>
-              {currentCard?.content ?? 'Draw a card to begin.'}
+              {currentCard?.content ?? t.game.drawToBegin}
             </Text>
 
             <View style={styles.timerBadge}>
@@ -142,17 +151,22 @@ export default function GameHub() {
                 {currentCard?.estimatedTime &&
                 currentCard.estimatedTime !== 'N/A'
                   ? currentCard.estimatedTime
-                  : 'No time limit'}
+                  : t.game.noTimeLimit}
               </Text>
             </View>
 
             <View style={styles.footerRow}>
               <Text style={styles.footerText}>
-                Card {Math.min(drawCount, Math.max(levelCards.length, 1))} of{' '}
-                {Math.max(levelCards.length, 1)}
+                {interpolate(t.game.cardOf, {
+                  current: Math.min(drawCount, Math.max(levelCards.length, 1)),
+                  total: Math.max(levelCards.length, 1),
+                })}
               </Text>
               <Text style={styles.footerText}>
-                Level {selectedLevel} · {LEVEL_LABELS[selectedLevel - 1]}
+                {interpolate(t.game.levelWithLabel, {
+                  level: selectedLevel,
+                  label: t.game.levels[selectedLevel - 1],
+                })}
               </Text>
             </View>
           </View>
@@ -160,13 +174,13 @@ export default function GameHub() {
 
         <View style={styles.actionRow}>
           <ActionCircle
-            label="SKIP"
+            label={t.game.skip.toUpperCase()}
             icon={X}
             color={COLORS.no}
             onPress={drawCard}
           />
           <ActionCircle
-            label="DRAW"
+            label={t.game.draw.toUpperCase()}
             icon={RefreshCw}
             variant="gradient"
             color={COLORS.pink}
@@ -175,7 +189,7 @@ export default function GameHub() {
             onPress={drawCard}
           />
           <ActionCircle
-            label="SHARE"
+            label={t.game.share.toUpperCase()}
             icon={Share2}
             color={COLORS.maybe}
             onPress={handleShare}
@@ -188,20 +202,23 @@ export default function GameHub() {
   );
 }
 
-function titleForCard(card: GameCard) {
+function titleForCard(
+  card: GameCard,
+  titles: ReturnType<typeof useTranslation>['t']['game']['titles']
+) {
   switch (card.type) {
     case 'truth':
-      return 'Truth Seeker';
+      return titles.truth;
     case 'dare':
-      return 'Dare Drop';
+      return titles.dare;
     case 'challenge':
-      return 'Challenge Round';
+      return titles.challenge;
     case 'fantasy':
-      return 'Fantasy Spark';
+      return titles.fantasy;
     case 'roleplay':
-      return 'Role Play';
+      return titles.roleplay;
     default:
-      return 'Game Card';
+      return titles.fallback;
   }
 }
 
