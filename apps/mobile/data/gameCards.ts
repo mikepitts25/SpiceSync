@@ -148,11 +148,12 @@ export const FREE_CARDS: GameCard[] = [
   {
     id: 'f-fn4',
     type: 'fantasy',
-    content: 'You walk in and catch me touching myself. What do you do? Act it out.',
+    content: 'You walk in and catch me touching myself. What do you do?',
     intensity: 4,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '5 min'
+    estimatedTime: 'N/A',
+    requires: []
   },
   {
     id: 'f-r2',
