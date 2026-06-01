@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#0D0006"/>
+  <circle cx="350" cy="230" r="320" fill="#2A001B" opacity="0.62"/>
+  <circle cx="720" cy="285" r="260" fill="#8B5CF6" opacity="0.2"/>
+  <circle cx="486" cy="770" r="280" fill="#FF2D92" opacity="0.18"/>
+  <circle cx="512" cy="512" r="352" fill="none" stroke="#FF2D92" stroke-width="24" opacity="0.5"/>
+  <circle cx="512" cy="512" r="286" fill="none" stroke="#FFFFFF" stroke-width="5" opacity="0.08"/>
+
+  <g transform="translate(126 118) scale(2.96)">
+    <g opacity="0.32" transform="translate(0 13)">
+      <path d="M82 72 C58 48 18 58 17 98 C16 142 68 166 113 210 C158 166 210 142 209 98 C208 58 168 48 144 72 C132 84 125 94 113 110 C101 94 94 84 82 72Z" fill="#000000" transform="translate(-7 10) rotate(-8 113 128)"/>
+      <path d="M118 72 C94 48 54 58 53 98 C52 142 104 166 149 210 C194 166 246 142 245 98 C244 58 204 48 180 72 C168 84 161 94 149 110 C137 94 130 84 118 72Z" fill="#000000" transform="translate(7 -2) rotate(8 149 128)"/>
+    </g>
+
+    <path d="M82 72 C58 48 18 58 17 98 C16 142 68 166 113 210 C158 166 210 142 209 98 C208 58 168 48 144 72 C132 84 125 94 113 110 C101 94 94 84 82 72Z" fill="#FF2D92" transform="translate(-7 10) rotate(-8 113 128)"/>
+    <path d="M118 72 C94 48 54 58 53 98 C52 142 104 166 149 210 C194 166 246 142 245 98 C244 58 204 48 180 72 C168 84 161 94 149 110 C137 94 130 84 118 72Z" fill="#8B5CF6" transform="translate(7 -2) rotate(8 149 128)"/>
+
+    <path d="M82 72 C58 48 18 58 17 98 C16 142 68 166 113 210 C158 166 210 142 209 98 C208 58 168 48 144 72 C132 84 125 94 113 110 C101 94 94 84 82 72Z" fill="#FFFFFF" opacity="0.13" transform="translate(-7 10) rotate(-8 113 128)"/>
+    <path d="M118 72 C94 48 54 58 53 98 C52 142 104 166 149 210 C194 166 246 142 245 98 C244 58 204 48 180 72 C168 84 161 94 149 110 C137 94 130 84 118 72Z" fill="#FFFFFF" opacity="0.13" transform="translate(7 -2) rotate(8 149 128)"/>
+
+    <path d="M95 90 C75 72 45 79 43 108" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.52"/>
+    <path d="M132 86 C150 66 184 73 190 101" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.38"/>
+  </g>
+
+  <g transform="translate(722 246)">
+    <path d="M76 0 L96 58 L156 76 L98 96 L76 156 L56 98 L0 76 L56 56Z" fill="#FFFFFF" opacity="0.96"/>
+    <path d="M76 22 L88 62 L130 76 L90 90 L76 132 L62 92 L24 76 L62 62Z" fill="#FF7FBA" opacity="0.78"/>
+  </g>
+</svg>

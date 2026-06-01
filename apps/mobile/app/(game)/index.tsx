@@ -15,6 +15,10 @@ import {
 } from '../../components/app-chrome';
 import { ScreenTour } from '../../components/ScreenTour';
 import { type GameCard, getCardsByLanguage } from '../../data/gameCards';
+import {
+  filterCardsBySelectedLevels,
+  type GameIntensityLevel,
+} from '../../lib/gameLevelFilter';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../constants/theme';
@@ -28,7 +32,9 @@ export default function GameHub() {
   const { t } = useTranslation();
   const unlocked = useSettingsStore((state) => state.unlocked);
   const language = useSettingsStore((state) => state.language);
-  const [selectedLevel, setSelectedLevel] = useState(2);
+  const [selectedLevels, setSelectedLevels] = useState<GameIntensityLevel[]>([
+    2,
+  ]);
   const [currentCard, setCurrentCard] = useState<GameCard | null>(null);
   const [drawCount, setDrawCount] = useState(1);
 
@@ -37,10 +43,15 @@ export default function GameHub() {
     [language, unlocked]
   );
 
-  const levelCards = useMemo(() => {
-    const exact = cards.filter((card) => card.intensity === selectedLevel);
-    return exact.length ? exact : cards;
-  }, [cards, selectedLevel]);
+  const levelCards = useMemo(
+    () => filterCardsBySelectedLevels(cards, selectedLevels),
+    [cards, selectedLevels]
+  );
+
+  const selectedLevelText = useMemo(
+    () => selectedLevels.join(', '),
+    [selectedLevels]
+  );
 
   useEffect(() => {
     setCurrentCard(pickRandom(levelCards));
@@ -53,6 +64,18 @@ export default function GameHub() {
       Math.min(count + 1, Math.max(levelCards.length, 1))
     );
   }, [levelCards]);
+
+  const toggleLevel = useCallback((level: GameIntensityLevel) => {
+    setSelectedLevels((currentLevels) => {
+      if (currentLevels.includes(level)) {
+        return currentLevels.length === 1
+          ? currentLevels
+          : currentLevels.filter((currentLevel) => currentLevel !== level);
+      }
+
+      return [...currentLevels, level].sort((a, b) => a - b);
+    });
+  }, []);
 
   const handleShare = useCallback(async () => {
     if (!currentCard) return;
@@ -89,19 +112,20 @@ export default function GameHub() {
         <View style={styles.headingRow}>
           <Text style={styles.heading}>{t.game.gameNight.toUpperCase()}</Text>
           <Text style={styles.levelCopy}>
-            {interpolate(t.game.levelOf, { level: selectedLevel })}
+            {interpolate(t.game.levelsSelected, { levels: selectedLevelText })}
           </Text>
         </View>
 
         <View style={styles.levelRow}>
           {[1, 2, 3, 4, 5].map((level) => {
-            const active = selectedLevel === level;
+            const typedLevel = level as GameIntensityLevel;
+            const active = selectedLevels.includes(typedLevel);
             return (
               <Pressable
                 key={level}
                 accessibilityRole="button"
                 accessibilityState={{ selected: active }}
-                onPress={() => setSelectedLevel(level)}
+                onPress={() => toggleLevel(typedLevel)}
                 style={styles.levelPress}
               >
                 {active ? (
@@ -132,17 +156,23 @@ export default function GameHub() {
           <View style={styles.cardInner}>
             <View style={styles.cardTopRow}>
               <Text style={styles.categoryLabel}>{typeLabel}</Text>
-              <IntensityDots value={selectedLevel} max={5} />
+              <IntensityDots
+                value={
+                  currentCard?.intensity ??
+                  selectedLevels[selectedLevels.length - 1]
+                }
+                max={5}
+              />
             </View>
             <AccentBar />
 
             <Text style={styles.cardTitle}>
               {currentCard
                 ? titleForCard(currentCard, t.game.titles)
-                : t.game.titles.truth}
+                : t.game.noCardsForLevels}
             </Text>
             <Text style={styles.cardBody}>
-              {currentCard?.content ?? t.game.drawToBegin}
+              {currentCard?.content ?? t.game.chooseDifferentLevels}
             </Text>
 
             <View style={styles.timerBadge}>
@@ -158,14 +188,17 @@ export default function GameHub() {
             <View style={styles.footerRow}>
               <Text style={styles.footerText}>
                 {interpolate(t.game.cardOf, {
-                  current: Math.min(drawCount, Math.max(levelCards.length, 1)),
-                  total: Math.max(levelCards.length, 1),
+                  current: levelCards.length
+                    ? Math.min(drawCount, levelCards.length)
+                    : 0,
+                  total: levelCards.length,
                 })}
               </Text>
               <Text style={styles.footerText}>
-                {interpolate(t.game.levelWithLabel, {
-                  level: selectedLevel,
-                  label: t.game.levels[selectedLevel - 1],
+                {interpolate(t.game.levelsWithLabels, {
+                  levels: selectedLevels
+                    .map((level) => `${level} ${t.game.levels[level - 1]}`)
+                    .join(', '),
                 })}
               </Text>
             </View>

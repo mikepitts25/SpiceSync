@@ -358,15 +358,6 @@ export const PREMIUM_CARDS: GameCard[] = [
     estimatedTime: 'N/A'
   },
   {
-    id: 'p-d15',
-    type: 'dare',
-    content: 'Bring me to the edge with your mouth—then stop right before I finish.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A'
-  },
-  {
     id: 'p-d16',
     type: 'dare',
     content: 'Choke me lightly while you kiss me. Just pressure. Control.',

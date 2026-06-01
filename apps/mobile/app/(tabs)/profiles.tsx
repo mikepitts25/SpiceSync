@@ -4,16 +4,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
-import { ChevronRight, Link as LinkIcon, Plus } from 'lucide-react-native';
+import { ChevronRight, Plus } from 'lucide-react-native';
 import { useShallow } from 'zustand/react/shallow';
 
 import { AppHeader, AppTabBar } from '../../components/app-chrome';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
-import { interpolate, useTranslation } from '../../lib/i18n';
+import { useTranslation } from '../../lib/i18n';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useVotesStore } from '../../src/stores/votes';
-import { usePartnerStore } from '../../src/stores/partner';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
 const PROFILE_COLORS = [
@@ -44,11 +44,8 @@ export default function ProfilesHubScreen() {
     activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}
   );
 
-  const { partner, pendingInvite } = usePartnerStore(
-    useShallow((state) => ({
-      partner: state.partner,
-      pendingInvite: state.pendingInvite,
-    }))
+  const coupleLink = useCoupleLinkStore((state) =>
+    state.link?.status === 'active' ? state.link : null
   );
 
   const voteValues = Object.values(profileVotes);
@@ -56,10 +53,8 @@ export default function ProfilesHubScreen() {
   const yesCount = voteValues.filter((v) => v === 'yes').length;
   const maybeCount = voteValues.filter((v) => v === 'maybe').length;
 
-  const inviteCode =
-    pendingInvite?.status === 'pending' && Date.now() < pendingInvite.expiresAt
-      ? pendingInvite.code
-      : null;
+  const partnerName = coupleLink?.partnerProfileName ?? 'Remote partner';
+  const partnerAvatar = coupleLink?.partnerProfileAvatar ?? null;
 
   return (
     <SafeAreaView
@@ -217,7 +212,7 @@ export default function ProfilesHubScreen() {
             </Text>
           </View>
           <View style={styles.sectionCard}>
-            {partner ? (
+            {coupleLink ? (
               <View style={styles.partnerRow}>
                 <LinearGradient
                   colors={GRADIENTS.purple}
@@ -226,36 +221,29 @@ export default function ProfilesHubScreen() {
                   style={styles.partnerAvatar}
                 >
                   <ProfileAvatarIcon
-                    avatar={partner.emoji}
+                    avatar={partnerAvatar}
                     size={34}
                     framed={false}
                   />
                 </LinearGradient>
                 <View style={styles.partnerInfo}>
                   <View style={styles.partnerNameRow}>
-                    <Text style={styles.partnerName}>{partner.name}</Text>
+                    <Text style={styles.partnerName}>{partnerName}</Text>
                     <View style={styles.linkedBadge}>
                       <Text style={styles.linkedText}>{t.kinks.linked}</Text>
                     </View>
                   </View>
-                  {inviteCode ? (
-                    <View style={styles.codeRow}>
-                      <LinkIcon size={12} color={COLORS.textMuted} />
-                      <Text style={styles.codeText}>{inviteCode}</Text>
-                    </View>
-                  ) : null}
+                  <Text style={styles.partnerSubtext}>Remote sync active</Text>
                 </View>
               </View>
             ) : (
               <Pressable
                 accessibilityRole="button"
-                onPress={() => router.push('/(onboarding)/invite')}
+                onPress={() => router.push('/(onboarding)/partner-connect')}
                 style={styles.connectRow}
               >
                 <Text style={styles.connectLabel}>
-                  {inviteCode
-                    ? interpolate(t.kinks.yourCode, { code: inviteCode })
-                    : t.kinks.connectWithPartner}
+                  {t.kinks.connectWithPartner}
                 </Text>
                 <ChevronRight size={16} color={COLORS.pink} />
               </Pressable>
@@ -448,16 +436,10 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
   },
-  codeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  codeText: {
+  partnerSubtext: {
     color: COLORS.textMuted,
     fontSize: 12,
     fontWeight: '600',
-    letterSpacing: 0.5,
   },
   connectRow: {
     flexDirection: 'row',

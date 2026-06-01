@@ -488,15 +488,6 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     requires: ['props'],
   },
   {
-    id: 'kink-chastity-2',
-    type: 'challenge',
-    content: "Negación de 4 turnos: No pueden tener orgasmos. Provócalos en cada turno, pero no los dejes terminar.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-  },
-  {
     id: 'kink-chastity-3',
     type: 'truth',
     content: "Fantasía de castidad: ¿Cuánto crees que podrías durar encerrado? ¿Qué estarías dispuesto a hacer por liberación?",
@@ -620,15 +611,6 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     isPremium: true,
     estimatedTime: 'N/A',
   },
-  {
-    id: 'kink-edge-1',
-    type: 'challenge',
-    content: "Control de borde: Llévalos justo al borde, luego para. Haz esto 3 veces antes de finalmente dejarlos terminar.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-  },
 
   // IMPACTO Y SENSACIÓN
   {
@@ -717,15 +699,6 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
     type: 'truth',
     content: "Elogio vs degradación: ¿Qué te habla más—que te digan que eres un buen juguetito, o que te llamen una puta sucia? ¿Por qué?",
     intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-  },
-  {
-    id: 'kink-power-3',
-    type: 'dare',
-    content: "Control de orgasmo: Decide cuándo pueden terminar. Llévalos al borde, luego niega. Haz que se ganen su liberación.",
-    intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
@@ -835,24 +808,6 @@ export const PREMIUM_CARDS_ES: GameCard[] = [
   },
 
   // CNC Y AVANZADO
-  {
-    id: 'kink-cnc-1',
-    type: 'roleplay',
-    content: "Escena de no-consentimiento consensuado: Resistencia pre-negociada. Ellos dicen no, tú ignoras, ellos luchan, tú los sometes. Palabra segura esencial.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-  },
-  {
-    id: 'kink-forced-1',
-    type: 'challenge',
-    content: "Orgasmo forzado: Mantenlos abajo y no pares aunque supliquen. Haz que vengan hasta que no puedan más.",
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-  },
 
   // GRUPO Y COMPARTIR
   {

@@ -2,6 +2,8 @@ export type CreateInviteRequest = {
   inviterDeviceId: string;
   inviterPublicKey: string;
   inviteSecretHash: string;
+  inviterProfileName?: string | null;
+  inviterProfileAvatar?: string | null;
 };
 
 export type CreateInviteResponse = {
@@ -16,6 +18,8 @@ export type InviteResponse = {
   inviteId: string;
   inviterDeviceId: string;
   inviterPublicKey: string;
+  inviterProfileName?: string | null;
+  inviterProfileAvatar?: string | null;
   expiresAt: number;
   acceptedAt: number | null;
   coupleId: string | null;
@@ -26,6 +30,8 @@ export type AcceptInviteRequest = {
   accepterDeviceId: string;
   accepterPublicKey: string;
   inviteProof: string;
+  accepterProfileName?: string | null;
+  accepterProfileAvatar?: string | null;
 };
 
 export type AcceptInviteResponse = {
@@ -34,6 +40,10 @@ export type AcceptInviteResponse = {
   memberBDeviceId: string;
   memberAPublicKey: string;
   memberBPublicKey: string;
+  memberAProfileName?: string | null;
+  memberBProfileName?: string | null;
+  memberAProfileAvatar?: string | null;
+  memberBProfileAvatar?: string | null;
   createdAt: number;
 };
 
@@ -43,6 +53,10 @@ export type CoupleResponse = {
   memberBDeviceId: string;
   memberAPublicKey: string;
   memberBPublicKey: string;
+  memberAProfileName?: string | null;
+  memberBProfileName?: string | null;
+  memberAProfileAvatar?: string | null;
+  memberBProfileAvatar?: string | null;
   createdAt: number;
   revokedAt: number | null;
 };

@@ -10,31 +10,31 @@ export default function PrivacyPolicyScreen() {
       <StatusBar style="dark" />
       <BackHeader title="Privacy Policy" />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={styles.updated}>Last updated: May 2025</Text>
+        <Text style={styles.updated}>Last updated: June 2026</Text>
 
         <Section title="Overview">
           SpiceSync is designed with privacy as a core principle. All data you create — profiles,
-          votes, preferences, and partner codes — is stored exclusively on your device. We do not
-          operate servers that collect, process, or store your personal information.
+          votes, preferences, and matches — is stored on your device by default. If you connect a
+          remote partner, SpiceSync uses a relay service only to pass encrypted sync updates between
+          your devices.
         </Section>
 
         <Section title="Information We Collect">
-          We do not collect any personal information. SpiceSync has no accounts, no sign-up, no
-          login, and no backend. Everything you enter stays on the device you entered it on.
+          SpiceSync does not require a profile account, email address, or password. Remote partner
+          sync uses an anonymous device identity so the relay can deliver encrypted updates to the
+          right linked devices.
         </Section>
 
         <Section title="How Your Data Is Stored">
           All app data is stored locally using your device's built-in storage (AsyncStorage /
-          SecureStore). This data never leaves your device unless you explicitly share a partner
-          code, which is a short encoded string containing only vote data — no names, no device
-          identifiers, and no location information.
+          SecureStore). With remote partner sync enabled, vote updates leave your device only after
+          they are encrypted for your linked partner's device.
         </Section>
 
-        <Section title="Partner Codes">
-          When you share or receive a partner code, that code encodes a snapshot of vote choices
-          (yes, maybe, no) for specific activities. No identifying information about you or your
-          device is included in these codes. Codes are shared directly between users — SpiceSync
-          does not transmit them through any server.
+        <Section title="Partner Sync">
+          Invite links contain a temporary secret used to link two devices. The relay stores invite
+          status, linked device IDs, optional profile display metadata, and encrypted sync payloads.
+          It does not receive the plaintext contents of your votes.
         </Section>
 
         <Section title="Third-Party Services">

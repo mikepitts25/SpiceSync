@@ -2,7 +2,7 @@ import {
   getAppEntryDestination,
   getProfileCreatedDestination,
   getWelcomeCompletionDestination,
-} from '../app/welcome/routing';
+} from '../lib/welcome/routing';
 
 describe('welcome onboarding routing', () => {
   it('routes users without an active profile to the settings profile creation screen', () => {

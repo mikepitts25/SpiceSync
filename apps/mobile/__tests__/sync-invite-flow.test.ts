@@ -60,6 +60,12 @@ describe('invite flow', () => {
     expect(parsed?.inviteSecret).toBe('topsecret');
   });
 
+  it('parses an Expo Go invite URL', () => {
+    const parsed = parseInviteUrl('exp://192.168.1.10:8081/--/link/inv_exp#topsecret');
+    expect(parsed?.inviteId).toBe('inv_exp');
+    expect(parsed?.inviteSecret).toBe('topsecret');
+  });
+
   it('returns null for non-invite URLs', () => {
     expect(parseInviteUrl('https://example.com/foo')).toBeNull();
     expect(parseInviteUrl('not a url')).toBeNull();
@@ -78,7 +84,10 @@ describe('invite flow', () => {
       new RelayClient('https://relay.test', fetchMock as any)
     );
 
-    const handle = await createInvite();
+    const handle = await createInvite({
+      profileName: 'Alex',
+      profileAvatar: 'fire',
+    });
     expect(handle.inviteId).toBe('inv_1');
     expect(handle.inviteSecret.length).toBeGreaterThan(20);
     expect(handle.appUrl).toContain('spicesync://link/inv_1');
@@ -87,6 +96,8 @@ describe('invite flow', () => {
     const body = JSON.parse((init as any).body);
     expect(body.inviteSecretHash).toBe(sha256Base64(handle.inviteSecret));
     expect(body.inviteSecretHash).not.toBe(handle.inviteSecret);
+    expect(body.inviterProfileName).toBe('Alex');
+    expect(body.inviterProfileAvatar).toBe('fire');
   });
 
   it('acceptInvite saves a couple link with the partner public key', async () => {
@@ -103,6 +114,8 @@ describe('invite flow', () => {
               inviteId: 'inv_1',
               inviterDeviceId: 'dev_a',
               inviterPublicKey: 'partner_enc_pub',
+              inviterProfileName: 'Sam',
+              inviterProfileAvatar: 'cherries',
               expiresAt: 9999,
               acceptedAt: null,
               coupleId: null,
@@ -121,6 +134,10 @@ describe('invite flow', () => {
               memberBDeviceId: body.accepterDeviceId,
               memberAPublicKey: 'partner_enc_pub',
               memberBPublicKey: body.accepterPublicKey,
+              memberAProfileName: 'Sam',
+              memberAProfileAvatar: 'cherries',
+              memberBProfileName: body.accepterProfileName,
+              memberBProfileAvatar: body.accepterProfileAvatar,
               createdAt: 1700,
             }),
           });
@@ -135,16 +152,24 @@ describe('invite flow', () => {
       new RelayClient('https://relay.test', fetchMock as any)
     );
 
-    const result = await acceptInvite({
-      inviteId: 'inv_1',
-      inviteSecret: secret,
-    });
+    const result = await acceptInvite(
+      {
+        inviteId: 'inv_1',
+        inviteSecret: secret,
+      },
+      {
+        profileName: 'Alex',
+        profileAvatar: 'fire',
+      }
+    );
     expect(result.coupleId).toBe('cpl_1');
     const link = useCoupleLinkStore.getState().link!;
     expect(link.status).toBe('active');
     expect(link.partnerEncryptionPublicKey).toBe('partner_enc_pub');
     expect(link.myDeviceId).toMatch(/^dev_/);
     expect(link.partnerDeviceId).toBe('dev_a');
+    expect(link.partnerProfileName).toBe('Sam');
+    expect(link.partnerProfileAvatar).toBe('cherries');
   });
 
   it('finalizePendingInvite returns null until accepted, then saves link', async () => {
@@ -176,6 +201,10 @@ describe('invite flow', () => {
             memberBDeviceId: 'dev_partner',
             memberAPublicKey: 'self_pub',
             memberBPublicKey: 'partner_pub',
+            memberAProfileName: 'Me',
+            memberAProfileAvatar: 'fire',
+            memberBProfileName: 'Partner',
+            memberBProfileAvatar: 'cherries',
             createdAt: 1700,
             revokedAt: null,
           }),

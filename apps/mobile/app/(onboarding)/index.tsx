@@ -4,9 +4,8 @@ import BrandMomentScreen from './brand';
 import ValuePropScreen from './value';
 import PrivacyScreen from './privacy';
 import ProfileScreen from './profile';
-import InviteScreen from './invite';
 
-type OnboardingStep = 'brand' | 'value' | 'privacy' | 'profile' | 'invite';
+type OnboardingStep = 'brand' | 'value' | 'privacy' | 'profile';
 
 export default function OnboardingFlow() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('brand');
@@ -23,11 +22,7 @@ export default function OnboardingFlow() {
         setCurrentStep('profile');
         break;
       case 'profile':
-        setCurrentStep('invite');
-        break;
-      case 'invite':
-        // Onboarding complete - navigate to main app
-        router.replace('/(tabs)');
+        router.replace('/(tabs)/deck');
         break;
     }
   };
@@ -42,8 +37,6 @@ export default function OnboardingFlow() {
       return <PrivacyScreen onNext={goToNext} />;
     case 'profile':
       return <ProfileScreen onNext={goToNext} />;
-    case 'invite':
-      return <InviteScreen />;
     default:
       return null;
   }

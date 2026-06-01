@@ -178,15 +178,6 @@ export const LEVEL3_CARDS: GameCard[] = [
     estimatedTime: '1 min'
   },
   {
-    id: 'lvl3-c-007',
-    type: 'challenge',
-    content: 'Edging: Bring me to the edge of orgasm, then stop. Wait 30 seconds. Do this 3 times before letting me finish.',
-    intensity: 3,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '1 min'
-  },
-  {
     id: 'lvl3-c-008',
     type: 'challenge',
     content: 'Sensory Overload: Blindfold me. Use different textures (feather, fabric, ice, warm breath) all over my body. I guess what each is.',
@@ -567,7 +558,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['makeup']
   },
   {
@@ -577,7 +568,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: 'N/A'
   },
   {
     id: 'lvl3-d-018',

@@ -268,9 +268,8 @@ export default function DeckScreen() {
   const language = useSettingsStore((state) => state.language);
   const { selectedTier, setTier, clearTier } = useFilters();
   const { t } = useTranslation();
-  const isRemotePartner = useCoupleLinkStore(
-    (state) => state.link?.status === 'active'
-  );
+  const coupleLink = useCoupleLinkStore((state) => state.link);
+  const isRemotePartner = coupleLink?.status === 'active';
   const { isHydrated, hasActive, profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
       isHydrated: state.isHydrated(),
@@ -506,11 +505,13 @@ export default function DeckScreen() {
   }
 
   const partnerName = isRemotePartner
-    ? t.deck.partnerFallback
+    ? (coupleLink?.partnerProfileName ?? t.deck.partnerFallback)
     : (partnerProfile?.displayName ??
       partnerProfile?.name ??
       t.deck.partnerFallback);
-  const partnerEmoji = isRemotePartner ? null : partnerProfile?.emoji;
+  const partnerEmoji = isRemotePartner
+    ? (coupleLink?.partnerProfileAvatar ?? null)
+    : partnerProfile?.emoji;
   const partnerVoted = isRemotePartner
     ? !!remotePartnerVotes[current.id]
     : !!partnerVotes?.[current.id];

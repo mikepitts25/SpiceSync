@@ -98,15 +98,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     safetyNotes: 'Target fleshy parts of buttocks and thighs only. Avoid tailbone, hips, and kidneys.'
   },
   {
-    id: 'lvl4-d-005',
-    type: 'dare',
-    content: 'Bring me to the edge of orgasm with your mouth, then stop completely. Deny me until I beg properly.',
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-  },
-  {
     id: 'lvl4-d-006',
     type: 'dare',
     content: 'Use ice cubes on my nipples and intimate areas, alternating with your warm mouth.',
@@ -146,17 +137,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: 'N/A',
     safetyNotes: 'Biting should not break skin. Avoid areas near major blood vessels.'
-  },
-  {
-    id: 'lvl4-d-011',
-    type: 'dare',
-    content: 'Tease me with a vibrator for 1 minute, bringing me close but never letting me finish. Control my pleasure.',
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '1 min',
-    requires: ['vibrator'],
-    safetyNotes: 'Vibrators can cause numbness with prolonged use. Take breaks and vary intensity.'
   },
   {
     id: 'lvl4-d-012',
@@ -221,15 +201,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     estimatedTime: 'N/A',
     requires: ['ice', 'oil'],
     safetyNotes: 'Monitor skin reactions. Stop if skin becomes too red or numb.'
-  },
-  {
-    id: 'lvl4-c-009',
-    type: 'challenge',
-    content: 'Edging Marathon: Bring me to the edge 5 times over 1 minute. Final release only with your permission.',
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '1 min',
   },
   {
     id: 'lvl4-c-013',
@@ -428,15 +399,6 @@ export const LEVEL4_CARDS: GameCard[] = [
     estimatedTime: '1 min',
     requires: ['blindfold', 'headphones'],
     safetyNotes: 'Sensory deprivation can cause disorientation. Stay in physical contact. Check in verbally.'
-  },
-  {
-    id: 'lvl4-c-004',
-    type: 'challenge',
-    content: 'Orgasm Denial Session: I\'ll bring you to the edge 3 times. You beg each time. I decide if and when you finish.',
-    intensity: 4,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-c-008',

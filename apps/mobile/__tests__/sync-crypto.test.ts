@@ -19,6 +19,28 @@ describe('sync crypto', () => {
     expect(decoded).toEqual(bytes);
   });
 
+  it('uses the current runtime crypto implementation for random bytes', () => {
+    const originalCrypto = globalThis.crypto;
+    Object.defineProperty(globalThis, 'crypto', {
+      configurable: true,
+      value: {
+        getRandomValues: jest.fn((bytes: Uint8Array) => {
+          bytes.fill(7);
+          return bytes;
+        }),
+      },
+    });
+
+    try {
+      expect(Array.from(randomBytes(4))).toEqual([7, 7, 7, 7]);
+    } finally {
+      Object.defineProperty(globalThis, 'crypto', {
+        configurable: true,
+        value: originalCrypto,
+      });
+    }
+  });
+
   it('hashes a string deterministically', () => {
     expect(sha256Base64('hello')).toBe(sha256Base64('hello'));
     expect(sha256Base64('hello')).not.toBe(sha256Base64('world'));

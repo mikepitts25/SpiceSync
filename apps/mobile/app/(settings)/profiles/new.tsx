@@ -27,7 +27,7 @@ import {
   useProfilesStore,
 } from '../../../lib/state/profiles';
 import { COLORS, GRADIENTS, SHADOWS } from '../../../constants/theme';
-import { getProfileCreatedDestination } from '../../welcome/routing';
+import { getProfileCreatedDestination } from '../../../lib/welcome/routing';
 
 const PIN_LENGTH = 4;
 

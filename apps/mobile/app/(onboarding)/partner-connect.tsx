@@ -1,83 +1,126 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  TextInput,
   Alert,
-  Animated,
+  Pressable,
+  ScrollView,
   Share,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
+import * as Linking from 'expo-linking';
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { usePartnerStore } from '../../src/stores/partner';
-import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import QRCode from 'react-native-qrcode-svg';
+import {
+  ClipboardPaste,
+  Link as LinkIcon,
+  Radio,
+  ShieldCheck,
+  Users,
+} from 'lucide-react-native';
+
+import { BackHeader } from '../../components/app-chrome';
+import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
+import { COLORS, FONTS } from '../../constants/theme';
+import { useProfilesStore } from '../../lib/state/profiles';
+import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import {
   acceptInvite,
   createInvite,
   finalizePendingInvite,
+  lookupInvite,
+  parseInviteUrl,
   type InviteHandle,
+  type InviteLookup,
+  type ParsedInviteUrl,
 } from '../../lib/sync/inviteFlow';
-import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { startSyncLoop } from '../../lib/sync/syncLoop';
 import { startVoteSync, useVoteSyncStore } from '../../lib/sync/voteSync';
-import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
-import { PROFILE_AVATAR_OPTIONS } from '../../src/constants/emojis';
 
-const AVATARS = PROFILE_AVATAR_OPTIONS.slice(0, 8);
-type Mode = 'menu' | 'code' | 'remote-create' | 'remote-accept';
+type Mode = 'menu' | 'remote-create' | 'remote-paste' | 'remote-accept';
+
+function buildRuntimeInviteLink(invite: InviteHandle): string {
+  const path = `/link/${encodeURIComponent(invite.inviteId)}`;
+  return `${Linking.createURL(path)}#${encodeURIComponent(invite.inviteSecret)}`;
+}
 
 export default function PartnerConnect() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const {
-    code: incomingCode,
     remoteInviteId,
     remoteInviteSecret,
   } = useLocalSearchParams<{
-    code?: string;
     remoteInviteId?: string;
     remoteInviteSecret?: string;
   }>();
 
-  const {
-    acceptInvite: acceptLocalInvite,
-    hasPartner,
-  } = usePartnerStore();
-  const addProfile = useSettingsStore((state) => state.addProfile);
-  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
-  const setActiveProfile = useSettingsStore((state) => state.setActiveProfile);
   const coupleLink = useCoupleLinkStore((state) => state.link);
+  const { profiles, activeProfileId } = useProfilesStore((state) => ({
+    profiles: state.getProfiles(),
+    activeProfileId: state.getActiveProfileId(),
+  }));
+
+  const activeProfile = useMemo(
+    () => profiles.find((profile) => profile.id === activeProfileId) ?? null,
+    [profiles, activeProfileId]
+  );
+  const myProfileName =
+    activeProfile?.displayName ?? activeProfile?.name ?? 'Me';
+  const myProfileAvatar = activeProfile?.emoji ?? null;
 
   const [mode, setMode] = useState<Mode>(() => {
     if (remoteInviteId) return 'remote-accept';
-    if (incomingCode) return 'code';
     return 'menu';
   });
-  const [code, setCode] = useState(incomingCode || '');
-  const [partnerName, setPartnerName] = useState('');
-  const [selectedEmoji, setSelectedEmoji] = useState(AVATARS[0].id);
   const [isConnecting, setIsConnecting] = useState(false);
   const [pendingInvite, setPendingInvite] = useState<InviteHandle | null>(null);
+  const [remoteInvite, setRemoteInvite] = useState<InviteLookup | null>(null);
+  const [activeRemoteInvite, setActiveRemoteInvite] =
+    useState<ParsedInviteUrl | null>(() =>
+      remoteInviteId && remoteInviteSecret
+        ? { inviteId: remoteInviteId, inviteSecret: remoteInviteSecret }
+        : null
+    );
+  const [inviteLinkInput, setInviteLinkInput] = useState('');
   const [pollError, setPollError] = useState<string | null>(null);
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-
-    if (hasPartner() || coupleLink?.status === 'active') {
-      router.replace('/(tabs)');
+    if (coupleLink?.status === 'active') {
+      router.replace('/(tabs)/deck');
     }
-  }, []);
+  }, [coupleLink?.status, router]);
+
+  useEffect(() => {
+    if (remoteInviteId && remoteInviteSecret) {
+      setActiveRemoteInvite({
+        inviteId: remoteInviteId,
+        inviteSecret: remoteInviteSecret,
+      });
+      setMode('remote-accept');
+    }
+  }, [remoteInviteId, remoteInviteSecret]);
+
+  useEffect(() => {
+    if (mode !== 'remote-accept' || !activeRemoteInvite?.inviteId) return;
+    let alive = true;
+    lookupInvite(activeRemoteInvite.inviteId)
+      .then((lookup) => {
+        if (alive) setRemoteInvite(lookup);
+      })
+      .catch(() => {
+        if (alive) setRemoteInvite(null);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [mode, activeRemoteInvite?.inviteId]);
 
   useEffect(() => {
     if (mode !== 'remote-create' || !pendingInvite) return;
@@ -90,7 +133,7 @@ export default function PartnerConnect() {
             .setLocalProfileId(activeProfileId ?? null);
           startVoteSync();
           startSyncLoop();
-          router.replace('/(tabs)');
+          router.replace('/(tabs)/deck');
         }
       } catch (err) {
         setPollError(
@@ -105,7 +148,10 @@ export default function PartnerConnect() {
     try {
       setIsConnecting(true);
       setPollError(null);
-      const invite = await createInvite();
+      const invite = await createInvite({
+        profileName: myProfileName,
+        profileAvatar: myProfileAvatar,
+      });
       setPendingInvite(invite);
       setMode('remote-create');
     } catch (err) {
@@ -120,27 +166,51 @@ export default function PartnerConnect() {
 
   const handleShareInvite = async () => {
     if (!pendingInvite) return;
+    const inviteUrl = buildRuntimeInviteLink(pendingInvite);
     try {
       await Share.share({
-        message: `Join me on SpiceSync 💕\n${pendingInvite.appUrl}`,
-        url: pendingInvite.appUrl,
+        message: `Join me on SpiceSync\n${inviteUrl}`,
+        url: inviteUrl,
       });
     } catch {}
   };
 
+  const handleCopyInvite = async () => {
+    if (!pendingInvite) return;
+    await Clipboard.setStringAsync(buildRuntimeInviteLink(pendingInvite));
+    Alert.alert('Copied', 'Invite link copied to the clipboard.');
+  };
+
+  const handlePasteInviteLink = () => {
+    const parsed = parseInviteUrl(inviteLinkInput);
+    if (!parsed) {
+      Alert.alert('Invalid link', 'Paste the full invite link your partner created.');
+      return;
+    }
+    setRemoteInvite(null);
+    setActiveRemoteInvite(parsed);
+    setMode('remote-accept');
+  };
+
   const handleAcceptRemote = async () => {
-    if (!remoteInviteId || !remoteInviteSecret) return;
+    if (!activeRemoteInvite) return;
     try {
       setIsConnecting(true);
-      await acceptInvite({
-        inviteId: remoteInviteId,
-        inviteSecret: remoteInviteSecret,
-      });
+      await acceptInvite(
+        activeRemoteInvite,
+        {
+          profileName: myProfileName,
+          profileAvatar: myProfileAvatar,
+        }
+      );
       useVoteSyncStore.getState().setLocalProfileId(activeProfileId ?? null);
       startVoteSync();
       startSyncLoop();
-      Alert.alert('Connected 💕', 'You are now linked with your partner.', [
-        { text: 'Start Exploring', onPress: () => router.replace('/(tabs)') },
+      Alert.alert('Connected', 'You are now linked with your partner.', [
+        {
+          text: 'Start Exploring',
+          onPress: () => router.replace('/(tabs)/deck'),
+        },
       ]);
     } catch (err) {
       Alert.alert(
@@ -152,469 +222,588 @@ export default function PartnerConnect() {
     }
   };
 
-  const handleConnect = async () => {
-    if (!code.trim() || !partnerName.trim()) {
-      Alert.alert(
-        'Missing Info',
-        "Please enter the invite code and your partner's name"
-      );
-      return;
-    }
-
-    setIsConnecting(true);
-
-    // Simulate connection delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    const success = acceptLocalInvite(code.trim().toUpperCase(), {
-      name: partnerName.trim(),
-      emoji: selectedEmoji,
-    });
-
-    if (success) {
-      // Also add partner as a profile
-      const profile = addProfile({
-        name: partnerName.trim(),
-        emoji: selectedEmoji,
-      });
-      setActiveProfile(profile.id);
-
-      Alert.alert(
-        'Connected! 💕',
-        `You're now connected with ${partnerName}!`,
-        [
-          {
-            text: 'Start Exploring',
-            onPress: () => router.replace('/(tabs)'),
-          },
-        ]
-      );
-    } else {
-      Alert.alert('Invalid Code', 'The invite code is invalid or has expired.');
-    }
-
-    setIsConnecting(false);
-  };
-
-  const handleSkip = () => {
-    Alert.alert(
-      'Skip for Now?',
-      'You can connect with a partner later from settings. Some features work best with a partner connected.',
-      [
-        { text: 'Go Back', style: 'cancel' },
-        {
-          text: 'Skip',
-          style: 'destructive',
-          onPress: () => router.replace('/(tabs)'),
-        },
-      ]
-    );
-  };
-
-  if (mode === 'menu') {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-          <View style={styles.header}>
-            <Text style={styles.emoji}>💕</Text>
-            <Text style={styles.title}>Connect with Your Partner</Text>
-            <Text style={styles.subtitle}>
-              Together in person, or apart? Pick how you want to link up.
-            </Text>
-          </View>
-
-          <Pressable
-            style={styles.optionCard}
-            onPress={handleCreateRemoteInvite}
-            disabled={isConnecting}
-          >
-            <Text style={styles.optionEmoji}>📡</Text>
-            <Text style={styles.optionTitle}>Link remotely</Text>
-            <Text style={styles.optionBody}>
-              Send your partner a secure link. Your votes stay private; the
-              server only relays encrypted updates.
-            </Text>
-          </Pressable>
-
-          <Pressable style={styles.optionCard} onPress={() => setMode('code')}>
-            <Text style={styles.optionEmoji}>🔑</Text>
-            <Text style={styles.optionTitle}>Use invite code</Text>
-            <Text style={styles.optionBody}>
-              Enter a short code they shared with you (for offline matching).
-            </Text>
-          </Pressable>
-        </Animated.View>
-
-        <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
-          <Pressable style={styles.skipButton} onPress={handleSkip}>
-            <Text style={styles.skipText}>Skip for now</Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  if (mode === 'remote-create') {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-          <View style={styles.header}>
-            <Text style={styles.emoji}>📡</Text>
-            <Text style={styles.title}>Invite Your Partner</Text>
-            <Text style={styles.subtitle}>
-              Share this link with your partner. We&apos;ll detect when they
-              accept.
-            </Text>
-          </View>
-
-          {pendingInvite ? (
-            <>
-              <View style={styles.inputSection}>
-                <Text style={styles.label}>Invite link</Text>
-                <Text selectable style={styles.linkBox}>
-                  {pendingInvite.appUrl}
-                </Text>
-              </View>
-              <Pressable
-                style={styles.connectButton}
-                onPress={handleShareInvite}
-              >
-                <Text style={styles.connectButtonText}>Share link</Text>
-              </Pressable>
-              <Text style={styles.helperText}>
-                Waiting for your partner to accept…
-              </Text>
-              {pollError ? (
-                <Text style={styles.errorText}>{pollError}</Text>
-              ) : null}
-            </>
-          ) : (
-            <Text style={styles.helperText}>Creating invite…</Text>
-          )}
-        </Animated.View>
-
-        <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
-          <Pressable style={styles.skipButton} onPress={() => setMode('menu')}>
-            <Text style={styles.skipText}>Back</Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  if (mode === 'remote-accept') {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-          <View style={styles.header}>
-            <Text style={styles.emoji}>🔒</Text>
-            <Text style={styles.title}>Accept Partner Link</Text>
-            <Text style={styles.subtitle}>
-              You opened a remote link from your partner. Accept to start
-              syncing privately.
-            </Text>
-          </View>
-
-          <View style={styles.infoBox}>
-            <Text style={styles.infoEmoji}>🛡️</Text>
-            <Text style={styles.infoText}>
-              The relay never sees your votes — only encrypted updates routed
-              between your devices.
-            </Text>
-          </View>
-        </Animated.View>
-
-        <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
-          <Pressable
-            style={[
-              styles.connectButton,
-              isConnecting && styles.buttonDisabled,
-            ]}
-            onPress={handleAcceptRemote}
-            disabled={isConnecting}
-          >
-            <Text style={styles.connectButtonText}>
-              {isConnecting ? 'Linking…' : 'Accept invite'}
-            </Text>
-          </Pressable>
-          <Pressable style={styles.skipButton} onPress={handleSkip}>
-            <Text style={styles.skipText}>Skip for now</Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   return (
-    <SafeAreaView style={styles.container}>
-      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-        <View style={styles.header}>
-          <Text style={styles.emoji}>💕</Text>
-          <Text style={styles.title}>Connect with Your Partner</Text>
-          <Text style={styles.subtitle}>
-            Enter the invite code they shared with you
-          </Text>
-        </View>
-
-        <View style={styles.inputSection}>
-          <Text style={styles.label}>Invite Code</Text>
-          <TextInput
-            style={styles.codeInput}
-            value={code}
-            onChangeText={(text) => setCode(text.toUpperCase())}
-            placeholder="XXX-XXX"
-            placeholderTextColor={COLORS.textMuted}
-            maxLength={7}
-            autoCapitalize="characters"
-            autoCorrect={false}
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
+      <BackHeader title="Partner setup" />
+      <ScrollView
+        contentContainerStyle={[
+          styles.content,
+          { paddingBottom: insets.bottom + 28 },
+        ]}
+      >
+        {mode === 'menu' ? (
+          <MenuContent
+            myProfileName={myProfileName}
+            myProfileAvatar={myProfileAvatar}
+            isConnecting={isConnecting}
+            onLocalProfile={() =>
+              router.push('/(settings)/profiles/new?from=partner-connect')
+            }
+            onRemoteInvite={handleCreateRemoteInvite}
+            onPasteInvite={() => setMode('remote-paste')}
           />
-        </View>
+        ) : null}
 
-        <View style={styles.inputSection}>
-          <Text style={styles.label}>Partner&apos;s Name</Text>
-          <TextInput
-            style={styles.input}
-            value={partnerName}
-            onChangeText={setPartnerName}
-            placeholder="Enter their name"
-            placeholderTextColor={COLORS.textMuted}
-            maxLength={20}
-            autoCapitalize="words"
+        {mode === 'remote-create' ? (
+          <RemoteCreateContent
+            invite={pendingInvite}
+            myProfileName={myProfileName}
+            myProfileAvatar={myProfileAvatar}
+            isConnecting={isConnecting}
+            pollError={pollError}
+            onShare={handleShareInvite}
+            onCopy={handleCopyInvite}
+            onBack={() => setMode('menu')}
           />
-        </View>
+        ) : null}
 
-        <View style={styles.inputSection}>
-          <Text style={styles.label}>Their Avatar</Text>
-          <View style={styles.emojiGrid}>
-            {AVATARS.map((avatar) => (
-              <Pressable
-                key={avatar.id}
-                style={[
-                  styles.emojiButton,
-                  selectedEmoji === avatar.id && styles.emojiButtonSelected,
-                ]}
-                onPress={() => setSelectedEmoji(avatar.id)}
-                accessibilityRole="button"
-                accessibilityLabel={`${avatar.label} avatar`}
-                accessibilityState={{ selected: selectedEmoji === avatar.id }}
-              >
-                <ProfileAvatarIcon
-                  avatar={avatar.id}
-                  size={44}
-                  selected={selectedEmoji === avatar.id}
-                />
-              </Pressable>
-            ))}
-          </View>
-        </View>
+        {mode === 'remote-paste' ? (
+          <PasteInviteContent
+            value={inviteLinkInput}
+            onChange={setInviteLinkInput}
+            onContinue={handlePasteInviteLink}
+            onBack={() => setMode('menu')}
+          />
+        ) : null}
 
-        <View style={styles.infoBox}>
-          <Text style={styles.infoEmoji}>🔒</Text>
-          <Text style={styles.infoText}>
-            Your connection is private. Only you and your partner can see each
-            other&apos;s activity.
-          </Text>
-        </View>
-      </Animated.View>
+        {mode === 'remote-accept' ? (
+          <RemoteAcceptContent
+            remoteInvite={remoteInvite}
+            isConnecting={isConnecting}
+            onAccept={handleAcceptRemote}
+            onBack={() => setMode('menu')}
+          />
+        ) : null}
 
-      <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
-        <Pressable
-          style={[
-            styles.connectButton,
-            (!code.trim() || !partnerName.trim() || isConnecting) &&
-              styles.buttonDisabled,
-          ]}
-          onPress={handleConnect}
-          disabled={!code.trim() || !partnerName.trim() || isConnecting}
-        >
-          <Text style={styles.connectButtonText}>
-            {isConnecting ? 'Connecting...' : 'Connect'}
-          </Text>
-        </Pressable>
-
-        <Pressable style={styles.skipButton} onPress={() => setMode('menu')}>
-          <Text style={styles.skipText}>Back</Text>
-        </Pressable>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
+function ScreenIntro({
+  title,
+  body,
+}: {
+  title: string;
+  body: string;
+}) {
+  return (
+    <View style={styles.intro}>
+      <Text style={styles.kicker}>Partner Sync</Text>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.subtitle}>{body}</Text>
+    </View>
+  );
+}
+
+function MenuContent({
+  myProfileName,
+  myProfileAvatar,
+  isConnecting,
+  onLocalProfile,
+  onRemoteInvite,
+  onPasteInvite,
+}: {
+  myProfileName: string;
+  myProfileAvatar: string | null;
+  isConnecting: boolean;
+  onLocalProfile: () => void;
+  onRemoteInvite: () => void;
+  onPasteInvite: () => void;
+}) {
+  return (
+    <>
+      <ScreenIntro
+        title="How do you want to compare?"
+        body="Use two profiles on this device, or link a partner on another device with encrypted sync."
+      />
+
+      <View style={styles.identityRow}>
+        <ProfileAvatarIcon avatar={myProfileAvatar} size={38} selected />
+        <View style={styles.identityCopy}>
+          <Text style={styles.identityLabel}>You appear as</Text>
+          <Text style={styles.identityName}>{myProfileName}</Text>
+        </View>
+      </View>
+
+      <ChoiceCard
+        icon={Users}
+        title="Two profiles on this device"
+        body="Add a second local profile when you share one phone or tablet. No network sync is needed."
+        actionLabel="Add local profile"
+        onPress={onLocalProfile}
+      />
+      <ChoiceCard
+        icon={Radio}
+        title="Remote partner"
+        body="Create an encrypted invite link for a partner using their own device. Your selected avatar is shared with them."
+        actionLabel={isConnecting ? 'Creating...' : 'Create invite link'}
+        onPress={onRemoteInvite}
+        disabled={isConnecting}
+        primary
+      />
+      <ChoiceCard
+        icon={ClipboardPaste}
+        title="Paste invite link"
+        body="Use a link from another device when Messages, AirDrop, or the share sheet is not available."
+        actionLabel="Paste link"
+        onPress={onPasteInvite}
+      />
+    </>
+  );
+}
+
+function ChoiceCard({
+  icon: Icon,
+  title,
+  body,
+  actionLabel,
+  onPress,
+  disabled,
+  primary,
+}: {
+  icon: typeof Users;
+  title: string;
+  body: string;
+  actionLabel: string;
+  onPress: () => void;
+  disabled?: boolean;
+  primary?: boolean;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      disabled={disabled}
+      onPress={onPress}
+      style={[styles.choiceCard, disabled && styles.disabled]}
+    >
+      <View style={styles.choiceIcon}>
+        <Icon size={24} color={primary ? COLORS.primary : COLORS.purple} />
+      </View>
+      <View style={styles.choiceCopy}>
+        <Text style={styles.choiceTitle}>{title}</Text>
+        <Text style={styles.choiceBody}>{body}</Text>
+        <Text style={[styles.choiceAction, primary && styles.choiceActionPrimary]}>
+          {actionLabel}
+        </Text>
+      </View>
+    </Pressable>
+  );
+}
+
+function RemoteCreateContent({
+  invite,
+  myProfileName,
+  myProfileAvatar,
+  isConnecting,
+  pollError,
+  onShare,
+  onCopy,
+  onBack,
+}: {
+  invite: InviteHandle | null;
+  myProfileName: string;
+  myProfileAvatar: string | null;
+  isConnecting: boolean;
+  pollError: string | null;
+  onShare: () => void;
+  onCopy: () => void;
+  onBack: () => void;
+}) {
+  const inviteUrl = invite ? buildRuntimeInviteLink(invite) : null;
+
+  return (
+    <>
+      <ScreenIntro
+        title="Send a private invite"
+        body="Your partner will see your selected avatar, then both devices sync encrypted vote updates."
+      />
+      <View style={styles.identityRow}>
+        <ProfileAvatarIcon avatar={myProfileAvatar} size={38} selected />
+        <View style={styles.identityCopy}>
+          <Text style={styles.identityLabel}>Shared with your partner</Text>
+          <Text style={styles.identityName}>{myProfileName}</Text>
+        </View>
+      </View>
+
+      <View style={styles.panel}>
+        <Text style={styles.label}>Invite link</Text>
+        {inviteUrl ? (
+          <View style={styles.qrWrap}>
+            <QRCode
+              value={inviteUrl}
+              size={178}
+              backgroundColor="#FFFFFF"
+              color="#111111"
+            />
+          </View>
+        ) : null}
+        <Text selectable style={styles.linkBox}>
+          {inviteUrl ?? 'Creating invite...'}
+        </Text>
+        <View style={styles.buttonRow}>
+          <Pressable
+            accessibilityRole="button"
+            disabled={!invite || isConnecting}
+            style={[
+              styles.secondaryButton,
+              (!invite || isConnecting) && styles.disabled,
+            ]}
+            onPress={onCopy}
+          >
+            <Text style={styles.secondaryButtonText}>Copy link</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            disabled={!invite || isConnecting}
+            style={[
+              styles.primaryButton,
+              styles.buttonRowItem,
+              (!invite || isConnecting) && styles.disabled,
+            ]}
+            onPress={onShare}
+          >
+            <Text style={styles.primaryButtonText}>Share link</Text>
+          </Pressable>
+        </View>
+        <Text style={styles.helperText}>
+          Scan the QR code with another device, copy the link, or use the share
+          sheet. Leave this screen open so we can detect when your partner accepts.
+        </Text>
+        {pollError ? <Text style={styles.errorText}>{pollError}</Text> : null}
+      </View>
+      <BackToMenu onPress={onBack} />
+    </>
+  );
+}
+
+function PasteInviteContent({
+  value,
+  onChange,
+  onContinue,
+  onBack,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  onContinue: () => void;
+  onBack: () => void;
+}) {
+  return (
+    <>
+      <ScreenIntro
+        title="Paste invite link"
+        body="Paste the full private invite link from your partner's device."
+      />
+      <View style={styles.panel}>
+        <View style={styles.securityRow}>
+          <LinkIcon size={22} color={COLORS.primary} />
+          <Text style={styles.securityText}>
+            The link includes a temporary secret that proves you were invited.
+          </Text>
+        </View>
+        <TextInput
+          style={styles.linkInput}
+          value={value}
+          onChangeText={onChange}
+          placeholder="Paste invite link"
+          placeholderTextColor={COLORS.textMuted}
+          autoCapitalize="none"
+          autoCorrect={false}
+          multiline
+        />
+        <Pressable
+          accessibilityRole="button"
+          disabled={!value.trim()}
+          style={[styles.primaryButton, !value.trim() && styles.disabled]}
+          onPress={onContinue}
+        >
+          <Text style={styles.primaryButtonText}>Continue</Text>
+        </Pressable>
+      </View>
+      <BackToMenu onPress={onBack} />
+    </>
+  );
+}
+
+function RemoteAcceptContent({
+  remoteInvite,
+  isConnecting,
+  onAccept,
+  onBack,
+}: {
+  remoteInvite: InviteLookup | null;
+  isConnecting: boolean;
+  onAccept: () => void;
+  onBack: () => void;
+}) {
+  const inviterName =
+    remoteInvite?.kind === 'pending'
+      ? remoteInvite.inviterProfileName || 'Your partner'
+      : 'Your partner';
+  const inviterAvatar =
+    remoteInvite?.kind === 'pending' ? remoteInvite.inviterProfileAvatar : null;
+
+  return (
+    <>
+      <ScreenIntro
+        title="Accept remote invite"
+        body="This links two devices. The relay only stores encrypted updates."
+      />
+      <View style={styles.identityRow}>
+        <ProfileAvatarIcon avatar={inviterAvatar ?? null} size={38} />
+        <View style={styles.identityCopy}>
+          <Text style={styles.identityLabel}>Invite from</Text>
+          <Text style={styles.identityName}>{inviterName}</Text>
+        </View>
+      </View>
+
+      <View style={styles.panel}>
+        <View style={styles.securityRow}>
+          <ShieldCheck size={22} color={COLORS.primary} />
+          <Text style={styles.securityText}>
+            Your votes stay encrypted end-to-end and matches are computed on
+            your device.
+          </Text>
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          disabled={isConnecting}
+          style={[styles.primaryButton, isConnecting && styles.disabled]}
+          onPress={onAccept}
+        >
+          <Text style={styles.primaryButtonText}>
+            {isConnecting ? 'Linking...' : 'Accept invite'}
+          </Text>
+        </Pressable>
+      </View>
+      <BackToMenu onPress={onBack} />
+    </>
+  );
+}
+
+function BackToMenu({ onPress }: { onPress: () => void }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={styles.backToMenu}
+    >
+      <Text style={styles.backToMenuText}>Back to partner setup</Text>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
   content: {
-    flex: 1,
-    padding: SIZES.padding * 2,
-    paddingTop: 40,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    gap: 14,
   },
-  header: {
-    alignItems: 'center',
-    marginBottom: SIZES.padding * 3,
+  intro: {
+    gap: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
   },
-  emoji: {
-    fontSize: 64,
-    marginBottom: SIZES.padding,
+  kicker: {
+    color: COLORS.primary,
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   title: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.h1,
+    fontSize: 30,
+    lineHeight: 36,
     color: COLORS.text,
-    textAlign: 'center',
-    marginBottom: SIZES.padding,
   },
   subtitle: {
     fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
+    fontSize: 15,
+    lineHeight: 22,
     color: COLORS.textSecondary,
-    textAlign: 'center',
   },
-  inputSection: {
-    marginBottom: SIZES.padding * 2,
+  identityRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: COLORS.card,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    padding: 14,
+  },
+  identityCopy: {
+    flex: 1,
+  },
+  identityLabel: {
+    color: COLORS.textSecondary,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  identityName: {
+    color: COLORS.text,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  choiceCard: {
+    flexDirection: 'row',
+    gap: 14,
+    backgroundColor: COLORS.card,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    padding: 16,
+  },
+  choiceIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,45,146,0.12)',
+  },
+  choiceCopy: {
+    flex: 1,
+    gap: 5,
+  },
+  choiceTitle: {
+    color: COLORS.text,
+    fontSize: 19,
+    fontWeight: '800',
+  },
+  choiceBody: {
+    color: COLORS.textSecondary,
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  choiceAction: {
+    color: COLORS.text,
+    fontSize: 14,
+    fontWeight: '800',
+    marginTop: 6,
+  },
+  choiceActionPrimary: {
+    color: COLORS.primary,
+  },
+  panel: {
+    gap: 12,
+    backgroundColor: COLORS.card,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    padding: 16,
   },
   label: {
     fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
+    fontSize: 14,
     color: COLORS.text,
-    marginBottom: SIZES.padding,
-  },
-  codeInput: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding,
-    color: COLORS.text,
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h2,
-    textAlign: 'center',
-    letterSpacing: 4,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  input: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding,
-    color: COLORS.text,
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  emojiGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  emojiButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: COLORS.card,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: COLORS.border,
-  },
-  emojiButtonSelected: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
-  },
-  infoBox: {
-    flexDirection: 'row',
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    marginTop: SIZES.padding,
-  },
-  infoEmoji: {
-    fontSize: 24,
-    marginRight: SIZES.padding,
-  },
-  infoText: {
-    flex: 1,
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    lineHeight: 20,
-  },
-  footer: {
-    padding: SIZES.padding * 2,
-    paddingTop: 0,
-  },
-  connectButton: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: SIZES.padding * 1.5,
-    borderRadius: SIZES.radius,
-    alignItems: 'center',
-    marginBottom: SIZES.padding,
-  },
-  buttonDisabled: {
-    backgroundColor: COLORS.border,
-  },
-  connectButtonText: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.body,
-    color: '#fff',
-  },
-  skipButton: {
-    alignItems: 'center',
-    paddingVertical: SIZES.padding,
-  },
-  skipText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.body,
-    color: COLORS.textSecondary,
-  },
-  optionCard: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding * 1.5,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    marginBottom: SIZES.padding,
-  },
-  optionEmoji: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  optionTitle: {
-    fontFamily: FONTS.bold,
-    fontSize: SIZES.h3,
-    color: COLORS.text,
-    marginBottom: 4,
-  },
-  optionBody: {
-    fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
-    lineHeight: 20,
   },
   linkBox: {
-    backgroundColor: COLORS.card,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding,
+    backgroundColor: COLORS.background,
+    borderRadius: 14,
+    padding: 14,
     borderWidth: 1,
     borderColor: COLORS.border,
     color: COLORS.text,
     fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  linkInput: {
+    minHeight: 112,
+    backgroundColor: COLORS.background,
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    color: COLORS.text,
+    fontFamily: FONTS.regular,
+    fontSize: 14,
+    lineHeight: 20,
+    textAlignVertical: 'top',
+  },
+  qrWrap: {
+    alignSelf: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 12,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  buttonRowItem: {
+    flex: 1,
+  },
+  primaryButton: {
+    minHeight: 52,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.primary,
+  },
+  primaryButtonText: {
+    fontFamily: FONTS.bold,
+    fontSize: 16,
+    color: '#fff',
+  },
+  secondaryButton: {
+    minHeight: 52,
+    flex: 1,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.background,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  secondaryButtonText: {
+    fontFamily: FONTS.bold,
+    fontSize: 16,
+    color: COLORS.text,
+  },
+  disabled: {
+    opacity: 0.55,
   },
   helperText: {
     fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
+    fontSize: 13,
     color: COLORS.textSecondary,
-    textAlign: 'center',
-    marginTop: SIZES.padding,
+    lineHeight: 19,
   },
   errorText: {
     fontFamily: FONTS.regular,
-    fontSize: SIZES.small,
-    color: '#EF4444',
-    textAlign: 'center',
-    marginTop: SIZES.padding,
+    fontSize: 13,
+    color: COLORS.no,
+  },
+  securityRow: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'flex-start',
+  },
+  securityText: {
+    flex: 1,
+    fontFamily: FONTS.regular,
+    fontSize: 14,
+    color: COLORS.textSecondary,
+    lineHeight: 20,
+  },
+  backToMenu: {
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backToMenuText: {
+    color: COLORS.textSecondary,
+    fontSize: 14,
+    fontWeight: '700',
   },
 });

@@ -1,6 +1,9 @@
 import Constants from 'expo-constants';
 
-import { RelayClient } from './relayClient';
+import { RelayClient, type RelayTransport } from './relayClient';
+import { isSupabaseRelayConfigured } from './supabaseConfig';
+
+declare const require: <T = unknown>(path: string) => T;
 
 const DEFAULT_BASE_URL = 'https://relay.spicesync.app';
 
@@ -15,7 +18,7 @@ function readBaseUrl(): string {
   ).replace(/\/+$/, '');
 }
 
-let cachedClient: RelayClient | null = null;
+let cachedClient: RelayTransport | null = null;
 let overrideBaseUrl: string | null = null;
 
 export function getRelayBaseUrl(): string {
@@ -27,11 +30,19 @@ export function setRelayBaseUrl(url: string | null): void {
   cachedClient = null;
 }
 
-export function getRelayClient(): RelayClient {
-  if (!cachedClient) cachedClient = new RelayClient(getRelayBaseUrl());
+export function getRelayClient(): RelayTransport {
+  if (cachedClient) return cachedClient;
+  if (!overrideBaseUrl && isSupabaseRelayConfigured()) {
+    const { getConfiguredSupabaseRelayClient } = require<
+      typeof import('./supabaseClient')
+    >('./supabaseClient');
+    cachedClient = getConfiguredSupabaseRelayClient();
+    return cachedClient;
+  }
+  cachedClient = new RelayClient(getRelayBaseUrl());
   return cachedClient;
 }
 
-export function _resetRelayClientForTests(client?: RelayClient): void {
+export function _resetRelayClientForTests(client?: RelayTransport): void {
   cachedClient = client ?? null;
 }

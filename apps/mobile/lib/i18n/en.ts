@@ -88,7 +88,7 @@ export const en = {
       answer: {
         title: 'Rate in secret. Reveal together.',
         description:
-          'Be brutally honest. Your partner sees nothing until you both decide to share your codes.',
+          'Be brutally honest. Your partner sees nothing until you both choose what to reveal.',
       },
       overlap: {
         title: 'No awkwardness. Ever.',
@@ -113,8 +113,8 @@ export const en = {
     profileOptions: 'Profile Options',
     chooseInProfiles: 'Choose in Profiles',
     account: 'Account',
-    partnerCode: 'Partner Code',
-    qrCode: 'QR / Code',
+    partnerCode: 'Partner Sync',
+    qrCode: 'Invite Link',
     preferences: 'Preferences',
     daily: 'Daily',
     security: 'Security',
@@ -316,11 +316,16 @@ export const en = {
     title: '🎲 Spice Dice',
     gameNight: 'Game Night',
     levelOf: 'Level {{level}} of 5',
+    levelsSelected: 'Levels {{levels}} selected',
     levelShort: 'L{{level}}',
     cardOf: 'Card {{current}} of {{total}}',
     levelWithLabel: 'Level {{level}} · {{label}}',
+    levelsWithLabels: 'Levels {{levels}}',
     noTimeLimit: 'No time limit',
     drawToBegin: 'Draw a card to begin.',
+    noCardsForLevels: 'No cards for these levels',
+    chooseDifferentLevels:
+      'Choose a different level combination to keep playing.',
     skip: 'Skip',
     draw: 'Draw',
     share: 'Share',
@@ -484,7 +489,7 @@ export const en = {
     partner: 'Partner',
     linked: 'Linked',
     connectWithPartner: 'Connect with Partner',
-    yourCode: 'Your code: {{code}}',
+    yourCode: 'Your invite: {{code}}',
   },
 
   tours: {
@@ -499,7 +504,7 @@ export const en = {
       },
       {
         title: 'Connect with your partner',
-        body: 'Use the partner area to create or enter an invite code when you are ready to compare.',
+        body: 'Use the partner area to add a local profile or create a private invite link.',
       },
     ],
     deck: [
@@ -546,8 +551,8 @@ export const en = {
     ],
     game: [
       {
-        title: 'Choose a level',
-        body: 'Levels 1 through 5 control how warm, bold, or intense the game cards feel.',
+        title: 'Choose levels',
+        body: 'Tap any level to include or exclude it. Only selected levels appear in the game.',
       },
       {
         title: 'Draw a card',

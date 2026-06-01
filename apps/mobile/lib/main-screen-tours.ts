@@ -30,7 +30,7 @@ export const MAIN_SCREEN_TOURS: Record<MainTourScreenId, TourStep[]> = {
     },
     {
       title: 'Connect with your partner',
-      body: 'Use the partner area to create or enter an invite code when you are ready to compare.',
+      body: 'Use the partner area to add a local profile or create a private invite link.',
     },
   ],
   deck: [

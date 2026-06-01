@@ -32,7 +32,7 @@ export const WELCOME_VALUE_SCREENS = [
     illustration: 'privateVotes',
     title: 'Rate in secret. Reveal together.',
     description:
-      'Be brutally honest. Your partner sees nothing until you both decide to share your codes.',
+      'Be brutally honest. Your partner sees nothing until you both choose what to reveal.',
   },
   {
     id: 'overlap',

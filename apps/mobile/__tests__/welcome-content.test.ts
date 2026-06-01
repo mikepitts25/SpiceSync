@@ -1,7 +1,7 @@
 import {
   WELCOME_SCREEN_ORDER,
   WELCOME_VALUE_SCREENS,
-} from '../app/welcome/content';
+} from '../lib/welcome/content';
 
 describe('welcome onboarding content', () => {
   it('uses a five-screen flow without a redundant privacy slide', () => {

@@ -4,7 +4,6 @@ import { xchacha20poly1305 } from '@noble/ciphers/chacha';
 import { hkdf } from '@noble/hashes/hkdf';
 import { sha256 as sha256Hash } from '@noble/hashes/sha256';
 import { sha512 } from '@noble/hashes/sha512';
-import { randomBytes as nobleRandomBytes } from '@noble/hashes/utils';
 
 import { bytesToUtf8, decodeBase64, encodeBase64, utf8ToBytes } from './base64';
 
@@ -26,7 +25,11 @@ const HKDF_INFO = utf8ToBytes('spicesync-sync-v1');
 const NONCE_LEN = 24;
 
 export function randomBytes(length: number): Uint8Array {
-  return nobleRandomBytes(length);
+  const crypto = globalThis.crypto;
+  if (!crypto || typeof crypto.getRandomValues !== 'function') {
+    throw new Error('Secure random generator is unavailable');
+  }
+  return crypto.getRandomValues(new Uint8Array(length));
 }
 
 export function sha256(input: Uint8Array | string): Uint8Array {
@@ -48,13 +51,13 @@ export type EncryptionKeypair = {
 };
 
 export function generateSigningKeypair(): SigningKeypair {
-  const privateKey = ed25519.utils.randomPrivateKey();
+  const privateKey = randomBytes(32);
   const publicKey = ed25519.getPublicKey(privateKey);
   return { privateKey, publicKey };
 }
 
 export function generateEncryptionKeypair(): EncryptionKeypair {
-  const privateKey = x25519.utils.randomPrivateKey();
+  const privateKey = randomBytes(32);
   const publicKey = x25519.getPublicKey(privateKey);
   return { privateKey, publicKey };
 }

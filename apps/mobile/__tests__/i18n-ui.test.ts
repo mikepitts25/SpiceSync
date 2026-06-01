@@ -6,7 +6,7 @@ describe('Spanish app UI translations', () => {
     expect(es.tabs.deck).toBe('Cartas');
 
     expect(es.welcome.brandTagline).toBe('Descubran lo que ambos quieren');
-    expect(es.settings.partnerCode).toBe('Código de pareja');
+    expect(es.settings.partnerCode).toBe('Sync de pareja');
     expect(es.deck.caughtUpTitle).toBe('Ya estás al día');
     expect(es.matches.shareResults).toBe('Compartir resultados');
     expect(es.game.gameNight).toBe('Noche de juego');

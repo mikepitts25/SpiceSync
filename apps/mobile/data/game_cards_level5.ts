@@ -161,16 +161,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     safetyNotes: 'EXTENSIVE preparation required. Use more lube than you think necessary. Stop immediately if resistance or pain.'
   },
   {
-    id: 'lvl5-d-011',
-    type: 'dare',
-    content: 'CNC scene: Act out a consensual non-consent scenario. I resist. You overpower. Safeword always stops everything.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-    safetyNotes: 'CNC requires extensive pre-negotiation. Establish multiple safewords. Debrief extensively after.'
-  },
-  {
     id: 'lvl5-d-012',
     type: 'dare',
     content: 'Electrostimulation: Use a TENS unit or violet wand on me. The electricity, the control, the sensation.',
@@ -205,15 +195,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-c-001',
     type: 'challenge',
     content: 'Power dynamic scene: For the next 5 turns, stay in negotiated roles. Commands, care, and check-ins all count.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-  },
-  {
-    id: 'lvl5-c-002',
-    type: 'challenge',
-    content: 'Orgasm denial run: For the next 4 turns, no touching yourself or finishing unless I give permission.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -308,16 +289,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: 'N/A',
     safetyNotes: 'Build intensity gradually. Watch for overwhelm. Aftercare should be gentle and loving.'
-  },
-  {
-    id: 'lvl5-c-013',
-    type: 'challenge',
-    content: 'CNC full scene: Extensive negotiation beforehand. Act out the scenario. Safeword stops everything. Debrief extensively after.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-    safetyNotes: 'CNC requires trust and communication. Multiple safewords recommended. Aftercare is non-negotiable.'
   },
   {
     id: 'lvl5-c-014',
@@ -490,16 +461,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     safetyNotes: 'Never leave restrained person alone. Check circulation constantly. Establish non-verbal safeword. Keep safety shears nearby.'
   },
   {
-    id: 'lvl5-d-004',
-    type: 'dare',
-    content: 'Forced orgasm session: Restrain me. Use vibrator. Don\'t stop even when I beg. Make me come until I can\'t anymore.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['restraints', 'vibrator'],
-  },
-  {
     id: 'lvl5-d-014',
     type: 'dare',
     content: 'Chastity control: For the next 4 turns, I can\'t touch myself or finish without your permission.',
@@ -565,16 +526,6 @@ export const LEVEL5_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: 'N/A',
-  },
-  {
-    id: 'lvl5-rp-006',
-    type: 'roleplay',
-    content: 'CNC Scene: We\'ve negotiated everything beforehand. Now I resist. You overpower. I say no. You take anyway. Safeword stops all.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: 'N/A',
-    safetyNotes: 'CNC requires extensive pre-negotiation. Multiple safewords. Thorough aftercare. Debrief extensively.'
   },
   {
     id: 'lvl5-rp-007',

@@ -158,7 +158,7 @@ export default function SettingsScreen() {
             value={t.settings.qrCode}
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.15)"
-            onPress={() => router.push('/(onboarding)/invite')}
+            onPress={() => router.push('/(onboarding)/partner-connect')}
             last
           />
         </SettingsSection>

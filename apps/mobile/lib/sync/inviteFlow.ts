@@ -14,6 +14,11 @@ export type InviteHandle = {
   expiresAt?: number;
 };
 
+export type InviteProfile = {
+  profileName?: string | null;
+  profileAvatar?: string | null;
+};
+
 export type ParsedInviteUrl = {
   inviteId: string;
   inviteSecret: string;
@@ -52,7 +57,9 @@ export function parseInviteUrl(input: string): ParsedInviteUrl | null {
   }
 }
 
-export async function createInvite(): Promise<InviteHandle> {
+export async function createInvite(
+  profile: InviteProfile = {}
+): Promise<InviteHandle> {
   const { identity } = await getOrCreateIdentity();
   const inviteSecret = encodeBase64Url(randomBytes(INVITE_SECRET_BYTES));
   const inviteSecretHash = sha256Base64(inviteSecret);
@@ -61,6 +68,8 @@ export async function createInvite(): Promise<InviteHandle> {
     inviterDeviceId: identity.deviceId,
     inviterPublicKey: identity.encryptionPublicKey,
     inviteSecretHash,
+    inviterProfileName: profile.profileName ?? null,
+    inviterProfileAvatar: profile.profileAvatar ?? null,
   });
   return {
     inviteId: response.inviteId,
@@ -72,7 +81,13 @@ export async function createInvite(): Promise<InviteHandle> {
 }
 
 export type InviteLookup =
-  | { kind: 'pending'; inviterPublicKey: string; expiresAt: number }
+  | {
+      kind: 'pending';
+      inviterPublicKey: string;
+      inviterProfileName?: string | null;
+      inviterProfileAvatar?: string | null;
+      expiresAt: number;
+    }
   | { kind: 'accepted'; coupleId: string }
   | { kind: 'expired' };
 
@@ -85,6 +100,8 @@ export async function lookupInvite(inviteId: string): Promise<InviteLookup> {
   return {
     kind: 'pending',
     inviterPublicKey: response.inviterPublicKey,
+    inviterProfileName: response.inviterProfileName ?? null,
+    inviterProfileAvatar: response.inviterProfileAvatar ?? null,
     expiresAt: response.expiresAt,
   };
 }
@@ -94,7 +111,8 @@ export type AcceptInviteResult = {
 };
 
 export async function acceptInvite(
-  parsed: ParsedInviteUrl
+  parsed: ParsedInviteUrl,
+  profile: InviteProfile = {}
 ): Promise<AcceptInviteResult> {
   const { identity } = await getOrCreateIdentity();
   const client = getRelayClient();
@@ -106,6 +124,8 @@ export async function acceptInvite(
     accepterDeviceId: identity.deviceId,
     accepterPublicKey: identity.encryptionPublicKey,
     inviteProof: proof,
+    accepterProfileName: profile.profileName ?? null,
+    accepterProfileAvatar: profile.profileAvatar ?? null,
   });
   const isMemberA = result.memberADeviceId === identity.deviceId;
   const partnerDeviceId = isMemberA
@@ -114,12 +134,20 @@ export async function acceptInvite(
   const partnerEncryptionPublicKey = isMemberA
     ? result.memberBPublicKey
     : result.memberAPublicKey;
+  const partnerProfileName = isMemberA
+    ? result.memberBProfileName
+    : result.memberAProfileName;
+  const partnerProfileAvatar = isMemberA
+    ? result.memberBProfileAvatar
+    : result.memberAProfileAvatar;
   useCoupleLinkStore.getState().setLink({
     coupleId: result.coupleId,
     myDeviceId: identity.deviceId,
     partnerDeviceId,
     partnerSigningPublicKey: '',
     partnerEncryptionPublicKey,
+    partnerProfileName: partnerProfileName ?? null,
+    partnerProfileAvatar: partnerProfileAvatar ?? null,
     linkedAt: result.createdAt * 1000,
     lastPulledServerSequence: 0,
     lastSyncedAt: null,
@@ -144,12 +172,20 @@ export async function finalizePendingInvite(
   const partnerEncryptionPublicKey = isMemberA
     ? couple.memberBPublicKey
     : couple.memberAPublicKey;
+  const partnerProfileName = isMemberA
+    ? couple.memberBProfileName
+    : couple.memberAProfileName;
+  const partnerProfileAvatar = isMemberA
+    ? couple.memberBProfileAvatar
+    : couple.memberAProfileAvatar;
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
     myDeviceId: identity.deviceId,
     partnerDeviceId,
     partnerSigningPublicKey: '',
     partnerEncryptionPublicKey,
+    partnerProfileName: partnerProfileName ?? null,
+    partnerProfileAvatar: partnerProfileAvatar ?? null,
     linkedAt: couple.createdAt * 1000,
     lastPulledServerSequence: 0,
     lastSyncedAt: null,

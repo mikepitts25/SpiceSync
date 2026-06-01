@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useRouter, useRootNavigationState } from 'expo-router';
 import { useSettings } from '../lib/state/useStore';
 import { useProfilesStore } from '../lib/state/profiles';
-import { getAppEntryDestination } from './welcome/routing';
+import { getAppEntryDestination } from '../lib/welcome/routing';
 
 export default function EntryGate() {
   const router = useRouter();

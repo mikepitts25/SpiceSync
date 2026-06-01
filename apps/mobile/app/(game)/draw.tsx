@@ -8,12 +8,23 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Audio } from 'expo-av';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { GameCard, GameCardType, getCardsByLanguage } from '../../data/gameCards';
+import {
+  GameCard,
+  GameCardType,
+  getCardsByLanguage,
+} from '../../data/gameCards';
+import {
+  filterCardsBySelectedLevels,
+  normalizeGameIntensityLevels,
+} from '../../lib/gameLevelFilter';
 import { useTranslation } from '../../lib/i18n';
 import { parseGameCardTimerSeconds } from '../../lib/gameTimer';
 
@@ -39,13 +50,23 @@ const TYPE_NAMES: Record<GameCardType, string> = {
 export default function CardDraw() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { type, intensity, drinkingMode: drinkingModeParam } = useLocalSearchParams<{ type: GameCardType | 'all'; intensity: string; drinkingMode: string }>();
+  const {
+    type,
+    intensity,
+    levels,
+    drinkingMode: drinkingModeParam,
+  } = useLocalSearchParams<{
+    type: GameCardType | 'all';
+    intensity: string;
+    levels: string;
+    drinkingMode: string;
+  }>();
   const unlocked = useSettingsStore((state) => state.unlocked);
   const language = useSettingsStore((state) => state.language);
   const drinkingModeStore = useSettingsStore((state) => state.drinkingMode);
   const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
   const { t } = useTranslation();
-  
+
   // Sync URL param to store on mount (for backward compatibility)
   useEffect(() => {
     if (drinkingModeParam === 'true') {
@@ -54,21 +75,21 @@ export default function CardDraw() {
       setDrinkingMode(false);
     }
   }, [drinkingModeParam, setDrinkingMode]);
-  
+
   const [card, setCard] = useState<GameCard | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
   const [isPremiumLocked, setIsPremiumLocked] = useState(false);
-  
+
   // Session card tracking - don't show same cards until next session
   const shownCardIdsRef = useRef<Set<string>>(new Set());
-  
+
   // Timer state
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timerProgress, setTimerProgress] = useState(1);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const soundRef = useRef<Audio.Sound | null>(null);
-  
+
   const flipAnim = React.useRef(new Animated.Value(0)).current;
   const scaleAnim = React.useRef(new Animated.Value(0.8)).current;
 
@@ -112,7 +133,9 @@ export default function CardDraw() {
   // Timer effect
   useEffect(() => {
     if (isTimerRunning && timerSeconds > 0) {
-      const totalSeconds = card ? parseGameCardTimerSeconds(card.estimatedTime) : 60;
+      const totalSeconds = card
+        ? parseGameCardTimerSeconds(card.estimatedTime)
+        : 60;
       timerIntervalRef.current = setInterval(() => {
         setTimerSeconds((prev) => {
           const newValue = prev - 1;
@@ -151,49 +174,54 @@ export default function CardDraw() {
 
   const drawCard = () => {
     const selectedType = type || 'all';
-    const selectedIntensity = parseInt(intensity) || 3;
-    
+    const selectedLevels = normalizeGameIntensityLevels(levels ?? intensity);
+
     // Get available cards based on language
     const availableCards = getCardsByLanguage(language, unlocked);
-    
+
     // Filter by type if specified
-    let filteredCards = selectedType === 'all' 
-      ? availableCards 
-      : availableCards.filter(c => c.type === selectedType);
-    
-    // Filter by intensity (selected level and below)
-    filteredCards = filteredCards.filter(c => c.intensity <= selectedIntensity);
-    
+    let filteredCards =
+      selectedType === 'all'
+        ? availableCards
+        : availableCards.filter((c) => c.type === selectedType);
+
+    // Filter by the exact selected levels. Selecting level 5 does not include 1-4.
+    filteredCards = filterCardsBySelectedLevels(filteredCards, selectedLevels);
+
     // Filter out cards already shown this session
-    const unseenCards = filteredCards.filter(c => !shownCardIdsRef.current.has(c.id));
-    
+    const unseenCards = filteredCards.filter(
+      (c) => !shownCardIdsRef.current.has(c.id)
+    );
+
     // If all cards have been shown, reset the session tracking
-    const cardsToPickFrom = unseenCards.length > 0 ? unseenCards : filteredCards;
+    const cardsToPickFrom =
+      unseenCards.length > 0 ? unseenCards : filteredCards;
     if (unseenCards.length === 0 && filteredCards.length > 0) {
       shownCardIdsRef.current.clear();
     }
-    
+
     // Pick random card
     if (cardsToPickFrom.length > 0) {
-      const randomCard = cardsToPickFrom[Math.floor(Math.random() * cardsToPickFrom.length)];
-      
+      const randomCard =
+        cardsToPickFrom[Math.floor(Math.random() * cardsToPickFrom.length)];
+
       // Track this card as shown
       shownCardIdsRef.current.add(randomCard.id);
-      
+
       setCard(randomCard);
       setIsPremiumLocked(randomCard.isPremium && !unlocked);
-      
+
       // Initialize timer based on card's estimated time
       const totalSeconds = parseGameCardTimerSeconds(randomCard.estimatedTime);
       setTimerSeconds(totalSeconds);
       setTimerProgress(1);
       setIsTimerRunning(false);
-      
+
       // Animate in
       setIsRevealed(false);
       scaleAnim.setValue(0.8);
       flipAnim.setValue(0);
-      
+
       Animated.spring(scaleAnim, {
         toValue: 1,
         friction: 8,
@@ -209,6 +237,12 @@ export default function CardDraw() {
           setIsRevealed(true);
         });
       });
+    } else {
+      setCard(null);
+      setIsPremiumLocked(false);
+      setTimerSeconds(0);
+      setTimerProgress(1);
+      setIsTimerRunning(false);
     }
   };
 
@@ -228,7 +262,10 @@ export default function CardDraw() {
   if (!card) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.loading}>Drawing card...</Text>
+        <Text style={styles.loading}>{t.game.noCardsForLevels}</Text>
+        <Pressable style={styles.emptyBackButton} onPress={() => router.back()}>
+          <Text style={styles.emptyBackText}>{t.common.back}</Text>
+        </Pressable>
       </SafeAreaView>
     );
   }
@@ -251,20 +288,16 @@ export default function CardDraw() {
         <Pressable onPress={() => router.back()}>
           <Text style={styles.backButton}>✕</Text>
         </Pressable>
-        <Text style={styles.headerTitle}>
-          🔥 Level {card.intensity}
-        </Text>
+        <Text style={styles.headerTitle}>🔥 Level {card.intensity}</Text>
         <View style={{ width: 40 }} />
       </View>
 
       {/* Card */}
-      <Animated.View 
+      <Animated.View
         style={[
           styles.cardContainer,
-          { 
-            transform: [
-              { scale: scaleAnim },
-            ],
+          {
+            transform: [{ scale: scaleAnim }],
           },
         ]}
       >
@@ -286,14 +319,12 @@ export default function CardDraw() {
             <View style={styles.lockOverlay}>
               <Text style={styles.lockEmoji}>🔒</Text>
               <Text style={styles.lockText}>Premium Card</Text>
-              <Text style={styles.lockSubtext}>
-                Unlock to see this card
-              </Text>
+              <Text style={styles.lockSubtext}>Unlock to see this card</Text>
             </View>
           )}
 
           {/* Card Content */}
-          <ScrollView 
+          <ScrollView
             style={[styles.content, isLocked && styles.blurredContent]}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.contentContainer}
@@ -304,63 +335,77 @@ export default function CardDraw() {
                 🍺 Or take a drink!
               </Text>
             )}
-            
+
             {/* Timer Section */}
             {!isLocked && timerSeconds > 0 && (
               <View style={styles.timerContainer}>
                 {/* Progress Bar */}
                 <View style={styles.progressBarBackground}>
-                  <View 
+                  <View
                     style={[
-                      styles.progressBarFill, 
-                      { 
+                      styles.progressBarFill,
+                      {
                         width: `${timerProgress * 100}%`,
-                        backgroundColor: timerSeconds <= 10 ? '#E74C3C' : cardColor 
-                      }
-                    ]} 
+                        backgroundColor:
+                          timerSeconds <= 10 ? '#E74C3C' : cardColor,
+                      },
+                    ]}
                   />
                 </View>
-                
+
                 {/* Timer Display */}
                 <View style={styles.timerRow}>
-                  <Text style={[
-                    styles.timerText, 
-                    timerSeconds <= 10 && styles.timerTextUrgent
-                  ]}>
+                  <Text
+                    style={[
+                      styles.timerText,
+                      timerSeconds <= 10 && styles.timerTextUrgent,
+                    ]}
+                  >
                     ⏱️ {formatTime(timerSeconds)}
                   </Text>
-                  
+
                   {/* Timer Controls */}
                   <View style={styles.timerControls}>
                     {!isTimerRunning ? (
-                      <Pressable style={styles.timerButton} onPress={startTimer}>
-                        <Text style={styles.timerButtonText}>▶️ {t.game.startTimer}</Text>
+                      <Pressable
+                        style={styles.timerButton}
+                        onPress={startTimer}
+                      >
+                        <Text style={styles.timerButtonText}>
+                          ▶️ {t.game.startTimer}
+                        </Text>
                       </Pressable>
                     ) : (
                       <Pressable style={styles.timerButton} onPress={stopTimer}>
-                        <Text style={styles.timerButtonText}>⏸️ {t.game.pauseTimer}</Text>
+                        <Text style={styles.timerButtonText}>
+                          ⏸️ {t.game.pauseTimer}
+                        </Text>
                       </Pressable>
                     )}
                     <Pressable style={styles.timerButton} onPress={resetTimer}>
-                      <Text style={styles.timerButtonText}>🔄 {t.game.resetTimer}</Text>
+                      <Text style={styles.timerButtonText}>
+                        🔄 {t.game.resetTimer}
+                      </Text>
                     </Pressable>
                   </View>
                 </View>
-                
+
                 {timerSeconds === 0 && (
                   <Text style={styles.timeUpText}>⏰ {t.game.timesUp}</Text>
                 )}
               </View>
             )}
-            
+
             {/* Safety Notes / Content Warning */}
             {card.safetyNotes && !isLocked && (
               <View style={styles.safetyContainer}>
                 <Text style={styles.safetyText}>{card.safetyNotes}</Text>
               </View>
             )}
-            
-            <Text style={styles.timeEstimate}>{t.game.estimatedTime}: {card.estimatedTime}</Text>
+
+            <Text style={styles.timeEstimate}>
+              {t.game.estimatedTime}: {card.estimatedTime}
+            </Text>
           </ScrollView>
 
           {/* Intensity Dots */}
@@ -381,15 +426,24 @@ export default function CardDraw() {
       {/* Actions */}
       <View style={[styles.actions, { paddingBottom: insets.bottom + 20 }]}>
         <Pressable style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipText}>{isDrinkingMode ? '🍺 Take Drink' : '🔄 Skip'}</Text>
+          <Text style={styles.skipText}>
+            {isDrinkingMode ? '🍺 Take Drink' : '🔄 Skip'}
+          </Text>
         </Pressable>
-        
-        <Pressable 
-          style={[styles.acceptButton, isLocked && { backgroundColor: COLORS.secondary }]}
+
+        <Pressable
+          style={[
+            styles.acceptButton,
+            isLocked && { backgroundColor: COLORS.secondary },
+          ]}
           onPress={handleAccept}
         >
           <Text style={styles.acceptText}>
-            {isLocked ? '🔓 Unlock' : isDrinkingMode ? '🍺 Did It / Drink' : '✅ Accept'}
+            {isLocked
+              ? '🔓 Unlock'
+              : isDrinkingMode
+                ? '🍺 Did It / Drink'
+                : '✅ Accept'}
           </Text>
         </Pressable>
       </View>
@@ -419,11 +473,25 @@ const styles = StyleSheet.create({
     color: COLORS.text,
   },
   loading: {
-    flex: 1,
     textAlign: 'center',
-    textAlignVertical: 'center',
     color: COLORS.text,
     fontSize: SIZES.body,
+    marginTop: SIZES.padding * 8,
+    marginBottom: SIZES.padding * 2,
+  },
+  emptyBackButton: {
+    alignSelf: 'center',
+    backgroundColor: COLORS.card,
+    paddingHorizontal: SIZES.padding * 2,
+    paddingVertical: SIZES.padding,
+    borderRadius: SIZES.radius,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  emptyBackText: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.body,
+    color: COLORS.text,
   },
   cardContainer: {
     flex: 1,

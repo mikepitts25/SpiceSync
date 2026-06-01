@@ -40,8 +40,8 @@ import {
   type WelcomeIllustration,
   type WelcomeScreenId,
   type WelcomeValueScreen,
-} from './content';
-import { getWelcomeCompletionDestination } from './routing';
+} from '../../lib/welcome/content';
+import { getWelcomeCompletionDestination } from '../../lib/welcome/routing';
 
 export default function WelcomeFlow() {
   const router = useRouter();

@@ -568,13 +568,13 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['nail polish']
   },
   {
     id: 'lvl2-c-016',
     type: 'challenge',
-    content: 'Runway Round: We each put on one item from the other person\'s closet and do a 20-second runway walk. Best attitude wins.',
+    content: 'Runway Round: We each put on one item from the other person\'s closet and do a 20 second runway walk. Best attitude wins.',
     intensity: 2,
     category: 'playful',
     isPremium: true,
@@ -587,7 +587,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     requires: ['makeup']
   },
   {

@@ -5,14 +5,15 @@ export type WelcomeCompletionDestination =
       params: { from: 'welcome' };
     };
 
-export type ProfileCreatedDestination =
-  | {
-      pathname: '/(settings)/profiles/comfort';
-      params: { from: 'welcome'; profileId: string };
-    }
-  | null;
+export type ProfileCreatedDestination = {
+  pathname: '/(settings)/profiles/comfort';
+  params: { from: 'welcome'; profileId: string };
+} | null;
 
-export type AppEntryDestination = '/welcome' | WelcomeCompletionDestination | null;
+export type AppEntryDestination =
+  | '/welcome'
+  | WelcomeCompletionDestination
+  | null;
 
 export function getAppEntryDestination(
   ageConfirmed: boolean,

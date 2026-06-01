@@ -115,8 +115,8 @@ export const es: Translations = {
     profileOptions: 'Opciones del perfil',
     chooseInProfiles: 'Elegir en Perfiles',
     account: 'Cuenta',
-    partnerCode: 'Código de pareja',
-    qrCode: 'QR / Código',
+    partnerCode: 'Sync de pareja',
+    qrCode: 'Enlace de invitación',
     preferences: 'Preferencias',
     daily: 'Diario',
     security: 'Seguridad',
@@ -323,11 +323,16 @@ export const es: Translations = {
     title: '🎲 Spice Dice',
     gameNight: 'Noche de juego',
     levelOf: 'Nivel {{level}} de 5',
+    levelsSelected: 'Niveles {{levels}} seleccionados',
     levelShort: 'N{{level}}',
     cardOf: 'Carta {{current}} de {{total}}',
     levelWithLabel: 'Nivel {{level}} · {{label}}',
+    levelsWithLabels: 'Niveles {{levels}}',
     noTimeLimit: 'Sin límite de tiempo',
     drawToBegin: 'Saca una carta para comenzar.',
+    noCardsForLevels: 'No hay cartas para estos niveles',
+    chooseDifferentLevels:
+      'Elige otra combinación de niveles para seguir jugando.',
     skip: 'Saltar',
     draw: 'Sacar',
     share: 'Compartir',
@@ -492,7 +497,7 @@ export const es: Translations = {
     partner: 'Pareja',
     linked: 'Vinculado',
     connectWithPartner: 'Conectar con pareja',
-    yourCode: 'Tu código: {{code}}',
+    yourCode: 'Tu invitación: {{code}}',
   },
 
   tours: {
@@ -554,8 +559,8 @@ export const es: Translations = {
     ],
     game: [
       {
-        title: 'Elige un nivel',
-        body: 'Los niveles 1 a 5 controlan qué tan cálidas, atrevidas o intensas se sienten las cartas.',
+        title: 'Elige niveles',
+        body: 'Toca cualquier nivel para incluirlo o excluirlo. Solo aparecen los niveles seleccionados.',
       },
       {
         title: 'Saca una carta',

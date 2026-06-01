@@ -8,6 +8,8 @@ export type CoupleLink = {
   partnerDeviceId: string;
   partnerSigningPublicKey: string;
   partnerEncryptionPublicKey: string;
+  partnerProfileName?: string | null;
+  partnerProfileAvatar?: string | null;
   linkedAt: number;
   lastPulledServerSequence: number;
   lastSyncedAt: number | null;

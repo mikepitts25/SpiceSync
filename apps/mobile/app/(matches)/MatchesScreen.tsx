@@ -270,7 +270,11 @@ export default function MatchesScreen() {
               </Pressable>
 
               <ProfileAvatarIcon
-                avatar={isRemotePartner ? null : partnerProfile?.emoji}
+                avatar={
+                  isRemotePartner
+                    ? (coupleLink?.partnerProfileAvatar ?? null)
+                    : partnerProfile?.emoji
+                }
                 size={52}
               />
             </View>
@@ -280,7 +284,7 @@ export default function MatchesScreen() {
               <Text style={styles.partnerLabel}>{t.matches.lastSynced}</Text>
               <Text style={styles.partnerLabel}>
                 {isRemotePartner
-                  ? t.deck.partnerFallback
+                  ? (coupleLink?.partnerProfileName ?? t.deck.partnerFallback)
                   : (partnerProfile?.displayName ?? partnerProfile?.name)}
               </Text>
             </View>

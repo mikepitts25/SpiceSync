@@ -13,6 +13,28 @@ import type {
 
 type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 
+export type RelayTransport = {
+  health(): Promise<{ ok: boolean }>;
+  createInvite(body: CreateInviteRequest): Promise<CreateInviteResponse>;
+  getInvite(inviteId: string): Promise<InviteResponse>;
+  acceptInvite(
+    inviteId: string,
+    body: AcceptInviteRequest
+  ): Promise<AcceptInviteResponse>;
+  getCouple(coupleId: string): Promise<CoupleResponse>;
+  appendEvent(
+    coupleId: string,
+    body: AppendEventRequest
+  ): Promise<SyncEventResponse>;
+  listEvents(
+    coupleId: string,
+    afterServerSequence: number
+  ): Promise<ListEventsResponse>;
+  revokeCouple(
+    coupleId: string
+  ): Promise<{ coupleId: string; revokedAt: number | null }>;
+};
+
 export class RelayHttpError extends Error {
   constructor(
     public readonly status: number,
@@ -24,7 +46,7 @@ export class RelayHttpError extends Error {
   }
 }
 
-export class RelayClient {
+export class RelayClient implements RelayTransport {
   private readonly baseUrl: string;
   private readonly fetchImpl: FetchLike;
 
