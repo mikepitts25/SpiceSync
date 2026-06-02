@@ -17,14 +17,18 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.spicesync"
+      "bundleIdentifier": "com.spicesync.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0D0006"
       },
-      "package": "com.anonymous.spicesync"
+      "package": "com.spicesync.app",
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ]
     },
     "plugins": [
       "expo-router",
@@ -40,9 +44,11 @@
       "expo-sqlite"
     ],
     "extra": {
+      "router": {},
       "eas": {
-        "projectId": "local"
+        "projectId": "80c981ea-ce2a-49d7-85ca-073237d5cc9c"
       }
-    }
+    },
+    "owner": "mikepitts25"
   }
 }
