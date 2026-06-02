@@ -1,12 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import type { PairPreference } from '../votes/rolePreferences';
 
 export type PartnerVoteValue = 'yes' | 'maybe' | 'no';
 
 export type PartnerVoteRecord = {
   cardId: string;
   vote: PartnerVoteValue;
+  pairPreference?: PairPreference;
   updatedAt: number;
   receivedAt: number;
 };

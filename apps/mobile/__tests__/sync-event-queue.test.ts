@@ -28,6 +28,26 @@ describe('event queue', () => {
     expect(useEventQueueStore.getState().pending).toHaveLength(2);
   });
 
+  it('keeps paired role preference on vote events', () => {
+    const queue = useEventQueueStore.getState();
+    const pending = queue.enqueue({
+      schemaVersion: 1,
+      eventType: 'vote.upsert',
+      authorDeviceId: 'dev_a',
+      cardId: 'pair:oral-pleasure',
+      vote: 'yes',
+      pairPreference: 'give',
+      updatedAt: 1,
+    });
+
+    expect(pending.payload).toMatchObject({
+      eventType: 'vote.upsert',
+      cardId: 'pair:oral-pleasure',
+      vote: 'yes',
+      pairPreference: 'give',
+    });
+  });
+
   it('removes an event when marked as success', () => {
     const queue = useEventQueueStore.getState();
     const a = queue.enqueue({

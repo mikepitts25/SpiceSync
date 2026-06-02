@@ -31,11 +31,11 @@ import {
 } from '../../lib/sync/revealConsent';
 import { useProfilesStore, type Profile } from '../../src/stores/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { useVotesStore, type VoteValue } from '../../src/stores/votes';
+import { useVotesStore, type KinkVote } from '../../src/stores/votes';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
-const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, VoteValue>;
+const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, KinkVote>;
 
 type MatchItem = {
   id: string;
@@ -128,9 +128,11 @@ export default function MatchesScreen() {
     return Object.fromEntries(
       Object.entries(remotePartnerVotes).map(([cardId, record]) => [
         cardId,
-        record.vote,
+        record.pairPreference
+          ? { value: record.vote, pairPreference: record.pairPreference }
+          : record.vote,
       ])
-    ) as Record<string, VoteValue>;
+    ) as Record<string, KinkVote>;
   }, [isRemotePartner, localPartnerVotes, remotePartnerVotes]);
 
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');

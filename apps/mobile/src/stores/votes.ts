@@ -1,10 +1,24 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { mmkvStorage } from '../../lib/storage/mmkv';
+import {
+  makeVoteRecord,
+  normalizeVoteRecord,
+  preferencesCompatible,
+  voteValue,
+  type KinkVote,
+  type NormalizedKinkVote,
+  type PairPreference,
+  type VoteValue,
+} from '../../lib/votes/rolePreferences';
 
-export type VoteValue = 'yes' | 'maybe' | 'no';
+export type {
+  KinkVote,
+  PairPreference,
+  VoteValue,
+} from '../../lib/votes/rolePreferences';
 
-export type VotesByProfile = Record<string, Record<string, VoteValue>>;
+export type VotesByProfile = Record<string, Record<string, KinkVote>>;
 
 export type MutualBuckets = {
   mutualYes: string[];
@@ -21,11 +35,20 @@ export type VoteBuckets = {
 
 type VotesState = {
   votesByProfile: VotesByProfile;
-  setVote: (profileId: string, kinkId: string, value: VoteValue) => void;
+  setVote: (
+    profileId: string,
+    kinkId: string,
+    value: VoteValue,
+    pairPreference?: PairPreference
+  ) => void;
   clearVote: (profileId: string, kinkId: string) => void;
   clearProfile: (profileId: string) => void;
   getVote: (profileId: string, kinkId: string) => VoteValue | undefined;
-  getProfileVotes: (profileId: string) => Record<string, VoteValue>;
+  getVoteRecord: (
+    profileId: string,
+    kinkId: string
+  ) => NormalizedKinkVote | undefined;
+  getProfileVotes: (profileId: string) => Record<string, KinkVote>;
   getMutuals: (
     aId: string | undefined | null,
     bId: string | undefined | null
@@ -78,16 +101,19 @@ const normalizeVotesByProfile = (persisted: unknown): VotesByProfile => {
       continue;
     }
 
-    const nextVotes: Record<string, VoteValue> = {};
+    const nextVotes: Record<string, KinkVote> = {};
     for (const [kinkKey, rawValue] of Object.entries(
       votes as Record<string, unknown>
     )) {
       const normalizedKinkKey = normalizeKey(kinkKey);
       if (!normalizedKinkKey) continue;
 
-      const value = String(rawValue) as VoteValue;
-      if (value === 'yes' || value === 'maybe' || value === 'no') {
-        nextVotes[normalizedKinkKey] = value;
+      const vote = normalizeVoteRecord(rawValue);
+      if (vote) {
+        nextVotes[normalizedKinkKey] = makeVoteRecord(
+          vote.value,
+          vote.pairPreference
+        );
       }
     }
 
@@ -114,7 +140,7 @@ const migrateLegacyVotes = (persisted: PersistedVotes): VotesByProfile => {
   }
 
   if (persisted.byUser && typeof persisted.byUser === 'object') {
-    const mapped: Record<string, Record<string, VoteValue>> = {};
+    const mapped: Record<string, Record<string, KinkVote>> = {};
     for (const [profileKey, votes] of Object.entries(
       persisted.byUser as Record<string, unknown>
     )) {
@@ -122,16 +148,19 @@ const migrateLegacyVotes = (persisted: PersistedVotes): VotesByProfile => {
       const normalizedProfileKey = normalizeKey(profileKey);
       if (!normalizedProfileKey) continue;
 
-      const nextVotes: Record<string, VoteValue> = {};
+      const nextVotes: Record<string, KinkVote> = {};
       for (const [kinkKey, voteRecord] of Object.entries(
         votes as Record<string, any>
       )) {
         const normalizedKinkKey = normalizeKey(kinkKey);
         if (!normalizedKinkKey) continue;
 
-        const value = voteRecord?.value;
-        if (value === 'yes' || value === 'maybe' || value === 'no') {
-          nextVotes[normalizedKinkKey] = value;
+        const vote = normalizeVoteRecord(voteRecord);
+        if (vote) {
+          nextVotes[normalizedKinkKey] = makeVoteRecord(
+            vote.value,
+            vote.pairPreference
+          );
         }
       }
 
@@ -150,14 +179,17 @@ export const useVotesStore = create<VotesState>()(
     (set, get) => ({
       votesByProfile: {},
 
-      setVote: (profileId, kinkId, value) => {
+      setVote: (profileId, kinkId, value, pairPreference) => {
         const normalizedProfile = normalizeKey(profileId);
         const normalizedKink = normalizeKey(kinkId);
         if (!normalizedProfile || !normalizedKink) return;
 
         set((state) => {
           const currentVotes = state.votesByProfile[normalizedProfile] || {};
-          const nextVotes = { ...currentVotes, [normalizedKink]: value };
+          const nextVotes = {
+            ...currentVotes,
+            [normalizedKink]: makeVoteRecord(value, pairPreference),
+          };
           return {
             votesByProfile: {
               ...state.votesByProfile,
@@ -208,7 +240,19 @@ export const useVotesStore = create<VotesState>()(
         const normalizedKink = normalizeKey(kinkId);
         if (!normalizedProfile || !normalizedKink) return undefined;
 
-        return get().votesByProfile[normalizedProfile]?.[normalizedKink];
+        return voteValue(
+          get().votesByProfile[normalizedProfile]?.[normalizedKink]
+        );
+      },
+
+      getVoteRecord: (profileId, kinkId) => {
+        const normalizedProfile = normalizeKey(profileId);
+        const normalizedKink = normalizeKey(kinkId);
+        if (!normalizedProfile || !normalizedKink) return undefined;
+
+        return normalizeVoteRecord(
+          get().votesByProfile[normalizedProfile]?.[normalizedKink]
+        );
       },
 
       getProfileVotes: (profileId) => {
@@ -242,9 +286,19 @@ export const useVotesStore = create<VotesState>()(
         ]);
 
         kinkIds.forEach((kinkId) => {
-          const aVote = aVotes[kinkId];
-          const bVote = bVotes[kinkId];
+          const aVoteRecord = normalizeVoteRecord(aVotes[kinkId]);
+          const bVoteRecord = normalizeVoteRecord(bVotes[kinkId]);
+          const aVote = aVoteRecord?.value;
+          const bVote = bVoteRecord?.value;
           if (!aVote || !bVote) return;
+          if (
+            !preferencesCompatible(
+              aVoteRecord?.pairPreference,
+              bVoteRecord?.pairPreference
+            )
+          ) {
+            return;
+          }
           if (aVote === 'no' || bVote === 'no') return;
 
           if (aVote === 'yes' && bVote === 'yes') {
@@ -295,9 +349,19 @@ export const useVotesStore = create<VotesState>()(
         }
 
         keys.forEach((kinkId) => {
-          const aVote = aVotes[kinkId];
-          const bVote = bVotes[kinkId];
+          const aVoteRecord = normalizeVoteRecord(aVotes[kinkId]);
+          const bVoteRecord = normalizeVoteRecord(bVotes[kinkId]);
+          const aVote = aVoteRecord?.value;
+          const bVote = bVoteRecord?.value;
           if (!aVote || !bVote) return;
+          if (
+            !preferencesCompatible(
+              aVoteRecord?.pairPreference,
+              bVoteRecord?.pairPreference
+            )
+          ) {
+            return;
+          }
 
           if (aVote === 'yes' && bVote === 'yes') {
             mutualYes.push(kinkId);
@@ -349,7 +413,7 @@ export const useVotesStore = create<VotesState>()(
           }
 
           let changed = false;
-          const nextProfileVotes: Record<string, VoteValue> = {
+          const nextProfileVotes: Record<string, KinkVote> = {
             ...currentVotes,
           };
           for (const kinkId of kinkIds) {
@@ -395,7 +459,7 @@ export const useVotesStore = create<VotesState>()(
 
 export const useVotes = useVotesStore;
 
-export function getProfileVotes(profileId: string): Record<string, VoteValue> {
+export function getProfileVotes(profileId: string): Record<string, KinkVote> {
   return useVotesStore.getState().getProfileVotes(profileId);
 }
 

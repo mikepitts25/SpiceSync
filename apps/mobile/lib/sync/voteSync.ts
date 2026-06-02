@@ -3,10 +3,16 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 import {
+  KinkVote,
   useVotesStore,
   VoteValue,
   VotesByProfile,
 } from '../../src/stores/votes';
+import {
+  normalizeVoteRecord,
+  sameVoteRecord,
+  type PairPreference,
+} from '../votes/rolePreferences';
 import { useCoupleLinkStore } from './coupleLink';
 import { useEventQueueStore } from './eventQueue';
 import { getIdentityIfExists } from './identity';
@@ -30,20 +36,34 @@ export const useVoteSyncStore = create<VoteSyncState>()(
 );
 
 function diffVotes(
-  previous: Record<string, VoteValue> | undefined,
-  next: Record<string, VoteValue> | undefined
-): { cardId: string; vote: VoteValue }[] {
-  const changes: { cardId: string; vote: VoteValue }[] = [];
+  previous: Record<string, KinkVote> | undefined,
+  next: Record<string, KinkVote> | undefined
+): { cardId: string; vote: VoteValue; pairPreference?: PairPreference }[] {
+  const changes: {
+    cardId: string;
+    vote: VoteValue;
+    pairPreference?: PairPreference;
+  }[] = [];
   if (!next) return changes;
   const prev = previous || {};
-  for (const [cardId, vote] of Object.entries(next)) {
-    if (prev[cardId] !== vote) changes.push({ cardId, vote });
+  for (const [cardId, rawVote] of Object.entries(next)) {
+    const vote = normalizeVoteRecord(rawVote);
+    if (!vote || sameVoteRecord(prev[cardId], rawVote)) continue;
+    changes.push({
+      cardId,
+      vote: vote.value,
+      pairPreference: vote.pairPreference,
+    });
   }
   return changes;
 }
 
 async function enqueueVoteChanges(
-  changes: { cardId: string; vote: VoteValue }[]
+  changes: {
+    cardId: string;
+    vote: VoteValue;
+    pairPreference?: PairPreference;
+  }[]
 ): Promise<void> {
   if (changes.length === 0) return;
   const link = useCoupleLinkStore.getState().link;
@@ -59,6 +79,7 @@ async function enqueueVoteChanges(
       authorDeviceId: id.identity.deviceId,
       cardId: change.cardId,
       vote: change.vote,
+      pairPreference: change.pairPreference,
       updatedAt,
     });
   }

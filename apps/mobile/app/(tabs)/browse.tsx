@@ -31,6 +31,7 @@ import { useFilters } from '../../lib/state/filters';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore, type VoteValue } from '../../src/stores/votes';
+import { voteValue } from '../../lib/votes/rolePreferences';
 import { useTranslation } from '../../lib/i18n';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
@@ -127,7 +128,7 @@ export default function BrowseScreen() {
     const tierColor = item.tier
       ? (TIER_COLORS[item.tier] ?? COLORS.pink)
       : COLORS.pink;
-    const vote = activeVotes?.[item.id];
+    const vote = voteValue(activeVotes?.[item.id]);
 
     return (
       <View style={styles.itemRow}>

@@ -152,8 +152,9 @@ describe('sync loop', () => {
       eventType: 'vote.upsert' as const,
       eventId: 'evt_partner_1',
       authorDeviceId: 'dev_partner',
-      cardId: 'card-77',
+      cardId: 'pair:oral-pleasure',
       vote: 'yes' as const,
+      pairPreference: 'give' as const,
       updatedAt: 1700,
     };
     const { encryptedPayload, payloadHash } = encryptForPartner(
@@ -187,9 +188,12 @@ describe('sync loop', () => {
 
     const result = await pullPartnerEvents();
     expect(result.applied).toBe(1);
-    expect(usePartnerVotesStore.getState().byCardId['card-77']?.vote).toBe(
-      'yes'
-    );
+    expect(
+      usePartnerVotesStore.getState().byCardId['pair:oral-pleasure']
+    ).toMatchObject({
+      vote: 'yes',
+      pairPreference: 'give',
+    });
     expect(useCoupleLinkStore.getState().link?.lastPulledServerSequence).toBe(
       4
     );

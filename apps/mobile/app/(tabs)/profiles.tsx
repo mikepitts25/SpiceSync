@@ -13,6 +13,7 @@ import { ScreenTour } from '../../components/ScreenTour';
 import { useTranslation } from '../../lib/i18n';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
+import { voteValue } from '../../lib/votes/rolePreferences';
 import { useVotesStore } from '../../src/stores/votes';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
@@ -48,7 +49,7 @@ export default function ProfilesHubScreen() {
     state.link?.status === 'active' ? state.link : null
   );
 
-  const voteValues = Object.values(profileVotes);
+  const voteValues = Object.values(profileVotes).map(voteValue).filter(Boolean);
   const totalVoted = voteValues.length;
   const yesCount = voteValues.filter((v) => v === 'yes').length;
   const maybeCount = voteValues.filter((v) => v === 'maybe').length;

@@ -13,9 +13,14 @@ import { Check, Minus, X } from 'lucide-react-native';
 
 import { BackHeader } from '../../components/app-chrome';
 import { useProfilesStore } from '../../lib/state/profiles';
-import { useVotesStore, type VoteValue } from '../../src/stores/votes';
+import {
+  useVotesStore,
+  type PairPreference,
+  type VoteValue,
+} from '../../src/stores/votes';
 import { useKinks, type KinkItem } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { normalizeVoteRecord } from '../../lib/votes/rolePreferences';
 import { COLORS, GRADIENTS } from '../../constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -34,7 +39,11 @@ const VOTE_OPTIONS: { value: VoteValue; label: string; color: string }[] = [
   { value: 'no', label: 'NO', color: COLORS.no },
 ];
 
-type SelectedItem = { kink: KinkItem; vote: VoteValue };
+type SelectedItem = {
+  kink: KinkItem;
+  vote: VoteValue;
+  pairPreference?: PairPreference;
+};
 
 export default function MyVotesScreen() {
   const [filter, setFilter] = useState<Filter>('all');
@@ -43,7 +52,9 @@ export default function MyVotesScreen() {
   const language = useSettingsStore((state) => state.language);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 
-  const activeProfileId = useProfilesStore((state) => state.getActiveProfileId());
+  const activeProfileId = useProfilesStore((state) =>
+    state.getActiveProfileId()
+  );
 
   const profileVotes = useVotesStore((state) =>
     activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}
@@ -51,15 +62,19 @@ export default function MyVotesScreen() {
   const setVote = useVotesStore((state) => state.setVote);
 
   const { votedKinks, counts } = useMemo(() => {
-    const voted: Array<{ kink: KinkItem; vote: VoteValue }> = [];
+    const voted: SelectedItem[] = [];
     const counts = { all: 0, yes: 0, maybe: 0, no: 0 };
 
     for (const kink of kinks) {
-      const vote = profileVotes[kink.id];
+      const vote = normalizeVoteRecord(profileVotes[kink.id]);
       if (vote) {
-        voted.push({ kink, vote });
+        voted.push({
+          kink,
+          vote: vote.value,
+          pairPreference: vote.pairPreference,
+        });
         counts.all++;
-        counts[vote]++;
+        counts[vote.value]++;
       }
     }
 
@@ -76,12 +91,20 @@ export default function MyVotesScreen() {
 
   const handleChangeVote = (newVote: VoteValue) => {
     if (!selected || !activeProfileId) return;
-    setVote(activeProfileId, selected.kink.id, newVote);
+    setVote(
+      activeProfileId,
+      selected.kink.id,
+      newVote,
+      selected.kink.pairMode ? selected.pairPreference : undefined
+    );
     setSelected(null);
   };
 
   return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right', 'bottom']}>
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
       <StatusBar style="light" />
       <BackHeader title="My Votes" />
 
@@ -98,13 +121,26 @@ export default function MyVotesScreen() {
               onPress={() => setFilter(key)}
               style={[
                 styles.chip,
-                isSelected && { borderColor: color, backgroundColor: color + '1A' },
+                isSelected && {
+                  borderColor: color,
+                  backgroundColor: color + '1A',
+                },
               ]}
             >
-              <Text style={[styles.chipText, { color: isSelected ? color : COLORS.textMuted }]}>
+              <Text
+                style={[
+                  styles.chipText,
+                  { color: isSelected ? color : COLORS.textMuted },
+                ]}
+              >
                 {label}
               </Text>
-              <Text style={[styles.chipCount, { color: isSelected ? color : COLORS.textMuted }]}>
+              <Text
+                style={[
+                  styles.chipCount,
+                  { color: isSelected ? color : COLORS.textMuted },
+                ]}
+              >
                 {count}
               </Text>
             </Pressable>
@@ -112,7 +148,9 @@ export default function MyVotesScreen() {
         })}
       </View>
 
-      <Text style={styles.hint}>Tap any card to review or change your vote</Text>
+      <Text style={styles.hint}>
+        Tap any card to review or change your vote
+      </Text>
 
       <FlatList
         data={filtered}
@@ -155,7 +193,9 @@ export default function MyVotesScreen() {
                 </Text>
                 <Text style={styles.sheetTitle}>{selected.kink.title}</Text>
                 {selected.kink.description ? (
-                  <Text style={styles.sheetDesc}>{selected.kink.description}</Text>
+                  <Text style={styles.sheetDesc}>
+                    {selected.kink.description}
+                  </Text>
                 ) : null}
 
                 <Text style={styles.sheetPrompt}>Change your vote</Text>
@@ -170,12 +210,25 @@ export default function MyVotesScreen() {
                         onPress={() => handleChangeVote(value)}
                         style={[
                           styles.voteBtn,
-                          { borderColor: isActive ? color : 'rgba(255,255,255,0.1)' },
+                          {
+                            borderColor: isActive
+                              ? color
+                              : 'rgba(255,255,255,0.1)',
+                          },
                           isActive && { backgroundColor: color + '22' },
                         ]}
                       >
-                        <VoteIcon vote={value} active={isActive} color={color} />
-                        <Text style={[styles.voteBtnText, { color: isActive ? color : COLORS.textMuted }]}>
+                        <VoteIcon
+                          vote={value}
+                          active={isActive}
+                          color={color}
+                        />
+                        <Text
+                          style={[
+                            styles.voteBtnText,
+                            { color: isActive ? color : COLORS.textMuted },
+                          ]}
+                        >
                           {label}
                         </Text>
                       </Pressable>
@@ -183,7 +236,10 @@ export default function MyVotesScreen() {
                   })}
                 </View>
 
-                <Pressable onPress={() => setSelected(null)} style={styles.cancelBtn}>
+                <Pressable
+                  onPress={() => setSelected(null)}
+                  style={styles.cancelBtn}
+                >
                   <Text style={styles.cancelText}>Cancel</Text>
                 </Pressable>
               </>
@@ -254,10 +310,20 @@ function VoteBadge({ vote }: { vote: VoteValue }) {
   );
 }
 
-function VoteIcon({ vote, active, color }: { vote: VoteValue; active: boolean; color: string }) {
+function VoteIcon({
+  vote,
+  active,
+  color,
+}: {
+  vote: VoteValue;
+  active: boolean;
+  color: string;
+}) {
   const iconColor = active ? color : COLORS.textMuted;
-  if (vote === 'yes') return <Check size={16} color={iconColor} strokeWidth={2.5} />;
-  if (vote === 'maybe') return <Minus size={16} color={iconColor} strokeWidth={2.5} />;
+  if (vote === 'yes')
+    return <Check size={16} color={iconColor} strokeWidth={2.5} />;
+  if (vote === 'maybe')
+    return <Minus size={16} color={iconColor} strokeWidth={2.5} />;
   return <X size={16} color={iconColor} strokeWidth={2.5} />;
 }
 

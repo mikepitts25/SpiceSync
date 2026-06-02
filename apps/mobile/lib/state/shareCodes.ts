@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { mmkvStorage } from '../storage/mmkv';
+import {
+  KinkVote,
+  normalizeVoteRecord,
+  voteValue,
+} from '../votes/rolePreferences';
 
 export type ShareCode = {
   code: string;
@@ -18,12 +23,15 @@ export type DecodedMatch = {
 type ShareState = {
   myCodes: ShareCode[];
   scannedCodes: DecodedMatch[];
-  
+
   // Actions
-  generateCode: (profileId: string, votes: Record<string, string>) => string;
+  generateCode: (profileId: string, votes: Record<string, KinkVote>) => string;
   decodeCode: (code: string) => DecodedMatch | null;
   saveScannedCode: (match: DecodedMatch) => void;
-  getCompatibility: (myVotes: Record<string, string>, theirVotes: Record<string, string>) => {
+  getCompatibility: (
+    myVotes: Record<string, KinkVote>,
+    theirVotes: Record<string, KinkVote>
+  ) => {
     percentage: number;
     mutualYes: string[];
     mutualMaybe: string[];
@@ -46,18 +54,26 @@ function generateRandomCode(): string {
 
 // Simple encoding of votes into a compact string
 // Format: base64 encoded JSON with compression
-function encodeVotes(profileId: string, votes: Record<string, string>): string {
+function encodeVotes(
+  profileId: string,
+  votes: Record<string, KinkVote>
+): string {
   const data = {
     p: profileId.slice(0, 8), // Short profile ID
-    v: Object.entries(votes).reduce((acc, [kinkId, vote]) => {
-      // Map vote to single char: y=yes, m=maybe, n=no
-      const v = vote === 'yes' ? 'y' : vote === 'maybe' ? 'm' : 'n';
-      acc[kinkId.slice(0, 6)] = v; // Short kink IDs
-      return acc;
-    }, {} as Record<string, string>),
+    v: Object.entries(votes).reduce(
+      (acc, [kinkId, vote]) => {
+        const value = voteValue(vote);
+        if (!value) return acc;
+        // Map vote to single char: y=yes, m=maybe, n=no
+        const v = value === 'yes' ? 'y' : value === 'maybe' ? 'm' : 'n';
+        acc[kinkId.slice(0, 6)] = v; // Short kink IDs
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
     t: Math.floor(Date.now() / 1000), // Timestamp
   };
-  
+
   // Convert to base64 (URL safe)
   const json = JSON.stringify(data);
   return btoa(json).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -68,17 +84,20 @@ function decodeVotes(encoded: string): DecodedMatch | null {
     // Restore base64
     let base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
     while (base64.length % 4) base64 += '=';
-    
+
     const json = atob(base64);
     const data = JSON.parse(json);
-    
+
     return {
       profileId: data.p,
-      votes: Object.entries(data.v).reduce((acc, [kinkId, vote]) => {
-        const v = vote === 'y' ? 'yes' : vote === 'm' ? 'maybe' : 'no';
-        acc[kinkId] = v;
-        return acc;
-      }, {} as Record<string, 'yes' | 'maybe' | 'no'>),
+      votes: Object.entries(data.v).reduce(
+        (acc, [kinkId, vote]) => {
+          const v = vote === 'y' ? 'yes' : vote === 'm' ? 'maybe' : 'no';
+          acc[kinkId] = v;
+          return acc;
+        },
+        {} as Record<string, 'yes' | 'maybe' | 'no'>
+      ),
       timestamp: data.t * 1000,
     };
   } catch {
@@ -96,18 +115,18 @@ export const useShareCodes = create<ShareState>()(
         const code = generateRandomCode();
         const now = Date.now();
         const expiresAt = now + 7 * 24 * 60 * 60 * 1000; // 7 days
-        
+
         const shareCode: ShareCode = {
           code,
           createdAt: now,
           expiresAt,
           profileId,
         };
-        
+
         set((state) => ({
           myCodes: [...state.myCodes, shareCode],
         }));
-        
+
         // Return code with encoded data
         const encoded = encodeVotes(profileId, votes);
         return `${code}:${encoded}`;
@@ -116,7 +135,7 @@ export const useShareCodes = create<ShareState>()(
       decodeCode: (fullCode) => {
         const parts = fullCode.split(':');
         if (parts.length !== 2) return null;
-        
+
         const [, encoded] = parts;
         return decodeVotes(encoded);
       },
@@ -124,7 +143,9 @@ export const useShareCodes = create<ShareState>()(
       saveScannedCode: (match) => {
         set((state) => ({
           scannedCodes: [
-            ...state.scannedCodes.filter((s) => s.profileId !== match.profileId),
+            ...state.scannedCodes.filter(
+              (s) => s.profileId !== match.profileId
+            ),
             match,
           ],
         }));
@@ -135,16 +156,19 @@ export const useShareCodes = create<ShareState>()(
         const mutualMaybe: string[] = [];
         const myYesTheirMaybe: string[] = [];
         const myMaybeTheirYes: string[] = [];
-        
-        const allKinks = new Set([...Object.keys(myVotes), ...Object.keys(theirVotes)]);
-        
+
+        const allKinks = new Set([
+          ...Object.keys(myVotes),
+          ...Object.keys(theirVotes),
+        ]);
+
         for (const kinkId of allKinks) {
-          const myVote = myVotes[kinkId];
-          const theirVote = theirVotes[kinkId];
-          
+          const myVote = normalizeVoteRecord(myVotes[kinkId])?.value;
+          const theirVote = normalizeVoteRecord(theirVotes[kinkId])?.value;
+
           if (!myVote || !theirVote) continue;
           if (myVote === 'no' || theirVote === 'no') continue;
-          
+
           if (myVote === 'yes' && theirVote === 'yes') {
             mutualYes.push(kinkId);
           } else if (myVote === 'maybe' && theirVote === 'maybe') {
@@ -155,13 +179,17 @@ export const useShareCodes = create<ShareState>()(
             myMaybeTheirYes.push(kinkId);
           }
         }
-        
+
         // Calculate percentage
-        const totalMatches = mutualYes.length + mutualMaybe.length + 
-                           myYesTheirMaybe.length + myMaybeTheirYes.length;
+        const totalMatches =
+          mutualYes.length +
+          mutualMaybe.length +
+          myYesTheirMaybe.length +
+          myMaybeTheirYes.length;
         const totalVoted = allKinks.size;
-        const percentage = totalVoted > 0 ? Math.round((totalMatches / totalVoted) * 100) : 0;
-        
+        const percentage =
+          totalVoted > 0 ? Math.round((totalMatches / totalVoted) * 100) : 0;
+
         return {
           percentage,
           mutualYes,
@@ -180,7 +208,9 @@ export const useShareCodes = create<ShareState>()(
 
       deleteScannedCode: (profileId) => {
         set((state) => ({
-          scannedCodes: state.scannedCodes.filter((s) => s.profileId !== profileId),
+          scannedCodes: state.scannedCodes.filter(
+            (s) => s.profileId !== profileId
+          ),
         }));
       },
     }),

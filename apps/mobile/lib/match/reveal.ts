@@ -1,3 +1,9 @@
+import {
+  KinkVote,
+  normalizeVoteRecord,
+  preferencesCompatible,
+} from '../votes/rolePreferences';
+
 export type RevealVoteValue = 'yes' | 'maybe' | 'no';
 
 export type RevealKink = {
@@ -5,6 +11,7 @@ export type RevealKink = {
   slug?: string;
   title: string;
   category?: string;
+  pairMode?: boolean;
 };
 
 export type RevealMatchItem = {
@@ -21,19 +28,8 @@ export type RevealBuckets = {
 
 type ComputeRevealBucketsInput = {
   kinks: RevealKink[];
-  mine: Record<string, RevealVoteValue | undefined>;
-  theirs: Record<string, RevealVoteValue | undefined>;
-};
-
-const getComplementarySlug = (slug?: string): string | null => {
-  if (!slug) return null;
-  if (slug.endsWith('-give')) {
-    return `${slug.slice(0, -5)}-receive`;
-  }
-  if (slug.endsWith('-receive')) {
-    return `${slug.slice(0, -8)}-give`;
-  }
-  return null;
+  mine: Record<string, KinkVote | undefined>;
+  theirs: Record<string, KinkVote | undefined>;
 };
 
 const sortRows = <T extends RevealMatchItem>(rows: T[]): T[] =>
@@ -49,11 +45,6 @@ export function computeRevealBuckets({
   theirs,
 }: ComputeRevealBucketsInput): RevealBuckets {
   const kinksById = Object.fromEntries(kinks.map((kink) => [kink.id, kink]));
-  const kinksBySlug = Object.fromEntries(
-    kinks
-      .filter((kink) => typeof kink.slug === 'string' && kink.slug.length > 0)
-      .map((kink) => [kink.slug as string, kink])
-  );
 
   const mutualYes: RevealMatchItem[] = [];
   const partialYesMaybe: RevealMatchItem[] = [];
@@ -65,13 +56,25 @@ export function computeRevealBuckets({
     if (comparedPairs.has(pairKey)) return;
     comparedPairs.add(pairKey);
 
-    const myVote = mine[mineKinkId];
-    const theirVote = theirs[theirKinkId];
+    const myVoteRecord = normalizeVoteRecord(mine[mineKinkId]);
+    const theirVoteRecord = normalizeVoteRecord(theirs[theirKinkId]);
+    const myVote = myVoteRecord?.value;
+    const theirVote = theirVoteRecord?.value;
     if (!myVote || !theirVote) return;
     if (myVote === 'no' || theirVote === 'no') return;
 
     const myKink = kinksById[mineKinkId];
     const theirKink = kinksById[theirKinkId];
+    if (
+      (myKink?.pairMode || theirKink?.pairMode) &&
+      !preferencesCompatible(
+        myVoteRecord?.pairPreference,
+        theirVoteRecord?.pairPreference
+      )
+    ) {
+      return;
+    }
+
     const item = {
       id: mineKinkId,
       title: myKink?.title ?? theirKink?.title ?? mineKinkId,
@@ -95,17 +98,6 @@ export function computeRevealBuckets({
     if (theirs[id] !== undefined) {
       addMatchedPair(id, id);
     }
-  });
-
-  Object.keys(mine).forEach((mineKinkId) => {
-    const myKink = kinksById[mineKinkId];
-    const complementarySlug = getComplementarySlug(myKink?.slug);
-    if (!complementarySlug) return;
-
-    const theirKink = kinksBySlug[complementarySlug];
-    if (!theirKink || theirs[theirKink.id] === undefined) return;
-
-    addMatchedPair(mineKinkId, theirKink.id);
   });
 
   return {

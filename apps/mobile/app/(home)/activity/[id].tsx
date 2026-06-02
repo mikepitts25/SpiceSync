@@ -1,17 +1,15 @@
 import React from 'react';
+import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-} from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../../constants/theme';
 import { useSettingsStore } from '../../../src/stores/settingsStore';
 import { useKinks } from '../../../lib/data';
 import { useVotesStore } from '../../../src/stores/votes';
+import { voteValue } from '../../../lib/votes/rolePreferences';
 
 export default function ActivityDetail() {
   const insets = useSafeAreaInsets();
@@ -21,12 +19,12 @@ export default function ActivityDetail() {
   const activeProfileId = useSettingsStore((state) => state.activeProfileId);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
-    activeProfileId ? state.votesByProfile[activeProfileId] ?? {} : {}
+    activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}
   );
   const setVote = useVotesStore((state) => state.setVote);
 
-  const activity = kinks.find(k => k.id === id);
-  const currentVote = votes[id] || null;
+  const activity = kinks.find((k) => k.id === id);
+  const currentVote = voteValue(votes[id]) || null;
 
   if (!activity) {
     return (
@@ -61,7 +59,7 @@ export default function ActivityDetail() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
       >
@@ -73,10 +71,12 @@ export default function ActivityDetail() {
         </View>
 
         {/* Category Badge */}
-        <View style={[
-          styles.categoryBadge,
-          { backgroundColor: getCategoryColor(activity.category) }
-        ]}>
+        <View
+          style={[
+            styles.categoryBadge,
+            { backgroundColor: getCategoryColor(activity.category) },
+          ]}
+        >
           <Text style={styles.categoryText}>{activity.category}</Text>
         </View>
 
@@ -96,13 +96,14 @@ export default function ActivityDetail() {
                   key={dot}
                   style={[
                     styles.intensityDot,
-                    dot <= (activity.intensityScale || 1) && styles.intensityDotActive,
+                    dot <= (activity.intensityScale || 1) &&
+                      styles.intensityDotActive,
                   ]}
                 />
               ))}
             </View>
           </View>
-          
+
           {activity.tags && activity.tags.length > 0 && (
             <View style={styles.tagsRow}>
               {activity.tags.map((tag) => (
@@ -118,13 +119,19 @@ export default function ActivityDetail() {
         {currentVote && (
           <View style={styles.currentVoteCard}>
             <Text style={styles.currentVoteLabel}>Your Vote:</Text>
-            <Text style={[
-              styles.currentVoteValue,
-              currentVote === 'yes' && { color: COLORS.success },
-              currentVote === 'no' && { color: COLORS.danger },
-              currentVote === 'maybe' && { color: COLORS.warning },
-            ]}>
-              {currentVote === 'yes' ? '✓ Yes' : currentVote === 'no' ? '✕ No' : '? Maybe'}
+            <Text
+              style={[
+                styles.currentVoteValue,
+                currentVote === 'yes' && { color: COLORS.success },
+                currentVote === 'no' && { color: COLORS.danger },
+                currentVote === 'maybe' && { color: COLORS.warning },
+              ]}
+            >
+              {currentVote === 'yes'
+                ? '✓ Yes'
+                : currentVote === 'no'
+                  ? '✕ No'
+                  : '? Maybe'}
             </Text>
           </View>
         )}
@@ -133,19 +140,19 @@ export default function ActivityDetail() {
         <View style={styles.voteSection}>
           <Text style={styles.voteTitle}>Vote on this activity</Text>
           <View style={styles.voteButtons}>
-            <Pressable 
+            <Pressable
               style={[styles.voteButton, styles.yesButton]}
               onPress={() => handleVote('yes')}
             >
               <Text style={styles.voteButtonText}>✓ Yes</Text>
             </Pressable>
-            <Pressable 
+            <Pressable
               style={[styles.voteButton, styles.maybeButton]}
               onPress={() => handleVote('maybe')}
             >
               <Text style={styles.voteButtonText}>? Maybe</Text>
             </Pressable>
-            <Pressable 
+            <Pressable
               style={[styles.voteButton, styles.noButton]}
               onPress={() => handleVote('no')}
             >

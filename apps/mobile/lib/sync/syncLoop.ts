@@ -81,6 +81,7 @@ function applyDecryptedEvent(event: PlainSyncEvent, receivedAt: number): void {
     usePartnerVotesStore.getState().applyVote({
       cardId: event.cardId,
       vote: event.vote,
+      pairPreference: event.pairPreference,
       updatedAt: event.updatedAt,
       receivedAt,
     });

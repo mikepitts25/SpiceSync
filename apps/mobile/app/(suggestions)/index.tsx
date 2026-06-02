@@ -7,12 +7,16 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore } from '../../src/stores/votes';
 import { useKinks } from '../../lib/data';
+import { voteValue } from '../../lib/votes/rolePreferences';
 
 interface Suggestion {
   id: string;
@@ -31,7 +35,7 @@ export default function SuggestionsHub() {
   const activeProfileId = useSettingsStore((state) => state.activeProfileId);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
-    activeProfileId ? state.votesByProfile[activeProfileId] ?? {} : {}
+    activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}
   );
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
@@ -46,15 +50,18 @@ export default function SuggestionsHub() {
   // Generate smart suggestions based on voting patterns
   const suggestions = useMemo(() => {
     const allVotes = Object.entries(votes);
-    const yesVotes = allVotes.filter(([, vote]) => vote === 'yes');
-    const maybeVotes = allVotes.filter(([, vote]) => vote === 'maybe');
-    
+    const yesVotes = allVotes.filter(([, vote]) => voteValue(vote) === 'yes');
+    const maybeVotes = allVotes.filter(
+      ([, vote]) => voteValue(vote) === 'maybe'
+    );
+
     const suggestionList: Suggestion[] = [];
 
     // 1. Remind about "maybe" votes (high conversion potential)
     if (maybeVotes.length > 0) {
-      const randomMaybe = maybeVotes[Math.floor(Math.random() * maybeVotes.length)];
-      const activity = kinks.find(k => k.id === randomMaybe[0]);
+      const randomMaybe =
+        maybeVotes[Math.floor(Math.random() * maybeVotes.length)];
+      const activity = kinks.find((k) => k.id === randomMaybe[0]);
       if (activity) {
         suggestionList.push({
           id: 'revisit-maybe',
@@ -71,21 +78,23 @@ export default function SuggestionsHub() {
     if (yesVotes.length > 0) {
       const categoryCounts: Record<string, number> = {};
       yesVotes.forEach(([id]) => {
-        const activity = kinks.find(k => k.id === id);
+        const activity = kinks.find((k) => k.id === id);
         if (activity) {
-          categoryCounts[activity.category] = (categoryCounts[activity.category] || 0) + 1;
+          categoryCounts[activity.category] =
+            (categoryCounts[activity.category] || 0) + 1;
         }
       });
-      
-      const topCategory = Object.entries(categoryCounts)
-        .sort((a, b) => b[1] - a[1])[0];
-      
+
+      const topCategory = Object.entries(categoryCounts).sort(
+        (a, b) => b[1] - a[1]
+      )[0];
+
       if (topCategory) {
         // Find similar activities in same category they haven't voted on
-        const categoryActivities = kinks.filter(k => 
-          k.category === topCategory[0] && !votes[k.id]
+        const categoryActivities = kinks.filter(
+          (k) => k.category === topCategory[0] && !votes[k.id]
         );
-        
+
         if (categoryActivities.length > 0) {
           const suggestion = categoryActivities[0];
           suggestionList.push({
@@ -104,7 +113,7 @@ export default function SuggestionsHub() {
     // 3. Intensity progression suggestions
     const intensityCounts = { low: 0, medium: 0, high: 0 };
     yesVotes.forEach(([id]) => {
-      const activity = kinks.find(k => k.id === id);
+      const activity = kinks.find((k) => k.id === id);
       if (activity) {
         const intensity = activity.intensityScale || 1;
         if (intensity <= 2) intensityCounts.low++;
@@ -115,8 +124,8 @@ export default function SuggestionsHub() {
 
     // Suggest next intensity level
     if (intensityCounts.medium > intensityCounts.high) {
-      const highIntensityUnvoted = kinks.filter(k => 
-        (k.intensityScale || 1) >= 4 && !votes[k.id]
+      const highIntensityUnvoted = kinks.filter(
+        (k) => (k.intensityScale || 1) >= 4 && !votes[k.id]
       );
       if (highIntensityUnvoted.length > 0) {
         const suggestion = highIntensityUnvoted[0];
@@ -137,19 +146,21 @@ export default function SuggestionsHub() {
         id: 'milestone',
         type: 'milestone',
         title: `🎉 ${yesVotes.length} Matches!`,
-        description: 'You\'ve found 10 things you both want to try. Time to pick one!',
+        description:
+          "You've found 10 things you both want to try. Time to pick one!",
         priority: 9,
       });
     }
 
     // 5. Daily trending pick
-    const unvotedActivities = kinks.filter(k => !votes[k.id]);
+    const unvotedActivities = kinks.filter((k) => !votes[k.id]);
     if (unvotedActivities.length > 0) {
-      const randomActivity = unvotedActivities[Math.floor(Math.random() * unvotedActivities.length)];
+      const randomActivity =
+        unvotedActivities[Math.floor(Math.random() * unvotedActivities.length)];
       suggestionList.push({
         id: 'daily-pick',
         type: 'trending',
-        title: 'Today\'s Pick',
+        title: "Today's Pick",
         description: `Try something new: "${randomActivity.title}"`,
         activityId: randomActivity.id,
         priority: 5,
@@ -170,21 +181,31 @@ export default function SuggestionsHub() {
 
   const getTypeColor = (type: Suggestion['type']) => {
     switch (type) {
-      case 'match': return COLORS.success;
-      case 'trending': return COLORS.warning;
-      case 'milestone': return COLORS.primary;
-      case 'explore': return COLORS.secondary;
-      default: return COLORS.primary;
+      case 'match':
+        return COLORS.success;
+      case 'trending':
+        return COLORS.warning;
+      case 'milestone':
+        return COLORS.primary;
+      case 'explore':
+        return COLORS.secondary;
+      default:
+        return COLORS.primary;
     }
   };
 
   const getTypeEmoji = (type: Suggestion['type']) => {
     switch (type) {
-      case 'match': return '💕';
-      case 'trending': return '🔥';
-      case 'milestone': return '🎉';
-      case 'explore': return '✨';
-      default: return '💡';
+      case 'match':
+        return '💕';
+      case 'trending':
+        return '🔥';
+      case 'milestone':
+        return '🎉';
+      case 'explore':
+        return '✨';
+      default:
+        return '💡';
     }
   };
 
@@ -199,7 +220,7 @@ export default function SuggestionsHub() {
           </Text>
         </View>
 
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
         >
@@ -210,7 +231,7 @@ export default function SuggestionsHub() {
               <Text style={styles.emptyText}>
                 Vote on activities to get personalized suggestions
               </Text>
-              <Pressable 
+              <Pressable
                 style={styles.emptyButton}
                 onPress={() => router.push('/(deck)')}
               >
@@ -232,14 +253,20 @@ export default function SuggestionsHub() {
                     <Text style={styles.suggestionEmoji}>
                       {getTypeEmoji(suggestion.type)}
                     </Text>
-                    <View style={[
-                      styles.typeBadge,
-                      { backgroundColor: `${getTypeColor(suggestion.type)}20` },
-                    ]}>
-                      <Text style={[
-                        styles.typeText,
-                        { color: getTypeColor(suggestion.type) },
-                      ]}>
+                    <View
+                      style={[
+                        styles.typeBadge,
+                        {
+                          backgroundColor: `${getTypeColor(suggestion.type)}20`,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.typeText,
+                          { color: getTypeColor(suggestion.type) },
+                        ]}
+                      >
                         {suggestion.type.toUpperCase()}
                       </Text>
                     </View>
@@ -257,21 +284,21 @@ export default function SuggestionsHub() {
           <View style={styles.quickActions}>
             <Text style={styles.quickActionsTitle}>Quick Actions</Text>
             <View style={styles.actionGrid}>
-              <Pressable 
+              <Pressable
                 style={styles.actionButton}
                 onPress={() => router.push('/(deck)')}
               >
                 <Text style={styles.actionEmoji}>🎴</Text>
                 <Text style={styles.actionText}>Swipe More</Text>
               </Pressable>
-              <Pressable 
+              <Pressable
                 style={styles.actionButton}
                 onPress={() => router.push('/(matches)')}
               >
                 <Text style={styles.actionEmoji}>💕</Text>
                 <Text style={styles.actionText}>See Matches</Text>
               </Pressable>
-              <Pressable 
+              <Pressable
                 style={styles.actionButton}
                 onPress={() => router.push('/(game)')}
               >

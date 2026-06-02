@@ -1,14 +1,12 @@
 import React, { useMemo } from 'react';
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useVotesStore } from '../../src/stores/votes';
+import { voteValue } from '../../lib/votes/rolePreferences';
 import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 
@@ -38,20 +36,20 @@ export default function InsightsDashboard() {
   const activeProfileId = useSettingsStore((state) => state.activeProfileId);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
-    activeProfileId ? state.votesByProfile[activeProfileId] ?? {} : {}
+    activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}
   );
 
   const insights = useMemo(() => {
-    const allVotes = Object.values(votes);
+    const allVotes = Object.values(votes).map(voteValue).filter(Boolean);
     const totalVotes = allVotes.length;
-    const yesVotes = allVotes.filter(v => v === 'yes').length;
-    const maybeVotes = allVotes.filter(v => v === 'maybe').length;
-    const noVotes = allVotes.filter(v => v === 'no').length;
+    const yesVotes = allVotes.filter((v) => v === 'yes').length;
+    const maybeVotes = allVotes.filter((v) => v === 'maybe').length;
+    const noVotes = allVotes.filter((v) => v === 'no').length;
 
     // Category stats
     const categoryStats: Record<string, { yes: number; total: number }> = {};
-    kinks.forEach(kink => {
-      const vote = votes[kink.id];
+    kinks.forEach((kink) => {
+      const vote = voteValue(votes[kink.id]);
       if (!categoryStats[kink.category]) {
         categoryStats[kink.category] = { yes: 0, total: 0 };
       }
@@ -64,18 +62,19 @@ export default function InsightsDashboard() {
     const topCategories = Object.entries(categoryStats)
       .map(([name, stats]) => ({
         name,
-        interest: stats.total > 0 ? Math.round((stats.yes / stats.total) * 100) : 0,
+        interest:
+          stats.total > 0 ? Math.round((stats.yes / stats.total) * 100) : 0,
         yes: stats.yes,
         total: stats.total,
       }))
-      .filter(c => c.total > 0)
+      .filter((c) => c.total > 0)
       .sort((a, b) => b.interest - a.interest)
       .slice(0, 5);
 
     // Intensity stats
     const intensityStats = { low: 0, medium: 0, high: 0 };
-    kinks.forEach(kink => {
-      const vote = votes[kink.id];
+    kinks.forEach((kink) => {
+      const vote = voteValue(votes[kink.id]);
       if (vote === 'yes') {
         const intensity = kink.intensityScale || 1;
         if (intensity <= 2) intensityStats.low++;
@@ -84,9 +83,8 @@ export default function InsightsDashboard() {
       }
     });
 
-    const compatibilityScore = totalVotes > 0 
-      ? Math.round((yesVotes / totalVotes) * 100)
-      : 0;
+    const compatibilityScore =
+      totalVotes > 0 ? Math.round((yesVotes / totalVotes) * 100) : 0;
 
     return {
       totalVotes,
@@ -105,11 +103,16 @@ export default function InsightsDashboard() {
     { label: 'No', value: insights.noVotes, color: COLORS.danger },
   ];
 
-  const maxVotes = Math.max(insights.yesVotes, insights.maybeVotes, insights.noVotes, 1);
+  const maxVotes = Math.max(
+    insights.yesVotes,
+    insights.maybeVotes,
+    insights.noVotes,
+    1
+  );
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
       >
@@ -131,14 +134,14 @@ export default function InsightsDashboard() {
 
         {/* Stats Grid */}
         <View style={styles.statsGrid}>
-          <StatCard 
-            title="Total Votes" 
-            value={insights.totalVotes} 
+          <StatCard
+            title="Total Votes"
+            value={insights.totalVotes}
             emoji="🗳️"
             subtitle={`${insights.yesVotes} yes • ${insights.maybeVotes} maybe`}
           />
-          <StatCard 
-            title="Yes Rate" 
+          <StatCard
+            title="Yes Rate"
             value={`${insights.totalVotes > 0 ? Math.round((insights.yesVotes / insights.totalVotes) * 100) : 0}%`}
             emoji="👍"
             subtitle="Activities you liked"
@@ -153,14 +156,14 @@ export default function InsightsDashboard() {
               <View key={index} style={styles.barRow}>
                 <Text style={styles.barLabel}>{item.label}</Text>
                 <View style={styles.barWrapper}>
-                  <View 
+                  <View
                     style={[
-                      styles.bar, 
-                      { 
+                      styles.bar,
+                      {
                         width: `${(item.value / maxVotes) * 100}%`,
                         backgroundColor: item.color,
-                      }
-                    ]} 
+                      },
+                    ]}
                   />
                   <Text style={styles.barValue}>{item.value}</Text>
                 </View>
@@ -186,11 +189,11 @@ export default function InsightsDashboard() {
                     </Text>
                   </View>
                   <View style={styles.categoryBar}>
-                    <View 
+                    <View
                       style={[
-                        styles.categoryFill, 
-                        { width: `${cat.interest}%` }
-                      ]} 
+                        styles.categoryFill,
+                        { width: `${cat.interest}%` },
+                      ]}
                     />
                     <Text style={styles.categoryPercent}>{cat.interest}%</Text>
                   </View>
@@ -206,17 +209,23 @@ export default function InsightsDashboard() {
           <View style={styles.intensityGrid}>
             <View style={styles.intensityCard}>
               <Text style={styles.intensityEmoji}>🌱</Text>
-              <Text style={styles.intensityValue}>{insights.intensityStats.low}</Text>
+              <Text style={styles.intensityValue}>
+                {insights.intensityStats.low}
+              </Text>
               <Text style={styles.intensityLabel}>Beginner</Text>
             </View>
             <View style={styles.intensityCard}>
               <Text style={styles.intensityEmoji}>🔥</Text>
-              <Text style={styles.intensityValue}>{insights.intensityStats.medium}</Text>
+              <Text style={styles.intensityValue}>
+                {insights.intensityStats.medium}
+              </Text>
               <Text style={styles.intensityLabel}>Moderate</Text>
             </View>
             <View style={styles.intensityCard}>
               <Text style={styles.intensityEmoji}>⚡</Text>
-              <Text style={styles.intensityValue}>{insights.intensityStats.high}</Text>
+              <Text style={styles.intensityValue}>
+                {insights.intensityStats.high}
+              </Text>
               <Text style={styles.intensityLabel}>Advanced</Text>
             </View>
           </View>

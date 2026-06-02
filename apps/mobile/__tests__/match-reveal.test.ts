@@ -32,16 +32,11 @@ const kinks = [
     category: 'Hidden',
   },
   {
-    id: 'massage-give',
-    slug: 'massage-give',
-    title: 'Give massage',
+    id: 'pair:massage',
+    slug: 'massage',
+    title: 'Massage',
     category: 'Touch',
-  },
-  {
-    id: 'massage-receive',
-    slug: 'massage-receive',
-    title: 'Receive massage',
-    category: 'Touch',
+    pairMode: true,
   },
 ];
 
@@ -84,17 +79,45 @@ describe('computeRevealBuckets', () => {
     expect(buckets.mutualMaybe).toEqual([]);
   });
 
-  it('matches complementary give and receive slugs without duplicating rows', () => {
+  it('matches compatible paired role preferences', () => {
     const buckets = computeRevealBuckets({
       kinks,
       mine: {
-        'massage-give': 'yes',
+        'pair:massage': { value: 'yes', pairPreference: 'give' },
       },
       theirs: {
-        'massage-receive': 'yes',
+        'pair:massage': { value: 'yes', pairPreference: 'receive' },
       },
     });
 
-    expect(buckets.mutualYes.map((item) => item.id)).toEqual(['massage-give']);
+    expect(buckets.mutualYes.map((item) => item.id)).toEqual(['pair:massage']);
+  });
+
+  it('matches both with both on paired role preferences', () => {
+    const buckets = computeRevealBuckets({
+      kinks,
+      mine: {
+        'pair:massage': { value: 'yes', pairPreference: 'both' },
+      },
+      theirs: {
+        'pair:massage': { value: 'yes', pairPreference: 'both' },
+      },
+    });
+
+    expect(buckets.mutualYes.map((item) => item.id)).toEqual(['pair:massage']);
+  });
+
+  it('does not match same one-sided paired role preferences', () => {
+    const buckets = computeRevealBuckets({
+      kinks,
+      mine: {
+        'pair:massage': { value: 'yes', pairPreference: 'give' },
+      },
+      theirs: {
+        'pair:massage': { value: 'yes', pairPreference: 'give' },
+      },
+    });
+
+    expect(buckets.mutualYes).toEqual([]);
   });
 });

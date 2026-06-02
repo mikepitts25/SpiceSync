@@ -3,6 +3,8 @@ import kinksEN from '../data/kinks.en.json';
 import kinksES from '../data/kinks.es.json';
 
 export type Tier = 'soft' | 'naughty' | 'xxx';
+export type PairRole = 'give' | 'receive';
+export type PairPreference = PairRole | 'both';
 
 export type KinkItem = {
   id: string;
@@ -16,7 +18,10 @@ export type KinkItem = {
   createdBy: 'system' | 'user';
   tier?: Tier;
   pairKey?: string;
-  pairRole?: 'give' | 'receive';
+  pairRole?: PairRole;
+  pairMode?: boolean;
+  sourceIds?: string[];
+  availablePairRoles?: PairPreference[];
 };
 
 const SPICY_HINTS = new Set([
@@ -43,12 +48,31 @@ const SPICY_HINTS = new Set([
 
 const STEP_SUFFIX = /\s*(?:—|-|:)?\s*(?:step|phase|stage)\s*\d+\s*$/i;
 const STEP_IN_SLUG = /-(?:step|phase|stage)-\d+$/i;
+const ROLE_TITLE_SUFFIX =
+  /\s*\((?:giving|receiving|give|receive|giving oral|predator|prey)\)\s*$/i;
+const ROLE_SLUG_SUFFIX = /-(?:give|receive|giving|receiving|predator|prey)$/i;
+const ROLE_ONLY_TAGS = new Set(['give', 'giving', 'receive', 'receiving']);
 
 function baseTitle(t: string) {
   return t.replace(STEP_SUFFIX, '').trim();
 }
 function baseSlug(s: string) {
   return s.replace(STEP_IN_SLUG, '').trim();
+}
+
+function pairTitle(t: string) {
+  return baseTitle(t).replace(ROLE_TITLE_SUFFIX, '').trim();
+}
+
+function pairSlug(s: string) {
+  return baseSlug(s).replace(ROLE_SLUG_SUFFIX, '').trim();
+}
+
+function mergeTags(a: KinkItem, b: KinkItem): string[] {
+  const tags = new Set([...(a.tags || []), ...(b.tags || [])]);
+  return Array.from(tags).filter(
+    (tag) => !ROLE_ONLY_TAGS.has(String(tag).toLowerCase())
+  );
 }
 
 function collapseSequences(items: KinkItem[]): KinkItem[] {
@@ -78,6 +102,47 @@ function collapseSequences(items: KinkItem[]): KinkItem[] {
     }
   }
   return Array.from(map.values());
+}
+
+function collapsePairs(items: KinkItem[]): KinkItem[] {
+  const byPairKey = new Map<string, KinkItem[]>();
+  const pairedSourceIds = new Set<string>();
+  const pairedItems: KinkItem[] = [];
+
+  for (const item of items) {
+    if (!item.pairMode || !item.pairKey || !item.pairRole) continue;
+    const current = byPairKey.get(item.pairKey) || [];
+    current.push(item);
+    byPairKey.set(item.pairKey, current);
+  }
+
+  for (const [pairKey, pairItems] of byPairKey) {
+    const give = pairItems.find((item) => item.pairRole === 'give');
+    const receive = pairItems.find((item) => item.pairRole === 'receive');
+    if (!give || !receive) continue;
+
+    pairedSourceIds.add(give.id);
+    pairedSourceIds.add(receive.id);
+    pairedItems.push({
+      ...give,
+      id: `pair:${pairKey}`,
+      slug: pairSlug(give.slug || receive.slug || pairKey),
+      title: pairTitle(give.title || receive.title || pairKey),
+      description: give.description || receive.description,
+      tags: mergeTags(give, receive),
+      pairKey,
+      pairMode: true,
+      pairRole: undefined,
+      sourceIds: [give.id, receive.id],
+      availablePairRoles: ['give', 'receive', 'both'],
+      tier: defaultTier(give),
+    });
+  }
+
+  return [
+    ...items.filter((item) => !pairedSourceIds.has(item.id)),
+    ...pairedItems,
+  ];
 }
 
 function defaultTier(k: KinkItem): Tier {
@@ -118,7 +183,7 @@ function defaultTier(k: KinkItem): Tier {
 export function useKinks(lang: 'en' | 'es' = 'en') {
   const base = (lang === 'es' ? (kinksES as any) : (kinksEN as any)) as any[];
   // 1) Collapse step/phase/stage sequences into one item (e.g., "Anal training" from multiple steps)
-  const collapsed = collapseSequences(base);
+  const collapsed = collapsePairs(collapseSequences(base));
   // 2) Apply tier classification
   const kinks: KinkItem[] = collapsed.map((k) => ({
     ...k,

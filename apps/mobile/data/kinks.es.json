@@ -111,7 +111,8 @@
     "titleEn": "Oral Pleasure (Giving)",
     "descriptionEn": "Focus on giving your partner oral pleasure with attention to comfort, rhythm, and feedback.",
     "pairKey": "oral-pleasure",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0009",
@@ -127,7 +128,8 @@
     "titleEn": "Light Teasing (Giving)",
     "descriptionEn": "Tease your partner lightly with touch, pauses, and playful restraint while watching their reactions.",
     "pairKey": "light-teasing",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0010",
@@ -297,7 +299,8 @@
     "titleEn": "Wrist Restraints (Giving)",
     "descriptionEn": "Use soft restraints on your partner's wrists, checking fit, comfort, and escape signals before play continues.",
     "pairKey": "wrist-restraints",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0054",
@@ -369,7 +372,8 @@
     "titleEn": "Nipple Play (Giving)",
     "descriptionEn": "Explore your partner's nipples with varied pressure, warmth, and teasing while checking sensitivity.",
     "pairKey": "nipple-play",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0059",
@@ -385,7 +389,8 @@
     "titleEn": "Sensual Biting (Giving)",
     "descriptionEn": "Use gentle bites or nibbles on agreed areas, building sensation only as your partner welcomes it.",
     "pairKey": "biting",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0060",
@@ -401,7 +406,8 @@
     "titleEn": "Controlled Hair Pulling (Giving)",
     "descriptionEn": "Hold near the roots and guide your partner's hair only within agreed pressure and positioning.",
     "pairKey": "hair-pulling",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0101",
@@ -459,7 +465,8 @@
     "titleEn": "Chastity Control (Giving)",
     "descriptionEn": "Hold control of your partner's release using negotiated rules, check-ins, and a clear end point.",
     "pairKey": "chastity",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0105",
@@ -475,7 +482,8 @@
     "titleEn": "Consensual Degradation (Giving)",
     "descriptionEn": "Use negotiated words or roles that your partner has explicitly welcomed, with limits and aftercare clear.",
     "pairKey": "degradation",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0106",
@@ -715,7 +723,8 @@
     "titleEn": "Dildo Play (Giving)",
     "descriptionEn": "Use a dildo with your partner while controlling pace, angle, and comfort through active feedback.",
     "pairKey": "dildo",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0065",
@@ -1599,7 +1608,8 @@
     "titleEn": "Collaring (Giving)",
     "descriptionEn": "Offer or place a collar as a negotiated symbol of dynamic, commitment, or scene role.",
     "pairKey": "collaring",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0097",
@@ -1615,7 +1625,8 @@
     "titleEn": "Leash Play (Giving)",
     "descriptionEn": "Guide your partner with a leash or collar cue only within negotiated comfort and movement limits.",
     "pairKey": "leash-play",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0098",
@@ -1631,7 +1642,8 @@
     "titleEn": "Paddle Spanking (Giving)",
     "descriptionEn": "Use a paddle for negotiated impact play, starting light and checking comfort after each change.",
     "pairKey": "paddle-spanking",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0099",
@@ -1759,7 +1771,8 @@
     "titleEn": "Chastity Control (Receiving)",
     "descriptionEn": "Give your partner negotiated control over release for an agreed scene or short-term play window.",
     "pairKey": "chastity",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0151",
@@ -1775,7 +1788,8 @@
     "pairKey": "spanking",
     "pairRole": "give",
     "titleEn": "Light Spanking (Giving)",
-    "descriptionEn": "Give gentle, consensual swats while controlling rhythm, intensity, and check-ins."
+    "descriptionEn": "Give gentle, consensual swats while controlling rhythm, intensity, and check-ins.",
+    "pairMode": true
   },
   {
     "id": "0152",
@@ -1791,7 +1805,8 @@
     "pairKey": "spanking",
     "pairRole": "receive",
     "titleEn": "Light Spanking (Receiving)",
-    "descriptionEn": "Receive gentle, consensual impact while staying connected through feedback and agreed signals."
+    "descriptionEn": "Receive gentle, consensual impact while staying connected through feedback and agreed signals.",
+    "pairMode": true
   },
   {
     "id": "0153",
@@ -1807,7 +1822,8 @@
     "pairKey": "handcuffs",
     "pairRole": "give",
     "titleEn": "Handcuffs (Giving)",
-    "descriptionEn": "Restrain your partner with cuffs and guide the scene with teasing, commands, and attentive aftercare."
+    "descriptionEn": "Restrain your partner with cuffs and guide the scene with teasing, commands, and attentive aftercare.",
+    "pairMode": true
   },
   {
     "id": "0154",
@@ -1823,7 +1839,8 @@
     "pairKey": "handcuffs",
     "pairRole": "receive",
     "titleEn": "Handcuffs (Receiving)",
-    "descriptionEn": "Have your wrists restrained while your partner takes the lead and keeps the scene negotiated."
+    "descriptionEn": "Have your wrists restrained while your partner takes the lead and keeps the scene negotiated.",
+    "pairMode": true
   },
   {
     "id": "0155",
@@ -1839,7 +1856,8 @@
     "pairKey": "vibrator",
     "pairRole": "give",
     "titleEn": "Vibrator Play (Giving)",
-    "descriptionEn": "Use a vibrator on your partner and control speed, pressure, and timing with steady feedback."
+    "descriptionEn": "Use a vibrator on your partner and control speed, pressure, and timing with steady feedback.",
+    "pairMode": true
   },
   {
     "id": "0156",
@@ -1855,7 +1873,8 @@
     "pairKey": "vibrator",
     "pairRole": "receive",
     "titleEn": "Vibrator Play (Receiving)",
-    "descriptionEn": "Let your partner control the vibrator while you focus on sensation and communicate what works."
+    "descriptionEn": "Let your partner control the vibrator while you focus on sensation and communicate what works.",
+    "pairMode": true
   },
   {
     "id": "0157",
@@ -1871,7 +1890,8 @@
     "pairKey": "nipple-clamps",
     "pairRole": "give",
     "titleEn": "Nipple Clamps (Giving)",
-    "descriptionEn": "Apply and remove clamps with care, mixing pressure, release, and teasing touch."
+    "descriptionEn": "Apply and remove clamps with care, mixing pressure, release, and teasing touch.",
+    "pairMode": true
   },
   {
     "id": "0158",
@@ -1887,7 +1907,8 @@
     "pairKey": "nipple-clamps",
     "pairRole": "receive",
     "titleEn": "Nipple Clamps (Receiving)",
-    "descriptionEn": "Receive clamp play while your partner controls pressure, timing, and release within agreed limits."
+    "descriptionEn": "Receive clamp play while your partner controls pressure, timing, and release within agreed limits.",
+    "pairMode": true
   },
   {
     "id": "0159",
@@ -1917,7 +1938,8 @@
     "titleEn": "Foot Worship (Giving)",
     "descriptionEn": "Give focused attention to your partner's feet through massage, praise, or worship within agreed boundaries.",
     "pairKey": "foot-worship",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0161",
@@ -2493,7 +2515,8 @@
     "titleEn": "Praise Kink (Giving)",
     "descriptionEn": "Give sincere praise, approval, and encouragement as the central source of excitement.",
     "pairKey": "praise",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0202",
@@ -3559,7 +3582,8 @@
     "pairKey": "oral-pleasure",
     "pairRole": "receive",
     "titleEn": "Oral Pleasure (Receiving)",
-    "descriptionEn": "Receive focused oral attention while guiding your partner with clear feedback and encouragement."
+    "descriptionEn": "Receive focused oral attention while guiding your partner with clear feedback and encouragement.",
+    "pairMode": true
   },
   {
     "id": "0278",
@@ -3575,7 +3599,8 @@
     "pairKey": "light-teasing",
     "pairRole": "receive",
     "titleEn": "Light Teasing (Receiving)",
-    "descriptionEn": "Let your partner tease you slowly, using your reactions to shape the pace and intensity."
+    "descriptionEn": "Let your partner tease you slowly, using your reactions to shape the pace and intensity.",
+    "pairMode": true
   },
   {
     "id": "0279",
@@ -3591,7 +3616,8 @@
     "pairKey": "wrist-restraints",
     "pairRole": "receive",
     "titleEn": "Wrist Restraints (Receiving)",
-    "descriptionEn": "Have your wrists gently restrained while your partner leads with agreed boundaries and check-ins."
+    "descriptionEn": "Have your wrists gently restrained while your partner leads with agreed boundaries and check-ins.",
+    "pairMode": true
   },
   {
     "id": "0280",
@@ -3607,7 +3633,8 @@
     "pairKey": "nipple-play",
     "pairRole": "receive",
     "titleEn": "Nipple Play (Receiving)",
-    "descriptionEn": "Receive focused nipple attention while guiding pressure, pace, and sensitivity boundaries."
+    "descriptionEn": "Receive focused nipple attention while guiding pressure, pace, and sensitivity boundaries.",
+    "pairMode": true
   },
   {
     "id": "0281",
@@ -3623,7 +3650,8 @@
     "pairKey": "biting",
     "pairRole": "receive",
     "titleEn": "Sensual Biting (Receiving)",
-    "descriptionEn": "Receive gentle biting or nibbling in agreed areas while guiding pressure and boundaries."
+    "descriptionEn": "Receive gentle biting or nibbling in agreed areas while guiding pressure and boundaries.",
+    "pairMode": true
   },
   {
     "id": "0282",
@@ -3639,7 +3667,8 @@
     "pairKey": "hair-pulling",
     "pairRole": "receive",
     "titleEn": "Controlled Hair Pulling (Receiving)",
-    "descriptionEn": "Receive controlled hair pulling while setting clear limits for grip, direction, and intensity."
+    "descriptionEn": "Receive controlled hair pulling while setting clear limits for grip, direction, and intensity.",
+    "pairMode": true
   },
   {
     "id": "0283",
@@ -3655,7 +3684,8 @@
     "pairKey": "dildo",
     "pairRole": "receive",
     "titleEn": "Dildo Play (Receiving)",
-    "descriptionEn": "Receive dildo play while guiding your partner on pace, angle, depth, and comfort."
+    "descriptionEn": "Receive dildo play while guiding your partner on pace, angle, depth, and comfort.",
+    "pairMode": true
   },
   {
     "id": "0284",
@@ -3671,7 +3701,8 @@
     "pairKey": "paddle-spanking",
     "pairRole": "receive",
     "titleEn": "Paddle Spanking (Receiving)",
-    "descriptionEn": "Receive paddle impact within negotiated limits while using feedback to shape the scene."
+    "descriptionEn": "Receive paddle impact within negotiated limits while using feedback to shape the scene.",
+    "pairMode": true
   },
   {
     "id": "0285",
@@ -3687,7 +3718,8 @@
     "pairKey": "degradation",
     "pairRole": "receive",
     "titleEn": "Consensual Degradation (Receiving)",
-    "descriptionEn": "Receive negotiated degradation only within words, roles, and limits you have clearly approved."
+    "descriptionEn": "Receive negotiated degradation only within words, roles, and limits you have clearly approved.",
+    "pairMode": true
   },
   {
     "id": "0286",
@@ -3703,7 +3735,8 @@
     "pairKey": "foot-worship",
     "pairRole": "receive",
     "titleEn": "Foot Worship (Receiving)",
-    "descriptionEn": "Receive focused foot worship while setting what kinds of touch, praise, or attention feel welcome."
+    "descriptionEn": "Receive focused foot worship while setting what kinds of touch, praise, or attention feel welcome.",
+    "pairMode": true
   },
   {
     "id": "0287",
@@ -3719,7 +3752,8 @@
     "pairKey": "collaring",
     "pairRole": "receive",
     "titleEn": "Collaring (Receiving)",
-    "descriptionEn": "Receive a collar as an agreed symbol of dynamic, commitment, or scene role."
+    "descriptionEn": "Receive a collar as an agreed symbol of dynamic, commitment, or scene role.",
+    "pairMode": true
   },
   {
     "id": "0288",
@@ -3735,7 +3769,8 @@
     "pairKey": "leash-play",
     "pairRole": "receive",
     "titleEn": "Leash Play (Receiving)",
-    "descriptionEn": "Be guided by a leash or collar cue while keeping movement, posture, and comfort limits explicit."
+    "descriptionEn": "Be guided by a leash or collar cue while keeping movement, posture, and comfort limits explicit.",
+    "pairMode": true
   },
   {
     "id": "0289",
@@ -3751,7 +3786,8 @@
     "pairKey": "praise",
     "pairRole": "receive",
     "titleEn": "Praise Kink (Receiving)",
-    "descriptionEn": "Receive sincere praise, approval, and encouragement as the central source of excitement."
+    "descriptionEn": "Receive sincere praise, approval, and encouragement as the central source of excitement.",
+    "pairMode": true
   },
   {
     "id": "0290",
@@ -3767,7 +3803,8 @@
     "pairKey": "strap-on",
     "pairRole": "give",
     "titleEn": "Strap-On Play (Giving)",
-    "descriptionEn": "Use a strap-on with your partner while managing fit, pace, angle, and comfort through check-ins."
+    "descriptionEn": "Use a strap-on with your partner while managing fit, pace, angle, and comfort through check-ins.",
+    "pairMode": true
   },
   {
     "id": "0291",
@@ -3783,7 +3820,8 @@
     "pairKey": "strap-on",
     "pairRole": "receive",
     "titleEn": "Strap-On Play (Receiving)",
-    "descriptionEn": "Receive strap-on play while guiding fit, pace, angle, and comfort boundaries."
+    "descriptionEn": "Receive strap-on play while guiding fit, pace, angle, and comfort boundaries.",
+    "pairMode": true
   },
   {
     "id": "0292",
@@ -3799,7 +3837,8 @@
     "pairKey": "pegging",
     "pairRole": "give",
     "titleEn": "Pegging (Giving)",
-    "descriptionEn": "Give pegging play with clear preparation, lube, pacing, and ongoing comfort checks."
+    "descriptionEn": "Give pegging play with clear preparation, lube, pacing, and ongoing comfort checks.",
+    "pairMode": true
   },
   {
     "id": "0293",
@@ -3815,7 +3854,8 @@
     "pairKey": "pegging",
     "pairRole": "receive",
     "titleEn": "Pegging (Receiving)",
-    "descriptionEn": "Receive pegging play only with clear preparation, lube, pacing, and comfort boundaries."
+    "descriptionEn": "Receive pegging play only with clear preparation, lube, pacing, and comfort boundaries.",
+    "pairMode": true
   },
   {
     "id": "0294",
@@ -3831,7 +3871,8 @@
     "titleEn": "Manual Stimulation (Giving)",
     "descriptionEn": "Use your hands to pleasure your partner, paying close attention to their pace, pressure, and reactions.",
     "pairKey": "manual-stimulation",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0295",
@@ -3847,7 +3888,8 @@
     "titleEn": "Manual Stimulation (Receiving)",
     "descriptionEn": "Relax and receive your partner's hands, guiding them with clear feedback about what feels best.",
     "pairKey": "manual-stimulation",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0296",
@@ -3863,7 +3905,8 @@
     "titleEn": "Face Sitting (Giving Oral)",
     "descriptionEn": "Lie back and pleasure your partner orally while they straddle above you, following their movements.",
     "pairKey": "face-sitting",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0297",
@@ -3879,7 +3922,8 @@
     "titleEn": "Face Sitting (Receiving)",
     "descriptionEn": "Straddle above your partner and receive oral pleasure, controlling the angle and pressure that feels right.",
     "pairKey": "face-sitting",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0298",
@@ -3895,7 +3939,8 @@
     "titleEn": "Primal Play (Predator)",
     "descriptionEn": "Lean into raw, instinctive energy as the one who chases, pins, and playfully overpowers your willing partner.",
     "pairKey": "primal-play",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0299",
@@ -3911,7 +3956,8 @@
     "titleEn": "Primal Play (Prey)",
     "descriptionEn": "Surrender to instinct as the one who is chased and caught, struggling playfully before giving in.",
     "pairKey": "primal-play",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0300",
@@ -3927,7 +3973,8 @@
     "titleEn": "Riding Crop (Giving)",
     "descriptionEn": "Use a riding crop to deliver light, precise taps, checking in often and building intensity slowly.",
     "pairKey": "riding-crop",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0301",
@@ -3943,7 +3990,8 @@
     "titleEn": "Riding Crop (Receiving)",
     "descriptionEn": "Receive light crop taps, using your safeword and feedback to keep the sensation in your comfort zone.",
     "pairKey": "riding-crop",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0302",
@@ -3959,7 +4007,8 @@
     "titleEn": "Caning (Giving)",
     "descriptionEn": "Deliver measured strokes with a cane to fleshy areas only, negotiating limits and pausing to check in.",
     "pairKey": "caning",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0303",
@@ -3975,7 +4024,8 @@
     "titleEn": "Caning (Receiving)",
     "descriptionEn": "Receive measured cane strokes within agreed limits, communicating clearly throughout the scene.",
     "pairKey": "caning",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0304",
@@ -3991,7 +4041,8 @@
     "titleEn": "Consensual Face Slapping (Giving)",
     "descriptionEn": "Give light, consensual cheek taps as part of intense play, agreeing on signals and avoiding any other area.",
     "pairKey": "face-slapping",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0305",
@@ -4007,7 +4058,8 @@
     "titleEn": "Consensual Face Slapping (Receiving)",
     "descriptionEn": "Receive light, consensual cheek taps, keeping a clear safeword and checking in between rounds.",
     "pairKey": "face-slapping",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0306",
@@ -4023,7 +4075,8 @@
     "titleEn": "Pinwheel Sensation (Giving)",
     "descriptionEn": "Roll a sensation pinwheel across your partner's skin, varying pressure to create tingling, electric feelings.",
     "pairKey": "pinwheel",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0307",
@@ -4039,7 +4092,8 @@
     "titleEn": "Pinwheel Sensation (Receiving)",
     "descriptionEn": "Close your eyes and feel a sensation wheel travel across your skin, guiding your partner to your favorite spots.",
     "pairKey": "pinwheel",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0308",
@@ -4055,7 +4109,8 @@
     "titleEn": "Ass Worship (Giving)",
     "descriptionEn": "Lavish attention on your partner's behind with kisses, squeezes, and admiration.",
     "pairKey": "ass-worship",
-    "pairRole": "give"
+    "pairRole": "give",
+    "pairMode": true
   },
   {
     "id": "0309",
@@ -4071,7 +4126,8 @@
     "titleEn": "Ass Worship (Receiving)",
     "descriptionEn": "Receive adoring attention on your behind, relaxing into the praise and touch.",
     "pairKey": "ass-worship",
-    "pairRole": "receive"
+    "pairRole": "receive",
+    "pairMode": true
   },
   {
     "id": "0310",

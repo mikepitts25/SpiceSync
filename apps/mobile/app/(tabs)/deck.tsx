@@ -44,7 +44,11 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { useVotesStore, type VoteValue } from '../../src/stores/votes';
+import {
+  useVotesStore,
+  type PairPreference,
+  type VoteValue,
+} from '../../src/stores/votes';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import {
   COLORS,
@@ -90,6 +94,8 @@ const SwipeableKinkCard = forwardRef<
     partnerVoted: boolean;
     partnerVotedLabel: string;
     partnerNotVotedLabel: string;
+    pairPreference: PairPreference;
+    onPairPreferenceChange: (value: PairPreference) => void;
     onSwipe: (dir: SwipeDirection) => void;
     onSwipeStart: () => void;
     onSwipeEnd: () => void;
@@ -102,6 +108,8 @@ const SwipeableKinkCard = forwardRef<
     partnerVoted,
     partnerVotedLabel,
     partnerNotVotedLabel,
+    pairPreference,
+    onPairPreferenceChange,
     onSwipe,
     onSwipeStart,
     onSwipeEnd,
@@ -232,6 +240,41 @@ const SwipeableKinkCard = forwardRef<
           <Text style={styles.kinkTitle}>{item.title}</Text>
           <Text style={styles.kinkBody}>{item.description}</Text>
 
+          {item.pairMode ? (
+            <View style={styles.roleSelector} accessibilityRole="tablist">
+              {(['give', 'receive', 'both'] as PairPreference[]).map(
+                (option) => {
+                  const active = pairPreference === option;
+                  return (
+                    <Pressable
+                      key={option}
+                      accessibilityRole="tab"
+                      accessibilityState={{ selected: active }}
+                      onPress={() => onPairPreferenceChange(option)}
+                      style={[
+                        styles.roleOption,
+                        active && styles.roleOptionActive,
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.roleOptionText,
+                          active && styles.roleOptionTextActive,
+                        ]}
+                      >
+                        {option === 'give'
+                          ? 'Give'
+                          : option === 'receive'
+                            ? 'Receive'
+                            : 'Both'}
+                      </Text>
+                    </Pressable>
+                  );
+                }
+              )}
+            </View>
+          ) : null}
+
           <View style={styles.tagRow}>
             {(item.tags ?? []).slice(0, 3).map((tag) => (
               <View key={tag} style={styles.tagPill}>
@@ -342,6 +385,7 @@ export default function DeckScreen() {
   const key = `${activeProfileIdValue ?? 'none'}::${selectedTier ?? 'all'}`;
   const [indexByKey, setIndexByKey] = useState<Record<string, number>>({});
   const [cardAnimating, setCardAnimating] = useState(false);
+  const [pairPreference, setPairPreference] = useState<PairPreference>('both');
   const queuedVoteRef = useRef<VoteValue | null>(null);
   const topCardRef = useRef<SwipeDeckHandle>(null);
   const index = indexByKey[key] ?? 0;
@@ -360,6 +404,10 @@ export default function DeckScreen() {
       }));
     }
   }, [queue.length, index, key]);
+
+  useEffect(() => {
+    setPairPreference('both');
+  }, [current?.id]);
 
   useFocusEffect(
     useCallback(() => {
@@ -384,10 +432,15 @@ export default function DeckScreen() {
       const voteValue = queuedVoteRef.current ?? directionToVote[dir];
       queuedVoteRef.current = null;
 
-      setVote(activeProfileIdValue, current.id, voteValue);
+      setVote(
+        activeProfileIdValue,
+        current.id,
+        voteValue,
+        current.pairMode ? pairPreference : undefined
+      );
       setCardAnimating(false);
     },
-    [current, activeProfileIdValue, setVote]
+    [current, activeProfileIdValue, pairPreference, setVote]
   );
 
   const handleButtonVote = useCallback(
@@ -591,6 +644,8 @@ export default function DeckScreen() {
             partnerVoted={partnerVoted}
             partnerVotedLabel={t.deck.partnerVoted}
             partnerNotVotedLabel={t.deck.partnerNotVoted}
+            pairPreference={pairPreference}
+            onPairPreferenceChange={setPairPreference}
             onSwipe={handleSwipeResult}
             onSwipeStart={() => setCardAnimating(true)}
             onSwipeEnd={() => setCardAnimating(false)}
@@ -752,6 +807,36 @@ const styles = StyleSheet.create({
   },
   kinkBody: {
     ...TYPOGRAPHY.body,
+  },
+  roleSelector: {
+    minHeight: 42,
+    flexDirection: 'row',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.cardAlt,
+    padding: 4,
+    gap: 4,
+  },
+  roleOption: {
+    flex: 1,
+    minWidth: 0,
+    minHeight: 32,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+  },
+  roleOptionActive: {
+    backgroundColor: COLORS.pink,
+  },
+  roleOptionText: {
+    color: COLORS.textSub,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  roleOptionTextActive: {
+    color: COLORS.textPrimary,
   },
   tagRow: {
     flexDirection: 'row',
