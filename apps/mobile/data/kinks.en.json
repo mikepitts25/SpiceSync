@@ -360,7 +360,7 @@
     "titleEs": "Bondage Intenso",
     "description": "Use ropes, cuffs, or restraints to completely immobilize your partner. The total loss of control requires absolute trust.",
     "descriptionEs": "Usen cuerdas, esposas o restricciones para inmovilizar completamente a su pareja.",
-    "tags": ["bondage", "restraint", "trust", "power-exchange"],
+    "tags": ["bondage", "restraint", "trust", "power-exchange", "safety", "safeword"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -372,7 +372,7 @@
     "titleEs": "Juego de Impacto Intenso",
     "description": "Use paddles, floggers, or canes to create controlled pain. Build intensity gradually, check in constantly.",
     "descriptionEs": "Usen paletas, látigos o varas para crear dolor controlado.",
-    "tags": ["impact", "pain", "bdsm", "intensity"],
+    "tags": ["impact", "pain", "bdsm", "intensity", "safety", "check-in"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -384,7 +384,7 @@
     "titleEs": "No-Consentimiento Consensuado",
     "description": "Roleplay scenarios where one partner resists and the other overpowers them. Requires extensive negotiation and safewords.",
     "descriptionEs": "Roleplay donde una pareja resiste y la otra la domina.",
-    "tags": ["cnc", "roleplay", "power", "intense"],
+    "tags": ["cnc", "roleplay", "power", "intense", "boundaries", "safeword"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -396,7 +396,7 @@
     "titleEs": "Control de Castidad (Dar)",
     "description": "Hold control of your partner's release using negotiated rules, check-ins, and a clear end point.",
     "descriptionEs": "Controla la liberación de tu pareja con reglas negociadas, revisiones y un punto final claro.",
-    "tags": ["chastity", "control", "give", "giving", "denial"],
+    "tags": ["chastity", "control", "give", "giving", "denial", "boundaries", "check-in"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -426,7 +426,7 @@
     "titleEs": "Fantasía de Juego en Grupo",
     "description": "Fantasize about or discuss involving others in your play. Even if just fantasy, it can be incredibly arousing.",
     "descriptionEs": "Fantaseen sobre involucrar a otros en su juego.",
-    "tags": ["group", "fantasy", "voyeurism", "exhibitionism"],
+    "tags": ["group", "fantasy", "voyeurism", "exhibitionism", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -438,7 +438,7 @@
     "titleEs": "Doble Penetración",
     "description": "Use toys or body parts to fill both openings simultaneously.",
     "descriptionEs": "Usen juguetes o partes del cuerpo para llenar ambas aberturas simultáneamente.",
-    "tags": ["penetration", "intense", "fullness", "advanced"],
+    "tags": ["penetration", "intense", "fullness", "advanced", "safety", "check-in"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -450,7 +450,7 @@
     "titleEs": "Suspensión con Cuerdas",
     "description": "Use rope to suspend your partner partially or fully off the ground. Requires training and safety knowledge.",
     "descriptionEs": "Usen cuerdas para suspender a su pareja parcial o completamente.",
-    "tags": ["suspension", "rope", "bondage", "advanced"],
+    "tags": ["suspension", "rope", "bondage", "advanced", "safety"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -705,7 +705,7 @@
     "titleEs": "Juego de Mascotas",
     "description": "One partner takes on the role of a pet (puppy, kitten, pony), the other the owner/handler.",
     "descriptionEs": "Una pareja toma el rol de mascota, la otra de dueño.",
-    "tags": ["petplay", "roleplay", "animal", "training"],
+    "tags": ["petplay", "roleplay", "animal", "training", "boundaries", "aftercare"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -717,7 +717,7 @@
     "titleEs": "Juego Médico",
     "description": "Engage in detailed medical examinations and procedures as roleplay.",
     "descriptionEs": "Participen en exámenes médicos detallados como roleplay.",
-    "tags": ["medical", "roleplay", "examination", "procedures"],
+    "tags": ["medical", "roleplay", "examination", "procedures", "consent", "boundaries"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -729,7 +729,7 @@
     "titleEs": "Electroestimulación",
     "description": "Use violet wands or TENS units for electrical stimulation. Start low and build slowly.",
     "descriptionEs": "Usen varitas violeta o unidades TENS para estimulación eléctrica.",
-    "tags": ["electro", "stimulation", "sensation", "toys"],
+    "tags": ["electro", "stimulation", "sensation", "toys", "safety", "check-in"],
     "category": "props_and_toys",
     "intensityScale": 3,
     "tier": "xxx"
@@ -741,7 +741,7 @@
     "titleEs": "Juego con Cera Caliente",
     "description": "Drip hot wax onto skin for intense sensation. Use only body-safe candles.",
     "descriptionEs": "Goticen cera caliente sobre la piel para sensación intensa.",
-    "tags": ["wax", "temperature", "pain", "sensation"],
+    "tags": ["wax", "temperature", "pain", "sensation", "safety"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -753,7 +753,7 @@
     "titleEs": "Jengibre",
     "description": "Insert a carved piece of ginger for a burning, stimulating sensation. Ancient practice with intense effects.",
     "descriptionEs": "Inserten una pieza de jengibre tallado para una sensación ardiente.",
-    "tags": ["figging", "ginger", "sensation", "anal"],
+    "tags": ["figging", "ginger", "sensation", "anal", "safety", "check-in"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1245,7 +1245,7 @@
     "titleEs": "Exposición Pública",
     "description": "Expose yourselves in public spaces where discovery is possible. Legal risks apply.",
     "descriptionEs": "Expónganse en espacios públicos donde el descubrimiento es posible.",
-    "tags": ["public", "exhibitionism", "risky", "illegal"],
+    "tags": ["public", "exhibitionism", "risky", "illegal", "consent", "safety"],
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1257,7 +1257,7 @@
     "titleEs": "Momificación",
     "description": "Wrap your partner completely in plastic wrap, bandages, or tape. Total immobilization.",
     "descriptionEs": "Envuelvan a su pareja completamente en plástico o vendas.",
-    "tags": ["mummification", "bondage", "total", "immobilization"],
+    "tags": ["mummification", "bondage", "total", "immobilization", "safety", "safeword"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1269,7 +1269,7 @@
     "titleEs": "Entrenamiento de Mascota Intensivo",
     "description": "Complete transformation into pet mindset with training and protocols.",
     "descriptionEs": "Transformación completa en mentalidad de mascota.",
-    "tags": ["petplay", "training", "protocol", "intense"],
+    "tags": ["petplay", "training", "protocol", "intense", "boundaries", "aftercare"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1281,7 +1281,7 @@
     "titleEs": "Intercambio Total de Poder",
     "description": "24/7 power dynamic where one partner has complete control.",
     "descriptionEs": "Dinámica de poder 24/7 donde una pareja tiene control completo.",
-    "tags": ["tpe", "24-7", "power", "lifestyle"],
+    "tags": ["tpe", "24-7", "power", "lifestyle", "boundaries", "check-in"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1293,7 +1293,7 @@
     "titleEs": "Orgasmo Forzado",
     "description": "Make your partner orgasm repeatedly beyond their control or limits.",
     "descriptionEs": "Hagan que su pareja tenga orgasmos repetidamente más allá de sus límites.",
-    "tags": ["forced", "orgasm", "control", "intense"],
+    "tags": ["forced", "orgasm", "control", "intense", "check-in", "consent"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1305,7 +1305,7 @@
     "titleEs": "Negación de Orgasmo Extendida",
     "description": "Deny orgasms for days, weeks, or longer. Requires extensive negotiation.",
     "descriptionEs": "Nieguen orgasmos por días, semanas o más.",
-    "tags": ["denial", "extended", "chastity", "control"],
+    "tags": ["denial", "extended", "chastity", "control", "boundaries", "check-in"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1446,7 +1446,7 @@
     "titleEs": "Fantasía de Gang Bang",
     "description": "Fantasize about multiple partners at once. Can be discussed or simulated with toys.",
     "descriptionEs": "Fantaseen sobre múltiples parejas a la vez.",
-    "tags": ["gangbang", "group", "fantasy", "multiple"],
+    "tags": ["gangbang", "group", "fantasy", "multiple", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1458,7 +1458,7 @@
     "titleEs": "Fantasía de Cornudo",
     "description": "One partner fantasizes about watching the other with someone else.",
     "descriptionEs": "Una pareja fantasea sobre ver a la otra con alguien más.",
-    "tags": ["cuckold", "voyeurism", "humiliation", "fantasy"],
+    "tags": ["cuckold", "voyeurism", "humiliation", "fantasy", "boundaries", "aftercare"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1470,7 +1470,7 @@
     "titleEs": "Fantasía de Esposa Caliente",
     "description": "The partner goes out with others while their primary partner knows and approves.",
     "descriptionEs": "La pareja sale con otros mientras su pareja principal sabe y aprueba.",
-    "tags": ["hotwife", "consensual", "non-monogamy", "fantasy"],
+    "tags": ["hotwife", "consensual", "non-monogamy", "fantasy", "boundaries", "consent"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1482,7 +1482,7 @@
     "titleEs": "Fantasía de Intercambio",
     "description": "Fantasize about swapping partners with another couple.",
     "descriptionEs": "Fantaseen sobre intercambiar parejas con otra pareja.",
-    "tags": ["swinging", "group", "exchange", "fantasy"],
+    "tags": ["swinging", "group", "exchange", "fantasy", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1506,7 +1506,7 @@
     "titleEs": "Juego de Inflación",
     "description": "Use inflatable toys or devices to create fullness and pressure.",
     "descriptionEs": "Usen juguetes inflables para crear plenitud y presión.",
-    "tags": ["inflation", "fullness", "pressure", "toys"],
+    "tags": ["inflation", "fullness", "pressure", "toys", "safety", "check-in"],
     "category": "props_and_toys",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1518,7 +1518,7 @@
     "titleEs": "Control de Castidad (Recibir)",
     "description": "Give your partner negotiated control over release for an agreed scene or short-term play window.",
     "descriptionEs": "Cede a tu pareja control negociado sobre la liberación durante una escena o un periodo corto acordado.",
-    "tags": ["chastity", "control", "receive", "receiving", "denial"],
+    "tags": ["chastity", "control", "receive", "receiving", "denial", "boundaries", "check-in"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1680,7 +1680,7 @@
     "titleEs": "Juego con Pene y Testiculos",
     "description": "Use careful pressure, teasing touch, and clear check-ins around highly sensitive areas.",
     "descriptionEs": "Usen presion cuidadosa, caricias provocativas y comunicacion clara en zonas muy sensibles.",
-    "tags": ["genitals", "teasing", "sensation", "trust"],
+    "tags": ["genitals", "teasing", "sensation", "trust", "check-in", "safety"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1728,7 +1728,7 @@
     "titleEs": "Fornifilia",
     "description": "Explore consensual objectification by posing as furniture or display, with comfort checks and breaks.",
     "descriptionEs": "Exploren la cosificacion consensuada posando como mueble o exhibicion, con controles de comodidad y descansos.",
-    "tags": ["objectification", "restraint", "roleplay", "control"],
+    "tags": ["objectification", "restraint", "roleplay", "control", "boundaries", "check-in"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1740,7 +1740,7 @@
     "titleEs": "Juego con Semen",
     "description": "Explore the visual, tactile, or symbolic side of ejaculation in a consensual and hygienic way.",
     "descriptionEs": "Exploren el lado visual, tactil o simbolico de la eyaculacion de forma consensuada e higienica.",
-    "tags": ["fluids", "ejaculation", "intimacy", "cleanup"],
+    "tags": ["fluids", "ejaculation", "intimacy", "cleanup", "consent", "safety"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1752,7 +1752,7 @@
     "titleEs": "Fantasia de Bukkake",
     "description": "Discuss or roleplay the fantasy of being the focus of multiple partners, keeping it consensual and fantasy-safe.",
     "descriptionEs": "Hablen o jueguen con la fantasia de ser el centro de atencion de varias personas, manteniendola consensuada y segura.",
-    "tags": ["fluids", "group", "fantasy", "attention"],
+    "tags": ["fluids", "group", "fantasy", "attention", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1776,7 +1776,7 @@
     "titleEs": "Fantasia de Lactancia",
     "description": "Explore nursing, milk, or lactation themes as fantasy or body-focused intimacy between consenting adults.",
     "descriptionEs": "Exploren temas de lactancia, leche o amamantamiento como fantasia o intimidad corporal entre adultos que consienten.",
-    "tags": ["body", "nurturing", "fantasy", "intimacy"],
+    "tags": ["body", "nurturing", "fantasy", "intimacy", "boundaries", "consent"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1836,7 +1836,7 @@
     "titleEs": "Fantasia de Dogging",
     "description": "Discuss consensual watching or being watched in car or outdoor fantasies without involving unconsenting bystanders.",
     "descriptionEs": "Hablen de mirar o ser vistos en fantasias de auto o exterior sin involucrar a personas que no consienten.",
-    "tags": ["voyeur", "exhibition", "public", "fantasy"],
+    "tags": ["voyeur", "exhibition", "public", "fantasy", "consent", "safety"],
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1848,7 +1848,7 @@
     "titleEs": "Observar en Club Swinger",
     "description": "Explore the idea of visiting an adult venue to watch, absorb the atmosphere, or discuss boundaries together.",
     "descriptionEs": "Exploren la idea de visitar un lugar adulto para observar, sentir el ambiente o hablar de limites juntos.",
-    "tags": ["voyeur", "swinging", "venue", "discussion"],
+    "tags": ["voyeur", "swinging", "venue", "discussion", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1860,7 +1860,7 @@
     "titleEs": "Fantasia de Gloryhole",
     "description": "Explore anonymous partition-play as fantasy or negotiated adult-venue discussion with clear safer-sex boundaries.",
     "descriptionEs": "Exploren el juego anonimo con separacion como fantasia o charla sobre lugares adultos con limites claros de sexo seguro.",
-    "tags": ["anonymous", "oral", "fantasy", "venue"],
+    "tags": ["anonymous", "oral", "fantasy", "venue", "boundaries", "consent"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1872,7 +1872,7 @@
     "titleEs": "Exhibicionismo con Venda",
     "description": "Combine consensual being-watched fantasies with a blindfold so attention and uncertainty become part of the thrill.",
     "descriptionEs": "Combinen fantasias consensuadas de ser vistos con una venda para que la atencion y la incertidumbre sean parte del juego.",
-    "tags": ["blindfold", "exhibition", "sensory", "fantasy"],
+    "tags": ["blindfold", "exhibition", "sensory", "fantasy", "boundaries", "consent"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1908,7 +1908,7 @@
     "titleEs": "Fantasia de Trio MHM",
     "description": "Discuss a one-woman, two-men fantasy, including attention, boundaries, jealousy, and safer-sex expectations.",
     "descriptionEs": "Hablen de una fantasia de una mujer y dos hombres, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
-    "tags": ["group", "threesome", "fantasy", "discussion"],
+    "tags": ["group", "threesome", "fantasy", "discussion", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1920,7 +1920,7 @@
     "titleEs": "Fantasia de Trio MMH",
     "description": "Discuss a two-women, one-man fantasy, including attention, boundaries, jealousy, and safer-sex expectations.",
     "descriptionEs": "Hablen de una fantasia de dos mujeres y un hombre, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
-    "tags": ["group", "threesome", "fantasy", "discussion"],
+    "tags": ["group", "threesome", "fantasy", "discussion", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1968,7 +1968,7 @@
     "titleEs": "Fantasia de Sexo en Bar o Club",
     "description": "Explore the fantasy of chemistry, music, flirting, and finding a private, legal place after a night out.",
     "descriptionEs": "Exploren la fantasia de quimica, musica, coqueteo y encontrar un lugar privado y legal despues de salir.",
-    "tags": ["nightlife", "public-adjacent", "flirting", "fantasy"],
+    "tags": ["nightlife", "public-adjacent", "flirting", "fantasy", "boundaries", "safety"],
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx"
@@ -1980,7 +1980,7 @@
     "titleEs": "Conversacion sobre Sexo sin Barrera",
     "description": "Talk honestly about the fantasy of barrier-free sex, testing, contraception, trust, and risk tolerance.",
     "descriptionEs": "Hablen honestamente sobre la fantasia de sexo sin barrera, pruebas, anticoncepcion, confianza y tolerancia al riesgo.",
-    "tags": ["safer-sex", "trust", "risk-aware", "discussion"],
+    "tags": ["safer-sex", "trust", "risk-aware", "discussion", "communication", "safety"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx"
@@ -2028,7 +2028,7 @@
     "titleEs": "Fantasia de Juego Grupal con Venda",
     "description": "Discuss a group fantasy where blindness, trust, and negotiated touch create the intensity.",
     "descriptionEs": "Hablen de una fantasia grupal donde la ceguera temporal, la confianza y el tacto negociado crean intensidad.",
-    "tags": ["blindfold", "group", "fantasy", "trust"],
+    "tags": ["blindfold", "group", "fantasy", "trust", "boundaries", "consent"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx"
@@ -2076,7 +2076,7 @@
     "titleEs": "Kink de Reproduccion",
     "description": "Explore pregnancy-coded dirty talk, finishing fantasies, or possessive language while staying aligned on contraception.",
     "descriptionEs": "Exploren charla erotica de embarazo, fantasia de terminar dentro o lenguaje posesivo, alineados sobre anticoncepcion.",
-    "tags": ["fantasy", "pregnancy-coded", "dirty-talk", "contraception"],
+    "tags": ["fantasy", "pregnancy-coded", "dirty-talk", "contraception", "communication", "boundaries"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx"
@@ -2199,7 +2199,7 @@
     "titleEs": "Fantasia de Alto Protocolo",
     "description": "Discuss or roleplay formal etiquette, posture, titles, and permission rules within a clearly negotiated scene.",
     "descriptionEs": "Hablen o representen etiqueta formal, postura, titulos y reglas de permiso dentro de una escena claramente negociada.",
-    "tags": ["protocol", "ritual", "permission", "roleplay"],
+    "tags": ["protocol", "ritual", "permission", "roleplay", "boundaries", "check-in"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -2619,7 +2619,7 @@
     "titleEs": "Fantasia de Barra Separadora",
     "description": "Discuss or lightly roleplay the idea of being held open with clear comfort and mobility limits.",
     "descriptionEs": "Hablen o representen suavemente la idea de estar mantenido abierto con limites claros de comodidad y movilidad.",
-    "tags": ["restraint", "fantasy", "positioning", "limits"],
+    "tags": ["restraint", "fantasy", "positioning", "limits", "safety", "boundaries"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -3450,7 +3450,7 @@
     "titleEs": "Vara (Dar)",
     "description": "Deliver measured strokes with a cane to fleshy areas only, negotiating limits and pausing to check in.",
     "descriptionEs": "Aplica golpes medidos con una vara solo en zonas carnosas, negociando límites y haciendo pausas para consultar.",
-    "tags": ["impact", "intense", "give", "giving", "advanced"],
+    "tags": ["impact", "intense", "give", "giving", "advanced", "safety", "check-in"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3465,7 +3465,7 @@
     "titleEs": "Vara (Recibir)",
     "description": "Receive measured cane strokes within agreed limits, communicating clearly throughout the scene.",
     "descriptionEs": "Recibe golpes medidos de vara dentro de los límites acordados, comunicándote con claridad durante toda la escena.",
-    "tags": ["impact", "intense", "receive", "receiving", "advanced"],
+    "tags": ["impact", "intense", "receive", "receiving", "advanced", "safety", "check-in"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3930,7 +3930,7 @@
     "titleEs": "Fantasía de Atado Completo",
     "description": "Explore an advanced tie that links wrists and ankles, monitoring circulation and using quick-release ties.",
     "descriptionEs": "Exploren un atado avanzado que une muñecas y tobillos, vigilando la circulación y usando nudos de liberación rápida.",
-    "tags": ["bondage", "restraint", "advanced", "immobilization"],
+    "tags": ["bondage", "restraint", "advanced", "immobilization", "safety", "safeword"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -3942,7 +3942,7 @@
     "titleEs": "Bondage de Dilema",
     "description": "Set up a tie where the bound partner must choose between two teasing sensations, with safewords ready.",
     "descriptionEs": "Monten un atado donde la persona atada debe elegir entre dos sensaciones provocadoras, con palabras de seguridad listas.",
-    "tags": ["bondage", "restraint", "advanced", "teasing"],
+    "tags": ["bondage", "restraint", "advanced", "teasing", "safety", "safeword"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -3954,7 +3954,7 @@
     "titleEs": "Capucha de Privación Sensorial",
     "description": "Use a breathable hood to cut sight and sound, heightening every touch—stop the moment it feels off.",
     "descriptionEs": "Usen una capucha transpirable para cortar la vista y el sonido, intensificando cada caricia; deténganse si algo se siente mal.",
-    "tags": ["sensory-deprivation", "restraint", "advanced", "sensation"],
+    "tags": ["sensory-deprivation", "restraint", "advanced", "sensation", "safety", "check-in"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
@@ -3966,7 +3966,7 @@
     "titleEs": "Juego de Objetificación",
     "description": "Role-play one partner as a treasured \"object\" to be posed and admired, with consent and check-ins throughout.",
     "descriptionEs": "Representen a una pareja como un \"objeto\" preciado para posar y admirar, con consentimiento y consultas durante todo el juego.",
-    "tags": ["objectification", "power-dynamic", "fantasy", "control"],
+    "tags": ["objectification", "power-dynamic", "fantasy", "control", "boundaries", "check-in"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx"
@@ -3978,7 +3978,7 @@
     "titleEs": "Exploración de la Eyaculación Femenina",
     "description": "Experiment patiently with techniques that may lead to squirting, with no pressure on the outcome.",
     "descriptionEs": "Experimenten con paciencia técnicas que pueden llevar a la eyaculación femenina, sin presión por el resultado.",
-    "tags": ["stimulation", "exploration", "climax", "pleasure"],
+    "tags": ["stimulation", "exploration", "climax", "pleasure", "check-in", "communication"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -3990,7 +3990,7 @@
     "titleEs": "Práctica de Garganta Profunda",
     "description": "Practice deeper oral together slowly, using breathing and clear signals to stay comfortable.",
     "descriptionEs": "Practiquen juntos un oral más profundo lentamente, usando la respiración y señales claras para mantener la comodidad.",
-    "tags": ["oral", "advanced", "pleasure", "signals"],
+    "tags": ["oral", "advanced", "pleasure", "signals", "safety", "communication"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx"
@@ -4092,7 +4092,7 @@
     "titleEs": "Entrenamiento Anal (Dar)",
     "description": "Guide a gradual training session using lube and progressively larger plugs, never rushing the next step.",
     "descriptionEs": "Guía una sesión de entrenamiento gradual con lubricante y plugs cada vez más grandes, sin apresurar el siguiente paso.",
-    "tags": ["anal", "training", "give", "giving", "advanced"],
+    "tags": ["anal", "training", "give", "giving", "advanced", "safety", "check-in"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -4107,7 +4107,7 @@
     "titleEs": "Entrenamiento Anal (Recibir)",
     "description": "Work through a gradual training session at your own pace, using plenty of lube and pausing whenever you need.",
     "descriptionEs": "Avanza por una sesión de entrenamiento gradual a tu propio ritmo, con mucho lubricante y pausas cuando lo necesites.",
-    "tags": ["anal", "training", "receive", "receiving", "advanced"],
+    "tags": ["anal", "training", "receive", "receiving", "advanced", "safety", "check-in"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -4146,7 +4146,7 @@
     "titleEs": "Juego con Gancho Anal",
     "description": "Explore an advanced restraint scene using a smooth, lubed anal hook, with safewords and constant check-ins.",
     "descriptionEs": "Exploren una escena de restricción avanzada con un gancho anal liso y lubricado, con palabras de seguridad y consultas constantes.",
-    "tags": ["anal", "bondage", "advanced", "restraint"],
+    "tags": ["anal", "bondage", "advanced", "restraint", "safety", "safeword"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx"
