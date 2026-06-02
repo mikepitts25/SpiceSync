@@ -41,6 +41,12 @@ import {
   type WelcomeScreenId,
   type WelcomeValueScreen,
 } from '../../lib/welcome/content';
+import {
+  hasCompletedReadiness,
+  WELCOME_READINESS_REQUIREMENTS,
+  type WelcomeReadinessRequirementId,
+  type WelcomeReadinessState,
+} from '../../lib/welcome/readiness';
 import { getWelcomeCompletionDestination } from '../../lib/welcome/routing';
 
 export default function WelcomeFlow() {
@@ -431,6 +437,14 @@ function AgeGateScreen({
   onAccept: () => void;
   onBack: () => void;
 }) {
+  const router = useRouter();
+  const [checked, setChecked] = useState<WelcomeReadinessState>({});
+  const readyToAccept = hasCompletedReadiness(checked);
+
+  const toggleRequirement = (id: WelcomeReadinessRequirementId) => {
+    setChecked((current) => ({ ...current, [id]: !current[id] }));
+  };
+
   return (
     <View style={styles.screenContainer}>
       <View style={styles.ageGateContainer}>
@@ -455,6 +469,52 @@ function AgeGateScreen({
 
         <Text style={styles.ageGateTitle}>{copy.ageTitle}</Text>
         <Text style={styles.ageGateDescription}>{copy.ageDescription}</Text>
+        <View style={styles.readinessCard}>
+          <Text style={styles.readinessIntro}>{copy.readinessIntro}</Text>
+          {WELCOME_READINESS_REQUIREMENTS.map((requirement) => {
+            const active = checked[requirement.id] === true;
+            return (
+              <Pressable
+                key={requirement.id}
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: active }}
+                onPress={() => toggleRequirement(requirement.id)}
+                style={styles.readinessRow}
+              >
+                <View
+                  style={[
+                    styles.readinessCheck,
+                    active && styles.readinessCheckActive,
+                  ]}
+                >
+                  {active ? (
+                    <Check size={14} color={COLORS.background} />
+                  ) : null}
+                </View>
+                <Text style={styles.readinessText}>
+                  {copy.readiness[requirement.id]}
+                </Text>
+              </Pressable>
+            );
+          })}
+          <View style={styles.legalLinksRow}>
+            <Pressable
+              accessibilityRole="link"
+              onPress={() => router.push('/(settings)/privacy-policy')}
+              hitSlop={8}
+            >
+              <Text style={styles.legalLink}>{copy.privacyPolicy}</Text>
+            </Pressable>
+            <Text style={styles.legalDivider}>|</Text>
+            <Pressable
+              accessibilityRole="link"
+              onPress={() => router.push('/(settings)/terms-of-service')}
+              hitSlop={8}
+            >
+              <Text style={styles.legalLink}>{copy.termsOfService}</Text>
+            </Pressable>
+          </View>
+        </View>
       </View>
 
       <View style={styles.buttonGroup}>
@@ -466,8 +526,12 @@ function AgeGateScreen({
           <Text style={styles.secondaryButtonText}>{copy.back}</Text>
         </Pressable>
         <Pressable
-          style={styles.ageGateButton}
+          style={[
+            styles.ageGateButton,
+            !readyToAccept && styles.ageGateButtonDisabled,
+          ]}
           onPress={onAccept}
+          disabled={!readyToAccept}
           accessibilityRole="button"
         >
           <Text style={styles.ageGateButtonText}>{copy.ageConfirm}</Text>
@@ -802,11 +866,11 @@ const styles = StyleSheet.create({
   // Age Gate Screen
   ageGateContainer: {
     alignItems: 'center',
-    marginBottom: SIZES.padding * 4,
+    marginBottom: SIZES.padding * 2,
   },
   ageGateIllustration: {
-    width: 206,
-    height: 206,
+    width: 172,
+    height: 172,
     borderRadius: SIZES.radiusXL,
     borderWidth: 1,
     borderColor: COLORS.border,
@@ -816,24 +880,24 @@ const styles = StyleSheet.create({
     ...SHADOWS.card,
   },
   ageSeal: {
-    width: 104,
-    height: 104,
-    borderRadius: 52,
+    width: 92,
+    height: 92,
+    borderRadius: 46,
     alignItems: 'center',
     justifyContent: 'center',
   },
   ageSealText: {
     fontFamily: FONTS.bold,
-    fontSize: 34,
+    fontSize: 31,
     color: COLORS.textPrimary,
   },
   consentBadge: {
     position: 'absolute',
-    right: 34,
-    bottom: 34,
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    right: 26,
+    bottom: 26,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: 'rgba(13,0,6,0.76)',
     borderWidth: 1,
     borderColor: COLORS.border,
@@ -853,6 +917,67 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 24,
     paddingHorizontal: SIZES.padding,
+  },
+  readinessCard: {
+    width: '100%',
+    marginTop: SIZES.padding * 1.5,
+    borderRadius: SIZES.radiusLarge,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: 'rgba(255,255,255,0.035)',
+    padding: SIZES.padding,
+    gap: 10,
+  },
+  readinessIntro: {
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.small,
+    color: COLORS.text,
+    letterSpacing: 0.4,
+  },
+  readinessRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    borderRadius: SIZES.radius,
+    paddingVertical: 2,
+  },
+  readinessCheck: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+  },
+  readinessCheckActive: {
+    backgroundColor: COLORS.success,
+    borderColor: COLORS.success,
+  },
+  readinessText: {
+    flex: 1,
+    fontFamily: FONTS.medium,
+    fontSize: 12,
+    color: COLORS.textSecondary,
+    lineHeight: 17,
+  },
+  legalLinksRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    paddingTop: 2,
+  },
+  legalLink: {
+    fontFamily: FONTS.bold,
+    fontSize: 12,
+    color: COLORS.primary,
+  },
+  legalDivider: {
+    fontFamily: FONTS.regular,
+    fontSize: 12,
+    color: COLORS.textSecondary,
   },
 
   // Buttons
@@ -901,6 +1026,9 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
     alignItems: 'center',
     ...SHADOWS.small,
+  },
+  ageGateButtonDisabled: {
+    opacity: 0.45,
   },
   ageGateButtonText: {
     fontFamily: FONTS.bold,

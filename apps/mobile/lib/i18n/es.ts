@@ -82,6 +82,16 @@ export const es: Translations = {
     ageDescription:
       'SpiceSync es para adultos que exploran juntos con respeto mutuo. Al continuar, confirmas que tienes al menos 18 años.',
     ageConfirm: 'Tengo 18 años o más',
+    readinessIntro: 'Confirma antes de entrar:',
+    readiness: {
+      adult: 'Tengo 18 años o más.',
+      consent:
+        'Solo usaré SpiceSync para exploración adulta, legal y consensuada.',
+      privacy:
+        'Entiendo que los votos son privados por defecto y que el sync remoto usa datos cifrados limitados.',
+    },
+    privacyPolicy: 'Política de privacidad',
+    termsOfService: 'Términos de servicio',
     screens: {
       explore: {
         title: 'Exploren sin presión',

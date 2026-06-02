@@ -80,6 +80,16 @@ export const en = {
     ageDescription:
       'SpiceSync is for adults exploring together with mutual respect. By continuing, you confirm you are at least 18 years old.',
     ageConfirm: "I'm 18 or Older",
+    readinessIntro: 'Confirm before entering:',
+    readiness: {
+      adult: 'I am 18 or older.',
+      consent:
+        'I will only use SpiceSync for consensual, legal adult exploration.',
+      privacy:
+        'I understand votes are private by default, and remote sync uses limited encrypted relay data.',
+    },
+    privacyPolicy: 'Privacy Policy',
+    termsOfService: 'Terms of Service',
     screens: {
       explore: {
         title: 'Explore without pressure',

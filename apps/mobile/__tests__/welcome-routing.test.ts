@@ -42,4 +42,17 @@ describe('welcome onboarding routing', () => {
   it('does not override normal profile creation navigation', () => {
     expect(getProfileCreatedDestination(false, 'profile-123')).toBeNull();
   });
+
+  it('links the welcome readiness gate to legal screens before confirmation', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const welcomeFlow = fs.readFileSync(
+      path.join(__dirname, '..', 'app', 'welcome', 'WelcomeFlow.tsx'),
+      'utf8'
+    );
+
+    expect(welcomeFlow).toContain("'/(settings)/privacy-policy'");
+    expect(welcomeFlow).toContain("'/(settings)/terms-of-service'");
+    expect(welcomeFlow).toContain('disabled={!readyToAccept}');
+  });
 });
