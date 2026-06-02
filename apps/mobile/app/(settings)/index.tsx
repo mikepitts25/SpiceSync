@@ -20,6 +20,7 @@ import {
   Info,
   Link as LinkIcon,
   Lock,
+  ShieldCheck,
   Star,
   Trophy,
   User,
@@ -195,6 +196,14 @@ export default function SettingsScreen() {
                 onValueChange={handleBiometricToggle}
               />
             }
+          />
+          <SectionRow
+            icon={ShieldCheck}
+            label="Privacy & Safety"
+            value="Data controls"
+            tint={COLORS.purple}
+            badgeBg="rgba(139,92,246,0.14)"
+            onPress={() => router.push('/(settings)/privacy-safety')}
           />
           <SectionRow
             icon={Lock}

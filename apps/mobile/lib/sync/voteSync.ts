@@ -20,6 +20,7 @@ import { getIdentityIfExists } from './identity';
 type VoteSyncState = {
   localProfileId: string | null;
   setLocalProfileId: (id: string | null) => void;
+  reset: () => void;
 };
 
 export const useVoteSyncStore = create<VoteSyncState>()(
@@ -27,6 +28,7 @@ export const useVoteSyncStore = create<VoteSyncState>()(
     (set) => ({
       localProfileId: null,
       setLocalProfileId: (id) => set({ localProfileId: id }),
+      reset: () => set({ localProfileId: null }),
     }),
     {
       name: 'spicesync-vote-sync',

@@ -20,6 +20,7 @@ type CoupleLinkState = {
   link: CoupleLink | null;
   setLink: (link: CoupleLink) => void;
   unlink: () => void;
+  clear: () => void;
   updateCursor: (serverSequence: number) => void;
   markSynced: (at: number) => void;
 };
@@ -34,6 +35,7 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
         if (!current) return;
         set({ link: { ...current, status: 'unlinked' } });
       },
+      clear: () => set({ link: null }),
       updateCursor: (serverSequence) => {
         const current = get().link;
         if (!current) return;

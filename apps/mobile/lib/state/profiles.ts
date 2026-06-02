@@ -41,6 +41,7 @@ type ProfilesState = {
   deleteProfile: (id: string) => void;
   setPin: (id: string, pin: string) => void;
   clearPin: (id: string) => void;
+  resetAllProfiles: () => void;
   hasPin: (id: string) => boolean;
   verifyPin: (id: string, pin: string) => boolean;
   hasActiveProfile: () => boolean;
@@ -367,6 +368,18 @@ export const useProfilesStore = create<ProfilesState>((set, get) => ({
     });
   },
 
+  resetAllProfiles: () => {
+    set({
+      profiles: [],
+      activeProfileId: null,
+      currentUserId: null,
+      hydrated: true,
+    });
+    saveAsync(PROFILES_KEY, []).catch(() => {});
+    AsyncStorage.removeItem(ACTIVE_ID_KEY).catch(() => {});
+    AsyncStorage.removeItem(LEGACY_ACTIVE_KEY).catch(() => {});
+  },
+
   hasPin: (id) => {
     const { profiles } = get();
     return profiles.some(
@@ -437,6 +450,10 @@ export function setPin(id: string, pin: string): void {
 
 export function clearPin(id: string): void {
   useProfilesStore.getState().clearPin(id);
+}
+
+export function resetAllProfiles(): void {
+  useProfilesStore.getState().resetAllProfiles();
 }
 
 export function hasPin(id: string): boolean {
