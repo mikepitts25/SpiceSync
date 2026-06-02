@@ -40,6 +40,7 @@ import {
   getProfilePinActionLabel,
 } from '../../lib/profile-management';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useTranslation } from '../../lib/i18n';
 import {
@@ -57,6 +58,9 @@ export default function SettingsScreen() {
   );
   const setBiometricLockEnabled = useSettingsStore(
     (state) => state.setBiometricLockEnabled
+  );
+  const remotePartnerActive = useCoupleLinkStore(
+    (state) => state.link?.status === 'active'
   );
   const { profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
@@ -156,10 +160,16 @@ export default function SettingsScreen() {
           <SectionRow
             icon={LinkIcon}
             label={t.settings.partnerCode}
-            value={t.settings.qrCode}
+            value={remotePartnerActive ? 'Connected' : t.settings.qrCode}
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.15)"
-            onPress={() => router.push('/(onboarding)/partner-connect')}
+            onPress={() =>
+              router.push(
+                remotePartnerActive
+                  ? '/(settings)/partner-sync'
+                  : '/(onboarding)/partner-connect'
+              )
+            }
             last
           />
         </SettingsSection>

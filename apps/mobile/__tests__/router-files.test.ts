@@ -30,7 +30,9 @@ describe('expo router file layout', () => {
       'utf8'
     );
 
-    expect(rootLayout).toContain("import { useDeepLinks } from '../lib/deepLinks'");
+    expect(rootLayout).toContain(
+      "import { useDeepLinks } from '../lib/deepLinks'"
+    );
     expect(rootLayout).toContain('useDeepLinks();');
   });
 
@@ -44,8 +46,30 @@ describe('expo router file layout', () => {
       'utf8'
     );
 
-    expect(settingsScreen).toContain("router.push('/(onboarding)/partner-connect')");
-    expect(profilesTab).toContain("router.push('/(onboarding)/partner-connect')");
+    expect(settingsScreen).toContain("'/(onboarding)/partner-connect'");
+    expect(profilesTab).toContain(
+      "router.push('/(onboarding)/partner-connect')"
+    );
+  });
+
+  it('routes active remote partner entry points to the sync dashboard', () => {
+    const settingsLayout = fs.readFileSync(
+      path.join(appRoot, '(settings)', '_layout.tsx'),
+      'utf8'
+    );
+    const settingsScreen = fs.readFileSync(
+      path.join(appRoot, '(settings)', 'index.tsx'),
+      'utf8'
+    );
+    const profilesTab = fs.readFileSync(
+      path.join(appRoot, '(tabs)', 'profiles.tsx'),
+      'utf8'
+    );
+
+    expect(settingsLayout).toContain('<Stack.Screen name="partner-sync" />');
+    expect(settingsScreen).toContain('remotePartnerActive');
+    expect(settingsScreen).toContain("'/(settings)/partner-sync'");
+    expect(profilesTab).toContain("router.push('/(settings)/partner-sync')");
   });
 
   it('removes legacy partner short-code routes and entry points', () => {

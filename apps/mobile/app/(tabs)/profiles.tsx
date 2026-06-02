@@ -214,7 +214,12 @@ export default function ProfilesHubScreen() {
           </View>
           <View style={styles.sectionCard}>
             {coupleLink ? (
-              <View style={styles.partnerRow}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Open partner sync status"
+                onPress={() => router.push('/(settings)/partner-sync')}
+                style={styles.partnerRow}
+              >
                 <LinearGradient
                   colors={GRADIENTS.purple}
                   start={{ x: 0, y: 0.5 }}
@@ -236,7 +241,8 @@ export default function ProfilesHubScreen() {
                   </View>
                   <Text style={styles.partnerSubtext}>Remote sync active</Text>
                 </View>
-              </View>
+                <ChevronRight size={16} color={COLORS.textMuted} />
+              </Pressable>
             ) : (
               <Pressable
                 accessibilityRole="button"
@@ -412,6 +418,7 @@ const styles = StyleSheet.create({
   },
   partnerInfo: {
     flex: 1,
+    minWidth: 0,
     gap: 4,
   },
   partnerNameRow: {
@@ -423,6 +430,7 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     fontSize: 15,
     fontWeight: '700',
+    flexShrink: 1,
   },
   linkedBadge: {
     borderRadius: 10,
