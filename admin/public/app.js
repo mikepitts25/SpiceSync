@@ -4,6 +4,8 @@ const state = {
   filteredItems: [],
   editingItem: null,
   deletingItem: null,
+  qa: null,
+  qaFilter: "all",
 };
 
 const tabConfig = {
@@ -250,6 +252,7 @@ const elements = {
   filterType: document.getElementById("filter-type"),
   filterIntensity: document.getElementById("filter-intensity"),
   filterCategory: document.getElementById("filter-category"),
+  qaPanel: document.getElementById("qa-panel"),
   contentList: document.getElementById("content-list"),
   statusBar: document.getElementById("status-bar"),
   statusMessage: document.getElementById("status-message"),
@@ -339,8 +342,10 @@ async function loadItems(options = {}) {
   try {
     const payload = await requestJson(config.endpoint);
     state.items = payload.data || [];
+    state.qa = payload.qa || null;
     updateFilterOptions();
     applyFilters();
+    renderQaPanel();
 
     if (preserveScroll) {
       restoreScrollPosition(scrollY);
@@ -348,6 +353,8 @@ async function loadItems(options = {}) {
   } catch (error) {
     state.items = [];
     state.filteredItems = [];
+    state.qa = null;
+    renderQaPanel();
     elements.contentList.innerHTML = `<div class="empty-state">Could not load ${escapeHtml(config.label)}: ${escapeHtml(error.message)}</div>`;
     showStatus(error.message, "error");
   }
@@ -457,6 +464,112 @@ function renderList() {
         openDeleteModal(findItem(button.dataset.id)),
       );
     });
+}
+
+const qaFilterLabels = {
+  all: "All",
+  translation: "Translations",
+  pair: "Pairs",
+  safety: "Safety",
+  required: "Required",
+};
+
+function qaIssueCount(type) {
+  if (!state.qa) return 0;
+  if (type === "all") return state.qa.totalIssues || 0;
+  return state.qa.groups?.[type] || 0;
+}
+
+function renderQaPanel() {
+  if (!elements.qaPanel) return;
+  if (state.activeTab !== "kinks" || !state.qa) {
+    elements.qaPanel.classList.add("hidden");
+    elements.qaPanel.innerHTML = "";
+    return;
+  }
+
+  const activeFilter = state.qaFilter || "all";
+  const allIssues = state.qa.issues || [];
+  const visibleIssues =
+    activeFilter === "all"
+      ? allIssues
+      : allIssues.filter((issue) => issue.type === activeFilter);
+
+  elements.qaPanel.classList.remove("hidden");
+  elements.qaPanel.innerHTML = `
+    <div class="qa-header">
+      <div>
+        <p class="qa-eyebrow">Content QA</p>
+        <h2>${state.qa.totalIssues || 0} issue${state.qa.totalIssues === 1 ? "" : "s"} found</h2>
+      </div>
+      <div class="qa-stats">
+        ${renderQaStat("translation", "Translations")}
+        ${renderQaStat("pair", "Pairs")}
+        ${renderQaStat("safety", "Safety")}
+        ${renderQaStat("required", "Required")}
+      </div>
+    </div>
+    <div class="qa-filters">
+      ${Object.entries(qaFilterLabels)
+        .map(
+          ([type, label]) => `
+            <button class="qa-filter ${activeFilter === type ? "active" : ""}" data-qa-filter="${escapeHtml(type)}">
+              ${escapeHtml(label)} <span>${qaIssueCount(type)}</span>
+            </button>
+          `,
+        )
+        .join("")}
+    </div>
+    <div class="qa-issues">
+      ${
+        visibleIssues.length
+          ? visibleIssues.map(renderQaIssue).join("")
+          : '<div class="qa-empty">No issues in this group.</div>'
+      }
+    </div>
+  `;
+
+  elements.qaPanel.querySelectorAll("[data-qa-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.qaFilter = button.dataset.qaFilter || "all";
+      renderQaPanel();
+    });
+  });
+
+  elements.qaPanel.querySelectorAll("[data-qa-item]").forEach((button) => {
+    button.addEventListener("click", () => {
+      elements.searchInput.value = button.dataset.qaItem || "";
+      applyFilters();
+      elements.contentList.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  });
+}
+
+function renderQaStat(type, label) {
+  const count = qaIssueCount(type);
+  return `<span class="qa-stat">${escapeHtml(label)} <strong>${count}</strong></span>`;
+}
+
+function renderQaIssue(issue) {
+  const firstItem = Array.isArray(issue.itemIds) ? issue.itemIds[0] : "";
+  const ids =
+    Array.isArray(issue.itemIds) && issue.itemIds.length
+      ? issue.itemIds.join(", ")
+      : "No item id";
+
+  return `
+    <button class="qa-issue ${issue.severity === "error" ? "error" : "warning"}" data-qa-item="${escapeHtml(firstItem)}">
+      <span class="qa-issue-type">${escapeHtml(issue.type)}</span>
+      <span class="qa-issue-body">
+        <strong>${escapeHtml(issue.title)}</strong>
+        <span>${escapeHtml(issue.message)}</span>
+        <em>${escapeHtml(ids)}</em>
+      </span>
+    </button>
+  `;
 }
 
 function renderCard(item) {
