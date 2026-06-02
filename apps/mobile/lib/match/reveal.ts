@@ -1,8 +1,11 @@
 import {
   KinkVote,
   normalizeVoteRecord,
+  type PairPreference,
   preferencesCompatible,
+  type VoteValue,
 } from '../votes/rolePreferences';
+import type { Tier } from '../data';
 
 export type RevealVoteValue = 'yes' | 'maybe' | 'no';
 
@@ -10,14 +13,27 @@ export type RevealKink = {
   id: string;
   slug?: string;
   title: string;
+  description?: string;
   category?: string;
+  intensityScale?: number;
+  tier?: Tier;
+  tags?: string[];
   pairMode?: boolean;
 };
 
 export type RevealMatchItem = {
   id: string;
   title: string;
+  description?: string;
   category: string;
+  intensityScale?: number;
+  tier?: Tier;
+  tags: string[];
+  pairMode?: boolean;
+  myVote?: VoteValue;
+  partnerVote?: VoteValue;
+  myPairPreference?: PairPreference;
+  partnerPairPreference?: PairPreference;
 };
 
 export type RevealBuckets = {
@@ -78,7 +94,16 @@ export function computeRevealBuckets({
     const item = {
       id: mineKinkId,
       title: myKink?.title ?? theirKink?.title ?? mineKinkId,
+      description: myKink?.description ?? theirKink?.description,
       category: myKink?.category ?? theirKink?.category ?? 'Activity',
+      intensityScale: myKink?.intensityScale ?? theirKink?.intensityScale,
+      tier: myKink?.tier ?? theirKink?.tier,
+      tags: myKink?.tags ?? theirKink?.tags ?? [],
+      pairMode: Boolean(myKink?.pairMode || theirKink?.pairMode),
+      myVote,
+      partnerVote: theirVote,
+      myPairPreference: myVoteRecord?.pairPreference,
+      partnerPairPreference: theirVoteRecord?.pairPreference,
     };
 
     if (myVote === 'yes' && theirVote === 'yes') {

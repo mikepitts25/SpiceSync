@@ -1,14 +1,27 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import {
   Check,
+  CheckCircle,
+  ChevronRight,
+  Circle,
   Ellipsis,
+  Filter,
   Heart,
   LockKeyhole,
   Share2,
+  X,
 } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
@@ -21,7 +34,16 @@ import {
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
 import { useKinks } from '../../lib/data';
+import {
+  createMatchPlan,
+  describeRoleCompatibility,
+  filterMatchItems,
+  type MatchExperienceItem,
+  type MatchRoleFilter,
+  type MatchVisibilityFilter,
+} from '../../lib/match/experience';
 import { computeRevealBuckets } from '../../lib/match/reveal';
+import { useViewedMatchesStore } from '../../lib/match/viewedMatches';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
 import {
@@ -37,11 +59,27 @@ import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
 const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, KinkVote>;
 
-type MatchItem = {
-  id: string;
-  title: string;
-  category: string;
-};
+type MatchItem = MatchExperienceItem;
+
+const VISIBILITY_FILTERS: { id: MatchVisibilityFilter; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'unseen', label: 'Unseen' },
+];
+
+const ROLE_FILTERS: { id: MatchRoleFilter; label: string }[] = [
+  { id: 'all', label: 'All roles' },
+  { id: 'paired', label: 'Paired' },
+  { id: 'give', label: 'You give' },
+  { id: 'receive', label: 'You receive' },
+  { id: 'both', label: 'Both' },
+];
+
+const INTENSITY_FILTERS = [
+  { id: 'all', label: 'All levels' },
+  { id: '1', label: 'Level 1' },
+  { id: '2', label: 'Level 2' },
+  { id: '3', label: 'Level 3' },
+] as const;
 
 export default function MatchesScreen() {
   const router = useRouter();
@@ -62,6 +100,19 @@ export default function MatchesScreen() {
   const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(
     null
   );
+  const [visibilityFilter, setVisibilityFilter] =
+    useState<MatchVisibilityFilter>('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [intensityFilter, setIntensityFilter] = useState<
+    'all' | '1' | '2' | '3'
+  >('all');
+  const [roleFilter, setRoleFilter] = useState<MatchRoleFilter>('all');
+  const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
+  const [completedPlanSteps, setCompletedPlanSteps] = useState<
+    Record<string, true>
+  >({});
+  const viewedIdsRecord = useViewedMatchesStore((state) => state.viewedIds);
+  const markViewed = useViewedMatchesStore((state) => state.markViewed);
 
   const partners = useMemo(() => {
     if (!activeId) return [] as Profile[];
@@ -164,6 +215,68 @@ export default function MatchesScreen() {
   const totalMatches =
     mutualYes.length + partialYesMaybe.length + mutualMaybe.length;
 
+  const allMatches = useMemo(
+    () => [...mutualYes, ...partialYesMaybe, ...mutualMaybe],
+    [mutualYes, partialYesMaybe, mutualMaybe]
+  );
+
+  const viewedIds = useMemo(
+    () => new Set(Object.keys(viewedIdsRecord)),
+    [viewedIdsRecord]
+  );
+
+  const activeFilters = useMemo(
+    () => ({
+      visibility: visibilityFilter,
+      category: categoryFilter === 'all' ? undefined : categoryFilter,
+      intensity:
+        intensityFilter === 'all' ? undefined : Number(intensityFilter),
+      role: roleFilter,
+      viewedIds,
+    }),
+    [categoryFilter, intensityFilter, roleFilter, viewedIds, visibilityFilter]
+  );
+
+  const filteredMutualYes = useMemo(
+    () => filterMatchItems(mutualYes, activeFilters),
+    [activeFilters, mutualYes]
+  );
+  const filteredPartialYesMaybe = useMemo(
+    () => filterMatchItems(partialYesMaybe, activeFilters),
+    [activeFilters, partialYesMaybe]
+  );
+  const filteredMutualMaybe = useMemo(
+    () => filterMatchItems(mutualMaybe, activeFilters),
+    [activeFilters, mutualMaybe]
+  );
+
+  const categoryOptions = useMemo(() => {
+    const categories = Array.from(
+      new Set(allMatches.map((item) => item.category).filter(Boolean))
+    ).sort((a, b) => a.localeCompare(b));
+    return ['all', ...categories];
+  }, [allMatches]);
+
+  const selectedMatch = useMemo(
+    () => allMatches.find((item) => item.id === selectedMatchId) ?? null,
+    [allMatches, selectedMatchId]
+  );
+
+  const selectedPlan = useMemo(
+    () => (selectedMatch ? createMatchPlan(selectedMatch) : []),
+    [selectedMatch]
+  );
+
+  useEffect(() => {
+    if (
+      selectedMatchId &&
+      !allMatches.some((item) => item.id === selectedMatchId)
+    ) {
+      setSelectedMatchId(null);
+      setCompletedPlanSteps({});
+    }
+  }, [allMatches, selectedMatchId]);
+
   const handlePartnerSelect = useCallback((id: string) => {
     setSelectedPartnerId(id);
     setPartnerPickerOpen(false);
@@ -171,6 +284,25 @@ export default function MatchesScreen() {
 
   const handleUnlock = useCallback((bucket: RevealConsentBucket) => {
     void requestRevealUnlock(bucket);
+  }, []);
+
+  const handleSelectMatch = useCallback(
+    (item: MatchItem) => {
+      setSelectedMatchId(item.id);
+      setCompletedPlanSteps({});
+      markViewed(item.id);
+    },
+    [markViewed]
+  );
+
+  const togglePlanStep = useCallback((stepId: string) => {
+    setCompletedPlanSteps((current) => {
+      if (current[stepId]) {
+        const { [stepId]: _removed, ...rest } = current;
+        return rest;
+      }
+      return { ...current, [stepId]: true };
+    });
   }, []);
 
   const handleShare = useCallback(async () => {
@@ -243,7 +375,10 @@ export default function MatchesScreen() {
       <StatusBar style="light" />
       <AppHeader />
 
-      <View style={styles.content}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.content}
+      >
         <ScreenTour
           screenId="matches"
           screenLabel={t.tabs.matches}
@@ -323,19 +458,42 @@ export default function MatchesScreen() {
           </View>
         </View>
 
+        <MatchFilters
+          visibility={visibilityFilter}
+          onVisibilityChange={setVisibilityFilter}
+          category={categoryFilter}
+          categories={categoryOptions}
+          onCategoryChange={setCategoryFilter}
+          intensity={intensityFilter}
+          onIntensityChange={setIntensityFilter}
+          role={roleFilter}
+          onRoleChange={setRoleFilter}
+        />
+
+        {selectedMatch ? (
+          <MatchDetailPanel
+            item={selectedMatch}
+            plan={selectedPlan}
+            completedSteps={completedPlanSteps}
+            onToggleStep={togglePlanStep}
+            onClose={() => setSelectedMatchId(null)}
+          />
+        ) : null}
+
         <MatchSection
           tone="yes"
           icon={Check}
           title={t.matches.mutualYes.toUpperCase()}
-          rows={mutualYes}
+          rows={filteredMutualYes}
           emptyTitle={t.matches.noSharedPicks}
           emptySubtitle={t.matches.keepSwipingShort}
+          onSelect={handleSelectMatch}
         />
         <MatchSection
           tone="partial"
           icon={LockKeyhole}
           title={t.matches.partialMatch.toUpperCase()}
-          rows={partialYesMaybe}
+          rows={filteredPartialYesMaybe}
           emptyTitle={t.matches.noSharedPicks}
           emptySubtitle={t.matches.keepSwipingShort}
           locked={!partialUnlocked}
@@ -346,12 +504,13 @@ export default function MatchesScreen() {
               : t.matches.unlockPartialYes
           }
           onUnlock={() => handleUnlock('partialYesMaybe')}
+          onSelect={handleSelectMatch}
         />
         <MatchSection
           tone="maybe"
           icon={Ellipsis}
           title={t.matches.mutualMaybe.toUpperCase()}
-          rows={mutualMaybe}
+          rows={filteredMutualMaybe}
           emptyTitle={t.matches.noSharedPicks}
           emptySubtitle={t.matches.keepSwipingShort}
           locked={!maybeUnlocked}
@@ -362,6 +521,7 @@ export default function MatchesScreen() {
               : t.matches.unlockMutualMaybe
           }
           onUnlock={() => handleUnlock('mutualMaybe')}
+          onSelect={handleSelectMatch}
         />
 
         <Pressable
@@ -381,10 +541,214 @@ export default function MatchesScreen() {
             </Text>
           </LinearGradient>
         </Pressable>
-      </View>
+      </ScrollView>
 
       <AppTabBar active="matches" />
     </SafeAreaView>
+  );
+}
+
+function formatMatchMeta(item: MatchItem): string {
+  const parts = [item.category];
+  if (item.intensityScale) {
+    parts.push(`L${item.intensityScale}`);
+  }
+  return parts.join(' • ');
+}
+
+function voteLabel(value?: string): string {
+  if (value === 'yes') return 'Yes';
+  if (value === 'maybe') return 'Maybe';
+  if (value === 'no') return 'No';
+  return 'Not set';
+}
+
+function MatchFilters({
+  visibility,
+  onVisibilityChange,
+  category,
+  categories,
+  onCategoryChange,
+  intensity,
+  onIntensityChange,
+  role,
+  onRoleChange,
+}: {
+  visibility: MatchVisibilityFilter;
+  onVisibilityChange: (value: MatchVisibilityFilter) => void;
+  category: string;
+  categories: string[];
+  onCategoryChange: (value: string) => void;
+  intensity: 'all' | '1' | '2' | '3';
+  onIntensityChange: (value: 'all' | '1' | '2' | '3') => void;
+  role: MatchRoleFilter;
+  onRoleChange: (value: MatchRoleFilter) => void;
+}) {
+  return (
+    <View style={styles.filtersCard}>
+      <View style={styles.filtersTitleRow}>
+        <Filter size={15} color={COLORS.pink} />
+        <Text style={styles.filtersTitle}>FILTER MATCHES</Text>
+      </View>
+
+      <FilterRow
+        options={VISIBILITY_FILTERS}
+        selected={visibility}
+        onSelect={onVisibilityChange}
+      />
+      <FilterRow
+        options={categories.map((item) => ({
+          id: item,
+          label: item === 'all' ? 'All categories' : item,
+        }))}
+        selected={category}
+        onSelect={onCategoryChange}
+      />
+      <FilterRow
+        options={INTENSITY_FILTERS}
+        selected={intensity}
+        onSelect={onIntensityChange}
+      />
+      <FilterRow
+        options={ROLE_FILTERS}
+        selected={role}
+        onSelect={onRoleChange}
+      />
+    </View>
+  );
+}
+
+function FilterRow<T extends string>({
+  options,
+  selected,
+  onSelect,
+}: {
+  options: readonly { id: T; label: string }[];
+  selected: T;
+  onSelect: (value: T) => void;
+}) {
+  return (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.filterRow}
+    >
+      {options.map((option) => {
+        const active = option.id === selected;
+        return (
+          <Pressable
+            key={option.id}
+            accessibilityRole="button"
+            onPress={() => onSelect(option.id)}
+            style={[styles.filterChip, active && styles.filterChipActive]}
+          >
+            <Text
+              style={[
+                styles.filterChipText,
+                active && styles.filterChipTextActive,
+              ]}
+            >
+              {option.label}
+            </Text>
+          </Pressable>
+        );
+      })}
+    </ScrollView>
+  );
+}
+
+function MatchDetailPanel({
+  item,
+  plan,
+  completedSteps,
+  onToggleStep,
+  onClose,
+}: {
+  item: MatchItem;
+  plan: ReturnType<typeof createMatchPlan>;
+  completedSteps: Record<string, true>;
+  onToggleStep: (stepId: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <View style={styles.detailPanel}>
+      <View style={styles.detailHeader}>
+        <View style={styles.detailTitleCopy}>
+          <Text style={styles.detailEyebrow}>
+            {formatMatchMeta(item).toUpperCase()}
+          </Text>
+          <Text style={styles.detailTitle}>{item.title}</Text>
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Close match details"
+          onPress={onClose}
+          style={styles.detailClose}
+        >
+          <X size={18} color={COLORS.textMuted} />
+        </Pressable>
+      </View>
+
+      <View style={styles.votePillRow}>
+        <View style={styles.votePill}>
+          <Text style={styles.votePillLabel}>You</Text>
+          <Text style={styles.votePillValue}>{voteLabel(item.myVote)}</Text>
+        </View>
+        <View style={styles.votePill}>
+          <Text style={styles.votePillLabel}>Partner</Text>
+          <Text style={styles.votePillValue}>
+            {voteLabel(item.partnerVote)}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.roleCallout}>
+        <Heart size={15} color={COLORS.pink} fill={COLORS.pink} />
+        <Text style={styles.roleCalloutText}>
+          {describeRoleCompatibility(item)}
+        </Text>
+      </View>
+
+      {item.description ? (
+        <Text style={styles.detailDescription}>{item.description}</Text>
+      ) : null}
+
+      {item.tags.length ? (
+        <View style={styles.tagRow}>
+          {item.tags.slice(0, 8).map((tag) => (
+            <View key={tag} style={styles.tagChip}>
+              <Text style={styles.tagText}>{tag}</Text>
+            </View>
+          ))}
+        </View>
+      ) : null}
+
+      <View style={styles.planCard}>
+        <Text style={styles.planTitle}>TRY TONIGHT</Text>
+        {plan.map((step) => {
+          const checked = Boolean(completedSteps[step.id]);
+          return (
+            <Pressable
+              key={step.id}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked }}
+              onPress={() => onToggleStep(step.id)}
+              style={styles.planStep}
+            >
+              {checked ? (
+                <CheckCircle size={18} color={COLORS.yes} />
+              ) : (
+                <Circle size={18} color={COLORS.textMuted} />
+              )}
+              <View style={styles.planStepCopy}>
+                <Text style={styles.planStepTitle}>{step.title}</Text>
+                <Text style={styles.planStepBody}>{step.body}</Text>
+              </View>
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
   );
 }
 
@@ -399,6 +763,7 @@ function MatchSection({
   lockTitle,
   unlockLabel,
   onUnlock,
+  onSelect,
 }: {
   tone: 'yes' | 'partial' | 'maybe';
   icon: typeof Check;
@@ -410,6 +775,7 @@ function MatchSection({
   lockTitle?: string;
   unlockLabel?: string;
   onUnlock?: () => void;
+  onSelect?: (item: MatchItem) => void;
 }) {
   const color =
     tone === 'yes'
@@ -469,13 +835,29 @@ function MatchSection({
             ) : null}
           </>
         ) : rows.length ? (
-          rows.slice(0, 4).map((item) => (
-            <View key={item.id} style={styles.resultRow}>
-              <Text style={styles.resultTitle}>{item.title}</Text>
-              <Text style={styles.resultCategory}>
-                {item.category.toUpperCase()}
-              </Text>
-            </View>
+          rows.slice(0, 6).map((item) => (
+            <Pressable
+              key={item.id}
+              style={styles.resultRow}
+              onPress={() => onSelect?.(item)}
+              accessibilityRole="button"
+              accessibilityLabel={`Open ${item.title} match details`}
+            >
+              <View style={styles.resultCopy}>
+                <Text style={styles.resultTitle}>{item.title}</Text>
+                {item.pairMode ? (
+                  <Text style={styles.resultRole}>
+                    {describeRoleCompatibility(item)}
+                  </Text>
+                ) : null}
+              </View>
+              <View style={styles.resultMeta}>
+                <Text style={styles.resultCategory}>
+                  {formatMatchMeta(item).toUpperCase()}
+                </Text>
+                <ChevronRight size={14} color={COLORS.textMuted} />
+              </View>
+            </Pressable>
           ))
         ) : (
           <View style={styles.resultRow}>
@@ -496,10 +878,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   content: {
-    flex: 1,
     paddingTop: 10,
     paddingHorizontal: 16,
-    paddingBottom: 8,
+    paddingBottom: 96,
     gap: 12,
   },
   partnerBanner: {
@@ -611,12 +992,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 12,
+    minHeight: 48,
+  },
+  resultCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: 3,
   },
   resultTitle: {
-    flex: 1,
     color: COLORS.textPrimary,
     fontSize: 13,
     fontWeight: '700',
+  },
+  resultRole: {
+    color: COLORS.textSub,
+    fontSize: 10,
+    fontWeight: '600',
+  },
+  resultMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
   resultCategory: {
     color: 'rgba(255,45,146,0.5)',
@@ -672,5 +1068,191 @@ const styles = StyleSheet.create({
     color: COLORS.textSub,
     fontSize: 13,
     textAlign: 'center',
+  },
+  filtersCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: 'rgba(255,255,255,0.024)',
+    padding: 12,
+    gap: 9,
+  },
+  filtersTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+  },
+  filtersTitle: {
+    color: COLORS.pink,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
+  filterRow: {
+    gap: 7,
+    paddingRight: 6,
+  },
+  filterChip: {
+    minHeight: 30,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 11,
+  },
+  filterChipActive: {
+    borderColor: 'rgba(255,45,146,0.54)',
+    backgroundColor: 'rgba(255,45,146,0.15)',
+  },
+  filterChipText: {
+    color: COLORS.textSub,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  filterChipTextActive: {
+    color: COLORS.textPrimary,
+  },
+  detailPanel: {
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,45,146,0.24)',
+    backgroundColor: COLORS.card,
+    padding: 16,
+    gap: 14,
+    ...SHADOWS.card,
+  },
+  detailHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+  },
+  detailTitleCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: 4,
+  },
+  detailEyebrow: {
+    color: COLORS.pink,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
+  detailTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 22,
+    fontWeight: '800',
+  },
+  detailClose: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+  },
+  votePillRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  votePill: {
+    flex: 1,
+    minHeight: 56,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    justifyContent: 'center',
+    gap: 3,
+  },
+  votePillLabel: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  votePillValue: {
+    color: COLORS.textPrimary,
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  roleCallout: {
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,45,146,0.09)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,45,146,0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  roleCalloutText: {
+    flex: 1,
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  detailDescription: {
+    color: COLORS.textSub,
+    fontSize: 13,
+    lineHeight: 20,
+    fontWeight: '600',
+  },
+  tagRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 7,
+  },
+  tagChip: {
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    paddingHorizontal: 9,
+    paddingVertical: 5,
+  },
+  tagText: {
+    color: COLORS.textSub,
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  planCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: 'rgba(0,0,0,0.12)',
+    padding: 12,
+    gap: 10,
+  },
+  planTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
+  planStep: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.026)',
+    padding: 10,
+  },
+  planStepCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: 3,
+  },
+  planStepTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  planStepBody: {
+    color: COLORS.textSub,
+    fontSize: 11,
+    lineHeight: 16,
+    fontWeight: '600',
   },
 });

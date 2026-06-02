@@ -1,6 +1,9 @@
-import { computeRevealBuckets } from '../lib/match/reveal';
+import {
+  computeRevealBuckets,
+  type RevealKink,
+} from '../lib/match/reveal';
 
-const kinks = [
+const kinks: RevealKink[] = [
   {
     id: 'same-yes',
     slug: 'same-yes',
@@ -35,7 +38,11 @@ const kinks = [
     id: 'pair:massage',
     slug: 'massage',
     title: 'Massage',
+    description: 'Trade a slow massage.',
     category: 'Touch',
+    intensityScale: 2,
+    tier: 'naughty',
+    tags: ['sensual'],
     pairMode: true,
   },
 ];
@@ -105,6 +112,33 @@ describe('computeRevealBuckets', () => {
     });
 
     expect(buckets.mutualYes.map((item) => item.id)).toEqual(['pair:massage']);
+  });
+
+  it('includes match detail metadata and paired role selections', () => {
+    const buckets = computeRevealBuckets({
+      kinks,
+      mine: {
+        'pair:massage': { value: 'yes', pairPreference: 'give' },
+      },
+      theirs: {
+        'pair:massage': { value: 'yes', pairPreference: 'receive' },
+      },
+    });
+
+    expect(buckets.mutualYes[0]).toMatchObject({
+      id: 'pair:massage',
+      title: 'Massage',
+      description: 'Trade a slow massage.',
+      category: 'Touch',
+      intensityScale: 2,
+      tier: 'naughty',
+      tags: ['sensual'],
+      pairMode: true,
+      myVote: 'yes',
+      partnerVote: 'yes',
+      myPairPreference: 'give',
+      partnerPairPreference: 'receive',
+    });
   });
 
   it('does not match same one-sided paired role preferences', () => {
