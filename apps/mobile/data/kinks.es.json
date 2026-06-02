@@ -6,12 +6,7 @@
     "titleEs": "Masaje Sensual",
     "description": "Túrnense para darse masajes lentos e íntimos con aceite tibio. Enfóquense en cada curva y músculo.",
     "descriptionEs": "Túrnense para darse masajes lentos e íntimos con aceite tibio. Enfóquense en cada curva y músculo.",
-    "tags": [
-      "touch",
-      "relaxation",
-      "foreplay",
-      "intimacy"
-    ],
+    "tags": ["touch", "relaxation", "foreplay", "intimacy"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -25,12 +20,7 @@
     "titleEs": "Sesión de Besos Profundos",
     "description": "Dediquen tiempo a explorar la boca del otro lentamente y profundamente.",
     "descriptionEs": "Dediquen tiempo a explorar la boca del otro lentamente y profundamente.",
-    "tags": [
-      "kissing",
-      "intimacy",
-      "foreplay",
-      "passion"
-    ],
+    "tags": ["kissing", "intimacy", "foreplay", "passion"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -44,12 +34,7 @@
     "titleEs": "Abrazos Desnudos",
     "description": "Desvístanse y simplemente abrácense. Sientan piel contra piel.",
     "descriptionEs": "Desvístanse y simplemente abrácense. Sientan piel contra piel.",
-    "tags": [
-      "intimacy",
-      "skin-to-skin",
-      "aftercare",
-      "closeness"
-    ],
+    "tags": ["intimacy", "skin-to-skin", "aftercare", "closeness"],
     "category": "aftercare",
     "intensityScale": 1,
     "tier": "soft",
@@ -63,12 +48,7 @@
     "titleEs": "Susurros Románticos",
     "description": "Túrnense para susurrar cosas dulces, sexys o sucias al oído del otro.",
     "descriptionEs": "Túrnense para susurrar cosas dulces, sexys o sucias al oído del otro.",
-    "tags": [
-      "communication",
-      "dirty-talk",
-      "intimacy",
-      "foreplay"
-    ],
+    "tags": ["communication", "dirty-talk", "intimacy", "foreplay"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -82,12 +62,7 @@
     "titleEs": "Contacto Visual Intenso",
     "description": "Encuentren sus miradas y manténganlas. Mantener contacto visual crea una conexión eléctrica y vulnerable.",
     "descriptionEs": "Encuentren sus miradas y manténganlas. Mantener contacto visual crea una conexión eléctrica y vulnerable.",
-    "tags": [
-      "intimacy",
-      "connection",
-      "vulnerability",
-      "presence"
-    ],
+    "tags": ["intimacy", "connection", "vulnerability", "presence"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -101,12 +76,7 @@
     "titleEs": "Desvestirse Lentamente",
     "description": "Tómen su tiempo para quitarse la ropa mutuamente. Traten cada prenda como un regalo.",
     "descriptionEs": "Tómen su tiempo para quitarse la ropa mutuamente. Traten cada prenda como un regalo.",
-    "tags": [
-      "anticipation",
-      "teasing",
-      "foreplay",
-      "seduction"
-    ],
+    "tags": ["anticipation", "teasing", "foreplay", "seduction"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -120,12 +90,7 @@
     "titleEs": "Masturbación Mutua",
     "description": "Obsérvense mutuamente mientras se dan placer. Aprendan qué les gusta.",
     "descriptionEs": "Obsérvense mutuamente mientras se dan placer. Aprendan qué les gusta.",
-    "tags": [
-      "voyeurism",
-      "learning",
-      "intimacy",
-      "masturbation"
-    ],
+    "tags": ["voyeurism", "learning", "intimacy", "masturbation"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -139,13 +104,7 @@
     "titleEs": "Placer Oral (Dar)",
     "description": "Concéntrate en dar placer oral a tu pareja con atención a comodidad, ritmo y señales.",
     "descriptionEs": "Concéntrate en dar placer oral a tu pareja con atención a comodidad, ritmo y señales.",
-    "tags": [
-      "oral",
-      "pleasure",
-      "give",
-      "giving",
-      "focus"
-    ],
+    "tags": ["oral", "pleasure", "give", "giving", "focus"],
     "category": "paired_play",
     "intensityScale": 1,
     "tier": "soft",
@@ -161,13 +120,7 @@
     "titleEs": "Provocación Ligera (Dar)",
     "description": "Provoca suavemente a tu pareja con caricias, pausas y contención juguetona mientras observas sus reacciones.",
     "descriptionEs": "Provoca suavemente a tu pareja con caricias, pausas y contención juguetona mientras observas sus reacciones.",
-    "tags": [
-      "teasing",
-      "anticipation",
-      "give",
-      "giving",
-      "foreplay"
-    ],
+    "tags": ["teasing", "anticipation", "give", "giving", "foreplay"],
     "category": "paired_play",
     "intensityScale": 1,
     "tier": "soft",
@@ -183,12 +136,7 @@
     "titleEs": "Mensajes Sexys",
     "description": "Envíense mensajes coquetos, sugestivos o directamente sucios durante el día.",
     "descriptionEs": "Envíense mensajes coquetos, sugestivos o directamente sucios durante el día.",
-    "tags": [
-      "communication",
-      "anticipation",
-      "digital",
-      "foreplay"
-    ],
+    "tags": ["communication", "anticipation", "digital", "foreplay"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -202,12 +150,7 @@
     "titleEs": "Toque Pluma Ligera",
     "description": "Usen plumas, seda, o solo las yemas de los dedos para crear las sensaciones más ligeras.",
     "descriptionEs": "Usen plumas, seda, o solo las yemas de los dedos para crear las sensaciones más ligeras.",
-    "tags": [
-      "sensory",
-      "teasing",
-      "light-touch",
-      "anticipation"
-    ],
+    "tags": ["sensory", "teasing", "light-touch", "anticipation"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -221,12 +164,7 @@
     "titleEs": "Baño Compartido",
     "description": "Llenen una tina, agreguen burbujas o aceites, y súmense juntos.",
     "descriptionEs": "Llenen una tina, agreguen burbujas o aceites, y súmense juntos.",
-    "tags": [
-      "water",
-      "intimacy",
-      "relaxation",
-      "sensory"
-    ],
+    "tags": ["water", "intimacy", "relaxation", "sensory"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -240,12 +178,7 @@
     "titleEs": "Intimidad a la Luz de Velas",
     "description": "Apaguen las luces y dejen que las velas creen un brillo cálido y parpadeante.",
     "descriptionEs": "Apaguen las luces y dejen que las velas creen un brillo cálido y parpadeante.",
-    "tags": [
-      "atmosphere",
-      "romance",
-      "mood",
-      "sensory"
-    ],
+    "tags": ["atmosphere", "romance", "mood", "sensory"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -259,12 +192,7 @@
     "titleEs": "Ducha Compartida",
     "description": "Mójense juntos bajo agua tibia. Lávense los cuerpos mutuamente.",
     "descriptionEs": "Mójense juntos bajo agua tibia. Lávense los cuerpos mutuamente.",
-    "tags": [
-      "water",
-      "intimacy",
-      "sensory",
-      "playful"
-    ],
+    "tags": ["water", "intimacy", "sensory", "playful"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -278,12 +206,7 @@
     "titleEs": "Sensación de Pañuelo de Seda",
     "description": "Arrastren pañuelos de seda sobre piel desnuda.",
     "descriptionEs": "Arrastren pañuelos de seda sobre piel desnuda.",
-    "tags": [
-      "sensory",
-      "silk",
-      "teasing",
-      "light-bondage"
-    ],
+    "tags": ["sensory", "silk", "teasing", "light-bondage"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -297,12 +220,7 @@
     "titleEs": "Provocación con Cubitos de Hielo",
     "description": "Trazan cubitos de hielo sobre piel calentada.",
     "descriptionEs": "Trazan cubitos de hielo sobre piel calentada.",
-    "tags": [
-      "temperature",
-      "sensory",
-      "teasing",
-      "surprise"
-    ],
+    "tags": ["temperature", "sensory", "teasing", "surprise"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -316,12 +234,7 @@
     "titleEs": "Tour de Besos por Todo el Cuerpo",
     "description": "Comiencen desde arriba y besen cada pulgada del cuerpo de su pareja.",
     "descriptionEs": "Comiencen desde arriba y besen cada pulgada del cuerpo de su pareja.",
-    "tags": [
-      "kissing",
-      "worship",
-      "foreplay",
-      "sensory"
-    ],
+    "tags": ["kissing", "worship", "foreplay", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -335,12 +248,7 @@
     "titleEs": "Narración Erótica",
     "description": "Túrnense para leerse historias eróticas, o inventen las suyas propias.",
     "descriptionEs": "Túrnense para leerse historias eróticas, o inventen las suyas propias.",
-    "tags": [
-      "communication",
-      "imagination",
-      "fantasy",
-      "foreplay"
-    ],
+    "tags": ["communication", "imagination", "fantasy", "foreplay"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -354,12 +262,7 @@
     "titleEs": "Observarse en el Espejo",
     "description": "Posiciónense donde puedan ver sus reflejos.",
     "descriptionEs": "Posiciónense donde puedan ver sus reflejos.",
-    "tags": [
-      "visual",
-      "voyeurism",
-      "confidence",
-      "intimacy"
-    ],
+    "tags": ["visual", "voyeurism", "confidence", "intimacy"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -373,12 +276,7 @@
     "titleEs": "Música y Movimiento",
     "description": "Pongan música sensual y muévanse juntos.",
     "descriptionEs": "Pongan música sensual y muévanse juntos.",
-    "tags": [
-      "movement",
-      "music",
-      "sensory",
-      "rhythm"
-    ],
+    "tags": ["movement", "music", "sensory", "rhythm"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -392,13 +290,7 @@
     "titleEs": "Restricción de Muñecas (Dar)",
     "description": "Usa restricciones suaves en las muñecas de tu pareja, revisando ajuste, comodidad y señales antes de continuar.",
     "descriptionEs": "Usa restricciones suaves en las muñecas de tu pareja, revisando ajuste, comodidad y señales antes de continuar.",
-    "tags": [
-      "bondage",
-      "restraint",
-      "give",
-      "giving",
-      "trust"
-    ],
+    "tags": ["bondage", "restraint", "give", "giving", "trust"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -414,12 +306,7 @@
     "titleEs": "Juego de Roles Maestro/Estudiante",
     "description": "Uno juega el maestro conocedor, el otro el estudiante ansioso.",
     "descriptionEs": "Uno juega el maestro conocedor, el otro el estudiante ansioso.",
-    "tags": [
-      "roleplay",
-      "power-dynamic",
-      "teacher",
-      "authority"
-    ],
+    "tags": ["roleplay", "power-dynamic", "teacher", "authority"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -433,12 +320,7 @@
     "titleEs": "Juego de Roles Jefe/Empleado",
     "description": "Las dinámicas de poder de oficina llegan al dormitorio.",
     "descriptionEs": "Las dinámicas de poder de oficina llegan al dormitorio.",
-    "tags": [
-      "roleplay",
-      "power-dynamic",
-      "office",
-      "authority"
-    ],
+    "tags": ["roleplay", "power-dynamic", "office", "authority"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -452,12 +334,7 @@
     "titleEs": "Exploración Anal para Principiantes",
     "description": "Comiencen lento con mucho lubricante, toque externo suave.",
     "descriptionEs": "Comiencen lento con mucho lubricante, toque externo suave.",
-    "tags": [
-      "anal",
-      "exploration",
-      "beginner",
-      "communication"
-    ],
+    "tags": ["anal", "exploration", "beginner", "communication"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -471,12 +348,7 @@
     "titleEs": "Charla Sucia Explícita",
     "description": "Usen sus palabras para pintar imágenes vívidas y sucias.",
     "descriptionEs": "Usen sus palabras para pintar imágenes vívidas y sucias.",
-    "tags": [
-      "communication",
-      "dirty-talk",
-      "verbal",
-      "intensity"
-    ],
+    "tags": ["communication", "dirty-talk", "verbal", "intensity"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -490,13 +362,7 @@
     "titleEs": "Juego con Pezones (Dar)",
     "description": "Explora los pezones de tu pareja con presión variable, calor y provocación mientras revisas sensibilidad.",
     "descriptionEs": "Explora los pezones de tu pareja con presión variable, calor y provocación mientras revisas sensibilidad.",
-    "tags": [
-      "nipples",
-      "sensory",
-      "give",
-      "giving",
-      "teasing"
-    ],
+    "tags": ["nipples", "sensory", "give", "giving", "teasing"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -512,13 +378,7 @@
     "titleEs": "Mordidas Sensuales (Dar)",
     "description": "Usa mordidas suaves en zonas acordadas, aumentando la sensación solo si tu pareja lo desea.",
     "descriptionEs": "Usa mordidas suaves en zonas acordadas, aumentando la sensación solo si tu pareja lo desea.",
-    "tags": [
-      "biting",
-      "sensory",
-      "give",
-      "giving",
-      "consent"
-    ],
+    "tags": ["biting", "sensory", "give", "giving", "consent"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -534,13 +394,7 @@
     "titleEs": "Jalón de Cabello Controlado (Dar)",
     "description": "Sujeta cerca de la raíz y guía el cabello de tu pareja solo con presión y postura acordadas.",
     "descriptionEs": "Sujeta cerca de la raíz y guía el cabello de tu pareja solo con presión y postura acordadas.",
-    "tags": [
-      "hair",
-      "control",
-      "give",
-      "giving",
-      "consent"
-    ],
+    "tags": ["hair", "control", "give", "giving", "consent"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -556,12 +410,7 @@
     "titleEs": "Bondage Intenso",
     "description": "Usen cuerdas, esposas o restricciones para inmovilizar completamente a su pareja.",
     "descriptionEs": "Usen cuerdas, esposas o restricciones para inmovilizar completamente a su pareja.",
-    "tags": [
-      "bondage",
-      "restraint",
-      "trust",
-      "power-exchange"
-    ],
+    "tags": ["bondage", "restraint", "trust", "power-exchange"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx",
@@ -575,12 +424,7 @@
     "titleEs": "Juego de Impacto Intenso",
     "description": "Usen paletas, látigos o varas para crear dolor controlado.",
     "descriptionEs": "Usen paletas, látigos o varas para crear dolor controlado.",
-    "tags": [
-      "impact",
-      "pain",
-      "bdsm",
-      "intensity"
-    ],
+    "tags": ["impact", "pain", "bdsm", "intensity"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx",
@@ -594,12 +438,7 @@
     "titleEs": "No-Consentimiento Consensuado",
     "description": "Roleplay donde una pareja resiste y la otra la domina.",
     "descriptionEs": "Roleplay donde una pareja resiste y la otra la domina.",
-    "tags": [
-      "cnc",
-      "roleplay",
-      "power",
-      "intense"
-    ],
+    "tags": ["cnc", "roleplay", "power", "intense"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -613,13 +452,7 @@
     "titleEs": "Control de Castidad (Dar)",
     "description": "Controla la liberación de tu pareja con reglas negociadas, revisiones y un punto final claro.",
     "descriptionEs": "Controla la liberación de tu pareja con reglas negociadas, revisiones y un punto final claro.",
-    "tags": [
-      "chastity",
-      "control",
-      "give",
-      "giving",
-      "denial"
-    ],
+    "tags": ["chastity", "control", "give", "giving", "denial"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -635,13 +468,7 @@
     "titleEs": "Degradación Consensuada (Dar)",
     "description": "Usa palabras o roles negociados que tu pareja haya aceptado explícitamente, con límites y aftercare claros.",
     "descriptionEs": "Usa palabras o roles negociados que tu pareja haya aceptado explícitamente, con límites y aftercare claros.",
-    "tags": [
-      "degradation",
-      "humiliation",
-      "give",
-      "giving",
-      "consent"
-    ],
+    "tags": ["degradation", "humiliation", "give", "giving", "consent"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -657,12 +484,7 @@
     "titleEs": "Fantasía de Juego en Grupo",
     "description": "Fantaseen sobre involucrar a otros en su juego.",
     "descriptionEs": "Fantaseen sobre involucrar a otros en su juego.",
-    "tags": [
-      "group",
-      "fantasy",
-      "voyeurism",
-      "exhibitionism"
-    ],
+    "tags": ["group", "fantasy", "voyeurism", "exhibitionism"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -676,12 +498,7 @@
     "titleEs": "Doble Penetración",
     "description": "Usen juguetes o partes del cuerpo para llenar ambas aberturas simultáneamente.",
     "descriptionEs": "Usen juguetes o partes del cuerpo para llenar ambas aberturas simultáneamente.",
-    "tags": [
-      "penetration",
-      "intense",
-      "fullness",
-      "advanced"
-    ],
+    "tags": ["penetration", "intense", "fullness", "advanced"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -695,12 +512,7 @@
     "titleEs": "Suspensión con Cuerdas",
     "description": "Usen cuerdas para suspender a su pareja parcial o completamente.",
     "descriptionEs": "Usen cuerdas para suspender a su pareja parcial o completamente.",
-    "tags": [
-      "suspension",
-      "rope",
-      "bondage",
-      "advanced"
-    ],
+    "tags": ["suspension", "rope", "bondage", "advanced"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx",
@@ -714,12 +526,7 @@
     "titleEs": "Toque con los Ojos Vendados",
     "description": "Una pareja lleva una venda en los ojos mientras el otro explora su cuerpo.",
     "descriptionEs": "Una pareja lleva una venda en los ojos mientras el otro explora su cuerpo.",
-    "tags": [
-      "sensory-deprivation",
-      "trust",
-      "exploration",
-      "sensory"
-    ],
+    "tags": ["sensory-deprivation", "trust", "exploration", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -733,12 +540,7 @@
     "titleEs": "Alimentación Sensual",
     "description": "Aliméntense mutuamente bocado a bocado, fruta, chocolate.",
     "descriptionEs": "Aliméntense mutuamente bocado a bocado, fruta, chocolate.",
-    "tags": [
-      "food",
-      "sensory",
-      "intimacy",
-      "playful"
-    ],
+    "tags": ["food", "sensory", "intimacy", "playful"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -752,12 +554,7 @@
     "titleEs": "Juego Íntimo con el Cabello",
     "description": "Pasen los dedos por su cabello, den un masaje en el cuero cabelludo.",
     "descriptionEs": "Pasen los dedos por su cabello, den un masaje en el cuero cabelludo.",
-    "tags": [
-      "touch",
-      "intimacy",
-      "sensory",
-      "relaxation"
-    ],
+    "tags": ["touch", "intimacy", "sensory", "relaxation"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -771,12 +568,7 @@
     "titleEs": "Baile Lento Desnudo",
     "description": "Pongan una canción lenta y bailen completamente desnudos.",
     "descriptionEs": "Pongan una canción lenta y bailen completamente desnudos.",
-    "tags": [
-      "movement",
-      "intimacy",
-      "skin-to-skin",
-      "romance"
-    ],
+    "tags": ["movement", "intimacy", "skin-to-skin", "romance"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -790,12 +582,7 @@
     "titleEs": "Mordisquear Orejas y Respirar",
     "description": "Susurren, mordisqueen y respiren contra sus orejas.",
     "descriptionEs": "Susurren, mordisqueen y respiren contra sus orejas.",
-    "tags": [
-      "sensory",
-      "whispering",
-      "intimacy",
-      "teasing"
-    ],
+    "tags": ["sensory", "whispering", "intimacy", "teasing"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -809,12 +596,7 @@
     "titleEs": "Adoración del Cuello",
     "description": "Enfoquen toda la atención en su cuello. Besen, laman, mordisqueen.",
     "descriptionEs": "Enfoquen toda la atención en su cuello. Besen, laman, mordisqueen.",
-    "tags": [
-      "kissing",
-      "sensory",
-      "erogenous",
-      "passion"
-    ],
+    "tags": ["kissing", "sensory", "erogenous", "passion"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -828,12 +610,7 @@
     "titleEs": "Exploración Guiada con las Manos",
     "description": "Tomen la mano de su pareja y guíenla sobre su cuerpo.",
     "descriptionEs": "Tomen la mano de su pareja y guíenla sobre su cuerpo.",
-    "tags": [
-      "communication",
-      "learning",
-      "touch",
-      "intimacy"
-    ],
+    "tags": ["communication", "learning", "touch", "intimacy"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -847,12 +624,7 @@
     "titleEs": "Respiración Sincronizada",
     "description": "Acuéstense juntos y sincronicen su respiración.",
     "descriptionEs": "Acuéstense juntos y sincronicen su respiración.",
-    "tags": [
-      "intimacy",
-      "connection",
-      "mindfulness",
-      "aftercare"
-    ],
+    "tags": ["intimacy", "connection", "mindfulness", "aftercare"],
     "category": "aftercare",
     "intensityScale": 1,
     "tier": "soft",
@@ -866,12 +638,7 @@
     "titleEs": "Cartas de Amor Eróticas",
     "description": "Escríbanse cartas explícitas y apasionadas.",
     "descriptionEs": "Escríbanse cartas explícitas y apasionadas.",
-    "tags": [
-      "communication",
-      "writing",
-      "intimacy",
-      "anticipation"
-    ],
+    "tags": ["communication", "writing", "intimacy", "anticipation"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -885,12 +652,7 @@
     "titleEs": "Vibraciones con Zumbido",
     "description": "Tarareen o hagan vibraciones vocales suaves mientras besan.",
     "descriptionEs": "Tarareen o hagan vibraciones vocales suaves mientras besan.",
-    "tags": [
-      "sensory",
-      "vibration",
-      "oral",
-      "innovation"
-    ],
+    "tags": ["sensory", "vibration", "oral", "innovation"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -904,12 +666,7 @@
     "titleEs": "Negación de Orgasmo",
     "description": "Lleven a su pareja al borde del clímax una y otra vez, luego paren.",
     "descriptionEs": "Lleven a su pareja al borde del clímax una y otra vez, luego paren.",
-    "tags": [
-      "denial",
-      "control",
-      "anticipation",
-      "intensity"
-    ],
+    "tags": ["denial", "control", "anticipation", "intensity"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -923,12 +680,7 @@
     "titleEs": "Bordeando Juntos",
     "description": "Ambas parejas se acercan al orgasmo y luego se detienen, repetidamente.",
     "descriptionEs": "Ambas parejas se acercan al orgasmo y luego se detienen, repetidamente.",
-    "tags": [
-      "edging",
-      "self-control",
-      "prolonged",
-      "competition"
-    ],
+    "tags": ["edging", "self-control", "prolonged", "competition"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -942,12 +694,7 @@
     "titleEs": "Juego con Plug Anal",
     "description": "Inserten un plug pequeño y bien lubricado para una sensación de plenitud.",
     "descriptionEs": "Inserten un plug pequeño y bien lubricado para una sensación de plenitud.",
-    "tags": [
-      "anal",
-      "plug",
-      "fullness",
-      "toys"
-    ],
+    "tags": ["anal", "plug", "fullness", "toys"],
     "category": "props_and_toys",
     "intensityScale": 2,
     "tier": "naughty",
@@ -961,13 +708,7 @@
     "titleEs": "Juego con Dildo (Dar)",
     "description": "Usa un dildo con tu pareja controlando ritmo, ángulo y comodidad con comunicación activa.",
     "descriptionEs": "Usa un dildo con tu pareja controlando ritmo, ángulo y comodidad con comunicación activa.",
-    "tags": [
-      "dildo",
-      "toys",
-      "give",
-      "giving",
-      "penetration"
-    ],
+    "tags": ["dildo", "toys", "give", "giving", "penetration"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -983,12 +724,7 @@
     "titleEs": "Desconocidos en un Bar",
     "description": "Fingan que nunca se han conocido. Uno se acerca al otro en un bar.",
     "descriptionEs": "Fingan que nunca se han conocido. Uno se acerca al otro en un bar.",
-    "tags": [
-      "roleplay",
-      "strangers",
-      "novelty",
-      "flirting"
-    ],
+    "tags": ["roleplay", "strangers", "novelty", "flirting"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1002,12 +738,7 @@
     "titleEs": "Examen de Doctor/Paciente",
     "description": "Uno juega el doctor minucioso, el otro el paciente que necesita un examen íntimo.",
     "descriptionEs": "Uno juega el doctor minucioso, el otro el paciente que necesita un examen íntimo.",
-    "tags": [
-      "roleplay",
-      "authority",
-      "examination",
-      "power"
-    ],
+    "tags": ["roleplay", "authority", "examination", "power"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1021,12 +752,7 @@
     "titleEs": "Performance de Striptease",
     "description": "Túrnense para realizar un striptease lento y seductor.",
     "descriptionEs": "Túrnense para realizar un striptease lento y seductor.",
-    "tags": [
-      "performance",
-      "teasing",
-      "visual",
-      "seduction"
-    ],
+    "tags": ["performance", "teasing", "visual", "seduction"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1040,12 +766,7 @@
     "titleEs": "Baile en el Regazo",
     "description": "Den a su pareja un baile sensual en el regazo.",
     "descriptionEs": "Den a su pareja un baile sensual en el regazo.",
-    "tags": [
-      "dance",
-      "teasing",
-      "grinding",
-      "performance"
-    ],
+    "tags": ["dance", "teasing", "grinding", "performance"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1059,12 +780,7 @@
     "titleEs": "Mensajes con Fotos",
     "description": "Envíen fotos cada vez más reveladoras durante el día.",
     "descriptionEs": "Envíen fotos cada vez más reveladoras durante el día.",
-    "tags": [
-      "digital",
-      "photos",
-      "anticipation",
-      "visual"
-    ],
+    "tags": ["digital", "photos", "anticipation", "visual"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1078,12 +794,7 @@
     "titleEs": "Sexo Telefónico",
     "description": "Tengan una conversación explícita por teléfono cuando estén separados.",
     "descriptionEs": "Tengan una conversación explícita por teléfono cuando estén separados.",
-    "tags": [
-      "audio",
-      "distance",
-      "imagination",
-      "vocal"
-    ],
+    "tags": ["audio", "distance", "imagination", "vocal"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1097,12 +808,7 @@
     "titleEs": "Juego de Mascotas",
     "description": "Una pareja toma el rol de mascota, la otra de dueño.",
     "descriptionEs": "Una pareja toma el rol de mascota, la otra de dueño.",
-    "tags": [
-      "petplay",
-      "roleplay",
-      "animal",
-      "training"
-    ],
+    "tags": ["petplay", "roleplay", "animal", "training"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1116,12 +822,7 @@
     "titleEs": "Juego Médico",
     "description": "Participen en exámenes médicos detallados como roleplay.",
     "descriptionEs": "Participen en exámenes médicos detallados como roleplay.",
-    "tags": [
-      "medical",
-      "roleplay",
-      "examination",
-      "procedures"
-    ],
+    "tags": ["medical", "roleplay", "examination", "procedures"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1135,12 +836,7 @@
     "titleEs": "Electroestimulación",
     "description": "Usen varitas violeta o unidades TENS para estimulación eléctrica.",
     "descriptionEs": "Usen varitas violeta o unidades TENS para estimulación eléctrica.",
-    "tags": [
-      "electro",
-      "stimulation",
-      "sensation",
-      "toys"
-    ],
+    "tags": ["electro", "stimulation", "sensation", "toys"],
     "category": "props_and_toys",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1154,12 +850,7 @@
     "titleEs": "Juego con Cera Caliente",
     "description": "Goticen cera caliente sobre la piel para sensación intensa.",
     "descriptionEs": "Goticen cera caliente sobre la piel para sensación intensa.",
-    "tags": [
-      "wax",
-      "temperature",
-      "pain",
-      "sensation"
-    ],
+    "tags": ["wax", "temperature", "pain", "sensation"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1173,12 +864,7 @@
     "titleEs": "Jengibre",
     "description": "Inserten una pieza de jengibre tallado para una sensación ardiente.",
     "descriptionEs": "Inserten una pieza de jengibre tallado para una sensación ardiente.",
-    "tags": [
-      "figging",
-      "ginger",
-      "sensation",
-      "anal"
-    ],
+    "tags": ["figging", "ginger", "sensation", "anal"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1192,12 +878,7 @@
     "titleEs": "Caricias Suaves",
     "description": "Usen movimientos suaves y lentos en todo el cuerpo.",
     "descriptionEs": "Usen movimientos suaves y lentos en todo el cuerpo.",
-    "tags": [
-      "touch",
-      "gentle",
-      "intimacy",
-      "slow"
-    ],
+    "tags": ["touch", "gentle", "intimacy", "slow"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -1211,12 +892,7 @@
     "titleEs": "Besos en la Frente",
     "description": "Cubran la frente de su pareja con besos suaves y tiernos.",
     "descriptionEs": "Cubran la frente de su pareja con besos suaves y tiernos.",
-    "tags": [
-      "kissing",
-      "affection",
-      "tender",
-      "romance"
-    ],
+    "tags": ["kissing", "affection", "tender", "romance"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -1230,12 +906,7 @@
     "titleEs": "Tomarse de las Manos",
     "description": "Tómense de las manos en varias posiciones.",
     "descriptionEs": "Tómense de las manos en varias posiciones.",
-    "tags": [
-      "touch",
-      "connection",
-      "intimacy",
-      "simple"
-    ],
+    "tags": ["touch", "connection", "intimacy", "simple"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -1249,12 +920,7 @@
     "titleEs": "Masaje de Pies",
     "description": "Den a su pareja un masaje de pies completo.",
     "descriptionEs": "Den a su pareja un masaje de pies completo.",
-    "tags": [
-      "massage",
-      "feet",
-      "relaxation",
-      "service"
-    ],
+    "tags": ["massage", "feet", "relaxation", "service"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -1268,12 +934,7 @@
     "titleEs": "Rascado de Espalda",
     "description": "Usen las uñas para dar un rascado suave en la espalda.",
     "descriptionEs": "Usen las uñas para dar un rascado suave en la espalda.",
-    "tags": [
-      "touch",
-      "relaxation",
-      "sensory",
-      "gentle"
-    ],
+    "tags": ["touch", "relaxation", "sensory", "gentle"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -1287,12 +948,7 @@
     "titleEs": "Charla en la Cama",
     "description": "Acuéstense juntos y compartan sus pensamientos y sentimientos.",
     "descriptionEs": "Acuéstense juntos y compartan sus pensamientos y sentimientos.",
-    "tags": [
-      "communication",
-      "vulnerability",
-      "emotional",
-      "intimacy"
-    ],
+    "tags": ["communication", "vulnerability", "emotional", "intimacy"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -1306,12 +962,7 @@
     "titleEs": "Abrazos Matutinos",
     "description": "Comiencen el día con abrazos prolongados.",
     "descriptionEs": "Comiencen el día con abrazos prolongados.",
-    "tags": [
-      "cuddling",
-      "morning",
-      "intimacy",
-      "peaceful"
-    ],
+    "tags": ["cuddling", "morning", "intimacy", "peaceful"],
     "category": "aftercare",
     "intensityScale": 1,
     "tier": "soft",
@@ -1325,12 +976,7 @@
     "titleEs": "Cuento para Dormir",
     "description": "Lean un cuento a su pareja mientras se queda dormida.",
     "descriptionEs": "Lean un cuento a su pareja mientras se queda dormida.",
-    "tags": [
-      "communication",
-      "comfort",
-      "vocal",
-      "sleep"
-    ],
+    "tags": ["communication", "comfort", "vocal", "sleep"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -1344,12 +990,7 @@
     "titleEs": "Ver la Puesta de Sol",
     "description": "Siéntense juntos y vean la puesta de sol.",
     "descriptionEs": "Siéntense juntos y vean la puesta de sol.",
-    "tags": [
-      "romance",
-      "nature",
-      "together",
-      "peaceful"
-    ],
+    "tags": ["romance", "nature", "together", "peaceful"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -1363,12 +1004,7 @@
     "titleEs": "Observar Estrellas",
     "description": "Acuéstense afuera juntos y miren las estrellas.",
     "descriptionEs": "Acuéstense afuera juntos y miren las estrellas.",
-    "tags": [
-      "nature",
-      "romance",
-      "contemplation",
-      "together"
-    ],
+    "tags": ["nature", "romance", "contemplation", "together"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -1382,12 +1018,7 @@
     "titleEs": "Masaje con Aromaterapia",
     "description": "Usen aceites perfumados como lavanda o jazmín.",
     "descriptionEs": "Usen aceites perfumados como lavanda o jazmín.",
-    "tags": [
-      "scent",
-      "massage",
-      "relaxation",
-      "sensory"
-    ],
+    "tags": ["scent", "massage", "relaxation", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -1401,12 +1032,7 @@
     "titleEs": "Baño de Burbujas",
     "description": "Llenen la tina con burbujas, enciendan velas y remójense juntos.",
     "descriptionEs": "Llenen la tina con burbujas, enciendan velas y remójense juntos.",
-    "tags": [
-      "water",
-      "playful",
-      "romance",
-      "bubbles"
-    ],
+    "tags": ["water", "playful", "romance", "bubbles"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -1420,12 +1046,7 @@
     "titleEs": "Desayuno en la Cama",
     "description": "Sirvan el desayuno a su pareja en la cama.",
     "descriptionEs": "Sirvan el desayuno a su pareja en la cama.",
-    "tags": [
-      "food",
-      "service",
-      "nurturing",
-      "morning"
-    ],
+    "tags": ["food", "service", "nurturing", "morning"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -1439,12 +1060,7 @@
     "titleEs": "Música Suave",
     "description": "Pongan música suave y romántica y estén juntos.",
     "descriptionEs": "Pongan música suave y romántica y estén juntos.",
-    "tags": [
-      "music",
-      "atmosphere",
-      "peace",
-      "romance"
-    ],
+    "tags": ["music", "atmosphere", "peace", "romance"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -1458,12 +1074,7 @@
     "titleEs": "Masaje de Hombros",
     "description": "Enfóquense en liberar la tensión en los hombros y cuello.",
     "descriptionEs": "Enfóquense en liberar la tensión en los hombros y cuello.",
-    "tags": [
-      "massage",
-      "relaxation",
-      "stress-relief",
-      "touch"
-    ],
+    "tags": ["massage", "relaxation", "stress-relief", "touch"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -1477,12 +1088,7 @@
     "titleEs": "Caricias en el Rostro",
     "description": "Usen las yemas de los dedos para trazar suavemente el rostro.",
     "descriptionEs": "Usen las yemas de los dedos para trazar suavemente el rostro.",
-    "tags": [
-      "touch",
-      "face",
-      "intimacy",
-      "tender"
-    ],
+    "tags": ["touch", "face", "intimacy", "tender"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -1496,12 +1102,7 @@
     "titleEs": "Cucharita",
     "description": "Acuéstense juntos en la clásica posición de cucharita.",
     "descriptionEs": "Acuéstense juntos en la clásica posición de cucharita.",
-    "tags": [
-      "cuddling",
-      "comfort",
-      "safety",
-      "closeness"
-    ],
+    "tags": ["cuddling", "comfort", "safety", "closeness"],
     "category": "aftercare",
     "intensityScale": 1,
     "tier": "soft",
@@ -1515,12 +1116,7 @@
     "titleEs": "Sesión de Cumplidos",
     "description": "Túrnense para compartir cumplidos genuinos.",
     "descriptionEs": "Túrnense para compartir cumplidos genuinos.",
-    "tags": [
-      "communication",
-      "affirmation",
-      "confidence",
-      "love"
-    ],
+    "tags": ["communication", "affirmation", "confidence", "love"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -1534,12 +1130,7 @@
     "titleEs": "Caminata Romántica",
     "description": "Tómense de la mano y caminen juntos.",
     "descriptionEs": "Tómense de la mano y caminen juntos.",
-    "tags": [
-      "movement",
-      "together",
-      "romance",
-      "simple"
-    ],
+    "tags": ["movement", "together", "romance", "simple"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -1553,12 +1144,7 @@
     "titleEs": "Compartir Gratitud",
     "description": "Compartan por qué están agradecidos el uno por el otro.",
     "descriptionEs": "Compartan por qué están agradecidos el uno por el otro.",
-    "tags": [
-      "communication",
-      "gratitude",
-      "appreciation",
-      "bonding"
-    ],
+    "tags": ["communication", "gratitude", "appreciation", "bonding"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -1572,12 +1158,7 @@
     "titleEs": "Intimidad por Videollamada",
     "description": "Usen videollamadas para verse mutuamente darse placer.",
     "descriptionEs": "Usen videollamadas para verse mutuamente darse placer.",
-    "tags": [
-      "video",
-      "distance",
-      "visual",
-      "interactive"
-    ],
+    "tags": ["video", "distance", "visual", "interactive"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1591,12 +1172,7 @@
     "titleEs": "Rápido al Aire Libre",
     "description": "Encuentren un lugar semi-secluido al aire libre para un encuentro rápido.",
     "descriptionEs": "Encuentren un lugar semi-secluido al aire libre para un encuentro rápido.",
-    "tags": [
-      "outdoor",
-      "risky",
-      "quick",
-      "adrenaline"
-    ],
+    "tags": ["outdoor", "risky", "quick", "adrenaline"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1610,12 +1186,7 @@
     "titleEs": "Intimidad en el Auto",
     "description": "Diviértanse en un auto estacionado.",
     "descriptionEs": "Diviértanse en un auto estacionado.",
-    "tags": [
-      "car",
-      "confined",
-      "semi-public",
-      "spontaneous"
-    ],
+    "tags": ["car", "confined", "semi-public", "spontaneous"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1629,12 +1200,7 @@
     "titleEs": "Juego con la Ducha",
     "description": "Usen la ducha desmontable para estimulación dirigida.",
     "descriptionEs": "Usen la ducha desmontable para estimulación dirigida.",
-    "tags": [
-      "water",
-      "shower",
-      "stimulation",
-      "sensory"
-    ],
+    "tags": ["water", "shower", "stimulation", "sensory"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1648,12 +1214,7 @@
     "titleEs": "Juego con Comida",
     "description": "Incorporén crema batida, salsa de chocolate o fruta.",
     "descriptionEs": "Incorporén crema batida, salsa de chocolate o fruta.",
-    "tags": [
-      "food",
-      "messy",
-      "licking",
-      "playful"
-    ],
+    "tags": ["food", "messy", "licking", "playful"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1667,12 +1228,7 @@
     "titleEs": "Pintura Corporal",
     "description": "Usen pintura corporal comestible para crear arte en la piel mutua.",
     "descriptionEs": "Usen pintura corporal comestible para crear arte en la piel mutua.",
-    "tags": [
-      "art",
-      "edible",
-      "licking",
-      "creative"
-    ],
+    "tags": ["art", "edible", "licking", "creative"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1686,12 +1242,7 @@
     "titleEs": "Cosquilleo",
     "description": "Exploren puntos cosquillosos con dedos, plumas o toques ligeros.",
     "descriptionEs": "Exploren puntos cosquillosos con dedos, plumas o toques ligeros.",
-    "tags": [
-      "tickling",
-      "laughter",
-      "playful",
-      "sensory"
-    ],
+    "tags": ["tickling", "laughter", "playful", "sensory"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1705,12 +1256,7 @@
     "titleEs": "Rascado",
     "description": "Usen las uñas para crear senderos de sensación en la piel.",
     "descriptionEs": "Usen las uñas para crear senderos de sensación en la piel.",
-    "tags": [
-      "scratching",
-      "sensation",
-      "marking",
-      "intensity"
-    ],
+    "tags": ["scratching", "sensation", "marking", "intensity"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1724,12 +1270,7 @@
     "titleEs": "Pellizcos",
     "description": "Usen los dedos para pellizcar áreas sensibles.",
     "descriptionEs": "Usen los dedos para pellizcar áreas sensibles.",
-    "tags": [
-      "pinching",
-      "pain-pleasure",
-      "contrast",
-      "sensation"
-    ],
+    "tags": ["pinching", "pain-pleasure", "contrast", "sensation"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1743,12 +1284,7 @@
     "titleEs": "Juego de Temperatura",
     "description": "Alternen entre sensaciones calientes y frías.",
     "descriptionEs": "Alternen entre sensaciones calientes y frías.",
-    "tags": [
-      "temperature",
-      "contrast",
-      "sensory",
-      "intensity"
-    ],
+    "tags": ["temperature", "contrast", "sensory", "intensity"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1762,12 +1298,7 @@
     "titleEs": "Cuentas Anales",
     "description": "Inserten cuentas anales una por una, luego retiren en el punto del clímax.",
     "descriptionEs": "Inserten cuentas anales una por una, luego retiren en el punto del clímax.",
-    "tags": [
-      "anal",
-      "beads",
-      "toys",
-      "climax"
-    ],
+    "tags": ["anal", "beads", "toys", "climax"],
     "category": "props_and_toys",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1781,12 +1312,7 @@
     "titleEs": "Juego de Próstata",
     "description": "Exploren la estimulación de próstata para placer intenso.",
     "descriptionEs": "Exploren la estimulación de próstata para placer intenso.",
-    "tags": [
-      "prostate",
-      "anal",
-      "pleasure",
-      "exploration"
-    ],
+    "tags": ["prostate", "anal", "pleasure", "exploration"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1800,12 +1326,7 @@
     "titleEs": "Capturador/Cautivo",
     "description": "Una pareja juega el captor, la otra el cautivo.",
     "descriptionEs": "Una pareja juega el captor, la otra el cautivo.",
-    "tags": [
-      "roleplay",
-      "power",
-      "capture",
-      "dynamic"
-    ],
+    "tags": ["roleplay", "power", "capture", "dynamic"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1819,12 +1340,7 @@
     "titleEs": "Superhéroe/Villano",
     "description": "Jueguen dinámicas de superhéroe y villano.",
     "descriptionEs": "Jueguen dinámicas de superhéroe y villano.",
-    "tags": [
-      "roleplay",
-      "superhero",
-      "power",
-      "fantasy"
-    ],
+    "tags": ["roleplay", "superhero", "power", "fantasy"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1838,12 +1354,7 @@
     "titleEs": "Desfile de Lencería",
     "description": "Modeleen diferentes piezas de lencería para su pareja.",
     "descriptionEs": "Modeleen diferentes piezas de lencería para su pareja.",
-    "tags": [
-      "lingerie",
-      "visual",
-      "fashion",
-      "teasing"
-    ],
+    "tags": ["lingerie", "visual", "fashion", "teasing"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1857,12 +1368,7 @@
     "titleEs": "Juego de Vestirse Cruzado",
     "description": "Una o ambas parejas usan ropa típicamente asociada con otro género.",
     "descriptionEs": "Una o ambas parejas usan ropa típicamente asociada con otro género.",
-    "tags": [
-      "crossdressing",
-      "gender",
-      "exploration",
-      "roleplay"
-    ],
+    "tags": ["crossdressing", "gender", "exploration", "roleplay"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1876,12 +1382,7 @@
     "titleEs": "Juego de Feminización",
     "description": "Una pareja se viste y se trata de manera tradicionalmente femenina.",
     "descriptionEs": "Una pareja se viste y se trata de manera tradicionalmente femenina.",
-    "tags": [
-      "feminization",
-      "gender",
-      "roleplay",
-      "transformation"
-    ],
+    "tags": ["feminization", "gender", "roleplay", "transformation"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1895,12 +1396,7 @@
     "titleEs": "Juego de Género",
     "description": "Exploren diferentes expresiones y roles de género juntos.",
     "descriptionEs": "Exploren diferentes expresiones y roles de género juntos.",
-    "tags": [
-      "gender",
-      "exploration",
-      "identity",
-      "roleplay"
-    ],
+    "tags": ["gender", "exploration", "identity", "roleplay"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1914,12 +1410,7 @@
     "titleEs": "Voyeurismo Consensuado",
     "description": "Una pareja observa mientras la otra se da placer o se desviste.",
     "descriptionEs": "Una pareja observa mientras la otra se da placer o se desviste.",
-    "tags": [
-      "voyeurism",
-      "watching",
-      "exhibitionism",
-      "visual"
-    ],
+    "tags": ["voyeurism", "watching", "exhibitionism", "visual"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1933,12 +1424,7 @@
     "titleEs": "Exhibicionismo Consensuado",
     "description": "Realicen actos íntimos donde puedan ser vistos por su pareja.",
     "descriptionEs": "Realicen actos íntimos donde puedan ser vistos por su pareja.",
-    "tags": [
-      "exhibitionism",
-      "being-watched",
-      "risky",
-      "thrill"
-    ],
+    "tags": ["exhibitionism", "being-watched", "risky", "thrill"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -1952,12 +1438,7 @@
     "titleEs": "Exposición Pública",
     "description": "Expónganse en espacios públicos donde el descubrimiento es posible.",
     "descriptionEs": "Expónganse en espacios públicos donde el descubrimiento es posible.",
-    "tags": [
-      "public",
-      "exhibitionism",
-      "risky",
-      "illegal"
-    ],
+    "tags": ["public", "exhibitionism", "risky", "illegal"],
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1971,12 +1452,7 @@
     "titleEs": "Momificación",
     "description": "Envuelvan a su pareja completamente en plástico o vendas.",
     "descriptionEs": "Envuelvan a su pareja completamente en plástico o vendas.",
-    "tags": [
-      "mummification",
-      "bondage",
-      "total",
-      "immobilization"
-    ],
+    "tags": ["mummification", "bondage", "total", "immobilization"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx",
@@ -1990,12 +1466,7 @@
     "titleEs": "Entrenamiento de Mascota Intensivo",
     "description": "Transformación completa en mentalidad de mascota.",
     "descriptionEs": "Transformación completa en mentalidad de mascota.",
-    "tags": [
-      "petplay",
-      "training",
-      "protocol",
-      "intense"
-    ],
+    "tags": ["petplay", "training", "protocol", "intense"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2009,12 +1480,7 @@
     "titleEs": "Intercambio Total de Poder",
     "description": "Dinámica de poder 24/7 donde una pareja tiene control completo.",
     "descriptionEs": "Dinámica de poder 24/7 donde una pareja tiene control completo.",
-    "tags": [
-      "tpe",
-      "24-7",
-      "power",
-      "lifestyle"
-    ],
+    "tags": ["tpe", "24-7", "power", "lifestyle"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2028,12 +1494,7 @@
     "titleEs": "Orgasmo Forzado",
     "description": "Hagan que su pareja tenga orgasmos repetidamente más allá de sus límites.",
     "descriptionEs": "Hagan que su pareja tenga orgasmos repetidamente más allá de sus límites.",
-    "tags": [
-      "forced",
-      "orgasm",
-      "control",
-      "intense"
-    ],
+    "tags": ["forced", "orgasm", "control", "intense"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2047,12 +1508,7 @@
     "titleEs": "Negación de Orgasmo Extendida",
     "description": "Nieguen orgasmos por días, semanas o más.",
     "descriptionEs": "Nieguen orgasmos por días, semanas o más.",
-    "tags": [
-      "denial",
-      "extended",
-      "chastity",
-      "control"
-    ],
+    "tags": ["denial", "extended", "chastity", "control"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2066,12 +1522,7 @@
     "titleEs": "Besos en las Axilas",
     "description": "Besen y acaricien las axilas de su pareja.",
     "descriptionEs": "Besen y acaricien las axilas de su pareja.",
-    "tags": [
-      "armpits",
-      "kissing",
-      "erogenous",
-      "sensory"
-    ],
+    "tags": ["armpits", "kissing", "erogenous", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -2085,12 +1536,7 @@
     "titleEs": "Adoración del Vientre",
     "description": "Besen, acaricien y aprecien el vientre de su pareja.",
     "descriptionEs": "Besen, acaricien y aprecien el vientre de su pareja.",
-    "tags": [
-      "belly",
-      "worship",
-      "body-positive",
-      "sensory"
-    ],
+    "tags": ["belly", "worship", "body-positive", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -2104,12 +1550,7 @@
     "titleEs": "Besos en los Muslos",
     "description": "Enfoquen atención en los muslos internos.",
     "descriptionEs": "Enfoquen atención en los muslos internos.",
-    "tags": [
-      "thighs",
-      "teasing",
-      "anticipation",
-      "sensory"
-    ],
+    "tags": ["thighs", "teasing", "anticipation", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -2123,12 +1564,7 @@
     "titleEs": "Mordisquear Lóbulos",
     "description": "Mordisqueen y chupen suavemente los lóbulos de las orejas.",
     "descriptionEs": "Mordisqueen y chupen suavemente los lóbulos de las orejas.",
-    "tags": [
-      "ears",
-      "nibbling",
-      "sensory",
-      "gentle"
-    ],
+    "tags": ["ears", "nibbling", "sensory", "gentle"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -2142,12 +1578,7 @@
     "titleEs": "Chupar Dedos",
     "description": "Chupen los dedos de su pareja sugestivamente.",
     "descriptionEs": "Chupen los dedos de su pareja sugestivamente.",
-    "tags": [
-      "fingers",
-      "oral",
-      "sensual",
-      "foreplay"
-    ],
+    "tags": ["fingers", "oral", "sensual", "foreplay"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -2161,13 +1592,7 @@
     "titleEs": "Collar Simbólico (Dar)",
     "description": "Ofrece o coloca un collar como símbolo negociado de dinámica, compromiso o rol de escena.",
     "descriptionEs": "Ofrece o coloca un collar como símbolo negociado de dinámica, compromiso o rol de escena.",
-    "tags": [
-      "collar",
-      "symbolism",
-      "give",
-      "giving",
-      "bdsm"
-    ],
+    "tags": ["collar", "symbolism", "give", "giving", "bdsm"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2183,13 +1608,7 @@
     "titleEs": "Juego con Correa (Dar)",
     "description": "Guía a tu pareja con correa o señal de collar solo dentro de comodidad y movimiento negociados.",
     "descriptionEs": "Guía a tu pareja con correa o señal de collar solo dentro de comodidad y movimiento negociados.",
-    "tags": [
-      "leash",
-      "collar",
-      "give",
-      "giving",
-      "control"
-    ],
+    "tags": ["leash", "collar", "give", "giving", "control"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2205,13 +1624,7 @@
     "titleEs": "Nalgadas con Paleta (Dar)",
     "description": "Usa una paleta para impacto negociado, empezando suave y revisando comodidad tras cada cambio.",
     "descriptionEs": "Usa una paleta para impacto negociado, empezando suave y revisando comodidad tras cada cambio.",
-    "tags": [
-      "paddle",
-      "impact",
-      "give",
-      "giving",
-      "spanking"
-    ],
+    "tags": ["paddle", "impact", "give", "giving", "spanking"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2227,12 +1640,7 @@
     "titleEs": "Flagelación",
     "description": "Usen un látigo con múltiples colas para crear sensaciones variadas.",
     "descriptionEs": "Usen un látigo con múltiples colas para crear sensaciones variadas.",
-    "tags": [
-      "flogger",
-      "impact",
-      "bdsm",
-      "sensation"
-    ],
+    "tags": ["flogger", "impact", "bdsm", "sensation"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2246,12 +1654,7 @@
     "titleEs": "Juego con Cera de Vela",
     "description": "Goticen cera tibia sobre la piel para mezcla de calor y sensación.",
     "descriptionEs": "Goticen cera tibia sobre la piel para mezcla de calor y sensación.",
-    "tags": [
-      "wax",
-      "temperature",
-      "sensation",
-      "pain"
-    ],
+    "tags": ["wax", "temperature", "sensation", "pain"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2265,12 +1668,7 @@
     "titleEs": "Fantasía de Gang Bang",
     "description": "Fantaseen sobre múltiples parejas a la vez.",
     "descriptionEs": "Fantaseen sobre múltiples parejas a la vez.",
-    "tags": [
-      "gangbang",
-      "group",
-      "fantasy",
-      "multiple"
-    ],
+    "tags": ["gangbang", "group", "fantasy", "multiple"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2284,12 +1682,7 @@
     "titleEs": "Fantasía de Cornudo",
     "description": "Una pareja fantasea sobre ver a la otra con alguien más.",
     "descriptionEs": "Una pareja fantasea sobre ver a la otra con alguien más.",
-    "tags": [
-      "cuckold",
-      "voyeurism",
-      "humiliation",
-      "fantasy"
-    ],
+    "tags": ["cuckold", "voyeurism", "humiliation", "fantasy"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2303,12 +1696,7 @@
     "titleEs": "Fantasía de Esposa Caliente",
     "description": "La pareja sale con otros mientras su pareja principal sabe y aprueba.",
     "descriptionEs": "La pareja sale con otros mientras su pareja principal sabe y aprueba.",
-    "tags": [
-      "hotwife",
-      "consensual",
-      "non-monogamy",
-      "fantasy"
-    ],
+    "tags": ["hotwife", "consensual", "non-monogamy", "fantasy"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2322,12 +1710,7 @@
     "titleEs": "Fantasía de Intercambio",
     "description": "Fantaseen sobre intercambiar parejas con otra pareja.",
     "descriptionEs": "Fantaseen sobre intercambiar parejas con otra pareja.",
-    "tags": [
-      "swinging",
-      "group",
-      "exchange",
-      "fantasy"
-    ],
+    "tags": ["swinging", "group", "exchange", "fantasy"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2341,12 +1724,7 @@
     "titleEs": "Discusión de Poliamor",
     "description": "Discutan la posibilidad de múltiples relaciones amorosas.",
     "descriptionEs": "Discutan la posibilidad de múltiples relaciones amorosas.",
-    "tags": [
-      "polyamory",
-      "discussion",
-      "relationships",
-      "communication"
-    ],
+    "tags": ["polyamory", "discussion", "relationships", "communication"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2360,12 +1738,7 @@
     "titleEs": "Juego de Inflación",
     "description": "Usen juguetes inflables para crear plenitud y presión.",
     "descriptionEs": "Usen juguetes inflables para crear plenitud y presión.",
-    "tags": [
-      "inflation",
-      "fullness",
-      "pressure",
-      "toys"
-    ],
+    "tags": ["inflation", "fullness", "pressure", "toys"],
     "category": "props_and_toys",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2379,13 +1752,7 @@
     "titleEs": "Control de Castidad (Recibir)",
     "description": "Cede a tu pareja control negociado sobre la liberación durante una escena o un periodo corto acordado.",
     "descriptionEs": "Cede a tu pareja control negociado sobre la liberación durante una escena o un periodo corto acordado.",
-    "tags": [
-      "chastity",
-      "control",
-      "receive",
-      "receiving",
-      "denial"
-    ],
+    "tags": ["chastity", "control", "receive", "receiving", "denial"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2401,13 +1768,7 @@
     "titleEs": "Nalgadas Ligeras (Dar)",
     "description": "Da nalgadas suaves y consensuadas mientras controlas ritmo, intensidad y revisiones.",
     "descriptionEs": "Da nalgadas suaves y consensuadas mientras controlas ritmo, intensidad y revisiones.",
-    "tags": [
-      "impact-play",
-      "spanking",
-      "give",
-      "giving",
-      "consent"
-    ],
+    "tags": ["impact-play", "spanking", "give", "giving", "consent"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2423,13 +1784,7 @@
     "titleEs": "Nalgadas Ligeras (Recibir)",
     "description": "Recibe impacto suave y consensuado manteniendo conexión mediante señales y comentarios acordados.",
     "descriptionEs": "Recibe impacto suave y consensuado manteniendo conexión mediante señales y comentarios acordados.",
-    "tags": [
-      "impact-play",
-      "spanking",
-      "receive",
-      "receiving",
-      "trust"
-    ],
+    "tags": ["impact-play", "spanking", "receive", "receiving", "trust"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2445,13 +1800,7 @@
     "titleEs": "Esposas (Dar)",
     "description": "Sujeta a tu pareja con esposas y guía la escena con provocación, instrucciones y aftercare atento.",
     "descriptionEs": "Sujeta a tu pareja con esposas y guía la escena con provocación, instrucciones y aftercare atento.",
-    "tags": [
-      "restraint",
-      "handcuffs",
-      "give",
-      "giving",
-      "dominance"
-    ],
+    "tags": ["restraint", "handcuffs", "give", "giving", "dominance"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2467,13 +1816,7 @@
     "titleEs": "Esposas (Recibir)",
     "description": "Deja que sujeten tus muñecas mientras tu pareja lidera y mantiene la escena negociada.",
     "descriptionEs": "Deja que sujeten tus muñecas mientras tu pareja lidera y mantiene la escena negociada.",
-    "tags": [
-      "restraint",
-      "handcuffs",
-      "receive",
-      "receiving",
-      "trust"
-    ],
+    "tags": ["restraint", "handcuffs", "receive", "receiving", "trust"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2489,13 +1832,7 @@
     "titleEs": "Vibrador (Dar)",
     "description": "Usa un vibrador en tu pareja y controla velocidad, presión y ritmo con comunicación constante.",
     "descriptionEs": "Usa un vibrador en tu pareja y controla velocidad, presión y ritmo con comunicación constante.",
-    "tags": [
-      "toys",
-      "vibrator",
-      "give",
-      "giving",
-      "teasing"
-    ],
+    "tags": ["toys", "vibrator", "give", "giving", "teasing"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2511,13 +1848,7 @@
     "titleEs": "Vibrador (Recibir)",
     "description": "Deja que tu pareja controle el vibrador mientras te enfocas en la sensación y comunicas qué funciona.",
     "descriptionEs": "Deja que tu pareja controle el vibrador mientras te enfocas en la sensación y comunicas qué funciona.",
-    "tags": [
-      "toys",
-      "vibrator",
-      "receive",
-      "receiving",
-      "sensation"
-    ],
+    "tags": ["toys", "vibrator", "receive", "receiving", "sensation"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2533,13 +1864,7 @@
     "titleEs": "Pinzas de Pezones (Dar)",
     "description": "Coloca y retira pinzas con cuidado, mezclando presión, alivio y caricias provocativas.",
     "descriptionEs": "Coloca y retira pinzas con cuidado, mezclando presión, alivio y caricias provocativas.",
-    "tags": [
-      "toys",
-      "nipple-clamps",
-      "give",
-      "giving",
-      "control"
-    ],
+    "tags": ["toys", "nipple-clamps", "give", "giving", "control"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2555,13 +1880,7 @@
     "titleEs": "Pinzas de Pezones (Recibir)",
     "description": "Recibe juego con pinzas mientras tu pareja controla presión, ritmo y alivio dentro de límites acordados.",
     "descriptionEs": "Recibe juego con pinzas mientras tu pareja controla presión, ritmo y alivio dentro de límites acordados.",
-    "tags": [
-      "toys",
-      "nipple-clamps",
-      "receive",
-      "receiving",
-      "sensation"
-    ],
+    "tags": ["toys", "nipple-clamps", "receive", "receiving", "sensation"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2577,12 +1896,7 @@
     "titleEs": "Fetiche de Latex o Cuero",
     "description": "Exploren juntos el aspecto, la textura, el aroma y la confianza de usar latex, cuero o prendas ajustadas similares.",
     "descriptionEs": "Exploren juntos el aspecto, la textura, el aroma y la confianza de usar latex, cuero o prendas ajustadas similares.",
-    "tags": [
-      "materials",
-      "clothing",
-      "texture",
-      "fetish"
-    ],
+    "tags": ["materials", "clothing", "texture", "fetish"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2596,13 +1910,7 @@
     "titleEs": "Adoración de Pies (Dar)",
     "description": "Dedica atención a los pies de tu pareja con masaje, elogios o adoración dentro de límites acordados.",
     "descriptionEs": "Dedica atención a los pies de tu pareja con masaje, elogios o adoración dentro de límites acordados.",
-    "tags": [
-      "feet",
-      "worship",
-      "give",
-      "giving",
-      "fetish"
-    ],
+    "tags": ["feet", "worship", "give", "giving", "fetish"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2618,12 +1926,7 @@
     "titleEs": "Juego con Pene y Testiculos",
     "description": "Usen presion cuidadosa, caricias provocativas y comunicacion clara en zonas muy sensibles.",
     "descriptionEs": "Usen presion cuidadosa, caricias provocativas y comunicacion clara en zonas muy sensibles.",
-    "tags": [
-      "genitals",
-      "teasing",
-      "sensation",
-      "trust"
-    ],
+    "tags": ["genitals", "teasing", "sensation", "trust"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2637,12 +1940,7 @@
     "titleEs": "Juego con Mordaza",
     "description": "Usen una mordaza adecuada o una fantasia de restriccion verbal con senales no verbales y revisiones frecuentes.",
     "descriptionEs": "Usen una mordaza adecuada o una fantasia de restriccion verbal con senales no verbales y revisiones frecuentes.",
-    "tags": [
-      "restraint",
-      "communication",
-      "control",
-      "safety"
-    ],
+    "tags": ["restraint", "communication", "control", "safety"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2656,12 +1954,7 @@
     "titleEs": "Limites de Juego Intenso",
     "description": "Hablen del atractivo de fantasias de mayor riesgo definiendo limites firmes, planes de seguridad y lo que queda solo en fantasia.",
     "descriptionEs": "Hablen del atractivo de fantasias de mayor riesgo definiendo limites firmes, planes de seguridad y lo que queda solo en fantasia.",
-    "tags": [
-      "boundaries",
-      "risk-aware",
-      "communication",
-      "fantasy"
-    ],
+    "tags": ["boundaries", "risk-aware", "communication", "fantasy"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2675,12 +1968,7 @@
     "titleEs": "Fantasia Bisexual de Rol",
     "description": "Exploren curiosidad del mismo genero o escenarios bisexuales como fantasia consensuada, charla erotica o rol negociado.",
     "descriptionEs": "Exploren curiosidad del mismo genero o escenarios bisexuales como fantasia consensuada, charla erotica o rol negociado.",
-    "tags": [
-      "roleplay",
-      "fantasy",
-      "orientation",
-      "communication"
-    ],
+    "tags": ["roleplay", "fantasy", "orientation", "communication"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2694,12 +1982,7 @@
     "titleEs": "Fornifilia",
     "description": "Exploren la cosificacion consensuada posando como mueble o exhibicion, con controles de comodidad y descansos.",
     "descriptionEs": "Exploren la cosificacion consensuada posando como mueble o exhibicion, con controles de comodidad y descansos.",
-    "tags": [
-      "objectification",
-      "restraint",
-      "roleplay",
-      "control"
-    ],
+    "tags": ["objectification", "restraint", "roleplay", "control"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2713,12 +1996,7 @@
     "titleEs": "Juego con Semen",
     "description": "Exploren el lado visual, tactil o simbolico de la eyaculacion de forma consensuada e higienica.",
     "descriptionEs": "Exploren el lado visual, tactil o simbolico de la eyaculacion de forma consensuada e higienica.",
-    "tags": [
-      "fluids",
-      "ejaculation",
-      "intimacy",
-      "cleanup"
-    ],
+    "tags": ["fluids", "ejaculation", "intimacy", "cleanup"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2732,12 +2010,7 @@
     "titleEs": "Fantasia de Bukkake",
     "description": "Hablen o jueguen con la fantasia de ser el centro de atencion de varias personas, manteniendola consensuada y segura.",
     "descriptionEs": "Hablen o jueguen con la fantasia de ser el centro de atencion de varias personas, manteniendola consensuada y segura.",
-    "tags": [
-      "fluids",
-      "group",
-      "fantasy",
-      "attention"
-    ],
+    "tags": ["fluids", "group", "fantasy", "attention"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2751,12 +2024,7 @@
     "titleEs": "Semen en la Ropa",
     "description": "Usen la ropa como parte de la fantasia, cuidando el permiso, la limpieza y que prendas se pueden marcar.",
     "descriptionEs": "Usen la ropa como parte de la fantasia, cuidando el permiso, la limpieza y que prendas se pueden marcar.",
-    "tags": [
-      "fluids",
-      "clothing",
-      "marking",
-      "consent"
-    ],
+    "tags": ["fluids", "clothing", "marking", "consent"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2770,12 +2038,7 @@
     "titleEs": "Fantasia de Lactancia",
     "description": "Exploren temas de lactancia, leche o amamantamiento como fantasia o intimidad corporal entre adultos que consienten.",
     "descriptionEs": "Exploren temas de lactancia, leche o amamantamiento como fantasia o intimidad corporal entre adultos que consienten.",
-    "tags": [
-      "body",
-      "nurturing",
-      "fantasy",
-      "intimacy"
-    ],
+    "tags": ["body", "nurturing", "fantasy", "intimacy"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2789,12 +2052,7 @@
     "titleEs": "Juego con Saliva",
     "description": "Exploren escupir, babear, besos intensos o intimidad centrada en saliva con consentimiento explicito e higiene.",
     "descriptionEs": "Exploren escupir, babear, besos intensos o intimidad centrada en saliva con consentimiento explicito e higiene.",
-    "tags": [
-      "fluids",
-      "kissing",
-      "messy",
-      "consent"
-    ],
+    "tags": ["fluids", "kissing", "messy", "consent"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2808,12 +2066,7 @@
     "titleEs": "Fantasia de Expansion de Pechos",
     "description": "Usen fantasia, charla erotica o imaginacion visual sobre pechos que se vuelven mas llenos o destacados.",
     "descriptionEs": "Usen fantasia, charla erotica o imaginacion visual sobre pechos que se vuelven mas llenos o destacados.",
-    "tags": [
-      "body",
-      "fantasy",
-      "breasts",
-      "transformation"
-    ],
+    "tags": ["body", "fantasy", "breasts", "transformation"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2827,12 +2080,7 @@
     "titleEs": "Fantasia de Expansion del Vientre",
     "description": "Exploren fantasias sobre un vientre mas lleno, cambios corporales o imagenes asociadas al embarazo mediante charla o rol.",
     "descriptionEs": "Exploren fantasias sobre un vientre mas lleno, cambios corporales o imagenes asociadas al embarazo mediante charla o rol.",
-    "tags": [
-      "body",
-      "fantasy",
-      "belly",
-      "transformation"
-    ],
+    "tags": ["body", "fantasy", "belly", "transformation"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2846,12 +2094,7 @@
     "titleEs": "Fantasia de Toques Publicos Consensuados",
     "description": "Exploren la emocion de toques discretos en entornos semipublicos priorizando consentimiento, legalidad y privacidad.",
     "descriptionEs": "Exploren la emocion de toques discretos en entornos semipublicos priorizando consentimiento, legalidad y privacidad.",
-    "tags": [
-      "public",
-      "touch",
-      "risk-aware",
-      "consent"
-    ],
+    "tags": ["public", "touch", "risk-aware", "consent"],
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2865,12 +2108,7 @@
     "titleEs": "Fantasia de Dogging",
     "description": "Hablen de mirar o ser vistos en fantasias de auto o exterior sin involucrar a personas que no consienten.",
     "descriptionEs": "Hablen de mirar o ser vistos en fantasias de auto o exterior sin involucrar a personas que no consienten.",
-    "tags": [
-      "voyeur",
-      "exhibition",
-      "public",
-      "fantasy"
-    ],
+    "tags": ["voyeur", "exhibition", "public", "fantasy"],
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2884,12 +2122,7 @@
     "titleEs": "Observar en Club Swinger",
     "description": "Exploren la idea de visitar un lugar adulto para observar, sentir el ambiente o hablar de limites juntos.",
     "descriptionEs": "Exploren la idea de visitar un lugar adulto para observar, sentir el ambiente o hablar de limites juntos.",
-    "tags": [
-      "voyeur",
-      "swinging",
-      "venue",
-      "discussion"
-    ],
+    "tags": ["voyeur", "swinging", "venue", "discussion"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2903,12 +2136,7 @@
     "titleEs": "Fantasia de Gloryhole",
     "description": "Exploren el juego anonimo con separacion como fantasia o charla sobre lugares adultos con limites claros de sexo seguro.",
     "descriptionEs": "Exploren el juego anonimo con separacion como fantasia o charla sobre lugares adultos con limites claros de sexo seguro.",
-    "tags": [
-      "anonymous",
-      "oral",
-      "fantasy",
-      "venue"
-    ],
+    "tags": ["anonymous", "oral", "fantasy", "venue"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2922,12 +2150,7 @@
     "titleEs": "Exhibicionismo con Venda",
     "description": "Combinen fantasias consensuadas de ser vistos con una venda para que la atencion y la incertidumbre sean parte del juego.",
     "descriptionEs": "Combinen fantasias consensuadas de ser vistos con una venda para que la atencion y la incertidumbre sean parte del juego.",
-    "tags": [
-      "blindfold",
-      "exhibition",
-      "sensory",
-      "fantasy"
-    ],
+    "tags": ["blindfold", "exhibition", "sensory", "fantasy"],
     "category": "sensory",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2941,12 +2164,7 @@
     "titleEs": "Juego de Retos",
     "description": "Turnense para proponer retos juguetones o eroticos, con derecho a veto y una forma clara de pasar.",
     "descriptionEs": "Turnense para proponer retos juguetones o eroticos, con derecho a veto y una forma clara de pasar.",
-    "tags": [
-      "game",
-      "challenge",
-      "spontaneity",
-      "consent"
-    ],
+    "tags": ["game", "challenge", "spontaneity", "consent"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2960,12 +2178,7 @@
     "titleEs": "Fetiche de Uniformes",
     "description": "Usen uniformes o prendas asociadas a autoridad para intensificar atraccion, rol y dinamicas de poder.",
     "descriptionEs": "Usen uniformes o prendas asociadas a autoridad para intensificar atraccion, rol y dinamicas de poder.",
-    "tags": [
-      "clothing",
-      "authority",
-      "roleplay",
-      "power"
-    ],
+    "tags": ["clothing", "authority", "roleplay", "power"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -2979,12 +2192,7 @@
     "titleEs": "Fantasia de Trio MHM",
     "description": "Hablen de una fantasia de una mujer y dos hombres, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
     "descriptionEs": "Hablen de una fantasia de una mujer y dos hombres, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
-    "tags": [
-      "group",
-      "threesome",
-      "fantasy",
-      "discussion"
-    ],
+    "tags": ["group", "threesome", "fantasy", "discussion"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -2998,12 +2206,7 @@
     "titleEs": "Fantasia de Trio MMH",
     "description": "Hablen de una fantasia de dos mujeres y un hombre, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
     "descriptionEs": "Hablen de una fantasia de dos mujeres y un hombre, incluyendo atencion, limites, celos y expectativas de sexo seguro.",
-    "tags": [
-      "group",
-      "threesome",
-      "fantasy",
-      "discussion"
-    ],
+    "tags": ["group", "threesome", "fantasy", "discussion"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3017,12 +2220,7 @@
     "titleEs": "Fantasia de Compartir Cama",
     "description": "Exploren la intimidad y tension de compartir cama, como pareja, rol o fantasia grupal negociada.",
     "descriptionEs": "Exploren la intimidad y tension de compartir cama, como pareja, rol o fantasia grupal negociada.",
-    "tags": [
-      "bed",
-      "intimacy",
-      "fantasy",
-      "closeness"
-    ],
+    "tags": ["bed", "intimacy", "fantasy", "closeness"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3036,12 +2234,7 @@
     "titleEs": "Fantasia de Despertar Sensual",
     "description": "Hablen de intimidad somnolienta o al despertar, preacordada y revocable en cualquier momento.",
     "descriptionEs": "Hablen de intimidad somnolienta o al despertar, preacordada y revocable en cualquier momento.",
-    "tags": [
-      "sleepy",
-      "consent",
-      "fantasy",
-      "trust"
-    ],
+    "tags": ["sleepy", "consent", "fantasy", "trust"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3055,12 +2248,7 @@
     "titleEs": "Sexo de Viaje",
     "description": "Exploren la novedad de la intimidad al viajar, desde habitaciones de hotel hasta reglas de vacaciones y escapadas.",
     "descriptionEs": "Exploren la novedad de la intimidad al viajar, desde habitaciones de hotel hasta reglas de vacaciones y escapadas.",
-    "tags": [
-      "travel",
-      "environment",
-      "novelty",
-      "fantasy"
-    ],
+    "tags": ["travel", "environment", "novelty", "fantasy"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3074,12 +2262,7 @@
     "titleEs": "Fantasia de Sexo en Bar o Club",
     "description": "Exploren la fantasia de quimica, musica, coqueteo y encontrar un lugar privado y legal despues de salir.",
     "descriptionEs": "Exploren la fantasia de quimica, musica, coqueteo y encontrar un lugar privado y legal despues de salir.",
-    "tags": [
-      "nightlife",
-      "public-adjacent",
-      "flirting",
-      "fantasy"
-    ],
+    "tags": ["nightlife", "public-adjacent", "flirting", "fantasy"],
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3093,12 +2276,7 @@
     "titleEs": "Conversacion sobre Sexo sin Barrera",
     "description": "Hablen honestamente sobre la fantasia de sexo sin barrera, pruebas, anticoncepcion, confianza y tolerancia al riesgo.",
     "descriptionEs": "Hablen honestamente sobre la fantasia de sexo sin barrera, pruebas, anticoncepcion, confianza y tolerancia al riesgo.",
-    "tags": [
-      "safer-sex",
-      "trust",
-      "risk-aware",
-      "discussion"
-    ],
+    "tags": ["safer-sex", "trust", "risk-aware", "discussion"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3112,12 +2290,7 @@
     "titleEs": "Humillacion Genital",
     "description": "Usen bromas o humillacion consensuada sobre genitales con palabras acordadas, limites y cuidado posterior.",
     "descriptionEs": "Usen bromas o humillacion consensuada sobre genitales con palabras acordadas, limites y cuidado posterior.",
-    "tags": [
-      "humiliation",
-      "dirty-talk",
-      "limits",
-      "aftercare"
-    ],
+    "tags": ["humiliation", "dirty-talk", "limits", "aftercare"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3131,12 +2304,7 @@
     "titleEs": "Fantasia de Humillacion Publica",
     "description": "Hablen de escenarios de humillacion con publico, manteniendo a terceros como fantasia o plenamente consensuados.",
     "descriptionEs": "Hablen de escenarios de humillacion con publico, manteniendo a terceros como fantasia o plenamente consensuados.",
-    "tags": [
-      "humiliation",
-      "public",
-      "fantasy",
-      "consent"
-    ],
+    "tags": ["humiliation", "public", "fantasy", "consent"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3150,12 +2318,7 @@
     "titleEs": "Juego de Seduccion",
     "description": "Construyan una escena de tentar, perseguir, resistir y finalmente ceder al deseo.",
     "descriptionEs": "Construyan una escena de tentar, perseguir, resistir y finalmente ceder al deseo.",
-    "tags": [
-      "seduction",
-      "roleplay",
-      "teasing",
-      "anticipation"
-    ],
+    "tags": ["seduction", "roleplay", "teasing", "anticipation"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3169,12 +2332,7 @@
     "titleEs": "Fantasia de Juego Grupal con Venda",
     "description": "Hablen de una fantasia grupal donde la ceguera temporal, la confianza y el tacto negociado crean intensidad.",
     "descriptionEs": "Hablen de una fantasia grupal donde la ceguera temporal, la confianza y el tacto negociado crean intensidad.",
-    "tags": [
-      "blindfold",
-      "group",
-      "fantasy",
-      "trust"
-    ],
+    "tags": ["blindfold", "group", "fantasy", "trust"],
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3188,12 +2346,7 @@
     "titleEs": "Eventos Kinky",
     "description": "Exploren interes en reuniones, talleres, fiestas de juego o eventos adultos como observadores o participantes.",
     "descriptionEs": "Exploren interes en reuniones, talleres, fiestas de juego o eventos adultos como observadores o participantes.",
-    "tags": [
-      "events",
-      "community",
-      "learning",
-      "discussion"
-    ],
+    "tags": ["events", "community", "learning", "discussion"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3207,12 +2360,7 @@
     "titleEs": "Ritual de Cuidado Posterior",
     "description": "Planeen como reconectar despues de un juego intenso con contacto, agua, tranquilidad, palabras o una revision.",
     "descriptionEs": "Planeen como reconectar despues de un juego intenso con contacto, agua, tranquilidad, palabras o una revision.",
-    "tags": [
-      "aftercare",
-      "care",
-      "communication",
-      "reconnection"
-    ],
+    "tags": ["aftercare", "care", "communication", "reconnection"],
     "category": "aftercare",
     "intensityScale": 1,
     "tier": "soft",
@@ -3226,12 +2374,7 @@
     "titleEs": "Juego de Excitacion",
     "description": "Enfoquense en construir, notar y prolongar la excitacion con provocacion, ritmo y retroalimentacion.",
     "descriptionEs": "Enfoquense en construir, notar y prolongar la excitacion con provocacion, ritmo y retroalimentacion.",
-    "tags": [
-      "arousal",
-      "teasing",
-      "pacing",
-      "feedback"
-    ],
+    "tags": ["arousal", "teasing", "pacing", "feedback"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3245,12 +2388,7 @@
     "titleEs": "Kink de Reproduccion",
     "description": "Exploren charla erotica de embarazo, fantasia de terminar dentro o lenguaje posesivo, alineados sobre anticoncepcion.",
     "descriptionEs": "Exploren charla erotica de embarazo, fantasia de terminar dentro o lenguaje posesivo, alineados sobre anticoncepcion.",
-    "tags": [
-      "fantasy",
-      "pregnancy-coded",
-      "dirty-talk",
-      "contraception"
-    ],
+    "tags": ["fantasy", "pregnancy-coded", "dirty-talk", "contraception"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3264,12 +2402,7 @@
     "titleEs": "Fetiche de Espuma o Burbujas",
     "description": "Usen espuma, burbujas o un bano como enfoque sensorial jugueton para el tacto y lo visual.",
     "descriptionEs": "Usen espuma, burbujas o un bano como enfoque sensorial jugueton para el tacto y lo visual.",
-    "tags": [
-      "bubbles",
-      "foam",
-      "sensory",
-      "bath"
-    ],
+    "tags": ["bubbles", "foam", "sensory", "bath"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -3283,12 +2416,7 @@
     "titleEs": "Nudismo",
     "description": "Exploren comodidad, confianza e intimidad al estar desnudos juntos en privado o en espacios adultos adecuados.",
     "descriptionEs": "Exploren comodidad, confianza e intimidad al estar desnudos juntos en privado o en espacios adultos adecuados.",
-    "tags": [
-      "nudity",
-      "confidence",
-      "body",
-      "comfort"
-    ],
+    "tags": ["nudity", "confidence", "body", "comfort"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -3302,12 +2430,7 @@
     "titleEs": "Ver Porno Hombre-Hombre Juntos",
     "description": "Hablen o vean contenido adulto hombre-hombre juntos como curiosidad, fantasia o excitacion compartida.",
     "descriptionEs": "Hablen o vean contenido adulto hombre-hombre juntos como curiosidad, fantasia o excitacion compartida.",
-    "tags": [
-      "porn",
-      "orientation",
-      "voyeur",
-      "discussion"
-    ],
+    "tags": ["porn", "orientation", "voyeur", "discussion"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3321,12 +2444,7 @@
     "titleEs": "Ver Porno Mujer-Mujer Juntos",
     "description": "Hablen o vean contenido adulto mujer-mujer juntos como curiosidad, fantasia o excitacion compartida.",
     "descriptionEs": "Hablen o vean contenido adulto mujer-mujer juntos como curiosidad, fantasia o excitacion compartida.",
-    "tags": [
-      "porn",
-      "orientation",
-      "voyeur",
-      "discussion"
-    ],
+    "tags": ["porn", "orientation", "voyeur", "discussion"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3340,12 +2458,7 @@
     "titleEs": "Sumision de Servicio",
     "description": "Exploren actos practicos de cuidado, atencion o ayuda como enfoque consensuado de intercambio de poder.",
     "descriptionEs": "Exploren actos practicos de cuidado, atencion o ayuda como enfoque consensuado de intercambio de poder.",
-    "tags": [
-      "service",
-      "submission",
-      "care",
-      "power-exchange"
-    ],
+    "tags": ["service", "submission", "care", "power-exchange"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3359,12 +2472,7 @@
     "titleEs": "Top de Servicio",
     "description": "Una pareja guia una actividad acordada mientras centra las sensaciones y limites pedidos por quien recibe.",
     "descriptionEs": "Una pareja guia una actividad acordada mientras centra las sensaciones y limites pedidos por quien recibe.",
-    "tags": [
-      "service",
-      "top",
-      "negotiation",
-      "scene"
-    ],
+    "tags": ["service", "top", "negotiation", "scene"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3378,13 +2486,7 @@
     "titleEs": "Elogios (Dar)",
     "description": "Da elogios sinceros, aprobación y ánimo como fuente central de excitación.",
     "descriptionEs": "Da elogios sinceros, aprobación y ánimo como fuente central de excitación.",
-    "tags": [
-      "praise",
-      "affirmation",
-      "give",
-      "giving",
-      "communication"
-    ],
+    "tags": ["praise", "affirmation", "give", "giving", "communication"],
     "category": "paired_play",
     "intensityScale": 1,
     "tier": "soft",
@@ -3400,12 +2502,7 @@
     "titleEs": "Reglas y Rituales",
     "description": "Creen pequenas reglas o rituales consensuados que hagan que una dinamica se sienta intencional sin salir de los limites diarios.",
     "descriptionEs": "Creen pequenas reglas o rituales consensuados que hagan que una dinamica se sienta intencional sin salir de los limites diarios.",
-    "tags": [
-      "rules",
-      "rituals",
-      "dynamic",
-      "structure"
-    ],
+    "tags": ["rules", "rituals", "dynamic", "structure"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3419,12 +2516,7 @@
     "titleEs": "D/s de Bajo Protocolo",
     "description": "Prueben una dinamica relajada de dominacion y sumision con guia ligera, elecciones juguetonas y chequeos faciles.",
     "descriptionEs": "Prueben una dinamica relajada de dominacion y sumision con guia ligera, elecciones juguetonas y chequeos faciles.",
-    "tags": [
-      "dominance",
-      "submission",
-      "protocol",
-      "check-ins"
-    ],
+    "tags": ["dominance", "submission", "protocol", "check-ins"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3438,12 +2530,7 @@
     "titleEs": "Fantasia de Alto Protocolo",
     "description": "Hablen o representen etiqueta formal, postura, titulos y reglas de permiso dentro de una escena claramente negociada.",
     "descriptionEs": "Hablen o representen etiqueta formal, postura, titulos y reglas de permiso dentro de una escena claramente negociada.",
-    "tags": [
-      "protocol",
-      "ritual",
-      "permission",
-      "roleplay"
-    ],
+    "tags": ["protocol", "ritual", "permission", "roleplay"],
     "category": "roleplay",
     "intensityScale": 3,
     "tier": "xxx",
@@ -3457,12 +2544,7 @@
     "titleEs": "Juego de Permiso",
     "description": "Creen anticipacion al pedir, conceder o negar permiso sobre elecciones intimas acordadas.",
     "descriptionEs": "Creen anticipacion al pedir, conceder o negar permiso sobre elecciones intimas acordadas.",
-    "tags": [
-      "permission",
-      "control",
-      "anticipation",
-      "dynamic"
-    ],
+    "tags": ["permission", "control", "anticipation", "dynamic"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3476,12 +2558,7 @@
     "titleEs": "Provocacion con Tareas",
     "description": "Den tareas juguetonas, indicaciones con tiempo o retos privados que creen anticipacion antes de la intimidad.",
     "descriptionEs": "Den tareas juguetonas, indicaciones con tiempo o retos privados que creen anticipacion antes de la intimidad.",
-    "tags": [
-      "tasks",
-      "teasing",
-      "anticipation",
-      "control"
-    ],
+    "tags": ["tasks", "teasing", "anticipation", "control"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3495,12 +2572,7 @@
     "titleEs": "Juegos de Obediencia",
     "description": "Usen instrucciones simples y negociadas con recompensas para explorar ser guiado o guiar a la pareja.",
     "descriptionEs": "Usen instrucciones simples y negociadas con recompensas para explorar ser guiado o guiar a la pareja.",
-    "tags": [
-      "obedience",
-      "rewards",
-      "instructions",
-      "power-exchange"
-    ],
+    "tags": ["obedience", "rewards", "instructions", "power-exchange"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3514,12 +2586,7 @@
     "titleEs": "Sistema de Recompensas",
     "description": "Establezcan recompensas afectuosas por retos, tareas o chequeos completados durante una escena consensuada.",
     "descriptionEs": "Establezcan recompensas afectuosas por retos, tareas o chequeos completados durante una escena consensuada.",
-    "tags": [
-      "rewards",
-      "games",
-      "rules",
-      "aftercare"
-    ],
+    "tags": ["rewards", "games", "rules", "aftercare"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3533,12 +2600,7 @@
     "titleEs": "Domar al Brat",
     "description": "Exploren resistencia juguetona, provocacion desafiante y consecuencias acordadas sin conflicto real.",
     "descriptionEs": "Exploren resistencia juguetona, provocacion desafiante y consecuencias acordadas sin conflicto real.",
-    "tags": [
-      "brat",
-      "teasing",
-      "dominance",
-      "playful"
-    ],
+    "tags": ["brat", "teasing", "dominance", "playful"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3552,12 +2614,7 @@
     "titleEs": "Disciplina Suave",
     "description": "Usen estructura o correccion leve y acordada como forma juguetona de crear tension y atencion.",
     "descriptionEs": "Usen estructura o correccion leve y acordada como forma juguetona de crear tension y atencion.",
-    "tags": [
-      "discipline",
-      "structure",
-      "control",
-      "communication"
-    ],
+    "tags": ["discipline", "structure", "control", "communication"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3571,12 +2628,7 @@
     "titleEs": "Negociacion de Escena",
     "description": "Hagan que la conversacion previa a la escena sea excitante al nombrar deseos, limites, senales y cuidado posterior.",
     "descriptionEs": "Hagan que la conversacion previa a la escena sea excitante al nombrar deseos, limites, senales y cuidado posterior.",
-    "tags": [
-      "negotiation",
-      "limits",
-      "consent",
-      "planning"
-    ],
+    "tags": ["negotiation", "limits", "consent", "planning"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -3590,12 +2642,7 @@
     "titleEs": "Practica de Palabra Segura",
     "description": "Practiquen pausar, bajar intensidad y detenerse con palabras o senales acordadas para que ambos confien en el sistema.",
     "descriptionEs": "Practiquen pausar, bajar intensidad y detenerse con palabras o senales acordadas para que ambos confien en el sistema.",
-    "tags": [
-      "safeword",
-      "consent",
-      "check-ins",
-      "trust"
-    ],
+    "tags": ["safeword", "consent", "check-ins", "trust"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -3609,12 +2656,7 @@
     "titleEs": "Pausas de Chequeo",
     "description": "Usen chequeos breves verbales o no verbales durante la intimidad para confirmar comodidad y mantener conexion.",
     "descriptionEs": "Usen chequeos breves verbales o no verbales durante la intimidad para confirmar comodidad y mantener conexion.",
-    "tags": [
-      "check-ins",
-      "consent",
-      "comfort",
-      "communication"
-    ],
+    "tags": ["check-ins", "consent", "comfort", "communication"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -3628,12 +2670,7 @@
     "titleEs": "Kit de Cuidado Posterior",
     "description": "Preparen mantas, agua, snacks o elementos calmantes antes de una escena mas intensa.",
     "descriptionEs": "Preparen mantas, agua, snacks o elementos calmantes antes de una escena mas intensa.",
-    "tags": [
-      "aftercare",
-      "comfort",
-      "planning",
-      "care"
-    ],
+    "tags": ["aftercare", "comfort", "planning", "care"],
     "category": "aftercare",
     "intensityScale": 1,
     "tier": "soft",
@@ -3647,12 +2684,7 @@
     "titleEs": "Cuidado Posterior de Subspace",
     "description": "Planifiquen arraigo, tranquilidad y cercania silenciosa despues de escenas que creen un estado mental flotante o entregado.",
     "descriptionEs": "Planifiquen arraigo, tranquilidad y cercania silenciosa despues de escenas que creen un estado mental flotante o entregado.",
-    "tags": [
-      "subspace",
-      "aftercare",
-      "grounding",
-      "care"
-    ],
+    "tags": ["subspace", "aftercare", "grounding", "care"],
     "category": "aftercare",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3666,12 +2698,7 @@
     "titleEs": "Cuidado Posterior de Domspace",
     "description": "Ofrezcan arraigo y tranquilidad para la pareja que guia despues de una escena intensa de intercambio de poder.",
     "descriptionEs": "Ofrezcan arraigo y tranquilidad para la pareja que guia despues de una escena intensa de intercambio de poder.",
-    "tags": [
-      "domspace",
-      "aftercare",
-      "grounding",
-      "care"
-    ],
+    "tags": ["domspace", "aftercare", "grounding", "care"],
     "category": "aftercare",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3685,12 +2712,7 @@
     "titleEs": "Collar de Consideracion",
     "description": "Usen un collar o simbolo para marcar curiosidad, confianza o una dinamica temporal.",
     "descriptionEs": "Usen un collar o simbolo para marcar curiosidad, confianza o una dinamica temporal.",
-    "tags": [
-      "collar",
-      "symbol",
-      "trust",
-      "dynamic"
-    ],
+    "tags": ["collar", "symbol", "trust", "dynamic"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3704,12 +2726,7 @@
     "titleEs": "Entrenamiento de Postura",
     "description": "Jueguen con postura guiada, presentacion o quietud como ritual estetico de intercambio de poder.",
     "descriptionEs": "Jueguen con postura guiada, presentacion o quietud como ritual estetico de intercambio de poder.",
-    "tags": [
-      "posture",
-      "ritual",
-      "presentation",
-      "control"
-    ],
+    "tags": ["posture", "ritual", "presentation", "control"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3723,12 +2740,7 @@
     "titleEs": "Rituales de Rodillas",
     "description": "Exploren arrodillarse, ofrecer o recibir atencion como apertura o cierre simbolico de una escena.",
     "descriptionEs": "Exploren arrodillarse, ofrecer o recibir atencion como apertura o cierre simbolico de una escena.",
-    "tags": [
-      "kneeling",
-      "ritual",
-      "submission",
-      "symbolic"
-    ],
+    "tags": ["kneeling", "ritual", "submission", "symbolic"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3742,12 +2754,7 @@
     "titleEs": "Honorificos",
     "description": "Prueben titulos o formas de dirigirse acordadas que agreguen formalidad, afecto o intercambio de poder.",
     "descriptionEs": "Prueben titulos o formas de dirigirse acordadas que agreguen formalidad, afecto o intercambio de poder.",
-    "tags": [
-      "titles",
-      "language",
-      "roleplay",
-      "power-exchange"
-    ],
+    "tags": ["titles", "language", "roleplay", "power-exchange"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3761,12 +2768,7 @@
     "titleEs": "Adoracion del Cuerpo",
     "description": "Concentren atencion, elogios, besos o tacto en apreciar todo el cuerpo de la pareja.",
     "descriptionEs": "Concentren atencion, elogios, besos o tacto en apreciar todo el cuerpo de la pareja.",
-    "tags": [
-      "worship",
-      "body",
-      "praise",
-      "touch"
-    ],
+    "tags": ["worship", "body", "praise", "touch"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3780,12 +2782,7 @@
     "titleEs": "Adoracion de Manos",
     "description": "Hagan de las manos el foco con besos, masaje, aroma, tacto o admiracion guiada.",
     "descriptionEs": "Hagan de las manos el foco con besos, masaje, aroma, tacto o admiracion guiada.",
-    "tags": [
-      "hands",
-      "worship",
-      "touch",
-      "sensory"
-    ],
+    "tags": ["hands", "worship", "touch", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -3799,12 +2796,7 @@
     "titleEs": "Excitacion por la Voz",
     "description": "Usen voz, tono, susurros, lectura o conversacion con respiracion como fuente principal de anticipacion.",
     "descriptionEs": "Usen voz, tono, susurros, lectura o conversacion con respiracion como fuente principal de anticipacion.",
-    "tags": [
-      "voice",
-      "auralism",
-      "sound",
-      "communication"
-    ],
+    "tags": ["voice", "auralism", "sound", "communication"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -3818,12 +2810,7 @@
     "titleEs": "Audio Erotico Juntos",
     "description": "Escuchen audio adulto consensual o graben fantasias habladas privadas para la pareja.",
     "descriptionEs": "Escuchen audio adulto consensual o graben fantasias habladas privadas para la pareja.",
-    "tags": [
-      "audio",
-      "fantasy",
-      "voice",
-      "digital"
-    ],
+    "tags": ["audio", "fantasy", "voice", "digital"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3837,12 +2824,7 @@
     "titleEs": "Juego Sensorial con Tapones",
     "description": "Reduzcan el sonido con tapones o audifonos simples mientras dependen del tacto, senales y chequeos.",
     "descriptionEs": "Reduzcan el sonido con tapones o audifonos simples mientras dependen del tacto, senales y chequeos.",
-    "tags": [
-      "sensory-deprivation",
-      "sound",
-      "check-ins",
-      "touch"
-    ],
+    "tags": ["sensory-deprivation", "sound", "check-ins", "touch"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3856,12 +2838,7 @@
     "titleEs": "Guantes con Textura",
     "description": "Usen guantes con distintas texturas para que el tacto familiar se sienta nuevo y enfocado.",
     "descriptionEs": "Usen guantes con distintas texturas para que el tacto familiar se sienta nuevo y enfocado.",
-    "tags": [
-      "texture",
-      "gloves",
-      "touch",
-      "sensory"
-    ],
+    "tags": ["texture", "gloves", "touch", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -3875,12 +2852,7 @@
     "titleEs": "Sabanas de Satin",
     "description": "Hagan que sabanas sedosas, tela suave o ropa de cama lisa sean el centro de una noche sensorial.",
     "descriptionEs": "Hagan que sabanas sedosas, tela suave o ropa de cama lisa sean el centro de una noche sensorial.",
-    "tags": [
-      "fabric",
-      "satin",
-      "bedding",
-      "sensory"
-    ],
+    "tags": ["fabric", "satin", "bedding", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -3894,12 +2866,7 @@
     "titleEs": "Fetiche de Medias",
     "description": "Enfoquense en medias, medias altas o calceteria como estimulo visual y de textura.",
     "descriptionEs": "Enfoquense en medias, medias altas o calceteria como estimulo visual y de textura.",
-    "tags": [
-      "stockings",
-      "hosiery",
-      "clothing",
-      "fetish"
-    ],
+    "tags": ["stockings", "hosiery", "clothing", "fetish"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3913,12 +2880,7 @@
     "titleEs": "Fetiche de Corset",
     "description": "Exploren el aspecto, la estructura y el ritual de usar o admirar un corset.",
     "descriptionEs": "Exploren el aspecto, la estructura y el ritual de usar o admirar un corset.",
-    "tags": [
-      "corset",
-      "clothing",
-      "structure",
-      "fetish"
-    ],
+    "tags": ["corset", "clothing", "structure", "fetish"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3932,12 +2894,7 @@
     "titleEs": "Fetiche de Zapatos",
     "description": "Usen zapatos, botas o tacones como foco visual consensuado o ritual de admiracion.",
     "descriptionEs": "Usen zapatos, botas o tacones como foco visual consensuado o ritual de admiracion.",
-    "tags": [
-      "shoes",
-      "heels",
-      "boots",
-      "fetish"
-    ],
+    "tags": ["shoes", "heels", "boots", "fetish"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3951,12 +2908,7 @@
     "titleEs": "Juego de Perfume y Aroma",
     "description": "Usen perfume, colonia, piel limpia o aromas favoritos para crear memoria y anticipacion.",
     "descriptionEs": "Usen perfume, colonia, piel limpia o aromas favoritos para crear memoria y anticipacion.",
-    "tags": [
-      "scent",
-      "perfume",
-      "memory",
-      "sensory"
-    ],
+    "tags": ["scent", "perfume", "memory", "sensory"],
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
@@ -3970,12 +2922,7 @@
     "titleEs": "Aprecio de Sudor y Aroma Natural",
     "description": "Exploren la atraccion por el aroma natural de la pareja despues de moverse, bailar o estar cerca.",
     "descriptionEs": "Exploren la atraccion por el aroma natural de la pareja despues de moverse, bailar o estar cerca.",
-    "tags": [
-      "scent",
-      "musk",
-      "body",
-      "sensory"
-    ],
+    "tags": ["scent", "musk", "body", "sensory"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -3989,12 +2936,7 @@
     "titleEs": "Restriccion con Toalla",
     "description": "Usen una toalla como accesorio suave y de baja intensidad para restriccion simbolica o quietud guiada.",
     "descriptionEs": "Usen una toalla como accesorio suave y de baja intensidad para restriccion simbolica o quietud guiada.",
-    "tags": [
-      "restraint",
-      "soft",
-      "prop",
-      "stillness"
-    ],
+    "tags": ["restraint", "soft", "prop", "stillness"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4008,12 +2950,7 @@
     "titleEs": "Restricciones de Cama",
     "description": "Exploren restricciones simples de cama con chequeos de comodidad, liberacion rapida y posicion clara.",
     "descriptionEs": "Exploren restricciones simples de cama con chequeos de comodidad, liberacion rapida y posicion clara.",
-    "tags": [
-      "restraints",
-      "bed",
-      "bondage",
-      "check-ins"
-    ],
+    "tags": ["restraints", "bed", "bondage", "check-ins"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4027,12 +2964,7 @@
     "titleEs": "Shibari Decorativo",
     "description": "Traten la cuerda como experiencia estetica, fotografiada o meditativa en vez de restriccion de alta intensidad.",
     "descriptionEs": "Traten la cuerda como experiencia estetica, fotografiada o meditativa en vez de restriccion de alta intensidad.",
-    "tags": [
-      "rope",
-      "shibari",
-      "aesthetic",
-      "bondage"
-    ],
+    "tags": ["rope", "shibari", "aesthetic", "bondage"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4046,12 +2978,7 @@
     "titleEs": "Arnes de Cuerda",
     "description": "Creen un arnes de cuerda simple como foco visual, tactil o de confianza.",
     "descriptionEs": "Creen un arnes de cuerda simple como foco visual, tactil o de confianza.",
-    "tags": [
-      "rope",
-      "harness",
-      "visual",
-      "touch"
-    ],
+    "tags": ["rope", "harness", "visual", "touch"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4065,12 +2992,7 @@
     "titleEs": "Rol de Bunny de Cuerda",
     "description": "Exploren el lado receptor de la cuerda como rol centrado en confianza, presentacion y retroalimentacion.",
     "descriptionEs": "Exploren el lado receptor de la cuerda como rol centrado en confianza, presentacion y retroalimentacion.",
-    "tags": [
-      "rope",
-      "role",
-      "trust",
-      "feedback"
-    ],
+    "tags": ["rope", "role", "trust", "feedback"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4084,12 +3006,7 @@
     "titleEs": "Rol de Rigger",
     "description": "Exploren el rol de quien ata con enfasis en planificacion, retroalimentacion y ataduras simples y seguras.",
     "descriptionEs": "Exploren el rol de quien ata con enfasis en planificacion, retroalimentacion y ataduras simples y seguras.",
-    "tags": [
-      "rope",
-      "rigger",
-      "planning",
-      "bondage"
-    ],
+    "tags": ["rope", "rigger", "planning", "bondage"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4103,12 +3020,7 @@
     "titleEs": "Fantasia de Barra Separadora",
     "description": "Hablen o representen suavemente la idea de estar mantenido abierto con limites claros de comodidad y movilidad.",
     "descriptionEs": "Hablen o representen suavemente la idea de estar mantenido abierto con limites claros de comodidad y movilidad.",
-    "tags": [
-      "restraint",
-      "fantasy",
-      "positioning",
-      "limits"
-    ],
+    "tags": ["restraint", "fantasy", "positioning", "limits"],
     "category": "light_restraint",
     "intensityScale": 3,
     "tier": "xxx",
@@ -4122,12 +3034,7 @@
     "titleEs": "Restricciones Ligeras de Tobillos",
     "description": "Usen restricciones suaves de tobillos para crear quietud, anticipacion o una sensacion juguetona de estar sujeto.",
     "descriptionEs": "Usen restricciones suaves de tobillos para crear quietud, anticipacion o una sensacion juguetona de estar sujeto.",
-    "tags": [
-      "ankles",
-      "restraints",
-      "anticipation",
-      "bondage"
-    ],
+    "tags": ["ankles", "restraints", "anticipation", "bondage"],
     "category": "light_restraint",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4141,12 +3048,7 @@
     "titleEs": "Provocacion Sobre la Ropa",
     "description": "Mantengan la ropa puesta mientras usan tacto, presion y restriccion para crear anticipacion.",
     "descriptionEs": "Mantengan la ropa puesta mientras usan tacto, presion y restriccion para crear anticipacion.",
-    "tags": [
-      "clothing",
-      "teasing",
-      "anticipation",
-      "touch"
-    ],
+    "tags": ["clothing", "teasing", "anticipation", "touch"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4160,12 +3062,7 @@
     "titleEs": "Intimidad con Ropa",
     "description": "Hagan de la cercania parcial o totalmente vestida el foco, con enfasis en friccion, tela y anticipacion.",
     "descriptionEs": "Hagan de la cercania parcial o totalmente vestida el foco, con enfasis en friccion, tela y anticipacion.",
-    "tags": [
-      "clothing",
-      "fabric",
-      "friction",
-      "anticipation"
-    ],
+    "tags": ["clothing", "fabric", "friction", "anticipation"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4179,12 +3076,7 @@
     "titleEs": "Dominacion con Ropa",
     "description": "Usen autoridad vestida, postura y tacto controlado mientras una o ambas personas permanecen vestidas.",
     "descriptionEs": "Usen autoridad vestida, postura y tacto controlado mientras una o ambas personas permanecen vestidas.",
-    "tags": [
-      "clothing",
-      "dominance",
-      "posture",
-      "control"
-    ],
+    "tags": ["clothing", "dominance", "posture", "control"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4198,12 +3090,7 @@
     "titleEs": "Comprar Lenceria Juntos",
     "description": "Elijan lenceria, ropa interior o atuendos intimos juntos como coqueteo y anticipacion compartida.",
     "descriptionEs": "Elijan lenceria, ropa interior o atuendos intimos juntos como coqueteo y anticipacion compartida.",
-    "tags": [
-      "lingerie",
-      "shopping",
-      "anticipation",
-      "clothing"
-    ],
+    "tags": ["lingerie", "shopping", "anticipation", "clothing"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -4217,12 +3104,7 @@
     "titleEs": "Revelacion de Atuendo",
     "description": "Planifiquen una revelacion privada de lenceria, ropa de rol o un atuendo favorito.",
     "descriptionEs": "Planifiquen una revelacion privada de lenceria, ropa de rol o un atuendo favorito.",
-    "tags": [
-      "outfit",
-      "reveal",
-      "lingerie",
-      "visual"
-    ],
+    "tags": ["outfit", "reveal", "lingerie", "visual"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4236,12 +3118,7 @@
     "titleEs": "Juego con Mascara",
     "description": "Usen mascaras, antifaces o disfraz parcial para crear misterio, confianza o distancia de rol.",
     "descriptionEs": "Usen mascaras, antifaces o disfraz parcial para crear misterio, confianza o distancia de rol.",
-    "tags": [
-      "mask",
-      "mystery",
-      "roleplay",
-      "confidence"
-    ],
+    "tags": ["mask", "mystery", "roleplay", "confidence"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4255,12 +3132,7 @@
     "titleEs": "Roleplay de Mascarada",
     "description": "Creen una escena privada de mascarada con ropa formal, identidades secretas y descubrimiento coqueto.",
     "descriptionEs": "Creen una escena privada de mascarada con ropa formal, identidades secretas y descubrimiento coqueto.",
-    "tags": [
-      "masquerade",
-      "roleplay",
-      "mystery",
-      "clothing"
-    ],
+    "tags": ["masquerade", "roleplay", "mystery", "clothing"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4274,12 +3146,7 @@
     "titleEs": "Roleplay de Cosplay",
     "description": "Usen personajes ficticios, disfraces o escenarios inspirados en fandom para roleplay adulto y jugueton.",
     "descriptionEs": "Usen personajes ficticios, disfraces o escenarios inspirados en fandom para roleplay adulto y jugueton.",
-    "tags": [
-      "cosplay",
-      "costume",
-      "fantasy",
-      "roleplay"
-    ],
+    "tags": ["cosplay", "costume", "fantasy", "roleplay"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4293,12 +3160,7 @@
     "titleEs": "Roleplay de Fotografo y Modelo",
     "description": "Representen una sesion fotografica consensuada con poses, elogios y limites claros sobre imagenes.",
     "descriptionEs": "Representen una sesion fotografica consensuada con poses, elogios y limites claros sobre imagenes.",
-    "tags": [
-      "photography",
-      "model",
-      "roleplay",
-      "boundaries"
-    ],
+    "tags": ["photography", "model", "roleplay", "boundaries"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4312,12 +3174,7 @@
     "titleEs": "Roleplay de Artista y Musa",
     "description": "Creen una escena alrededor de ser admirado, posado, dibujado, pintado o descrito.",
     "descriptionEs": "Creen una escena alrededor de ser admirado, posado, dibujado, pintado o descrito.",
-    "tags": [
-      "artist",
-      "muse",
-      "admiration",
-      "roleplay"
-    ],
+    "tags": ["artist", "muse", "admiration", "roleplay"],
     "category": "roleplay",
     "intensityScale": 1,
     "tier": "soft",
@@ -4331,12 +3188,7 @@
     "titleEs": "Roleplay de Realeza y Servicio",
     "description": "Usen titulos formales, gestos de servicio y detalles de lujo en una escena ficticia de intercambio de poder.",
     "descriptionEs": "Usen titulos formales, gestos de servicio y detalles de lujo en una escena ficticia de intercambio de poder.",
-    "tags": [
-      "royal",
-      "service",
-      "titles",
-      "roleplay"
-    ],
+    "tags": ["royal", "service", "titles", "roleplay"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4350,12 +3202,7 @@
     "titleEs": "Roleplay de Entrevista Detectivesca",
     "description": "Jueguen con preguntas, secretos e interrogatorio seductor manteniendo consentimiento y tono claros.",
     "descriptionEs": "Jueguen con preguntas, secretos e interrogatorio seductor manteniendo consentimiento y tono claros.",
-    "tags": [
-      "detective",
-      "questions",
-      "secrets",
-      "roleplay"
-    ],
+    "tags": ["detective", "questions", "secrets", "roleplay"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4369,12 +3216,7 @@
     "titleEs": "Roleplay de Romance de Vacaciones",
     "description": "Imaginen que se conocen de vacaciones y construyan juntos una historia coqueta de una noche.",
     "descriptionEs": "Imaginen que se conocen de vacaciones y construyan juntos una historia coqueta de una noche.",
-    "tags": [
-      "vacation",
-      "flirting",
-      "strangers",
-      "roleplay"
-    ],
+    "tags": ["vacation", "flirting", "strangers", "roleplay"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4388,12 +3230,7 @@
     "titleEs": "Fantasia de Habitacion de Hotel",
     "description": "Usen hotel, cuarto de invitados o dormitorio renovado para que la intimidad se sienta nueva e intencional.",
     "descriptionEs": "Usen hotel, cuarto de invitados o dormitorio renovado para que la intimidad se sienta nueva e intencional.",
-    "tags": [
-      "hotel",
-      "environment",
-      "novelty",
-      "travel"
-    ],
+    "tags": ["hotel", "environment", "novelty", "travel"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4407,12 +3244,7 @@
     "titleEs": "Fantasia de Oficina Fuera de Horario",
     "description": "Hablen o representen un escenario privado de oficina fuera de horario sin presion laboral real.",
     "descriptionEs": "Hablen o representen un escenario privado de oficina fuera de horario sin presion laboral real.",
-    "tags": [
-      "office",
-      "roleplay",
-      "environment",
-      "fantasy"
-    ],
+    "tags": ["office", "roleplay", "environment", "fantasy"],
     "category": "roleplay",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4426,12 +3258,7 @@
     "titleEs": "Fantasia de Elevador",
     "description": "Usen la idea de un momento breve y privado en elevador como fantasia o indicacion de roleplay.",
     "descriptionEs": "Usen la idea de un momento breve y privado en elevador como fantasia o indicacion de roleplay.",
-    "tags": [
-      "elevator",
-      "fantasy",
-      "quick",
-      "roleplay"
-    ],
+    "tags": ["elevator", "fantasy", "quick", "roleplay"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4445,12 +3272,7 @@
     "titleEs": "Fantasia de Balcon Privado",
     "description": "Creen una fantasia de balcon privado o vista por ventana manteniendo clara la privacidad y legalidad.",
     "descriptionEs": "Creen una fantasia de balcon privado o vista por ventana manteniendo clara la privacidad y legalidad.",
-    "tags": [
-      "balcony",
-      "privacy",
-      "environment",
-      "fantasy"
-    ],
+    "tags": ["balcony", "privacy", "environment", "fantasy"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4464,12 +3286,7 @@
     "titleEs": "Fantasia de Encimera de Cocina",
     "description": "Usen la cocina como escenario coqueto de fantasia con atencion a comodidad, privacidad y limpieza.",
     "descriptionEs": "Usen la cocina como escenario coqueto de fantasia con atencion a comodidad, privacidad y limpieza.",
-    "tags": [
-      "kitchen",
-      "environment",
-      "fantasy",
-      "novelty"
-    ],
+    "tags": ["kitchen", "environment", "fantasy", "novelty"],
     "category": "environment",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4483,12 +3300,7 @@
     "titleEs": "Juego en el Sofa",
     "description": "Hagan del sofa el escenario para provocar, besarse o explorar otro angulo de cercania.",
     "descriptionEs": "Hagan del sofa el escenario para provocar, besarse o explorar otro angulo de cercania.",
-    "tags": [
-      "couch",
-      "environment",
-      "teasing",
-      "comfort"
-    ],
+    "tags": ["couch", "environment", "teasing", "comfort"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -4502,12 +3314,7 @@
     "titleEs": "Juego en el Suelo",
     "description": "Usen almohadas, mantas y espacio abierto para crear un montaje intimo mas aterrizado y menos rutinario.",
     "descriptionEs": "Usen almohadas, mantas y espacio abierto para crear un montaje intimo mas aterrizado y menos rutinario.",
-    "tags": [
-      "floor",
-      "environment",
-      "blankets",
-      "novelty"
-    ],
+    "tags": ["floor", "environment", "blankets", "novelty"],
     "category": "environment",
     "intensityScale": 1,
     "tier": "soft",
@@ -4521,12 +3328,7 @@
     "titleEs": "Sexo Frente al Espejo",
     "description": "Usen un espejo para mirar, posar o admirarse con consentimiento compartido y confianza.",
     "descriptionEs": "Usen un espejo para mirar, posar o admirarse con consentimiento compartido y confianza.",
-    "tags": [
-      "mirror",
-      "voyeur",
-      "confidence",
-      "visual"
-    ],
+    "tags": ["mirror", "voyeur", "confidence", "visual"],
     "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4540,12 +3342,7 @@
     "titleEs": "Elecciones Mutuas de Porno",
     "description": "Cada pareja elige contenido adulto para comentar o ver juntos, centrandose en curiosidad y limites.",
     "descriptionEs": "Cada pareja elige contenido adulto para comentar o ver juntos, centrandose en curiosidad y limites.",
-    "tags": [
-      "porn",
-      "discussion",
-      "curiosity",
-      "boundaries"
-    ],
+    "tags": ["porn", "discussion", "curiosity", "boundaries"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4559,12 +3356,7 @@
     "titleEs": "Juguete de Control Remoto",
     "description": "Usen un juguete de control remoto con tiempos, privacidad y senales de parar acordadas.",
     "descriptionEs": "Usen un juguete de control remoto con tiempos, privacidad y senales de parar acordadas.",
-    "tags": [
-      "toy",
-      "remote",
-      "control",
-      "signals"
-    ],
+    "tags": ["toy", "remote", "control", "signals"],
     "category": "props_and_toys",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4578,12 +3370,7 @@
     "titleEs": "Comprar Juguetes Juntos",
     "description": "Miren juguetes juntos y hablen de curiosidad, comodidad, materiales y limpieza.",
     "descriptionEs": "Miren juguetes juntos y hablen de curiosidad, comodidad, materiales y limpieza.",
-    "tags": [
-      "toys",
-      "shopping",
-      "conversation",
-      "comfort"
-    ],
+    "tags": ["toys", "shopping", "conversation", "comfort"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -4597,12 +3384,7 @@
     "titleEs": "Conversacion sobre Strap-On",
     "description": "Hablen de curiosidad por strap-on, roles, tamanos y comodidad antes de decidir si probarlo.",
     "descriptionEs": "Hablen de curiosidad por strap-on, roles, tamanos y comodidad antes de decidir si probarlo.",
-    "tags": [
-      "strap-on",
-      "discussion",
-      "roles",
-      "comfort"
-    ],
+    "tags": ["strap-on", "discussion", "roles", "comfort"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4616,12 +3398,7 @@
     "titleEs": "Conversacion sobre Pegging",
     "description": "Hablen del interes en pegging, anatomia, preparacion, juguetes y limites antes de cualquier exploracion practica.",
     "descriptionEs": "Hablen del interes en pegging, anatomia, preparacion, juguetes y limites antes de cualquier exploracion practica.",
-    "tags": [
-      "pegging",
-      "discussion",
-      "anal",
-      "boundaries"
-    ],
+    "tags": ["pegging", "discussion", "anal", "boundaries"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4635,12 +3412,7 @@
     "titleEs": "Limites para Entrenamiento Anal",
     "description": "Hablen de exploracion anal gradual, lubricante, ritmo y senales de parar sin convertirlo en presion.",
     "descriptionEs": "Hablen de exploracion anal gradual, lubricante, ritmo y senales de parar sin convertirlo en presion.",
-    "tags": [
-      "anal",
-      "training",
-      "boundaries",
-      "pacing"
-    ],
+    "tags": ["anal", "training", "boundaries", "pacing"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4654,12 +3426,7 @@
     "titleEs": "Conversacion de Soft Swap",
     "description": "Hablen de si atraen fantasias limitadas de intercambio de parejas, incluyendo limites, celos y expectativas de sexo seguro.",
     "descriptionEs": "Hablen de si atraen fantasias limitadas de intercambio de parejas, incluyendo limites, celos y expectativas de sexo seguro.",
-    "tags": [
-      "swinging",
-      "boundaries",
-      "jealousy",
-      "discussion"
-    ],
+    "tags": ["swinging", "boundaries", "jealousy", "discussion"],
     "category": "communication",
     "intensityScale": 3,
     "tier": "xxx",
@@ -4673,12 +3440,7 @@
     "titleEs": "Ver a la Pareja Coquetear",
     "description": "Exploren la fantasia de ver a la pareja coquetear de forma consensuada, acordada y emocionalmente segura.",
     "descriptionEs": "Exploren la fantasia de ver a la pareja coquetear de forma consensuada, acordada y emocionalmente segura.",
-    "tags": [
-      "flirting",
-      "voyeur",
-      "compersion",
-      "boundaries"
-    ],
+    "tags": ["flirting", "voyeur", "compersion", "boundaries"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4692,12 +3454,7 @@
     "titleEs": "Conversacion sobre Compersion",
     "description": "Hablen de disfrutar el placer o la atencion que recibe la pareja de otras personas mientras nombran celos y limites.",
     "descriptionEs": "Hablen de disfrutar el placer o la atencion que recibe la pareja de otras personas mientras nombran celos y limites.",
-    "tags": [
-      "compersion",
-      "jealousy",
-      "boundaries",
-      "communication"
-    ],
+    "tags": ["compersion", "jealousy", "boundaries", "communication"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4711,12 +3468,7 @@
     "titleEs": "Limites para Fiesta Kinky",
     "description": "Planifiquen reglas para asistir a una fiesta kinky, incluyendo solo observar, limites de tacto, privacidad y senales de salida.",
     "descriptionEs": "Planifiquen reglas para asistir a una fiesta kinky, incluyendo solo observar, limites de tacto, privacidad y senales de salida.",
-    "tags": [
-      "party",
-      "boundaries",
-      "privacy",
-      "community"
-    ],
+    "tags": ["party", "boundaries", "privacy", "community"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4730,12 +3482,7 @@
     "titleEs": "Cita en Munch",
     "description": "Asistan o hablen de una reunion social kinky casual como forma de baja presion para aprender juntos.",
     "descriptionEs": "Asistan o hablen de una reunion social kinky casual como forma de baja presion para aprender juntos.",
-    "tags": [
-      "munch",
-      "community",
-      "learning",
-      "date"
-    ],
+    "tags": ["munch", "community", "learning", "date"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -4749,12 +3496,7 @@
     "titleEs": "Provocacion por Mensaje de Audio",
     "description": "Envien notas de voz privadas con elogios, pistas o indicaciones que creen anticipacion.",
     "descriptionEs": "Envien notas de voz privadas con elogios, pistas o indicaciones que creen anticipacion.",
-    "tags": [
-      "audio",
-      "voice",
-      "teasing",
-      "digital"
-    ],
+    "tags": ["audio", "voice", "teasing", "digital"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4768,12 +3510,7 @@
     "titleEs": "Retos por Nota de Voz",
     "description": "Usen notas de voz para enviar retos juguetones, elogios o instrucciones con opciones claras para no participar.",
     "descriptionEs": "Usen notas de voz para enviar retos juguetones, elogios o instrucciones con opciones claras para no participar.",
-    "tags": [
-      "voice",
-      "dares",
-      "digital",
-      "consent"
-    ],
+    "tags": ["voice", "dares", "digital", "consent"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4787,12 +3524,7 @@
     "titleEs": "Cita a Distancia",
     "description": "Creen una cita intima por video o telefono con preguntas compartidas, revelacion de atuendo o tacto sincronizado.",
     "descriptionEs": "Creen una cita intima por video o telefono con preguntas compartidas, revelacion de atuendo o tacto sincronizado.",
-    "tags": [
-      "remote",
-      "video",
-      "date",
-      "digital"
-    ],
+    "tags": ["remote", "video", "date", "digital"],
     "category": "communication",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4806,12 +3538,7 @@
     "titleEs": "Diario de Fantasias Compartido",
     "description": "Mantengan una lista privada de fantasias, quizas y limites que ambas personas puedan revisar.",
     "descriptionEs": "Mantengan una lista privada de fantasias, quizas y limites que ambas personas puedan revisar.",
-    "tags": [
-      "fantasy",
-      "journal",
-      "boundaries",
-      "communication"
-    ],
+    "tags": ["fantasy", "journal", "boundaries", "communication"],
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
@@ -4825,13 +3552,7 @@
     "titleEs": "Placer Oral (Recibir)",
     "description": "Recibe atención oral enfocada mientras guías a tu pareja con señales claras y ánimo.",
     "descriptionEs": "Recibe atención oral enfocada mientras guías a tu pareja con señales claras y ánimo.",
-    "tags": [
-      "oral",
-      "pleasure",
-      "receive",
-      "receiving",
-      "focus"
-    ],
+    "tags": ["oral", "pleasure", "receive", "receiving", "focus"],
     "category": "paired_play",
     "intensityScale": 1,
     "tier": "soft",
@@ -4847,13 +3568,7 @@
     "titleEs": "Provocación Ligera (Recibir)",
     "description": "Deja que tu pareja te provoque lentamente, usando tus reacciones para ajustar ritmo e intensidad.",
     "descriptionEs": "Deja que tu pareja te provoque lentamente, usando tus reacciones para ajustar ritmo e intensidad.",
-    "tags": [
-      "teasing",
-      "anticipation",
-      "receive",
-      "receiving",
-      "foreplay"
-    ],
+    "tags": ["teasing", "anticipation", "receive", "receiving", "foreplay"],
     "category": "paired_play",
     "intensityScale": 1,
     "tier": "soft",
@@ -4869,13 +3584,7 @@
     "titleEs": "Restricción de Muñecas (Recibir)",
     "description": "Permite que sujeten tus muñecas suavemente mientras tu pareja guía con límites acordados y revisiones.",
     "descriptionEs": "Permite que sujeten tus muñecas suavemente mientras tu pareja guía con límites acordados y revisiones.",
-    "tags": [
-      "bondage",
-      "restraint",
-      "receive",
-      "receiving",
-      "trust"
-    ],
+    "tags": ["bondage", "restraint", "receive", "receiving", "trust"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4891,13 +3600,7 @@
     "titleEs": "Juego con Pezones (Recibir)",
     "description": "Recibe atención enfocada en los pezones mientras guías presión, ritmo y límites de sensibilidad.",
     "descriptionEs": "Recibe atención enfocada en los pezones mientras guías presión, ritmo y límites de sensibilidad.",
-    "tags": [
-      "nipples",
-      "sensory",
-      "receive",
-      "receiving",
-      "teasing"
-    ],
+    "tags": ["nipples", "sensory", "receive", "receiving", "teasing"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4913,13 +3616,7 @@
     "titleEs": "Mordidas Sensuales (Recibir)",
     "description": "Recibe mordidas suaves en zonas acordadas mientras guías presión y límites.",
     "descriptionEs": "Recibe mordidas suaves en zonas acordadas mientras guías presión y límites.",
-    "tags": [
-      "biting",
-      "sensory",
-      "receive",
-      "receiving",
-      "consent"
-    ],
+    "tags": ["biting", "sensory", "receive", "receiving", "consent"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4935,13 +3632,7 @@
     "titleEs": "Jalón de Cabello Controlado (Recibir)",
     "description": "Recibe jalones controlados de cabello mientras defines límites claros de agarre, dirección e intensidad.",
     "descriptionEs": "Recibe jalones controlados de cabello mientras defines límites claros de agarre, dirección e intensidad.",
-    "tags": [
-      "hair",
-      "control",
-      "receive",
-      "receiving",
-      "consent"
-    ],
+    "tags": ["hair", "control", "receive", "receiving", "consent"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4957,13 +3648,7 @@
     "titleEs": "Juego con Dildo (Recibir)",
     "description": "Recibe juego con dildo mientras guías a tu pareja sobre ritmo, ángulo, profundidad y comodidad.",
     "descriptionEs": "Recibe juego con dildo mientras guías a tu pareja sobre ritmo, ángulo, profundidad y comodidad.",
-    "tags": [
-      "dildo",
-      "toys",
-      "receive",
-      "receiving",
-      "penetration"
-    ],
+    "tags": ["dildo", "toys", "receive", "receiving", "penetration"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -4979,13 +3664,7 @@
     "titleEs": "Nalgadas con Paleta (Recibir)",
     "description": "Recibe impacto con paleta dentro de límites negociados mientras usas señales para guiar la escena.",
     "descriptionEs": "Recibe impacto con paleta dentro de límites negociados mientras usas señales para guiar la escena.",
-    "tags": [
-      "paddle",
-      "impact",
-      "receive",
-      "receiving",
-      "spanking"
-    ],
+    "tags": ["paddle", "impact", "receive", "receiving", "spanking"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5001,13 +3680,7 @@
     "titleEs": "Degradación Consensuada (Recibir)",
     "description": "Recibe degradación negociada solo dentro de palabras, roles y límites que hayas aprobado claramente.",
     "descriptionEs": "Recibe degradación negociada solo dentro de palabras, roles y límites que hayas aprobado claramente.",
-    "tags": [
-      "degradation",
-      "humiliation",
-      "receive",
-      "receiving",
-      "consent"
-    ],
+    "tags": ["degradation", "humiliation", "receive", "receiving", "consent"],
     "category": "paired_play",
     "intensityScale": 3,
     "tier": "xxx",
@@ -5023,13 +3696,7 @@
     "titleEs": "Adoración de Pies (Recibir)",
     "description": "Recibe adoración de pies definiendo qué tipo de contacto, elogios o atención te resulta bienvenida.",
     "descriptionEs": "Recibe adoración de pies definiendo qué tipo de contacto, elogios o atención te resulta bienvenida.",
-    "tags": [
-      "feet",
-      "worship",
-      "receive",
-      "receiving",
-      "fetish"
-    ],
+    "tags": ["feet", "worship", "receive", "receiving", "fetish"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5045,13 +3712,7 @@
     "titleEs": "Collar Simbólico (Recibir)",
     "description": "Recibe un collar como símbolo acordado de dinámica, compromiso o rol de escena.",
     "descriptionEs": "Recibe un collar como símbolo acordado de dinámica, compromiso o rol de escena.",
-    "tags": [
-      "collar",
-      "symbolism",
-      "receive",
-      "receiving",
-      "bdsm"
-    ],
+    "tags": ["collar", "symbolism", "receive", "receiving", "bdsm"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5067,13 +3728,7 @@
     "titleEs": "Juego con Correa (Recibir)",
     "description": "Deja que te guíen con correa o señal de collar manteniendo explícitos movimiento, postura y comodidad.",
     "descriptionEs": "Deja que te guíen con correa o señal de collar manteniendo explícitos movimiento, postura y comodidad.",
-    "tags": [
-      "leash",
-      "collar",
-      "receive",
-      "receiving",
-      "control"
-    ],
+    "tags": ["leash", "collar", "receive", "receiving", "control"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5089,13 +3744,7 @@
     "titleEs": "Elogios (Recibir)",
     "description": "Recibe elogios sinceros, aprobación y ánimo como fuente central de excitación.",
     "descriptionEs": "Recibe elogios sinceros, aprobación y ánimo como fuente central de excitación.",
-    "tags": [
-      "praise",
-      "affirmation",
-      "receive",
-      "receiving",
-      "communication"
-    ],
+    "tags": ["praise", "affirmation", "receive", "receiving", "communication"],
     "category": "paired_play",
     "intensityScale": 1,
     "tier": "soft",
@@ -5111,13 +3760,7 @@
     "titleEs": "Juego con Strap-On (Dar)",
     "description": "Usa un strap-on con tu pareja controlando ajuste, ritmo, ángulo y comodidad con revisiones.",
     "descriptionEs": "Usa un strap-on con tu pareja controlando ajuste, ritmo, ángulo y comodidad con revisiones.",
-    "tags": [
-      "strap-on",
-      "toys",
-      "give",
-      "giving",
-      "roles"
-    ],
+    "tags": ["strap-on", "toys", "give", "giving", "roles"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5133,13 +3776,7 @@
     "titleEs": "Juego con Strap-On (Recibir)",
     "description": "Recibe juego con strap-on mientras guías ajuste, ritmo, ángulo y límites de comodidad.",
     "descriptionEs": "Recibe juego con strap-on mientras guías ajuste, ritmo, ángulo y límites de comodidad.",
-    "tags": [
-      "strap-on",
-      "toys",
-      "receive",
-      "receiving",
-      "roles"
-    ],
+    "tags": ["strap-on", "toys", "receive", "receiving", "roles"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5155,13 +3792,7 @@
     "titleEs": "Pegging (Dar)",
     "description": "Da juego de pegging con preparación clara, lubricante, ritmo y revisiones continuas de comodidad.",
     "descriptionEs": "Da juego de pegging con preparación clara, lubricante, ritmo y revisiones continuas de comodidad.",
-    "tags": [
-      "pegging",
-      "anal",
-      "give",
-      "giving",
-      "boundaries"
-    ],
+    "tags": ["pegging", "anal", "give", "giving", "boundaries"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5177,13 +3808,7 @@
     "titleEs": "Pegging (Recibir)",
     "description": "Recibe juego de pegging solo con preparación clara, lubricante, ritmo y límites de comodidad.",
     "descriptionEs": "Recibe juego de pegging solo con preparación clara, lubricante, ritmo y límites de comodidad.",
-    "tags": [
-      "pegging",
-      "anal",
-      "receive",
-      "receiving",
-      "boundaries"
-    ],
+    "tags": ["pegging", "anal", "receive", "receiving", "boundaries"],
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
@@ -5191,5 +3816,765 @@
     "pairRole": "receive",
     "titleEn": "Pegging (Receiving)",
     "descriptionEn": "Receive pegging play only with clear preparation, lube, pacing, and comfort boundaries."
+  },
+  {
+    "id": "0294",
+    "slug": "manual-stimulation-give",
+    "title": "Estimulación Manual (Dar)",
+    "titleEs": "Estimulación Manual (Dar)",
+    "description": "Usa tus manos para dar placer a tu pareja, prestando atención a su ritmo, presión y reacciones.",
+    "descriptionEs": "Usa tus manos para dar placer a tu pareja, prestando atención a su ritmo, presión y reacciones.",
+    "tags": ["pleasure", "hands", "give", "giving", "focus"],
+    "category": "paired_play",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "titleEn": "Manual Stimulation (Giving)",
+    "descriptionEn": "Use your hands to pleasure your partner, paying close attention to their pace, pressure, and reactions.",
+    "pairKey": "manual-stimulation",
+    "pairRole": "give"
+  },
+  {
+    "id": "0295",
+    "slug": "manual-stimulation-receive",
+    "title": "Estimulación Manual (Recibir)",
+    "titleEs": "Estimulación Manual (Recibir)",
+    "description": "Relájate y recibe las manos de tu pareja, guiándola con señales claras sobre lo que más te gusta.",
+    "descriptionEs": "Relájate y recibe las manos de tu pareja, guiándola con señales claras sobre lo que más te gusta.",
+    "tags": ["pleasure", "hands", "receive", "receiving", "focus"],
+    "category": "paired_play",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "titleEn": "Manual Stimulation (Receiving)",
+    "descriptionEn": "Relax and receive your partner's hands, guiding them with clear feedback about what feels best.",
+    "pairKey": "manual-stimulation",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0296",
+    "slug": "face-sitting-give",
+    "title": "Sentarse en la Cara (Dar Oral)",
+    "titleEs": "Sentarse en la Cara (Dar Oral)",
+    "description": "Recuéstate y da placer oral a tu pareja mientras se coloca encima de ti, siguiendo sus movimientos.",
+    "descriptionEs": "Recuéstate y da placer oral a tu pareja mientras se coloca encima de ti, siguiendo sus movimientos.",
+    "tags": ["oral", "positioning", "give", "giving", "control"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Face Sitting (Giving Oral)",
+    "descriptionEn": "Lie back and pleasure your partner orally while they straddle above you, following their movements.",
+    "pairKey": "face-sitting",
+    "pairRole": "give"
+  },
+  {
+    "id": "0297",
+    "slug": "face-sitting-receive",
+    "title": "Sentarse en la Cara (Recibir)",
+    "titleEs": "Sentarse en la Cara (Recibir)",
+    "description": "Colócate encima de tu pareja y recibe placer oral, controlando el ángulo y la presión que se sienten bien.",
+    "descriptionEs": "Colócate encima de tu pareja y recibe placer oral, controlando el ángulo y la presión que se sienten bien.",
+    "tags": ["oral", "positioning", "receive", "receiving", "control"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Face Sitting (Receiving)",
+    "descriptionEn": "Straddle above your partner and receive oral pleasure, controlling the angle and pressure that feels right.",
+    "pairKey": "face-sitting",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0298",
+    "slug": "primal-play-predator",
+    "title": "Juego Primal (Cazador)",
+    "titleEs": "Juego Primal (Cazador)",
+    "description": "Déjate llevar por una energía cruda e instintiva como quien persigue, sujeta y domina con juego a su pareja dispuesta.",
+    "descriptionEs": "Déjate llevar por una energía cruda e instintiva como quien persigue, sujeta y domina con juego a su pareja dispuesta.",
+    "tags": ["primal", "dominance", "give", "giving", "playful"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Primal Play (Predator)",
+    "descriptionEn": "Lean into raw, instinctive energy as the one who chases, pins, and playfully overpowers your willing partner.",
+    "pairKey": "primal-play",
+    "pairRole": "give"
+  },
+  {
+    "id": "0299",
+    "slug": "primal-play-prey",
+    "title": "Juego Primal (Presa)",
+    "titleEs": "Juego Primal (Presa)",
+    "description": "Entrégate al instinto como quien es perseguido y atrapado, resistiéndote con juego antes de ceder.",
+    "descriptionEs": "Entrégate al instinto como quien es perseguido y atrapado, resistiéndote con juego antes de ceder.",
+    "tags": ["primal", "submission", "receive", "receiving", "playful"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Primal Play (Prey)",
+    "descriptionEn": "Surrender to instinct as the one who is chased and caught, struggling playfully before giving in.",
+    "pairKey": "primal-play",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0300",
+    "slug": "riding-crop-give",
+    "title": "Fusta (Dar)",
+    "titleEs": "Fusta (Dar)",
+    "description": "Usa una fusta para dar toques ligeros y precisos, consultando a menudo y subiendo la intensidad poco a poco.",
+    "descriptionEs": "Usa una fusta para dar toques ligeros y precisos, consultando a menudo y subiendo la intensidad poco a poco.",
+    "tags": ["impact", "crop", "give", "giving", "control"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Riding Crop (Giving)",
+    "descriptionEn": "Use a riding crop to deliver light, precise taps, checking in often and building intensity slowly.",
+    "pairKey": "riding-crop",
+    "pairRole": "give"
+  },
+  {
+    "id": "0301",
+    "slug": "riding-crop-receive",
+    "title": "Fusta (Recibir)",
+    "titleEs": "Fusta (Recibir)",
+    "description": "Recibe toques ligeros de fusta, usando tu palabra de seguridad y señales para mantener la sensación en tu zona de confort.",
+    "descriptionEs": "Recibe toques ligeros de fusta, usando tu palabra de seguridad y señales para mantener la sensación en tu zona de confort.",
+    "tags": ["impact", "crop", "receive", "receiving", "sensation"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Riding Crop (Receiving)",
+    "descriptionEn": "Receive light crop taps, using your safeword and feedback to keep the sensation in your comfort zone.",
+    "pairKey": "riding-crop",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0302",
+    "slug": "caning-give",
+    "title": "Vara (Dar)",
+    "titleEs": "Vara (Dar)",
+    "description": "Aplica golpes medidos con una vara solo en zonas carnosas, negociando límites y haciendo pausas para consultar.",
+    "descriptionEs": "Aplica golpes medidos con una vara solo en zonas carnosas, negociando límites y haciendo pausas para consultar.",
+    "tags": ["impact", "intense", "give", "giving", "advanced"],
+    "category": "paired_play",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Caning (Giving)",
+    "descriptionEn": "Deliver measured strokes with a cane to fleshy areas only, negotiating limits and pausing to check in.",
+    "pairKey": "caning",
+    "pairRole": "give"
+  },
+  {
+    "id": "0303",
+    "slug": "caning-receive",
+    "title": "Vara (Recibir)",
+    "titleEs": "Vara (Recibir)",
+    "description": "Recibe golpes medidos de vara dentro de los límites acordados, comunicándote con claridad durante toda la escena.",
+    "descriptionEs": "Recibe golpes medidos de vara dentro de los límites acordados, comunicándote con claridad durante toda la escena.",
+    "tags": ["impact", "intense", "receive", "receiving", "advanced"],
+    "category": "paired_play",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Caning (Receiving)",
+    "descriptionEn": "Receive measured cane strokes within agreed limits, communicating clearly throughout the scene.",
+    "pairKey": "caning",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0304",
+    "slug": "face-slapping-give",
+    "title": "Cachetadas Consensuadas (Dar)",
+    "titleEs": "Cachetadas Consensuadas (Dar)",
+    "description": "Da cachetadas ligeras y consensuadas en la mejilla dentro de un juego intenso, acordando señales y evitando cualquier otra zona.",
+    "descriptionEs": "Da cachetadas ligeras y consensuadas en la mejilla dentro de un juego intenso, acordando señales y evitando cualquier otra zona.",
+    "tags": ["impact", "intense", "give", "giving", "power"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Consensual Face Slapping (Giving)",
+    "descriptionEn": "Give light, consensual cheek taps as part of intense play, agreeing on signals and avoiding any other area.",
+    "pairKey": "face-slapping",
+    "pairRole": "give"
+  },
+  {
+    "id": "0305",
+    "slug": "face-slapping-receive",
+    "title": "Cachetadas Consensuadas (Recibir)",
+    "titleEs": "Cachetadas Consensuadas (Recibir)",
+    "description": "Recibe cachetadas ligeras y consensuadas en la mejilla, manteniendo una palabra de seguridad clara y consultando entre rondas.",
+    "descriptionEs": "Recibe cachetadas ligeras y consensuadas en la mejilla, manteniendo una palabra de seguridad clara y consultando entre rondas.",
+    "tags": ["impact", "intense", "receive", "receiving", "power"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Consensual Face Slapping (Receiving)",
+    "descriptionEn": "Receive light, consensual cheek taps, keeping a clear safeword and checking in between rounds.",
+    "pairKey": "face-slapping",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0306",
+    "slug": "pinwheel-give",
+    "title": "Sensación con Rueda Wartenberg (Dar)",
+    "titleEs": "Sensación con Rueda Wartenberg (Dar)",
+    "description": "Desliza una rueda de sensaciones por la piel de tu pareja, variando la presión para crear cosquilleos eléctricos.",
+    "descriptionEs": "Desliza una rueda de sensaciones por la piel de tu pareja, variando la presión para crear cosquilleos eléctricos.",
+    "tags": ["sensation", "sensory", "give", "giving", "texture"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Pinwheel Sensation (Giving)",
+    "descriptionEn": "Roll a sensation pinwheel across your partner's skin, varying pressure to create tingling, electric feelings.",
+    "pairKey": "pinwheel",
+    "pairRole": "give"
+  },
+  {
+    "id": "0307",
+    "slug": "pinwheel-receive",
+    "title": "Sensación con Rueda Wartenberg (Recibir)",
+    "titleEs": "Sensación con Rueda Wartenberg (Recibir)",
+    "description": "Cierra los ojos y siente una rueda de sensaciones recorrer tu piel, guiando a tu pareja hacia tus zonas favoritas.",
+    "descriptionEs": "Cierra los ojos y siente una rueda de sensaciones recorrer tu piel, guiando a tu pareja hacia tus zonas favoritas.",
+    "tags": ["sensation", "sensory", "receive", "receiving", "texture"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Pinwheel Sensation (Receiving)",
+    "descriptionEn": "Close your eyes and feel a sensation wheel travel across your skin, guiding your partner to your favorite spots.",
+    "pairKey": "pinwheel",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0308",
+    "slug": "ass-worship-give",
+    "title": "Adoración de Glúteos (Dar)",
+    "titleEs": "Adoración de Glúteos (Dar)",
+    "description": "Colma de atención los glúteos de tu pareja con besos, caricias firmes y admiración.",
+    "descriptionEs": "Colma de atención los glúteos de tu pareja con besos, caricias firmes y admiración.",
+    "tags": ["worship", "admiration", "give", "giving", "body"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Ass Worship (Giving)",
+    "descriptionEn": "Lavish attention on your partner's behind with kisses, squeezes, and admiration.",
+    "pairKey": "ass-worship",
+    "pairRole": "give"
+  },
+  {
+    "id": "0309",
+    "slug": "ass-worship-receive",
+    "title": "Adoración de Glúteos (Recibir)",
+    "titleEs": "Adoración de Glúteos (Recibir)",
+    "description": "Recibe atención llena de admiración en tus glúteos, relajándote con los elogios y el contacto.",
+    "descriptionEs": "Recibe atención llena de admiración en tus glúteos, relajándote con los elogios y el contacto.",
+    "tags": ["worship", "admiration", "receive", "receiving", "body"],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Ass Worship (Receiving)",
+    "descriptionEn": "Receive adoring attention on your behind, relaxing into the praise and touch.",
+    "pairKey": "ass-worship",
+    "pairRole": "receive"
+  },
+  {
+    "id": "0310",
+    "slug": "partner-yoga",
+    "title": "Yoga en Pareja",
+    "titleEs": "Yoga en Pareja",
+    "description": "Hagan estiramientos suaves juntos, apoyándose para mantener el equilibrio y respirando al unísono.",
+    "descriptionEs": "Hagan estiramientos suaves juntos, apoyándose para mantener el equilibrio y respirando al unísono.",
+    "tags": ["intimacy", "movement", "connection", "relaxation"],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft",
+    "titleEn": "Partner Yoga",
+    "descriptionEn": "Move through gentle stretches together, leaning on each other for balance and breathing in sync."
+  },
+  {
+    "id": "0311",
+    "slug": "hair-washing",
+    "title": "Lavarse el Cabello Mutuamente",
+    "titleEs": "Lavarse el Cabello Mutuamente",
+    "description": "Túrnense para lavar y masajear suavemente el cuero cabelludo del otro bajo agua tibia.",
+    "descriptionEs": "Túrnense para lavar y masajear suavemente el cuero cabelludo del otro bajo agua tibia.",
+    "tags": ["intimacy", "touch", "relaxation", "care"],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft",
+    "titleEn": "Washing Each Other's Hair",
+    "descriptionEn": "Take turns gently shampooing and massaging each other's scalp under warm water."
+  },
+  {
+    "id": "0312",
+    "slug": "tattoo-appreciation",
+    "title": "Apreciación del Arte Corporal",
+    "titleEs": "Apreciación del Arte Corporal",
+    "description": "Recorran y admiren lentamente los tatuajes, marcas y rasgos favoritos del otro con las yemas y las palabras.",
+    "descriptionEs": "Recorran y admiren lentamente los tatuajes, marcas y rasgos favoritos del otro con las yemas y las palabras.",
+    "tags": ["admiration", "body-positive", "touch", "intimacy"],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft",
+    "titleEn": "Body Art Appreciation",
+    "descriptionEn": "Slowly trace and admire each other's tattoos, marks, and favorite features with fingertips and words."
+  },
+  {
+    "id": "0313",
+    "slug": "lap-pillow",
+    "title": "Descanso en el Regazo",
+    "titleEs": "Descanso en el Regazo",
+    "description": "Apoya la cabeza en el regazo de tu pareja mientras te acaricia el cabello y el rostro, compartiendo cercanía tranquila.",
+    "descriptionEs": "Apoya la cabeza en el regazo de tu pareja mientras te acaricia el cabello y el rostro, compartiendo cercanía tranquila.",
+    "tags": ["aftercare", "closeness", "tender", "relaxation"],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "tier": "soft",
+    "titleEn": "Lap Pillow Rest",
+    "descriptionEn": "Rest your head in your partner's lap while they stroke your hair and face, sharing quiet closeness."
+  },
+  {
+    "id": "0314",
+    "slug": "intimacy-bucket-list",
+    "title": "Lista de Deseos Íntimos",
+    "titleEs": "Lista de Deseos Íntimos",
+    "description": "Siéntense juntos y escriban una lista compartida de experiencias que ambos quieren probar algún día.",
+    "descriptionEs": "Siéntense juntos y escriban una lista compartida de experiencias que ambos quieren probar algún día.",
+    "tags": ["communication", "planning", "connection", "fantasy"],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft",
+    "titleEn": "Intimacy Bucket List",
+    "descriptionEn": "Sit together and write a shared wish list of experiences you both want to try someday."
+  },
+  {
+    "id": "0315",
+    "slug": "muscle-worship",
+    "title": "Apreciación de la Musculatura",
+    "titleEs": "Apreciación de la Musculatura",
+    "description": "Admira y amasa suavemente los brazos, hombros y espalda de tu pareja, celebrando su fuerza.",
+    "descriptionEs": "Admira y amasa suavemente los brazos, hombros y espalda de tu pareja, celebrando su fuerza.",
+    "tags": ["worship", "admiration", "body", "touch"],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft",
+    "titleEn": "Muscle Appreciation",
+    "descriptionEn": "Admire and gently knead your partner's arms, shoulders, and back, celebrating their strength."
+  },
+  {
+    "id": "0316",
+    "slug": "necktie-restraint",
+    "title": "Ataduras con Corbata",
+    "titleEs": "Ataduras con Corbata",
+    "description": "Usa una corbata suave para atar las muñecas con holgura, manteniéndola suave y fácil de soltar.",
+    "descriptionEs": "Usa una corbata suave para atar las muñecas con holgura, manteniéndola suave y fácil de soltar.",
+    "tags": ["light-bondage", "restraint", "anticipation", "trust"],
+    "category": "light_restraint",
+    "intensityScale": 1,
+    "tier": "soft",
+    "titleEn": "Necktie Restraints",
+    "descriptionEn": "Use a soft necktie to loosely bind wrists, keeping it gentle and easy to slip free."
+  },
+  {
+    "id": "0317",
+    "slug": "sixty-nine",
+    "title": "Oral Mutuo (69)",
+    "titleEs": "Oral Mutuo (69)",
+    "description": "Dénse placer oral al mismo tiempo, encontrando una posición cómoda que ambos disfruten.",
+    "descriptionEs": "Dénse placer oral al mismo tiempo, encontrando una posición cómoda que ambos disfruten.",
+    "tags": ["oral", "pleasure", "positioning", "together"],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Mutual Oral (69)",
+    "descriptionEn": "Pleasure each other orally at the same time, finding a comfortable position you both enjoy."
+  },
+  {
+    "id": "0318",
+    "slug": "grinding-dry-humping",
+    "title": "Frotamiento y Roce",
+    "titleEs": "Frotamiento y Roce",
+    "description": "Suban la temperatura presionándose y frotándose mientras siguen parcialmente vestidos.",
+    "descriptionEs": "Suban la temperatura presionándose y frotándose mientras siguen parcialmente vestidos.",
+    "tags": ["grinding", "friction", "foreplay", "teasing"],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Grinding & Dry Humping",
+    "descriptionEn": "Build heat by pressing and grinding against each other while still partly clothed."
+  },
+  {
+    "id": "0319",
+    "slug": "breast-play",
+    "title": "Juego de Senos y Escote",
+    "titleEs": "Juego de Senos y Escote",
+    "description": "Exploren besos, caricias y roces sobre los senos y el escote, siguiendo las señales de tu pareja.",
+    "descriptionEs": "Exploren besos, caricias y roces sobre los senos y el escote, siguiendo las señales de tu pareja.",
+    "tags": ["breasts", "touch", "foreplay", "sensual"],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Breast & Cleavage Play",
+    "descriptionEn": "Explore kissing, caressing, and pressing against the breasts and cleavage, following your partner's cues."
+  },
+  {
+    "id": "0320",
+    "slug": "pinned-against-wall",
+    "title": "Contra la Pared",
+    "titleEs": "Contra la Pared",
+    "description": "Presiona a tu pareja contra la pared para un momento urgente y apasionado de cercanía de pie.",
+    "descriptionEs": "Presiona a tu pareja contra la pared para un momento urgente y apasionado de cercanía de pie.",
+    "tags": ["passion", "positioning", "spontaneous", "power"],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Pinned Against the Wall",
+    "descriptionEn": "Press your partner against the wall for an urgent, passionate moment of standing closeness."
+  },
+  {
+    "id": "0321",
+    "slug": "standing-positions",
+    "title": "Posiciones de Pie",
+    "titleEs": "Posiciones de Pie",
+    "description": "Experimenten con la intimidad de pie, usando una pared o encimera para equilibrio y apoyo.",
+    "descriptionEs": "Experimenten con la intimidad de pie, usando una pared o encimera para equilibrio y apoyo.",
+    "tags": ["positioning", "spontaneous", "passion", "novelty"],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Standing Positions",
+    "descriptionEn": "Experiment with intimacy while standing, using a wall or counter for balance and leverage."
+  },
+  {
+    "id": "0322",
+    "slug": "cock-ring-play",
+    "title": "Juego con Anillo",
+    "titleEs": "Juego con Anillo",
+    "description": "Introduzcan un anillo cómodo para intensificar la sensación, quitándolo si algo aprieta demasiado.",
+    "descriptionEs": "Introduzcan un anillo cómodo para intensificar la sensación, quitándolo si algo aprieta demasiado.",
+    "tags": ["toy", "stimulation", "novelty", "sensation"],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Cock Ring Play",
+    "descriptionEn": "Introduce a comfortable cock ring to heighten sensation, removing it if anything feels too tight."
+  },
+  {
+    "id": "0323",
+    "slug": "ben-wa-balls",
+    "title": "Bolas Ben Wa",
+    "titleEs": "Bolas Ben Wa",
+    "description": "Usen bolas internas con peso para una estimulación sutil durante el día o como juego previo.",
+    "descriptionEs": "Usen bolas internas con peso para una estimulación sutil durante el día o como juego previo.",
+    "tags": ["toy", "stimulation", "anticipation", "subtle"],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Ben Wa Balls",
+    "descriptionEn": "Wear weighted internal balls for subtle stimulation during the day or as foreplay."
+  },
+  {
+    "id": "0324",
+    "slug": "sex-swing",
+    "title": "Fantasía de Columpio",
+    "titleEs": "Fantasía de Columpio",
+    "description": "Hablen sobre un columpio de apoyo —o pruébenlo— que quita peso y abre nuevos ángulos.",
+    "descriptionEs": "Hablen sobre un columpio de apoyo —o pruébenlo— que quita peso y abre nuevos ángulos.",
+    "tags": ["toy", "positioning", "novelty", "fantasy"],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Sex Swing Fantasy",
+    "descriptionEn": "Talk about or try a supportive swing that takes the weight off and opens up new angles."
+  },
+  {
+    "id": "0325",
+    "slug": "recording-ourselves",
+    "title": "Grabarnos",
+    "titleEs": "Grabarnos",
+    "description": "Grábense o fotografíense con pleno consentimiento mutuo, manteniendo los archivos privados y en el dispositivo.",
+    "descriptionEs": "Grábense o fotografíense con pleno consentimiento mutuo, manteniendo los archivos privados y en el dispositivo.",
+    "tags": ["photos", "video", "voyeurism", "privacy"],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Recording Ourselves",
+    "descriptionEn": "Film or photograph yourselves with full mutual consent, keeping the files private and on-device."
+  },
+  {
+    "id": "0326",
+    "slug": "strip-card-game",
+    "title": "Juego de Cartas con Prendas",
+    "titleEs": "Juego de Cartas con Prendas",
+    "description": "Jueguen un sencillo juego de cartas o dados donde quien pierde cada ronda se quita una prenda.",
+    "descriptionEs": "Jueguen un sencillo juego de cartas o dados donde quien pierde cada ronda se quita una prenda.",
+    "tags": ["game", "playful", "teasing", "foreplay"],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "titleEn": "Strip Card Game",
+    "descriptionEn": "Play a simple card or dice game where the loser of each round removes one item of clothing."
+  },
+  {
+    "id": "0327",
+    "slug": "sexy-dice",
+    "title": "Juego de Dados Picante",
+    "titleEs": "Juego de Dados Picante",
+    "description": "Tiren dados que combinan una acción con una parte del cuerpo, y hagan juntos lo que salga.",
+    "descriptionEs": "Tiren dados que combinan una acción con una parte del cuerpo, y hagan juntos lo que salga.",
+    "tags": ["game", "playful", "novelty", "foreplay"],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "titleEn": "Sexy Dice Game",
+    "descriptionEn": "Roll dice that pair an action with a body part, then act out whatever comes up together."
+  },
+  {
+    "id": "0328",
+    "slug": "body-shots",
+    "title": "Tragos sobre el Cuerpo",
+    "titleEs": "Tragos sobre el Cuerpo",
+    "description": "Lame, sorbe o saborea una bebida o golosina sobre la piel de tu pareja en un ritual juguetón y sensual.",
+    "descriptionEs": "Lame, sorbe o saborea una bebida o golosina sobre la piel de tu pareja en un ritual juguetón y sensual.",
+    "tags": ["edible", "playful", "sensual", "foreplay"],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "titleEn": "Body Shots",
+    "descriptionEn": "Lick, sip, or taste a drink or treat off your partner's skin in a playful, sensual ritual."
+  },
+  {
+    "id": "0329",
+    "slug": "size-difference-play",
+    "title": "Juego de Diferencia de Tamaño",
+    "titleEs": "Juego de Diferencia de Tamaño",
+    "description": "Resalten un contraste de altura o tamaño entre ustedes, disfrutando de sentirse grandes o pequeños, protectores o delicados.",
+    "descriptionEs": "Resalten un contraste de altura o tamaño entre ustedes, disfrutando de sentirse grandes o pequeños, protectores o delicados.",
+    "tags": ["fantasy", "power-dynamic", "roleplay", "playful"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Size Difference Play",
+    "descriptionEn": "Play up a height or size contrast between you, leaning into feeling big or small, protective or petite."
+  },
+  {
+    "id": "0330",
+    "slug": "maid-roleplay",
+    "title": "Juego de Mucama y Empleador",
+    "titleEs": "Juego de Mucama y Empleador",
+    "description": "Representen una escena coqueta donde uno hace de servicio doméstico atento y el otro de empleador agradecido.",
+    "descriptionEs": "Representen una escena coqueta donde uno hace de servicio doméstico atento y el otro de empleador agradecido.",
+    "tags": ["roleplay", "service", "power-dynamic", "fantasy"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Maid & Employer Roleplay",
+    "descriptionEn": "Act out a flirty scene where one plays an attentive household helper and the other the appreciative employer."
+  },
+  {
+    "id": "0331",
+    "slug": "personal-trainer-roleplay",
+    "title": "Juego de Entrenador Personal",
+    "titleEs": "Juego de Entrenador Personal",
+    "description": "Representen una sesión de entrenamiento práctica donde el entrenador corrige la postura con mucho contacto cercano.",
+    "descriptionEs": "Representen una sesión de entrenamiento práctica donde el entrenador corrige la postura con mucho contacto cercano.",
+    "tags": ["roleplay", "fantasy", "touch", "playful"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Personal Trainer Roleplay",
+    "descriptionEn": "Play out a hands-on training session where the trainer corrects form with plenty of close contact."
+  },
+  {
+    "id": "0332",
+    "slug": "masseuse-roleplay",
+    "title": "Juego de Masajista",
+    "titleEs": "Juego de Masajista",
+    "description": "Monten la escena de un masaje profesional que poco a poco se vuelve sensual e íntimo.",
+    "descriptionEs": "Monten la escena de un masaje profesional que poco a poco se vuelve sensual e íntimo.",
+    "tags": ["roleplay", "massage", "sensual", "fantasy"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Massage Therapist Roleplay",
+    "descriptionEn": "Set the scene as a professional massage that gradually turns sensual and intimate."
+  },
+  {
+    "id": "0333",
+    "slug": "delivery-driver-fantasy",
+    "title": "Fantasía del Repartidor",
+    "titleEs": "Fantasía del Repartidor",
+    "description": "Representen una escena coqueta en la puerta entre un cliente y un repartidor inesperadamente encantador.",
+    "descriptionEs": "Representen una escena coqueta en la puerta entre un cliente y un repartidor inesperadamente encantador.",
+    "tags": ["roleplay", "fantasy", "strangers", "playful"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Delivery Driver Fantasy",
+    "descriptionEn": "Play a flirty doorstep scene between a customer and an unexpectedly charming delivery person."
+  },
+  {
+    "id": "0334",
+    "slug": "interrogation-roleplay",
+    "title": "Juego de Interrogatorio",
+    "titleEs": "Juego de Interrogatorio",
+    "description": "Representen una escena tensa de interrogatorio donde uno intenta que el otro \"confiese\", con límites acordados.",
+    "descriptionEs": "Representen una escena tensa de interrogatorio donde uno intenta que el otro \"confiese\", con límites acordados.",
+    "tags": ["roleplay", "power-dynamic", "fantasy", "control"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Interrogation Roleplay",
+    "descriptionEn": "Act out a tense questioning scene where one tries to make the other \"confess,\" with agreed limits."
+  },
+  {
+    "id": "0335",
+    "slug": "rivals-to-lovers-roleplay",
+    "title": "Juego de Rivales a Amantes",
+    "titleEs": "Juego de Rivales a Amantes",
+    "description": "Representen a dos rivales cuya tensión acalorada finalmente desborda en pasión.",
+    "descriptionEs": "Representen a dos rivales cuya tensión acalorada finalmente desborda en pasión.",
+    "tags": ["roleplay", "fantasy", "passion", "tension"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Rivals to Lovers Roleplay",
+    "descriptionEn": "Play two rivals whose heated tension finally boils over into passion."
+  },
+  {
+    "id": "0336",
+    "slug": "glasses-librarian-fetish",
+    "title": "Fetiche de Gafas y Bibliotecaria",
+    "titleEs": "Fetiche de Gafas y Bibliotecaria",
+    "description": "Disfruten de un look estudioso e intelectual con gafas y una revelación lenta de lo que hay debajo.",
+    "descriptionEs": "Disfruten de un look estudioso e intelectual con gafas y una revelación lenta de lo que hay debajo.",
+    "tags": ["fetish", "roleplay", "aesthetic", "reveal"],
+    "category": "roleplay",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "titleEn": "Glasses & Librarian Fetish",
+    "descriptionEn": "Lean into a studious, bookish look with glasses and a slow reveal of what is underneath."
+  },
+  {
+    "id": "0337",
+    "slug": "wet-clothes-play",
+    "title": "Juego con Ropa Mojada",
+    "titleEs": "Juego con Ropa Mojada",
+    "description": "Mojen la ropa en la ducha, la piscina o la lluvia y disfruten cómo se adhiere antes de quitarla.",
+    "descriptionEs": "Mojen la ropa en la ducha, la piscina o la lluvia y disfruten cómo se adhiere antes de quitarla.",
+    "tags": ["water", "clothing", "reveal", "sensual"],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Wet Clothes Play",
+    "descriptionEn": "Get clothing wet in the shower, pool, or rain and enjoy how it clings before peeling it off."
+  },
+  {
+    "id": "0338",
+    "slug": "funishment-play",
+    "title": "Juego de \"Castigo\" Divertido",
+    "titleEs": "Juego de \"Castigo\" Divertido",
+    "description": "Inventen \"castigos\" juguetones por romper reglas que en realidad son una excusa para más juego y diversión.",
+    "descriptionEs": "Inventen \"castigos\" juguetones por romper reglas que en realidad son una excusa para más juego y diversión.",
+    "tags": ["power-dynamic", "discipline", "playful", "rules"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Funishment Play",
+    "descriptionEn": "Invent playful \"punishments\" for broken rules that are really just an excuse for more teasing and fun."
+  },
+  {
+    "id": "0339",
+    "slug": "deity-worship",
+    "title": "Adoración de Diosa o Deidad",
+    "titleEs": "Adoración de Diosa o Deidad",
+    "description": "Una pareja es tratada como diosa o deidad a quien adorar, elogiar y consentir durante la escena.",
+    "descriptionEs": "Una pareja es tratada como diosa o deidad a quien adorar, elogiar y consentir durante la escena.",
+    "tags": ["worship", "power-dynamic", "praise", "fantasy"],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "titleEn": "Goddess & Deity Worship",
+    "descriptionEn": "One partner is treated as a goddess or deity to be adored, praised, and pampered for the scene."
+  },
+  {
+    "id": "0340",
+    "slug": "hogtie-fantasy",
+    "title": "Fantasía de Atado Completo",
+    "titleEs": "Fantasía de Atado Completo",
+    "description": "Exploren un atado avanzado que une muñecas y tobillos, vigilando la circulación y usando nudos de liberación rápida.",
+    "descriptionEs": "Exploren un atado avanzado que une muñecas y tobillos, vigilando la circulación y usando nudos de liberación rápida.",
+    "tags": ["bondage", "restraint", "advanced", "immobilization"],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Hogtie Fantasy",
+    "descriptionEn": "Explore an advanced tie that links wrists and ankles, monitoring circulation and using quick-release ties."
+  },
+  {
+    "id": "0341",
+    "slug": "predicament-bondage",
+    "title": "Bondage de Dilema",
+    "titleEs": "Bondage de Dilema",
+    "description": "Monten un atado donde la persona atada debe elegir entre dos sensaciones provocadoras, con palabras de seguridad listas.",
+    "descriptionEs": "Monten un atado donde la persona atada debe elegir entre dos sensaciones provocadoras, con palabras de seguridad listas.",
+    "tags": ["bondage", "restraint", "advanced", "teasing"],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Predicament Bondage",
+    "descriptionEn": "Set up a tie where the bound partner must choose between two teasing sensations, with safewords ready."
+  },
+  {
+    "id": "0342",
+    "slug": "sensory-hood",
+    "title": "Capucha de Privación Sensorial",
+    "titleEs": "Capucha de Privación Sensorial",
+    "description": "Usen una capucha transpirable para cortar la vista y el sonido, intensificando cada caricia; deténganse si algo se siente mal.",
+    "descriptionEs": "Usen una capucha transpirable para cortar la vista y el sonido, intensificando cada caricia; deténganse si algo se siente mal.",
+    "tags": ["sensory-deprivation", "restraint", "advanced", "sensation"],
+    "category": "light_restraint",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Sensory Deprivation Hood",
+    "descriptionEn": "Use a breathable hood to cut sight and sound, heightening every touch—stop the moment it feels off."
+  },
+  {
+    "id": "0343",
+    "slug": "objectification-play",
+    "title": "Juego de Objetificación",
+    "titleEs": "Juego de Objetificación",
+    "description": "Representen a una pareja como un \"objeto\" preciado para posar y admirar, con consentimiento y consultas durante todo el juego.",
+    "descriptionEs": "Representen a una pareja como un \"objeto\" preciado para posar y admirar, con consentimiento y consultas durante todo el juego.",
+    "tags": ["objectification", "power-dynamic", "fantasy", "control"],
+    "category": "roleplay",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Objectification Play",
+    "descriptionEn": "Role-play one partner as a treasured \"object\" to be posed and admired, with consent and check-ins throughout."
+  },
+  {
+    "id": "0344",
+    "slug": "squirting-exploration",
+    "title": "Exploración de la Eyaculación Femenina",
+    "titleEs": "Exploración de la Eyaculación Femenina",
+    "description": "Experimenten con paciencia técnicas que pueden llevar a la eyaculación femenina, sin presión por el resultado.",
+    "descriptionEs": "Experimenten con paciencia técnicas que pueden llevar a la eyaculación femenina, sin presión por el resultado.",
+    "tags": ["stimulation", "exploration", "climax", "pleasure"],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Squirting Exploration",
+    "descriptionEn": "Experiment patiently with techniques that may lead to squirting, with no pressure on the outcome."
+  },
+  {
+    "id": "0345",
+    "slug": "deep-throat-practice",
+    "title": "Práctica de Garganta Profunda",
+    "titleEs": "Práctica de Garganta Profunda",
+    "description": "Practiquen juntos un oral más profundo lentamente, usando la respiración y señales claras para mantener la comodidad.",
+    "descriptionEs": "Practiquen juntos un oral más profundo lentamente, usando la respiración y señales claras para mantener la comodidad.",
+    "tags": ["oral", "advanced", "pleasure", "signals"],
+    "category": "sensory",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "titleEn": "Deep Throat Practice",
+    "descriptionEn": "Practice deeper oral together slowly, using breathing and clear signals to stay comfortable."
   }
 ]
