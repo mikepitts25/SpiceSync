@@ -484,6 +484,7 @@ function AgeGateScreen({
                 <View
                   style={[
                     styles.readinessCheck,
+                    styles.readinessCheckWrap,
                     active && styles.readinessCheckActive,
                   ]}
                 >
@@ -940,6 +941,7 @@ const styles = StyleSheet.create({
     gap: 10,
     borderRadius: SIZES.radius,
     paddingVertical: 2,
+    width: '100%',
   },
   readinessCheck: {
     width: 22,
@@ -951,12 +953,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 1,
   },
+  readinessCheckWrap: {
+    flexShrink: 0,
+  },
   readinessCheckActive: {
     backgroundColor: COLORS.success,
     borderColor: COLORS.success,
   },
   readinessText: {
     flex: 1,
+    flexShrink: 1,
+    minWidth: 0,
     fontFamily: FONTS.medium,
     fontSize: 12,
     color: COLORS.textSecondary,

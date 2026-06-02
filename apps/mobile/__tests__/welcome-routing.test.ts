@@ -55,4 +55,18 @@ describe('welcome onboarding routing', () => {
     expect(welcomeFlow).toContain("'/(settings)/terms-of-service'");
     expect(welcomeFlow).toContain('disabled={!readyToAccept}');
   });
+
+  it('allows readiness checklist text to wrap inside the age gate card', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const welcomeFlow = fs.readFileSync(
+      path.join(__dirname, '..', 'app', 'welcome', 'WelcomeFlow.tsx'),
+      'utf8'
+    );
+
+    expect(welcomeFlow).toContain('readinessCheckWrap');
+    expect(welcomeFlow).toContain('flexShrink: 0');
+    expect(welcomeFlow).toContain('minWidth: 0');
+    expect(welcomeFlow).toContain('flexShrink: 1');
+  });
 });
