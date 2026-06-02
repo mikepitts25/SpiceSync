@@ -146,4 +146,23 @@ describe('expo router file layout', () => {
     expect(unlockScreen).not.toContain('upgrade(');
     expect(unlockScreen).toContain('Join waitlist');
   });
+
+  it('exposes release diagnostics from Settings', () => {
+    const settingsLayout = fs.readFileSync(
+      path.join(appRoot, '(settings)', '_layout.tsx'),
+      'utf8'
+    );
+    const settingsScreen = fs.readFileSync(
+      path.join(appRoot, '(settings)', 'index.tsx'),
+      'utf8'
+    );
+
+    expect(
+      fs.existsSync(path.join(appRoot, '(settings)', 'release-diagnostics.tsx'))
+    ).toBe(true);
+    expect(settingsLayout).toContain(
+      '<Stack.Screen name="release-diagnostics" />'
+    );
+    expect(settingsScreen).toContain("'/(settings)/release-diagnostics'");
+  });
 });

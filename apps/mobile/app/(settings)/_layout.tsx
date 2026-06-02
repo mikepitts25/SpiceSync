@@ -17,6 +17,7 @@ export default function SettingsStackLayout() {
       <Stack.Screen name="achievements" />
       <Stack.Screen name="notifications" />
       <Stack.Screen name="partner-sync" />
+      <Stack.Screen name="release-diagnostics" />
       <Stack.Screen name="about" />
       <Stack.Screen name="privacy-policy" />
       <Stack.Screen name="privacy-safety" />

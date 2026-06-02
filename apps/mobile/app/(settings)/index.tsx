@@ -274,6 +274,14 @@ export default function SettingsScreen() {
             badgeBg="rgba(255,255,255,0.06)"
             onPress={() => router.push('/(settings)/about')}
           />
+          <SectionRow
+            icon={ShieldCheck}
+            label="Release Diagnostics"
+            value="QA"
+            tint={COLORS.pink}
+            badgeBg="rgba(255,47,146,0.12)"
+            onPress={() => router.push('/(settings)/release-diagnostics')}
+          />
           <SectionRow label="App Version" value="v1.0.0" last />
         </SettingsSection>
       </ScrollView>
