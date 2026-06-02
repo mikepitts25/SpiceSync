@@ -23,6 +23,6 @@ describe('paired kink data', () => {
     expect(roleTags.has('receiving')).toBe(false);
 
     const pairedCards = kinks.filter((kink) => kink.id.startsWith('pair:'));
-    expect(pairedCards).toHaveLength(28);
+    expect(pairedCards).toHaveLength(32);
   });
 });
