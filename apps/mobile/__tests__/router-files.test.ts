@@ -135,4 +135,15 @@ describe('expo router file layout', () => {
 
     expect(rootLayout).toContain('cleanupLegacyPartnerCodes');
   });
+
+  it('does not grant mock premium purchases from the unlock UI', () => {
+    const unlockScreen = fs.readFileSync(
+      path.join(appRoot, '(unlock)', 'index.tsx'),
+      'utf8'
+    );
+
+    expect(unlockScreen).not.toContain('mock_receipt');
+    expect(unlockScreen).not.toContain('upgrade(');
+    expect(unlockScreen).toContain('Join waitlist');
+  });
 });

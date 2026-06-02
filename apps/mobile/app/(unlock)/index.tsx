@@ -7,30 +7,34 @@ import {
   Modal,
   ScrollView,
   Alert,
-  Share,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { usePremiumStore } from '../../src/stores/premium';
-import { PRICING, PACKS, formatPrice, PRODUCT_SKUS, GIFT_CONSTANTS, PackSku } from '../../lib/pricing';
+import { PRICING, PACKS, formatPrice } from '../../lib/pricing';
 import { getPackCards } from '../../lib/packActivities';
 
 interface PackCardProps {
-  pack: typeof PACKS[0];
+  pack: (typeof PACKS)[0];
   isOwned: boolean;
   onPurchase: () => void;
 }
 
 function PackCard({ pack, isOwned, onPurchase }: PackCardProps) {
   const previewCards = getPackCards(pack.id).slice(0, 3);
-  
+
   return (
     <View style={[styles.packCard, { borderColor: pack.color }]}>
       <View style={[styles.packHeader, { backgroundColor: `${pack.color}15` }]}>
         <Text style={styles.packEmoji}>{pack.emoji}</Text>
         <View style={styles.packTitleContainer}>
-          <Text style={[styles.packName, { color: pack.color }]}>{pack.name}</Text>
+          <Text style={[styles.packName, { color: pack.color }]}>
+            {pack.name}
+          </Text>
           <Text style={styles.packPrice}>{formatPrice(pack.price)}</Text>
         </View>
         {isOwned && (
@@ -39,9 +43,9 @@ function PackCard({ pack, isOwned, onPurchase }: PackCardProps) {
           </View>
         )}
       </View>
-      
+
       <Text style={styles.packDescription}>{pack.description}</Text>
-      
+
       <View style={styles.previewSection}>
         <Text style={styles.previewTitle}>Preview:</Text>
         {previewCards.map((card, idx) => (
@@ -52,15 +56,17 @@ function PackCard({ pack, isOwned, onPurchase }: PackCardProps) {
             </Text>
           </View>
         ))}
-        <Text style={styles.moreActivities}>+{getPackCards(pack.id).length - 3} more activities</Text>
+        <Text style={styles.moreActivities}>
+          +{getPackCards(pack.id).length - 3} more activities
+        </Text>
       </View>
-      
+
       {!isOwned && (
-        <Pressable 
+        <Pressable
           style={[styles.packButton, { backgroundColor: pack.color }]}
           onPress={onPurchase}
         >
-          <Text style={styles.packButtonText}>Unlock Pack</Text>
+          <Text style={styles.packButtonText}>Notify me</Text>
         </Pressable>
       )}
     </View>
@@ -70,85 +76,25 @@ function PackCard({ pack, isOwned, onPurchase }: PackCardProps) {
 export default function UnlockScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { 
-    upgrade, 
-    hasPack, 
-    isPremium, 
-    purchasePack, 
-    generateGiftCode,
-    subscription 
-  } = usePremiumStore();
-  
-  const [isPurchasing, setIsPurchasing] = useState(false);
-  const [showGiftModal, setShowGiftModal] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'premium' | 'packs' | 'gift'>('premium');
+  const { hasPack, isPremium, subscription } = usePremiumStore();
 
-  const handlePurchasePremium = async () => {
-    setIsPurchasing(true);
-    
-    // Simulate purchase flow
-    // In production, this would use RevenueCat or expo-in-app-purchases
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    upgrade('premium', PRODUCT_SKUS.PREMIUM_LIFETIME, 'mock_receipt_premium');
-    setIsPurchasing(false);
-    
-    Alert.alert(
-      'Welcome to Premium!',
-      'You now have lifetime access to all premium features and packs.',
-      [{ text: 'Start Exploring', onPress: () => router.back() }]
-    );
-  };
+  const [activeTab, setActiveTab] = useState<'premium' | 'packs' | 'gift'>(
+    'premium'
+  );
 
-  const handlePurchasePack = async (packId: PackSku) => {
-    setIsPurchasing(true);
-    
-    // Simulate purchase flow
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    purchasePack(packId, packId, `mock_receipt_${packId}`);
-    setIsPurchasing(false);
-    
-    const pack = PACKS.find(p => p.id === packId);
+  const handleJoinWaitlist = (label: string) => {
     Alert.alert(
-      'Pack Unlocked!',
-      `You now have access to the ${pack?.name}.`,
-      [{ text: 'Great!', onPress: () => {} }]
+      'Purchases coming soon',
+      `${label} is not available yet. SpiceSync stays free while we finish real App Store billing.`,
+      [{ text: 'OK' }]
     );
   };
 
   const handleRestore = async () => {
-    // Simulate restore
-    Alert.alert('Restore Purchases', 'No previous purchases found.');
-  };
-
-  const handleGenerateGift = async () => {
-    setIsPurchasing(true);
-    
-    // Simulate purchase and code generation
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    const code = await generateGiftCode();
-    setGeneratedCode(code);
-    setIsPurchasing(false);
-  };
-
-  const handleShareGift = async () => {
-    if (!generatedCode) return;
-    
-    try {
-      await Share.share({
-        message: `🎁 I got you SpiceSync Premium! Use code ${generatedCode} to unlock lifetime access. Download the app and redeem at spicesync.app/redeem`,
-      });
-    } catch (error) {
-      Alert.alert('Error', 'Could not share gift code');
-    }
-  };
-
-  const copyToClipboard = () => {
-    // In real implementation, use Clipboard API
-    Alert.alert('Copied!', 'Gift code copied to clipboard');
+    Alert.alert(
+      'Restore unavailable',
+      'Restore purchases will be available after real App Store billing is enabled.'
+    );
   };
 
   const isUserPremium = isPremium();
@@ -161,15 +107,12 @@ export default function UnlockScreen() {
       onRequestClose={() => router.back()}
     >
       <SafeAreaView style={styles.container}>
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
         >
           {/* Close Button */}
-          <Pressable 
-            style={styles.closeButton}
-            onPress={() => router.back()}
-          >
+          <Pressable style={styles.closeButton} onPress={() => router.back()}>
             <Text style={styles.closeText}>✕</Text>
           </Pressable>
 
@@ -177,34 +120,47 @@ export default function UnlockScreen() {
           <View style={styles.header}>
             <Text style={styles.emoji}>🔓</Text>
             <Text style={styles.title}>Go Deeper Together</Text>
-            <Text style={styles.subtitle}>
-              Choose how you want to unlock
-            </Text>
+            <Text style={styles.subtitle}>Choose how you want to unlock</Text>
           </View>
 
           {/* Tab Navigation */}
           <View style={styles.tabContainer}>
-            <Pressable 
+            <Pressable
               style={[styles.tab, activeTab === 'premium' && styles.tabActive]}
               onPress={() => setActiveTab('premium')}
             >
-              <Text style={[styles.tabText, activeTab === 'premium' && styles.tabTextActive]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === 'premium' && styles.tabTextActive,
+                ]}
+              >
                 Premium
               </Text>
             </Pressable>
-            <Pressable 
+            <Pressable
               style={[styles.tab, activeTab === 'packs' && styles.tabActive]}
               onPress={() => setActiveTab('packs')}
             >
-              <Text style={[styles.tabText, activeTab === 'packs' && styles.tabTextActive]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === 'packs' && styles.tabTextActive,
+                ]}
+              >
                 Packs
               </Text>
             </Pressable>
-            <Pressable 
+            <Pressable
               style={[styles.tab, activeTab === 'gift' && styles.tabActive]}
               onPress={() => setActiveTab('gift')}
             >
-              <Text style={[styles.tabText, activeTab === 'gift' && styles.tabTextActive]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === 'gift' && styles.tabTextActive,
+                ]}
+              >
                 Gift
               </Text>
             </Pressable>
@@ -217,9 +173,15 @@ export default function UnlockScreen() {
                 <View style={styles.bestValueBadge}>
                   <Text style={styles.bestValueText}>BEST VALUE</Text>
                 </View>
-                <Text style={styles.price}>{formatPrice(PRICING.BASE_PREMIUM)}</Text>
-                <Text style={styles.priceNote}>One-time payment. No subscription.</Text>
-                <Text style={styles.priceSubnote}>Unlocks everything forever</Text>
+                <Text style={styles.price}>
+                  {formatPrice(PRICING.BASE_PREMIUM)}
+                </Text>
+                <Text style={styles.priceNote}>
+                  Planned launch price. Not charging yet.
+                </Text>
+                <Text style={styles.priceSubnote}>
+                  Free while billing is being finished
+                </Text>
               </View>
 
               <View style={styles.featuresSection}>
@@ -243,14 +205,11 @@ export default function UnlockScreen() {
               </View>
 
               {!isUserPremium && (
-                <Pressable 
-                  style={[styles.ctaButton, isPurchasing && styles.ctaButtonDisabled]}
-                  onPress={handlePurchasePremium}
-                  disabled={isPurchasing}
+                <Pressable
+                  style={styles.ctaButton}
+                  onPress={() => handleJoinWaitlist('Premium')}
                 >
-                  <Text style={styles.ctaText}>
-                    {isPurchasing ? 'Processing...' : `Unlock Premium ${formatPrice(PRICING.BASE_PREMIUM)}`}
-                  </Text>
+                  <Text style={styles.ctaText}>Join waitlist</Text>
                 </Pressable>
               )}
 
@@ -266,15 +225,16 @@ export default function UnlockScreen() {
           {activeTab === 'packs' && (
             <View style={styles.tabContent}>
               <Text style={styles.packsIntro}>
-                Or unlock individual packs à la carte. Each pack contains 15+ unique activities.
+                Or unlock individual packs à la carte. Each pack contains 15+
+                unique activities.
               </Text>
-              
+
               {PACKS.map((pack) => (
                 <PackCard
                   key={pack.id}
                   pack={pack}
                   isOwned={isUserPremium || hasPack(pack.id)}
-                  onPurchase={() => handlePurchasePack(pack.id)}
+                  onPurchase={() => handleJoinWaitlist(pack.name)}
                 />
               ))}
 
@@ -297,59 +257,36 @@ export default function UnlockScreen() {
                 </Text>
               </View>
 
-              {!generatedCode ? (
-                <>
-                  <View style={styles.giftFeatures}>
-                    <Text style={styles.giftFeaturesTitle}>They'll receive:</Text>
-                    {[
-                      'Lifetime Premium access',
-                      'All premium activities',
-                      'All 3 activity packs',
-                      'Future updates included',
-                    ].map((item, idx) => (
-                      <View key={idx} style={styles.giftFeatureRow}>
-                        <Text style={styles.giftFeatureCheck}>✓</Text>
-                        <Text style={styles.giftFeatureText}>{item}</Text>
-                      </View>
-                    ))}
+              <View style={styles.giftFeatures}>
+                <Text style={styles.giftFeaturesTitle}>
+                  Gift codes will include:
+                </Text>
+                {[
+                  'Lifetime Premium access',
+                  'All premium activities',
+                  'All activity packs',
+                  'Future updates included',
+                ].map((item, idx) => (
+                  <View key={idx} style={styles.giftFeatureRow}>
+                    <Text style={styles.giftFeatureCheck}>✓</Text>
+                    <Text style={styles.giftFeatureText}>{item}</Text>
                   </View>
+                ))}
+              </View>
 
-                  <View style={styles.giftPriceCard}>
-                    <Text style={styles.giftPrice}>{formatPrice(PRICING.GIFT_PRICE)}</Text>
-                    <Text style={styles.giftPriceNote}>One-time gift purchase</Text>
-                  </View>
+              <View style={styles.giftPriceCard}>
+                <Text style={styles.giftPrice}>
+                  {formatPrice(PRICING.GIFT_PRICE)}
+                </Text>
+                <Text style={styles.giftPriceNote}>Planned gift price</Text>
+              </View>
 
-                  <Pressable 
-                    style={[styles.ctaButton, isPurchasing && styles.ctaButtonDisabled]}
-                    onPress={handleGenerateGift}
-                    disabled={isPurchasing}
-                  >
-                    <Text style={styles.ctaText}>
-                      {isPurchasing ? 'Processing...' : 'Buy Gift Code'}
-                    </Text>
-                  </Pressable>
-                </>
-              ) : (
-                <View style={styles.codeContainer}>
-                  <Text style={styles.codeLabel}>Gift Code Generated!</Text>
-                  <View style={styles.codeBox}>
-                    <Text style={styles.codeText}>{generatedCode}</Text>
-                  </View>
-                  <Text style={styles.codeInstructions}>
-                    Share this code with the recipient. They can redeem it in the app or at:
-                  </Text>
-                  <Text style={styles.codeUrl}>spicesync.app{GIFT_CONSTANTS.REDEEM_PATH}</Text>
-                  
-                  <View style={styles.codeButtons}>
-                    <Pressable style={styles.codeButton} onPress={handleShareGift}>
-                      <Text style={styles.codeButtonText}>📤 Share</Text>
-                    </Pressable>
-                    <Pressable style={styles.codeButton} onPress={copyToClipboard}>
-                      <Text style={styles.codeButtonText}>📋 Copy</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              )}
+              <Pressable
+                style={styles.ctaButton}
+                onPress={() => handleJoinWaitlist('Gift codes')}
+              >
+                <Text style={styles.ctaText}>Notify me</Text>
+              </Pressable>
             </View>
           )}
 
@@ -360,8 +297,8 @@ export default function UnlockScreen() {
             </Pressable>
 
             <Text style={styles.terms}>
-              By purchasing, you agree to our Terms of Service and Privacy Policy.{'\n'}
-              All purchases are final. Subscription auto-renews unless cancelled.
+              Purchases are not live yet. This screen previews planned pricing
+              and entitlements while SpiceSync remains free.
             </Text>
           </View>
         </ScrollView>
