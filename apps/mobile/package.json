@@ -13,6 +13,7 @@
     "test": "jest",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "release:check": "node scripts/release-check.js",
     "e2e:build": "detox build -c ios.sim.release",
     "e2e:test": "detox test -c ios.sim.release",
     "build:kinks": "node scripts/build-kinks.js"
