@@ -78,6 +78,23 @@ describe('release configuration', () => {
     expect(mainApplication).toContain('package com.spicesync.app');
   });
 
+  it('keeps iOS native settings compatible with Expo SDK 54 pods', () => {
+    const iosPodfileProperties = readJson<{
+      newArchEnabled?: string;
+      'ios.deploymentTarget'?: string;
+    }>(
+      path.join('ios', 'Podfile.properties.json')
+    );
+    const androidGradleProperties = fs.readFileSync(
+      path.join(mobileRoot, 'android', 'gradle.properties'),
+      'utf8'
+    );
+
+    expect(iosPodfileProperties.newArchEnabled).toBe('true');
+    expect(iosPodfileProperties['ios.deploymentTarget']).toBe('15.1');
+    expect(androidGradleProperties).toContain('newArchEnabled=true');
+  });
+
   it('defines EAS build profiles for development, preview, and production', () => {
     const easJson = readJson<{
       build?: Record<string, unknown>;
