@@ -49,4 +49,28 @@ describe('release configuration', () => {
     );
     expect(projectId).not.toBe('local');
   });
+
+  it('uses the branded splash screen plugin on the dark launch background', () => {
+    const appJson = readJson<{
+      expo: {
+        splash?: { image?: string; backgroundColor?: string };
+        plugins?: unknown[];
+      };
+    }>('app.json');
+    const splashPlugin = appJson.expo.plugins?.find((plugin) =>
+      Array.isArray(plugin) ? plugin[0] === 'expo-splash-screen' : false
+    ) as
+      | ['expo-splash-screen', { image?: string; backgroundColor?: string }]
+      | undefined;
+
+    expect(appJson.expo.splash).toEqual({
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#0D0006',
+    });
+    expect(splashPlugin?.[1]).toMatchObject({
+      image: './assets/splash.png',
+      backgroundColor: '#0D0006',
+    });
+  });
 });
