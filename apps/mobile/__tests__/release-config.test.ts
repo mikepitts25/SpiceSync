@@ -24,6 +24,60 @@ describe('release configuration', () => {
     expect(appJson.expo.android?.package).not.toContain('anonymous');
   });
 
+  it('keeps checked-in native project identifiers aligned with app config', () => {
+    const iosProject = fs.readFileSync(
+      path.join(mobileRoot, 'ios', 'SpiceSync.xcodeproj', 'project.pbxproj'),
+      'utf8'
+    );
+    const iosInfo = fs.readFileSync(
+      path.join(mobileRoot, 'ios', 'SpiceSync', 'Info.plist'),
+      'utf8'
+    );
+    const androidGradle = fs.readFileSync(
+      path.join(mobileRoot, 'android', 'app', 'build.gradle'),
+      'utf8'
+    );
+    const mainActivity = fs.readFileSync(
+      path.join(
+        mobileRoot,
+        'android',
+        'app',
+        'src',
+        'main',
+        'java',
+        'com',
+        'spicesync',
+        'app',
+        'MainActivity.kt'
+      ),
+      'utf8'
+    );
+    const mainApplication = fs.readFileSync(
+      path.join(
+        mobileRoot,
+        'android',
+        'app',
+        'src',
+        'main',
+        'java',
+        'com',
+        'spicesync',
+        'app',
+        'MainApplication.kt'
+      ),
+      'utf8'
+    );
+
+    expect(iosProject).toContain(
+      'PRODUCT_BUNDLE_IDENTIFIER = com.spicesync.app;'
+    );
+    expect(iosInfo).toContain('<string>com.spicesync.app</string>');
+    expect(androidGradle).toContain("namespace 'com.spicesync.app'");
+    expect(androidGradle).toContain("applicationId 'com.spicesync.app'");
+    expect(mainActivity).toContain('package com.spicesync.app');
+    expect(mainApplication).toContain('package com.spicesync.app');
+  });
+
   it('defines EAS build profiles for development, preview, and production', () => {
     const easJson = readJson<{
       build?: Record<string, unknown>;

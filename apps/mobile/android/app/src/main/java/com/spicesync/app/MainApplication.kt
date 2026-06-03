@@ -1,4 +1,4 @@
-package com.anonymous.spicesync
+package com.spicesync.app
 
 import android.app.Application
 import android.content.res.Configuration

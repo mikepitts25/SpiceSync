@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>spicesync</string>
-          <string>com.anonymous.spicesync</string>
+          <string>com.spicesync.app</string>
         </array>
       </dict>
       <dict>
