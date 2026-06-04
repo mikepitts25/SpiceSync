@@ -7,7 +7,10 @@ import {
 import type { ProfileLoveLanguage } from '../src/stores/loveLanguages';
 
 export const LOVE_LANGUAGE_PROMPT_CATEGORY = 'love_languages' as const;
-export const LOVE_LANGUAGE_QUIZ_ROUTE = '/(conversation)/love-languages' as const;
+export const LOVE_LANGUAGE_HUB_ROUTE =
+  '/(conversation)/love-languages' as const;
+export const LOVE_LANGUAGE_QUIZ_ROUTE =
+  '/(conversation)/love-languages-quiz' as const;
 
 export const CONVERSATION_CATEGORY_FILTERS: {
   id: ConversationStarter['category'];
@@ -19,6 +22,71 @@ export const CONVERSATION_CATEGORY_FILTERS: {
   { id: 'spicy', label: 'Spicy' },
   { id: LOVE_LANGUAGE_PROMPT_CATEGORY, label: 'Love Languages' },
 ];
+
+export type ConversationTopicTile = {
+  id: ConversationStarter['category'];
+  label: string;
+  subtitle: string;
+  mark: string;
+  route: string;
+  type: 'prompts' | 'love_languages';
+};
+
+function getPromptTopicRoute(
+  category: ConversationStarter['category']
+): string {
+  return `/(conversation)/topic/${category}`;
+}
+
+export const CONVERSATION_TOPIC_TILES: ConversationTopicTile[] = [
+  {
+    id: 'date_night',
+    label: 'Date Night',
+    subtitle: 'Playful prompts for time together',
+    mark: 'DATE',
+    route: getPromptTopicRoute('date_night'),
+    type: 'prompts',
+  },
+  {
+    id: 'getting_to_know',
+    label: 'Getting to Know',
+    subtitle: 'Fresh angles on familiar stories',
+    mark: 'KNOW',
+    route: getPromptTopicRoute('getting_to_know'),
+    type: 'prompts',
+  },
+  {
+    id: 'relationship',
+    label: 'Relationship',
+    subtitle: 'Check in on patterns and needs',
+    mark: 'TALK',
+    route: getPromptTopicRoute('relationship'),
+    type: 'prompts',
+  },
+  {
+    id: 'spicy',
+    label: 'Spicy',
+    subtitle: 'Warm up curiosity and desire',
+    mark: 'HEAT',
+    route: getPromptTopicRoute('spicy'),
+    type: 'prompts',
+  },
+  {
+    id: LOVE_LANGUAGE_PROMPT_CATEGORY,
+    label: 'Love Languages',
+    subtitle: 'Use prompts or take the quiz',
+    mark: 'CARE',
+    route: LOVE_LANGUAGE_HUB_ROUTE,
+    type: 'love_languages',
+  },
+];
+
+export function getConversationTopicTile(
+  category?: string | string[]
+): ConversationTopicTile | undefined {
+  const categoryId = Array.isArray(category) ? category[0] : category;
+  return CONVERSATION_TOPIC_TILES.find((topic) => topic.id === categoryId);
+}
 
 type PartnerLoveLanguageResult = {
   name: string;

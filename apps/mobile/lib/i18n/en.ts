@@ -548,7 +548,7 @@ export const en = {
     conversation: [
       {
         title: 'Pick a prompt category',
-        body: 'Use the category row to change the kind of conversation starter you see.',
+        body: 'Use the topic grid to choose the kind of conversation starter you want to open.',
       },
       {
         title: 'Use prompts together',
@@ -556,7 +556,7 @@ export const en = {
       },
       {
         title: 'Love language prompts',
-        body: 'The love language module links to the quiz and can filter prompts around your results.',
+        body: 'The Love Languages tile opens prompts and the quiz from its own hub.',
       },
     ],
     game: [

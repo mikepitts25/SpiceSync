@@ -1,7 +1,10 @@
 import {
   CONVERSATION_CATEGORY_FILTERS,
+  CONVERSATION_TOPIC_TILES,
+  LOVE_LANGUAGE_HUB_ROUTE,
   LOVE_LANGUAGE_PROMPT_CATEGORY,
   LOVE_LANGUAGE_QUIZ_ROUTE,
+  getConversationTopicTile,
   getLoveLanguageModuleCopy,
 } from '../lib/conversationExperience';
 import type { ProfileLoveLanguage } from '../src/stores/loveLanguages';
@@ -19,9 +22,43 @@ describe('conversation experience metadata', () => {
     ]);
   });
 
-  it('routes love language quiz entry through the conversation area', () => {
-    expect(LOVE_LANGUAGE_QUIZ_ROUTE).toBe('/(conversation)/love-languages');
+  it('routes love language hub and quiz entry through the conversation area', () => {
+    expect(LOVE_LANGUAGE_HUB_ROUTE).toBe('/(conversation)/love-languages');
+    expect(LOVE_LANGUAGE_QUIZ_ROUTE).toBe(
+      '/(conversation)/love-languages-quiz'
+    );
     expect(LOVE_LANGUAGE_PROMPT_CATEGORY).toBe('love_languages');
+  });
+
+  it('describes square topic tiles for the conversation grid', () => {
+    expect(CONVERSATION_TOPIC_TILES).toHaveLength(5);
+    expect(CONVERSATION_TOPIC_TILES.map((item) => item.id)).toEqual(
+      CONVERSATION_CATEGORY_FILTERS.map((item) => item.id)
+    );
+    expect(CONVERSATION_TOPIC_TILES).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: 'date_night',
+          label: 'Date Night',
+          route: '/(conversation)/topic/date_night',
+          type: 'prompts',
+        }),
+        expect.objectContaining({
+          id: 'love_languages',
+          label: 'Love Languages',
+          route: LOVE_LANGUAGE_HUB_ROUTE,
+          type: 'love_languages',
+        }),
+      ])
+    );
+  });
+
+  it('looks up topic metadata by route category', () => {
+    expect(getConversationTopicTile('relationship')).toMatchObject({
+      id: 'relationship',
+      route: '/(conversation)/topic/relationship',
+    });
+    expect(getConversationTopicTile('missing-topic')).toBeUndefined();
   });
 
   it('invites users without a quiz result to take the quiz', () => {
