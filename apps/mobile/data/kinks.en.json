@@ -33,7 +33,7 @@
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
-    "pairMode": false
+    "pairMode": true
   },
   {
     "id": "0003",
@@ -51,7 +51,7 @@
     "category": "aftercare",
     "intensityScale": 1,
     "tier": "soft",
-    "pairMode": false
+    "pairMode": true
   },
   {
     "id": "0004",
@@ -123,7 +123,7 @@
     "category": "sensory",
     "intensityScale": 1,
     "tier": "soft",
-    "pairMode": true
+    "pairMode": false
   },
   {
     "id": "0008",
