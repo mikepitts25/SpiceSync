@@ -12,6 +12,8 @@ const {
   saveGameCards,
   saveKinks,
   saveConversationStarters,
+  setKinkRoleMode,
+  normalizeKinkRoleModeData,
 } = require("./lib/data-manager");
 const { analyzeKinks } = require("./lib/kink-qa");
 
@@ -199,6 +201,29 @@ app.get("/api/kinks/qa", (req, res) => {
   try {
     const kinks = loadKinks();
     res.json({ success: true, qa: analyzeKinks(kinks) });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post("/api/kinks/role-mode", async (req, res) => {
+  try {
+    const { ids, enabled } = req.body || {};
+    const kinks = setKinkRoleMode(ids, enabled !== false);
+    const gitResult = await commitChanges(
+      `${enabled === false ? "Disable" : "Enable"} kink role selectors`,
+    );
+    res.json({ success: true, data: kinks, qa: analyzeKinks(kinks), git: gitResult });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post("/api/kinks/normalize-role-mode", async (req, res) => {
+  try {
+    const kinks = normalizeKinkRoleModeData();
+    const gitResult = await commitChanges("Normalize kink role selector data");
+    res.json({ success: true, data: kinks, qa: analyzeKinks(kinks), git: gitResult });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

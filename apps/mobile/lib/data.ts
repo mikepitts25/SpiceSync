@@ -145,6 +145,17 @@ function collapsePairs(items: KinkItem[]): KinkItem[] {
   ];
 }
 
+function normalizePairModeItems(items: KinkItem[]): KinkItem[] {
+  return items.map((item) => {
+    if (!item.pairMode) return item;
+    return {
+      ...item,
+      pairRole: item.sourceIds ? item.pairRole : undefined,
+      availablePairRoles: item.availablePairRoles || ['give', 'receive', 'both'],
+    };
+  });
+}
+
 function defaultTier(k: KinkItem): Tier {
   if (k.tier) return k.tier as Tier;
 
@@ -183,7 +194,7 @@ function defaultTier(k: KinkItem): Tier {
 export function useKinks(lang: 'en' | 'es' = 'en') {
   const base = (lang === 'es' ? (kinksES as any) : (kinksEN as any)) as any[];
   // 1) Collapse step/phase/stage sequences into one item (e.g., "Anal training" from multiple steps)
-  const collapsed = collapsePairs(collapseSequences(base));
+  const collapsed = normalizePairModeItems(collapsePairs(collapseSequences(base)));
   // 2) Apply tier classification
   const kinks: KinkItem[] = collapsed.map((k) => ({
     ...k,

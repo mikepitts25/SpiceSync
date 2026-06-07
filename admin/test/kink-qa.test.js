@@ -68,24 +68,26 @@ test("analyzeKinks reports incomplete and duplicate pair roles", () => {
       slug: "orphan-role",
       pairRole: "receive",
     }),
-    baseKink({
-      id: "0103",
-      slug: "missing-role",
-      pairMode: true,
-      pairKey: "missing-role",
-      pairRole: "",
-    }),
   ]);
 
-  assert.equal(qa.groups.pair, 6);
+  assert.equal(qa.groups.pair, 3);
   assert.ok(qa.issues.some((issue) => issue.title === "Duplicate pair role"));
   assert.ok(qa.issues.some((issue) => issue.title === "Incomplete pair"));
   assert.ok(
     qa.issues.some((issue) => issue.title === "Pair role without pair key"),
   );
-  assert.ok(
-    qa.issues.some((issue) => issue.title === "Pair mode without pair role"),
-  );
+});
+
+test("analyzeKinks allows single-row role selector mode", () => {
+  const qa = analyzeKinks([
+    baseKink({
+      id: "0104",
+      slug: "single-row-selector",
+      pairMode: true,
+    }),
+  ]);
+
+  assert.equal(qa.groups.pair, 0);
 });
 
 test("analyzeKinks reports high-intensity cards without safety tags", () => {

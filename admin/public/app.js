@@ -29,6 +29,7 @@ const tabConfig = {
       type: "type",
       intensity: "_gameMode",
       category: "category",
+      source: "_source",
     },
     filterLabels: {
       type: "All Types",
@@ -110,11 +111,13 @@ const tabConfig = {
       "tags",
       "pairKey",
       "pairRole",
+      "pairMode",
     ],
     filters: {
       type: "tier",
       intensity: "intensityScale",
       category: "category",
+      source: null,
     },
     fields: [
       {
@@ -157,20 +160,8 @@ const tabConfig = {
       },
       {
         name: "pairMode",
-        label: "Use Give / Receive / Both Card",
+        label: "Show Give / Receive / Both selector",
         type: "checkbox",
-      },
-      {
-        name: "pairKey",
-        label: "Pair Key",
-        type: "text",
-        placeholder: "oral-pleasure",
-      },
-      {
-        name: "pairRole",
-        label: "Pair Role",
-        type: "select",
-        options: ["give", "receive"],
       },
     ],
   },
@@ -191,6 +182,11 @@ const tabConfig = {
       type: "_source",
       intensity: "intensity",
       category: "category",
+      source: "_source",
+    },
+    filterLabels: {
+      type: "All Prompt Packs",
+      source: "All Prompt Packs",
     },
     fields: [
       {
@@ -247,7 +243,7 @@ const sourceArrayNames = {
   level5: "LEVEL5_CARDS",
   dateNight: "dateNightStarters",
   gettingToKnow: "gettingToKnowStarters",
-  loveLanguages: "loveLanguageStarters",
+  loveLanguages: "loveLanguagesStarters",
   relationship: "relationshipStarters",
   spicy: "spicyStarters",
 };
@@ -260,6 +256,9 @@ const elements = {
   filterType: document.getElementById("filter-type"),
   filterIntensity: document.getElementById("filter-intensity"),
   filterCategory: document.getElementById("filter-category"),
+  filterSource: document.getElementById("filter-source"),
+  filterPair: document.getElementById("filter-pair"),
+  bulkActions: document.getElementById("bulk-actions"),
   qaPanel: document.getElementById("qa-panel"),
   contentList: document.getElementById("content-list"),
   statusBar: document.getElementById("status-bar"),
@@ -354,6 +353,7 @@ async function loadItems(options = {}) {
     updateFilterOptions();
     applyFilters();
     renderQaPanel();
+    renderBulkActions();
 
     if (preserveScroll) {
       restoreScrollPosition(scrollY);
@@ -363,6 +363,7 @@ async function loadItems(options = {}) {
     state.filteredItems = [];
     state.qa = null;
     renderQaPanel();
+    renderBulkActions();
     elements.contentList.innerHTML = `<div class="empty-state">Could not load ${escapeHtml(config.label)}: ${escapeHtml(error.message)}</div>`;
     showStatus(error.message, "error");
   }
@@ -376,6 +377,17 @@ function updateFilterOptions() {
     config.filters.category,
     "All Categories",
   );
+  if (config.filters.source) {
+    elements.filterSource.classList.remove("hidden");
+    updateSelect(
+      elements.filterSource,
+      config.filters.source,
+      config.filterLabels?.source || "All Sources",
+    );
+  } else {
+    elements.filterSource.classList.add("hidden");
+    elements.filterSource.value = "";
+  }
 
   const intensities = uniqueValues(config.filters.intensity);
   elements.filterIntensity.innerHTML =
@@ -423,6 +435,8 @@ function applyFilters() {
   const type = elements.filterType.value;
   const intensity = elements.filterIntensity.value;
   const category = elements.filterCategory.value;
+  const source = elements.filterSource?.value || "";
+  const pair = elements.filterPair?.value || "";
 
   state.filteredItems = state.items.filter((item) => {
     const matchesSearch =
@@ -441,11 +455,90 @@ function applyFilters() {
       !intensity || String(item[config.filters.intensity]) === intensity;
     const matchesCategory =
       !category || String(item[config.filters.category]) === category;
+    const matchesSource =
+      !source || String(item[config.filters.source]) === source;
+    const matchesPair = state.activeTab !== "kinks" || pairMatches(item, pair);
 
-    return matchesSearch && matchesType && matchesIntensity && matchesCategory;
+    return (
+      matchesSearch &&
+      matchesType &&
+      matchesIntensity &&
+      matchesCategory &&
+      matchesSource &&
+      matchesPair
+    );
   });
 
   renderList();
+  renderBulkActions();
+}
+
+function pairMatches(item, pairFilter) {
+  if (!pairFilter) return true;
+  if (pairFilter === "paired") return Boolean(item.pairMode);
+  if (pairFilter === "unpaired") return !item.pairMode;
+  if (pairFilter === "legacy-give") return item.pairRole === "give";
+  if (pairFilter === "legacy-receive") return item.pairRole === "receive";
+  return true;
+}
+
+function renderBulkActions() {
+  if (!elements.filterPair || !elements.bulkActions) return;
+
+  const isKinks = state.activeTab === "kinks";
+  elements.filterPair.classList.toggle("hidden", !isKinks);
+  elements.bulkActions.classList.toggle("hidden", !isKinks);
+
+  if (!isKinks) {
+    elements.bulkActions.innerHTML = "";
+    return;
+  }
+
+  const filteredCount = state.filteredItems.length;
+  elements.bulkActions.innerHTML = `
+    <button class="btn btn-secondary btn-small" data-bulk-role="normalize">Clean Up Roles</button>
+    <button class="btn btn-secondary btn-small" data-bulk-role="enable-all">Enable All</button>
+    <button class="btn btn-secondary btn-small" data-bulk-role="enable-filtered">Enable Filtered (${filteredCount})</button>
+    <button class="btn btn-secondary btn-small" data-bulk-role="disable-filtered">Disable Filtered (${filteredCount})</button>
+  `;
+
+  elements.bulkActions.querySelectorAll("[data-bulk-role]").forEach((button) => {
+    button.addEventListener("click", () => handleBulkRoleAction(button.dataset.bulkRole));
+  });
+}
+
+async function handleBulkRoleAction(action) {
+  if (state.activeTab !== "kinks") return;
+
+  const filteredIds = state.filteredItems.map((item) => String(item.id));
+  const messages = {
+    normalize:
+      "Collapse legacy give/receive duplicates, enable role selectors, and simplify kink descriptions?",
+    "enable-all": "Enable the Give / Receive / Both selector for every kink?",
+    "enable-filtered": `Enable the selector for ${filteredIds.length} filtered kink(s)?`,
+    "disable-filtered": `Disable the selector for ${filteredIds.length} filtered kink(s)?`,
+  };
+
+  if (!window.confirm(messages[action] || "Apply this bulk action?")) return;
+
+  try {
+    if (action === "normalize") {
+      await requestJson("/api/kinks/normalize-role-mode", { method: "POST" });
+    } else {
+      const body = {
+        ids: action === "enable-all" ? null : filteredIds,
+        enabled: action !== "disable-filtered",
+      };
+      await requestJson("/api/kinks/role-mode", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+    }
+    await loadItems();
+    showStatus("Kink role selectors updated.");
+  } catch (error) {
+    showStatus(error.message, "error");
+  }
 }
 
 function renderList() {
@@ -845,6 +938,8 @@ function switchTab(tab) {
   elements.filterType.value = "";
   elements.filterIntensity.value = "";
   elements.filterCategory.value = "";
+  if (elements.filterSource) elements.filterSource.value = "";
+  if (elements.filterPair) elements.filterPair.value = "";
 
   elements.navButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.tab === tab);
@@ -864,6 +959,8 @@ function bindEvents() {
   elements.filterType.addEventListener("change", applyFilters);
   elements.filterIntensity.addEventListener("change", applyFilters);
   elements.filterCategory.addEventListener("change", applyFilters);
+  elements.filterSource?.addEventListener("change", applyFilters);
+  elements.filterPair?.addEventListener("change", applyFilters);
   elements.statusClose.addEventListener("click", hideStatus);
   elements.editForm.addEventListener("submit", saveItem);
   elements.saveButton.addEventListener("click", () =>

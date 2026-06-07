@@ -1,6 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const {
+  collapseLegacyPairedKinks,
+  enableRoleModeForKinks,
+  simplifyKinkDescriptions,
+} = require('./kink-role-mode');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'apps', 'mobile', 'data');
 
@@ -231,6 +236,16 @@ function loadKinks() {
   return kinks;
 }
 
+function loadSpanishKinks() {
+  try {
+    const esContent = fs.readFileSync(FILE_PATHS.kinks.es, 'utf8');
+    return JSON.parse(esContent);
+  } catch (e) {
+    console.error('Error loading Spanish kinks:', e.message);
+    return [];
+  }
+}
+
 // Load Conversation Starters from all files
 function loadConversationStarters() {
   const starters = [];
@@ -238,7 +253,7 @@ function loadConversationStarters() {
   const starterFiles = [
     { file: 'dateNight', array: 'dateNightStarters' },
     { file: 'gettingToKnow', array: 'gettingToKnowStarters' },
-    { file: 'loveLanguages', array: 'loveLanguageStarters' },
+    { file: 'loveLanguages', array: 'loveLanguagesStarters' },
     { file: 'relationship', array: 'relationshipStarters' },
     { file: 'spicy', array: 'spicyStarters' }
   ];
@@ -321,16 +336,69 @@ function saveGameCards(cards) {
   }
 }
 
-// Save Kinks back to JSON file
+function cleanKinkForSave(kink) {
+  const clean = { ...kink };
+  delete clean._source;
+  return clean;
+}
+
+function spanishKinkFromEnglish(enKink, existing = {}) {
+  const cleanEn = cleanKinkForSave(enKink);
+  const titleEs = cleanEn.titleEs || existing.titleEs || existing.title || cleanEn.title;
+  const descriptionEs =
+    cleanEn.descriptionEs || existing.descriptionEs || existing.description || cleanEn.description;
+  const next = {
+    ...existing,
+    ...cleanEn,
+    title: titleEs,
+    titleEs,
+    description: descriptionEs,
+    descriptionEs,
+    titleEn: cleanEn.title || existing.titleEn,
+    descriptionEn: cleanEn.description || existing.descriptionEn,
+  };
+  delete next.pairKey;
+  delete next.pairRole;
+  delete next.sourceIds;
+  delete next.availablePairRoles;
+
+  return Object.fromEntries(
+    Object.entries(next).filter(([, value]) => value !== undefined && value !== '')
+  );
+}
+
+// Save Kinks back to both language JSON files.
 function saveKinks(kinks) {
-  // Group by source (en/es)
-  const enKinks = kinks.filter(k => k._source === 'en' || !k._source).map(k => {
-    const clean = { ...k };
-    delete clean._source;
-    return clean;
-  });
-  
+  const enKinks = kinks.filter(k => k._source === 'en' || !k._source).map(cleanKinkForSave);
+  const existingSpanishById = Object.fromEntries(
+    loadSpanishKinks().map((kink) => [String(kink.id), kink])
+  );
+  const esKinks = enKinks.map((kink) =>
+    spanishKinkFromEnglish(kink, existingSpanishById[String(kink.id)])
+  );
+
   fs.writeFileSync(FILE_PATHS.kinks.en, JSON.stringify(enKinks, null, 2), 'utf8');
+  fs.writeFileSync(FILE_PATHS.kinks.es, JSON.stringify(esKinks, null, 2), 'utf8');
+}
+
+function setKinkRoleMode(ids, enabled) {
+  const normalized = enableRoleModeForKinks(loadKinks(), ids, enabled).map((kink) => ({
+    ...kink,
+    _source: 'en',
+  }));
+  saveKinks(normalized);
+  return normalized;
+}
+
+function normalizeKinkRoleModeData() {
+  const normalized = simplifyKinkDescriptions(
+    enableRoleModeForKinks(collapseLegacyPairedKinks(loadKinks()))
+  ).map((kink) => ({
+    ...kink,
+    _source: 'en',
+  }));
+  saveKinks(normalized);
+  return normalized;
 }
 
 // Save Conversation Starters back to files
@@ -367,7 +435,7 @@ function saveConversationStarters(starters) {
     },
     loveLanguages: {
       path: FILE_PATHS.conversationStarters.loveLanguages,
-      array: 'loveLanguageStarters',
+      array: 'loveLanguagesStarters',
       comment: 'Love Languages - Understanding how you give and receive love',
       importType: 'ConversationStarter'
     },
@@ -402,6 +470,8 @@ module.exports = {
   saveGameCards,
   saveKinks,
   saveConversationStarters,
+  setKinkRoleMode,
+  normalizeKinkRoleModeData,
   FILE_PATHS,
   gameModeForIntensity
 };

@@ -1,28 +1,27 @@
 import { useKinks } from '../lib/data';
 
 describe('paired kink data', () => {
-  it('collapses complete opt-in give/receive pairs into one selector card', () => {
+  it('loads one-row role selector topics without legacy source rows', () => {
     const { kinks, kinksById } = useKinks('en');
 
-    expect(kinksById['0008']).toBeUndefined();
-    expect(kinksById['0277']).toBeUndefined();
-    expect(kinksById['pair:oral-pleasure']).toMatchObject({
-      id: 'pair:oral-pleasure',
+    expect(kinksById['0008']).toMatchObject({
+      id: '0008',
       slug: 'oral-pleasure',
       title: 'Oral Pleasure',
       pairMode: true,
-      pairKey: 'oral-pleasure',
-      sourceIds: ['0008', '0277'],
+      pairRole: undefined,
       availablePairRoles: ['give', 'receive', 'both'],
     });
+    expect(kinksById['0277']).toBeUndefined();
 
-    const roleTags = new Set(kinksById['pair:oral-pleasure'].tags);
+    const roleTags = new Set(kinksById['0008'].tags);
     expect(roleTags.has('give')).toBe(false);
     expect(roleTags.has('giving')).toBe(false);
     expect(roleTags.has('receive')).toBe(false);
     expect(roleTags.has('receiving')).toBe(false);
 
-    const pairedCards = kinks.filter((kink) => kink.id.startsWith('pair:'));
-    expect(pairedCards).toHaveLength(32);
+    const selectorCards = kinks.filter((kink) => kink.pairMode);
+    expect(selectorCards).toHaveLength(kinks.length);
+    expect(kinks.some((kink) => kink.id.startsWith('pair:'))).toBe(false);
   });
 });

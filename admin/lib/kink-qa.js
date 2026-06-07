@@ -102,30 +102,6 @@ function addPairIssues(issues, kinks) {
   const byPairKey = new Map();
 
   for (const kink of kinks) {
-    if (kink.pairMode && !hasValue(kink.pairKey)) {
-      issues.push(
-        createIssue(
-          "pair",
-          "error",
-          "Pair mode without pair key",
-          `${kink.id || kink.slug || "Unknown kink"} has pairMode but no pairKey.`,
-          [kink.id],
-        ),
-      );
-    }
-
-    if (kink.pairMode && !hasValue(kink.pairRole)) {
-      issues.push(
-        createIssue(
-          "pair",
-          "error",
-          "Pair mode without pair role",
-          `${kink.id || kink.slug || "Unknown kink"} has pairMode but no pairRole.`,
-          [kink.id],
-        ),
-      );
-    }
-
     if (hasValue(kink.pairRole) && !hasValue(kink.pairKey)) {
       issues.push(
         createIssue(
@@ -138,7 +114,7 @@ function addPairIssues(issues, kinks) {
       );
     }
 
-    if (!hasValue(kink.pairKey)) continue;
+    if (!hasValue(kink.pairKey) || !hasValue(kink.pairRole)) continue;
     const items = byPairKey.get(kink.pairKey) || [];
     items.push(kink);
     byPairKey.set(kink.pairKey, items);
