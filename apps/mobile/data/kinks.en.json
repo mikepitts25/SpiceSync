@@ -33,7 +33,7 @@
     "category": "communication",
     "intensityScale": 1,
     "tier": "soft",
-    "pairMode": true
+    "pairMode": false
   },
   {
     "id": "0003",
