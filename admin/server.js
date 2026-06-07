@@ -14,6 +14,9 @@ const {
   saveConversationStarters,
   setKinkRoleMode,
   normalizeKinkRoleModeData,
+  renumberGameCardIds,
+  renumberKinkIds,
+  renumberConversationStarterIds,
 } = require("./lib/data-manager");
 const { analyzeKinks } = require("./lib/kink-qa");
 
@@ -91,6 +94,28 @@ function normalizeGameCardStorage(card) {
       : card._arrayName;
   delete card._gameMode;
 }
+
+const renumberHandlers = {
+  gamecards: renumberGameCardIds,
+  kinks: renumberKinkIds,
+  "conversation-starters": renumberConversationStarterIds,
+};
+
+app.post("/api/:kind/renumber-ids", async (req, res) => {
+  try {
+    const kind = req.params.kind;
+    const handler = renumberHandlers[kind];
+    if (!handler) {
+      return res.status(404).json({ success: false, error: "Unknown content type" });
+    }
+
+    const data = handler();
+    const gitResult = await commitChanges(`Renumber ${kind} IDs`);
+    res.json({ success: true, data, git: gitResult });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 // ===== GAME CARDS API =====
 

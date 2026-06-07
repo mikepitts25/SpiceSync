@@ -487,24 +487,49 @@ function renderBulkActions() {
 
   const isKinks = state.activeTab === "kinks";
   elements.filterPair.classList.toggle("hidden", !isKinks);
-  elements.bulkActions.classList.toggle("hidden", !isKinks);
+  elements.bulkActions.classList.remove("hidden");
+
+  const resolveButton = `
+    <button class="btn btn-secondary btn-small" data-action="renumber-ids">Resolve IDs</button>
+  `;
 
   if (!isKinks) {
-    elements.bulkActions.innerHTML = "";
-    return;
+    elements.bulkActions.innerHTML = resolveButton;
+  } else {
+    const filteredCount = state.filteredItems.length;
+    elements.bulkActions.innerHTML = `
+      ${resolveButton}
+      <button class="btn btn-secondary btn-small" data-bulk-role="normalize">Clean Up Roles</button>
+      <button class="btn btn-secondary btn-small" data-bulk-role="enable-all">Enable All</button>
+      <button class="btn btn-secondary btn-small" data-bulk-role="enable-filtered">Enable Filtered (${filteredCount})</button>
+      <button class="btn btn-secondary btn-small" data-bulk-role="disable-filtered">Disable Filtered (${filteredCount})</button>
+    `;
   }
-
-  const filteredCount = state.filteredItems.length;
-  elements.bulkActions.innerHTML = `
-    <button class="btn btn-secondary btn-small" data-bulk-role="normalize">Clean Up Roles</button>
-    <button class="btn btn-secondary btn-small" data-bulk-role="enable-all">Enable All</button>
-    <button class="btn btn-secondary btn-small" data-bulk-role="enable-filtered">Enable Filtered (${filteredCount})</button>
-    <button class="btn btn-secondary btn-small" data-bulk-role="disable-filtered">Disable Filtered (${filteredCount})</button>
-  `;
 
   elements.bulkActions.querySelectorAll("[data-bulk-role]").forEach((button) => {
     button.addEventListener("click", () => handleBulkRoleAction(button.dataset.bulkRole));
   });
+  elements.bulkActions
+    .querySelector('[data-action="renumber-ids"]')
+    ?.addEventListener("click", renumberCurrentIds);
+}
+
+async function renumberCurrentIds() {
+  const config = getConfig();
+  const warning =
+    state.activeTab === "kinks"
+      ? "Resolve all kink IDs into a gap-free sequence? This changes card IDs used by local test votes."
+      : `Resolve all ${config.label} IDs into gap-free sequences?`;
+
+  if (!window.confirm(warning)) return;
+
+  try {
+    await requestJson(`${config.endpoint}/renumber-ids`, { method: "POST" });
+    await loadItems();
+    showStatus(`${config.label} IDs resolved.`);
+  } catch (error) {
+    showStatus(error.message, "error");
+  }
 }
 
 async function handleBulkRoleAction(action) {

@@ -6,6 +6,7 @@ const {
   enableRoleModeForKinks,
   simplifyKinkDescriptions,
 } = require('./kink-role-mode');
+const { renumberContentIds } = require('./id-renumber');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'apps', 'mobile', 'data');
 
@@ -373,8 +374,14 @@ function saveKinks(kinks) {
   const existingSpanishById = Object.fromEntries(
     loadSpanishKinks().map((kink) => [String(kink.id), kink])
   );
+  const existingSpanishBySlug = Object.fromEntries(
+    loadSpanishKinks().map((kink) => [String(kink.slug), kink])
+  );
   const esKinks = enKinks.map((kink) =>
-    spanishKinkFromEnglish(kink, existingSpanishById[String(kink.id)])
+    spanishKinkFromEnglish(
+      kink,
+      existingSpanishBySlug[String(kink.slug)] || existingSpanishById[String(kink.id)]
+    )
   );
 
   fs.writeFileSync(FILE_PATHS.kinks.en, JSON.stringify(enKinks, null, 2), 'utf8');
@@ -463,6 +470,30 @@ function saveConversationStarters(starters) {
   }
 }
 
+function renumberGameCardIds() {
+  const cards = renumberContentIds('gamecards', loadGameCards());
+  saveGameCards(cards);
+  return cards;
+}
+
+function renumberKinkIds() {
+  const kinks = renumberContentIds('kinks', loadKinks()).map((kink) => ({
+    ...kink,
+    _source: 'en',
+  }));
+  saveKinks(kinks);
+  return kinks;
+}
+
+function renumberConversationStarterIds() {
+  const starters = renumberContentIds(
+    'conversation-starters',
+    loadConversationStarters(),
+  );
+  saveConversationStarters(starters);
+  return starters;
+}
+
 module.exports = {
   loadGameCards,
   loadKinks,
@@ -472,6 +503,9 @@ module.exports = {
   saveConversationStarters,
   setKinkRoleMode,
   normalizeKinkRoleModeData,
+  renumberGameCardIds,
+  renumberKinkIds,
+  renumberConversationStarterIds,
   FILE_PATHS,
   gameModeForIntensity
 };

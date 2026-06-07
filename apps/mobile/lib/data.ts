@@ -98,6 +98,9 @@ function collapseSequences(items: KinkItem[]): KinkItem[] {
       const prev = map.get(key)!;
       const tags = new Set([...(prev.tags || []), ...(it.tags || [])]);
       prev.tags = Array.from(tags);
+      prev.pairMode = Boolean(prev.pairMode || it.pairMode);
+      prev.availablePairRoles =
+        prev.availablePairRoles || it.availablePairRoles || undefined;
       map.set(key, prev);
     }
   }
