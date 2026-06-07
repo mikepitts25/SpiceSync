@@ -57,7 +57,7 @@
     "tier": "soft",
     "titleEn": "Naked Cuddling",
     "descriptionEn": "Strip down and simply hold each other.",
-    "pairMode": true
+    "pairMode": false
   },
   {
     "id": "0004",
