@@ -231,8 +231,8 @@ const styles = StyleSheet.create({
   },
   summaryText: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 23,
     marginTop: 5,
   },
   sectionGroup: {
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     color: COLORS.textMuted,
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.4,
     paddingHorizontal: 2,

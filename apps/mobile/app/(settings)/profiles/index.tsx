@@ -298,12 +298,12 @@ const styles = StyleSheet.create({
   },
   activePillText: {
     color: COLORS.pink,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '700',
   },
   profileHint: {
     color: COLORS.textMuted,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '600',
   },
   manageButton: {
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: COLORS.pink,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
   },
   emptyState: {
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   },
   emptyCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
+    fontSize: 16,
   },
   modalOverlay: {
     flex: 1,
@@ -368,8 +368,8 @@ const styles = StyleSheet.create({
   },
   modalCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
   pinInput: {
@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
   },
   pinError: {
     color: COLORS.no,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
   },
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
   },
   modalCancelText: {
     color: COLORS.textSub,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
   },
   modalConfirmPress: {
@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
   },
   modalConfirmText: {
     color: COLORS.textPrimary,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '800',
   },
 });

@@ -21,11 +21,19 @@ const tabConfig = {
       "category",
       "estimatedTime",
       "safetyNotes",
+      "_gameMode",
+      "_source",
+      "_arrayName",
     ],
     filters: {
       type: "type",
-      intensity: "intensity",
+      intensity: "_gameMode",
       category: "category",
+    },
+    filterLabels: {
+      type: "All Types",
+      intensity: "All Game Modes",
+      category: "All Categories",
     },
     fields: [
       {
@@ -371,7 +379,7 @@ function updateFilterOptions() {
 
   const intensities = uniqueValues(config.filters.intensity);
   elements.filterIntensity.innerHTML =
-    '<option value="">All Intensities</option>';
+    `<option value="">${escapeHtml(config.filterLabels?.intensity || "All Intensities")}</option>`;
   intensities.forEach((value) => {
     const option = document.createElement("option");
     option.value = value;
@@ -607,6 +615,7 @@ function renderBadges(item) {
   if (item.type) badges.push(["badge-type", item.type]);
   if (item.tier) badges.push(["badge-type", item.tier]);
   if (item._source) badges.push(["badge-category", item._source]);
+  if (item._gameMode) badges.push(["badge-mode", item._gameMode]);
   if (item.intensity || item.intensityScale)
     badges.push([
       "badge-intensity",

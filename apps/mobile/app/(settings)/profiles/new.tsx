@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     color: COLORS.pink,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1.4,
   },
@@ -321,8 +321,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
   },
   formCard: {
     borderRadius: 24,
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   label: {
     color: COLORS.textPrimary,
     fontWeight: '800',
-    fontSize: 12,
+    fontSize: 16,
     letterSpacing: 0.8,
     textTransform: 'uppercase',
   },
@@ -370,10 +370,10 @@ const styles = StyleSheet.create({
   },
   emojiTitle: {
     color: COLORS.textPrimary,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '800',
   },
-  emojiHint: { color: COLORS.textSub, fontSize: 12, fontWeight: '600' },
+  emojiHint: { color: COLORS.textSub, fontSize: 16, fontWeight: '600' },
   pinHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     backgroundColor: 'rgba(194,24,91,0.12)',
   },
-  pinToggleText: { color: COLORS.pink, fontWeight: '800', fontSize: 12 },
+  pinToggleText: { color: COLORS.pink, fontWeight: '800', fontSize: 16 },
   pinFields: { gap: 12 },
   pinInput: {
     backgroundColor: COLORS.cardAlt,
@@ -401,8 +401,8 @@ const styles = StyleSheet.create({
     letterSpacing: 12,
     textAlign: 'center',
   },
-  hint: { color: COLORS.textSub, fontSize: 12, lineHeight: 18 },
-  error: { color: COLORS.no, fontWeight: '800', fontSize: 12 },
+  hint: { color: COLORS.textSub, fontSize: 16, lineHeight: 23 },
+  error: { color: COLORS.no, fontWeight: '800', fontSize: 16 },
   primaryPress: {
     borderRadius: 22,
     overflow: 'hidden',
@@ -415,5 +415,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
-  primaryText: { color: COLORS.textPrimary, fontWeight: '800', fontSize: 15 },
+  primaryText: { color: COLORS.textPrimary, fontWeight: '800', fontSize: 16 },
 });

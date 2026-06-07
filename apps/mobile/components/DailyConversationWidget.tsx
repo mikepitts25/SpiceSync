@@ -8,14 +8,20 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MessageCircle, ChevronRight, Sparkles } from 'lucide-react-native';
 
 import { COLORS, GRADIENTS, SIZES, SHADOWS } from '../constants/theme';
-import { getDailyStarter, ConversationStarter } from '../lib/conversationStarters';
+import {
+  getDailyStarter,
+  ConversationStarter,
+} from '../lib/conversationStarters';
 
 interface DailyConversationWidgetProps {
   onPress?: () => void;
   compact?: boolean;
 }
 
-export function DailyConversationWidget({ onPress, compact = false }: DailyConversationWidgetProps) {
+export function DailyConversationWidget({
+  onPress,
+  compact = false,
+}: DailyConversationWidgetProps) {
   const router = useRouter();
   const dailyStarter = getDailyStarter();
 
@@ -52,7 +58,11 @@ export function DailyConversationWidget({ onPress, compact = false }: DailyConve
   }
 
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={styles.container}>
+    <TouchableOpacity
+      onPress={handlePress}
+      activeOpacity={0.9}
+      style={styles.container}
+    >
       <LinearGradient
         colors={GRADIENTS.soft}
         start={{ x: 0, y: 0 }}
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: 'rgba(255,255,255,0.8)',
     fontStyle: 'italic',
-    lineHeight: 20,
+    lineHeight: 23,
     marginBottom: 16,
   },
   footer: {
@@ -156,7 +166,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   tagText: {
-    fontSize: 12,
+    fontSize: 16,
     color: '#fff',
     fontWeight: '600',
   },
@@ -191,7 +201,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   compactLabel: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '700',
     color: 'rgba(255,255,255,0.8)',
     textTransform: 'uppercase',
@@ -202,7 +212,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     fontWeight: '600',
     color: '#fff',
-    lineHeight: 20,
+    lineHeight: 23,
   },
 });
 

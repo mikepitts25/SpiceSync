@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
   profileMeta: {
     color: COLORS.textSub,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
   },
   activePill: {
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   },
   activePillText: {
     color: COLORS.pink,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
   },
   pinPill: {
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   },
   pinPillText: {
     color: COLORS.purpleLight,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
   },
   sectionGroup: {
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: COLORS.textSub,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1.2,
     paddingHorizontal: 4,
@@ -323,8 +323,8 @@ const styles = StyleSheet.create({
   },
   missingCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
   secondaryButton: {
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: COLORS.pink,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '800',
   },
 });

@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
-    lineHeight: 20,
+    lineHeight: 23,
   },
   footer: {
     padding: SIZES.padding * 2,

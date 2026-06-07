@@ -27,6 +27,10 @@ type BiometricAuthResult =
   | { ok: true }
   | { ok: false; message: string };
 
+type BiometricAuthenticationError =
+  | LocalAuthenticationError
+  | 'missing_usage_description';
+
 type AppStateLockInput = {
   enabled: boolean;
   previousState: AppLockState;
@@ -34,12 +38,14 @@ type AppStateLockInput = {
   authenticating: boolean;
 };
 
-const AUTHENTICATION_MESSAGES: Partial<Record<LocalAuthenticationError, string>> =
-  {
+const AUTHENTICATION_MESSAGES: Partial<
+  Record<BiometricAuthenticationError, string>
+> = {
     app_cancel: 'Authentication canceled.',
     authentication_failed: 'Could not verify your identity. Try again.',
     invalid_context: 'Could not verify your identity. Try again.',
     lockout: 'Too many attempts. Unlock your device, then try again.',
+    missing_usage_description: 'Face ID permission is missing from this build.',
     not_available: 'Biometric authentication is not available on this device.',
     not_enrolled: 'Set up Face ID, Touch ID, or fingerprint unlock first.',
     passcode_not_set: 'Set a device passcode before enabling biometric lock.',
@@ -49,7 +55,7 @@ const AUTHENTICATION_MESSAGES: Partial<Record<LocalAuthenticationError, string>>
     unknown: 'Could not verify your identity. Try again.',
     user_cancel: 'Authentication canceled.',
     user_fallback: 'Use your device passcode or try again.',
-  };
+};
 
 export async function getBiometricSupport(
   api: BiometricSupportApi = LocalAuthentication
@@ -76,7 +82,7 @@ export async function getBiometricSupport(
 export function mapAuthenticationResult(
   result:
     | LocalAuthenticationResult
-    | { success: false; error?: LocalAuthenticationError }
+    | { success: false; error?: BiometricAuthenticationError }
 ): BiometricAuthResult {
   if (result.success) {
     return { ok: true };
@@ -104,9 +110,9 @@ export async function authenticateWithBiometrics(
     const result = await api.authenticateAsync({
       promptMessage,
       cancelLabel: 'Cancel',
-      fallbackLabel: 'Use Passcode',
-      disableDeviceFallback: false,
-      biometricsSecurityLevel: 'strong',
+      fallbackLabel: '',
+      disableDeviceFallback: true,
+      biometricsSecurityLevel: 'weak',
     });
 
     return mapAuthenticationResult(result);

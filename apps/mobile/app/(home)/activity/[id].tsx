@@ -103,16 +103,6 @@ export default function ActivityDetail() {
               ))}
             </View>
           </View>
-
-          {activity.tags && activity.tags.length > 0 && (
-            <View style={styles.tagsRow}>
-              {activity.tags.map((tag) => (
-                <View key={tag} style={styles.tag}>
-                  <Text style={styles.tagText}>{tag}</Text>
-                </View>
-              ))}
-            </View>
-          )}
         </View>
 
         {/* Current Vote */}
@@ -264,22 +254,6 @@ const styles = StyleSheet.create({
   },
   intensityDotActive: {
     backgroundColor: COLORS.primary,
-  },
-  tagsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tag: {
-    backgroundColor: COLORS.cardElevated,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 4,
-  },
-  tagText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.small,
-    color: COLORS.textSecondary,
   },
   currentVoteCard: {
     flexDirection: 'row',

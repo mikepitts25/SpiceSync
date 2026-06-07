@@ -4,13 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
-import { ChevronRight, Plus } from 'lucide-react-native';
+import { ChevronRight, Heart, Plus, Users, Zap } from 'lucide-react-native';
 import { useShallow } from 'zustand/react/shallow';
 
 import { AppHeader, AppTabBar } from '../../components/app-chrome';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
 import { useTranslation } from '../../lib/i18n';
+import { useStreakStore } from '../../lib/achievements';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { voteValue } from '../../lib/votes/rolePreferences';
@@ -24,6 +25,17 @@ const PROFILE_COLORS = [
   COLORS.maybe,
   COLORS.no,
 ];
+
+const ACTIVE_PROFILE_AVATAR_SIZE = 64;
+const PROFILE_STRIP_AVATAR_SIZE = 56;
+const PROFILE_STRIP_ICON_SIZE = 46;
+const PARTNER_AVATAR_SIZE = 56;
+const PARTNER_AVATAR_ICON_SIZE = 44;
+const PARTNER_OVERLAP = 18;
+const PARTNER_HEART_SIZE = 26;
+const PARTNER_HEART_LEFT =
+  PARTNER_AVATAR_SIZE - PARTNER_OVERLAP / 2 - PARTNER_HEART_SIZE / 2;
+const PARTNER_HEART_TOP = (PARTNER_AVATAR_SIZE - PARTNER_HEART_SIZE) / 2;
 
 export default function ProfilesHubScreen() {
   const router = useRouter();
@@ -49,11 +61,15 @@ export default function ProfilesHubScreen() {
     state.link?.status === 'active' ? state.link : null
   );
 
+  const currentStreak = useStreakStore((state) => state.currentStreak);
+
   const voteValues = Object.values(profileVotes).map(voteValue).filter(Boolean);
   const totalVoted = voteValues.length;
   const yesCount = voteValues.filter((v) => v === 'yes').length;
   const maybeCount = voteValues.filter((v) => v === 'maybe').length;
 
+  const myName =
+    activeProfile?.displayName ?? activeProfile?.name ?? t.kinks.noProfile;
   const partnerName = coupleLink?.partnerProfileName ?? 'Remote partner';
   const partnerAvatar = coupleLink?.partnerProfileAvatar ?? null;
 
@@ -75,51 +91,57 @@ export default function ProfilesHubScreen() {
           steps={t.tours.profiles}
         />
 
-        {/* Active Profile Card */}
-        <View style={styles.profileCard}>
-          <View style={styles.profileCardTop}>
+        {/* Active Profile Card — gradient, centered layout */}
+        <LinearGradient
+          colors={['#8B5CF6', '#C2185B', '#FF2D92']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.profileCard}
+        >
+          <View style={styles.profileCardCentered}>
             <ProfileAvatarIcon
               avatar={activeProfile?.emoji}
-              size={52}
+              size={ACTIVE_PROFILE_AVATAR_SIZE}
               selected
             />
-            <View style={styles.profileMeta}>
-              <Text style={styles.profileName}>
-                {activeProfile?.displayName ??
-                  activeProfile?.name ??
-                  t.kinks.noProfile}
-              </Text>
-              <Text style={styles.profileSubtitle}>
-                {t.kinks.activeProfileTitle}
-              </Text>
+            <Text style={styles.profileName}>{myName}</Text>
+            <View style={styles.activeNowRow}>
+              <View style={styles.activeNowDot} />
+              <Text style={styles.activeNowText}>Active now</Text>
             </View>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t.settings.manageProfiles}
-              onPress={() => router.push('/(settings)/profiles')}
-              hitSlop={10}
-            >
-              <ChevronRight size={18} color={COLORS.textMuted} />
-            </Pressable>
+            {currentStreak > 0 && (
+              <View style={styles.streakBadge}>
+                <Text style={styles.streakText}>
+                  🔥 {currentStreak} day streak
+                </Text>
+              </View>
+            )}
           </View>
 
           <View style={styles.statsRow}>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>{totalVoted}</Text>
+            <View style={styles.statBox}>
+              <View style={styles.statBoxTop}>
+                <Users size={14} color={COLORS.textPrimary} strokeWidth={2.2} />
+                <Text style={styles.statNumber}>{totalVoted}</Text>
+              </View>
               <Text style={styles.statLabel}>{t.kinks.voted}</Text>
             </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statNumber, { color: COLORS.yes }]}>
-                {yesCount}
-              </Text>
+            <View style={styles.statBox}>
+              <View style={styles.statBoxTop}>
+                <Heart size={14} color={COLORS.yes} strokeWidth={2.2} />
+                <Text style={[styles.statNumber, { color: COLORS.yes }]}>
+                  {yesCount}
+                </Text>
+              </View>
               <Text style={styles.statLabel}>{t.common.yes}</Text>
             </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statNumber, { color: COLORS.maybe }]}>
-                {maybeCount}
-              </Text>
+            <View style={[styles.statBox, styles.statBoxMaybe]}>
+              <View style={styles.statBoxTop}>
+                <Zap size={14} color={COLORS.maybe} strokeWidth={2.2} />
+                <Text style={[styles.statNumber, { color: COLORS.maybe }]}>
+                  {maybeCount}
+                </Text>
+              </View>
               <Text style={styles.statLabel}>{t.deck.maybe}</Text>
             </View>
           </View>
@@ -130,132 +152,153 @@ export default function ProfilesHubScreen() {
             onPress={() => router.push('/(settings)/my-votes')}
             style={styles.viewVotesPress}
           >
-            <LinearGradient
-              colors={GRADIENTS.primary}
-              start={{ x: 0, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-              style={styles.viewVotesButton}
-            >
-              <Text style={styles.viewVotesText}>
-                {t.kinks.viewMyVotes.toUpperCase()}
-              </Text>
-            </LinearGradient>
+            <View style={styles.viewVotesButton}>
+              <Text style={styles.viewVotesText}>{t.kinks.viewMyVotes}</Text>
+            </View>
           </Pressable>
-        </View>
+        </LinearGradient>
 
         {/* Profiles Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionLabel}>
-              {t.tabs.profiles.toUpperCase()}
-            </Text>
+            <Text style={styles.sectionLabel}>Profiles</Text>
             <Pressable
               accessibilityRole="button"
               onPress={() => router.push('/(settings)/profiles')}
             >
-              <Text style={styles.sectionAction}>{t.kinks.manage} →</Text>
+              <Text style={styles.sectionAction}>Manage</Text>
             </Pressable>
           </View>
-          <View style={styles.sectionCard}>
-            <View style={styles.avatarRow}>
-              {profiles.map((profile, index) => {
-                const dotColor =
-                  profile.color ??
-                  PROFILE_COLORS[index % PROFILE_COLORS.length];
-                const isActive = profile.id === activeProfileId;
-                return (
-                  <Pressable
-                    key={profile.id}
-                    accessibilityRole="button"
-                    accessibilityLabel={`Switch to ${profile.displayName ?? profile.name}`}
-                    onPress={() => router.push('/(settings)/profiles')}
-                  >
-                    {isActive ? (
+          <View style={styles.avatarRow}>
+            {profiles.map((profile, index) => {
+              const dotColor =
+                profile.color ??
+                PROFILE_COLORS[index % PROFILE_COLORS.length];
+              const isActive = profile.id === activeProfileId;
+              return (
+                <Pressable
+                  key={profile.id}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Switch to ${profile.displayName ?? profile.name}`}
+                  onPress={() => router.push('/(settings)/profiles')}
+                >
+                  {isActive ? (
+                    <ProfileAvatarIcon
+                      avatar={profile.emoji}
+                      size={PROFILE_STRIP_AVATAR_SIZE}
+                      selected
+                    />
+                  ) : (
+                    <View
+                      style={[
+                        styles.avatarCircle,
+                        { backgroundColor: dotColor + '33' },
+                      ]}
+                    >
                       <ProfileAvatarIcon
                         avatar={profile.emoji}
-                        size={48}
-                        selected
+                        size={PROFILE_STRIP_ICON_SIZE}
+                        framed={false}
                       />
-                    ) : (
-                      <View
-                        style={[
-                          styles.avatarCircle,
-                          { backgroundColor: dotColor + '33' },
-                        ]}
-                      >
-                        <ProfileAvatarIcon
-                          avatar={profile.emoji}
-                          size={42}
-                          framed={false}
-                        />
-                      </View>
-                    )}
-                  </Pressable>
-                );
-              })}
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t.profiles.addProfile}
-                onPress={() => router.push('/(settings)/profiles/new')}
-                style={[styles.avatarCircle, styles.addCircle]}
-              >
-                <Plus size={18} color={COLORS.textMuted} />
-              </Pressable>
-            </View>
+                    </View>
+                  )}
+                </Pressable>
+              );
+            })}
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t.profiles.addProfile}
+              onPress={() => router.push('/(settings)/profiles/new')}
+              style={[styles.avatarCircle, styles.addCircle]}
+            >
+              <Plus size={24} color={COLORS.textMuted} strokeWidth={2.4} />
+            </Pressable>
           </View>
         </View>
 
         {/* Partner Section */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionLabel}>
-              {t.kinks.partner.toUpperCase()}
-            </Text>
-          </View>
-          <View style={styles.sectionCard}>
-            {coupleLink ? (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Open partner sync status"
-                onPress={() => router.push('/(settings)/partner-sync')}
-                style={styles.partnerRow}
-              >
+        <View style={styles.sectionCard}>
+          {coupleLink ? (
+            <View style={styles.partnerCentered}>
+              <View style={styles.partnerAvatars}>
                 <LinearGradient
-                  colors={GRADIENTS.purple}
-                  start={{ x: 0, y: 0.5 }}
-                  end={{ x: 1, y: 0.5 }}
-                  style={styles.partnerAvatar}
+                  colors={GRADIENTS.primary}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.partnerAvatarCircle}
                 >
                   <ProfileAvatarIcon
-                    avatar={partnerAvatar}
-                    size={34}
+                    avatar={activeProfile?.emoji}
+                    size={PARTNER_AVATAR_ICON_SIZE}
                     framed={false}
                   />
                 </LinearGradient>
-                <View style={styles.partnerInfo}>
-                  <View style={styles.partnerNameRow}>
-                    <Text style={styles.partnerName}>{partnerName}</Text>
-                    <View style={styles.linkedBadge}>
-                      <Text style={styles.linkedText}>{t.kinks.linked}</Text>
-                    </View>
-                  </View>
-                  <Text style={styles.partnerSubtext}>Remote sync active</Text>
+                <View style={styles.partnerHeartBadge}>
+                  <Heart
+                    size={14}
+                    color={COLORS.textPrimary}
+                    fill={COLORS.textPrimary}
+                  />
                 </View>
-                <ChevronRight size={16} color={COLORS.textMuted} />
-              </Pressable>
-            ) : (
+                <LinearGradient
+                  colors={['#60A5FA', '#8B5CF6']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={[styles.partnerAvatarCircle, styles.partnerAvatarRight]}
+                >
+                  <ProfileAvatarIcon
+                    avatar={partnerAvatar}
+                    size={PARTNER_AVATAR_ICON_SIZE}
+                    framed={false}
+                  />
+                </LinearGradient>
+              </View>
+
+              <Text style={styles.partnerCoupledName}>
+                {myName} & {partnerName}
+              </Text>
+
+              <View style={styles.syncedBadge}>
+                <Text style={styles.syncedText}>⟳ {t.kinks.linked}</Text>
+              </View>
+
+              <Text style={styles.partnerSubtext}>
+                Remote sync active · matches stay private
+              </Text>
+
               <Pressable
                 accessibilityRole="button"
-                onPress={() => router.push('/(onboarding)/partner-connect')}
-                style={styles.connectRow}
+                accessibilityLabel="See your matches"
+                onPress={() => router.push('/(tabs)/matches')}
+                style={styles.seeMatchesPress}
               >
-                <Text style={styles.connectLabel}>
-                  {t.kinks.connectWithPartner}
-                </Text>
-                <ChevronRight size={16} color={COLORS.pink} />
+                <LinearGradient
+                  colors={GRADIENTS.primary}
+                  start={{ x: 0, y: 0.5 }}
+                  end={{ x: 1, y: 0.5 }}
+                  style={styles.seeMatchesButton}
+                >
+                  <Heart
+                    size={18}
+                    color={COLORS.textPrimary}
+                    fill={COLORS.textPrimary}
+                  />
+                  <Text style={styles.seeMatchesText}>See your matches</Text>
+                </LinearGradient>
               </Pressable>
-            )}
-          </View>
+            </View>
+          ) : (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push('/(onboarding)/partner-connect')}
+              style={styles.connectRow}
+            >
+              <Text style={styles.connectLabel}>
+                {t.kinks.connectWithPartner}
+              </Text>
+              <ChevronRight size={16} color={COLORS.pink} />
+            </Pressable>
+          )}
         </View>
       </ScrollView>
 
@@ -271,38 +314,53 @@ const styles = StyleSheet.create({
   },
   scroll: {
     paddingHorizontal: 16,
-    paddingTop: 10,
-    paddingBottom: 18,
-    gap: 16,
+    paddingTop: 6,
+    paddingBottom: 8,
+    gap: 10,
   },
 
-  // Profile card
+  // Profile card — gradient, centered
   profileCard: {
     borderRadius: 24,
-    backgroundColor: COLORS.card,
-    borderWidth: 2,
-    borderColor: COLORS.border,
     overflow: 'hidden',
-    padding: 18,
-    gap: 14,
-    ...SHADOWS.card,
+    padding: 14,
+    gap: 10,
   },
-  profileCardTop: {
-    flexDirection: 'row',
+  profileCardCentered: {
     alignItems: 'center',
-    gap: 12,
-  },
-  profileMeta: {
-    flex: 1,
-    gap: 3,
+    gap: 4,
   },
   profileName: {
     color: COLORS.textPrimary,
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '800',
+    textAlign: 'center',
+    marginTop: 2,
   },
-  profileSubtitle: {
-    color: COLORS.textMuted,
+  activeNowRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  activeNowDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
+    backgroundColor: COLORS.yes,
+  },
+  activeNowText: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  streakBadge: {
+    backgroundColor: 'rgba(0,0,0,0.22)',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  streakText: {
+    color: COLORS.textPrimary,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -310,53 +368,59 @@ const styles = StyleSheet.create({
   // Stats
   statsRow: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    borderRadius: 16,
-    paddingVertical: 12,
-    justifyContent: 'space-around',
+    gap: 6,
   },
-  statItem: {
+  statBox: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.22)',
+    borderRadius: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 6,
     alignItems: 'center',
     gap: 3,
   },
+  statBoxMaybe: {
+    backgroundColor: 'rgba(239,68,68,0.18)',
+  },
+  statBoxTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   statNumber: {
     color: COLORS.textPrimary,
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: '800',
   },
   statLabel: {
-    color: COLORS.textMuted,
+    color: 'rgba(255,255,255,0.75)',
     fontSize: 11,
     fontWeight: '600',
-    letterSpacing: 0.4,
-  },
-  statDivider: {
-    width: 1,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    alignSelf: 'stretch',
-    marginVertical: 4,
+    letterSpacing: 0.3,
   },
 
-  // View My Votes button
+  // View My Votes — white button
   viewVotesPress: {
-    borderRadius: 24,
+    borderRadius: 22,
     overflow: 'hidden',
   },
   viewVotesButton: {
-    height: 48,
+    height: 42,
+    backgroundColor: 'rgba(255,255,255,0.95)',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 22,
   },
   viewVotesText: {
-    color: COLORS.textPrimary,
-    fontSize: 13,
+    color: '#1A0810',
+    fontSize: 14,
     fontWeight: '800',
-    letterSpacing: 1,
+    letterSpacing: 0.5,
   },
 
   // Sections
   section: {
-    gap: 10,
+    gap: 8,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -365,16 +429,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   sectionLabel: {
-    color: COLORS.textMuted,
-    fontSize: 10,
+    color: COLORS.textPrimary,
+    fontSize: 16,
     fontWeight: '700',
-    letterSpacing: 1.4,
   },
   sectionAction: {
-    color: COLORS.pink,
-    fontSize: 12,
+    color: COLORS.purpleLight,
+    fontSize: 14,
     fontWeight: '700',
   },
+
+  // Profile avatars
+  avatarRow: {
+    flexDirection: 'row',
+    gap: 12,
+    flexWrap: 'wrap',
+  },
+  avatarCircle: {
+    width: PROFILE_STRIP_AVATAR_SIZE,
+    height: PROFILE_STRIP_AVATAR_SIZE,
+    borderRadius: PROFILE_STRIP_AVATAR_SIZE / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.14)',
+    ...SHADOWS.small,
+  },
+  addCircle: {
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderStyle: 'dashed',
+    borderColor: COLORS.border,
+  },
+
+  // Partner card
   sectionCard: {
     borderRadius: 18,
     backgroundColor: COLORS.card,
@@ -382,74 +469,85 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.06)',
     padding: 14,
   },
-
-  // Profile avatars
-  avatarRow: {
-    flexDirection: 'row',
+  partnerCentered: {
+    alignItems: 'center',
     gap: 10,
-    flexWrap: 'wrap',
   },
-  avatarCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  partnerAvatars: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+    height: PARTNER_AVATAR_SIZE,
+    width: PARTNER_AVATAR_SIZE * 2 - PARTNER_OVERLAP,
+  },
+  partnerAvatarCircle: {
+    width: PARTNER_AVATAR_SIZE,
+    height: PARTNER_AVATAR_SIZE,
+    borderRadius: PARTNER_AVATAR_SIZE / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1,
+  },
+  partnerAvatarRight: {
+    marginLeft: -PARTNER_OVERLAP,
+    zIndex: 0,
+  },
+  partnerHeartBadge: {
+    position: 'absolute',
+    left: PARTNER_HEART_LEFT,
+    top: PARTNER_HEART_TOP,
+    zIndex: 2,
+    width: PARTNER_HEART_SIZE,
+    height: PARTNER_HEART_SIZE,
+    borderRadius: PARTNER_HEART_SIZE / 2,
+    backgroundColor: COLORS.pink,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  addCircle: {
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: COLORS.border,
-  },
-
-  // Partner
-  partnerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  partnerAvatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  partnerInfo: {
-    flex: 1,
-    minWidth: 0,
-    gap: 4,
-  },
-  partnerNameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  partnerName: {
+  partnerCoupledName: {
     color: COLORS.textPrimary,
-    fontSize: 15,
-    fontWeight: '700',
-    flexShrink: 1,
+    fontSize: 17,
+    fontWeight: '800',
+    textAlign: 'center',
   },
-  linkedBadge: {
-    borderRadius: 10,
+  syncedBadge: {
     backgroundColor: 'rgba(34,197,94,0.15)',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
     borderWidth: 1,
     borderColor: 'rgba(34,197,94,0.3)',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
   },
-  linkedText: {
+  syncedText: {
     color: COLORS.yes,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
   },
   partnerSubtext: {
     color: COLORS.textMuted,
     fontSize: 12,
-    fontWeight: '600',
+    textAlign: 'center',
   },
+  seeMatchesPress: {
+    borderRadius: 24,
+    overflow: 'hidden',
+    width: '100%',
+  },
+  seeMatchesButton: {
+    height: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    borderRadius: 24,
+  },
+  seeMatchesText: {
+    color: COLORS.textPrimary,
+    fontSize: 15,
+    fontWeight: '800',
+  },
+
+  // Partner connect (unlinked)
   connectRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -457,7 +555,7 @@ const styles = StyleSheet.create({
   },
   connectLabel: {
     color: COLORS.pink,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
   },
 });

@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   label: {
     color: COLORS.textPrimary,
     fontWeight: '800',
-    fontSize: 12,
+    fontSize: 16,
     letterSpacing: 0.8,
     textTransform: 'uppercase',
   },
@@ -222,10 +222,10 @@ const styles = StyleSheet.create({
   },
   emojiTitle: {
     color: COLORS.textPrimary,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '800',
   },
-  emojiHint: { color: COLORS.textSub, fontSize: 12, fontWeight: '600' },
+  emojiHint: { color: COLORS.textSub, fontSize: 16, fontWeight: '600' },
   primaryPress: {
     borderRadius: 22,
     overflow: 'hidden',
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
-  primaryText: { color: COLORS.textPrimary, fontWeight: '800', fontSize: 15 },
+  primaryText: { color: COLORS.textPrimary, fontWeight: '800', fontSize: 16 },
   missingState: {
     flex: 1,
     padding: 24,
@@ -253,8 +253,8 @@ const styles = StyleSheet.create({
   },
   missingCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
 });

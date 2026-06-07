@@ -54,6 +54,10 @@ import {
 } from '../constants/theme';
 import { useTranslation } from '../lib/i18n';
 
+const MAIN_TOPIC_FONT_SIZE = 24;
+const NORMAL_FONT_SIZE = 16;
+const NORMAL_LINE_HEIGHT = 23;
+
 export type TabKey =
   | 'profiles'
   | 'browse'
@@ -535,14 +539,16 @@ const styles = StyleSheet.create({
   },
   backTitle: {
     color: COLORS.textPrimary,
-    fontSize: 22,
+    fontSize: MAIN_TOPIC_FONT_SIZE,
+    lineHeight: 31,
     fontWeight: '800',
   },
   backSubtitle: {
-    color: COLORS.textMuted,
-    fontSize: 10,
+    color: COLORS.textSub,
+    fontSize: NORMAL_FONT_SIZE,
+    lineHeight: NORMAL_LINE_HEIGHT,
     fontWeight: '700',
-    letterSpacing: 1.2,
+    letterSpacing: 0,
     marginTop: 2,
   },
   tabBar: {
@@ -629,7 +635,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.borderFaint,
   },
   actionLabel: {
-    fontSize: 10,
+    fontSize: NORMAL_FONT_SIZE,
+    lineHeight: NORMAL_LINE_HEIGHT,
     fontWeight: '700',
   },
   togglePress: {
@@ -676,7 +683,8 @@ const styles = StyleSheet.create({
   sectionLabel: {
     flex: 1,
     color: COLORS.textPrimary,
-    fontSize: 14,
+    fontSize: NORMAL_FONT_SIZE,
+    lineHeight: NORMAL_LINE_HEIGHT,
     fontWeight: '700',
   },
   sectionRight: {
@@ -685,8 +693,9 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   sectionValue: {
-    color: 'rgba(255,255,255,0.37)',
-    fontSize: 12,
+    color: COLORS.textSub,
+    fontSize: NORMAL_FONT_SIZE,
+    lineHeight: NORMAL_LINE_HEIGHT,
     fontWeight: '600',
   },
 });

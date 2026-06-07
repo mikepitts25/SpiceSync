@@ -400,7 +400,7 @@ const styles = StyleSheet.create({
   },
   bestValueText: {
     fontFamily: FONTS.bold,
-    fontSize: 12,
+    fontSize: 16,
     color: '#fff',
   },
   price: {
@@ -522,7 +522,7 @@ const styles = StyleSheet.create({
   },
   ownedText: {
     fontFamily: FONTS.bold,
-    fontSize: 12,
+    fontSize: 16,
     color: '#fff',
   },
   packDescription: {
@@ -727,6 +727,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.caption,
     color: COLORS.textMuted,
     textAlign: 'center',
-    lineHeight: 18,
+    lineHeight: 23,
   },
 });

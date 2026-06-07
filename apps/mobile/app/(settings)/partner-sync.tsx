@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: COLORS.yes,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
   },
   statsGrid: {
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     color: COLORS.textMuted,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '700',
   },
   statValue: {
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   },
   primaryActionText: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
   secondaryAction: {
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   },
   secondaryActionText: {
     color: COLORS.pink,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
   dangerAction: {
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   },
   dangerActionText: {
     color: COLORS.no,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
   emptyCard: {
@@ -325,8 +325,8 @@ const styles = StyleSheet.create({
   },
   emptyCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
 });

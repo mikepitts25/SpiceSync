@@ -16,7 +16,14 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, GRADIENTS, FONTS, SIZES, SHADOWS, ANIMATIONS, type GradientTuple } from '../constants/theme';
+import {
+  COLORS,
+  GRADIENTS,
+  SIZES,
+  SHADOWS,
+  ANIMATIONS,
+  type GradientTuple,
+} from '../constants/theme';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const CARD_W = Math.min(SCREEN_W * 0.9, 420);
@@ -54,7 +61,18 @@ const TIER_ICONS: Record<string, string> = {
 };
 
 const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
-  ({ item, onSwipe, onUndo, onSwipeStart, onSwipeEnd, currentIndex = 0, totalCount = 0 }, ref) => {
+  (
+    {
+      item,
+      onSwipe,
+      onUndo,
+      onSwipeStart,
+      onSwipeEnd,
+      currentIndex = 0,
+      totalCount = 0,
+    },
+    ref
+  ) => {
     const x = useSharedValue(0);
     const y = useSharedValue(0);
     const gone = useSharedValue(false);
@@ -72,7 +90,7 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
         [1, 0.95],
         Extrapolate.CLAMP
       );
-      
+
       return {
         transform: [
           { translateX: x.value },
@@ -93,7 +111,10 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       ),
       transform: [
         { scale: interpolate(x.value, [0, 150], [0.8, 1], Extrapolate.CLAMP) },
-        { rotate: interpolate(x.value, [0, 150], [0, 15], Extrapolate.CLAMP) + 'deg' },
+        {
+          rotate:
+            interpolate(x.value, [0, 150], [0, 15], Extrapolate.CLAMP) + 'deg',
+        },
       ],
     }));
 
@@ -107,7 +128,11 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       ),
       transform: [
         { scale: interpolate(x.value, [0, -150], [0.8, 1], Extrapolate.CLAMP) },
-        { rotate: interpolate(x.value, [0, -150], [0, -15], Extrapolate.CLAMP) + 'deg' },
+        {
+          rotate:
+            interpolate(x.value, [0, -150], [0, -15], Extrapolate.CLAMP) +
+            'deg',
+        },
       ],
     }));
 
@@ -121,7 +146,14 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       ),
       transform: [
         { scale: interpolate(y.value, [0, 150], [0.8, 1], Extrapolate.CLAMP) },
-        { translateY: interpolate(y.value, [0, 150], [0, 50], Extrapolate.CLAMP) },
+        {
+          translateY: interpolate(
+            y.value,
+            [0, 150],
+            [0, 50],
+            Extrapolate.CLAMP
+          ),
+        },
       ],
     }));
 
@@ -143,7 +175,8 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
 
     const performSwipe = (dir: SwipeDirection) => {
       'worklet';
-      const targetX = dir === 'right' ? OFFSCREEN_X : dir === 'left' ? -OFFSCREEN_X : 0;
+      const targetX =
+        dir === 'right' ? OFFSCREEN_X : dir === 'left' ? -OFFSCREEN_X : 0;
       const targetY = dir === 'down' ? OFFSCREEN_Y : 0;
 
       gone.value = true;
@@ -166,11 +199,25 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
       };
 
       if (targetY !== 0) {
-        y.value = withTiming(targetY, { duration: 300, easing: Easing.out(Easing.cubic) }, finish);
-        x.value = withTiming(targetX, { duration: 300, easing: Easing.out(Easing.cubic) });
+        y.value = withTiming(
+          targetY,
+          { duration: 300, easing: Easing.out(Easing.cubic) },
+          finish
+        );
+        x.value = withTiming(targetX, {
+          duration: 300,
+          easing: Easing.out(Easing.cubic),
+        });
       } else {
-        x.value = withTiming(targetX, { duration: 300, easing: Easing.out(Easing.cubic) }, finish);
-        y.value = withTiming(targetY, { duration: 300, easing: Easing.out(Easing.cubic) });
+        x.value = withTiming(
+          targetX,
+          { duration: 300, easing: Easing.out(Easing.cubic) },
+          finish
+        );
+        y.value = withTiming(targetY, {
+          duration: 300,
+          easing: Easing.out(Easing.cubic),
+        });
       }
     };
 
@@ -219,7 +266,8 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
             <Text style={styles.emptyEmoji}>🎉</Text>
             <Text style={styles.emptyTitle}>All Caught Up!</Text>
             <Text style={styles.emptyText}>
-              You've reviewed all activities.{'\n'}Check back later for new additions!
+              You've reviewed all activities.{'\n'}Check back later for new
+              additions!
             </Text>
           </LinearGradient>
         </View>
@@ -235,18 +283,19 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
         {/* Progress bar */}
         <View style={styles.progressContainer}>
           <View style={styles.progressBar}>
-            <Animated.View 
+            <Animated.View
               style={[
                 styles.progressFill,
-                { 
+                {
                   width: `${((currentIndex + 1) / totalCount) * 100}%`,
                   backgroundColor: tierGradient[0],
-                }
-              ]} 
+                },
+              ]}
             />
           </View>
           <Text style={styles.progressText}>
-            {currentIndex + 1} <Text style={styles.progressTotal}>/ {totalCount}</Text>
+            {currentIndex + 1}{' '}
+            <Text style={styles.progressTotal}>/ {totalCount}</Text>
           </Text>
         </View>
 
@@ -273,7 +322,9 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
                   end={{ x: 1, y: 1 }}
                 >
                   <Text style={styles.tierIcon}>{tierIcon}</Text>
-                  <Text style={styles.tierText}>{item.tier?.toUpperCase()}</Text>
+                  <Text style={styles.tierText}>
+                    {item.tier?.toUpperCase()}
+                  </Text>
                 </LinearGradient>
               </View>
 
@@ -301,7 +352,7 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
                       key={level}
                       style={[
                         styles.intensitySegment,
-                        level <= intensity && { 
+                        level <= intensity && {
                           backgroundColor: tierGradient[0],
                           shadowColor: tierGradient[0],
                           shadowOffset: { width: 0, height: 0 },
@@ -313,36 +364,40 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
                   ))}
                 </View>
               </View>
-
-              {/* Tags */}
-              {item.tags && item.tags.length > 0 && (
-                <View style={styles.tagsContainer}>
-                  {item.tags.slice(0, 3).map((tag: string, idx: number) => (
-                    <View key={idx} style={styles.tag}>
-                      <Text style={styles.tagText}>#{tag}</Text>
-                    </View>
-                  ))}
-                </View>
-              )}
             </Animated.View>
 
             {/* Swipe Overlays */}
-            <Animated.View style={[styles.overlay, styles.yesOverlay, yesOpacity]}>
-              <LinearGradient colors={['#22C55E', '#16A34A']} style={styles.overlayGradient}>
+            <Animated.View
+              style={[styles.overlay, styles.yesOverlay, yesOpacity]}
+            >
+              <LinearGradient
+                colors={['#22C55E', '#16A34A']}
+                style={styles.overlayGradient}
+              >
                 <Text style={styles.overlayEmoji}>👍</Text>
                 <Text style={styles.overlayText}>YES!</Text>
               </LinearGradient>
             </Animated.View>
 
-            <Animated.View style={[styles.overlay, styles.noOverlay, noOpacity]}>
-              <LinearGradient colors={['#EF4444', '#DC2626']} style={styles.overlayGradient}>
+            <Animated.View
+              style={[styles.overlay, styles.noOverlay, noOpacity]}
+            >
+              <LinearGradient
+                colors={['#EF4444', '#DC2626']}
+                style={styles.overlayGradient}
+              >
                 <Text style={styles.overlayEmoji}>👎</Text>
                 <Text style={styles.overlayText}>NO</Text>
               </LinearGradient>
             </Animated.View>
 
-            <Animated.View style={[styles.overlay, styles.maybeOverlay, maybeOpacity]}>
-              <LinearGradient colors={['#F59E0B', '#D97706']} style={styles.overlayGradient}>
+            <Animated.View
+              style={[styles.overlay, styles.maybeOverlay, maybeOpacity]}
+            >
+              <LinearGradient
+                colors={['#F59E0B', '#D97706']}
+                style={styles.overlayGradient}
+              >
                 <Text style={styles.overlayEmoji}>🤔</Text>
                 <Text style={styles.overlayText}>MAYBE</Text>
               </LinearGradient>
@@ -352,21 +407,21 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
 
         {/* Action buttons */}
         <View style={styles.buttonContainer}>
-          <ActionButton 
-            emoji="✕" 
-            color={COLORS.no} 
+          <ActionButton
+            emoji="✕"
+            color={COLORS.no}
             glow={COLORS.noGlow}
             onPress={() => triggerSwipe('left')}
           />
-          <ActionButton 
-            emoji="🤔" 
-            color={COLORS.maybe} 
+          <ActionButton
+            emoji="🤔"
+            color={COLORS.maybe}
             glow={COLORS.maybeGlow}
             onPress={() => triggerSwipe('down')}
           />
-          <ActionButton 
-            emoji="♥" 
-            color={COLORS.yes} 
+          <ActionButton
+            emoji="♥"
+            color={COLORS.yes}
             glow={COLORS.yesGlow}
             onPress={() => triggerSwipe('right')}
           />
@@ -384,9 +439,14 @@ const SwipeDeck = forwardRef<SwipeDeckHandle, Props>(
 );
 
 // Action Button Component
-function ActionButton({ emoji, color, glow, onPress }: { 
-  emoji: string; 
-  color: string; 
+function ActionButton({
+  emoji,
+  color,
+  glow,
+  onPress,
+}: {
+  emoji: string;
+  color: string;
   glow: string;
   onPress: () => void;
 }) {
@@ -415,7 +475,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  
+
   // Progress
   progressContainer: {
     width: CARD_W,
@@ -444,7 +504,7 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     fontWeight: '400',
   },
-  
+
   // Card
   cardContainer: {
     width: CARD_W,
@@ -459,7 +519,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     ...SHADOWS.lg,
   },
-  
+
   // Tier badge
   tierBadge: {
     position: 'absolute',
@@ -476,15 +536,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   tierIcon: {
-    fontSize: 14,
+    fontSize: 16,
   },
   tierText: {
     color: '#fff',
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1,
   },
-  
+
   // Category
   categoryContainer: {
     marginTop: 8,
@@ -496,7 +556,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 2,
   },
-  
+
   // Title
   title: {
     color: COLORS.text,
@@ -505,7 +565,7 @@ const styles = StyleSheet.create({
     lineHeight: 34,
     marginBottom: 16,
   },
-  
+
   // Description
   description: {
     color: COLORS.textSecondary,
@@ -513,7 +573,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     flex: 1,
   },
-  
+
   // Intensity
   intensityContainer: {
     marginTop: 20,
@@ -537,24 +597,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: 'rgba(255,255,255,0.1)',
   },
-  
-  // Tags
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tag: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: SIZES.radiusFull,
-  },
-  tagText: {
-    color: COLORS.textMuted,
-    fontSize: SIZES.xs,
-  },
-  
+
   // Overlays
   overlay: {
     position: 'absolute',
@@ -591,7 +634,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     letterSpacing: 2,
   },
-  
+
   // Buttons
   buttonContainer: {
     flexDirection: 'row',
@@ -616,7 +659,7 @@ const styles = StyleSheet.create({
   buttonEmoji: {
     fontSize: 28,
   },
-  
+
   // Hints
   hintsContainer: {
     flexDirection: 'row',
@@ -635,7 +678,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.xs,
     fontWeight: '600',
   },
-  
+
   // Empty state
   emptyCard: {
     alignItems: 'center',

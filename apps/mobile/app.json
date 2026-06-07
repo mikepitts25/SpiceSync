@@ -17,7 +17,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.spicesync.app"
+      "bundleIdentifier": "com.spicesync.app",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Allow SpiceSync to use Face ID to keep your private content locked."
+      }
     },
     "android": {
       "adaptiveIcon": {

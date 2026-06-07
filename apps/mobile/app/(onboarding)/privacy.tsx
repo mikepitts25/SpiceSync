@@ -7,7 +7,10 @@ import {
   Animated,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 
@@ -29,7 +32,7 @@ const PRIVACY_POINTS = [
   {
     icon: '🚫',
     title: 'No Tracking',
-    description: 'We don\'t track your activity or sell your data.',
+    description: "We don't track your activity or sell your data.",
   },
   {
     icon: '✅',
@@ -65,7 +68,7 @@ export default function PrivacyScreen({ onNext }: PrivacyScreenProps) {
           We built SpiceSync with privacy at its core
         </Text>
 
-        <ScrollView 
+        <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
         >
@@ -75,13 +78,15 @@ export default function PrivacyScreen({ onNext }: PrivacyScreenProps) {
                 <Text style={styles.pointIcon}>{point.icon}</Text>
                 <View style={styles.pointText}>
                   <Text style={styles.pointTitle}>{point.title}</Text>
-                  <Text style={styles.pointDescription}>{point.description}</Text>
+                  <Text style={styles.pointDescription}>
+                    {point.description}
+                  </Text>
                 </View>
               </View>
             ))}
           </View>
 
-          <Pressable 
+          <Pressable
             style={styles.checkboxRow}
             onPress={() => setAccepted(!accepted)}
           >
@@ -90,18 +95,17 @@ export default function PrivacyScreen({ onNext }: PrivacyScreenProps) {
             </View>
             <Text style={styles.checkboxText}>
               I am 18 or older and accept the{' '}
-              <Text style={styles.link}>Privacy Policy</Text>
-              {' '}and{' '}
+              <Text style={styles.link}>Privacy Policy</Text> and{' '}
               <Text style={styles.link}>Terms of Service</Text>
             </Text>
           </Pressable>
         </ScrollView>
       </Animated.View>
 
-      <Animated.View 
+      <Animated.View
         style={[
-          styles.footer, 
-          { 
+          styles.footer,
+          {
             opacity: fadeAnim,
             paddingBottom: insets.bottom + 20,
           },
@@ -110,7 +114,7 @@ export default function PrivacyScreen({ onNext }: PrivacyScreenProps) {
         <View style={styles.progressBar}>
           <View style={[styles.progressFill, { width: '60%' }]} />
         </View>
-        <Pressable 
+        <Pressable
           style={[styles.button, !accepted && styles.buttonDisabled]}
           onPress={handleContinue}
           disabled={!accepted}
@@ -180,7 +184,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
-    lineHeight: 18,
+    lineHeight: 23,
   },
   checkboxRow: {
     flexDirection: 'row',
@@ -204,7 +208,7 @@ const styles = StyleSheet.create({
   },
   checkmark: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   checkboxText: {
@@ -212,7 +216,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
-    lineHeight: 20,
+    lineHeight: 23,
   },
   link: {
     color: COLORS.primary,

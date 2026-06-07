@@ -1,11 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
@@ -18,20 +12,14 @@ import {
   type LucideIcon,
 } from 'lucide-react-native';
 
-import {
-  CardAccentTop,
-  SpiceSyncLogo,
-} from '../../../components/app-chrome';
+import { CardAccentTop, SpiceSyncLogo } from '../../../components/app-chrome';
 import {
   COLORS,
   GRADIENTS,
   SHADOWS,
   type GradientTuple,
 } from '../../../constants/theme';
-import {
-  COMFORT_DECK_OPTIONS,
-  useFilters,
-} from '../../../lib/state/filters';
+import { COMFORT_DECK_OPTIONS, useFilters } from '../../../lib/state/filters';
 
 type ComfortChoice = {
   id: string;
@@ -60,7 +48,10 @@ const CHOICES: ComfortChoice[] = COMFORT_DECK_OPTIONS.map((choice) => ({
 
 export default function ProfileComfortScreen() {
   const router = useRouter();
-  const { from } = useLocalSearchParams<{ from?: string; profileId?: string }>();
+  const { from } = useLocalSearchParams<{
+    from?: string;
+    profileId?: string;
+  }>();
   const { setTier, clearTier } = useFilters();
   const [selectedId, setSelectedId] = useState<string>('soft');
   const fromWelcome = from === 'welcome';
@@ -113,10 +104,7 @@ export default function ProfileComfortScreen() {
                 accessibilityRole="button"
                 accessibilityState={{ selected: active }}
                 onPress={() => setSelectedId(choice.id)}
-                style={[
-                  styles.choiceCard,
-                  active && styles.choiceCardActive,
-                ]}
+                style={[styles.choiceCard, active && styles.choiceCardActive]}
               >
                 <CardAccentTop />
                 <View style={styles.choiceInner}>
@@ -126,7 +114,11 @@ export default function ProfileComfortScreen() {
                     end={{ x: 1, y: 1 }}
                     style={styles.choiceIcon}
                   >
-                    <Icon size={19} color={COLORS.textPrimary} strokeWidth={2.5} />
+                    <Icon
+                      size={19}
+                      color={COLORS.textPrimary}
+                      strokeWidth={2.5}
+                    />
                   </LinearGradient>
 
                   <View style={styles.choiceCopy}>
@@ -187,7 +179,7 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     color: COLORS.pink,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1.4,
   },
@@ -199,8 +191,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
   },
   choiceList: {
     gap: 12,
@@ -247,14 +239,14 @@ const styles = StyleSheet.create({
   },
   choiceLabel: {
     color: COLORS.pink,
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1,
   },
   choiceBody: {
     color: COLORS.textSub,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 23,
   },
   radio: {
     width: 22,
@@ -288,7 +280,7 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
 });

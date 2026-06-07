@@ -10,7 +10,13 @@ import SwipeDeck from '../../components/SwipeDeckRedesigned';
 import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
-import { COLORS, GRADIENTS, SIZES, SHADOWS, type GradientTuple } from '../../constants/theme';
+import {
+  COLORS,
+  GRADIENTS,
+  SIZES,
+  SHADOWS,
+  type GradientTuple,
+} from '../../constants/theme';
 
 type VoteValue = 'yes' | 'no' | 'maybe';
 
@@ -78,7 +84,10 @@ export default function DeckScreen() {
               ? `The "${selectedTier}" category has no items right now.`
               : 'No content found. Try switching language.'}
           </Text>
-          <Pressable style={[styles.emptyButton, { backgroundColor: COLORS.primary }]} onPress={goCategories}>
+          <Pressable
+            style={[styles.emptyButton, { backgroundColor: COLORS.primary }]}
+            onPress={goCategories}
+          >
             <Text style={styles.emptyButtonText}>Back to Categories</Text>
           </Pressable>
         </Animated.View>
@@ -93,15 +102,24 @@ export default function DeckScreen() {
           <Text style={styles.emptyEmoji}>🎉</Text>
           <Text style={styles.emptyTitle}>You're all caught up!</Text>
           <Text style={styles.emptyText}>
-            You've reviewed everything{selectedTier ? ` in "${selectedTier}"` : ''}.
+            You've reviewed everything
+            {selectedTier ? ` in "${selectedTier}"` : ''}.
           </Text>
           <View style={styles.emptyButtons}>
             {selectedTier && (
-              <Pressable style={styles.emptyButtonSecondary} onPress={clearTier}>
-                <Text style={styles.emptyButtonSecondaryText}>Clear Filter</Text>
+              <Pressable
+                style={styles.emptyButtonSecondary}
+                onPress={clearTier}
+              >
+                <Text style={styles.emptyButtonSecondaryText}>
+                  Clear Filter
+                </Text>
               </Pressable>
             )}
-            <Pressable style={[styles.emptyButton, { backgroundColor: COLORS.primary }]} onPress={goCategories}>
+            <Pressable
+              style={[styles.emptyButton, { backgroundColor: COLORS.primary }]}
+              onPress={goCategories}
+            >
               <Text style={styles.emptyButtonText}>Back to Categories</Text>
             </Pressable>
           </View>
@@ -117,13 +135,17 @@ export default function DeckScreen() {
         <Pressable onPress={goCategories} style={styles.backButton}>
           <Text style={styles.backArrow}>←</Text>
         </Pressable>
-        
+
         {selectedTier && tierGradient && (
-          <View style={[styles.tierBadge, { backgroundColor: tierGradient[0] }]}>
-            <Text style={styles.tierBadgeText}>{selectedTier.toUpperCase()}</Text>
+          <View
+            style={[styles.tierBadge, { backgroundColor: tierGradient[0] }]}
+          >
+            <Text style={styles.tierBadgeText}>
+              {selectedTier.toUpperCase()}
+            </Text>
           </View>
         )}
-        
+
         <View style={styles.spacer} />
       </View>
 
@@ -146,7 +168,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
-  
+
   // Header
   header: {
     flexDirection: 'row',
@@ -181,20 +203,20 @@ const styles = StyleSheet.create({
   },
   tierBadgeText: {
     color: '#fff',
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1,
   },
   spacer: {
     width: 44,
   },
-  
+
   // Deck
   deckContainer: {
     flex: 1,
     paddingBottom: 20,
   },
-  
+
   // Empty states
   emptyContainer: {
     flex: 1,

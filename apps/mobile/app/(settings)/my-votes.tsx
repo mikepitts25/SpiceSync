@@ -354,17 +354,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.04)',
   },
   chipText: {
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.6,
   },
   chipCount: {
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '700',
   },
   hint: {
     color: COLORS.textMuted,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '500',
     textAlign: 'center',
     paddingHorizontal: 16,
@@ -396,19 +396,19 @@ const styles = StyleSheet.create({
   },
   rowCategory: {
     color: COLORS.textMuted,
-    fontSize: 9,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.2,
   },
   rowTitle: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
   },
   rowDesc: {
     color: COLORS.textSub,
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 23,
   },
 
   // Vote badges
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(239,68,68,0.3)',
   },
   badgeText: {
-    fontSize: 9,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.6,
   },
@@ -456,7 +456,7 @@ const styles = StyleSheet.create({
   },
   sheetCategory: {
     color: COLORS.textMuted,
-    fontSize: 9,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.4,
   },
@@ -467,13 +467,13 @@ const styles = StyleSheet.create({
   },
   sheetDesc: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 23,
     marginBottom: 4,
   },
   sheetPrompt: {
     color: COLORS.textMuted,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '600',
     letterSpacing: 0.4,
     marginTop: 6,
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   voteBtnText: {
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.8,
   },
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     color: COLORS.textMuted,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
   },
 
@@ -522,7 +522,7 @@ const styles = StyleSheet.create({
   },
   emptySub: {
     color: COLORS.textSub,
-    fontSize: 13,
+    fontSize: 16,
     textAlign: 'center',
   },
 });

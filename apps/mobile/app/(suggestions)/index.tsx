@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
   },
   typeText: {
     fontFamily: FONTS.bold,
-    fontSize: 10,
+    fontSize: 16,
   },
   suggestionTitle: {
     fontFamily: FONTS.bold,
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
-    lineHeight: 20,
+    lineHeight: 23,
   },
   quickActions: {
     padding: SIZES.padding * 1.5,

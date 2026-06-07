@@ -9,7 +9,10 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import {
@@ -53,11 +56,11 @@ function ActivityCard({
           </View>
         )}
       </View>
-      
+
       <Text style={styles.activityDescription} numberOfLines={2}>
         {activity.description}
       </Text>
-      
+
       <View style={styles.activityMeta}>
         <Text style={styles.intensityText}>
           Intensity: {INTENSITY_LABELS[activity.intensityScale - 1]}
@@ -66,7 +69,7 @@ function ActivityCard({
           <Text style={styles.timeText}>⏱️ {activity.estimatedTime}</Text>
         )}
       </View>
-      
+
       <View style={styles.actionRow}>
         <Pressable style={styles.actionButton} onPress={onEdit}>
           <Text style={styles.actionText}>Edit</Text>
@@ -76,11 +79,14 @@ function ActivityCard({
             {activity.isShared ? 'Copy Code' : 'Share'}
           </Text>
         </Pressable>
-        <Pressable style={[styles.actionButton, styles.deleteButton]} onPress={onDelete}>
+        <Pressable
+          style={[styles.actionButton, styles.deleteButton]}
+          onPress={onDelete}
+        >
           <Text style={[styles.actionText, styles.deleteText]}>Delete</Text>
         </Pressable>
       </View>
-      
+
       {activity.isShared && activity.shareCode && (
         <View style={styles.codeContainer}>
           <Text style={styles.codeLabel}>Share Code:</Text>
@@ -94,18 +100,24 @@ function ActivityCard({
 export default function CustomActivitiesScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { activities, create, update, delete: deleteActivity, share } = useCustomActivitiesStore();
-  
+  const {
+    activities,
+    create,
+    update,
+    delete: deleteActivity,
+    share,
+  } = useCustomActivitiesStore();
+
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  
+
   // Form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [intensity, setIntensity] = useState(3);
   const [estimatedTime, setEstimatedTime] = useState('');
-  
+
   const resetForm = () => {
     setTitle('');
     setDescription('');
@@ -114,13 +126,13 @@ export default function CustomActivitiesScreen() {
     setEstimatedTime('');
     setEditingId(null);
   };
-  
+
   const handleSubmit = () => {
     if (!title.trim() || !description.trim()) {
       Alert.alert('Missing Info', 'Please fill in title and description');
       return;
     }
-    
+
     if (editingId) {
       update(editingId, {
         title: title.trim(),
@@ -141,11 +153,11 @@ export default function CustomActivitiesScreen() {
         isShared: false,
       });
     }
-    
+
     resetForm();
     setShowForm(false);
   };
-  
+
   const handleEdit = (activity: CustomActivity) => {
     setTitle(activity.title);
     setDescription(activity.description);
@@ -155,23 +167,33 @@ export default function CustomActivitiesScreen() {
     setEditingId(activity.id);
     setShowForm(true);
   };
-  
+
   const handleDelete = (id: string) => {
     Alert.alert('Delete Activity', 'Are you sure? This cannot be undone.', [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: () => deleteActivity(id) },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => deleteActivity(id),
+      },
     ]);
   };
-  
+
   const handleShare = (activity: CustomActivity) => {
     if (activity.isShared && activity.shareCode) {
-      Alert.alert('Share Code', `Code: ${activity.shareCode}\n\nShare this code with your partner to let them import this activity.`);
+      Alert.alert(
+        'Share Code',
+        `Code: ${activity.shareCode}\n\nShare this code with your partner to let them import this activity.`
+      );
     } else {
       const code = share(activity.id);
-      Alert.alert('Activity Shared!', `Share this code with your partner:\n\n${code}`);
+      Alert.alert(
+        'Activity Shared!',
+        `Share this code with your partner:\n\n${code}`
+      );
     }
   };
-  
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
@@ -179,13 +201,13 @@ export default function CustomActivitiesScreen() {
         <Text style={styles.title}>Custom Activities</Text>
         <Text style={styles.subtitle}>Create your own activities</Text>
       </View>
-      
-      <ScrollView 
+
+      <ScrollView
         contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
         showsVerticalScrollIndicator={false}
       >
         {/* Create Button */}
-        <Pressable 
+        <Pressable
           style={styles.createButton}
           onPress={() => {
             resetForm();
@@ -194,7 +216,7 @@ export default function CustomActivitiesScreen() {
         >
           <Text style={styles.createButtonText}>+ Create New Activity</Text>
         </Pressable>
-        
+
         {/* Activities List */}
         {activities.length === 0 ? (
           <View style={styles.emptyState}>
@@ -218,7 +240,7 @@ export default function CustomActivitiesScreen() {
           </View>
         )}
       </ScrollView>
-      
+
       {/* Create/Edit Modal */}
       <Modal
         visible={showForm}
@@ -238,7 +260,7 @@ export default function CustomActivitiesScreen() {
               <Text style={styles.saveText}>Save</Text>
             </Pressable>
           </View>
-          
+
           <ScrollView style={styles.form}>
             <View style={styles.formGroup}>
               <Text style={styles.label}>Title</Text>
@@ -250,7 +272,7 @@ export default function CustomActivitiesScreen() {
                 placeholderTextColor={COLORS.textMuted}
               />
             </View>
-            
+
             <View style={styles.formGroup}>
               <Text style={styles.label}>Description</Text>
               <TextInput
@@ -263,7 +285,7 @@ export default function CustomActivitiesScreen() {
                 numberOfLines={4}
               />
             </View>
-            
+
             <View style={styles.formGroup}>
               <Text style={styles.label}>Category</Text>
               <View style={styles.categoryGrid}>
@@ -276,19 +298,23 @@ export default function CustomActivitiesScreen() {
                     ]}
                     onPress={() => setCategory(cat)}
                   >
-                    <Text style={[
-                      styles.categoryChipText,
-                      category === cat && styles.categoryChipTextSelected,
-                    ]}>
+                    <Text
+                      style={[
+                        styles.categoryChipText,
+                        category === cat && styles.categoryChipTextSelected,
+                      ]}
+                    >
                       {cat}
                     </Text>
                   </Pressable>
                 ))}
               </View>
             </View>
-            
+
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Intensity: {INTENSITY_LABELS[intensity - 1]}</Text>
+              <Text style={styles.label}>
+                Intensity: {INTENSITY_LABELS[intensity - 1]}
+              </Text>
               <View style={styles.intensityRow}>
                 {[1, 2, 3, 4, 5].map((level) => (
                   <Pressable
@@ -302,7 +328,7 @@ export default function CustomActivitiesScreen() {
                 ))}
               </View>
             </View>
-            
+
             <View style={styles.formGroup}>
               <Text style={styles.label}>Estimated Time (optional)</Text>
               <TextInput
@@ -417,7 +443,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
     marginBottom: SIZES.padding,
-    lineHeight: 20,
+    lineHeight: 23,
   },
   activityMeta: {
     flexDirection: 'row',

@@ -30,6 +30,15 @@ export type ConversationTopicTile = {
   mark: string;
   route: string;
   type: 'prompts' | 'love_languages';
+  accent: {
+    gradient: readonly [string, string];
+    border: string;
+    glow: string;
+    badge: string;
+  };
+  motion: {
+    pressTilt: '-1deg' | '1deg';
+  };
 };
 
 function getPromptTopicRoute(
@@ -46,6 +55,15 @@ export const CONVERSATION_TOPIC_TILES: ConversationTopicTile[] = [
     mark: 'DATE',
     route: getPromptTopicRoute('date_night'),
     type: 'prompts',
+    accent: {
+      gradient: ['#C2185B', '#FF2D92'],
+      border: 'rgba(255,45,146,0.42)',
+      glow: 'rgba(255,45,146,0.22)',
+      badge: 'rgba(255,45,146,0.18)',
+    },
+    motion: {
+      pressTilt: '-1deg',
+    },
   },
   {
     id: 'getting_to_know',
@@ -54,6 +72,15 @@ export const CONVERSATION_TOPIC_TILES: ConversationTopicTile[] = [
     mark: 'KNOW',
     route: getPromptTopicRoute('getting_to_know'),
     type: 'prompts',
+    accent: {
+      gradient: ['#A78BFA', '#8B5CF6'],
+      border: 'rgba(167,139,250,0.42)',
+      glow: 'rgba(139,92,246,0.22)',
+      badge: 'rgba(167,139,250,0.18)',
+    },
+    motion: {
+      pressTilt: '1deg',
+    },
   },
   {
     id: 'relationship',
@@ -62,6 +89,15 @@ export const CONVERSATION_TOPIC_TILES: ConversationTopicTile[] = [
     mark: 'TALK',
     route: getPromptTopicRoute('relationship'),
     type: 'prompts',
+    accent: {
+      gradient: ['#F59E0B', '#FF2D92'],
+      border: 'rgba(245,158,11,0.42)',
+      glow: 'rgba(245,158,11,0.2)',
+      badge: 'rgba(245,158,11,0.18)',
+    },
+    motion: {
+      pressTilt: '-1deg',
+    },
   },
   {
     id: 'spicy',
@@ -70,6 +106,15 @@ export const CONVERSATION_TOPIC_TILES: ConversationTopicTile[] = [
     mark: 'HEAT',
     route: getPromptTopicRoute('spicy'),
     type: 'prompts',
+    accent: {
+      gradient: ['#EF4444', '#C2185B'],
+      border: 'rgba(239,68,68,0.44)',
+      glow: 'rgba(239,68,68,0.22)',
+      badge: 'rgba(239,68,68,0.18)',
+    },
+    motion: {
+      pressTilt: '1deg',
+    },
   },
   {
     id: LOVE_LANGUAGE_PROMPT_CATEGORY,
@@ -78,6 +123,15 @@ export const CONVERSATION_TOPIC_TILES: ConversationTopicTile[] = [
     mark: 'CARE',
     route: LOVE_LANGUAGE_HUB_ROUTE,
     type: 'love_languages',
+    accent: {
+      gradient: ['#8B5CF6', '#FF2D92'],
+      border: 'rgba(139,92,246,0.44)',
+      glow: 'rgba(139,92,246,0.22)',
+      badge: 'rgba(139,92,246,0.18)',
+    },
+    motion: {
+      pressTilt: '-1deg',
+    },
   },
 ];
 

@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   optionNative: {
     color: COLORS.textSub,
-    fontSize: 13,
+    fontSize: 16,
     marginTop: 3,
   },
   checkBadge: {

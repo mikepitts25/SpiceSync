@@ -39,7 +39,9 @@ type Approach = {
 };
 
 // Convert category-based topic to approach format
-function categoryTopicToApproach(topic: ReturnType<typeof getTopicsForKink>[number]): Approach {
+function categoryTopicToApproach(
+  topic: ReturnType<typeof getTopicsForKink>[number]
+): Approach {
   return {
     title: `${topic.approachIcon} ${topic.approach}`,
     description: topic.context,
@@ -84,7 +86,10 @@ const ApproachCard = ({
           </View>
           <View style={styles.approachTitleContainer}>
             <Text style={styles.approachTitle}>{approach.title}</Text>
-            <Text style={styles.approachDescription} numberOfLines={isExpanded ? undefined : 1}>
+            <Text
+              style={styles.approachDescription}
+              numberOfLines={isExpanded ? undefined : 1}
+            >
               {approach.description}
             </Text>
           </View>
@@ -131,9 +136,10 @@ const ApproachCard = ({
               <Text style={styles.tipsLabel}>Tips for Success</Text>
             </View>
             <Text style={styles.tipsText}>
-              Choose a relaxed, private moment. Start with curiosity, not pressure.
-              Listen more than you talk. Be open to your partner's response, whether
-              it's enthusiastic, hesitant, or a "not right now."
+              Choose a relaxed, private moment. Start with curiosity, not
+              pressure. Listen more than you talk. Be open to your partner's
+              response, whether it's enthusiastic, hesitant, or a "not right
+              now."
             </Text>
           </View>
         </View>
@@ -144,13 +150,18 @@ const ApproachCard = ({
 
 export default function KinkTopicsScreen() {
   const router = useRouter();
-  const { kinkSlug, kinkTitle } = useLocalSearchParams<{ kinkSlug: string; kinkTitle: string }>();
+  const { kinkSlug, kinkTitle } = useLocalSearchParams<{
+    kinkSlug: string;
+    kinkTitle: string;
+  }>();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
   const language = useSettingsStore((state) => state.language);
   const { kinksById } = useKinks(language === 'es' ? 'es' : 'en');
 
   // Find kink by slug
-  const kink = kinkSlug ? Object.values(kinksById).find((k) => k.slug === kinkSlug) : undefined;
+  const kink = kinkSlug
+    ? Object.values(kinksById).find((k) => k.slug === kinkSlug)
+    : undefined;
   const displayTitle = kinkTitle || kink?.title || 'Kink Topics';
 
   // Build approaches: prefer per-kink topics, fall back to category topics
@@ -158,7 +169,9 @@ export default function KinkTopicsScreen() {
     const perKink = kinkSlug ? getKinkConversationTopics(kinkSlug) : undefined;
     if (perKink?.approaches?.length) return perKink.approaches;
     if (kink) {
-      return getTopicsForKink(kink.slug, kink.category).map(categoryTopicToApproach);
+      return getTopicsForKink(kink.slug, kink.category).map(
+        categoryTopicToApproach
+      );
     }
     return [];
   })();
@@ -168,7 +181,10 @@ export default function KinkTopicsScreen() {
       <SafeAreaView style={styles.container} edges={['top']}>
         <StatusBar style="light" />
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <ChevronLeft size={28} color={COLORS.text} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Conversation Topics</Text>
@@ -176,8 +192,13 @@ export default function KinkTopicsScreen() {
         <View style={styles.emptyState}>
           <Shield size={64} color={COLORS.textSecondary} />
           <Text style={styles.emptyTitle}>Kink Not Found</Text>
-          <Text style={styles.emptyText}>We couldn't load topics for this kink.</Text>
-          <TouchableOpacity style={styles.backToMatchesButton} onPress={() => router.back()}>
+          <Text style={styles.emptyText}>
+            We couldn't load topics for this kink.
+          </Text>
+          <TouchableOpacity
+            style={styles.backToMatchesButton}
+            onPress={() => router.back()}
+          >
             <Text style={styles.backToMatchesText}>Back to Matches</Text>
           </TouchableOpacity>
         </View>
@@ -186,7 +207,11 @@ export default function KinkTopicsScreen() {
   }
 
   const tierColor =
-    kink?.tier === 'soft' ? '#FF6B9D' : kink?.tier === 'naughty' ? '#F472B6' : '#EF4444';
+    kink?.tier === 'soft'
+      ? '#FF6B9D'
+      : kink?.tier === 'naughty'
+        ? '#F472B6'
+        : '#EF4444';
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -194,12 +219,17 @@ export default function KinkTopicsScreen() {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={styles.backButton}
+        >
           <ChevronLeft size={28} color={COLORS.text} />
         </TouchableOpacity>
         <View style={styles.headerText}>
           <Text style={styles.headerTitle}>Let's Talk About</Text>
-          <Text style={styles.headerKinkName} numberOfLines={1}>{displayTitle}</Text>
+          <Text style={styles.headerKinkName} numberOfLines={1}>
+            {displayTitle}
+          </Text>
         </View>
       </View>
 
@@ -216,7 +246,12 @@ export default function KinkTopicsScreen() {
           >
             <View style={styles.kinkBadgeRow}>
               {kink.tier && (
-                <View style={[styles.tierBadge, { backgroundColor: `${tierColor}25` }]}>
+                <View
+                  style={[
+                    styles.tierBadge,
+                    { backgroundColor: `${tierColor}25` },
+                  ]}
+                >
                   <Text style={[styles.tierBadgeText, { color: tierColor }]}>
                     {kink.tier.toUpperCase()}
                   </Text>
@@ -244,7 +279,9 @@ export default function KinkTopicsScreen() {
             approach={approach}
             index={index}
             isExpanded={expandedIndex === index}
-            onToggle={() => setExpandedIndex(expandedIndex === index ? null : index)}
+            onToggle={() =>
+              setExpandedIndex(expandedIndex === index ? null : index)
+            }
           />
         ))}
 
@@ -255,8 +292,9 @@ export default function KinkTopicsScreen() {
             <Text style={styles.safetyTitle}>A Gentle Reminder</Text>
           </View>
           <Text style={styles.safetyText}>
-            These conversations work best when both partners feel safe to say yes, no, or
-            "I need more time." There's no wrong answer — curiosity is the goal.
+            These conversations work best when both partners feel safe to say
+            yes, no, or "I need more time." There's no wrong answer — curiosity
+            is the goal.
           </Text>
         </View>
 
@@ -331,7 +369,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   tierBadgeText: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1,
   },
@@ -342,7 +380,7 @@ const styles = StyleSheet.create({
     backgroundColor: `${COLORS.textSecondary}20`,
   },
   categoryBadgeText: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '600',
     color: COLORS.textSecondary,
     textTransform: 'capitalize',
@@ -350,7 +388,7 @@ const styles = StyleSheet.create({
   kinkDescription: {
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
-    lineHeight: 22,
+    lineHeight: 23,
   },
 
   // Section intro
@@ -476,7 +514,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: SIZES.body,
     color: COLORS.text,
-    lineHeight: 22,
+    lineHeight: 23,
   },
 
   // Tips
@@ -501,7 +539,7 @@ const styles = StyleSheet.create({
   tipsText: {
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
-    lineHeight: 20,
+    lineHeight: 23,
   },
 
   // Safety card
@@ -526,7 +564,7 @@ const styles = StyleSheet.create({
   safetyText: {
     fontSize: SIZES.small,
     color: '#86EFAC',
-    lineHeight: 20,
+    lineHeight: 23,
   },
 
   // Empty state
@@ -547,7 +585,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
     textAlign: 'center',
-    lineHeight: 22,
+    lineHeight: 23,
     marginBottom: 24,
   },
   backToMatchesButton: {

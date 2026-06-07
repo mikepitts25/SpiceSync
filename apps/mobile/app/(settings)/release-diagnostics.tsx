@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   kicker: {
     color: COLORS.pink,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1.3,
   },
@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
   },
   summaryText: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 23,
     marginTop: 4,
   },
   sectionGroup: {
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     color: COLORS.textMuted,
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.4,
     paddingHorizontal: 2,
@@ -271,23 +271,23 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
   },
   statusText: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '800',
   },
   rowValue: {
     color: COLORS.textSub,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
   },
   rowDetail: {
     color: COLORS.textMuted,
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 23,
   },
   footer: {
     color: COLORS.textMuted,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 23,
     paddingHorizontal: 4,
   },
 });

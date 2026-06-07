@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   },
   helperText: {
     color: COLORS.textMuted,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
   },

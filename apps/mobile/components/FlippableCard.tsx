@@ -274,18 +274,7 @@ export default function FlippableCard({
             
             {/* Description */}
             <Text style={styles.description}>{activity.description}</Text>
-            
-            {/* Tags if available */}
-            {activity.tags && activity.tags.length > 0 && (
-              <View style={styles.tagsContainer}>
-                {activity.tags.slice(0, 4).map((tag, index) => (
-                  <View key={index} style={styles.tag}>
-                    <Text style={styles.tagText}>{tag}</Text>
-                  </View>
-                ))}
-              </View>
-            )}
-            
+
             {/* Flip hint */}
             <View style={styles.flipHint}>
               <Text style={styles.flipHintText}>👆 Tap to flip back</Text>
@@ -377,26 +366,6 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     backgroundColor: COLORS.border,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginTop: SIZES.padding,
-  },
-  tag: {
-    backgroundColor: COLORS.cardElevated,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: SIZES.radius,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  tagText: {
-    fontFamily: FONTS.medium,
-    fontSize: SIZES.xs,
-    color: COLORS.textSecondary,
-    textTransform: 'capitalize',
   },
   overlay: {
     position: 'absolute',

@@ -44,9 +44,7 @@ function useSettingsHydrated(): boolean {
   return hydrated;
 }
 
-export default function BiometricLockGate({
-  children,
-}: PropsWithChildren) {
+export default function BiometricLockGate({ children }: PropsWithChildren) {
   const biometricLockEnabled = useSettingsStore(
     (state) => state.biometricLockEnabled
   );
@@ -118,12 +116,7 @@ export default function BiometricLockGate({
       updateLocked(false);
       setMessage(null);
     }
-  }, [
-    biometricLockEnabled,
-    runAuthentication,
-    settingsHydrated,
-    updateLocked,
-  ]);
+  }, [biometricLockEnabled, runAuthentication, settingsHydrated, updateLocked]);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextState) => {
@@ -160,12 +153,7 @@ export default function BiometricLockGate({
     });
 
     return () => subscription.remove();
-  }, [
-    biometricLockEnabled,
-    runAuthentication,
-    settingsHydrated,
-    updateLocked,
-  ]);
+  }, [biometricLockEnabled, runAuthentication, settingsHydrated, updateLocked]);
 
   const showLock = !settingsHydrated || (biometricLockEnabled && locked);
   const title = settingsHydrated ? 'SpiceSync is locked' : 'Securing SpiceSync';
@@ -265,8 +253,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: COLORS.textSub,
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
   unlockPress: {

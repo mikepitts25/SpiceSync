@@ -148,6 +148,25 @@ export default function SettingsScreen() {
           </View>
         </Pressable>
 
+        <SettingsSection title={t.settings.premium.toUpperCase()}>
+          <SectionRow
+            icon={Star}
+            label={t.settings.upgradeToPremium}
+            value={t.settings.unlockAll}
+            gradientBadge
+            onPress={() => router.push('/(unlock)')}
+          />
+          <SectionRow
+            icon={Gift}
+            label={t.settings.redeemGiftCode}
+            value={t.settings.redeem}
+            tint={COLORS.purple}
+            badgeBg="rgba(139,92,246,0.15)"
+            onPress={() => router.push('/(redeem)')}
+            last
+          />
+        </SettingsSection>
+
         <SettingsSection title={t.settings.account.toUpperCase()}>
           <SectionRow
             icon={User}
@@ -229,25 +248,6 @@ export default function SettingsScreen() {
                   })
                 : router.push('/(settings)/profiles')
             }
-            last
-          />
-        </SettingsSection>
-
-        <SettingsSection title={t.settings.premium.toUpperCase()}>
-          <SectionRow
-            icon={Star}
-            label={t.settings.upgradeToPremium}
-            value={t.settings.unlockAll}
-            gradientBadge
-            onPress={() => router.push('/(unlock)')}
-          />
-          <SectionRow
-            icon={Gift}
-            label={t.settings.redeemGiftCode}
-            value={t.settings.redeem}
-            tint={COLORS.purple}
-            badgeBg="rgba(139,92,246,0.15)"
-            onPress={() => router.push('/(redeem)')}
             last
           />
         </SettingsSection>
@@ -341,8 +341,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   profileAction: {
-    color: 'rgba(255,255,255,0.37)',
-    fontSize: 12,
+    color: COLORS.textSub,
+    fontSize: 16,
     fontWeight: '600',
     marginTop: 3,
   },
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     color: COLORS.textMuted,
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.4,
     paddingHorizontal: 2,

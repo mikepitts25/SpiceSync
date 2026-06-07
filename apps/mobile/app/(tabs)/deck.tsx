@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -49,7 +50,7 @@ import {
   type PairPreference,
   type VoteValue,
 } from '../../src/stores/votes';
-import { interpolate, useTranslation } from '../../lib/i18n';
+import { useTranslation } from '../../lib/i18n';
 import {
   COLORS,
   GRADIENTS,
@@ -61,6 +62,9 @@ import {
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const OFFSCREEN_X = SCREEN_W * 1.4;
 const OFFSCREEN_Y = SCREEN_H * 1.1;
+const SWIPE_EXIT_MS = 230;
+const SWIPE_FADE_OUT_MS = 180;
+const ACTIVE_CARD_FADE_IN_MS = 220;
 
 type SwipeDirection = 'left' | 'right' | 'up';
 
@@ -75,6 +79,17 @@ const TIER_COLORS: Record<string, string> = {
   xxx: COLORS.no,
 };
 
+type KinkCardFrameProps = {
+  item: KinkItem;
+  partnerName: string;
+  partnerEmoji?: string | null;
+  partnerVoted: boolean;
+  partnerVotedLabel: string;
+  partnerNotVotedLabel: string;
+  pairPreference: PairPreference;
+  onPairPreferenceChange?: (value: PairPreference) => void;
+};
+
 function getTierOptionLabel(
   tier: Tier,
   t: ReturnType<typeof useTranslation>['t']
@@ -83,6 +98,97 @@ function getTierOptionLabel(
   if (tier === 'soft') return t.discover.soft;
   if (tier === 'naughty') return t.discover.naughty;
   return t.discover.xxx;
+}
+
+function KinkCardFrame({
+  item,
+  partnerName,
+  partnerEmoji,
+  partnerVoted,
+  partnerVotedLabel,
+  partnerNotVotedLabel,
+  pairPreference,
+  onPairPreferenceChange,
+}: KinkCardFrameProps) {
+  const tierColor = item.tier
+    ? (TIER_COLORS[item.tier] ?? COLORS.pink)
+    : COLORS.pink;
+  const roleSelectorEnabled = !!onPairPreferenceChange;
+
+  return (
+    <>
+      <LinearGradient
+        colors={GRADIENTS.cardAccentBar}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.progressRail}
+      />
+
+      <View style={styles.cardInner}>
+        <View style={styles.cardTopRow}>
+          <Text style={styles.categoryLabel}>
+            {(item.category || 'Sensation').toUpperCase()}
+          </Text>
+          <IntensityDots value={item.intensityScale ?? 1} color={tierColor} />
+        </View>
+
+        <View style={styles.cardMainContent}>
+          <AccentBar />
+
+          <Text style={styles.kinkTitle}>{item.title}</Text>
+          <Text style={styles.kinkBody}>{item.description}</Text>
+
+          {item.pairMode ? (
+            <View style={styles.roleSelector} accessibilityRole="tablist">
+              {(['give', 'receive', 'both'] as PairPreference[]).map(
+                (option) => {
+                  const active = pairPreference === option;
+                  return (
+                    <Pressable
+                      key={option}
+                      accessibilityRole="tab"
+                      accessibilityState={{ selected: active }}
+                      disabled={!roleSelectorEnabled}
+                      onPress={() => onPairPreferenceChange?.(option)}
+                      style={[
+                        styles.roleOption,
+                        active && styles.roleOptionActive,
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.roleOptionText,
+                          active && styles.roleOptionTextActive,
+                        ]}
+                      >
+                        {option === 'give'
+                          ? 'Give'
+                          : option === 'receive'
+                            ? 'Receive'
+                            : 'Both'}
+                      </Text>
+                    </Pressable>
+                  );
+                }
+              )}
+            </View>
+          ) : null}
+        </View>
+
+        <View style={styles.partnerBlock}>
+          <View style={styles.partnerPill}>
+            <ProfileAvatarIcon avatar={partnerEmoji} size={24} framed={false} />
+            <View style={styles.partnerCopy}>
+              <Text style={styles.partnerName}>{partnerName}</Text>
+              <Text style={styles.partnerStatus}>
+                {partnerVoted ? `${partnerVotedLabel} ✓` : partnerNotVotedLabel}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </>
+  );
 }
 
 const SwipeableKinkCard = forwardRef<
@@ -99,6 +205,7 @@ const SwipeableKinkCard = forwardRef<
     onSwipe: (dir: SwipeDirection) => void;
     onSwipeStart: () => void;
     onSwipeEnd: () => void;
+    enterProgress: { value: number };
   }
 >(function SwipeableKinkCard(
   {
@@ -113,17 +220,17 @@ const SwipeableKinkCard = forwardRef<
     onSwipe,
     onSwipeStart,
     onSwipeEnd,
+    enterProgress,
   },
   ref
 ) {
   const x = useSharedValue(0);
   const y = useSharedValue(0);
+  const cardOpacity = useSharedValue(1);
   const animating = useSharedValue(false);
-  const tierColor = item.tier
-    ? (TIER_COLORS[item.tier] ?? COLORS.pink)
-    : COLORS.pink;
 
   const animatedStyle = useAnimatedStyle(() => ({
+    opacity: cardOpacity.value * enterProgress.value,
     transform: [
       { translateX: x.value },
       { translateY: y.value },
@@ -135,6 +242,10 @@ const SwipeableKinkCard = forwardRef<
     'worklet';
     x.value = withSpring(0, { damping: 15, stiffness: 150 });
     y.value = withSpring(0, { damping: 15, stiffness: 150 });
+    cardOpacity.value = withTiming(1, {
+      duration: SWIPE_FADE_OUT_MS,
+      easing: Easing.out(Easing.quad),
+    });
   };
 
   const performSwipe = (dir: SwipeDirection) => {
@@ -154,23 +265,31 @@ const SwipeableKinkCard = forwardRef<
     };
 
     if (dir === 'up') {
+      cardOpacity.value = withTiming(0, {
+        duration: SWIPE_FADE_OUT_MS,
+        easing: Easing.out(Easing.quad),
+      });
       y.value = withTiming(
         targetY,
-        { duration: 230, easing: Easing.out(Easing.cubic) },
+        { duration: SWIPE_EXIT_MS, easing: Easing.out(Easing.cubic) },
         finish
       );
       x.value = withTiming(targetX, {
-        duration: 230,
+        duration: SWIPE_EXIT_MS,
         easing: Easing.out(Easing.cubic),
       });
     } else {
+      cardOpacity.value = withTiming(0, {
+        duration: SWIPE_FADE_OUT_MS,
+        easing: Easing.out(Easing.quad),
+      });
       x.value = withTiming(
         targetX,
-        { duration: 230, easing: Easing.out(Easing.cubic) },
+        { duration: SWIPE_EXIT_MS, easing: Easing.out(Easing.cubic) },
         finish
       );
       y.value = withTiming(targetY, {
-        duration: 230,
+        duration: SWIPE_EXIT_MS,
         easing: Easing.out(Easing.cubic),
       });
     }
@@ -179,6 +298,7 @@ const SwipeableKinkCard = forwardRef<
   const triggerSwipe = (dir: SwipeDirection) => {
     if (animating.value) return;
     animating.value = true;
+    cardOpacity.value = 1;
     onSwipeStart();
     performSwipe(dir);
   };
@@ -220,87 +340,16 @@ const SwipeableKinkCard = forwardRef<
       }}
     >
       <Animated.View style={[styles.kinkCard, animatedStyle]}>
-        <LinearGradient
-          colors={GRADIENTS.cardAccentBar}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 0.5 }}
-          style={styles.progressRail}
+        <KinkCardFrame
+          item={item}
+          partnerName={partnerName}
+          partnerEmoji={partnerEmoji}
+          partnerVoted={partnerVoted}
+          partnerVotedLabel={partnerVotedLabel}
+          partnerNotVotedLabel={partnerNotVotedLabel}
+          pairPreference={pairPreference}
+          onPairPreferenceChange={onPairPreferenceChange}
         />
-
-        <View style={styles.cardInner}>
-          <View style={styles.cardTopRow}>
-            <Text style={styles.categoryLabel}>
-              {(item.category || 'Sensation').toUpperCase()}
-            </Text>
-            <IntensityDots value={item.intensityScale ?? 1} color={tierColor} />
-          </View>
-
-          <AccentBar />
-
-          <Text style={styles.kinkTitle}>{item.title}</Text>
-          <Text style={styles.kinkBody}>{item.description}</Text>
-
-          {item.pairMode ? (
-            <View style={styles.roleSelector} accessibilityRole="tablist">
-              {(['give', 'receive', 'both'] as PairPreference[]).map(
-                (option) => {
-                  const active = pairPreference === option;
-                  return (
-                    <Pressable
-                      key={option}
-                      accessibilityRole="tab"
-                      accessibilityState={{ selected: active }}
-                      onPress={() => onPairPreferenceChange(option)}
-                      style={[
-                        styles.roleOption,
-                        active && styles.roleOptionActive,
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.roleOptionText,
-                          active && styles.roleOptionTextActive,
-                        ]}
-                      >
-                        {option === 'give'
-                          ? 'Give'
-                          : option === 'receive'
-                            ? 'Receive'
-                            : 'Both'}
-                      </Text>
-                    </Pressable>
-                  );
-                }
-              )}
-            </View>
-          ) : null}
-
-          <View style={styles.tagRow}>
-            {(item.tags ?? []).slice(0, 3).map((tag) => (
-              <View key={tag} style={styles.tagPill}>
-                <Text style={styles.tagText}>{tag}</Text>
-              </View>
-            ))}
-          </View>
-
-          <View style={styles.partnerBlock}>
-            <View style={styles.partnerPill}>
-              <ProfileAvatarIcon
-                avatar={partnerEmoji}
-                size={24}
-                framed={false}
-              />
-              <View style={styles.partnerCopy}>
-                <Text style={styles.partnerName}>{partnerName}</Text>
-                <Text style={styles.partnerStatus}>
-                  {partnerVoted
-                    ? `${partnerVotedLabel} ✓`
-                    : partnerNotVotedLabel}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
       </Animated.View>
     </PanGestureHandler>
   );
@@ -346,18 +395,6 @@ export default function DeckScreen() {
     () => filterKinksByTier(kinks, selectedTier),
     [kinks, selectedTier]
   );
-  const activeFilterLabel = useMemo(() => {
-    if (!selectedTier) return t.deck.allIntensity;
-    if (selectedTier === 'xxx') return t.deck.xxxIntensity;
-    return interpolate(t.deck.tierIntensity, {
-      tier: selectedTier[0].toUpperCase() + selectedTier.slice(1),
-    });
-  }, [
-    selectedTier,
-    t.deck.allIntensity,
-    t.deck.tierIntensity,
-    t.deck.xxxIntensity,
-  ]);
 
   const allKinkIdsInFilter = useMemo(
     () => filteredKinks.map((k) => k.id),
@@ -388,6 +425,8 @@ export default function DeckScreen() {
   const [pairPreference, setPairPreference] = useState<PairPreference>('both');
   const queuedVoteRef = useRef<VoteValue | null>(null);
   const topCardRef = useRef<SwipeDeckHandle>(null);
+  const previousCardIdRef = useRef<string | null>(null);
+  const activeCardOpacity = useSharedValue(1);
   const index = indexByKey[key] ?? 0;
   const current = queue[index] ?? null;
 
@@ -408,6 +447,24 @@ export default function DeckScreen() {
   useEffect(() => {
     setPairPreference('both');
   }, [current?.id]);
+
+  useLayoutEffect(() => {
+    if (!current?.id) return;
+
+    const previousCardId = previousCardIdRef.current;
+    previousCardIdRef.current = current.id;
+
+    if (!previousCardId || previousCardId === current.id) {
+      activeCardOpacity.value = 1;
+      return;
+    }
+
+    activeCardOpacity.value = 0;
+    activeCardOpacity.value = withTiming(1, {
+      duration: ACTIVE_CARD_FADE_IN_MS,
+      easing: Easing.out(Easing.quad),
+    });
+  }, [current?.id, activeCardOpacity]);
 
   useFocusEffect(
     useCallback(() => {
@@ -432,6 +489,7 @@ export default function DeckScreen() {
       const voteValue = queuedVoteRef.current ?? directionToVote[dir];
       queuedVoteRef.current = null;
 
+      activeCardOpacity.value = 0;
       setVote(
         activeProfileIdValue,
         current.id,
@@ -440,7 +498,7 @@ export default function DeckScreen() {
       );
       setCardAnimating(false);
     },
-    [current, activeProfileIdValue, pairPreference, setVote]
+    [current, activeProfileIdValue, pairPreference, setVote, activeCardOpacity]
   );
 
   const handleButtonVote = useCallback(
@@ -597,10 +655,9 @@ export default function DeckScreen() {
             <Text style={styles.filterTitle}>
               {t.common.intensity.toUpperCase()}
             </Text>
-            <Text style={styles.filterSummary}>{activeFilterLabel}</Text>
           </View>
 
-          <View style={styles.tierRow}>
+          <View style={styles.tierGrid}>
             {TIER_FILTER_OPTIONS.map((option) => {
               const active = selectedTier === option.value;
               return (
@@ -619,13 +676,13 @@ export default function DeckScreen() {
                       style={styles.tierActive}
                     >
                       <Text style={styles.tierActiveText}>
-                        {getTierOptionLabel(option.value, t).toUpperCase()}
+                        {getTierOptionLabel(option.value, t)}
                       </Text>
                     </LinearGradient>
                   ) : (
                     <View style={styles.tierInactive}>
                       <Text style={styles.tierInactiveText}>
-                        {getTierOptionLabel(option.value, t).toUpperCase()}
+                        {getTierOptionLabel(option.value, t)}
                       </Text>
                     </View>
                   )}
@@ -637,6 +694,7 @@ export default function DeckScreen() {
 
         <View style={styles.deckArea}>
           <SwipeableKinkCard
+            key={current.id}
             ref={topCardRef}
             item={current}
             partnerName={partnerName}
@@ -649,6 +707,7 @@ export default function DeckScreen() {
             onSwipe={handleSwipeResult}
             onSwipeStart={() => setCardAnimating(true)}
             onSwipeEnd={() => setCardAnimating(false)}
+            enterProgress={activeCardOpacity}
           />
         </View>
 
@@ -702,67 +761,69 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   filterBlock: {
-    gap: 8,
-    paddingBottom: 10,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,45,146,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.035)',
+    padding: 12,
+    gap: 10,
+    marginBottom: 10,
   },
   filterHeader: {
-    minHeight: 18,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 10,
+    justifyContent: 'center',
   },
   filterTitle: {
     color: COLORS.pink,
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '800',
-    letterSpacing: 1.3,
+    letterSpacing: 0,
+    textAlign: 'center',
   },
-  filterSummary: {
-    flexShrink: 1,
-    color: COLORS.textSub,
-    fontSize: 11,
-    fontWeight: '700',
-    textAlign: 'right',
-  },
-  tierRow: {
+  tierGrid: {
     flexDirection: 'row',
-    gap: 7,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 8,
   },
   tierPress: {
-    flex: 1,
-    minWidth: 0,
-    borderRadius: 15,
+    width: '48.5%',
+    minWidth: 132,
+    flexGrow: 1,
+    borderRadius: 14,
     overflow: 'hidden',
   },
   tierActive: {
-    minHeight: 30,
-    borderRadius: 15,
+    minHeight: 44,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 5,
+    paddingHorizontal: 12,
   },
   tierActiveText: {
     color: COLORS.textPrimary,
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '800',
-    letterSpacing: 0.7,
+    letterSpacing: 0,
+    textAlign: 'center',
   },
   tierInactive: {
-    minHeight: 30,
-    borderRadius: 15,
+    minHeight: 44,
+    borderRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.12)',
+    borderColor: COLORS.borderFaint,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 5,
+    paddingHorizontal: 12,
     backgroundColor: COLORS.cardAlt,
   },
   tierInactiveText: {
-    color: 'rgba(255,255,255,0.43)',
-    fontSize: 10,
+    color: COLORS.textSub,
+    fontSize: 16,
     fontWeight: '800',
-    letterSpacing: 0.7,
+    letterSpacing: 0,
+    textAlign: 'center',
   },
   deckArea: {
     flex: 1,
@@ -792,23 +853,34 @@ const styles = StyleSheet.create({
   },
   cardTopRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    gap: 12,
   },
   categoryLabel: {
     color: COLORS.pink,
     ...TYPOGRAPHY.label,
+    textAlign: 'center',
+  },
+  cardMainContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 12,
   },
   kinkTitle: {
     color: COLORS.textPrimary,
-    fontSize: 34,
-    lineHeight: 38,
+    fontSize: 32,
+    lineHeight: 36,
     fontWeight: '800',
+    textAlign: 'center',
   },
   kinkBody: {
     ...TYPOGRAPHY.body,
+    textAlign: 'center',
   },
   roleSelector: {
+    width: '100%',
     minHeight: 42,
     flexDirection: 'row',
     borderRadius: 12,
@@ -832,59 +904,46 @@ const styles = StyleSheet.create({
   },
   roleOptionText: {
     color: COLORS.textSub,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
   },
   roleOptionTextActive: {
     color: COLORS.textPrimary,
   },
-  tagRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tagPill: {
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(194,24,91,0.21)',
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-  },
-  tagText: {
-    color: COLORS.pink,
-    fontSize: 12,
-    fontWeight: '600',
-  },
   partnerBlock: {
+    alignItems: 'center',
     gap: 8,
   },
   partnerLabel: {
     color: COLORS.textMuted,
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.4,
   },
   partnerPill: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 10,
     backgroundColor: COLORS.cardAlt,
     borderRadius: 12,
     padding: 10,
   },
   partnerCopy: {
-    flex: 1,
+    flexShrink: 1,
   },
   partnerName: {
     color: COLORS.textPrimary,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '800',
+    textAlign: 'center',
   },
   partnerStatus: {
     color: COLORS.textSub,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '600',
     marginTop: 2,
+    textAlign: 'center',
   },
   actionRow: {
     paddingTop: 10,
@@ -909,8 +968,8 @@ const styles = StyleSheet.create({
   },
   emptyCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
   emptyActions: {
@@ -929,7 +988,7 @@ const styles = StyleSheet.create({
   },
   outlineButtonText: {
     color: COLORS.pink,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
   },
   gradientButtonPress: {
@@ -945,7 +1004,7 @@ const styles = StyleSheet.create({
   },
   gradientButtonText: {
     color: COLORS.textPrimary,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
   },
 });

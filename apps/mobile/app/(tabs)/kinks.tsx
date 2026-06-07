@@ -2,7 +2,14 @@
 // Kinks tier selector - choose between soft, naughty, xxx
 
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, Alert, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import Animated, { FadeInUp } from 'react-native-reanimated';
@@ -51,7 +58,10 @@ export default function KinksScreen() {
   const onPick = (tierKey: 'soft' | 'naughty' | 'xxx') => {
     const count = counts[tierKey] || 0;
     if (count <= 0) {
-      Alert.alert(t.discover.noItems, interpolate(t.discover.noItemsDesc, { tier: tierKey }));
+      Alert.alert(
+        t.discover.noItems,
+        interpolate(t.discover.noItemsDesc, { tier: tierKey })
+      );
       return;
     }
     setTier(tierKey);
@@ -60,9 +70,24 @@ export default function KinksScreen() {
 
   const getTierLabel = (key: 'soft' | 'naughty' | 'xxx') => {
     switch (key) {
-      case 'soft': return { title: tk.soft, subtitle: tk.softSubtitle, description: tk.softDesc };
-      case 'naughty': return { title: tk.naughty, subtitle: tk.naughtySubtitle, description: tk.naughtyDesc };
-      case 'xxx': return { title: tk.xxx, subtitle: tk.xxxSubtitle, description: tk.xxxDesc };
+      case 'soft':
+        return {
+          title: tk.soft,
+          subtitle: tk.softSubtitle,
+          description: tk.softDesc,
+        };
+      case 'naughty':
+        return {
+          title: tk.naughty,
+          subtitle: tk.naughtySubtitle,
+          description: tk.naughtyDesc,
+        };
+      case 'xxx':
+        return {
+          title: tk.xxx,
+          subtitle: tk.xxxSubtitle,
+          description: tk.xxxDesc,
+        };
     }
   };
 
@@ -71,7 +96,10 @@ export default function KinksScreen() {
       style={styles.container}
       edges={['top', 'left', 'right', 'bottom']}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
         <Animated.View entering={FadeInUp.delay(100)} style={styles.header}>
           {/* Active profile indicator - top-left, clear of menu button */}
@@ -109,7 +137,9 @@ export default function KinksScreen() {
                   <View style={styles.cardContent}>
                     <Text style={styles.cardTitle}>{labels.title}</Text>
                     <Text style={styles.cardSubtitle}>{labels.subtitle}</Text>
-                    <Text style={styles.cardDescription}>{labels.description}</Text>
+                    <Text style={styles.cardDescription}>
+                      {labels.description}
+                    </Text>
 
                     <View style={styles.arrowContainer}>
                       <Text style={styles.arrow}>→</Text>
@@ -122,7 +152,10 @@ export default function KinksScreen() {
         </View>
 
         {/* All Categories Button */}
-        <Animated.View entering={FadeInUp.delay(600)} style={styles.allButtonContainer}>
+        <Animated.View
+          entering={FadeInUp.delay(600)}
+          style={styles.allButtonContainer}
+        >
           <Pressable
             style={styles.allButton}
             onPress={() => {
@@ -149,7 +182,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: SIZES.paddingLarge,
   },
-  
+
   // Header
   header: {
     alignItems: 'center',
@@ -198,7 +231,7 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     textAlign: 'center',
   },
-  
+
   // Cards
   cardsContainer: {
     gap: 16,
@@ -246,7 +279,7 @@ const styles = StyleSheet.create({
   cardDescription: {
     fontSize: SIZES.body,
     color: 'rgba(255,255,255,0.8)',
-    lineHeight: 22,
+    lineHeight: 23,
   },
   arrowContainer: {
     position: 'absolute',
@@ -258,7 +291,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '300',
   },
-  
+
   // All Button
   allButtonContainer: {
     marginTop: 8,

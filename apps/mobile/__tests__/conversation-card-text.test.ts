@@ -1,7 +1,4 @@
-import {
-  CONVERSATION_CARD_QUESTION_LINES,
-  getConversationCardQuestionTextStyle,
-} from '../lib/conversationCardText';
+import { getConversationCardQuestionTextStyle } from '../lib/conversationCardText';
 import {
   getPoolByLanguage,
   type ConversationStarter,
@@ -15,23 +12,19 @@ function allLocalizedStarters(): ConversationStarter[] {
 }
 
 describe('conversation card text fitting', () => {
-  it('starts the screenshot-length prompt at a smaller size so it can fit without clipping', () => {
+  it('uses one readable main topic size for conversation prompts', () => {
     const style = getConversationCardQuestionTextStyle(screenshotPrompt);
 
-    expect(style.fontSize).toBeLessThan(22);
-    expect(style.lineHeight).toBeLessThan(29);
+    expect(style.fontSize).toBe(24);
+    expect(style.lineHeight).toBe(31);
   });
 
-  it('keeps every localized conversation prompt within the supported shrink-to-fit range', () => {
+  it('keeps every localized conversation prompt on the same main topic scale', () => {
     for (const starter of allLocalizedStarters()) {
       const style = getConversationCardQuestionTextStyle(starter.question);
 
-      expect(style.fontSize).toBeGreaterThanOrEqual(16);
-
-      if (starter.question.length >= 72) {
-        const lineBudget = style.lineHeight * CONVERSATION_CARD_QUESTION_LINES;
-        expect(lineBudget).toBeLessThanOrEqual(104);
-      }
+      expect(style.fontSize).toBe(24);
+      expect(style.lineHeight).toBe(31);
     }
   });
 });

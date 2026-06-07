@@ -258,14 +258,14 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 23,
   },
   section: { gap: 12 },
   label: {
     color: COLORS.textPrimary,
     fontWeight: '800',
-    fontSize: 12,
+    fontSize: 16,
     letterSpacing: 0.8,
     textTransform: 'uppercase',
   },
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   error: {
     color: COLORS.no,
     fontWeight: '800',
-    fontSize: 12,
+    fontSize: 16,
     textAlign: 'center',
   },
   primaryPress: {
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
-  primaryText: { color: COLORS.textPrimary, fontWeight: '800', fontSize: 15 },
+  primaryText: { color: COLORS.textPrimary, fontWeight: '800', fontSize: 16 },
   missingState: {
     flex: 1,
     padding: 24,
@@ -314,8 +314,8 @@ const styles = StyleSheet.create({
   },
   missingCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
 });

@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#e2e8f0',
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
   },
 });

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 
-import { BackHeader, GradientText } from '../../components/app-chrome';
+import { BackHeader } from '../../components/app-chrome';
 import {
   ACHIEVEMENTS,
   useStreakStore,
@@ -13,9 +13,7 @@ import {
 import { COLORS, GRADIENTS } from '../../constants/theme';
 
 export default function AchievementsScreen() {
-  const { currentStreak, daysActive, unlockedAchievements, getProgress } =
-    useStreakStore();
-  const unlockedCount = unlockedAchievements.length;
+  const { daysActive, unlockedAchievements, getProgress } = useStreakStore();
 
   return (
     <SafeAreaView
@@ -29,12 +27,6 @@ export default function AchievementsScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
       >
-        <View style={styles.statsRow}>
-          <StatPill label="TOTAL" value={String(ACHIEVEMENTS.length)} />
-          <StatPill label="STREAK" value={String(currentStreak)} />
-          <StatPill label="UNLOCKED" value={String(unlockedCount)} />
-        </View>
-
         <View style={styles.grid}>
           {ACHIEVEMENTS.map((achievement) => {
             const unlocked = unlockedAchievements.includes(achievement.id);
@@ -55,21 +47,6 @@ export default function AchievementsScreen() {
         </Text>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-function StatPill({ label, value }: { label: string; value: string }) {
-  return (
-    <View style={styles.statPill}>
-      <GradientText
-        text={value}
-        width={54}
-        height={30}
-        fontSize={24}
-        colors={GRADIENTS.primary}
-      />
-      <Text style={styles.statLabel}>{label}</Text>
-    </View>
   );
 }
 
@@ -126,27 +103,6 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     gap: 14,
   },
-  statsRow: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  statPill: {
-    flex: 1,
-    minHeight: 70,
-    borderRadius: 18,
-    backgroundColor: COLORS.card,
-    borderWidth: 1,
-    borderColor: 'rgba(194,24,91,0.19)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  statLabel: {
-    color: COLORS.textMuted,
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 1.1,
-  },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -172,14 +128,14 @@ const styles = StyleSheet.create({
   },
   badgeName: {
     color: COLORS.textPrimary,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
   },
   badgeDescription: {
     color: COLORS.textSub,
-    fontSize: 11,
-    lineHeight: 15,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
   progressTrack: {
@@ -202,13 +158,13 @@ const styles = StyleSheet.create({
   },
   lockedText: {
     color: COLORS.textSub,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1.1,
   },
   footerText: {
     color: COLORS.textMuted,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
   },

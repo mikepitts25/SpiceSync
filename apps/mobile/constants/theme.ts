@@ -15,8 +15,8 @@ export const COLORS = {
   maybe: '#F59E0B',
 
   textPrimary: '#FFFFFF',
-  textSub: 'rgba(255,255,255,0.5)',
-  textMuted: 'rgba(255,255,255,0.25)',
+  textSub: 'rgba(255,255,255,0.72)',
+  textMuted: 'rgba(255,255,255,0.58)',
   border: 'rgba(194,24,91,0.33)',
   borderFaint: 'rgba(255,255,255,0.063)',
 
@@ -30,7 +30,7 @@ export const COLORS = {
   secondary: '#8B5CF6',
   accent: '#A78BFA',
   text: '#FFFFFF',
-  textSecondary: 'rgba(255,255,255,0.5)',
+  textSecondary: 'rgba(255,255,255,0.72)',
   success: '#22C55E',
   danger: '#EF4444',
   warning: '#F59E0B',
@@ -97,20 +97,20 @@ export const TYPOGRAPHY = {
     color: COLORS.textPrimary,
   },
   body: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '400' as const,
-    lineHeight: 20,
+    lineHeight: 23,
     color: COLORS.textSub,
   },
   label: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '700' as const,
-    letterSpacing: 1.4,
+    letterSpacing: 0,
   },
   subtext: {
-    fontSize: 10,
+    fontSize: 16,
     fontWeight: '600' as const,
-    letterSpacing: 0.7,
+    letterSpacing: 0,
   },
 } as const;
 
@@ -147,21 +147,21 @@ export const FONTS = {
     fontWeight: '800' as const,
   },
   body: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '400' as const,
-    lineHeight: 20,
+    lineHeight: 23,
   },
   small: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600' as const,
   },
 };
 
 export const SIZES = {
   base: 8,
-  xs: 10,
-  small: 12,
-  body: 13,
+  xs: 16,
+  small: 16,
+  body: 16,
   medium: 18,
   large: 20,
   h4: 22,
@@ -169,7 +169,7 @@ export const SIZES = {
   h2: 28,
   h1: 34,
   display: 48,
-  caption: 11,
+  caption: 16,
   maxWidth: 420,
   padding: 16,
   paddingLarge: 24,

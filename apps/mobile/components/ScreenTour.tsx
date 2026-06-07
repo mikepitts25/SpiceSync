@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Modal,
   Pressable,
   StyleProp,
   StyleSheet,
@@ -91,63 +92,96 @@ export function ScreenTour({
     total: steps.filter((step) => step.title.trim() && step.body.trim()).length,
   });
   const primaryLabel = visibleStep.isLastStep ? t.common.done : t.common.next;
+  const closeLabel = `Close ${screenLabel} tour`;
 
   return (
-    <View style={[styles.card, style]}>
-      <LinearGradient
-        colors={GRADIENTS.cardAccentBar}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}
-        style={styles.accent}
-      />
-      <View style={styles.inner}>
-        <View style={styles.topRow}>
-          <Text style={styles.eyebrow}>{t.common.quickTour.toUpperCase()}</Text>
-          <Text style={styles.progress}>{progressLabel}</Text>
-        </View>
-
-        <Text style={styles.title}>{visibleStep.step.title}</Text>
-        <Text style={styles.body}>{visibleStep.step.body}</Text>
-
-        <View style={styles.actions}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={interpolate(t.common.skipTourFor, {
-              screen: screenLabel,
-            })}
-            onPress={() => dismissTour(screenId)}
-            style={styles.skipButton}
-          >
-            <Text style={styles.skipText}>{t.common.skipTour}</Text>
-          </Pressable>
-
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={
-              visibleStep.isLastStep
-                ? interpolate(t.common.finishTour, { screen: screenLabel })
-                : interpolate(t.common.nextTourStep, { screen: screenLabel })
-            }
-            onPress={handlePrimaryPress}
-            style={styles.primaryPress}
-          >
-            <LinearGradient
-              colors={GRADIENTS.primary}
-              start={{ x: 0, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-              style={styles.primaryButton}
+    <Modal
+      animationType="fade"
+      transparent
+      visible
+      statusBarTranslucent
+      onRequestClose={() => dismissTour(screenId)}
+    >
+      <View style={styles.overlay}>
+        <View style={[styles.card, style]}>
+          <LinearGradient
+            colors={GRADIENTS.cardAccentBar}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={styles.accent}
+          />
+          <View style={styles.inner}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={closeLabel}
+              onPress={() => dismissTour(screenId)}
+              style={styles.closeButton}
+              hitSlop={8}
             >
-              <Text style={styles.primaryText}>{primaryLabel}</Text>
-            </LinearGradient>
-          </Pressable>
+              <Text style={styles.closeText}>X</Text>
+            </Pressable>
+
+            <View style={styles.topRow}>
+              <Text style={styles.eyebrow}>
+                {t.common.quickTour.toUpperCase()}
+              </Text>
+              <Text style={styles.progress}>{progressLabel}</Text>
+            </View>
+
+            <Text style={styles.title}>{visibleStep.step.title}</Text>
+            <Text style={styles.body}>{visibleStep.step.body}</Text>
+
+            <View style={styles.actions}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={interpolate(t.common.skipTourFor, {
+                  screen: screenLabel,
+                })}
+                onPress={() => dismissTour(screenId)}
+                style={styles.skipButton}
+              >
+                <Text style={styles.skipText}>{t.common.skipTour}</Text>
+              </Pressable>
+
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={
+                  visibleStep.isLastStep
+                    ? interpolate(t.common.finishTour, { screen: screenLabel })
+                    : interpolate(t.common.nextTourStep, { screen: screenLabel })
+                }
+                onPress={handlePrimaryPress}
+                style={styles.primaryPress}
+              >
+                <LinearGradient
+                  colors={GRADIENTS.primary}
+                  start={{ x: 0, y: 0.5 }}
+                  end={{ x: 1, y: 0.5 }}
+                  style={styles.primaryButton}
+                >
+                  <Text style={styles.primaryText}>{primaryLabel}</Text>
+                </LinearGradient>
+              </Pressable>
+            </View>
+          </View>
         </View>
       </View>
-    </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 18,
+    paddingVertical: 28,
+    backgroundColor: COLORS.overlay,
+  },
   card: {
+    width: '100%',
+    maxWidth: 430,
     borderRadius: RADII.card,
     backgroundColor: COLORS.card,
     borderWidth: 1,
@@ -161,13 +195,34 @@ const styles = StyleSheet.create({
   inner: {
     paddingHorizontal: 16,
     paddingVertical: 14,
-    gap: 8,
+    gap: 10,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    zIndex: 1,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+  },
+  closeText: {
+    color: COLORS.textPrimary,
+    fontSize: 15,
+    lineHeight: 18,
+    fontWeight: '900',
   },
   topRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 12,
+    paddingRight: 34,
   },
   eyebrow: {
     color: COLORS.pink,
@@ -175,19 +230,19 @@ const styles = StyleSheet.create({
   },
   progress: {
     color: COLORS.textMuted,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '700',
   },
   title: {
     color: COLORS.textPrimary,
     fontSize: 17,
-    lineHeight: 22,
+    lineHeight: 23,
     fontWeight: '800',
   },
   body: {
     color: COLORS.textSub,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 23,
   },
   actions: {
     flexDirection: 'row',
@@ -203,7 +258,7 @@ const styles = StyleSheet.create({
   },
   skipText: {
     color: COLORS.textSub,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
   },
   primaryPress: {
@@ -220,7 +275,7 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     color: COLORS.textPrimary,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
   },
 });

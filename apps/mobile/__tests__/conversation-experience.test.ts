@@ -53,6 +53,35 @@ describe('conversation experience metadata', () => {
     );
   });
 
+  it('gives each topic tile a themed visual accent', () => {
+    expect(
+      CONVERSATION_TOPIC_TILES.every(
+        (item) =>
+          item.accent.gradient.length === 2 &&
+          item.accent.border.startsWith('rgba(') &&
+          item.accent.glow.startsWith('rgba(') &&
+          item.accent.badge.startsWith('rgba(')
+      )
+    ).toBe(true);
+
+    const uniqueGradients = new Set(
+      CONVERSATION_TOPIC_TILES.map((item) => item.accent.gradient.join('|'))
+    );
+    expect(uniqueGradients.size).toBeGreaterThanOrEqual(4);
+  });
+
+  it('gives topic tiles subtle press motion metadata', () => {
+    expect(
+      CONVERSATION_TOPIC_TILES.every((item) =>
+        /^-?1deg$/.test(item.motion.pressTilt)
+      )
+    ).toBe(true);
+
+    expect(
+      new Set(CONVERSATION_TOPIC_TILES.map((item) => item.motion.pressTilt))
+    ).toEqual(new Set(['-1deg', '1deg']));
+  });
+
   it('looks up topic metadata by route category', () => {
     expect(getConversationTopicTile('relationship')).toMatchObject({
       id: 'relationship',

@@ -293,6 +293,12 @@ export const es: Translations = {
     shareError: 'No se pueden compartir los resultados ahora.',
     noSharedPicks: 'Aún no hay elecciones compartidas',
     keepSwipingShort: 'Sigue votando',
+    bucketYesBlurb: 'Ambos dijeron que sí',
+    bucketPartialBlurb: 'Uno sí, uno tal vez',
+    bucketMaybeBlurb: 'Ambos dijeron tal vez',
+    viewMatches: 'Ver matches',
+    sharedPicks: '{{count}} elecciones compartidas',
+    backToCategories: 'Todas las categorías',
   },
 
   // Love Languages
@@ -340,6 +346,15 @@ export const es: Translations = {
     levelsWithLabels: 'Niveles {{levels}}',
     noTimeLimit: 'Sin límite de tiempo',
     drawToBegin: 'Saca una carta para comenzar.',
+    introTitle: 'Preparen el ambiente y enciendan la chispa.',
+    introBody: '{{count}} cartas listas para {{mode}}.',
+    startPlaying: 'Empezar a jugar',
+    endGame: 'Terminar juego',
+    gameModes: {
+      normal: 'Normal',
+      intense: 'Intenso',
+    },
+    intenseDisclaimer: 'Intenso incluye cartas picantes y de estilo XXX.',
     noCardsForLevels: 'No hay cartas para estos niveles',
     chooseDifferentLevels:
       'Elige otra combinación de niveles para seguir jugando.',

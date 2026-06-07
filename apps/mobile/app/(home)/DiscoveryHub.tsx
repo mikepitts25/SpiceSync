@@ -8,7 +8,10 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { useKinks } from '../../lib/data';
@@ -37,7 +40,7 @@ export default function DiscoveryHub() {
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
@@ -58,23 +61,26 @@ export default function DiscoveryHub() {
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        const matchesSearch = 
+        const matchesSearch =
           activity.title.toLowerCase().includes(query) ||
           activity.description.toLowerCase().includes(query);
         if (!matchesSearch) return false;
       }
-      
+
       // Category filter
-      if (selectedCategory !== 'all' && activity.category !== selectedCategory) {
+      if (
+        selectedCategory !== 'all' &&
+        activity.category !== selectedCategory
+      ) {
         return false;
       }
-      
+
       // Intensity filter
       const intensity = activity.intensityScale || 1;
       if (intensity < intensityRange[0] || intensity > intensityRange[1]) {
         return false;
       }
-      
+
       return true;
     });
   }, [kinks, searchQuery, selectedCategory, intensityRange]);
@@ -102,7 +108,7 @@ export default function DiscoveryHub() {
           </Text>
         </View>
 
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
         >
@@ -126,8 +132,8 @@ export default function DiscoveryHub() {
           {/* Categories */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Categories</Text>
-            <ScrollView 
-              horizontal 
+            <ScrollView
+              horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.categoriesScroll}
             >
@@ -141,10 +147,13 @@ export default function DiscoveryHub() {
                   onPress={() => setSelectedCategory(cat.id)}
                 >
                   <Text style={styles.categoryEmoji}>{cat.emoji}</Text>
-                  <Text style={[
-                    styles.categoryText,
-                    selectedCategory === cat.id && styles.categoryTextSelected,
-                  ]}>
+                  <Text
+                    style={[
+                      styles.categoryText,
+                      selectedCategory === cat.id &&
+                        styles.categoryTextSelected,
+                    ]}
+                  >
                     {cat.name}
                   </Text>
                 </Pressable>
@@ -166,10 +175,13 @@ export default function DiscoveryHub() {
                   onPress={() => toggleMood(mood.id)}
                 >
                   <Text style={styles.moodEmoji}>{mood.emoji}</Text>
-                  <Text style={[
-                    styles.moodText,
-                    selectedMoods.includes(mood.id) && styles.moodTextSelected,
-                  ]}>
+                  <Text
+                    style={[
+                      styles.moodText,
+                      selectedMoods.includes(mood.id) &&
+                        styles.moodTextSelected,
+                    ]}
+                  >
                     {mood.name}
                   </Text>
                 </Pressable>
@@ -188,14 +200,20 @@ export default function DiscoveryHub() {
                   key={level}
                   style={[
                     styles.intensityDot,
-                    level >= intensityRange[0] && level <= intensityRange[1] && styles.intensityDotActive,
+                    level >= intensityRange[0] &&
+                      level <= intensityRange[1] &&
+                      styles.intensityDotActive,
                   ]}
                   onPress={() => setIntensityRange([1, level])}
                 >
-                  <Text style={[
-                    styles.intensityText,
-                    level >= intensityRange[0] && level <= intensityRange[1] && styles.intensityTextActive,
-                  ]}>
+                  <Text
+                    style={[
+                      styles.intensityText,
+                      level >= intensityRange[0] &&
+                        level <= intensityRange[1] &&
+                        styles.intensityTextActive,
+                    ]}
+                  >
                     {level}
                   </Text>
                 </Pressable>
@@ -212,7 +230,7 @@ export default function DiscoveryHub() {
             <View style={styles.statDivider} />
             <View style={styles.stat}>
               <Text style={styles.statNumber}>
-                {new Set(filteredActivities.map(a => a.category)).size}
+                {new Set(filteredActivities.map((a) => a.category)).size}
               </Text>
               <Text style={styles.statLabel}>Categories</Text>
             </View>
@@ -221,10 +239,7 @@ export default function DiscoveryHub() {
 
         {/* CTA */}
         <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
-          <Pressable 
-            style={styles.ctaButton}
-            onPress={startSwiping}
-          >
+          <Pressable style={styles.ctaButton} onPress={startSwiping}>
             <Text style={styles.ctaText}>
               Start Swiping ({filteredActivities.length})
             </Text>
@@ -345,7 +360,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.secondary,
   },
   moodEmoji: {
-    fontSize: 14,
+    fontSize: 16,
     marginRight: 6,
   },
   moodText: {

@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   cardDescription: {
     fontSize: SIZES.small,
     color: 'rgba(255,255,255,0.8)',
-    lineHeight: 18,
+    lineHeight: 23,
   },
   arrowContainer: {
     position: 'absolute',

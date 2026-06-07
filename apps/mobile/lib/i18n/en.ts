@@ -286,6 +286,12 @@ export const en = {
     shareError: 'Unable to share results right now.',
     noSharedPicks: 'No shared picks yet',
     keepSwipingShort: 'Keep swiping',
+    bucketYesBlurb: 'You both said yes',
+    bucketPartialBlurb: 'One yes, one maybe',
+    bucketMaybeBlurb: 'You both said maybe',
+    viewMatches: 'View matches',
+    sharedPicks: '{{count}} shared picks',
+    backToCategories: 'All categories',
   },
 
   // Love Languages
@@ -333,6 +339,15 @@ export const en = {
     levelsWithLabels: 'Levels {{levels}}',
     noTimeLimit: 'No time limit',
     drawToBegin: 'Draw a card to begin.',
+    introTitle: 'Set the mood, then deal the spark.',
+    introBody: '{{count}} cards ready for {{mode}}.',
+    startPlaying: 'Start Playing',
+    endGame: 'End Game',
+    gameModes: {
+      normal: 'Normal',
+      intense: 'Intense',
+    },
+    intenseDisclaimer: 'Intense includes naughty and XXX-style cards.',
     noCardsForLevels: 'No cards for these levels',
     chooseDifferentLevels:
       'Choose a different level combination to keep playing.',

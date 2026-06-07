@@ -78,6 +78,36 @@ describe('release configuration', () => {
     expect(mainApplication).toContain('package com.spicesync.app');
   });
 
+  it('declares the Face ID usage description in app config and native iOS plist', () => {
+    const faceIdPermission =
+      'Allow SpiceSync to use Face ID to keep your private content locked.';
+    const appJson = readJson<{
+      expo: {
+        ios?: { infoPlist?: { NSFaceIDUsageDescription?: string } };
+        plugins?: unknown[];
+      };
+    }>('app.json');
+    const localAuthPlugin = appJson.expo.plugins?.find((plugin) =>
+      Array.isArray(plugin) ? plugin[0] === 'expo-local-authentication' : false
+    ) as
+      | [
+          'expo-local-authentication',
+          { faceIDPermission?: string | false },
+        ]
+      | undefined;
+    const iosInfo = fs.readFileSync(
+      path.join(mobileRoot, 'ios', 'SpiceSync', 'Info.plist'),
+      'utf8'
+    );
+
+    expect(appJson.expo.ios?.infoPlist?.NSFaceIDUsageDescription).toBe(
+      faceIdPermission
+    );
+    expect(localAuthPlugin?.[1]?.faceIDPermission).toBe(faceIdPermission);
+    expect(iosInfo).toContain('<key>NSFaceIDUsageDescription</key>');
+    expect(iosInfo).toContain(`<string>${faceIdPermission}</string>`);
+  });
+
   it('keeps iOS native settings compatible with Expo SDK 54 pods', () => {
     const iosPodfileProperties = readJson<{
       newArchEnabled?: string;

@@ -8,7 +8,10 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { usePremiumStore } from '../../src/stores/premium';
@@ -18,13 +21,13 @@ export default function RedeemScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { code: paramCode } = useLocalSearchParams<{ code?: string }>();
-  
+
   const { redeemGiftCode, validateGiftCode, isPremium } = usePremiumStore();
-  
+
   const [code, setCode] = useState('');
   const [isRedeeming, setIsRedeeming] = useState(false);
   const [redeemed, setRedeemed] = useState(false);
-  
+
   // Auto-fill code from URL parameter
   useEffect(() => {
     if (paramCode) {
@@ -34,29 +37,32 @@ export default function RedeemScreen() {
 
   const handleRedeem = async () => {
     const trimmedCode = code.trim().toUpperCase();
-    
+
     if (!trimmedCode) {
       Alert.alert('Enter a Code', 'Please enter a gift code to redeem.');
       return;
     }
-    
+
     if (!validateGiftCode(trimmedCode)) {
       Alert.alert(
-        'Invalid Code', 
+        'Invalid Code',
         `Gift codes should start with ${GIFT_CONSTANTS.CODE_PREFIX} and be ${GIFT_CONSTANTS.CODE_LENGTH + GIFT_CONSTANTS.CODE_PREFIX.length} characters long.`
       );
       return;
     }
-    
+
     setIsRedeeming(true);
-    
+
     try {
       const success = await redeemGiftCode(trimmedCode);
-      
+
       if (success) {
         setRedeemed(true);
       } else {
-        Alert.alert('Invalid Code', 'This gift code is invalid or has already been redeemed.');
+        Alert.alert(
+          'Invalid Code',
+          'This gift code is invalid or has already been redeemed.'
+        );
       }
     } catch (error) {
       Alert.alert('Error', 'Something went wrong. Please try again.');
@@ -77,7 +83,8 @@ export default function RedeemScreen() {
           <Text style={styles.emoji}>✨</Text>
           <Text style={styles.title}>Already Premium</Text>
           <Text style={styles.message}>
-            You already have Premium access! You can share this gift code with someone else.
+            You already have Premium access! You can share this gift code with
+            someone else.
           </Text>
           <Pressable style={styles.button} onPress={handleGoHome}>
             <Text style={styles.buttonText}>Go Home</Text>
@@ -97,9 +104,10 @@ export default function RedeemScreen() {
           </View>
           <Text style={styles.title}>Welcome to Premium!</Text>
           <Text style={styles.message}>
-            Your gift code has been redeemed successfully. You now have lifetime access to all premium features!
+            Your gift code has been redeemed successfully. You now have lifetime
+            access to all premium features!
           </Text>
-          
+
           <View style={styles.featuresList}>
             <Text style={styles.featuresTitle}>You now have:</Text>
             {[
@@ -115,8 +123,11 @@ export default function RedeemScreen() {
               </View>
             ))}
           </View>
-          
-          <Pressable style={[styles.button, styles.successButton]} onPress={handleGoHome}>
+
+          <Pressable
+            style={[styles.button, styles.successButton]}
+            onPress={handleGoHome}
+          >
             <Text style={styles.buttonText}>Start Exploring</Text>
           </Pressable>
         </View>
@@ -151,7 +162,7 @@ export default function RedeemScreen() {
           </Text>
         </View>
 
-        <Pressable 
+        <Pressable
           style={[styles.button, isRedeeming && styles.buttonDisabled]}
           onPress={handleRedeem}
           disabled={isRedeeming}
@@ -170,8 +181,9 @@ export default function RedeemScreen() {
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>What is this?</Text>
           <Text style={styles.infoText}>
-            Someone purchased SpiceSync Premium as a gift for you. Enter the code they 
-            shared to unlock lifetime access to all premium features and activity packs.
+            Someone purchased SpiceSync Premium as a gift for you. Enter the
+            code they shared to unlock lifetime access to all premium features
+            and activity packs.
           </Text>
         </View>
       </View>
@@ -282,7 +294,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.small,
     color: COLORS.textSecondary,
-    lineHeight: 20,
+    lineHeight: 23,
   },
   successIcon: {
     width: 100,
@@ -302,7 +314,7 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     textAlign: 'center',
     marginBottom: SIZES.padding * 2,
-    lineHeight: 22,
+    lineHeight: 23,
   },
   featuresList: {
     width: '100%',

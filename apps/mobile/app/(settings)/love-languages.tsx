@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
     textAlign: 'center',
-    lineHeight: 22,
+    lineHeight: 23,
   },
 
   // Secondary Card

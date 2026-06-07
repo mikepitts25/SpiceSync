@@ -8,9 +8,11 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
     "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "present": "^1.0.0",
+    "scripts": "^0.1.0",
     "simple-git": "^3.20.0"
   },
   "devDependencies": {
@@ -22,5 +24,8 @@
     "content-management"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "allowScripts": {
+    "fsevents@2.3.3": true
+  }
 }

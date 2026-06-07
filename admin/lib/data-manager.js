@@ -115,6 +115,20 @@ function parseTypeScriptArray(content, arrayName) {
   }
 }
 
+function gameModeForIntensity(intensity) {
+  const value = Number(intensity);
+  if (value >= 4) return 'Intense';
+  if (value >= 1) return 'Normal';
+  return '';
+}
+
+function annotateGameCard(card, source, arrayName) {
+  card._source = source;
+  card._arrayName = arrayName;
+  card._gameMode = gameModeForIntensity(card.intensity);
+  return card;
+}
+
 function formatTypeScriptValue(value) {
   if (value === null) return 'null';
 
@@ -163,17 +177,13 @@ function loadGameCards() {
     // Parse FREE_CARDS
     const freeCards = parseTypeScriptArray(mainContent, 'FREE_CARDS');
     freeCards.forEach(card => {
-      card._source = 'main';
-      card._arrayName = 'FREE_CARDS';
-      cards.push(card);
+      cards.push(annotateGameCard(card, 'main', 'FREE_CARDS'));
     });
     
     // Parse PREMIUM_CARDS
     const premiumCards = parseTypeScriptArray(mainContent, 'PREMIUM_CARDS');
     premiumCards.forEach(card => {
-      card._source = 'main';
-      card._arrayName = 'PREMIUM_CARDS';
-      cards.push(card);
+      cards.push(annotateGameCard(card, 'main', 'PREMIUM_CARDS'));
     });
   } catch (e) {
     console.error('Error loading main gameCards:', e.message);
@@ -193,9 +203,7 @@ function loadGameCards() {
       const content = fs.readFileSync(FILE_PATHS.gameCards[file], 'utf8');
       const levelCards = parseTypeScriptArray(content, array);
       levelCards.forEach(card => {
-        card._source = file;
-        card._arrayName = array;
-        cards.push(card);
+        cards.push(annotateGameCard(card, file, array));
       });
     } catch (e) {
       console.error(`Error loading ${file}:`, e.message);
@@ -271,6 +279,7 @@ function saveGameCards(cards) {
     const cleanCard = { ...card };
     delete cleanCard._source;
     delete cleanCard._arrayName;
+    delete cleanCard._gameMode;
     bySource[source][arrayName].push(cleanCard);
   });
   
@@ -393,5 +402,6 @@ module.exports = {
   saveGameCards,
   saveKinks,
   saveConversationStarters,
-  FILE_PATHS
+  FILE_PATHS,
+  gameModeForIntensity
 };

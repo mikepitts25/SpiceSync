@@ -56,6 +56,40 @@ async function commitChanges(message) {
   }
 }
 
+function gameCardIdTypeSegment(type) {
+  const segments = {
+    truth: "truth",
+    dare: "dare",
+    challenge: "challenge",
+    fantasy: "fantasy",
+    roleplay: "roleplay",
+  };
+  return segments[type] || "card";
+}
+
+function nextGameCardId(cards, card) {
+  const tier = card.isPremium ? "p" : "f";
+  const typeSegment = gameCardIdTypeSegment(card.type);
+  const prefix = `${tier}-admin-${typeSegment}-`;
+  const existingIds = cards
+    .filter((existingCard) => existingCard.id?.startsWith(prefix))
+    .map((existingCard) => Number(existingCard.id.slice(prefix.length)))
+    .filter(Number.isFinite);
+  const nextNumber = Math.max(0, ...existingIds) + 1;
+  return `${prefix}${String(nextNumber).padStart(3, "0")}`;
+}
+
+function normalizeGameCardStorage(card) {
+  card._source = card._source || "main";
+  card._arrayName =
+    card._source === "main"
+      ? card.isPremium
+        ? "PREMIUM_CARDS"
+        : "FREE_CARDS"
+      : card._arrayName;
+  delete card._gameMode;
+}
+
 // ===== GAME CARDS API =====
 
 // Get all game cards
@@ -74,15 +108,11 @@ app.post("/api/gamecards", async (req, res) => {
     const cards = loadGameCards();
     const newCard = req.body;
 
+    normalizeGameCardStorage(newCard);
+
     // Generate ID if not provided
     if (!newCard.id) {
-      const prefix = newCard.isPremium ? "p" : "f";
-      const typeChar = newCard.type ? newCard.type[0] : "t";
-      const existingIds = cards
-        .filter((c) => c.id && c.id.startsWith(`${prefix}-${typeChar}`))
-        .map((c) => parseInt(c.id.split("-")[2]) || 0);
-      const maxId = Math.max(0, ...existingIds);
-      newCard.id = `${prefix}-${typeChar}${maxId + 1}`;
+      newCard.id = nextGameCardId(cards, newCard);
     }
 
     // Check for duplicate ID
@@ -118,6 +148,7 @@ app.put("/api/gamecards/:id", async (req, res) => {
     // Preserve internal fields
     updates._source = cards[index]._source;
     updates._arrayName = cards[index]._arrayName;
+    delete updates._gameMode;
 
     cards[index] = { ...cards[index], ...updates };
     saveGameCards(cards);

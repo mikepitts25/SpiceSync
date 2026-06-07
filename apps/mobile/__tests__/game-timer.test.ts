@@ -14,8 +14,18 @@ describe('game card timer parsing', () => {
   it('parses explicit countdown estimates', () => {
     expect(parseGameCardTimerSeconds('30 sec')).toBe(30);
     expect(parseGameCardTimerSeconds('1 min')).toBe(60);
-    expect(parseGameCardTimerSeconds('5 min')).toBe(300);
-    expect(parseGameCardTimerSeconds('ongoing')).toBe(300);
+    expect(parseGameCardTimerSeconds('5 min')).toBe(60);
+    expect(parseGameCardTimerSeconds('ongoing')).toBe(0);
+  });
+
+  it('never returns countdowns longer than one minute', () => {
+    expect(parseGameCardTimerSeconds('90 sec')).toBe(60);
+    expect(parseGameCardTimerSeconds('2 minutes')).toBe(60);
+    expect(
+      ALL_PLAYABLE_CARDS.filter(
+        (card) => parseGameCardTimerSeconds(card.estimatedTime) > 60
+      )
+    ).toEqual([]);
   });
 
   it('does not assign countdowns to discussion or quick creative cards', () => {

@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     color: COLORS.textPrimary,
-    fontSize: 13,
+    fontSize: 16,
     paddingVertical: 0,
   },
   filterButton: {
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   },
   tierActiveText: {
     color: COLORS.textPrimary,
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.8,
   },
@@ -335,8 +335,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   tierInactiveText: {
-    color: 'rgba(255,255,255,0.37)',
-    fontSize: 11,
+    color: COLORS.textSub,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.8,
   },
@@ -359,8 +359,8 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(194,24,91,0.25)',
   },
   categoryChipText: {
-    color: 'rgba(255,255,255,0.37)',
-    fontSize: 11,
+    color: COLORS.textSub,
+    fontSize: 16,
     fontWeight: '700',
   },
   categoryChipTextActive: {
@@ -395,19 +395,19 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   itemCategory: {
-    fontSize: 9,
+    fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.2,
   },
   itemTitle: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
   },
   itemDescription: {
-    color: 'rgba(255,255,255,0.31)',
-    fontSize: 11,
-    lineHeight: 15,
+    color: COLORS.textSub,
+    fontSize: 16,
+    lineHeight: 23,
   },
   voteBadge: {
     width: 34,
@@ -429,6 +429,6 @@ const styles = StyleSheet.create({
   },
   emptyCopy: {
     color: COLORS.textSub,
-    fontSize: 13,
+    fontSize: 16,
   },
 });

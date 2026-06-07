@@ -53,10 +53,7 @@ function buildRuntimeInviteLink(invite: InviteHandle): string {
 export default function PartnerConnect() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const {
-    remoteInviteId,
-    remoteInviteSecret,
-  } = useLocalSearchParams<{
+  const { remoteInviteId, remoteInviteSecret } = useLocalSearchParams<{
     remoteInviteId?: string;
     remoteInviteSecret?: string;
   }>();
@@ -184,7 +181,10 @@ export default function PartnerConnect() {
   const handlePasteInviteLink = () => {
     const parsed = parseInviteUrl(inviteLinkInput);
     if (!parsed) {
-      Alert.alert('Invalid link', 'Paste the full invite link your partner created.');
+      Alert.alert(
+        'Invalid link',
+        'Paste the full invite link your partner created.'
+      );
       return;
     }
     setRemoteInvite(null);
@@ -196,13 +196,10 @@ export default function PartnerConnect() {
     if (!activeRemoteInvite) return;
     try {
       setIsConnecting(true);
-      await acceptInvite(
-        activeRemoteInvite,
-        {
-          profileName: myProfileName,
-          profileAvatar: myProfileAvatar,
-        }
-      );
+      await acceptInvite(activeRemoteInvite, {
+        profileName: myProfileName,
+        profileAvatar: myProfileAvatar,
+      });
       useVoteSyncStore.getState().setLocalProfileId(activeProfileId ?? null);
       startVoteSync();
       startSyncLoop();
@@ -277,19 +274,12 @@ export default function PartnerConnect() {
             onBack={() => setMode('menu')}
           />
         ) : null}
-
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function ScreenIntro({
-  title,
-  body,
-}: {
-  title: string;
-  body: string;
-}) {
+function ScreenIntro({ title, body }: { title: string; body: string }) {
   return (
     <View style={styles.intro}>
       <Text style={styles.kicker}>Partner Sync</Text>
@@ -386,7 +376,9 @@ function ChoiceCard({
       <View style={styles.choiceCopy}>
         <Text style={styles.choiceTitle}>{title}</Text>
         <Text style={styles.choiceBody}>{body}</Text>
-        <Text style={[styles.choiceAction, primary && styles.choiceActionPrimary]}>
+        <Text
+          style={[styles.choiceAction, primary && styles.choiceActionPrimary]}
+        >
           {actionLabel}
         </Text>
       </View>
@@ -471,7 +463,8 @@ function RemoteCreateContent({
         </View>
         <Text style={styles.helperText}>
           Scan the QR code with another device, copy the link, or use the share
-          sheet. Leave this screen open so we can detect when your partner accepts.
+          sheet. Leave this screen open so we can detect when your partner
+          accepts.
         </Text>
         {pollError ? <Text style={styles.errorText}>{pollError}</Text> : null}
       </View>
@@ -613,7 +606,7 @@ const styles = StyleSheet.create({
   },
   kicker: {
     color: COLORS.primary,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '800',
     textTransform: 'uppercase',
     letterSpacing: 1,
@@ -626,8 +619,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontFamily: FONTS.regular,
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: 16,
+    lineHeight: 23,
     color: COLORS.textSecondary,
   },
   identityRow: {
@@ -645,7 +638,7 @@ const styles = StyleSheet.create({
   },
   identityLabel: {
     color: COLORS.textSecondary,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
   },
   identityName: {
@@ -681,12 +674,12 @@ const styles = StyleSheet.create({
   },
   choiceBody: {
     color: COLORS.textSecondary,
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
   },
   choiceAction: {
     color: COLORS.text,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '800',
     marginTop: 6,
   },
@@ -703,7 +696,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: FONTS.bold,
-    fontSize: 14,
+    fontSize: 16,
     color: COLORS.text,
   },
   linkBox: {
@@ -714,8 +707,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     color: COLORS.text,
     fontFamily: FONTS.regular,
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 23,
   },
   linkInput: {
     minHeight: 112,
@@ -726,8 +719,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     color: COLORS.text,
     fontFamily: FONTS.regular,
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     textAlignVertical: 'top',
   },
   qrWrap: {
@@ -775,13 +768,13 @@ const styles = StyleSheet.create({
   },
   helperText: {
     fontFamily: FONTS.regular,
-    fontSize: 13,
+    fontSize: 16,
     color: COLORS.textSecondary,
-    lineHeight: 19,
+    lineHeight: 23,
   },
   errorText: {
     fontFamily: FONTS.regular,
-    fontSize: 13,
+    fontSize: 16,
     color: COLORS.no,
   },
   securityRow: {
@@ -792,9 +785,9 @@ const styles = StyleSheet.create({
   securityText: {
     flex: 1,
     fontFamily: FONTS.regular,
-    fontSize: 14,
+    fontSize: 16,
     color: COLORS.textSecondary,
-    lineHeight: 20,
+    lineHeight: 23,
   },
   backToMenu: {
     minHeight: 44,
@@ -803,7 +796,7 @@ const styles = StyleSheet.create({
   },
   backToMenuText: {
     color: COLORS.textSecondary,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
   },
 });

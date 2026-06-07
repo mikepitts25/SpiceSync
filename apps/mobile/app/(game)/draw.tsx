@@ -26,7 +26,11 @@ import {
   normalizeGameIntensityLevels,
 } from '../../lib/gameLevelFilter';
 import { useTranslation } from '../../lib/i18n';
-import { parseGameCardTimerSeconds } from '../../lib/gameTimer';
+import {
+  formatGameCardTimerEstimate,
+  formatGameCardTimerSeconds,
+  parseGameCardTimerSeconds,
+} from '../../lib/gameTimer';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -84,6 +88,7 @@ export default function CardDraw() {
   const shownCardIdsRef = useRef<Set<string>>(new Set());
 
   // Timer state
+  const [timerTotalSeconds, setTimerTotalSeconds] = useState(0);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timerProgress, setTimerProgress] = useState(1);
@@ -107,9 +112,9 @@ export default function CardDraw() {
 
   // Start timer
   const startTimer = useCallback(() => {
-    if (!card || timerSeconds === 0) return;
+    if (!card || timerTotalSeconds === 0 || timerSeconds === 0) return;
     setIsTimerRunning(true);
-  }, [card, timerSeconds]);
+  }, [card, timerSeconds, timerTotalSeconds]);
 
   // Stop timer
   const stopTimer = useCallback(() => {
@@ -125,6 +130,7 @@ export default function CardDraw() {
     stopTimer();
     if (card) {
       const totalSeconds = parseGameCardTimerSeconds(card.estimatedTime);
+      setTimerTotalSeconds(totalSeconds);
       setTimerSeconds(totalSeconds);
       setTimerProgress(1);
     }
@@ -133,13 +139,10 @@ export default function CardDraw() {
   // Timer effect
   useEffect(() => {
     if (isTimerRunning && timerSeconds > 0) {
-      const totalSeconds = card
-        ? parseGameCardTimerSeconds(card.estimatedTime)
-        : 60;
       timerIntervalRef.current = setInterval(() => {
         setTimerSeconds((prev) => {
           const newValue = prev - 1;
-          setTimerProgress(newValue / totalSeconds);
+          setTimerProgress(newValue / timerTotalSeconds);
           if (newValue <= 0) {
             stopTimer();
             playBuzzerSound();
@@ -154,7 +157,13 @@ export default function CardDraw() {
         clearInterval(timerIntervalRef.current);
       }
     };
-  }, [isTimerRunning, timerSeconds, card, stopTimer, playBuzzerSound]);
+  }, [
+    isTimerRunning,
+    timerSeconds,
+    timerTotalSeconds,
+    stopTimer,
+    playBuzzerSound,
+  ]);
 
   // Cleanup sound on unmount
   useEffect(() => {
@@ -213,6 +222,7 @@ export default function CardDraw() {
 
       // Initialize timer based on card's estimated time
       const totalSeconds = parseGameCardTimerSeconds(randomCard.estimatedTime);
+      setTimerTotalSeconds(totalSeconds);
       setTimerSeconds(totalSeconds);
       setTimerProgress(1);
       setIsTimerRunning(false);
@@ -240,6 +250,7 @@ export default function CardDraw() {
     } else {
       setCard(null);
       setIsPremiumLocked(false);
+      setTimerTotalSeconds(0);
       setTimerSeconds(0);
       setTimerProgress(1);
       setIsTimerRunning(false);
@@ -273,13 +284,6 @@ export default function CardDraw() {
   const cardColor = TYPE_COLORS[card.type];
   const isLocked = card.isPremium && !unlocked;
   const isDrinkingMode = drinkingModeStore;
-
-  // Format seconds to mm:ss
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -337,7 +341,7 @@ export default function CardDraw() {
             )}
 
             {/* Timer Section */}
-            {!isLocked && timerSeconds > 0 && (
+            {!isLocked && timerTotalSeconds > 0 && (
               <View style={styles.timerContainer}>
                 {/* Progress Bar */}
                 <View style={styles.progressBarBackground}>
@@ -361,7 +365,7 @@ export default function CardDraw() {
                       timerSeconds <= 10 && styles.timerTextUrgent,
                     ]}
                   >
-                    ⏱️ {formatTime(timerSeconds)}
+                    ⏱️ {formatGameCardTimerSeconds(timerSeconds)}
                   </Text>
 
                   {/* Timer Controls */}
@@ -404,7 +408,10 @@ export default function CardDraw() {
             )}
 
             <Text style={styles.timeEstimate}>
-              {t.game.estimatedTime}: {card.estimatedTime}
+              {t.game.estimatedTime}:{' '}
+              {timerTotalSeconds > 0
+                ? formatGameCardTimerEstimate(timerTotalSeconds)
+                : card.estimatedTime}
             </Text>
           </ScrollView>
 
@@ -535,7 +542,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.bold,
     fontSize: SIZES.body,
     color: COLORS.text,
-    lineHeight: 22,
+    lineHeight: 23,
   },
   intensityRow: {
     flexDirection: 'row',
@@ -700,6 +707,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     fontSize: SIZES.small,
     color: '#E74C3C',
-    lineHeight: 18,
+    lineHeight: 23,
   },
 });

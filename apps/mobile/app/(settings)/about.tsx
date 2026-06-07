@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   versionText: {
     color: COLORS.textMuted,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
   },
   infoCard: {
@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: COLORS.textPrimary,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
   },
   madeWith: {
     marginTop: 'auto',
     color: COLORS.textMuted,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
   },

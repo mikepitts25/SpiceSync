@@ -21,8 +21,9 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
   const [showScanner, setShowScanner] = useState(false);
   const [scannedCode, setScannedCode] = useState('');
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
-  
-  const { generateCode, decodeCode, saveScannedCode, getCompatibility } = useShareCodes();
+
+  const { generateCode, decodeCode, saveScannedCode, getCompatibility } =
+    useShareCodes();
   const { getProfileVotes } = useVotes();
 
   const handleGenerate = () => {
@@ -33,7 +34,7 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
 
   const handleShare = async () => {
     if (!generatedCode) return;
-    
+
     const displayCode = generatedCode.split(':')[0];
     try {
       await Share.share({
@@ -56,27 +57,30 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
       Alert.alert('Error', 'Please enter a code');
       return;
     }
-    
+
     const match = decodeCode(scannedCode.trim());
     if (!match) {
-      Alert.alert('Invalid Code', 'Could not decode this code. Please check and try again.');
+      Alert.alert(
+        'Invalid Code',
+        'Could not decode this code. Please check and try again.'
+      );
       return;
     }
-    
+
     saveScannedCode(match);
-    
+
     const myVotes = getProfileVotes(profileId);
     const compat = getCompatibility(myVotes, match.votes);
-    
+
     Alert.alert(
       'Match Found!',
       `Compatibility: ${compat.percentage}%\n\n` +
-      `Mutual Yes: ${compat.mutualYes.length}\n` +
-      `Mutual Maybe: ${compat.mutualMaybe.length}\n\n` +
-      'Go to Matches tab to see full details!',
+        `Mutual Yes: ${compat.mutualYes.length}\n` +
+        `Mutual Maybe: ${compat.mutualMaybe.length}\n\n` +
+        'Go to Matches tab to see full details!',
       [{ text: 'OK', onPress: () => setShowScanner(false) }]
     );
-    
+
     setScannedCode('');
   };
 
@@ -86,14 +90,14 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Share with Partner</Text>
-      
+
       {!showScanner ? (
         <>
           <Text style={styles.description}>
-            Generate a code to share with your partner or someone on a dating app. 
-            They can enter it to see your compatibility!
+            Generate a code to share with your partner or someone on a dating
+            app. They can enter it to see your compatibility!
           </Text>
-          
+
           {!generatedCode ? (
             <Pressable style={styles.button} onPress={handleGenerate}>
               <Text style={styles.buttonText}>Generate Share Code</Text>
@@ -102,7 +106,7 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
             <View style={styles.codeContainer}>
               <Text style={styles.codeLabel}>Your Code:</Text>
               <Text style={styles.code}>{displayCode}</Text>
-              
+
               {encodedData && (
                 <View style={styles.qrContainer}>
                   <QRCode
@@ -113,23 +117,39 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
                   />
                 </View>
               )}
-              
+
               <View style={styles.buttonRow}>
-                <Pressable style={[styles.button, styles.secondary]} onPress={handleShare}>
-                  <Text style={[styles.buttonText, styles.secondaryText]}>Share</Text>
+                <Pressable
+                  style={[styles.button, styles.secondary]}
+                  onPress={handleShare}
+                >
+                  <Text style={[styles.buttonText, styles.secondaryText]}>
+                    Share
+                  </Text>
                 </Pressable>
-                <Pressable style={[styles.button, styles.secondary]} onPress={handleCopy}>
-                  <Text style={[styles.buttonText, styles.secondaryText]}>Copy</Text>
+                <Pressable
+                  style={[styles.button, styles.secondary]}
+                  onPress={handleCopy}
+                >
+                  <Text style={[styles.buttonText, styles.secondaryText]}>
+                    Copy
+                  </Text>
                 </Pressable>
               </View>
-              
-              <Pressable style={[styles.button, styles.tertiary]} onPress={() => setGeneratedCode(null)}>
+
+              <Pressable
+                style={[styles.button, styles.tertiary]}
+                onPress={() => setGeneratedCode(null)}
+              >
                 <Text style={styles.tertiaryText}>Generate New Code</Text>
               </Pressable>
             </View>
           )}
-          
-          <Pressable style={[styles.button, styles.scanButton]} onPress={() => setShowScanner(true)}>
+
+          <Pressable
+            style={[styles.button, styles.scanButton]}
+            onPress={() => setShowScanner(true)}
+          >
             <Text style={styles.buttonText}>Enter Partner's Code</Text>
           </Pressable>
         </>
@@ -138,7 +158,7 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
           <Text style={styles.description}>
             Enter the code your partner shared with you:
           </Text>
-          
+
           <TextInput
             style={styles.input}
             placeholder="XXXX-XXXX:encoded-data"
@@ -147,12 +167,15 @@ export default function ShareCodePanel({ profileId }: ShareCodePanelProps) {
             onChangeText={setScannedCode}
             autoCapitalize="characters"
           />
-          
+
           <Pressable style={styles.button} onPress={handleScan}>
             <Text style={styles.buttonText}>Check Compatibility</Text>
           </Pressable>
-          
-          <Pressable style={[styles.button, styles.tertiary]} onPress={() => setShowScanner(false)}>
+
+          <Pressable
+            style={[styles.button, styles.tertiary]}
+            onPress={() => setShowScanner(false)}
+          >
             <Text style={styles.tertiaryText}>Cancel</Text>
           </Pressable>
         </View>
@@ -176,11 +199,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   description: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#aaa',
     marginBottom: 20,
     textAlign: 'center',
-    lineHeight: 20,
+    lineHeight: 23,
   },
   button: {
     backgroundColor: '#e94560',
@@ -208,7 +231,7 @@ const styles = StyleSheet.create({
   },
   tertiaryText: {
     color: '#e94560',
-    fontSize: 14,
+    fontSize: 16,
   },
   scanButton: {
     backgroundColor: '#0f3460',
@@ -219,7 +242,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   codeLabel: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#aaa',
     marginBottom: 8,
   },

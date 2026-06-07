@@ -713,7 +713,7 @@ const styles = StyleSheet.create({
   },
   pvLabel: {
     fontFamily: FONTS.bold,
-    fontSize: 10,
+    fontSize: 16,
     color: COLORS.textSecondary,
     letterSpacing: 1.5,
   },
@@ -811,8 +811,8 @@ const styles = StyleSheet.create({
     left: 20,
     top: 102,
     fontFamily: FONTS.bold,
-    fontSize: 10,
-    color: 'rgba(255,45,146,0.55)',
+    fontSize: 16,
+    color: COLORS.pink,
     letterSpacing: 2,
   },
   vennLabelRight: {
@@ -820,8 +820,8 @@ const styles = StyleSheet.create({
     right: 10,
     top: 102,
     fontFamily: FONTS.bold,
-    fontSize: 10,
-    color: 'rgba(139,92,246,0.55)',
+    fontSize: 16,
+    color: COLORS.purple,
     letterSpacing: 1.5,
   },
   vennSparkleA: {
@@ -859,7 +859,7 @@ const styles = StyleSheet.create({
   },
   vennMatchText: {
     fontFamily: FONTS.bold,
-    fontSize: 11,
+    fontSize: 16,
     color: COLORS.primary,
     letterSpacing: 1,
   },
@@ -965,9 +965,9 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     minWidth: 0,
     fontFamily: FONTS.medium,
-    fontSize: 12,
+    fontSize: 16,
     color: COLORS.textSecondary,
-    lineHeight: 17,
+    lineHeight: 23,
   },
   legalLinksRow: {
     flexDirection: 'row',
@@ -978,12 +978,12 @@ const styles = StyleSheet.create({
   },
   legalLink: {
     fontFamily: FONTS.bold,
-    fontSize: 12,
+    fontSize: 16,
     color: COLORS.primary,
   },
   legalDivider: {
     fontFamily: FONTS.regular,
-    fontSize: 12,
+    fontSize: 16,
     color: COLORS.textSecondary,
   },
 

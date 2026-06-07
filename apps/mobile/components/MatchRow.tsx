@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: '#a1a1aa',
-    fontSize: 13,
+    fontSize: 16,
   },
   chipsRow: {
     flexDirection: 'row',
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   chipText: {
     color: 'white',
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: 16,
   },
   conversationButton: {
     flexDirection: 'row',
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   conversationButtonText: {
     color: COLORS.primary,
     fontWeight: '700',
-    fontSize: 13,
+    fontSize: 16,
   },
 });
 

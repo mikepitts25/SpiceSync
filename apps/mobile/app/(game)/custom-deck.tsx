@@ -8,7 +8,10 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
@@ -26,7 +29,7 @@ export default function CustomDeckBuilder() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const unlocked = useSettingsStore((state) => state.unlocked);
-  
+
   const [content, setContent] = useState('');
   const [selectedType, setSelectedType] = useState<GameCardType>('truth');
   const [intensity, setIntensity] = useState(3);
@@ -41,7 +44,7 @@ export default function CustomDeckBuilder() {
           <Text style={styles.lockedText}>
             Create your own custom cards with SpiceSync Premium
           </Text>
-          <Pressable 
+          <Pressable
             style={styles.upgradeButton}
             onPress={() => router.push('/(unlock)')}
           >
@@ -74,12 +77,12 @@ export default function CustomDeckBuilder() {
   };
 
   const handleDeleteCard = (id: string) => {
-    setCustomCards(customCards.filter(c => c.id !== id));
+    setCustomCards(customCards.filter((c) => c.id !== id));
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
       >
@@ -105,10 +108,12 @@ export default function CustomDeckBuilder() {
                 onPress={() => setSelectedType(type.id)}
               >
                 <Text style={styles.typeEmoji}>{type.emoji}</Text>
-                <Text style={[
-                  styles.typeText,
-                  selectedType === type.id && styles.typeTextSelected,
-                ]}>
+                <Text
+                  style={[
+                    styles.typeText,
+                    selectedType === type.id && styles.typeTextSelected,
+                  ]}
+                >
                   {type.name}
                 </Text>
               </Pressable>
@@ -129,10 +134,12 @@ export default function CustomDeckBuilder() {
                 ]}
                 onPress={() => setIntensity(level)}
               >
-                <Text style={[
-                  styles.intensityText,
-                  intensity >= level && styles.intensityTextActive,
-                ]}>
+                <Text
+                  style={[
+                    styles.intensityText,
+                    intensity >= level && styles.intensityTextActive,
+                  ]}
+                >
                   {level}
                 </Text>
               </Pressable>
@@ -168,15 +175,19 @@ export default function CustomDeckBuilder() {
             {customCards.map((card) => (
               <View key={card.id} style={styles.cardItem}>
                 <View style={styles.cardHeader}>
-                  <Text style={styles.cardType}>{CARD_TYPES.find(t => t.id === card.type)?.emoji}</Text>
+                  <Text style={styles.cardType}>
+                    {CARD_TYPES.find((t) => t.id === card.type)?.emoji}
+                  </Text>
                   <View style={styles.cardIntensity}>
                     {[...Array(card.intensity)].map((_, i) => (
-                      <Text key={i} style={styles.intensityStar}>🔥</Text>
+                      <Text key={i} style={styles.intensityStar}>
+                        🔥
+                      </Text>
                     ))}
                   </View>
                 </View>
                 <Text style={styles.cardContent}>{card.content}</Text>
-                <Pressable 
+                <Pressable
                   style={styles.deleteButton}
                   onPress={() => handleDeleteCard(card.id)}
                 >
@@ -374,14 +385,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   intensityStar: {
-    fontSize: 14,
+    fontSize: 16,
   },
   cardContent: {
     fontFamily: FONTS.regular,
     fontSize: SIZES.body,
     color: COLORS.text,
     marginBottom: SIZES.padding,
-    lineHeight: 22,
+    lineHeight: 23,
   },
   deleteButton: {
     alignSelf: 'flex-start',

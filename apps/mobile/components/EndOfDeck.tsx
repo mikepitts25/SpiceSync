@@ -20,9 +20,7 @@ export default function EndOfDeck({ onReset, onViewMatches }: Props) {
       ]}
     >
       <Text style={styles.title}>{t.deck.endOfDeck}</Text>
-      <Text style={styles.subtitle}>
-        {t.deck.endOfDeckDesc}
-      </Text>
+      <Text style={styles.subtitle}>{t.deck.endOfDeckDesc}</Text>
 
       <Pressable
         style={[styles.button, styles.secondary]}
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center',
   },
-  subtitle: { color: '#94a3b8', textAlign: 'center', lineHeight: 20 },
+  subtitle: { color: '#94a3b8', textAlign: 'center', lineHeight: 23 },
   button: {
     width: '100%',
     borderRadius: 14,

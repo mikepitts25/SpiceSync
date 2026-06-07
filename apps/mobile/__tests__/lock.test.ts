@@ -2,6 +2,7 @@ jest.mock('expo-local-authentication', () => ({}));
 jest.mock('expo-secure-store', () => ({}));
 
 import {
+  authenticateWithBiometrics,
   getBiometricSupport,
   mapAuthenticationResult,
   shouldLockForAppStateChange,
@@ -53,6 +54,36 @@ describe('biometric app lock helpers', () => {
       ok: false,
       message: 'Could not verify your identity. Try again.',
     });
+
+    expect(
+      mapAuthenticationResult({
+        success: false,
+        error: 'missing_usage_description',
+      })
+    ).toEqual({
+      ok: false,
+      message: 'Face ID permission is missing from this build.',
+    });
+  });
+
+  it('requests biometric-only authentication without device passcode fallback', async () => {
+    const authenticateAsync = jest.fn().mockResolvedValue({ success: true });
+
+    await expect(
+      authenticateWithBiometrics('Unlock SpiceSync', {
+        hasHardwareAsync: jest.fn().mockResolvedValue(true),
+        isEnrolledAsync: jest.fn().mockResolvedValue(true),
+        authenticateAsync,
+      })
+    ).resolves.toEqual({ ok: true });
+
+    expect(authenticateAsync).toHaveBeenCalledWith(
+      expect.objectContaining({
+        biometricsSecurityLevel: 'weak',
+        disableDeviceFallback: true,
+        fallbackLabel: '',
+      })
+    );
   });
 
   it('locks immediately when biometric lock is enabled and the app leaves active state', () => {

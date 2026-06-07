@@ -78,7 +78,7 @@ const ConversationTimer = ({
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
+
     if (isRunning && secondsRemaining > 0) {
       interval = setInterval(() => {
         setSecondsRemaining((prev) => {
@@ -132,7 +132,11 @@ const ConversationTimer = ({
             {
               width: progressWidth,
               backgroundColor:
-                secondsRemaining < 60 ? COLORS.danger : secondsRemaining < 120 ? COLORS.warning : COLORS.yes,
+                secondsRemaining < 60
+                  ? COLORS.danger
+                  : secondsRemaining < 120
+                    ? COLORS.warning
+                    : COLORS.yes,
             },
           ]}
         />
@@ -215,14 +219,31 @@ const DateNightCard = ({
         {/* Category & Intensity */}
         <View style={styles.cardHeader}>
           {category && (
-            <View style={[styles.categoryBadge, { backgroundColor: `${category.color}30` }]}>
-              <Text style={[styles.categoryBadgeText, { color: category.color }]}>
+            <View
+              style={[
+                styles.categoryBadge,
+                { backgroundColor: `${category.color}30` },
+              ]}
+            >
+              <Text
+                style={[styles.categoryBadgeText, { color: category.color }]}
+              >
                 {category.subtitle}
               </Text>
             </View>
           )}
-          <View style={[styles.intensityBadge, { backgroundColor: `${intensity.color}30` }]}>
-            <View style={[styles.intensityDot, { backgroundColor: intensity.color }]} />
+          <View
+            style={[
+              styles.intensityBadge,
+              { backgroundColor: `${intensity.color}30` },
+            ]}
+          >
+            <View
+              style={[
+                styles.intensityDot,
+                { backgroundColor: intensity.color },
+              ]}
+            />
             <Text style={[styles.intensityText, { color: intensity.color }]}>
               {intensity.label}
             </Text>
@@ -237,7 +258,11 @@ const DateNightCard = ({
         {/* Context */}
         {starter.context && (
           <View style={styles.contextContainer}>
-            <Sparkles size={16} color={COLORS.accent} style={styles.contextIcon} />
+            <Sparkles
+              size={16}
+              color={COLORS.accent}
+              style={styles.contextIcon}
+            />
             <Text style={styles.contextText}>{starter.context}</Text>
           </View>
         )}
@@ -254,7 +279,9 @@ const DateNightCard = ({
             <ChevronRight
               size={20}
               color={COLORS.primary}
-              style={{ transform: [{ rotate: showFollowUps ? '90deg' : '0deg' }] }}
+              style={{
+                transform: [{ rotate: showFollowUps ? '90deg' : '0deg' }],
+              }}
             />
           </TouchableOpacity>
         )}
@@ -357,14 +384,16 @@ const SettingsModal = ({
                     key={mins}
                     style={[
                       styles.timerOption,
-                      settings.timerMinutes === mins && styles.timerOptionActive,
+                      settings.timerMinutes === mins &&
+                        styles.timerOptionActive,
                     ]}
                     onPress={() => onUpdate({ timerMinutes: mins })}
                   >
                     <Text
                       style={[
                         styles.timerOptionText,
-                        settings.timerMinutes === mins && styles.timerOptionTextActive,
+                        settings.timerMinutes === mins &&
+                          styles.timerOptionTextActive,
                       ]}
                     >
                       {mins}
@@ -381,7 +410,9 @@ const SettingsModal = ({
           <View style={styles.settingRow}>
             <View>
               <Text style={styles.settingLabel}>Include Intimate Topics</Text>
-              <Text style={styles.settingDescription}>Adds spicy conversation starters</Text>
+              <Text style={styles.settingDescription}>
+                Adds spicy conversation starters
+              </Text>
             </View>
             <TouchableOpacity
               style={[
@@ -409,7 +440,8 @@ const SettingsModal = ({
                 key={theme}
                 style={[
                   styles.themeOption,
-                  settings.backgroundTheme === theme && styles.themeOptionActive,
+                  settings.backgroundTheme === theme &&
+                    styles.themeOptionActive,
                 ]}
                 onPress={() => onUpdate({ backgroundTheme: theme })}
               >
@@ -420,7 +452,8 @@ const SettingsModal = ({
                 <Text
                   style={[
                     styles.themeOptionText,
-                    settings.backgroundTheme === theme && styles.themeOptionTextActive,
+                    settings.backgroundTheme === theme &&
+                      styles.themeOptionTextActive,
                   ]}
                 >
                   {theme.charAt(0).toUpperCase() + theme.slice(1)}
@@ -445,13 +478,21 @@ export default function DateNightScreen() {
   const [showSettings, setShowSettings] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
 
-  const { favorites, toggleFavorite, dateNightSettings, updateDateNightSettings } =
-    useConversationStore();
+  const {
+    favorites,
+    toggleFavorite,
+    dateNightSettings,
+    updateDateNightSettings,
+  } = useConversationStore();
   const { language } = useConversationTranslation();
 
   // Initialize deck
   useEffect(() => {
-    const newDeck = createDateNightDeckByLanguage(language, dateNightSettings.includeSpicy, 20);
+    const newDeck = createDateNightDeckByLanguage(
+      language,
+      dateNightSettings.includeSpicy,
+      20
+    );
     setDeck(newDeck);
   }, [dateNightSettings.includeSpicy, language]);
 
@@ -464,11 +505,20 @@ export default function DateNightScreen() {
       setTimerRunning(!!dateNightSettings.timerEnabled);
     } else {
       // End of deck - create new one
-      const newDeck = createDateNightDeckByLanguage(language, dateNightSettings.includeSpicy, 20);
+      const newDeck = createDateNightDeckByLanguage(
+        language,
+        dateNightSettings.includeSpicy,
+        20
+      );
       setDeck(newDeck);
       setCurrentIndex(0);
     }
-  }, [currentIndex, deck.length, dateNightSettings.includeSpicy, dateNightSettings.timerEnabled]);
+  }, [
+    currentIndex,
+    deck.length,
+    dateNightSettings.includeSpicy,
+    dateNightSettings.timerEnabled,
+  ]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
@@ -483,7 +533,8 @@ export default function DateNightScreen() {
   }, [currentStarter, toggleFavorite]);
 
   // Background based on theme
-  const backgroundColors = BACKGROUND_THEMES[dateNightSettings.backgroundTheme].colors;
+  const backgroundColors =
+    BACKGROUND_THEMES[dateNightSettings.backgroundTheme].colors;
 
   if (!currentStarter) {
     return (
@@ -504,7 +555,10 @@ export default function DateNightScreen() {
       <LinearGradient colors={backgroundColors} style={styles.background}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.headerButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.headerButton}
+          >
             <X size={24} color={COLORS.text} />
           </TouchableOpacity>
 
@@ -513,7 +567,10 @@ export default function DateNightScreen() {
             <Text style={styles.headerTitle}>Date Night</Text>
           </View>
 
-          <TouchableOpacity onPress={() => setShowSettings(true)} style={styles.headerButton}>
+          <TouchableOpacity
+            onPress={() => setShowSettings(true)}
+            style={styles.headerButton}
+          >
             <Settings size={24} color={COLORS.text} />
           </TouchableOpacity>
         </View>
@@ -557,11 +614,17 @@ export default function DateNightScreen() {
         {/* Navigation */}
         <View style={styles.navigation}>
           <TouchableOpacity
-            style={[styles.navButton, currentIndex === 0 && styles.navButtonDisabled]}
+            style={[
+              styles.navButton,
+              currentIndex === 0 && styles.navButtonDisabled,
+            ]}
             onPress={handlePrevious}
             disabled={currentIndex === 0}
           >
-            <ChevronLeft size={28} color={currentIndex === 0 ? COLORS.textMuted : COLORS.text} />
+            <ChevronLeft
+              size={28}
+              color={currentIndex === 0 ? COLORS.textMuted : COLORS.text}
+            />
           </TouchableOpacity>
 
           <View style={styles.navCenter}>
@@ -725,7 +788,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   categoryBadgeText: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1,
@@ -744,7 +807,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   intensityText: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
   },
   questionContainer: {
@@ -773,7 +836,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
     fontStyle: 'italic',
-    lineHeight: 22,
+    lineHeight: 23,
   },
   followUpsToggle: {
     flexDirection: 'row',
@@ -809,7 +872,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   followUpNumberText: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
     color: '#fff',
   },
