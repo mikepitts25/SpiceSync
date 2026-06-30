@@ -8,14 +8,13 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Audio } from 'expo-av';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
 import {
   GameCard,
   GameCardType,
@@ -31,6 +30,8 @@ import {
   formatGameCardTimerSeconds,
   parseGameCardTimerSeconds,
 } from '../../lib/gameTimer';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
+import { appendCustomGameCards } from '../../lib/gameDeck';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -65,10 +66,12 @@ export default function CardDraw() {
     levels: string;
     drinkingMode: string;
   }>();
-  const unlocked = useSettingsStore((state) => state.unlocked);
+  const localUnlocked = useSettingsStore((state) => state.unlocked);
+  const unlocked = hasPremiumFeatureAccess(localUnlocked);
   const language = useSettingsStore((state) => state.language);
   const drinkingModeStore = useSettingsStore((state) => state.drinkingMode);
   const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
+  const customCards = useCustomGameCardsStore((state) => state.cards);
   const { t } = useTranslation();
 
   // Sync URL param to store on mount (for backward compatibility)
@@ -186,7 +189,10 @@ export default function CardDraw() {
     const selectedLevels = normalizeGameIntensityLevels(levels ?? intensity);
 
     // Get available cards based on language
-    const availableCards = getCardsByLanguage(language, unlocked);
+    const availableCards = appendCustomGameCards(
+      getCardsByLanguage(language, unlocked),
+      customCards
+    );
 
     // Filter by type if specified
     let filteredCards =

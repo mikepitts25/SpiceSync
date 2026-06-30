@@ -21,13 +21,27 @@ type SupabaseRpcResult<T> = {
   error: SupabaseRpcError | null;
 };
 
+type SupabaseAuthUser = {
+  id?: string | null;
+};
+
+type SupabaseAuthSession = {
+  user?: SupabaseAuthUser | null;
+  [key: string]: unknown;
+};
+
+type SupabaseAnonymousSignInData = {
+  user?: SupabaseAuthUser | null;
+  session?: SupabaseAuthSession | null;
+};
+
 type SupabaseRelayAuth = {
   getSession: () => Promise<{
-    data?: { session?: unknown | null } | null;
+    data?: { session?: SupabaseAuthSession | null } | null;
     error?: SupabaseRpcError | null;
   }>;
   signInAnonymously: () => Promise<{
-    data?: unknown;
+    data?: SupabaseAnonymousSignInData | null;
     error?: SupabaseRpcError | null;
   }>;
 };
@@ -61,6 +75,18 @@ export class SupabaseRelayClient {
     return { ok: true };
   }
 
+  async getAuthenticatedUserId(): Promise<string> {
+    const userId = await this.ensureAnonymousSession();
+    if (!userId) {
+      throw new RelayHttpError(
+        401,
+        'SUPABASE_AUTH_ERROR',
+        'Supabase auth user id is unavailable'
+      );
+    }
+    return userId;
+  }
+
   async createInvite(
     body: CreateInviteRequest
   ): Promise<CreateInviteResponse> {
@@ -71,6 +97,7 @@ export class SupabaseRelayClient {
     }>('spicesync_create_invite', {
       p_inviter_device_id: body.inviterDeviceId,
       p_inviter_public_key: body.inviterPublicKey,
+      p_inviter_signing_public_key: body.inviterSigningPublicKey,
       p_invite_secret_hash: body.inviteSecretHash,
       p_inviter_profile_name: body.inviterProfileName ?? null,
       p_inviter_profile_avatar: body.inviterProfileAvatar ?? null,
@@ -98,6 +125,7 @@ export class SupabaseRelayClient {
       p_invite_id: inviteId,
       p_accepter_device_id: body.accepterDeviceId,
       p_accepter_public_key: body.accepterPublicKey,
+      p_accepter_signing_public_key: body.accepterSigningPublicKey,
       p_invite_proof: body.inviteProof,
       p_accepter_profile_name: body.accepterProfileName ?? null,
       p_accepter_profile_avatar: body.accepterProfileAvatar ?? null,
@@ -167,7 +195,7 @@ export class SupabaseRelayClient {
     return data;
   }
 
-  private async ensureAnonymousSession(): Promise<void> {
+  private async ensureAnonymousSession(): Promise<string | null> {
     const sessionResult = await this.supabase.auth.getSession();
     if (sessionResult.error) {
       throw new RelayHttpError(
@@ -177,7 +205,9 @@ export class SupabaseRelayClient {
       );
     }
 
-    if (sessionResult.data?.session) return;
+    if (sessionResult.data?.session) {
+      return sessionResult.data.session.user?.id ?? null;
+    }
 
     const signInResult = await this.supabase.auth.signInAnonymously();
     if (signInResult.error) {
@@ -187,5 +217,11 @@ export class SupabaseRelayClient {
         signInResult.error.message || 'Could not create anonymous session'
       );
     }
+
+    return (
+      signInResult.data?.user?.id ??
+      signInResult.data?.session?.user?.id ??
+      null
+    );
   }
 }

@@ -42,6 +42,21 @@ describe('match experience helpers', () => {
     ).toBe('Shared interest.');
   });
 
+  it('explains when a partner matched through a counterpart card', () => {
+    expect(
+      describeRoleCompatibility({
+        ...baseMatch,
+        title: 'Service Submission',
+        matchedWithId: 'service-topping',
+        matchedWithTitle: 'Service Topping',
+        myPairPreference: 'receive',
+        partnerPairPreference: 'give',
+      })
+    ).toBe(
+      'You chose Receive; partner chose Give. Partner matched with Service Topping.'
+    );
+  });
+
   it('creates a compact try-tonight plan for a match', () => {
     const plan = createMatchPlan(baseMatch);
 

@@ -1,6 +1,7 @@
 export type CreateInviteRequest = {
   inviterDeviceId: string;
   inviterPublicKey: string;
+  inviterSigningPublicKey: string;
   inviteSecretHash: string;
   inviterProfileName?: string | null;
   inviterProfileAvatar?: string | null;
@@ -18,6 +19,7 @@ export type InviteResponse = {
   inviteId: string;
   inviterDeviceId: string;
   inviterPublicKey: string;
+  inviterSigningPublicKey: string;
   inviterProfileName?: string | null;
   inviterProfileAvatar?: string | null;
   expiresAt: number;
@@ -29,6 +31,7 @@ export type InviteResponse = {
 export type AcceptInviteRequest = {
   accepterDeviceId: string;
   accepterPublicKey: string;
+  accepterSigningPublicKey: string;
   inviteProof: string;
   accepterProfileName?: string | null;
   accepterProfileAvatar?: string | null;
@@ -40,6 +43,8 @@ export type AcceptInviteResponse = {
   memberBDeviceId: string;
   memberAPublicKey: string;
   memberBPublicKey: string;
+  memberASigningPublicKey: string;
+  memberBSigningPublicKey: string;
   memberAProfileName?: string | null;
   memberBProfileName?: string | null;
   memberAProfileAvatar?: string | null;
@@ -53,6 +58,8 @@ export type CoupleResponse = {
   memberBDeviceId: string;
   memberAPublicKey: string;
   memberBPublicKey: string;
+  memberASigningPublicKey: string;
+  memberBSigningPublicKey: string;
   memberAProfileName?: string | null;
   memberBProfileName?: string | null;
   memberAProfileAvatar?: string | null;
@@ -78,6 +85,7 @@ export type SyncEventResponse = {
   clientSequence: number;
   encryptedPayload: string;
   payloadHash: string;
+  signature: string;
   createdAt: number;
   expiresAt: number | null;
 };

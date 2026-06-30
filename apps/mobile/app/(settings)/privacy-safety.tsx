@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import {

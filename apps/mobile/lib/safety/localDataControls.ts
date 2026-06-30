@@ -1,4 +1,5 @@
 import { useProfilesStore } from '../state/profiles';
+import { useSettings } from '../state/useStore';
 import { useCoupleLinkStore } from '../sync/coupleLink';
 import { useEventQueueStore } from '../sync/eventQueue';
 import { clearIdentity } from '../sync/identity';
@@ -32,5 +33,6 @@ export async function resetAppOnDevice(): Promise<void> {
     profiles: [],
     ageVerified: false,
   });
+  useSettings.getState().setAgeConfirmed(false);
   await clearIdentity();
 }

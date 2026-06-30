@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
@@ -26,11 +26,11 @@ const PROFILE_COLORS = [
   COLORS.no,
 ];
 
-const ACTIVE_PROFILE_AVATAR_SIZE = 64;
-const PROFILE_STRIP_AVATAR_SIZE = 56;
-const PROFILE_STRIP_ICON_SIZE = 46;
-const PARTNER_AVATAR_SIZE = 56;
-const PARTNER_AVATAR_ICON_SIZE = 44;
+const ACTIVE_PROFILE_AVATAR_SIZE = 76;
+const PROFILE_STRIP_AVATAR_SIZE = 68;
+const PROFILE_STRIP_ICON_SIZE = 58;
+const PARTNER_AVATAR_SIZE = 64;
+const PARTNER_AVATAR_ICON_SIZE = 52;
 const PARTNER_OVERLAP = 18;
 const PARTNER_HEART_SIZE = 26;
 const PARTNER_HEART_LEFT =
@@ -268,8 +268,8 @@ export default function ProfilesHubScreen() {
 
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="See your matches"
-                onPress={() => router.push('/(tabs)/matches')}
+                accessibilityLabel="Open partner sync"
+                onPress={() => router.push('/(settings)/partner-sync')}
                 style={styles.seeMatchesPress}
               >
                 <LinearGradient
@@ -283,7 +283,7 @@ export default function ProfilesHubScreen() {
                     color={COLORS.textPrimary}
                     fill={COLORS.textPrimary}
                   />
-                  <Text style={styles.seeMatchesText}>See your matches</Text>
+                  <Text style={styles.seeMatchesText}>Partner sync</Text>
                 </LinearGradient>
               </Pressable>
             </View>
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
   },
   activeNowText: {
     color: COLORS.textPrimary,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '600',
   },
   streakBadge: {
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   },
   streakText: {
     color: COLORS.textPrimary,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
   },
 
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     color: 'rgba(255,255,255,0.75)',
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: '600',
     letterSpacing: 0.3,
   },
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
   },
   viewVotesText: {
     color: '#1A0810',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.5,
   },
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
   },
   sectionAction: {
     color: COLORS.purpleLight,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
   },
 
@@ -520,12 +520,12 @@ const styles = StyleSheet.create({
   },
   syncedText: {
     color: COLORS.yes,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '700',
   },
   partnerSubtext: {
     color: COLORS.textMuted,
-    fontSize: 12,
+    fontSize: 16,
     textAlign: 'center',
   },
   seeMatchesPress: {
@@ -543,7 +543,7 @@ const styles = StyleSheet.create({
   },
   seeMatchesText: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
 

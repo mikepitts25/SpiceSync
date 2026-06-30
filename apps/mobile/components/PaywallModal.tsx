@@ -7,13 +7,12 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from './SafeAreaView';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
 import { usePremiumStore, FEATURES } from '../src/stores/premium';
 import { PRICING, PACKS, formatPrice, PRODUCT_SKUS } from '../lib/pricing';
+import { hasPremiumFeatureAccess } from '../lib/purchases/access';
 import { useRouter } from 'expo-router';
 
 export default function PaywallModal() {
@@ -22,7 +21,7 @@ export default function PaywallModal() {
   const { showPaywall, closePaywall, paywallFeature, isPremium, hasPack } =
     usePremiumStore();
 
-  const isUserPremium = isPremium();
+  const isUserPremium = hasPremiumFeatureAccess(isPremium());
 
   const handleUpgrade = () => {
     closePaywall();

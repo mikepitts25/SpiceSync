@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   Easing,

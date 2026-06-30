@@ -6,12 +6,14 @@ const nonEmpty = z.string().trim().min(1);
 const createInviteSchema = z.object({
   inviterDeviceId: nonEmpty,
   inviterPublicKey: nonEmpty,
+  inviterSigningPublicKey: nonEmpty,
   inviteSecretHash: nonEmpty,
 });
 
 const acceptInviteSchema = z.object({
   accepterDeviceId: nonEmpty,
   accepterPublicKey: nonEmpty,
+  accepterSigningPublicKey: nonEmpty,
   inviteProof: nonEmpty,
 });
 

@@ -13,6 +13,8 @@ export type MatchExperienceItem = {
   tier?: Tier;
   tags: string[];
   pairMode?: boolean;
+  matchedWithId?: string;
+  matchedWithTitle?: string;
   myVote?: VoteValue;
   partnerVote?: VoteValue;
   myPairPreference?: PairPreference;
@@ -41,12 +43,15 @@ export function describeRoleCompatibility(item: MatchExperienceItem): string {
 
   const mine = item.myPairPreference ?? 'both';
   const partner = item.partnerPairPreference ?? 'both';
+  const counterpart = item.matchedWithTitle
+    ? ` Partner matched with ${item.matchedWithTitle}.`
+    : '';
 
   if (mine === 'both' && partner === 'both') {
-    return 'You both chose Both.';
+    return `You both chose Both.${counterpart}`;
   }
 
-  return `You chose ${roleLabel(mine)}; partner chose ${roleLabel(partner)}.`;
+  return `You chose ${roleLabel(mine)}; partner chose ${roleLabel(partner)}.${counterpart}`;
 }
 
 export function createMatchPlan(item: MatchExperienceItem): MatchPlanStep[] {

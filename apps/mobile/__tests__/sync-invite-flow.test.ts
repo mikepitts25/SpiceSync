@@ -96,6 +96,7 @@ describe('invite flow', () => {
     const body = JSON.parse((init as any).body);
     expect(body.inviteSecretHash).toBe(sha256Base64(handle.inviteSecret));
     expect(body.inviteSecretHash).not.toBe(handle.inviteSecret);
+    expect(body.inviterSigningPublicKey).toEqual(expect.any(String));
     expect(body.inviterProfileName).toBe('Alex');
     expect(body.inviterProfileAvatar).toBe('fire');
   });
@@ -114,6 +115,7 @@ describe('invite flow', () => {
               inviteId: 'inv_1',
               inviterDeviceId: 'dev_a',
               inviterPublicKey: 'partner_enc_pub',
+              inviterSigningPublicKey: 'partner_sign_pub',
               inviterProfileName: 'Sam',
               inviterProfileAvatar: 'cherries',
               expiresAt: 9999,
@@ -126,6 +128,7 @@ describe('invite flow', () => {
         if (url.endsWith('/invites/inv_1/accept')) {
           const body = JSON.parse(init.body);
           expect(body.inviteProof).toBe(expectedProof);
+          expect(body.accepterSigningPublicKey).toEqual(expect.any(String));
           return Promise.resolve({
             ok: true,
             json: async () => ({
@@ -134,6 +137,8 @@ describe('invite flow', () => {
               memberBDeviceId: body.accepterDeviceId,
               memberAPublicKey: 'partner_enc_pub',
               memberBPublicKey: body.accepterPublicKey,
+              memberASigningPublicKey: 'partner_sign_pub',
+              memberBSigningPublicKey: body.accepterSigningPublicKey,
               memberAProfileName: 'Sam',
               memberAProfileAvatar: 'cherries',
               memberBProfileName: body.accepterProfileName,
@@ -166,6 +171,7 @@ describe('invite flow', () => {
     const link = useCoupleLinkStore.getState().link!;
     expect(link.status).toBe('active');
     expect(link.partnerEncryptionPublicKey).toBe('partner_enc_pub');
+    expect(link.partnerSigningPublicKey).toBe('partner_sign_pub');
     expect(link.myDeviceId).toMatch(/^dev_/);
     expect(link.partnerDeviceId).toBe('dev_a');
     expect(link.partnerProfileName).toBe('Sam');
@@ -185,6 +191,7 @@ describe('invite flow', () => {
             inviteId: 'inv_2',
             inviterDeviceId: 'dev_self',
             inviterPublicKey: 'self_pub',
+            inviterSigningPublicKey: 'self_sign_pub',
             expiresAt: 9999,
             acceptedAt: status === 'accepted' ? 1 : null,
             coupleId: status === 'accepted' ? 'cpl_2' : null,
@@ -201,6 +208,8 @@ describe('invite flow', () => {
             memberBDeviceId: 'dev_partner',
             memberAPublicKey: 'self_pub',
             memberBPublicKey: 'partner_pub',
+            memberASigningPublicKey: 'self_sign_pub',
+            memberBSigningPublicKey: 'partner_sign_pub',
             memberAProfileName: 'Me',
             memberAProfileAvatar: 'fire',
             memberBProfileName: 'Partner',
@@ -226,6 +235,9 @@ describe('invite flow', () => {
     expect(result?.coupleId).toBe('cpl_2');
     expect(useCoupleLinkStore.getState().link?.partnerEncryptionPublicKey).toBe(
       'partner_pub'
+    );
+    expect(useCoupleLinkStore.getState().link?.partnerSigningPublicKey).toBe(
+      'partner_sign_pub'
     );
   });
 });

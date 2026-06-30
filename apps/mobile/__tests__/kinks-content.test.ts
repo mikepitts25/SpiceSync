@@ -204,6 +204,24 @@ const PAIRED_KINK_KEYS = [
   'pegging',
 ];
 
+const ROLE_ORIENTED_DESCRIPTION_PATTERN =
+  /\b(your partner|your partner's|each other|each other's|give your|giving or receiving|receive|receiving|take turns|focus on|watching their reactions)\b/i;
+const SPANISH_ROLE_ORIENTED_DESCRIPTION_PATTERN =
+  /\b(tu pareja|su pareja|de su pareja|del otro|el uno por el otro|el uno al otro|uno al otro|túrnense|turnense|dar o recibir|recibir|quien recibe|dar placer|la otra|el otro|una pareja|otra pareja|a la pareja|observas sus reacciones)\b/i;
+const LEGACY_ROLE_TITLE_PATTERN =
+  /\s*\((?:giving|receiving|give|receive|giving oral|receiving oral|dar|recibir|dar oral|recibir oral)\)\s*$/i;
+
+type KinkContentRecord = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  descriptionEs?: string;
+  pairMode?: boolean;
+  pairKey?: string;
+  pairRole?: string;
+};
+
 function duplicates(values: string[]) {
   const seen = new Set<string>();
   return values.filter((value) => {
@@ -219,8 +237,8 @@ describe('kink content policy', () => {
     const removedSlugs = new Set(REMOVED_PHYSICAL_HARM_SLUGS);
 
     for (const [language, kinks] of [
-      ['en', kinksEN],
-      ['es', kinksES],
+      ['en', kinksEN as KinkContentRecord[]],
+      ['es', kinksES as KinkContentRecord[]],
     ] as const) {
       expect({
         language,
@@ -254,8 +272,8 @@ describe('kink content policy', () => {
 
   it('models role-selectable kink activities as one topic row in both languages', () => {
     for (const [language, kinks] of [
-      ['en', kinksEN],
-      ['es', kinksES],
+      ['en', kinksEN as KinkContentRecord[]],
+      ['es', kinksES as KinkContentRecord[]],
     ] as const) {
       for (const pairKey of PAIRED_KINK_KEYS) {
         const item = kinks.find((kink) => kink.slug === pairKey);
@@ -281,8 +299,8 @@ describe('kink content policy', () => {
 
   it('does not keep legacy give or receive source rows', () => {
     for (const [language, kinks] of [
-      ['en', kinksEN],
-      ['es', kinksES],
+      ['en', kinksEN as KinkContentRecord[]],
+      ['es', kinksES as KinkContentRecord[]],
     ] as const) {
       expect({
         language,
@@ -292,8 +310,41 @@ describe('kink content policy', () => {
         legacyRoleSuffixes: kinks
           .filter((kink) => /-(give|receive)$/.test(kink.slug))
           .map((kink) => kink.slug),
-      }).toEqual({ language, legacyPairFields: [], legacyRoleSuffixes: [] });
+        legacyRoleTitles: kinks
+          .filter((kink) => LEGACY_ROLE_TITLE_PATTERN.test(kink.title))
+          .map((kink) => kink.title),
+      }).toEqual({
+        language,
+        legacyPairFields: [],
+        legacyRoleSuffixes: [],
+        legacyRoleTitles: [],
+      });
     }
+  });
+
+  it('keeps role-selectable descriptions neutral to give, receive, or both', () => {
+    const roleOrientedDescriptions = kinksEN
+      .filter((kink) => ROLE_ORIENTED_DESCRIPTION_PATTERN.test(kink.description))
+      .map((kink) => `${kink.id} ${kink.title}: ${kink.description}`);
+
+    expect(roleOrientedDescriptions).toEqual([]);
+  });
+
+  it('keeps Spanish role-selectable descriptions neutral to give, receive, or both', () => {
+    const roleOrientedDescriptions = [
+      ...kinksES
+        .filter((kink) =>
+          SPANISH_ROLE_ORIENTED_DESCRIPTION_PATTERN.test(kink.description)
+        )
+        .map((kink) => `es ${kink.id} ${kink.title}: ${kink.description}`),
+      ...kinksEN
+        .filter((kink) =>
+          SPANISH_ROLE_ORIENTED_DESCRIPTION_PATTERN.test(kink.descriptionEs)
+        )
+        .map((kink) => `en.descriptionEs ${kink.id} ${kink.title}: ${kink.descriptionEs}`),
+    ];
+
+    expect(roleOrientedDescriptions).toEqual([]);
   });
 
   it('includes the allowed Kink Match expansion concepts in primary language data', () => {

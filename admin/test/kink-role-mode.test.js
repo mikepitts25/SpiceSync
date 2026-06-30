@@ -70,6 +70,19 @@ test("enableRoleModeForKinks can turn the selector on for every topic", () => {
   );
 });
 
+test("enableRoleModeForKinks removes legacy role labels from titles", () => {
+  const result = enableRoleModeForKinks([
+    kink({
+      title: "Face Sitting (Giving Oral)",
+      titleEs: "Sentarse en la Cara (Dar Oral)",
+      slug: "face-sitting",
+    }),
+  ]);
+
+  assert.equal(result[0].title, "Face Sitting");
+  assert.equal(result[0].titleEs, "Sentarse en la Cara");
+});
+
 test("simplifyKinkDescription removes repetitive safety padding", () => {
   assert.equal(
     simplifyKinkDescription(

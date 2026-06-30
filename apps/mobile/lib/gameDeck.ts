@@ -64,3 +64,18 @@ export function createShuffledGameDeck(
 
   return rotateFirstCardAway(deck, avoidFirstCardId);
 }
+
+export function appendCustomGameCards(
+  cards: readonly GameCard[],
+  customCards: readonly GameCard[]
+): GameCard[] {
+  const seen = new Set(cards.map((card) => card.id));
+  return [
+    ...cards,
+    ...customCards.filter((card) => {
+      if (seen.has(card.id)) return false;
+      seen.add(card.id);
+      return true;
+    }),
+  ];
+}

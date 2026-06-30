@@ -45,6 +45,30 @@ const kinks: RevealKink[] = [
     tags: ['sensual'],
     pairMode: true,
   },
+  {
+    id: 'service-submission',
+    slug: 'service-submission',
+    title: 'Service Submission',
+    description: 'Providing attentive service.',
+    category: 'Power Exchange',
+    intensityScale: 2,
+    tier: 'naughty',
+    tags: ['service'],
+    pairMode: true,
+    matchesWith: ['service-topping'],
+  },
+  {
+    id: 'service-topping',
+    slug: 'service-topping',
+    title: 'Service Topping',
+    description: 'Guiding attentive service.',
+    category: 'Power Exchange',
+    intensityScale: 2,
+    tier: 'naughty',
+    tags: ['service'],
+    pairMode: true,
+    matchesWith: ['service-submission'],
+  },
 ];
 
 describe('computeRevealBuckets', () => {
@@ -149,6 +173,44 @@ describe('computeRevealBuckets', () => {
       },
       theirs: {
         'pair:massage': { value: 'yes', pairPreference: 'give' },
+      },
+    });
+
+    expect(buckets.mutualYes).toEqual([]);
+  });
+
+  it('matches explicit counterpart cards with compatible role preferences', () => {
+    const buckets = computeRevealBuckets({
+      kinks,
+      mine: {
+        'service-submission': { value: 'yes', pairPreference: 'receive' },
+      },
+      theirs: {
+        'service-topping': { value: 'yes', pairPreference: 'give' },
+      },
+    });
+
+    expect(buckets.mutualYes).toHaveLength(1);
+    expect(buckets.mutualYes[0]).toMatchObject({
+      id: 'service-submission',
+      title: 'Service Submission',
+      matchedWithId: 'service-topping',
+      matchedWithTitle: 'Service Topping',
+      myVote: 'yes',
+      partnerVote: 'yes',
+      myPairPreference: 'receive',
+      partnerPairPreference: 'give',
+    });
+  });
+
+  it('does not match explicit counterpart cards with incompatible role preferences', () => {
+    const buckets = computeRevealBuckets({
+      kinks,
+      mine: {
+        'service-submission': { value: 'yes', pairPreference: 'give' },
+      },
+      theirs: {
+        'service-topping': { value: 'yes', pairPreference: 'give' },
       },
     });
 

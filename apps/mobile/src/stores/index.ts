@@ -25,6 +25,9 @@ export type { Level } from './leveling';
 export { useCustomActivitiesStore } from './customActivities';
 export type { CustomActivity } from './customActivities';
 
+export { useCustomGameCardsStore } from './customGameCards';
+export type { CreateCustomGameCardInput } from './customGameCards';
+
 // Nudges
 export { useNudgesStore } from './nudges';
 export type { Nudge, NudgeType } from './nudges';

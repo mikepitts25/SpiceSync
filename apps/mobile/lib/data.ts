@@ -22,6 +22,7 @@ export type KinkItem = {
   pairMode?: boolean;
   sourceIds?: string[];
   availablePairRoles?: PairPreference[];
+  matchesWith?: string[];
 };
 
 const SPICY_HINTS = new Set([
@@ -194,7 +195,19 @@ function defaultTier(k: KinkItem): Tier {
   return 'soft';
 }
 
-export function useKinks(lang: 'en' | 'es' = 'en') {
+type KinksResult = {
+  kinks: KinkItem[];
+  kinksById: Record<string, KinkItem>;
+};
+
+// The source data is static JSON, so the (relatively expensive) collapse/tier
+// passes only need to run once per language. Caching here keeps the result a
+// stable reference across renders, avoiding a heavy synchronous recompute on
+// every screen's first render — which was dropping frames on lower-powered
+// devices during navigation.
+const kinksCache: Partial<Record<'en' | 'es', KinksResult>> = {};
+
+function computeKinks(lang: 'en' | 'es'): KinksResult {
   const base = (lang === 'es' ? (kinksES as any) : (kinksEN as any)) as any[];
   // 1) Collapse step/phase/stage sequences into one item (e.g., "Anal training" from multiple steps)
   const collapsed = normalizePairModeItems(collapsePairs(collapseSequences(base)));
@@ -205,4 +218,12 @@ export function useKinks(lang: 'en' | 'es' = 'en') {
   }));
   const kinksById = Object.fromEntries(kinks.map((k) => [k.id, k]));
   return { kinks, kinksById };
+}
+
+export function getKinks(lang: 'en' | 'es' = 'en'): KinksResult {
+  return (kinksCache[lang] ??= computeKinks(lang));
+}
+
+export function useKinks(lang: 'en' | 'es' = 'en') {
+  return getKinks(lang);
 }

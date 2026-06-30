@@ -10,9 +10,8 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
-import Animated, { FadeInUp } from 'react-native-reanimated';
 import { useFilters } from '../../lib/state/filters';
 import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
@@ -101,7 +100,7 @@ export default function KinksScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <Animated.View entering={FadeInUp.delay(100)} style={styles.header}>
+        <View style={styles.header}>
           {/* Active profile indicator - top-left, clear of menu button */}
           {me && (
             <View style={styles.profileBadge}>
@@ -113,16 +112,15 @@ export default function KinksScreen() {
           <Text style={styles.headerEmoji}>🔥</Text>
           <Text style={styles.headerTitle}>{tk.header}</Text>
           <Text style={styles.headerSubtitle}>{tk.headerSubtitle}</Text>
-        </Animated.View>
+        </View>
 
         {/* Category Cards */}
         <View style={styles.cardsContainer}>
           {TIERS.map((tier, index) => {
             const labels = getTierLabel(tier.key);
             return (
-              <Animated.View
+              <View
                 key={tier.key}
-                entering={FadeInUp.delay(200 + index * 100)}
                 style={[styles.cardWrapper, { shadowColor: tier.color }]}
               >
                 <Pressable
@@ -146,16 +144,13 @@ export default function KinksScreen() {
                     </View>
                   </View>
                 </Pressable>
-              </Animated.View>
+              </View>
             );
           })}
         </View>
 
         {/* All Categories Button */}
-        <Animated.View
-          entering={FadeInUp.delay(600)}
-          style={styles.allButtonContainer}
-        >
+        <View style={styles.allButtonContainer}>
           <Pressable
             style={styles.allButton}
             onPress={() => {
@@ -165,7 +160,7 @@ export default function KinksScreen() {
           >
             <Text style={styles.allButtonText}>{tk.browseAll}</Text>
           </Pressable>
-        </Animated.View>
+        </View>
 
         <View style={{ height: 40 }} />
       </ScrollView>

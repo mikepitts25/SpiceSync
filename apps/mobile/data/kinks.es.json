@@ -24,8 +24,8 @@
     "slug": "deep-kissing",
     "title": "Sesión de Besos Profundos",
     "titleEs": "Sesión de Besos Profundos",
-    "description": "Dediquen tiempo a explorar la boca del otro lentamente y profundamente.",
-    "descriptionEs": "Dediquen tiempo a explorar la boca del otro lentamente y profundamente.",
+    "description": "Besos lentos y profundos.",
+    "descriptionEs": "Besos lentos y profundos.",
     "tags": [
       "kissing",
       "intimacy",
@@ -36,7 +36,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Deep Kissing Session",
-    "descriptionEn": "Spend time exploring each other's mouths slowly and deeply.",
+    "descriptionEn": "Slow, deep kissing.",
     "pairMode": true
   },
   {
@@ -56,7 +56,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Naked Cuddling",
-    "descriptionEn": "Strip down and simply hold each other.",
+    "descriptionEn": "Nude cuddling and close body contact.",
     "pairMode": true
   },
   {
@@ -76,7 +76,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Romantic Whispers",
-    "descriptionEn": "Whispering sweet, sexy, or filthy things in each someone's ear.",
+    "descriptionEn": "Whispered sweet, sexy, or dirty words.",
     "pairMode": true
   },
   {
@@ -116,7 +116,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Slow Undressing",
-    "descriptionEn": "Take your time removing each other's clothes.",
+    "descriptionEn": "Slow, deliberate undressing.",
     "pairMode": true
   },
   {
@@ -136,16 +136,16 @@
     "intensityScale": 1,
     "tier": "naughty",
     "titleEn": "Mutual Masturbation",
-    "descriptionEn": "Watch each other pleasure yourselves.",
-    "pairMode": false
+    "descriptionEn": "Mutual self-pleasure side by side.",
+    "pairMode": true
   },
   {
     "id": "0008",
     "slug": "oral-pleasure",
     "title": "Placer Oral",
     "titleEs": "Placer Oral",
-    "description": "Dar o recibir placer oral.",
-    "descriptionEs": "Dar o recibir placer oral.",
+    "description": "Placer oral.",
+    "descriptionEs": "Placer oral.",
     "tags": [
       "oral",
       "pleasure",
@@ -155,7 +155,7 @@
     "intensityScale": 1,
     "tier": "naughty",
     "titleEn": "Oral Pleasure",
-    "descriptionEn": "Giving or receiving oral pleasure.",
+    "descriptionEn": "Oral pleasure.",
     "pairMode": true
   },
   {
@@ -163,8 +163,8 @@
     "slug": "light-teasing",
     "title": "Provocación Ligera",
     "titleEs": "Provocación Ligera",
-    "description": "Provoca suavemente a tu pareja con caricias, pausas y contención juguetona mientras observas sus reacciones.",
-    "descriptionEs": "Provoca suavemente a tu pareja con caricias, pausas y contención juguetona mientras observas sus reacciones.",
+    "description": "Provocación ligera con caricias, pausas y contención juguetona.",
+    "descriptionEs": "Provocación ligera con caricias, pausas y contención juguetona.",
     "tags": [
       "teasing",
       "anticipation",
@@ -174,7 +174,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Light Teasing",
-    "descriptionEn": "Tease your partner lightly with touch, pauses, and playful restraint while watching their reactions.",
+    "descriptionEn": "Light teasing with touch, pauses, and playful restraint.",
     "pairMode": true
   },
   {
@@ -214,7 +214,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Feather Light Touch",
-    "descriptionEn": "Use feathers, silk, or just fingertips to create the lightest possible sensations across your partner's skin.",
+    "descriptionEn": "Feather, silk, or fingertip sensations across bare skin.",
     "pairMode": true
   },
   {
@@ -322,8 +322,8 @@
     "slug": "body-kissing-tour",
     "title": "Tour de Besos por Todo el Cuerpo",
     "titleEs": "Tour de Besos por Todo el Cuerpo",
-    "description": "Comiencen desde arriba y besen cada pulgada del cuerpo de su pareja.",
-    "descriptionEs": "Comiencen desde arriba y besen cada pulgada del cuerpo de su pareja.",
+    "description": "Un recorrido de besos de pies a cabeza.",
+    "descriptionEs": "Un recorrido de besos de pies a cabeza.",
     "tags": [
       "kissing",
       "worship",
@@ -334,7 +334,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Full Body Kissing Tour",
-    "descriptionEn": "Start at the top and kiss every inch of your partner's body.",
+    "descriptionEn": "A head-to-toe body kissing tour.",
     "pairMode": true
   },
   {
@@ -342,8 +342,8 @@
     "slug": "erotic-storytelling",
     "title": "Narración Erótica",
     "titleEs": "Narración Erótica",
-    "description": "Túrnense para leerse historias eróticas, o inventen las suyas propias.",
-    "descriptionEs": "Túrnense para leerse historias eróticas, o inventen las suyas propias.",
+    "description": "Historias eróticas leídas o inventadas juntos.",
+    "descriptionEs": "Historias eróticas leídas o inventadas juntos.",
     "tags": [
       "communication",
       "imagination",
@@ -354,7 +354,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Erotic Storytelling",
-    "descriptionEn": "Take turns reading erotic stories to each other, or make up your own.",
+    "descriptionEn": "Erotic stories read aloud or invented together.",
     "pairMode": true
   },
   {
@@ -374,7 +374,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Mirror Watching",
-    "descriptionEn": "Position yourselves where you can watch your reflections.",
+    "descriptionEn": "Mirror watching and reflected intimacy.",
     "pairMode": true
   },
   {
@@ -402,8 +402,8 @@
     "slug": "wrist-restraints",
     "title": "Restricción de Muñecas",
     "titleEs": "Restricción de Muñecas",
-    "description": "Usa restricciones suaves en las muñecas de tu pareja, revisando ajuste, comodidad y señales antes de continuar.",
-    "descriptionEs": "Usa restricciones suaves en las muñecas de tu pareja, revisando ajuste, comodidad y señales antes de continuar.",
+    "description": "Juego con restricciones suaves de muñecas.",
+    "descriptionEs": "Juego con restricciones suaves de muñecas.",
     "tags": [
       "bondage",
       "restraint",
@@ -413,7 +413,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Wrist Restraints",
-    "descriptionEn": "Use soft restraints on your partner's wrists, checking fit.",
+    "descriptionEn": "Soft wrist restraint play.",
     "pairMode": true
   },
   {
@@ -421,8 +421,8 @@
     "slug": "teacher-student-roleplay",
     "title": "Juego de Roles Maestro/Estudiante",
     "titleEs": "Juego de Roles Maestro/Estudiante",
-    "description": "Uno juega el maestro conocedor, el otro el estudiante ansioso.",
-    "descriptionEs": "Uno juega el maestro conocedor, el otro el estudiante ansioso.",
+    "description": "Roleplay de maestro y estudiante con una dinámica juguetona de aprendizaje.",
+    "descriptionEs": "Roleplay de maestro y estudiante con una dinámica juguetona de aprendizaje.",
     "tags": [
       "roleplay",
       "power-dynamic",
@@ -493,7 +493,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Explicit Dirty Talk",
-    "descriptionEn": "Use your words to paint vivid, filthy pictures.",
+    "descriptionEn": "Explicit dirty talk and vivid erotic language.",
     "pairMode": true
   },
   {
@@ -501,8 +501,8 @@
     "slug": "nipple-play",
     "title": "Juego con Pezones",
     "titleEs": "Juego con Pezones",
-    "description": "Explora los pezones de tu pareja con presión variable, calor y provocación mientras revisas sensibilidad.",
-    "descriptionEs": "Explora los pezones de tu pareja con presión variable, calor y provocación mientras revisas sensibilidad.",
+    "description": "Juego con pezones usando presión, calor y caricias variadas.",
+    "descriptionEs": "Juego con pezones usando presión, calor y caricias variadas.",
     "tags": [
       "nipples",
       "sensory",
@@ -512,7 +512,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Nipple Play",
-    "descriptionEn": "Explore your partner's nipples with varied pressure, warmth.",
+    "descriptionEn": "Nipple play with varied pressure, warmth, and touch.",
     "pairMode": true
   },
   {
@@ -520,8 +520,8 @@
     "slug": "biting",
     "title": "Mordidas Sensuales",
     "titleEs": "Mordidas Sensuales",
-    "description": "Usa mordidas suaves en zonas acordadas, aumentando la sensación solo si tu pareja lo desea.",
-    "descriptionEs": "Usa mordidas suaves en zonas acordadas, aumentando la sensación solo si tu pareja lo desea.",
+    "description": "Mordidas o mordisqueos suaves para aumentar la sensación.",
+    "descriptionEs": "Mordidas o mordisqueos suaves para aumentar la sensación.",
     "tags": [
       "biting",
       "sensory",
@@ -531,7 +531,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Sensual Biting",
-    "descriptionEn": "Use gentle bites or nibbles on areas, building sensation only as your partner welcomes it.",
+    "descriptionEn": "Gentle biting or nibbling for building sensation.",
     "pairMode": true
   },
   {
@@ -539,8 +539,8 @@
     "slug": "hair-pulling",
     "title": "Jalón de Cabello Controlado",
     "titleEs": "Jalón de Cabello Controlado",
-    "description": "Sujeta cerca de la raíz y guía el cabello de tu pareja solo con presión y postura acordadas.",
-    "descriptionEs": "Sujeta cerca de la raíz y guía el cabello de tu pareja solo con presión y postura acordadas.",
+    "description": "Jalón de cabello controlado con presión y postura guiadas.",
+    "descriptionEs": "Jalón de cabello controlado con presión y postura guiadas.",
     "tags": [
       "hair",
       "control",
@@ -550,7 +550,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Controlled Hair Pulling",
-    "descriptionEn": "Hold near the roots and guide your partner's hair only within pressure and positioning.",
+    "descriptionEn": "Controlled hair pulling with guided pressure and positioning.",
     "pairMode": true
   },
   {
@@ -558,8 +558,8 @@
     "slug": "intense-bondage",
     "title": "Bondage Intenso",
     "titleEs": "Bondage Intenso",
-    "description": "Usen cuerdas, esposas o restricciones para inmovilizar completamente a su pareja.",
-    "descriptionEs": "Usen cuerdas, esposas o restricciones para inmovilizar completamente a su pareja.",
+    "description": "Inmovilización completa con cuerdas, esposas o restricciones.",
+    "descriptionEs": "Inmovilización completa con cuerdas, esposas o restricciones.",
     "tags": [
       "bondage",
       "restraint",
@@ -572,7 +572,7 @@
     "intensityScale": 3,
     "tier": "xxx",
     "titleEn": "Intense Bondage",
-    "descriptionEn": "Use ropes, cuffs, or restraints to completely immobilize your partner.",
+    "descriptionEn": "Full immobilization with ropes, cuffs, or restraints.",
     "pairMode": true
   },
   {
@@ -602,8 +602,8 @@
     "slug": "cnc-play",
     "title": "No-Consentimiento Consensuado",
     "titleEs": "No-Consentimiento Consensuado",
-    "description": "Roleplay donde una pareja resiste y la otra la domina.",
-    "descriptionEs": "Roleplay donde una pareja resiste y la otra la domina.",
+    "description": "Fantasía de resistencia y rendición dentro de un roleplay acordado.",
+    "descriptionEs": "Fantasía de resistencia y rendición dentro de un roleplay acordado.",
     "tags": [
       "cnc",
       "roleplay",
@@ -624,8 +624,8 @@
     "slug": "chastity",
     "title": "Control de Castidad",
     "titleEs": "Control de Castidad",
-    "description": "Controla la liberación de tu pareja con reglas negociadas, revisiones y un punto final claro.",
-    "descriptionEs": "Controla la liberación de tu pareja con reglas negociadas, revisiones y un punto final claro.",
+    "description": "Reglas de castidad y control de liberación.",
+    "descriptionEs": "Reglas de castidad y control de liberación.",
     "tags": [
       "chastity",
       "control",
@@ -637,7 +637,7 @@
     "intensityScale": 3,
     "tier": "xxx",
     "titleEn": "Chastity Control",
-    "descriptionEn": "Hold control of your partner's release using rules.",
+    "descriptionEn": "Chastity and release-control rules.",
     "pairMode": true
   },
   {
@@ -645,8 +645,8 @@
     "slug": "degradation",
     "title": "Degradación Consensuada",
     "titleEs": "Degradación Consensuada",
-    "description": "Usa palabras o roles negociados que tu pareja haya aceptado explícitamente, con límites y claros.",
-    "descriptionEs": "Usa palabras o roles negociados que tu pareja haya aceptado explícitamente, con límites y claros.",
+    "description": "Degradación mediante palabras, roles o dinámicas aceptadas.",
+    "descriptionEs": "Degradación mediante palabras, roles o dinámicas aceptadas.",
     "tags": [
       "degradation",
       "humiliation",
@@ -656,7 +656,7 @@
     "intensityScale": 3,
     "tier": "xxx",
     "titleEn": "Consensual Degradation",
-    "descriptionEn": "Use words or roles that your partner has explicitly welcomed.",
+    "descriptionEn": "Degradation through welcomed words, roles, or dynamics.",
     "pairMode": true
   },
   {
@@ -678,7 +678,7 @@
     "intensityScale": 3,
     "tier": "xxx",
     "titleEn": "Group Play Fantasy",
-    "descriptionEn": "Fantasize about or discuss involving others in your play.",
+    "descriptionEn": "Group-play fantasies or discussions.",
     "pairMode": true
   },
   {
@@ -708,8 +708,8 @@
     "slug": "suspension",
     "title": "Suspensión con Cuerdas",
     "titleEs": "Suspensión con Cuerdas",
-    "description": "Usen cuerdas para suspender a su pareja parcial o completamente.",
-    "descriptionEs": "Usen cuerdas para suspender a su pareja parcial o completamente.",
+    "description": "Suspensión con cuerdas como escena avanzada de bondage.",
+    "descriptionEs": "Suspensión con cuerdas como escena avanzada de bondage.",
     "tags": [
       "suspension",
       "rope",
@@ -721,7 +721,7 @@
     "intensityScale": 3,
     "tier": "xxx",
     "titleEn": "Rope Suspension",
-    "descriptionEn": "Use rope to suspend your partner partially or fully off the ground.",
+    "descriptionEn": "Rope suspension as an advanced rope scene.",
     "pairMode": true
   },
   {
@@ -729,8 +729,8 @@
     "slug": "blindfolded-touch",
     "title": "Toque con los Ojos Vendados",
     "titleEs": "Toque con los Ojos Vendados",
-    "description": "Una pareja lleva una venda en los ojos mientras el otro explora su cuerpo.",
-    "descriptionEs": "Una pareja lleva una venda en los ojos mientras el otro explora su cuerpo.",
+    "description": "Exploración sensorial con venda en los ojos.",
+    "descriptionEs": "Exploración sensorial con venda en los ojos.",
     "tags": [
       "sensory-deprivation",
       "trust",
@@ -761,7 +761,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Sensual Feeding",
-    "descriptionEn": "Feed each other bite by bite—fruit, chocolate, anything delicious.",
+    "descriptionEn": "Sensual feeding with fruit, chocolate, or other treats.",
     "pairMode": true
   },
   {
@@ -781,7 +781,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Intimate Hair Play",
-    "descriptionEn": "Run fingers through their hair, give a scalp massage, or gently pull.",
+    "descriptionEn": "Hair play, scalp massage, and gentle pulling.",
     "pairMode": true
   },
   {
@@ -849,8 +849,8 @@
     "slug": "hand-exploration",
     "title": "Exploración Guiada con las Manos",
     "titleEs": "Exploración Guiada con las Manos",
-    "description": "Tomen la mano de su pareja y guíenla sobre su cuerpo.",
-    "descriptionEs": "Tomen la mano de su pareja y guíenla sobre su cuerpo.",
+    "description": "Toque guiado para mostrar ritmo, presión y ubicación preferidos.",
+    "descriptionEs": "Toque guiado para mostrar ritmo, presión y ubicación preferidos.",
     "tags": [
       "communication",
       "learning",
@@ -861,7 +861,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Guided Hand Exploration",
-    "descriptionEn": "Take your partner's hand and guide it over your body, showing exactly how and where you want to be touched.",
+    "descriptionEn": "Guided touch that shows preferred pace, pressure, and placement.",
     "pairMode": true
   },
   {
@@ -881,7 +881,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Synchronized Breathing",
-    "descriptionEn": "Lie together and match your breathing.",
+    "descriptionEn": "Matched breathing while lying close together.",
     "pairMode": true
   },
   {
@@ -901,7 +901,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Erotic Love Letters",
-    "descriptionEn": "Write each other, passionate letters.",
+    "descriptionEn": "Passionate erotic love letters.",
     "pairMode": true
   },
   {
@@ -929,8 +929,8 @@
     "slug": "orgasm-denial",
     "title": "Negación de Orgasmo",
     "titleEs": "Negación de Orgasmo",
-    "description": "Lleven a su pareja al borde del clímax una y otra vez, luego paren.",
-    "descriptionEs": "Lleven a su pareja al borde del clímax una y otra vez, luego paren.",
+    "description": "Negación de orgasmo mediante edging repetido y pausas.",
+    "descriptionEs": "Negación de orgasmo mediante edging repetido y pausas.",
     "tags": [
       "denial",
       "control",
@@ -941,7 +941,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Orgasm Denial",
-    "descriptionEn": "Bring your partner to the edge of climax again and again, then stop.",
+    "descriptionEn": "Orgasm denial through repeated edging and stopping.",
     "pairMode": true
   },
   {
@@ -989,8 +989,8 @@
     "slug": "dildo",
     "title": "Juego con Dildo",
     "titleEs": "Juego con Dildo",
-    "description": "Usa un dildo con tu pareja controlando ritmo, ángulo y comodidad con comunicación activa.",
-    "descriptionEs": "Usa un dildo con tu pareja controlando ritmo, ángulo y comodidad con comunicación activa.",
+    "description": "Juego con dildo con atención al ritmo, el ángulo y la comodidad.",
+    "descriptionEs": "Juego con dildo con atención al ritmo, el ángulo y la comodidad.",
     "tags": [
       "dildo",
       "toys",
@@ -1020,7 +1020,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Strangers at a Bar",
-    "descriptionEn": "Pretend you've never met.",
+    "descriptionEn": "First-meeting roleplay with stranger chemistry.",
     "pairMode": true
   },
   {
@@ -1028,8 +1028,8 @@
     "slug": "doctor-patient-roleplay",
     "title": "Examen de Doctor/Paciente",
     "titleEs": "Examen de Doctor/Paciente",
-    "description": "Uno juega el doctor minucioso, el otro el paciente que necesita un examen íntimo.",
-    "descriptionEs": "Uno juega el doctor minucioso, el otro el paciente que necesita un examen íntimo.",
+    "description": "Roleplay de examen médico íntimo.",
+    "descriptionEs": "Roleplay de examen médico íntimo.",
     "tags": [
       "roleplay",
       "authority",
@@ -1048,8 +1048,8 @@
     "slug": "strip-tease",
     "title": "Performance de Striptease",
     "titleEs": "Performance de Striptease",
-    "description": "Túrnense para realizar un striptease lento y seductor.",
-    "descriptionEs": "Túrnense para realizar un striptease lento y seductor.",
+    "description": "Striptease lento y seductor.",
+    "descriptionEs": "Striptease lento y seductor.",
     "tags": [
       "performance",
       "teasing",
@@ -1060,7 +1060,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Strip Tease Performance",
-    "descriptionEn": "Take turns performing a slow, seductive strip tease.",
+    "descriptionEn": "Slow, seductive striptease performance.",
     "pairMode": true
   },
   {
@@ -1068,8 +1068,8 @@
     "slug": "lap-dance",
     "title": "Baile en el Regazo",
     "titleEs": "Baile en el Regazo",
-    "description": "Den a su pareja un baile sensual en el regazo.",
-    "descriptionEs": "Den a su pareja un baile sensual en el regazo.",
+    "description": "Baile sensual en el regazo.",
+    "descriptionEs": "Baile sensual en el regazo.",
     "tags": [
       "dance",
       "teasing",
@@ -1080,7 +1080,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Lap Dance",
-    "descriptionEn": "Give your partner a sensual lap dance.",
+    "descriptionEn": "A sensual lap dance.",
     "pairMode": true
   },
   {
@@ -1128,8 +1128,8 @@
     "slug": "pet-play",
     "title": "Juego de Mascotas",
     "titleEs": "Juego de Mascotas",
-    "description": "Una pareja toma el rol de mascota, la otra de dueño.",
-    "descriptionEs": "Una pareja toma el rol de mascota, la otra de dueño.",
+    "description": "Roleplay de mascota y cuidador con una dinámica juguetona.",
+    "descriptionEs": "Roleplay de mascota y cuidador con una dinámica juguetona.",
     "tags": [
       "petplay",
       "roleplay",
@@ -1249,7 +1249,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Gentle Caressing",
-    "descriptionEn": "Use soft, slow strokes across your partner's entire body.",
+    "descriptionEn": "Soft, slow caressing across the body.",
     "pairMode": true
   },
   {
@@ -1257,8 +1257,8 @@
     "slug": "forehead-kisses",
     "title": "Besos en la Frente",
     "titleEs": "Besos en la Frente",
-    "description": "Cubran la frente de su pareja con besos suaves y tiernos.",
-    "descriptionEs": "Cubran la frente de su pareja con besos suaves y tiernos.",
+    "description": "Besos suaves y tiernos en la frente.",
+    "descriptionEs": "Besos suaves y tiernos en la frente.",
     "tags": [
       "kissing",
       "affection",
@@ -1269,7 +1269,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Forehead Kisses",
-    "descriptionEn": "Shower your partner's forehead with soft, tender kisses.",
+    "descriptionEn": "Soft forehead kisses and tender affection.",
     "pairMode": true
   },
   {
@@ -1297,8 +1297,8 @@
     "slug": "foot-massage",
     "title": "Masaje de Pies",
     "titleEs": "Masaje de Pies",
-    "description": "Den a su pareja un masaje de pies completo.",
-    "descriptionEs": "Den a su pareja un masaje de pies completo.",
+    "description": "Masaje completo de pies.",
+    "descriptionEs": "Masaje completo de pies.",
     "tags": [
       "massage",
       "feet",
@@ -1309,7 +1309,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Soothing Foot Massage",
-    "descriptionEn": "Give your partner a thorough foot massage.",
+    "descriptionEn": "A thorough foot massage.",
     "pairMode": true
   },
   {
@@ -1329,7 +1329,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Gentle Back Scratching",
-    "descriptionEn": "Use fingernails to give your partner a gentle back scratch.",
+    "descriptionEn": "Gentle back scratching with fingernails.",
     "pairMode": true
   },
   {
@@ -1349,7 +1349,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Intimate Pillow Talk",
-    "descriptionEn": "Lie together and share your thoughts, dreams, and feelings.",
+    "descriptionEn": "Quiet pillow talk about thoughts, dreams, and feelings.",
     "pairMode": true
   },
   {
@@ -1377,8 +1377,8 @@
     "slug": "bedtime-story",
     "title": "Cuento para Dormir",
     "titleEs": "Cuento para Dormir",
-    "description": "Lean un cuento a su pareja mientras se queda dormida.",
-    "descriptionEs": "Lean un cuento a su pareja mientras se queda dormida.",
+    "description": "Lectura en voz alta como ritual tierno antes de dormir.",
+    "descriptionEs": "Lectura en voz alta como ritual tierno antes de dormir.",
     "tags": [
       "communication",
       "comfort",
@@ -1389,7 +1389,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Bedtime Story",
-    "descriptionEn": "Read a story to your partner as they drift off to sleep.",
+    "descriptionEn": "Reading aloud as a tender bedtime ritual.",
     "pairMode": true
   },
   {
@@ -1477,8 +1477,8 @@
     "slug": "breakfast-bed",
     "title": "Desayuno en la Cama",
     "titleEs": "Desayuno en la Cama",
-    "description": "Sirvan el desayuno a su pareja en la cama.",
-    "descriptionEs": "Sirvan el desayuno a su pareja en la cama.",
+    "description": "Desayuno en la cama como gesto íntimo.",
+    "descriptionEs": "Desayuno en la cama como gesto íntimo.",
     "tags": [
       "food",
       "service",
@@ -1489,7 +1489,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Breakfast in Bed",
-    "descriptionEn": "Serve your partner breakfast in bed.",
+    "descriptionEn": "Breakfast served in bed as an intimate gesture.",
     "pairMode": true
   },
   {
@@ -1529,7 +1529,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Relaxing Shoulder Massage",
-    "descriptionEn": "Focus on releasing tension in the shoulders and neck.",
+    "descriptionEn": "Shoulder and neck massage focused on releasing tension.",
     "pairMode": true
   },
   {
@@ -1549,7 +1549,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Gentle Face Caressing",
-    "descriptionEn": "Use your fingertips to gently trace your partner's face.",
+    "descriptionEn": "Gentle fingertip tracing across the face.",
     "pairMode": true
   },
   {
@@ -1577,8 +1577,8 @@
     "slug": "compliments",
     "title": "Sesión de Cumplidos",
     "titleEs": "Sesión de Cumplidos",
-    "description": "Túrnense para compartir cumplidos genuinos.",
-    "descriptionEs": "Túrnense para compartir cumplidos genuinos.",
+    "description": "Cumplidos sinceros compartidos en voz alta.",
+    "descriptionEs": "Cumplidos sinceros compartidos en voz alta.",
     "tags": [
       "communication",
       "affirmation",
@@ -1589,7 +1589,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Sincere Compliment Session",
-    "descriptionEn": "Take turns sharing genuine compliments about each other.",
+    "descriptionEn": "Genuine compliments shared out loud.",
     "pairMode": true
   },
   {
@@ -1617,8 +1617,8 @@
     "slug": "gratitude",
     "title": "Compartir Gratitud",
     "titleEs": "Compartir Gratitud",
-    "description": "Compartan por qué están agradecidos el uno por el otro.",
-    "descriptionEs": "Compartan por qué están agradecidos el uno por el otro.",
+    "description": "Gratitud compartida en voz alta.",
+    "descriptionEs": "Gratitud compartida en voz alta.",
     "tags": [
       "communication",
       "gratitude",
@@ -1629,7 +1629,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Gratitude Sharing",
-    "descriptionEn": "Share what you are grateful for about each other.",
+    "descriptionEn": "Gratitude shared out loud.",
     "pairMode": true
   },
   {
@@ -1649,7 +1649,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Video Call Intimacy",
-    "descriptionEn": "Use video calls to watch each other pleasure yourselves when apart.",
+    "descriptionEn": "Video-call intimacy and shared self-pleasure while apart.",
     "pairMode": true
   },
   {
@@ -1729,7 +1729,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Food Play",
-    "descriptionEn": "Incorporate whipped cream, chocolate sauce, or fruit into your intimacy.",
+    "descriptionEn": "Food, whipped cream, chocolate, or fruit used as sensory play.",
     "pairMode": true
   },
   {
@@ -1749,7 +1749,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Body Paint Play",
-    "descriptionEn": "Use edible body paint or chocolate to create art on each other's skin.",
+    "descriptionEn": "Edible body paint or chocolate used for playful skin art.",
     "pairMode": true
   },
   {
@@ -1877,8 +1877,8 @@
     "slug": "roleplay-capture",
     "title": "Capturador/Cautivo",
     "titleEs": "Capturador/Cautivo",
-    "description": "Una pareja juega el captor, la otra el cautivo.",
-    "descriptionEs": "Una pareja juega el captor, la otra el cautivo.",
+    "description": "Roleplay de captor y cautivo con tensión dramática.",
+    "descriptionEs": "Roleplay de captor y cautivo con tensión dramática.",
     "tags": [
       "roleplay",
       "power",
@@ -1917,8 +1917,8 @@
     "slug": "lingerie",
     "title": "Desfile de Lencería",
     "titleEs": "Desfile de Lencería",
-    "description": "Modeleen diferentes piezas de lencería para su pareja.",
-    "descriptionEs": "Modeleen diferentes piezas de lencería para su pareja.",
+    "description": "Desfile privado de lencería.",
+    "descriptionEs": "Desfile privado de lencería.",
     "tags": [
       "lingerie",
       "visual",
@@ -1929,7 +1929,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Lingerie Show",
-    "descriptionEn": "Model different lingerie pieces for your partner.",
+    "descriptionEn": "A private lingerie show.",
     "pairMode": true
   },
   {
@@ -1957,8 +1957,8 @@
     "slug": "feminization",
     "title": "Juego de Feminización",
     "titleEs": "Juego de Feminización",
-    "description": "Una pareja se viste y se trata de manera tradicionalmente femenina.",
-    "descriptionEs": "Una pareja se viste y se trata de manera tradicionalmente femenina.",
+    "description": "Feminización como estilo, rol o dinámica erótica.",
+    "descriptionEs": "Feminización como estilo, rol o dinámica erótica.",
     "tags": [
       "feminization",
       "gender",
@@ -1997,8 +1997,8 @@
     "slug": "voyeurism",
     "title": "Voyeurismo Consensuado",
     "titleEs": "Voyeurismo Consensuado",
-    "description": "Una pareja observa mientras la otra se da placer o se desviste.",
-    "descriptionEs": "Una pareja observa mientras la otra se da placer o se desviste.",
+    "description": "Voyeurismo consensuado centrado en mirar o ser mirado.",
+    "descriptionEs": "Voyeurismo consensuado centrado en mirar o ser mirado.",
     "tags": [
       "voyeurism",
       "watching",
@@ -2017,8 +2017,8 @@
     "slug": "exhibitionism",
     "title": "Exhibicionismo Consensuado",
     "titleEs": "Exhibicionismo Consensuado",
-    "description": "Realicen actos íntimos donde puedan ser vistos por su pareja.",
-    "descriptionEs": "Realicen actos íntimos donde puedan ser vistos por su pareja.",
+    "description": "Exhibicionismo consensuado con sensación de ser visto.",
+    "descriptionEs": "Exhibicionismo consensuado con sensación de ser visto.",
     "tags": [
       "exhibitionism",
       "being-watched",
@@ -2029,7 +2029,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Consensual Exhibitionism",
-    "descriptionEn": "Perform intimate acts where you might be seen by your partner or in safe, spaces.",
+    "descriptionEn": "Consensual exhibitionism with a watched or almost-watched feeling.",
     "pairMode": true
   },
   {
@@ -2059,8 +2059,8 @@
     "slug": "mummification",
     "title": "Momificación",
     "titleEs": "Momificación",
-    "description": "Envuelvan a su pareja completamente en plástico o vendas.",
-    "descriptionEs": "Envuelvan a su pareja completamente en plástico o vendas.",
+    "description": "Envoltura corporal completa con plástico o vendas.",
+    "descriptionEs": "Envoltura corporal completa con plástico o vendas.",
     "tags": [
       "mummification",
       "bondage",
@@ -2073,7 +2073,7 @@
     "intensityScale": 3,
     "tier": "xxx",
     "titleEn": "Mummification",
-    "descriptionEn": "Wrap your partner completely in plastic wrap, bandages, or tape.",
+    "descriptionEn": "Full-body wrapping with plastic wrap, bandages, or tape.",
     "pairMode": true
   },
   {
@@ -2103,8 +2103,8 @@
     "slug": "total-power-exchange",
     "title": "Intercambio Total de Poder",
     "titleEs": "Intercambio Total de Poder",
-    "description": "Dinámica de poder 24/7 donde una pareja tiene control completo.",
-    "descriptionEs": "Dinámica de poder 24/7 donde una pareja tiene control completo.",
+    "description": "Dinámica de intercambio total de poder.",
+    "descriptionEs": "Dinámica de intercambio total de poder.",
     "tags": [
       "tpe",
       "24-7",
@@ -2125,8 +2125,8 @@
     "slug": "forced-orgasm",
     "title": "Orgasmo Forzado",
     "titleEs": "Orgasmo Forzado",
-    "description": "Hagan que su pareja tenga orgasmos repetidamente más allá de sus límites.",
-    "descriptionEs": "Hagan que su pareja tenga orgasmos repetidamente más allá de sus límites.",
+    "description": "Control repetido del orgasmo más allá del primer clímax.",
+    "descriptionEs": "Control repetido del orgasmo más allá del primer clímax.",
     "tags": [
       "forced",
       "orgasm",
@@ -2139,7 +2139,7 @@
     "intensityScale": 3,
     "tier": "xxx",
     "titleEn": "Forced Orgasm",
-    "descriptionEn": "Make your partner orgasm repeatedly beyond their control.",
+    "descriptionEn": "Repeated orgasm control beyond the first climax.",
     "pairMode": true
   },
   {
@@ -2169,8 +2169,8 @@
     "slug": "armpit-kissing",
     "title": "Besos en las Axilas",
     "titleEs": "Besos en las Axilas",
-    "description": "Besen y acaricien las axilas de su pareja.",
-    "descriptionEs": "Besen y acaricien las axilas de su pareja.",
+    "description": "Besos y caricias en las axilas.",
+    "descriptionEs": "Besos y caricias en las axilas.",
     "tags": [
       "armpits",
       "kissing",
@@ -2181,7 +2181,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Armpit Kissing",
-    "descriptionEn": "Kiss and nuzzle your partner's armpits.",
+    "descriptionEn": "Armpit kissing and nuzzling.",
     "pairMode": true
   },
   {
@@ -2189,8 +2189,8 @@
     "slug": "belly-worship",
     "title": "Adoración del Vientre",
     "titleEs": "Adoración del Vientre",
-    "description": "Besen, acaricien y aprecien el vientre de su pareja.",
-    "descriptionEs": "Besen, acaricien y aprecien el vientre de su pareja.",
+    "description": "Besos, caricias y aprecio del vientre.",
+    "descriptionEs": "Besos, caricias y aprecio del vientre.",
     "tags": [
       "belly",
       "worship",
@@ -2201,7 +2201,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Belly Worship",
-    "descriptionEn": "Kiss, caress, and appreciate your partner's belly.",
+    "descriptionEn": "Belly kissing, caressing, and appreciation.",
     "pairMode": true
   },
   {
@@ -2241,7 +2241,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Ear Lobe Nibbling",
-    "descriptionEn": "Gently nibble and suck on your partner's ear lobes.",
+    "descriptionEn": "Ear-lobe nibbling and sucking.",
     "pairMode": true
   },
   {
@@ -2249,8 +2249,8 @@
     "slug": "finger-sucking",
     "title": "Chupar Dedos",
     "titleEs": "Chupar Dedos",
-    "description": "Chupen los dedos de su pareja sugestivamente.",
-    "descriptionEs": "Chupen los dedos de su pareja sugestivamente.",
+    "description": "Chupar dedos de forma sugerente.",
+    "descriptionEs": "Chupar dedos de forma sugerente.",
     "tags": [
       "fingers",
       "oral",
@@ -2261,7 +2261,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Finger Sucking",
-    "descriptionEn": "Suck on your partner's fingers suggestively.",
+    "descriptionEn": "Suggestive finger sucking.",
     "pairMode": true
   },
   {
@@ -2288,8 +2288,8 @@
     "slug": "leash-play",
     "title": "Juego con Correa",
     "titleEs": "Juego con Correa",
-    "description": "Guía a tu pareja con correa o señal de collar solo dentro de comodidad y movimiento negociados.",
-    "descriptionEs": "Guía a tu pareja con correa o señal de collar solo dentro de comodidad y movimiento negociados.",
+    "description": "Movimiento guiado con correa o control simbólico.",
+    "descriptionEs": "Movimiento guiado con correa o control simbólico.",
     "tags": [
       "leash",
       "collar",
@@ -2299,7 +2299,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Leash Play",
-    "descriptionEn": "Guide your partner.",
+    "descriptionEn": "Leash-guided movement or symbolic control.",
     "pairMode": true
   },
   {
@@ -2388,8 +2388,8 @@
     "slug": "cuckolding",
     "title": "Fantasía de Cornudo",
     "titleEs": "Fantasía de Cornudo",
-    "description": "Una pareja fantasea sobre ver a la otra con alguien más.",
-    "descriptionEs": "Una pareja fantasea sobre ver a la otra con alguien más.",
+    "description": "Fantasía de observar deseo, sexo o atención con otra persona.",
+    "descriptionEs": "Fantasía de observar deseo, sexo o atención con otra persona.",
     "tags": [
       "cuckold",
       "voyeurism",
@@ -2410,8 +2410,8 @@
     "slug": "hotwife",
     "title": "Fantasía de Esposa Caliente",
     "titleEs": "Fantasía de Esposa Caliente",
-    "description": "La pareja sale con otros mientras su pareja principal sabe y aprueba.",
-    "descriptionEs": "La pareja sale con otros mientras su pareja principal sabe y aprueba.",
+    "description": "Fantasía de citas o encuentros externos con conocimiento y aprobación.",
+    "descriptionEs": "Fantasía de citas o encuentros externos con conocimiento y aprobación.",
     "tags": [
       "hotwife",
       "consensual",
@@ -2432,8 +2432,8 @@
     "slug": "swinging",
     "title": "Fantasía de Intercambio",
     "titleEs": "Fantasía de Intercambio",
-    "description": "Fantaseen sobre intercambiar parejas con otra pareja.",
-    "descriptionEs": "Fantaseen sobre intercambiar parejas con otra pareja.",
+    "description": "Fantasía de intercambio con otras personas o parejas.",
+    "descriptionEs": "Fantasía de intercambio con otras personas o parejas.",
     "tags": [
       "swinging",
       "group",
@@ -2496,8 +2496,8 @@
     "slug": "spanking",
     "title": "Nalgadas Ligeras",
     "titleEs": "Nalgadas Ligeras",
-    "description": "Da nalgadas suaves y consensuadas mientras controlas ritmo, intensidad y revisiones.",
-    "descriptionEs": "Da nalgadas suaves y consensuadas mientras controlas ritmo, intensidad y revisiones.",
+    "description": "Nalgadas ligeras con ritmo e intensidad controlados.",
+    "descriptionEs": "Nalgadas ligeras con ritmo e intensidad controlados.",
     "tags": [
       "impact-play",
       "spanking",
@@ -2508,7 +2508,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Light Spanking",
-    "descriptionEn": "Give gentle, swats while controlling rhythm, intensity.",
+    "descriptionEn": "Light spanking with controlled rhythm and intensity.",
     "pairMode": true
   },
   {
@@ -2516,8 +2516,8 @@
     "slug": "handcuffs",
     "title": "Esposas",
     "titleEs": "Esposas",
-    "description": "Sujeta a tu pareja con esposas y guía la escena con provocación, instrucciones y atento.",
-    "descriptionEs": "Sujeta a tu pareja con esposas y guía la escena con provocación, instrucciones y atento.",
+    "description": "Juego de restricción con esposas.",
+    "descriptionEs": "Juego de restricción con esposas.",
     "tags": [
       "restraint",
       "handcuffs",
@@ -2528,7 +2528,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Handcuffs",
-    "descriptionEn": "Restrain your partner.",
+    "descriptionEn": "Handcuff restraint play.",
     "pairMode": true
   },
   {
@@ -2536,8 +2536,8 @@
     "slug": "vibrator",
     "title": "Vibrador",
     "titleEs": "Vibrador",
-    "description": "Usa un vibrador en tu pareja y controla velocidad, presión y ritmo con comunicación constante.",
-    "descriptionEs": "Usa un vibrador en tu pareja y controla velocidad, presión y ritmo con comunicación constante.",
+    "description": "Juego con vibrador controlando velocidad, presión y ritmo.",
+    "descriptionEs": "Juego con vibrador controlando velocidad, presión y ritmo.",
     "tags": [
       "toys",
       "vibrator",
@@ -2548,7 +2548,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Vibrator Play",
-    "descriptionEn": "Use a vibrator on your partner and control speed, pressure, and timing.",
+    "descriptionEn": "Vibrator play with controlled speed, pressure, and timing.",
     "pairMode": true
   },
   {
@@ -2596,8 +2596,8 @@
     "slug": "foot-worship",
     "title": "Adoración de Pies",
     "titleEs": "Adoración de Pies",
-    "description": "Dedica atención a los pies de tu pareja con masaje, elogios o adoración dentro de límites acordados.",
-    "descriptionEs": "Dedica atención a los pies de tu pareja con masaje, elogios o adoración dentro de límites acordados.",
+    "description": "Atención enfocada en los pies mediante masaje, elogios o adoración.",
+    "descriptionEs": "Atención enfocada en los pies mediante masaje, elogios o adoración.",
     "tags": [
       "feet",
       "worship",
@@ -2607,7 +2607,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Foot Worship",
-    "descriptionEn": "Give focused attention to your partner's feet through massage, praise, or worship within.",
+    "descriptionEn": "Focused foot attention through massage, praise, or worship.",
     "pairMode": true
   },
   {
@@ -2973,8 +2973,8 @@
     "slug": "dare-play",
     "title": "Juego de Retos",
     "titleEs": "Juego de Retos",
-    "description": "Turnense para proponer retos juguetones o eroticos, con derecho a veto y una forma clara de pasar.",
-    "descriptionEs": "Turnense para proponer retos juguetones o eroticos, con derecho a veto y una forma clara de pasar.",
+    "description": "Retos juguetones o eróticos.",
+    "descriptionEs": "Retos juguetones o eróticos.",
     "tags": [
       "game",
       "challenge",
@@ -2985,7 +2985,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Dare Play",
-    "descriptionEn": "Take turns giving playful or erotic dares.",
+    "descriptionEn": "Playful or erotic dares.",
     "pairMode": true
   },
   {
@@ -3213,7 +3213,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Seduction Play",
-    "descriptionEn": "Build a scene around tempting, pursuing, resisting, and finally giving in to desire.",
+    "descriptionEn": "Tempting, pursuing, resisting, and giving in as a seduction scene.",
     "pairMode": true
   },
   {
@@ -3275,7 +3275,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Aftercare Ritual",
-    "descriptionEn": "Plan how you reconnect after intense play.",
+    "descriptionEn": "Post-scene reconnection rituals.",
     "pairMode": true
   },
   {
@@ -3295,7 +3295,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Arousal Play",
-    "descriptionEn": "Focus on building, noticing.",
+    "descriptionEn": "Arousal building and awareness.",
     "pairMode": true
   },
   {
@@ -3425,8 +3425,8 @@
     "slug": "service-top",
     "title": "Top de Servicio",
     "titleEs": "Top de Servicio",
-    "description": "Una pareja guia una actividad acordada mientras centra las sensaciones y limites pedidos por quien recibe.",
-    "descriptionEs": "Una pareja guia una actividad acordada mientras centra las sensaciones y limites pedidos por quien recibe.",
+    "description": "Top de servicio centrado en sensaciones solicitadas.",
+    "descriptionEs": "Top de servicio centrado en sensaciones solicitadas.",
     "tags": [
       "service",
       "top",
@@ -3437,7 +3437,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Service Topping",
-    "descriptionEn": "One partner leads an activity while centering the receiving partner's requested sensations.",
+    "descriptionEn": "Service topping centered on requested sensations.",
     "pairMode": true
   },
   {
@@ -3445,8 +3445,8 @@
     "slug": "praise",
     "title": "Elogios",
     "titleEs": "Elogios",
-    "description": "Da elogios sinceros, aprobación y ánimo como fuente central de excitación.",
-    "descriptionEs": "Da elogios sinceros, aprobación y ánimo como fuente central de excitación.",
+    "description": "Elogios sinceros, aprobación y ánimo como fuente de excitación.",
+    "descriptionEs": "Elogios sinceros, aprobación y ánimo como fuente de excitación.",
     "tags": [
       "praise",
       "affirmation",
@@ -3456,7 +3456,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Praise Kink",
-    "descriptionEn": "Give sincere praise, approval, and encouragement as the central source of excitement.",
+    "descriptionEn": "Sincere praise, approval, and encouragement as the turn-on.",
     "pairMode": true
   },
   {
@@ -3558,7 +3558,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Task-Based Teasing",
-    "descriptionEn": "Give playful tasks, timed prompts, or private challenges that create anticipation before intimacy.",
+    "descriptionEn": "Playful tasks, timed prompts, or private challenges that build anticipation.",
     "pairMode": true
   },
   {
@@ -3566,8 +3566,8 @@
     "slug": "obedience-games",
     "title": "Juegos de Obediencia",
     "titleEs": "Juegos de Obediencia",
-    "description": "Usen instrucciones simples y negociadas con recompensas para explorar ser guiado o guiar a la pareja.",
-    "descriptionEs": "Usen instrucciones simples y negociadas con recompensas para explorar ser guiado o guiar a la pareja.",
+    "description": "Instrucciones simples y recompensas como juego de obediencia.",
+    "descriptionEs": "Instrucciones simples y recompensas como juego de obediencia.",
     "tags": [
       "obedience",
       "rewards",
@@ -3746,8 +3746,8 @@
     "slug": "domspace-aftercare",
     "title": "Cuidado Posterior de Domspace",
     "titleEs": "Cuidado Posterior de Domspace",
-    "description": "Ofrezcan arraigo y tranquilidad para la pareja que guia despues de una escena intensa de intercambio de poder.",
-    "descriptionEs": "Ofrezcan arraigo y tranquilidad para la pareja que guia despues de una escena intensa de intercambio de poder.",
+    "description": "Arraigo y tranquilidad después de una escena intensa de intercambio de poder.",
+    "descriptionEs": "Arraigo y tranquilidad después de una escena intensa de intercambio de poder.",
     "tags": [
       "domspace",
       "aftercare",
@@ -3806,8 +3806,8 @@
     "slug": "kneeling-rituals",
     "title": "Rituales de Rodillas",
     "titleEs": "Rituales de Rodillas",
-    "description": "Exploren arrodillarse, ofrecer o recibir atencion como apertura o cierre simbolico de una escena.",
-    "descriptionEs": "Exploren arrodillarse, ofrecer o recibir atencion como apertura o cierre simbolico de una escena.",
+    "description": "Arrodillarse, ofrecer atención o usar una postura ritual como símbolo de escena.",
+    "descriptionEs": "Arrodillarse, ofrecer atención o usar una postura ritual como símbolo de escena.",
     "tags": [
       "kneeling",
       "ritual",
@@ -3818,7 +3818,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Kneeling Rituals",
-    "descriptionEn": "Explore kneeling, offering, or receiving attention as a symbolic scene opener or closer.",
+    "descriptionEn": "Kneeling, offering, or attention as a symbolic scene ritual.",
     "pairMode": true
   },
   {
@@ -3846,8 +3846,8 @@
     "slug": "body-worship",
     "title": "Adoracion del Cuerpo",
     "titleEs": "Adoracion del Cuerpo",
-    "description": "Concentren atencion, elogios, besos o tacto en apreciar todo el cuerpo de la pareja.",
-    "descriptionEs": "Concentren atencion, elogios, besos o tacto en apreciar todo el cuerpo de la pareja.",
+    "description": "Aprecio de todo el cuerpo mediante atención, elogios, besos o tacto.",
+    "descriptionEs": "Aprecio de todo el cuerpo mediante atención, elogios, besos o tacto.",
     "tags": [
       "worship",
       "body",
@@ -3858,7 +3858,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Body Worship",
-    "descriptionEn": "Focus attention, compliments, kisses, or touch on appreciating a partner's whole body.",
+    "descriptionEn": "Whole-body appreciation through attention, compliments, kisses, or touch.",
     "pairMode": true
   },
   {
@@ -3906,8 +3906,8 @@
     "slug": "audio-erotica-together",
     "title": "Audio Erotico Juntos",
     "titleEs": "Audio Erotico Juntos",
-    "description": "Escuchen audio adulto o graben fantasias habladas privadas para la pareja.",
-    "descriptionEs": "Escuchen audio adulto o graben fantasias habladas privadas para la pareja.",
+    "description": "Audio adulto o fantasías habladas privadas compartidas juntos.",
+    "descriptionEs": "Audio adulto o fantasías habladas privadas compartidas juntos.",
     "tags": [
       "audio",
       "fantasy",
@@ -3918,7 +3918,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Audio Erotica Together",
-    "descriptionEn": "Listen to adult audio or record private spoken fantasies for each other.",
+    "descriptionEn": "Adult audio or private spoken fantasies shared together.",
     "pairMode": true
   },
   {
@@ -3998,7 +3998,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Stocking Fetish",
-    "descriptionEn": "Focus on stockings, thigh highs, or hosiery as a visual and texture-based turn-on.",
+    "descriptionEn": "Stockings, thigh-highs, or hosiery as a visual and texture turn-on.",
     "pairMode": true
   },
   {
@@ -4066,8 +4066,8 @@
     "slug": "sweat-musk-appreciation",
     "title": "Aprecio de Sudor y Aroma Natural",
     "titleEs": "Aprecio de Sudor y Aroma Natural",
-    "description": "Exploren la atraccion por el aroma natural de la pareja despues de moverse, bailar o estar cerca.",
-    "descriptionEs": "Exploren la atraccion por el aroma natural de la pareja despues de moverse, bailar o estar cerca.",
+    "description": "Atracción por el aroma natural después de moverse, bailar o estar cerca.",
+    "descriptionEs": "Atracción por el aroma natural después de moverse, bailar o estar cerca.",
     "tags": [
       "scent",
       "musk",
@@ -4078,7 +4078,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Sweat and Musk Appreciation",
-    "descriptionEn": "Explore attraction to a partner's natural scent after movement, dancing, or closeness.",
+    "descriptionEn": "Natural scent after movement, dancing, or closeness as a source of attraction.",
     "pairMode": true
   },
   {
@@ -4178,7 +4178,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Rope Bunny Role",
-    "descriptionEn": "Explore the receiving side of rope as a role centered on trust, presentation.",
+    "descriptionEn": "Rope bottoming as a role centered on trust and presentation.",
     "pairMode": true
   },
   {
@@ -4660,7 +4660,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Mirror Sex",
-    "descriptionEn": "Use a mirror to watch, pose, or admire each other.",
+    "descriptionEn": "Mirror sex with watching, posing, and reflected intimacy.",
     "pairMode": true
   },
   {
@@ -4808,8 +4808,8 @@
     "slug": "watching-partner-flirt",
     "title": "Ver a la Pareja Coquetear",
     "titleEs": "Ver a la Pareja Coquetear",
-    "description": "Exploren la fantasia de ver a la pareja coquetear de forma consensuada, acordada y emocionalmente segura.",
-    "descriptionEs": "Exploren la fantasia de ver a la pareja coquetear de forma consensuada, acordada y emocionalmente segura.",
+    "description": "Fantasía de observar coqueteo externo con seguridad emocional.",
+    "descriptionEs": "Fantasía de observar coqueteo externo con seguridad emocional.",
     "tags": [
       "flirting",
       "voyeur",
@@ -4828,8 +4828,8 @@
     "slug": "compersion-talk",
     "title": "Conversacion sobre Compersion",
     "titleEs": "Conversacion sobre Compersion",
-    "description": "Hablen de disfrutar el placer o la atencion que recibe la pareja de otras personas mientras nombran celos y limites.",
-    "descriptionEs": "Hablen de disfrutar el placer o la atencion que recibe la pareja de otras personas mientras nombran celos y limites.",
+    "description": "Compersión, celos y placer alrededor de la atención externa.",
+    "descriptionEs": "Compersión, celos y placer alrededor de la atención externa.",
     "tags": [
       "compersion",
       "jealousy",
@@ -4840,7 +4840,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Compersion Talk",
-    "descriptionEn": "Talk about enjoying a partner's pleasure or attention from others while naming jealousy.",
+    "descriptionEn": "Compersion, jealousy, and pleasure around outside attention.",
     "pairMode": true
   },
   {
@@ -4968,8 +4968,8 @@
     "slug": "strap-on",
     "title": "Juego con Strap-On",
     "titleEs": "Juego con Strap-On",
-    "description": "Usa un strap-on con tu pareja controlando ajuste, ritmo, ángulo y comodidad con revisiones.",
-    "descriptionEs": "Usa un strap-on con tu pareja controlando ajuste, ritmo, ángulo y comodidad con revisiones.",
+    "description": "Juego con strap-on con atención al ajuste, ritmo y ángulo.",
+    "descriptionEs": "Juego con strap-on con atención al ajuste, ritmo y ángulo.",
     "tags": [
       "strap-on",
       "toys",
@@ -4987,8 +4987,8 @@
     "slug": "pegging",
     "title": "Pegging",
     "titleEs": "Pegging",
-    "description": "Da juego de pegging con preparación clara, lubricante, ritmo y revisiones continuas de comodidad.",
-    "descriptionEs": "Da juego de pegging con preparación clara, lubricante, ritmo y revisiones continuas de comodidad.",
+    "description": "Juego de pegging.",
+    "descriptionEs": "Juego de pegging.",
     "tags": [
       "pegging",
       "anal",
@@ -4998,7 +4998,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Pegging",
-    "descriptionEn": "Give pegging play.",
+    "descriptionEn": "Pegging play.",
     "pairMode": true
   },
   {
@@ -5006,8 +5006,8 @@
     "slug": "manual-stimulation",
     "title": "Estimulación Manual",
     "titleEs": "Estimulación Manual",
-    "description": "Usa tus manos para dar placer a tu pareja, prestando atención a su ritmo, presión y reacciones.",
-    "descriptionEs": "Usa tus manos para dar placer a tu pareja, prestando atención a su ritmo, presión y reacciones.",
+    "description": "Estimulación manual con ritmo, presión y reacciones atentos.",
+    "descriptionEs": "Estimulación manual con ritmo, presión y reacciones atentos.",
     "tags": [
       "pleasure",
       "hands",
@@ -5017,16 +5017,16 @@
     "intensityScale": 1,
     "tier": "naughty",
     "titleEn": "Manual Stimulation",
-    "descriptionEn": "Use your hands to pleasure your partner, paying close attention to their pace, pressure, and reactions.",
+    "descriptionEn": "Manual stimulation with attentive pace, pressure, and rhythm.",
     "pairMode": true
   },
   {
     "id": "0296",
     "slug": "face-sitting",
-    "title": "Sentarse en la Cara (Dar Oral)",
-    "titleEs": "Sentarse en la Cara (Dar Oral)",
-    "description": "Recuéstate y da placer oral a tu pareja mientras se coloca encima de ti, siguiendo sus movimientos.",
-    "descriptionEs": "Recuéstate y da placer oral a tu pareja mientras se coloca encima de ti, siguiendo sus movimientos.",
+    "title": "Sentarse en la Cara",
+    "titleEs": "Sentarse en la Cara",
+    "description": "Placer oral en posición de face sitting.",
+    "descriptionEs": "Placer oral en posición de face sitting.",
     "tags": [
       "oral",
       "positioning",
@@ -5035,8 +5035,8 @@
     "category": "paired_play",
     "intensityScale": 2,
     "tier": "naughty",
-    "titleEn": "Face Sitting (Giving Oral)",
-    "descriptionEn": "Lie back and pleasure your partner orally while they straddle above you, following their movements.",
+    "titleEn": "Face Sitting",
+    "descriptionEn": "Oral pleasure in a face-sitting position.",
     "pairMode": true
   },
   {
@@ -5044,8 +5044,8 @@
     "slug": "primal-play",
     "title": "Juego Primal (Cazador)",
     "titleEs": "Juego Primal (Cazador)",
-    "description": "Déjate llevar por una energía cruda e instintiva como quien persigue, sujeta y domina con juego a su pareja dispuesta.",
-    "descriptionEs": "Déjate llevar por una energía cruda e instintiva como quien persigue, sujeta y domina con juego a su pareja dispuesta.",
+    "description": "Energía primal de persecución, sujeción y dominio juguetón.",
+    "descriptionEs": "Energía primal de persecución, sujeción y dominio juguetón.",
     "tags": [
       "primal",
       "dominance",
@@ -5056,7 +5056,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Primal Play",
-    "descriptionEn": "Lean into raw, instinctive energy as the one who chases, pins, and playfully overpowers your willing partner.",
+    "descriptionEn": "Primal chasing, pinning, and playful overpowering.",
     "pairMode": true
   },
   {
@@ -5105,8 +5105,8 @@
     "slug": "face-slapping",
     "title": "Cachetadas Consensuadas",
     "titleEs": "Cachetadas Consensuadas",
-    "description": "Da cachetadas ligeras y consensuadas en la mejilla dentro de un juego intenso, acordando señales y evitando cualquier otra zona.",
-    "descriptionEs": "Da cachetadas ligeras y consensuadas en la mejilla dentro de un juego intenso, acordando señales y evitando cualquier otra zona.",
+    "description": "Toques ligeros en la mejilla como parte de un juego intenso.",
+    "descriptionEs": "Toques ligeros en la mejilla como parte de un juego intenso.",
     "tags": [
       "impact",
       "intense",
@@ -5116,7 +5116,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Consensual Face Slapping",
-    "descriptionEn": "Give light, cheek taps as part of intense play, agreeing on and avoiding any other area.",
+    "descriptionEn": "Light cheek taps as part of intense play.",
     "pairMode": true
   },
   {
@@ -5124,8 +5124,8 @@
     "slug": "pinwheel",
     "title": "Sensación con Rueda Wartenberg",
     "titleEs": "Sensación con Rueda Wartenberg",
-    "description": "Desliza una rueda de sensaciones por la piel de tu pareja, variando la presión para crear cosquilleos eléctricos.",
-    "descriptionEs": "Desliza una rueda de sensaciones por la piel de tu pareja, variando la presión para crear cosquilleos eléctricos.",
+    "description": "Sensaciones de rueda sobre la piel con presión eléctrica y cosquilleante.",
+    "descriptionEs": "Sensaciones de rueda sobre la piel con presión eléctrica y cosquilleante.",
     "tags": [
       "sensation",
       "sensory",
@@ -5135,7 +5135,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Pinwheel Sensation",
-    "descriptionEn": "Roll a sensation pinwheel across your partner's skin, varying pressure to create tingling, electric feelings.",
+    "descriptionEn": "Pinwheel sensation across skin with tingling, electric pressure.",
     "pairMode": true
   },
   {
@@ -5143,8 +5143,8 @@
     "slug": "ass-worship",
     "title": "Adoración de Glúteos",
     "titleEs": "Adoración de Glúteos",
-    "description": "Colma de atención los glúteos de tu pareja con besos, caricias firmes y admiración.",
-    "descriptionEs": "Colma de atención los glúteos de tu pareja con besos, caricias firmes y admiración.",
+    "description": "Adoración de glúteos con besos, caricias firmes y admiración.",
+    "descriptionEs": "Adoración de glúteos con besos, caricias firmes y admiración.",
     "tags": [
       "worship",
       "admiration",
@@ -5154,7 +5154,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Ass Worship",
-    "descriptionEn": "Lavish attention on your partner's behind with kisses, squeezes, and admiration.",
+    "descriptionEn": "Ass worship through kisses, squeezes, and admiration.",
     "pairMode": true
   },
   {
@@ -5174,7 +5174,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Partner Yoga",
-    "descriptionEn": "Move through gentle stretches together, leaning on each other for balance and breathing in sync.",
+    "descriptionEn": "Couples yoga with balance, closeness, and synchronized breathing.",
     "pairMode": true
   },
   {
@@ -5182,8 +5182,8 @@
     "slug": "hair-washing",
     "title": "Lavarse el Cabello Mutuamente",
     "titleEs": "Lavarse el Cabello Mutuamente",
-    "description": "Túrnense para lavar y masajear suavemente el cuero cabelludo del otro bajo agua tibia.",
-    "descriptionEs": "Túrnense para lavar y masajear suavemente el cuero cabelludo del otro bajo agua tibia.",
+    "description": "Lavado suave de cabello y masaje del cuero cabelludo bajo agua tibia.",
+    "descriptionEs": "Lavado suave de cabello y masaje del cuero cabelludo bajo agua tibia.",
     "tags": [
       "intimacy",
       "touch",
@@ -5194,7 +5194,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Washing Each Other's Hair",
-    "descriptionEn": "Take turns gently shampooing and massaging each other's scalp under warm water.",
+    "descriptionEn": "Gentle hair washing and scalp massage under warm water.",
     "pairMode": true
   },
   {
@@ -5202,8 +5202,8 @@
     "slug": "tattoo-appreciation",
     "title": "Apreciación del Arte Corporal",
     "titleEs": "Apreciación del Arte Corporal",
-    "description": "Recorran y admiren lentamente los tatuajes, marcas y rasgos favoritos del otro con las yemas y las palabras.",
-    "descriptionEs": "Recorran y admiren lentamente los tatuajes, marcas y rasgos favoritos del otro con las yemas y las palabras.",
+    "description": "Aprecio de tatuajes, marcas y rasgos favoritos con tacto y palabras.",
+    "descriptionEs": "Aprecio de tatuajes, marcas y rasgos favoritos con tacto y palabras.",
     "tags": [
       "admiration",
       "body-positive",
@@ -5214,7 +5214,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Body Art Appreciation",
-    "descriptionEn": "Slowly trace and admire each other's tattoos, marks, and favorite features with fingertips and words.",
+    "descriptionEn": "Body art appreciation with fingertips, words, and admiration.",
     "pairMode": true
   },
   {
@@ -5222,8 +5222,8 @@
     "slug": "lap-pillow",
     "title": "Descanso en el Regazo",
     "titleEs": "Descanso en el Regazo",
-    "description": "Apoya la cabeza en el regazo de tu pareja mientras te acaricia el cabello y el rostro, compartiendo cercanía tranquila.",
-    "descriptionEs": "Apoya la cabeza en el regazo de tu pareja mientras te acaricia el cabello y el rostro, compartiendo cercanía tranquila.",
+    "description": "Descanso en el regazo con caricias en el cabello y cercanía tranquila.",
+    "descriptionEs": "Descanso en el regazo con caricias en el cabello y cercanía tranquila.",
     "tags": [
       "aftercare",
       "closeness",
@@ -5234,7 +5234,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Lap Pillow Rest",
-    "descriptionEn": "Rest your head in your partner's lap while they stroke your hair and face, sharing quiet closeness.",
+    "descriptionEn": "Lap-pillow rest with hair stroking and quiet closeness.",
     "pairMode": true
   },
   {
@@ -5254,7 +5254,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Intimacy Bucket List",
-    "descriptionEn": "Sit together and write a shared wish list of experiences you both want to try someday.",
+    "descriptionEn": "A shared wish list of intimate experiences to try someday.",
     "pairMode": true
   },
   {
@@ -5262,8 +5262,8 @@
     "slug": "muscle-worship",
     "title": "Apreciación de la Musculatura",
     "titleEs": "Apreciación de la Musculatura",
-    "description": "Admira y amasa suavemente los brazos, hombros y espalda de tu pareja, celebrando su fuerza.",
-    "descriptionEs": "Admira y amasa suavemente los brazos, hombros y espalda de tu pareja, celebrando su fuerza.",
+    "description": "Aprecio de la musculatura mediante admiración, tacto y masaje suave.",
+    "descriptionEs": "Aprecio de la musculatura mediante admiración, tacto y masaje suave.",
     "tags": [
       "worship",
       "admiration",
@@ -5274,7 +5274,7 @@
     "intensityScale": 1,
     "tier": "soft",
     "titleEn": "Muscle Appreciation",
-    "descriptionEn": "Admire and gently knead your partner's arms, shoulders, and back, celebrating their strength.",
+    "descriptionEn": "Muscle appreciation through admiring touch and gentle kneading.",
     "pairMode": true
   },
   {
@@ -5314,7 +5314,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Mutual Oral (69)",
-    "descriptionEn": "Pleasure each other orally at the same time, finding a comfortable position you both enjoy.",
+    "descriptionEn": "Simultaneous oral pleasure in a comfortable 69 position.",
     "pairMode": true
   },
   {
@@ -5334,7 +5334,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Grinding & Dry Humping",
-    "descriptionEn": "Build heat by pressing and grinding against each other while still partly clothed.",
+    "descriptionEn": "Partly clothed grinding and dry humping.",
     "pairMode": true
   },
   {
@@ -5342,8 +5342,8 @@
     "slug": "breast-play",
     "title": "Juego de Senos y Escote",
     "titleEs": "Juego de Senos y Escote",
-    "description": "Exploren besos, caricias y roces sobre los senos y el escote, siguiendo las señales de tu pareja.",
-    "descriptionEs": "Exploren besos, caricias y roces sobre los senos y el escote, siguiendo las señales de tu pareja.",
+    "description": "Juego de senos y escote con besos, caricias y presión.",
+    "descriptionEs": "Juego de senos y escote con besos, caricias y presión.",
     "tags": [
       "breasts",
       "touch",
@@ -5354,7 +5354,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Breast & Cleavage Play",
-    "descriptionEn": "Explore kissing, caressing, and pressing against the breasts and cleavage, following your partner's cues.",
+    "descriptionEn": "Breast and cleavage play with kissing, caressing, and pressing.",
     "pairMode": true
   },
   {
@@ -5362,8 +5362,8 @@
     "slug": "pinned-against-wall",
     "title": "Contra la Pared",
     "titleEs": "Contra la Pared",
-    "description": "Presiona a tu pareja contra la pared para un momento urgente y apasionado de cercanía de pie.",
-    "descriptionEs": "Presiona a tu pareja contra la pared para un momento urgente y apasionado de cercanía de pie.",
+    "description": "Cercanía urgente de pie contra la pared.",
+    "descriptionEs": "Cercanía urgente de pie contra la pared.",
     "tags": [
       "passion",
       "positioning",
@@ -5374,7 +5374,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Pinned Against the Wall",
-    "descriptionEn": "Press your partner against the wall for an urgent, passionate moment of standing closeness.",
+    "descriptionEn": "Urgent standing closeness pinned against a wall.",
     "pairMode": true
   },
   {
@@ -5522,8 +5522,8 @@
     "slug": "body-shots",
     "title": "Tragos sobre el Cuerpo",
     "titleEs": "Tragos sobre el Cuerpo",
-    "description": "Lame, sorbe o saborea una bebida o golosina sobre la piel de tu pareja en un ritual juguetón y sensual.",
-    "descriptionEs": "Lame, sorbe o saborea una bebida o golosina sobre la piel de tu pareja en un ritual juguetón y sensual.",
+    "description": "Tragos sobre el cuerpo con bebida o dulce probado desde la piel.",
+    "descriptionEs": "Tragos sobre el cuerpo con bebida o dulce probado desde la piel.",
     "tags": [
       "edible",
       "playful",
@@ -5534,7 +5534,7 @@
     "intensityScale": 1,
     "tier": "naughty",
     "titleEn": "Body Shots",
-    "descriptionEn": "Lick, sip, or taste a drink or treat off your partner's skin in a playful, sensual ritual.",
+    "descriptionEn": "Body shots with a drink or treat tasted from skin.",
     "pairMode": true
   },
   {
@@ -5554,7 +5554,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Size Difference Play",
-    "descriptionEn": "Play up a height or size contrast between you, leaning into feeling big or small, protective or petite.",
+    "descriptionEn": "Height or size contrast as a playful erotic focus.",
     "pairMode": true
   },
   {
@@ -5562,8 +5562,8 @@
     "slug": "maid-roleplay",
     "title": "Juego de Mucama y Empleador",
     "titleEs": "Juego de Mucama y Empleador",
-    "description": "Representen una escena coqueta donde uno hace de servicio doméstico atento y el otro de empleador agradecido.",
-    "descriptionEs": "Representen una escena coqueta donde uno hace de servicio doméstico atento y el otro de empleador agradecido.",
+    "description": "Roleplay coqueto de servicio doméstico y empleador.",
+    "descriptionEs": "Roleplay coqueto de servicio doméstico y empleador.",
     "tags": [
       "roleplay",
       "service",
@@ -5642,8 +5642,8 @@
     "slug": "interrogation-roleplay",
     "title": "Juego de Interrogatorio",
     "titleEs": "Juego de Interrogatorio",
-    "description": "Representen una escena tensa de interrogatorio donde uno intenta que el otro \"confiese\", con límites acordados.",
-    "descriptionEs": "Representen una escena tensa de interrogatorio donde uno intenta que el otro \"confiese\", con límites acordados.",
+    "description": "Roleplay de interrogatorio tenso con una confesión como fantasía.",
+    "descriptionEs": "Roleplay de interrogatorio tenso con una confesión como fantasía.",
     "tags": [
       "roleplay",
       "power-dynamic",
@@ -5742,8 +5742,8 @@
     "slug": "deity-worship",
     "title": "Adoración de Diosa o Deidad",
     "titleEs": "Adoración de Diosa o Deidad",
-    "description": "Una pareja es tratada como diosa o deidad a quien adorar, elogiar y consentir durante la escena.",
-    "descriptionEs": "Una pareja es tratada como diosa o deidad a quien adorar, elogiar y consentir durante la escena.",
+    "description": "Adoración, elogios y mimo como escena de deidad.",
+    "descriptionEs": "Adoración, elogios y mimo como escena de deidad.",
     "tags": [
       "worship",
       "power-dynamic",
@@ -5828,8 +5828,8 @@
     "slug": "objectification-play",
     "title": "Juego de Objetificación",
     "titleEs": "Juego de Objetificación",
-    "description": "Representen a una pareja como un \"objeto\" preciado para posar y admirar, con consentimiento y consultas durante todo el juego.",
-    "descriptionEs": "Representen a una pareja como un \"objeto\" preciado para posar y admirar, con consentimiento y consultas durante todo el juego.",
+    "description": "Objetificación como fantasía de posar, exhibir y admirar.",
+    "descriptionEs": "Objetificación como fantasía de posar, exhibir y admirar.",
     "tags": [
       "objectification",
       "power-dynamic",
@@ -5894,8 +5894,8 @@
     "slug": "rimming",
     "title": "Beso Negro",
     "titleEs": "Beso Negro",
-    "description": "Da atención oral-anal a tu pareja después de asearse, yendo despacio y consultando a menudo.",
-    "descriptionEs": "Da atención oral-anal a tu pareja después de asearse, yendo despacio y consultando a menudo.",
+    "description": "Atención oral-anal después de asearse.",
+    "descriptionEs": "Atención oral-anal después de asearse.",
     "tags": [
       "anal",
       "oral",
@@ -5905,7 +5905,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Rimming",
-    "descriptionEn": "Give oral-anal attention to your partner after washing up, going slow and checking in often.",
+    "descriptionEn": "Oral-anal attention after washing up.",
     "pairMode": true
   },
   {
@@ -5913,8 +5913,8 @@
     "slug": "anal-fingering",
     "title": "Estimulación Anal con Dedos",
     "titleEs": "Estimulación Anal con Dedos",
-    "description": "Usa los dedos bien lubricados para estimular suavemente a tu pareja, empezando poco a poco y avanzando solo con sus señales.",
-    "descriptionEs": "Usa los dedos bien lubricados para estimular suavemente a tu pareja, empezando poco a poco y avanzando solo con sus señales.",
+    "description": "Estimulación anal con dedos lubricados que empieza de forma gradual.",
+    "descriptionEs": "Estimulación anal con dedos lubricados que empieza de forma gradual.",
     "tags": [
       "anal",
       "fingers",
@@ -5924,7 +5924,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Anal Fingering",
-    "descriptionEn": "Use well-lubed fingers to gently stimulate your partner, starting small and building only with their cues.",
+    "descriptionEn": "Lubed anal fingering that starts small and builds gradually.",
     "pairMode": true
   },
   {
@@ -5932,8 +5932,8 @@
     "slug": "prostate-massage",
     "title": "Masaje de Próstata",
     "titleEs": "Masaje de Próstata",
-    "description": "Da un masaje interno lento y lubricado dirigido a la próstata, siguiendo la comodidad y las señales de tu pareja.",
-    "descriptionEs": "Da un masaje interno lento y lubricado dirigido a la próstata, siguiendo la comodidad y las señales de tu pareja.",
+    "description": "Masaje prostático interno lento y lubricado.",
+    "descriptionEs": "Masaje prostático interno lento y lubricado.",
     "tags": [
       "anal",
       "prostate",
@@ -5943,7 +5943,7 @@
     "intensityScale": 2,
     "tier": "naughty",
     "titleEn": "Prostate Massage",
-    "descriptionEn": "Give a slow, lubed internal massage aimed at the prostate, following your partner's.",
+    "descriptionEn": "Slow, lubed internal prostate massage.",
     "pairMode": true
   },
   {

@@ -15,6 +15,7 @@ type InviteRow = {
   invite_id: string;
   inviter_device_id: string;
   inviter_public_key: string;
+  inviter_signing_public_key: string;
   invite_secret_hash: string;
   created_at: number;
   expires_at: number;
@@ -28,6 +29,8 @@ type CoupleRow = {
   member_b_device_id: string;
   member_a_public_key: string;
   member_b_public_key: string;
+  member_a_signing_public_key: string;
+  member_b_signing_public_key: string;
   created_at: number;
   revoked_at: number | null;
 };
@@ -40,6 +43,7 @@ type SyncEventRow = {
   client_sequence: number;
   encrypted_payload: string;
   payload_hash: string;
+  signature: string;
   created_at: number;
   expires_at: number | null;
 };
@@ -53,6 +57,7 @@ function mapInvite(row: InviteRow): InviteRecord {
     inviteId: row.invite_id,
     inviterDeviceId: row.inviter_device_id,
     inviterPublicKey: row.inviter_public_key,
+    inviterSigningPublicKey: row.inviter_signing_public_key,
     inviteSecretHash: row.invite_secret_hash,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
@@ -68,6 +73,8 @@ function mapCouple(row: CoupleRow): CoupleRecord {
     memberBDeviceId: row.member_b_device_id,
     memberAPublicKey: row.member_a_public_key,
     memberBPublicKey: row.member_b_public_key,
+    memberASigningPublicKey: row.member_a_signing_public_key,
+    memberBSigningPublicKey: row.member_b_signing_public_key,
     createdAt: row.created_at,
     revokedAt: row.revoked_at,
   };
@@ -82,6 +89,7 @@ function mapEvent(row: SyncEventRow): SyncEventRecord {
     clientSequence: row.client_sequence,
     encryptedPayload: row.encrypted_payload,
     payloadHash: row.payload_hash,
+    signature: row.signature,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
   };
@@ -113,15 +121,17 @@ export class SqliteRelayStore implements RelayStore {
           invite_id,
           inviter_device_id,
           inviter_public_key,
+          inviter_signing_public_key,
           invite_secret_hash,
           created_at,
           expires_at
-        ) VALUES (?, ?, ?, ?, ?, ?)`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       )
       .run(
         inviteId,
         input.inviterDeviceId,
         input.inviterPublicKey,
+        input.inviterSigningPublicKey,
         input.inviteSecretHash,
         input.now,
         input.expiresAt,
@@ -157,8 +167,10 @@ export class SqliteRelayStore implements RelayStore {
             member_b_device_id,
             member_a_public_key,
             member_b_public_key,
+            member_a_signing_public_key,
+            member_b_signing_public_key,
             created_at
-          ) VALUES (?, ?, ?, ?, ?, ?)`,
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         )
         .run(
           coupleId,
@@ -166,6 +178,8 @@ export class SqliteRelayStore implements RelayStore {
           input.accepterDeviceId,
           inviteRow.inviter_public_key,
           input.accepterPublicKey,
+          inviteRow.inviter_signing_public_key,
+          input.accepterSigningPublicKey,
           input.now,
         );
 
@@ -210,9 +224,10 @@ export class SqliteRelayStore implements RelayStore {
             client_sequence,
             encrypted_payload,
             payload_hash,
+            signature,
             created_at,
             expires_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         )
         .run(
           input.eventId,
@@ -221,6 +236,7 @@ export class SqliteRelayStore implements RelayStore {
           input.clientSequence,
           input.encryptedPayload,
           input.payloadHash,
+          input.signature,
           input.now,
           input.expiresAt,
         );
@@ -281,6 +297,7 @@ export class SqliteRelayStore implements RelayStore {
         invite_id TEXT PRIMARY KEY,
         inviter_device_id TEXT NOT NULL,
         inviter_public_key TEXT NOT NULL,
+        inviter_signing_public_key TEXT NOT NULL DEFAULT '',
         invite_secret_hash TEXT NOT NULL,
         created_at INTEGER NOT NULL,
         expires_at INTEGER NOT NULL,
@@ -294,6 +311,8 @@ export class SqliteRelayStore implements RelayStore {
         member_b_device_id TEXT NOT NULL,
         member_a_public_key TEXT NOT NULL,
         member_b_public_key TEXT NOT NULL,
+        member_a_signing_public_key TEXT NOT NULL DEFAULT '',
+        member_b_signing_public_key TEXT NOT NULL DEFAULT '',
         created_at INTEGER NOT NULL,
         revoked_at INTEGER
       );
@@ -306,6 +325,7 @@ export class SqliteRelayStore implements RelayStore {
         client_sequence INTEGER NOT NULL,
         encrypted_payload TEXT NOT NULL,
         payload_hash TEXT NOT NULL,
+        signature TEXT NOT NULL DEFAULT '',
         created_at INTEGER NOT NULL,
         expires_at INTEGER,
         UNIQUE(couple_id, author_device_id, client_sequence)
@@ -314,5 +334,15 @@ export class SqliteRelayStore implements RelayStore {
       CREATE INDEX IF NOT EXISTS sync_events_couple_sequence
         ON sync_events (couple_id, server_sequence);
     `);
+    this.addColumnIfMissing('invites', 'inviter_signing_public_key', "TEXT NOT NULL DEFAULT ''");
+    this.addColumnIfMissing('couples', 'member_a_signing_public_key', "TEXT NOT NULL DEFAULT ''");
+    this.addColumnIfMissing('couples', 'member_b_signing_public_key', "TEXT NOT NULL DEFAULT ''");
+    this.addColumnIfMissing('sync_events', 'signature', "TEXT NOT NULL DEFAULT ''");
+  }
+
+  private addColumnIfMissing(table: string, column: string, definition: string): void {
+    const columns = this.db.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>;
+    if (columns.some((entry) => entry.name === column)) return;
+    this.db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
   }
 }

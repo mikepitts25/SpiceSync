@@ -7,15 +7,14 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore } from '../../src/stores/votes';
 import { useKinks } from '../../lib/data';
+import { useProfilesStore } from '../../lib/state/profiles';
 import { voteValue } from '../../lib/votes/rolePreferences';
 
 interface Suggestion {
@@ -32,7 +31,9 @@ export default function SuggestionsHub() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const language = useSettingsStore((state) => state.language);
-  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
+  const activeProfileId = useProfilesStore((state) =>
+    state.getActiveProfileId()
+  );
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
     activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}

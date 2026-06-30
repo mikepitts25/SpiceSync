@@ -5,12 +5,21 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Pressable, Share, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  Animated,
+  Pressable,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
+import { useRouter } from 'expo-router';
 import {
   Pause,
+  PlusCircle,
   Play,
   RefreshCw,
   RotateCcw,
@@ -33,17 +42,25 @@ import {
   filterCardsBySelectedLevels,
   type GameIntensityLevel,
 } from '../../lib/gameLevelFilter';
-import { createShuffledGameDeck } from '../../lib/gameDeck';
+import {
+  appendCustomGameCards,
+  createShuffledGameDeck,
+} from '../../lib/gameDeck';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import {
   formatGameCardTimerEstimate,
   formatGameCardTimerSeconds,
   parseGameCardTimerSeconds,
 } from '../../lib/gameTimer';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
 import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../constants/theme';
 
 type GameMode = 'normal' | 'intense';
+type VisibleGameScene = 'intro' | 'game';
+
+const GAME_SCENE_TRANSITION_MS = 240;
 
 const GAME_MODE_LEVELS: Record<GameMode, GameIntensityLevel[]> = {
   normal: [1, 2, 3],
@@ -51,24 +68,31 @@ const GAME_MODE_LEVELS: Record<GameMode, GameIntensityLevel[]> = {
 };
 
 export default function GameHub() {
+  const router = useRouter();
   const { t } = useTranslation();
-  const unlocked = useSettingsStore((state) => state.unlocked);
+  const localUnlocked = useSettingsStore((state) => state.unlocked);
+  const unlocked = hasPremiumFeatureAccess(localUnlocked);
   const language = useSettingsStore((state) => state.language);
+  const customCards = useCustomGameCardsStore((state) => state.cards);
   const [selectedMode, setSelectedMode] = useState<GameMode>('normal');
   const [hasStarted, setHasStarted] = useState(false);
+  const [visibleGameScene, setVisibleGameScene] =
+    useState<VisibleGameScene>('intro');
   const [currentCard, setCurrentCard] = useState<GameCard | null>(null);
   const [deckOrder, setDeckOrder] = useState<GameCard[]>([]);
   const [deckIndex, setDeckIndex] = useState(0);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const gameTransitionProgress = useRef(new Animated.Value(0)).current;
   const lastDeckOrderIdsRef = useRef<Record<GameMode, string[]>>({
     normal: [],
     intense: [],
   });
 
   const cards = useMemo(
-    () => getCardsByLanguage(language, unlocked),
-    [language, unlocked]
+    () =>
+      appendCustomGameCards(getCardsByLanguage(language, unlocked), customCards),
+    [customCards, language, unlocked]
   );
 
   const selectedLevels = GAME_MODE_LEVELS[selectedMode];
@@ -92,6 +116,39 @@ export default function GameHub() {
       ? formatGameCardTimerEstimate(totalTimerSeconds)
       : t.game.noTimeLimit;
 
+  const introSceneStyle = useMemo(
+    () => ({
+      opacity: gameTransitionProgress.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 0],
+      }),
+      transform: [
+        {
+          translateY: gameTransitionProgress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, -8],
+          }),
+        },
+      ],
+    }),
+    [gameTransitionProgress]
+  );
+
+  const gameSceneStyle = useMemo(
+    () => ({
+      opacity: gameTransitionProgress,
+      transform: [
+        {
+          translateY: gameTransitionProgress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [8, 0],
+          }),
+        },
+      ],
+    }),
+    [gameTransitionProgress]
+  );
+
   const dealNewDeck = useCallback(
     (avoidFirstCardId?: string | null) => {
       const nextDeck = createShuffledGameDeck(levelCards, {
@@ -109,16 +166,22 @@ export default function GameHub() {
     [levelCards, selectedMode]
   );
 
+  const resetGameSession = useCallback(() => {
+    setCurrentCard(null);
+    setDeckOrder([]);
+    setDeckIndex(0);
+    setTimerSeconds(0);
+    setIsTimerRunning(false);
+  }, []);
+
   useEffect(() => {
     if (!hasStarted) {
-      setCurrentCard(null);
-      setDeckOrder([]);
-      setDeckIndex(0);
+      resetGameSession();
       return;
     }
 
     dealNewDeck();
-  }, [dealNewDeck, hasStarted]);
+  }, [dealNewDeck, hasStarted, resetGameSession]);
 
   useEffect(() => {
     setTimerSeconds(totalTimerSeconds);
@@ -145,12 +208,21 @@ export default function GameHub() {
   }, [isTimerRunning, timerSeconds]);
 
   const startGame = useCallback(() => {
+    if (!levelCards.length) return;
+
+    gameTransitionProgress.stopAnimation();
+    setVisibleGameScene('game');
     setHasStarted(true);
-  }, []);
+    Animated.timing(gameTransitionProgress, {
+      toValue: 1,
+      duration: GAME_SCENE_TRANSITION_MS,
+      useNativeDriver: true,
+    }).start();
+  }, [gameTransitionProgress, levelCards.length]);
 
   const drawCard = useCallback(() => {
     if (!hasStarted) {
-      setHasStarted(true);
+      startGame();
       return;
     }
 
@@ -161,7 +233,7 @@ export default function GameHub() {
     }
 
     dealNewDeck(currentCard?.id);
-  }, [currentCard, dealNewDeck, deckIndex, deckOrder, hasStarted]);
+  }, [currentCard, dealNewDeck, deckIndex, deckOrder, hasStarted, startGame]);
 
   const startTimer = useCallback(() => {
     if (totalTimerSeconds <= 0 || timerSeconds <= 0) return;
@@ -178,13 +250,19 @@ export default function GameHub() {
   }, [totalTimerSeconds]);
 
   const endGame = useCallback(() => {
-    setHasStarted(false);
-    setCurrentCard(null);
-    setDeckOrder([]);
-    setDeckIndex(0);
-    setTimerSeconds(0);
+    gameTransitionProgress.stopAnimation();
+    setVisibleGameScene('intro');
     setIsTimerRunning(false);
-  }, []);
+    Animated.timing(gameTransitionProgress, {
+      toValue: 0,
+      duration: GAME_SCENE_TRANSITION_MS,
+      useNativeDriver: true,
+    }).start(({ finished }) => {
+      if (!finished) return;
+      setHasStarted(false);
+      resetGameSession();
+    });
+  }, [gameTransitionProgress, resetGameSession]);
 
   const changeGameMode = useCallback((mode: GameMode) => {
     setSelectedMode(mode);
@@ -274,175 +352,208 @@ export default function GameHub() {
           ) : null}
         </View>
 
-        {!hasStarted ? (
-          <View style={styles.introCard}>
-            <CardAccentTop />
-            <View style={styles.introInner}>
-              <View style={styles.introBadgeRow}>
-                {[t.game.truth, t.game.dare, t.game.challenge].map((label) => (
-                  <View key={label} style={styles.introBadge}>
-                    <Text style={styles.introBadgeText}>
-                      {label.toUpperCase()}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-              <Text style={styles.introTitle}>{t.game.introTitle}</Text>
-              <Text style={styles.introBody}>
-                {interpolate(t.game.introBody, {
-                  count: levelCards.length,
-                  mode: selectedModeLabel,
-                })}
-              </Text>
-
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t.game.startPlaying}
-                disabled={!levelCards.length}
-                onPress={startGame}
-                style={styles.startPress}
-              >
-                <LinearGradient
-                  colors={
-                    levelCards.length ? GRADIENTS.primary : GRADIENTS.card
-                  }
-                  start={{ x: 0, y: 0.5 }}
-                  end={{ x: 1, y: 0.5 }}
-                  style={styles.startButton}
-                >
-                  <Play size={22} color={COLORS.textPrimary} fill="white" />
-                  <Text style={styles.startButtonText}>
-                    {t.game.startPlaying}
-                  </Text>
-                </LinearGradient>
-              </Pressable>
-            </View>
-          </View>
-        ) : (
-          <>
-            <View style={styles.gameCard}>
+        <View style={styles.transitionStage}>
+          <Animated.View
+            pointerEvents={visibleGameScene === 'intro' ? 'auto' : 'none'}
+            accessibilityElementsHidden={visibleGameScene !== 'intro'}
+            importantForAccessibility={
+              visibleGameScene === 'intro' ? 'auto' : 'no-hide-descendants'
+            }
+            style={[styles.sceneLayer, introSceneStyle]}
+          >
+            <View style={styles.introCard}>
               <CardAccentTop />
-              <View style={styles.cardInner}>
-                <View style={styles.cardTopRow}>
-                  <Text style={styles.categoryLabel}>{typeLabel}</Text>
-                  <IntensityDots
-                    value={
-                      currentCard?.intensity ??
-                      selectedLevels[selectedLevels.length - 1]
+              <View style={styles.introInner}>
+                <View style={styles.introBadgeRow}>
+                  {[t.game.truth, t.game.dare, t.game.challenge].map(
+                    (label) => (
+                      <View key={label} style={styles.introBadge}>
+                        <Text style={styles.introBadgeText}>
+                          {label.toUpperCase()}
+                        </Text>
+                      </View>
+                    )
+                  )}
+                </View>
+                <Text style={styles.introTitle}>{t.game.introTitle}</Text>
+                <Text style={styles.introBody}>
+                  {interpolate(t.game.introBody, {
+                    count: levelCards.length,
+                    mode: selectedModeLabel,
+                  })}
+                </Text>
+
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Open custom deck"
+                  onPress={() => router.push('/(game)/custom-deck')}
+                  style={styles.customDeckButton}
+                >
+                  <PlusCircle size={18} color={COLORS.pink} />
+                  <Text style={styles.customDeckButtonText}>
+                    Custom Deck
+                  </Text>
+                </Pressable>
+
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={t.game.startPlaying}
+                  disabled={!levelCards.length}
+                  onPress={startGame}
+                  style={styles.startPress}
+                >
+                  <LinearGradient
+                    colors={
+                      levelCards.length ? GRADIENTS.primary : GRADIENTS.card
                     }
-                    max={5}
-                  />
-                </View>
-                <View style={styles.cardMainContent}>
-                  <AccentBar />
-
-                  <Text style={styles.cardTitle}>
-                    {currentCard
-                      ? titleForCard(currentCard, t.game.titles)
-                      : t.game.noCardsForLevels}
-                  </Text>
-                  <Text style={styles.cardBody}>
-                    {currentCard?.content ?? t.game.chooseDifferentLevels}
-                  </Text>
-
-                  <View style={styles.timerBadge}>
-                    <Timer size={14} color={COLORS.maybe} />
-                    <Text style={styles.timerText}>{timerEstimateText}</Text>
-                  </View>
-                </View>
-
-                {totalTimerSeconds > 0 ? (
-                  <View style={styles.timerPanel}>
-                    <View style={styles.timerProgressTrack}>
-                      <View
-                        style={[
-                          styles.timerProgressFill,
-                          {
-                            width: `${timerProgress * 100}%`,
-                            backgroundColor:
-                              timerSeconds <= 10 ? COLORS.no : COLORS.pink,
-                          },
-                        ]}
-                      />
-                    </View>
-                    <View style={styles.timerPanelRow}>
-                      <View>
-                        <Text
-                          style={[
-                            styles.timerCountdown,
-                            timerSeconds <= 10 && styles.timerCountdownUrgent,
-                          ]}
-                        >
-                          {formatGameCardTimerSeconds(timerSeconds)}
-                        </Text>
-                        <Text style={styles.timerStatus}>
-                          {timerSeconds === 0
-                            ? t.game.timesUp
-                            : timerEstimateText}
-                        </Text>
-                      </View>
-                      <View style={styles.timerButtonRow}>
-                        <Pressable
-                          accessibilityRole="button"
-                          accessibilityLabel={
-                            isTimerRunning
-                              ? t.game.pauseTimer
-                              : t.game.startTimer
-                          }
-                          onPress={isTimerRunning ? pauseTimer : startTimer}
-                          style={styles.timerControlButton}
-                        >
-                          {isTimerRunning ? (
-                            <Pause size={16} color={COLORS.textPrimary} />
-                          ) : (
-                            <Play size={16} color={COLORS.textPrimary} />
-                          )}
-                          <Text style={styles.timerControlText}>
-                            {isTimerRunning
-                              ? t.game.pauseTimer
-                              : t.game.startTimer}
-                          </Text>
-                        </Pressable>
-                        <Pressable
-                          accessibilityRole="button"
-                          accessibilityLabel={t.game.resetTimer}
-                          onPress={resetTimer}
-                          style={styles.timerIconButton}
-                        >
-                          <RotateCcw size={17} color={COLORS.textPrimary} />
-                        </Pressable>
-                      </View>
-                    </View>
-                  </View>
-                ) : null}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={styles.startButton}
+                  >
+                    <Play size={22} color={COLORS.textPrimary} fill="white" />
+                    <Text style={styles.startButtonText}>
+                      {t.game.startPlaying}
+                    </Text>
+                  </LinearGradient>
+                </Pressable>
               </View>
             </View>
+          </Animated.View>
 
-            <View style={styles.actionRow}>
-              <ActionCircle
-                label={t.game.skip.toUpperCase()}
-                icon={X}
-                color={COLORS.no}
-                onPress={drawCard}
-              />
-              <ActionCircle
-                label={t.game.draw.toUpperCase()}
-                icon={RefreshCw}
-                variant="gradient"
-                color={COLORS.pink}
-                size={66}
-                iconSize={28}
-                onPress={drawCard}
-              />
-              <ActionCircle
-                label={t.game.share.toUpperCase()}
-                icon={Share2}
-                color={COLORS.maybe}
-                onPress={handleShare}
-              />
+          <Animated.View
+            pointerEvents={visibleGameScene === 'game' ? 'auto' : 'none'}
+            accessibilityElementsHidden={visibleGameScene !== 'game'}
+            importantForAccessibility={
+              visibleGameScene === 'game' ? 'auto' : 'no-hide-descendants'
+            }
+            style={[styles.sceneLayer, gameSceneStyle]}
+          >
+            <View style={styles.gameScene}>
+              <View style={styles.gameCard}>
+                <CardAccentTop />
+                <View style={styles.cardInner}>
+                  <View style={styles.cardTopRow}>
+                    <Text style={styles.categoryLabel}>{typeLabel}</Text>
+                    <IntensityDots
+                      value={
+                        currentCard?.intensity ??
+                        selectedLevels[selectedLevels.length - 1]
+                      }
+                      max={5}
+                    />
+                  </View>
+                  <View style={styles.cardMainContent}>
+                    <AccentBar />
+
+                    <Text style={styles.cardTitle}>
+                      {currentCard
+                        ? titleForCard(currentCard, t.game.titles)
+                        : t.game.noCardsForLevels}
+                    </Text>
+                    <Text style={styles.cardBody}>
+                      {currentCard?.content ?? t.game.chooseDifferentLevels}
+                    </Text>
+
+                    <View style={styles.timerBadge}>
+                      <Timer size={14} color={COLORS.maybe} />
+                      <Text style={styles.timerText}>{timerEstimateText}</Text>
+                    </View>
+                  </View>
+
+                  {totalTimerSeconds > 0 ? (
+                    <View style={styles.timerPanel}>
+                      <View style={styles.timerProgressTrack}>
+                        <View
+                          style={[
+                            styles.timerProgressFill,
+                            {
+                              width: `${timerProgress * 100}%`,
+                              backgroundColor:
+                                timerSeconds <= 10 ? COLORS.no : COLORS.pink,
+                            },
+                          ]}
+                        />
+                      </View>
+                      <View style={styles.timerPanelRow}>
+                        <View>
+                          <Text
+                            style={[
+                              styles.timerCountdown,
+                              timerSeconds <= 10 &&
+                                styles.timerCountdownUrgent,
+                            ]}
+                          >
+                            {formatGameCardTimerSeconds(timerSeconds)}
+                          </Text>
+                          <Text style={styles.timerStatus}>
+                            {timerSeconds === 0
+                              ? t.game.timesUp
+                              : timerEstimateText}
+                          </Text>
+                        </View>
+                        <View style={styles.timerButtonRow}>
+                          <Pressable
+                            accessibilityRole="button"
+                            accessibilityLabel={
+                              isTimerRunning
+                                ? t.game.pauseTimer
+                                : t.game.startTimer
+                            }
+                            onPress={isTimerRunning ? pauseTimer : startTimer}
+                            style={styles.timerControlButton}
+                          >
+                            {isTimerRunning ? (
+                              <Pause size={16} color={COLORS.textPrimary} />
+                            ) : (
+                              <Play size={16} color={COLORS.textPrimary} />
+                            )}
+                            <Text style={styles.timerControlText}>
+                              {isTimerRunning
+                                ? t.game.pauseTimer
+                                : t.game.startTimer}
+                            </Text>
+                          </Pressable>
+                          <Pressable
+                            accessibilityRole="button"
+                            accessibilityLabel={t.game.resetTimer}
+                            onPress={resetTimer}
+                            style={styles.timerIconButton}
+                          >
+                            <RotateCcw size={17} color={COLORS.textPrimary} />
+                          </Pressable>
+                        </View>
+                      </View>
+                    </View>
+                  ) : null}
+                </View>
+              </View>
+
+              <View style={styles.actionRow}>
+                <ActionCircle
+                  label={t.game.skip.toUpperCase()}
+                  icon={X}
+                  color={COLORS.no}
+                  onPress={drawCard}
+                />
+                <ActionCircle
+                  label={t.game.draw.toUpperCase()}
+                  icon={RefreshCw}
+                  variant="gradient"
+                  color={COLORS.pink}
+                  size={66}
+                  iconSize={28}
+                  onPress={drawCard}
+                />
+                <ActionCircle
+                  label={t.game.share.toUpperCase()}
+                  icon={Share2}
+                  color={COLORS.maybe}
+                  onPress={handleShare}
+                />
+              </View>
             </View>
-          </>
-        )}
+          </Animated.View>
+        </View>
       </View>
 
       <AppTabBar active="game" />
@@ -506,7 +617,7 @@ const styles = StyleSheet.create({
   },
   endGameText: {
     color: COLORS.textSub,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
   levelRow: {
@@ -549,11 +660,18 @@ const styles = StyleSheet.create({
   },
   intenseDisclaimer: {
     color: COLORS.maybe,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
     lineHeight: 18,
     textAlign: 'center',
     paddingHorizontal: 8,
+  },
+  transitionStage: {
+    flex: 1,
+    position: 'relative',
+  },
+  sceneLayer: {
+    ...StyleSheet.absoluteFillObject,
   },
   introCard: {
     flex: 1,
@@ -588,7 +706,7 @@ const styles = StyleSheet.create({
   },
   introBadgeText: {
     color: COLORS.textMuted,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '800',
     textAlign: 'center',
   },
@@ -605,6 +723,23 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  customDeckButton: {
+    minHeight: 44,
+    borderRadius: RADII.pill,
+    borderWidth: 1,
+    borderColor: 'rgba(255,47,146,0.35)',
+    backgroundColor: 'rgba(255,47,146,0.08)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 14,
+  },
+  customDeckButtonText: {
+    color: COLORS.pink,
+    fontSize: 16,
+    fontWeight: '800',
   },
   startPress: {
     alignSelf: 'stretch',
@@ -625,6 +760,10 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     fontSize: 18,
     fontWeight: '800',
+  },
+  gameScene: {
+    flex: 1,
+    gap: 12,
   },
   gameCard: {
     flex: 1,
@@ -727,7 +866,7 @@ const styles = StyleSheet.create({
   },
   timerStatus: {
     color: COLORS.textMuted,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
   },
@@ -747,7 +886,7 @@ const styles = StyleSheet.create({
   },
   timerControlText: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
   timerIconButton: {

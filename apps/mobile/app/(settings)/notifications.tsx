@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
 import { Bell, Heart, Sparkles, Trophy } from 'lucide-react-native';
 

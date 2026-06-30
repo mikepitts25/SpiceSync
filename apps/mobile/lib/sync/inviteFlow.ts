@@ -67,6 +67,7 @@ export async function createInvite(
   const response = await client.createInvite({
     inviterDeviceId: identity.deviceId,
     inviterPublicKey: identity.encryptionPublicKey,
+    inviterSigningPublicKey: identity.signingPublicKey,
     inviteSecretHash,
     inviterProfileName: profile.profileName ?? null,
     inviterProfileAvatar: profile.profileAvatar ?? null,
@@ -84,6 +85,7 @@ export type InviteLookup =
   | {
       kind: 'pending';
       inviterPublicKey: string;
+      inviterSigningPublicKey: string;
       inviterProfileName?: string | null;
       inviterProfileAvatar?: string | null;
       expiresAt: number;
@@ -100,6 +102,7 @@ export async function lookupInvite(inviteId: string): Promise<InviteLookup> {
   return {
     kind: 'pending',
     inviterPublicKey: response.inviterPublicKey,
+    inviterSigningPublicKey: response.inviterSigningPublicKey,
     inviterProfileName: response.inviterProfileName ?? null,
     inviterProfileAvatar: response.inviterProfileAvatar ?? null,
     expiresAt: response.expiresAt,
@@ -123,6 +126,7 @@ export async function acceptInvite(
   const result = await client.acceptInvite(parsed.inviteId, {
     accepterDeviceId: identity.deviceId,
     accepterPublicKey: identity.encryptionPublicKey,
+    accepterSigningPublicKey: identity.signingPublicKey,
     inviteProof: proof,
     accepterProfileName: profile.profileName ?? null,
     accepterProfileAvatar: profile.profileAvatar ?? null,
@@ -134,6 +138,9 @@ export async function acceptInvite(
   const partnerEncryptionPublicKey = isMemberA
     ? result.memberBPublicKey
     : result.memberAPublicKey;
+  const partnerSigningPublicKey = isMemberA
+    ? result.memberBSigningPublicKey
+    : result.memberASigningPublicKey;
   const partnerProfileName = isMemberA
     ? result.memberBProfileName
     : result.memberAProfileName;
@@ -144,7 +151,7 @@ export async function acceptInvite(
     coupleId: result.coupleId,
     myDeviceId: identity.deviceId,
     partnerDeviceId,
-    partnerSigningPublicKey: '',
+    partnerSigningPublicKey,
     partnerEncryptionPublicKey,
     partnerProfileName: partnerProfileName ?? null,
     partnerProfileAvatar: partnerProfileAvatar ?? null,
@@ -172,6 +179,9 @@ export async function finalizePendingInvite(
   const partnerEncryptionPublicKey = isMemberA
     ? couple.memberBPublicKey
     : couple.memberAPublicKey;
+  const partnerSigningPublicKey = isMemberA
+    ? couple.memberBSigningPublicKey
+    : couple.memberASigningPublicKey;
   const partnerProfileName = isMemberA
     ? couple.memberBProfileName
     : couple.memberAProfileName;
@@ -182,7 +192,7 @@ export async function finalizePendingInvite(
     coupleId: couple.coupleId,
     myDeviceId: identity.deviceId,
     partnerDeviceId,
-    partnerSigningPublicKey: '',
+    partnerSigningPublicKey,
     partnerEncryptionPublicKey,
     partnerProfileName: partnerProfileName ?? null,
     partnerProfileAvatar: partnerProfileAvatar ?? null,

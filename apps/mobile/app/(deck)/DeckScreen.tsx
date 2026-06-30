@@ -3,7 +3,7 @@
 
 import React, { useMemo, useState, useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import SwipeDeck from '../../components/SwipeDeckRedesigned';

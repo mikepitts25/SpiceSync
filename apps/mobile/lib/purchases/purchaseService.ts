@@ -11,6 +11,7 @@ import {
   PRICING,
 } from '../pricing';
 import { usePremiumStore } from '../../src/stores/premium';
+import { getStoreKitAppAccountToken } from './storeKitAccountToken';
 
 // Product information for display
 export interface ProductInfo {
@@ -27,6 +28,7 @@ export interface PurchaseResult {
   success: boolean;
   sku?: string;
   receipt?: string;
+  appAccountToken?: string;
   error?: string;
 }
 
@@ -141,10 +143,21 @@ class PurchaseService {
         };
       }
 
+      const appAccountToken =
+        Platform.OS === 'ios' ? await getStoreKitAppAccountToken() : null;
+      if (Platform.OS === 'ios' && !appAccountToken) {
+        return {
+          success: false,
+          sku,
+          error: 'Purchases require Supabase auth for StoreKit account linking.',
+        };
+      }
+
       console.log(`[PurchaseService] Purchasing ${sku}...`);
 
       // In production:
-      // const { responseCode, results } = await InAppPurchases.purchaseItemAsync(sku);
+      // Pass appAccountToken to StoreKit when starting the purchase.
+      // const { responseCode, results } = await InAppPurchases.purchaseItemAsync(sku, { appAccountToken });
       // if (responseCode === InAppPurchases.IAPResponseCode.OK) {
       //   const purchase = results[0];
       //   return { success: true, sku, receipt: purchase.purchaseToken };
@@ -166,10 +179,20 @@ class PurchaseService {
       } else if (sku === PRODUCT_SKUS.GIFT_PREMIUM) {
         // Gift purchases don't upgrade the buyer
         const code = await store.generateGiftCode();
-        return { success: true, sku, receipt: mockReceipt + '_gift_' + code };
+        return {
+          success: true,
+          sku,
+          receipt: mockReceipt + '_gift_' + code,
+          appAccountToken: appAccountToken ?? undefined,
+        };
       }
 
-      return { success: true, sku, receipt: mockReceipt };
+      return {
+        success: true,
+        sku,
+        receipt: mockReceipt,
+        appAccountToken: appAccountToken ?? undefined,
+      };
     } catch (error) {
       console.error(`[PurchaseService] Purchase failed for ${sku}:`, error);
       return {

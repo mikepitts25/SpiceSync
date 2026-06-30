@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../../components/SafeAreaView';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../../constants/theme';
 import { useSettingsStore } from '../../../src/stores/settingsStore';
 import { useKinks } from '../../../lib/data';
+import { useProfilesStore } from '../../../lib/state/profiles';
 import { useVotesStore } from '../../../src/stores/votes';
 import { voteValue } from '../../../lib/votes/rolePreferences';
 
@@ -16,7 +15,9 @@ export default function ActivityDetail() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const language = useSettingsStore((state) => state.language);
-  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
+  const activeProfileId = useProfilesStore((state) =>
+    state.getActiveProfileId()
+  );
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
     activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}

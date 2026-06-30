@@ -5,6 +5,7 @@ import {
   encryptForPartner,
   sha256Base64,
   signEd25519,
+  verifyEd25519,
 } from './crypto';
 import { PendingEvent, PlainSyncEvent, useEventQueueStore } from './eventQueue';
 import { getIdentityIfExists } from './identity';
@@ -20,6 +21,65 @@ function signaturePayload(
   payloadHash: string
 ): string {
   return `${eventId}:${clientSequence}:${payloadHash}`;
+}
+
+function verifyEventSignature(
+  partnerSigningPublicKey: string,
+  event: SyncEventResponse
+): boolean {
+  if (!partnerSigningPublicKey || !event.signature) return false;
+  try {
+    return verifyEd25519(
+      decodeBase64(partnerSigningPublicKey),
+      decodeBase64(event.signature),
+      new TextEncoder().encode(
+        signaturePayload(event.eventId, event.clientSequence, event.payloadHash)
+      )
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isPlainSyncEvent(value: unknown): value is PlainSyncEvent {
+  if (!value || typeof value !== 'object') return false;
+  const event = value as Partial<PlainSyncEvent>;
+  if (
+    event.schemaVersion !== 1 ||
+    typeof event.eventId !== 'string' ||
+    typeof event.authorDeviceId !== 'string' ||
+    typeof event.updatedAt !== 'number'
+  ) {
+    return false;
+  }
+
+  if (event.eventType === 'vote.upsert') {
+    return (
+      typeof event.cardId === 'string' &&
+      (event.vote === 'yes' || event.vote === 'maybe' || event.vote === 'no')
+    );
+  }
+  if (event.eventType === 'reveal.unlock') {
+    return (
+      event.bucket === 'partialYesMaybe' || event.bucket === 'mutualMaybe'
+    );
+  }
+  if (event.eventType === 'progress.snapshot') {
+    return typeof event.answeredCount === 'number';
+  }
+  return event.eventType === 'couple.unlink';
+}
+
+function eventClaimsMatchEnvelope(
+  event: PlainSyncEvent,
+  envelope: SyncEventResponse,
+  partnerDeviceId: string
+): boolean {
+  return (
+    envelope.authorDeviceId === partnerDeviceId &&
+    event.authorDeviceId === envelope.authorDeviceId &&
+    event.eventId === envelope.eventId
+  );
 }
 
 async function uploadPending(pending: PendingEvent): Promise<void> {
@@ -107,31 +167,41 @@ function applyDecryptedEvent(event: PlainSyncEvent, receivedAt: number): void {
 async function applyServerEvents(
   events: SyncEventResponse[],
   myDeviceId: string
-): Promise<number> {
+): Promise<{ applied: number; lastSequence: number }> {
   const link = useCoupleLinkStore.getState().link;
-  if (!link) return 0;
+  if (!link) {
+    return { applied: 0, lastSequence: 0 };
+  }
   const id = await getIdentityIfExists();
-  if (!id) return 0;
+  if (!id) {
+    return { applied: 0, lastSequence: link.lastPulledServerSequence };
+  }
   const partnerEncryptionPublic = decodeBase64(link.partnerEncryptionPublicKey);
   let lastSequence = link.lastPulledServerSequence;
+  let applied = 0;
   for (const event of events) {
     if (event.serverSequence > lastSequence)
       lastSequence = event.serverSequence;
     if (event.authorDeviceId === myDeviceId) continue;
     if (sha256Base64(event.encryptedPayload) !== event.payloadHash) continue;
+    if (!verifyEventSignature(link.partnerSigningPublicKey, event)) continue;
     try {
       const plaintext = decryptFromPartner(
         id.encryptionPrivateKey,
         partnerEncryptionPublic,
         event.encryptedPayload
       );
-      const decoded = JSON.parse(plaintext) as PlainSyncEvent;
+      const decoded = JSON.parse(plaintext);
+      if (!isPlainSyncEvent(decoded)) continue;
+      if (!eventClaimsMatchEnvelope(decoded, event, link.partnerDeviceId))
+        continue;
       applyDecryptedEvent(decoded, Date.now());
+      applied += 1;
     } catch {
       continue;
     }
   }
-  return lastSequence;
+  return { applied, lastSequence };
 }
 
 export async function pullPartnerEvents(): Promise<{ applied: number }> {
@@ -144,13 +214,13 @@ export async function pullPartnerEvents(): Promise<{ applied: number }> {
     link.lastPulledServerSequence
   );
   if (response.events.length === 0) return { applied: 0 };
-  const newCursor = await applyServerEvents(
+  const { applied, lastSequence } = await applyServerEvents(
     response.events,
     id.identity.deviceId
   );
-  useCoupleLinkStore.getState().updateCursor(newCursor);
+  useCoupleLinkStore.getState().updateCursor(lastSequence);
   useCoupleLinkStore.getState().markSynced(Date.now());
-  return { applied: response.events.length };
+  return { applied };
 }
 
 export async function syncOnce(): Promise<{

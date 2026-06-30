@@ -8,14 +8,15 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
+import { ChevronLeft } from 'lucide-react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-import { GameCardType, GameCard } from '../../data/gameCards';
+import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
+import { GameCardType } from '../../data/gameCards';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 
 const CARD_TYPES: { id: GameCardType; name: string; emoji: string }[] = [
   { id: 'truth', name: 'Truth', emoji: '💭' },
@@ -28,16 +29,38 @@ const CARD_TYPES: { id: GameCardType; name: string; emoji: string }[] = [
 export default function CustomDeckBuilder() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const unlocked = useSettingsStore((state) => state.unlocked);
+  const localUnlocked = useSettingsStore((state) => state.unlocked);
+  const unlocked = hasPremiumFeatureAccess(localUnlocked);
 
   const [content, setContent] = useState('');
   const [selectedType, setSelectedType] = useState<GameCardType>('truth');
   const [intensity, setIntensity] = useState(3);
-  const [customCards, setCustomCards] = useState<GameCard[]>([]);
+  const customCards = useCustomGameCardsStore((state) => state.cards);
+  const addCustomCard = useCustomGameCardsStore((state) => state.addCard);
+  const deleteCustomCard = useCustomGameCardsStore((state) => state.deleteCard);
+
+  const handleExitCustomDeck = () => {
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+
+    router.replace('/(game)');
+  };
 
   if (!unlocked) {
     return (
       <SafeAreaView style={styles.container}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Back to game menu"
+          hitSlop={8}
+          style={[styles.exitButton, styles.lockedExitButton]}
+          onPress={handleExitCustomDeck}
+        >
+          <ChevronLeft size={20} color={COLORS.textSecondary} />
+          <Text style={styles.exitButtonText}>Back</Text>
+        </Pressable>
         <View style={styles.lockedContainer}>
           <Text style={styles.lockedEmoji}>🔒</Text>
           <Text style={styles.lockedTitle}>Premium Feature</Text>
@@ -61,23 +84,20 @@ export default function CustomDeckBuilder() {
       return;
     }
 
-    const newCard: GameCard = {
-      id: `custom-${Date.now()}`,
+    addCustomCard({
       type: selectedType,
       content: content.trim(),
       intensity: intensity as 1 | 2 | 3 | 4 | 5,
       category: 'playful',
-      isPremium: true,
       estimatedTime: '1 min',
-    };
+    });
 
-    setCustomCards([...customCards, newCard]);
     setContent('');
     Alert.alert('Card Added!', 'Your custom card has been added to your deck');
   };
 
   const handleDeleteCard = (id: string) => {
-    setCustomCards(customCards.filter((c) => c.id !== id));
+    deleteCustomCard(id);
   };
 
   return (
@@ -88,6 +108,16 @@ export default function CustomDeckBuilder() {
       >
         {/* Header */}
         <View style={styles.header}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Back to game menu"
+            hitSlop={8}
+            style={styles.exitButton}
+            onPress={handleExitCustomDeck}
+          >
+            <ChevronLeft size={20} color={COLORS.textSecondary} />
+            <Text style={styles.exitButtonText}>Back</Text>
+          </Pressable>
           <Text style={styles.title}>✨ Custom Deck</Text>
           <Text style={styles.subtitle}>
             {customCards.length} custom cards created
@@ -240,6 +270,24 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.bold,
     fontSize: SIZES.body,
     color: '#fff',
+  },
+  exitButton: {
+    alignSelf: 'flex-start',
+    minHeight: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingRight: SIZES.padding,
+    marginBottom: SIZES.padding * 0.75,
+  },
+  lockedExitButton: {
+    marginLeft: SIZES.padding * 2,
+    marginTop: SIZES.padding,
+  },
+  exitButtonText: {
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.body,
+    color: COLORS.textSecondary,
   },
   header: {
     padding: SIZES.padding * 2,

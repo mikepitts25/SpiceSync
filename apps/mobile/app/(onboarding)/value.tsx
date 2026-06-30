@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, Animated } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { SpiceSyncLogo } from '../../components/app-chrome';
 

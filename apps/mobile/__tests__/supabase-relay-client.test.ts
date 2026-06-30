@@ -36,6 +36,7 @@ describe('SupabaseRelayClient', () => {
       client.createInvite({
         inviterDeviceId: 'dev_a',
         inviterPublicKey: 'pub_a',
+        inviterSigningPublicKey: 'sign_pub_a',
         inviteSecretHash: 'hash_a',
         inviterProfileName: 'Alex',
         inviterProfileAvatar: 'fire',
@@ -51,6 +52,7 @@ describe('SupabaseRelayClient', () => {
     expect(supabase.rpc).toHaveBeenCalledWith('spicesync_create_invite', {
       p_inviter_device_id: 'dev_a',
       p_inviter_public_key: 'pub_a',
+      p_inviter_signing_public_key: 'sign_pub_a',
       p_invite_secret_hash: 'hash_a',
       p_inviter_profile_name: 'Alex',
       p_inviter_profile_avatar: 'fire',
@@ -68,6 +70,7 @@ describe('SupabaseRelayClient', () => {
         inviteId: 'inv_2',
         inviterDeviceId: 'dev_a',
         inviterPublicKey: 'pub_a',
+        inviterSigningPublicKey: 'sign_pub_a',
         expiresAt: 1770000000,
         acceptedAt: null,
         coupleId: null,
@@ -85,6 +88,77 @@ describe('SupabaseRelayClient', () => {
     });
   });
 
+  it('returns the authenticated Supabase user id for StoreKit account tokens', async () => {
+    const userId = 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6';
+    const supabase = makeSupabaseMock();
+    supabase.auth.getSession.mockResolvedValueOnce({
+      data: { session: { user: { id: userId } } },
+      error: null,
+    });
+
+    const client = new SupabaseRelayClient(supabase);
+
+    await expect(client.getAuthenticatedUserId()).resolves.toBe(userId);
+    expect(supabase.auth.signInAnonymously).not.toHaveBeenCalled();
+  });
+
+  it('returns the new anonymous Supabase user id when no session exists', async () => {
+    const userId = '9b2f6d55-9b8a-4dbb-b9dd-5120f20fd533';
+    const supabase = makeSupabaseMock();
+    supabase.auth.signInAnonymously.mockResolvedValueOnce({
+      data: { user: { id: userId } },
+      error: null,
+    });
+
+    const client = new SupabaseRelayClient(supabase);
+
+    await expect(client.getAuthenticatedUserId()).resolves.toBe(userId);
+    expect(supabase.auth.signInAnonymously).toHaveBeenCalledTimes(1);
+  });
+
+  it('maps acceptInvite signing keys through the Supabase RPC', async () => {
+    const supabase = makeSupabaseMock();
+    supabase.rpc.mockResolvedValueOnce({
+      data: {
+        coupleId: 'cpl_1',
+        memberADeviceId: 'dev_a',
+        memberBDeviceId: 'dev_b',
+        memberAPublicKey: 'pub_a',
+        memberBPublicKey: 'pub_b',
+        memberASigningPublicKey: 'sign_pub_a',
+        memberBSigningPublicKey: 'sign_pub_b',
+        createdAt: 1770000000,
+      },
+      error: null,
+    });
+
+    const client = new SupabaseRelayClient(supabase);
+
+    await expect(
+      client.acceptInvite('inv_1', {
+        accepterDeviceId: 'dev_b',
+        accepterPublicKey: 'pub_b',
+        accepterSigningPublicKey: 'sign_pub_b',
+        inviteProof: 'proof',
+        accepterProfileName: 'Bee',
+        accepterProfileAvatar: 'sparkles',
+      })
+    ).resolves.toMatchObject({
+      coupleId: 'cpl_1',
+      memberBSigningPublicKey: 'sign_pub_b',
+    });
+
+    expect(supabase.rpc).toHaveBeenCalledWith('spicesync_accept_invite', {
+      p_invite_id: 'inv_1',
+      p_accepter_device_id: 'dev_b',
+      p_accepter_public_key: 'pub_b',
+      p_accepter_signing_public_key: 'sign_pub_b',
+      p_invite_proof: 'proof',
+      p_accepter_profile_name: 'Bee',
+      p_accepter_profile_avatar: 'sparkles',
+    });
+  });
+
   it('maps append/list/revoke RPC calls to the existing relay API shape', async () => {
     const supabase = makeSupabaseMock();
     supabase.rpc
@@ -97,6 +171,7 @@ describe('SupabaseRelayClient', () => {
           clientSequence: 3,
           encryptedPayload: 'ciphertext',
           payloadHash: 'hash',
+          signature: 'sig',
           createdAt: 1770000001,
           expiresAt: 1777777777,
         },
@@ -113,6 +188,7 @@ describe('SupabaseRelayClient', () => {
               clientSequence: 4,
               encryptedPayload: 'ciphertext-2',
               payloadHash: 'hash-2',
+              signature: 'sig-2',
               createdAt: 1770000002,
               expiresAt: null,
             },
@@ -141,7 +217,7 @@ describe('SupabaseRelayClient', () => {
 
     await expect(client.listEvents('cpl_1', 12)).resolves.toMatchObject({
       cursor: 13,
-      events: [{ eventId: 'evt_2' }],
+      events: [{ eventId: 'evt_2', signature: 'sig-2' }],
     });
 
     await expect(client.revokeCouple('cpl_1')).resolves.toEqual({

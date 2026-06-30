@@ -16,7 +16,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from './SafeAreaView';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');

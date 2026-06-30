@@ -1,5 +1,5 @@
 const ROLE_TITLE_SUFFIX =
-  /\s*\((?:giving|receiving|give|receive|dar|recibir|predator|prey)\)\s*$/i;
+  /\s*\((?:giving|receiving|give|receive|giving oral|receiving oral|dar|recibir|dar oral|recibir oral|predator|prey)\)\s*$/i;
 const ROLE_SLUG_SUFFIX =
   /-(?:give|receive|giving|receiving|dar|recibir|predator|prey)$/i;
 const ROLE_ONLY_TAGS = new Set([
@@ -17,6 +17,10 @@ const SAFETY_WITH_CLAUSE =
   /\s+with\s+[^.]*\b(?:agreed|consensual|consent|safeword|safe word|check-?ins?|check in|boundar(?:y|ies)|limits?|negotiat(?:ed|ion)|comfort|feedback|signals?|aftercare|safer-sex|privacy|legality|hygiene|preparation|lube|clear)\b[^.]*/gi;
 const SAFETY_WORDS =
   /\b(?:consensual|agreed|negotiated|clear|explicit|ongoing|comfort|boundaries|limits|safewords?|check-?ins?|feedback|signals?|aftercare)\b/gi;
+const {
+  neutralizeKinkDescription,
+  neutralizeSpanishKinkDescription,
+} = require("./kink-copy-neutralizer");
 
 function stripRoleSuffix(value, pattern) {
   return String(value || "").replace(pattern, "").trim();
@@ -89,8 +93,14 @@ function cleanRoleMetadata(item) {
   delete clean.sourceIds;
   delete clean.availablePairRoles;
 
+  clean.slug = baseSlug(clean.slug);
+  clean.title = baseTitle(clean.title);
+
   for (const key of ["titleEs", "titleEn", "descriptionEs", "descriptionEn"]) {
     if (clean[key] === "") delete clean[key];
+  }
+  for (const key of ["titleEs", "titleEn"]) {
+    if (clean[key]) clean[key] = baseTitle(clean[key]);
   }
 
   return clean;
@@ -180,13 +190,22 @@ function enableRoleModeForKinks(kinks, ids = null, enabled = true) {
 function simplifyKinkDescriptions(kinks) {
   return kinks.map((kink) => ({
     ...kink,
-    description: simplifyKinkDescription(kink.description, kink.title),
-    descriptionEs: simplifyKinkDescription(
-      kink.descriptionEs || kink.description,
+    description: neutralizeKinkDescription(
+      simplifyKinkDescription(kink.description, kink.title),
+      kink.title
+    ),
+    descriptionEs: neutralizeSpanishKinkDescription(
+      simplifyKinkDescription(
+        kink.descriptionEs || kink.description,
+        kink.titleEs || kink.title
+      ),
       kink.titleEs || kink.title
     ),
     descriptionEn: kink.descriptionEn
-      ? simplifyKinkDescription(kink.descriptionEn, kink.titleEn || kink.title)
+      ? neutralizeKinkDescription(
+          simplifyKinkDescription(kink.descriptionEn, kink.titleEn || kink.title),
+          kink.titleEn || kink.title
+        )
       : kink.descriptionEn,
   }));
 }

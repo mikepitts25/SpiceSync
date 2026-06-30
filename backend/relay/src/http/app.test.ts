@@ -29,6 +29,7 @@ async function createInvite(app: ReturnType<typeof testApp>): Promise<{ inviteId
     body: JSON.stringify({
       inviterDeviceId: 'dev_a',
       inviterPublicKey: 'pub_a',
+      inviterSigningPublicKey: 'sign_pub_a',
       inviteSecretHash: 'hash',
     }),
   });
@@ -61,6 +62,7 @@ describe('relay HTTP API', () => {
     await expect(fetched.json()).resolves.toMatchObject({
       inviteId: body.inviteId,
       inviterPublicKey: 'pub_a',
+      inviterSigningPublicKey: 'sign_pub_a',
       status: 'pending',
     });
   });
@@ -75,11 +77,19 @@ describe('relay HTTP API', () => {
       body: JSON.stringify({
         accepterDeviceId: 'dev_b',
         accepterPublicKey: 'pub_b',
+        accepterSigningPublicKey: 'sign_pub_b',
         inviteProof: 'hash',
       }),
     });
     expect(accepted.status).toBe(201);
-    const { coupleId } = (await accepted.json()) as { coupleId: string };
+    const acceptedBody = (await accepted.json()) as {
+      coupleId: string;
+      memberASigningPublicKey: string;
+      memberBSigningPublicKey: string;
+    };
+    expect(acceptedBody.memberASigningPublicKey).toBe('sign_pub_a');
+    expect(acceptedBody.memberBSigningPublicKey).toBe('sign_pub_b');
+    const { coupleId } = acceptedBody;
 
     const append = await app.request(`/couples/${coupleId}/events`, {
       method: 'POST',
@@ -98,7 +108,13 @@ describe('relay HTTP API', () => {
     const events = await app.request(`/couples/${coupleId}/events?after=0`);
     expect(events.status).toBe(200);
     await expect(events.json()).resolves.toMatchObject({
-      events: [{ eventId: 'evt_1', encryptedPayload: 'ciphertext' }],
+      events: [
+        {
+          eventId: 'evt_1',
+          encryptedPayload: 'ciphertext',
+          signature: 'sig',
+        },
+      ],
     });
   });
 
@@ -111,6 +127,7 @@ describe('relay HTTP API', () => {
       body: JSON.stringify({
         accepterDeviceId: 'dev_b',
         accepterPublicKey: 'pub_b',
+        accepterSigningPublicKey: 'sign_pub_b',
         inviteProof: 'hash',
       }),
     });

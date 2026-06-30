@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   closeText: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     lineHeight: 18,
     fontWeight: '900',
   },

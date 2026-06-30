@@ -71,6 +71,7 @@ export function createRelayApp({ store, config, now = () => Date.now() / 1000 }:
       inviteId: invite.inviteId,
       inviterDeviceId: invite.inviterDeviceId,
       inviterPublicKey: invite.inviterPublicKey,
+      inviterSigningPublicKey: invite.inviterSigningPublicKey,
       expiresAt: invite.expiresAt,
       acceptedAt: invite.acceptedAt,
       coupleId: invite.coupleId,
@@ -97,6 +98,7 @@ export function createRelayApp({ store, config, now = () => Date.now() / 1000 }:
       inviteId,
       accepterDeviceId: body.accepterDeviceId,
       accepterPublicKey: body.accepterPublicKey,
+      accepterSigningPublicKey: body.accepterSigningPublicKey,
       now: current,
     });
 
@@ -107,6 +109,8 @@ export function createRelayApp({ store, config, now = () => Date.now() / 1000 }:
         memberBDeviceId: result.couple.memberBDeviceId,
         memberAPublicKey: result.couple.memberAPublicKey,
         memberBPublicKey: result.couple.memberBPublicKey,
+        memberASigningPublicKey: result.couple.memberASigningPublicKey,
+        memberBSigningPublicKey: result.couple.memberBSigningPublicKey,
         createdAt: result.couple.createdAt,
       },
       201,
@@ -131,6 +135,7 @@ export function createRelayApp({ store, config, now = () => Date.now() / 1000 }:
       clientSequence: body.clientSequence,
       encryptedPayload: body.encryptedPayload,
       payloadHash: body.payloadHash,
+      signature: body.signature,
       now: current,
       expiresAt: current + config.eventRetentionDays * 24 * 60 * 60,
     });

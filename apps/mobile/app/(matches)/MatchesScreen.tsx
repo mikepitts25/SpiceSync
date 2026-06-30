@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import {
@@ -1439,7 +1439,7 @@ const styles = StyleSheet.create({
   },
   bucketBlurb: {
     color: COLORS.textSub,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
   },
   bucketHeroFooter: {
@@ -1451,7 +1451,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   bucketHeroFooterText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.6,
   },
@@ -1472,7 +1472,7 @@ const styles = StyleSheet.create({
   },
   backChipText: {
     color: COLORS.textSub,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
   },
   bucketDetailHeader: {
@@ -1538,12 +1538,12 @@ const styles = StyleSheet.create({
   },
   resultLevelText: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
   resultCategory: {
     color: COLORS.pink,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
   },
   resultVoteBadge: {
@@ -1556,7 +1556,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   resultVoteText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
   },
   unlockButton: {
@@ -1641,7 +1641,7 @@ const styles = StyleSheet.create({
   },
   filtersSummary: {
     color: COLORS.textSub,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
   },
   filtersToggleAction: {
@@ -1658,7 +1658,7 @@ const styles = StyleSheet.create({
   },
   filtersToggleActionText: {
     color: COLORS.textPrimary,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
     textAlign: 'center',
   },
@@ -1668,7 +1668,7 @@ const styles = StyleSheet.create({
   },
   filterGroupLabel: {
     color: COLORS.pink,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0,
     textTransform: 'uppercase',
@@ -1699,7 +1699,7 @@ const styles = StyleSheet.create({
   },
   filterChipText: {
     color: COLORS.textSub,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
   },
   filterChipTextActive: {

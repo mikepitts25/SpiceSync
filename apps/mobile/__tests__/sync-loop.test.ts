@@ -1,10 +1,12 @@
-import { encodeBase64 } from '../lib/sync/base64';
+import { decodeBase64, encodeBase64 } from '../lib/sync/base64';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
 import {
   encryptForPartner,
   generateEncryptionKeypair,
   generateSigningKeypair,
   sha256Base64,
+  signEd25519,
+  verifyEd25519,
 } from '../lib/sync/crypto';
 import { useEventQueueStore } from '../lib/sync/eventQueue';
 import { _resetCacheForTests, setIdentityDeps } from '../lib/sync/identity';
@@ -13,6 +15,20 @@ import { RelayClient } from '../lib/sync/relayClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
 import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import { flushPending, pullPartnerEvents } from '../lib/sync/syncLoop';
+
+function signEnvelope(
+  signing: { privateKey: Uint8Array },
+  eventId: string,
+  clientSequence: number,
+  payloadHash: string
+): string {
+  return encodeBase64(
+    signEd25519(
+      signing.privateKey,
+      new TextEncoder().encode(`${eventId}:${clientSequence}:${payloadHash}`)
+    )
+  );
+}
 
 function buildIdentityDeps(
   signing: { privateKey: Uint8Array; publicKey: Uint8Array },
@@ -126,11 +142,21 @@ describe('sync loop', () => {
     expect(body.coupleId).toBeUndefined();
     expect(body.encryptedPayload.length).toBeGreaterThan(20);
     expect(body.payloadHash).toBe(sha256Base64(body.encryptedPayload));
+    expect(
+      verifyEd25519(
+        mySigning.publicKey,
+        decodeBase64(body.signature),
+        new TextEncoder().encode(
+          `${body.eventId}:${body.clientSequence}:${body.payloadHash}`
+        )
+      )
+    ).toBe(true);
   });
 
   it('pulls partner events, decrypts them, and applies', async () => {
     const mySigning = generateSigningKeypair();
     const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
     const partnerEncryption = generateEncryptionKeypair();
     const deps = buildIdentityDeps(mySigning, myEncryption, 'dev_me');
     setIdentityDeps(deps);
@@ -139,7 +165,7 @@ describe('sync loop', () => {
       coupleId: 'couple-1',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
-      partnerSigningPublicKey: '',
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
       partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
       linkedAt: Date.now(),
       lastPulledServerSequence: 0,
@@ -162,6 +188,12 @@ describe('sync loop', () => {
       myEncryption.publicKey,
       JSON.stringify(plainEvent)
     );
+    const signature = signEnvelope(
+      partnerSigning,
+      'evt_partner_1',
+      1,
+      payloadHash
+    );
 
     const fetchMock = jest.fn().mockResolvedValue({
       ok: true,
@@ -175,6 +207,7 @@ describe('sync loop', () => {
             clientSequence: 1,
             encryptedPayload,
             payloadHash,
+            signature,
             createdAt: 1700,
             expiresAt: null,
           },
@@ -202,6 +235,7 @@ describe('sync loop', () => {
   it('pulls partner reveal unlock consent and applies it', async () => {
     const mySigning = generateSigningKeypair();
     const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
     const partnerEncryption = generateEncryptionKeypair();
     const deps = buildIdentityDeps(mySigning, myEncryption, 'dev_me');
     setIdentityDeps(deps);
@@ -210,7 +244,7 @@ describe('sync loop', () => {
       coupleId: 'couple-1',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
-      partnerSigningPublicKey: '',
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
       partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
       linkedAt: Date.now(),
       lastPulledServerSequence: 0,
@@ -231,6 +265,12 @@ describe('sync loop', () => {
       myEncryption.publicKey,
       JSON.stringify(plainEvent)
     );
+    const signature = signEnvelope(
+      partnerSigning,
+      'evt_partner_unlock_1',
+      1,
+      payloadHash
+    );
 
     const fetchMock = jest.fn().mockResolvedValue({
       ok: true,
@@ -244,6 +284,7 @@ describe('sync loop', () => {
             clientSequence: 1,
             encryptedPayload,
             payloadHash,
+            signature,
             createdAt: 1800,
             expiresAt: null,
           },
@@ -258,5 +299,151 @@ describe('sync loop', () => {
     const result = await pullPartnerEvents();
     expect(result.applied).toBe(1);
     expect(useRevealConsentStore.getState().partner.mutualMaybe).toBe(1800);
+  });
+
+  it('rejects partner events with invalid signatures', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
+    const wrongSigning = generateSigningKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+
+    useCoupleLinkStore.getState().setLink({
+      coupleId: 'couple-1',
+      myDeviceId: 'dev_me',
+      partnerDeviceId: 'dev_partner',
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
+      partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
+      linkedAt: Date.now(),
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      status: 'active',
+    });
+
+    const plainEvent = {
+      schemaVersion: 1 as const,
+      eventType: 'vote.upsert' as const,
+      eventId: 'evt_bad_signature',
+      authorDeviceId: 'dev_partner',
+      cardId: 'pair:bad-signature',
+      vote: 'yes' as const,
+      updatedAt: 1900,
+    };
+    const { encryptedPayload, payloadHash } = encryptForPartner(
+      partnerEncryption.privateKey,
+      myEncryption.publicKey,
+      JSON.stringify(plainEvent)
+    );
+
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        events: [
+          {
+            serverSequence: 6,
+            eventId: 'evt_bad_signature',
+            coupleId: 'couple-1',
+            authorDeviceId: 'dev_partner',
+            clientSequence: 1,
+            encryptedPayload,
+            payloadHash,
+            signature: signEnvelope(
+              wrongSigning,
+              'evt_bad_signature',
+              1,
+              payloadHash
+            ),
+            createdAt: 1900,
+            expiresAt: null,
+          },
+        ],
+        cursor: 6,
+      }),
+    });
+    _resetRelayClientForTests(
+      new RelayClient('https://relay.test', fetchMock as any)
+    );
+
+    const result = await pullPartnerEvents();
+
+    expect(result.applied).toBe(0);
+    expect(
+      usePartnerVotesStore.getState().byCardId['pair:bad-signature']
+    ).toBeUndefined();
+    expect(useCoupleLinkStore.getState().link?.lastPulledServerSequence).toBe(
+      6
+    );
+  });
+
+  it('rejects decrypted partner events whose claims do not match the envelope', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+
+    useCoupleLinkStore.getState().setLink({
+      coupleId: 'couple-1',
+      myDeviceId: 'dev_me',
+      partnerDeviceId: 'dev_partner',
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
+      partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
+      linkedAt: Date.now(),
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      status: 'active',
+    });
+
+    const plainEvent = {
+      schemaVersion: 1 as const,
+      eventType: 'vote.upsert' as const,
+      eventId: 'evt_payload_claim',
+      authorDeviceId: 'dev_other',
+      cardId: 'pair:claim-mismatch',
+      vote: 'yes' as const,
+      updatedAt: 2000,
+    };
+    const { encryptedPayload, payloadHash } = encryptForPartner(
+      partnerEncryption.privateKey,
+      myEncryption.publicKey,
+      JSON.stringify(plainEvent)
+    );
+
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        events: [
+          {
+            serverSequence: 7,
+            eventId: 'evt_payload_claim',
+            coupleId: 'couple-1',
+            authorDeviceId: 'dev_partner',
+            clientSequence: 1,
+            encryptedPayload,
+            payloadHash,
+            signature: signEnvelope(
+              partnerSigning,
+              'evt_payload_claim',
+              1,
+              payloadHash
+            ),
+            createdAt: 2000,
+            expiresAt: null,
+          },
+        ],
+        cursor: 7,
+      }),
+    });
+    _resetRelayClientForTests(
+      new RelayClient('https://relay.test', fetchMock as any)
+    );
+
+    const result = await pullPartnerEvents();
+
+    expect(result.applied).toBe(0);
+    expect(
+      usePartnerVotesStore.getState().byCardId['pair:claim-mismatch']
+    ).toBeUndefined();
   });
 });

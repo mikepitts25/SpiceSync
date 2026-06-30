@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useVotesStore } from '../../src/stores/votes';
 import { useProfilesStore } from '../../src/stores/profiles';

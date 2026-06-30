@@ -112,14 +112,14 @@ describe('MatchFilters collapse behavior', () => {
 
     expect(groupLabelStyle).toMatchObject({
       color: COLORS.pink,
-      fontSize: 15,
+      fontSize: 16,
     });
     expect(chipStyle).toMatchObject({
       color: COLORS.textSub,
-      fontSize: 15,
+      fontSize: 16,
     });
     expect(toggleTextStyle).toMatchObject({
-      fontSize: 15,
+      fontSize: 16,
     });
   });
 });

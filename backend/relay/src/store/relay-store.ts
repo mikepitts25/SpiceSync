@@ -3,6 +3,7 @@ import type { CoupleRecord, InviteRecord, SyncEventRecord } from '../domain/type
 export type CreateInviteStoreInput = {
   inviterDeviceId: string;
   inviterPublicKey: string;
+  inviterSigningPublicKey: string;
   inviteSecretHash: string;
   now: number;
   expiresAt: number;
@@ -12,6 +13,7 @@ export type AcceptInviteStoreInput = {
   inviteId: string;
   accepterDeviceId: string;
   accepterPublicKey: string;
+  accepterSigningPublicKey: string;
   now: number;
 };
 
@@ -22,6 +24,7 @@ export type AppendEventStoreInput = {
   clientSequence: number;
   encryptedPayload: string;
   payloadHash: string;
+  signature: string;
   now: number;
   expiresAt: number | null;
 };

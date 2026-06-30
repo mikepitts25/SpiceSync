@@ -30,6 +30,7 @@ jest.mock('react-native-safe-area-context', () => ({
     const { View } = require('react-native');
     return <View {...props}>{children}</View>;
   },
+  useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
 }));
 
 describe('Profiles hub avatar sizing', () => {
@@ -96,6 +97,6 @@ describe('Profiles hub avatar sizing', () => {
       .findAllByType(ProfileAvatarIcon)
       .map((avatar) => avatar.props.size);
 
-    expect(avatarSizes).toEqual([76, 68, 58, 52]);
+    expect(avatarSizes).toEqual([76, 68, 58, 52, 52]);
   });
 });

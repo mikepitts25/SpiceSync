@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
 import { AlertTriangle, CheckCircle2, CircleDashed } from 'lucide-react-native';

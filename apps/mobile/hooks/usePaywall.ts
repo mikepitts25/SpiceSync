@@ -1,11 +1,13 @@
 import { useState, useCallback } from 'react';
 import { usePremiumStore, PremiumFeature } from '../src/stores/premium';
+import { hasPremiumFeatureAccess } from '../lib/purchases/access';
 import { router } from 'expo-router';
 
 const FREE_FEATURES: PremiumFeature[] = [];
 
 export function usePaywall() {
-  const unlocked = usePremiumStore((state) => state.isPremium());
+  const localUnlocked = usePremiumStore((state) => state.isPremium());
+  const unlocked = hasPremiumFeatureAccess(localUnlocked);
   const hasPackAccess = usePremiumStore((state) => state.hasPackAccess);
   const [showPaywall, setShowPaywall] = useState(false);
 

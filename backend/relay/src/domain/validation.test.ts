@@ -7,11 +7,13 @@ describe('relay request validation', () => {
       parseCreateInvite({
         inviterDeviceId: 'dev_123',
         inviterPublicKey: 'pub_abc',
+        inviterSigningPublicKey: 'sign_pub_abc',
         inviteSecretHash: 'hash_xyz',
       }),
     ).toEqual({
       inviterDeviceId: 'dev_123',
       inviterPublicKey: 'pub_abc',
+      inviterSigningPublicKey: 'sign_pub_abc',
       inviteSecretHash: 'hash_xyz',
     });
   });
@@ -21,6 +23,7 @@ describe('relay request validation', () => {
       parseCreateInvite({
         inviterDeviceId: '',
         inviterPublicKey: 'pub_abc',
+        inviterSigningPublicKey: 'sign_pub_abc',
         inviteSecretHash: 'hash_xyz',
       }),
     ).toThrow('Invalid request body');

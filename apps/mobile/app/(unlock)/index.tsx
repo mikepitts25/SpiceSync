@@ -8,15 +8,14 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { usePremiumStore } from '../../src/stores/premium';
 import { PRICING, PACKS, formatPrice } from '../../lib/pricing';
 import { getPackCards } from '../../lib/packActivities';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 
 interface PackCardProps {
   pack: (typeof PACKS)[0];
@@ -97,7 +96,7 @@ export default function UnlockScreen() {
     );
   };
 
-  const isUserPremium = isPremium();
+  const isUserPremium = hasPremiumFeatureAccess(isPremium());
 
   return (
     <Modal

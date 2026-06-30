@@ -8,21 +8,24 @@ import {
   Share,
   Platform,
 } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore } from '../../src/stores/votes';
 import { useKinks } from '../../lib/data';
+import { useProfilesStore } from '../../lib/state/profiles';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { voteValue } from '../../lib/votes/rolePreferences';
 
 export default function ExportMatches() {
   const insets = useSafeAreaInsets();
-  const unlocked = useSettingsStore((state) => state.unlocked);
+  const localUnlocked = useSettingsStore((state) => state.unlocked);
+  const unlocked = hasPremiumFeatureAccess(localUnlocked);
   const language = useSettingsStore((state) => state.language);
-  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
+  const activeProfileId = useProfilesStore((state) =>
+    state.getActiveProfileId()
+  );
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
     activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}

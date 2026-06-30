@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useVotesStore } from '../../src/stores/votes';
 import { voteValue } from '../../lib/votes/rolePreferences';
 import { useKinks } from '../../lib/data';
+import { useProfilesStore } from '../../lib/state/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 
 const { width: SCREEN_W } = Dimensions.get('window');
@@ -33,7 +32,9 @@ function StatCard({ title, value, emoji, subtitle }: StatCardProps) {
 export default function InsightsDashboard() {
   const insets = useSafeAreaInsets();
   const language = useSettingsStore((state) => state.language);
-  const activeProfileId = useSettingsStore((state) => state.activeProfileId);
+  const activeProfileId = useProfilesStore((state) =>
+    state.getActiveProfileId()
+  );
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
     activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}

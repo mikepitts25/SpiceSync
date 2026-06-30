@@ -8,10 +8,8 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { useKinks } from '../../lib/data';

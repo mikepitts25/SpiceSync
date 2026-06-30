@@ -6,6 +6,7 @@ import {
   type VoteValue,
 } from '../votes/rolePreferences';
 import type { Tier } from '../data';
+import { getCounterpartIds } from './counterpartMatches';
 
 export type RevealVoteValue = 'yes' | 'maybe' | 'no';
 
@@ -19,6 +20,7 @@ export type RevealKink = {
   tier?: Tier;
   tags?: string[];
   pairMode?: boolean;
+  matchesWith?: string[];
 };
 
 export type RevealMatchItem = {
@@ -30,6 +32,8 @@ export type RevealMatchItem = {
   tier?: Tier;
   tags: string[];
   pairMode?: boolean;
+  matchedWithId?: string;
+  matchedWithTitle?: string;
   myVote?: VoteValue;
   partnerVote?: VoteValue;
   myPairPreference?: PairPreference;
@@ -100,6 +104,9 @@ export function computeRevealBuckets({
       tier: myKink?.tier ?? theirKink?.tier,
       tags: myKink?.tags ?? theirKink?.tags ?? [],
       pairMode: Boolean(myKink?.pairMode || theirKink?.pairMode),
+      matchedWithId: mineKinkId === theirKinkId ? undefined : theirKinkId,
+      matchedWithTitle:
+        mineKinkId === theirKinkId ? undefined : theirKink?.title,
       myVote,
       partnerVote: theirVote,
       myPairPreference: myVoteRecord?.pairPreference,
@@ -122,6 +129,13 @@ export function computeRevealBuckets({
   Object.keys(mine).forEach((id) => {
     if (theirs[id] !== undefined) {
       addMatchedPair(id, id);
+    }
+
+    const kink = kinksById[id];
+    for (const counterpartId of getCounterpartIds(id, kink?.matchesWith)) {
+      if (theirs[counterpartId] !== undefined) {
+        addMatchedPair(id, counterpartId);
+      }
     }
   });
 

@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
 import { Check, Minus, X } from 'lucide-react-native';
 

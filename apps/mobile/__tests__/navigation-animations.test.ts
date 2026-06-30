@@ -12,6 +12,8 @@ const stackLayoutFiles = [
   'app/(settings)/_layout.tsx',
 ];
 
+const tabsLayoutFile = 'app/(tabs)/_layout.tsx';
+
 const primaryTabRouteFiles = [
   'app/(tabs)/profiles.tsx',
   'app/(tabs)/deck.tsx',
@@ -64,4 +66,11 @@ describe('navigation stack animations', () => {
       expect(source).not.toMatch(/href=['"]\/\((conversation|game)\)['"]/);
     }
   );
+
+  it('keeps hidden tab screen switches from animating in from a default transition', () => {
+    const source = readMobileFile(tabsLayoutFile);
+
+    expect(source).toMatch(/animation:\s*['"]none['"]/);
+    expect(source).toMatch(/lazy:\s*false/);
+  });
 });

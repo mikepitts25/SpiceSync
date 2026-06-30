@@ -10,6 +10,7 @@ import {
   disconnectRemotePartnerLocal,
   resetAppOnDevice,
 } from '../lib/safety/localDataControls';
+import { useSettings } from '../lib/state/useStore';
 import { useSettingsStore } from '../src/stores/settingsStore';
 import { useVotesStore } from '../src/stores/votes';
 
@@ -56,6 +57,7 @@ beforeEach(() => {
     profiles: [],
     ageVerified: true,
   });
+  useSettings.setState({ ageConfirmed: true });
   setIdentityDeps(memoryIdentityDeps());
   _resetCacheForTests();
 });
@@ -201,6 +203,7 @@ describe('local safety data controls', () => {
       ],
       ageVerified: true,
     });
+    useSettings.setState({ ageConfirmed: true });
 
     await resetAppOnDevice();
 
@@ -218,5 +221,6 @@ describe('local safety data controls', () => {
       profiles: [],
       ageVerified: false,
     });
+    expect(useSettings.getState().ageConfirmed).toBe(false);
   });
 });

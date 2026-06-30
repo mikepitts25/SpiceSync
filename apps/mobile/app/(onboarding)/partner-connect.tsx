@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -11,10 +11,8 @@ import {
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import QRCode from 'react-native-qrcode-svg';
 import {
@@ -44,6 +42,14 @@ import { startSyncLoop } from '../../lib/sync/syncLoop';
 import { startVoteSync, useVoteSyncStore } from '../../lib/sync/voteSync';
 
 type Mode = 'menu' | 'remote-create' | 'remote-paste' | 'remote-accept';
+type RecoveryError = {
+  title: string;
+  body: string;
+};
+
+function errorBody(error: unknown, fallback: string): string {
+  return error instanceof Error && error.message ? error.message : fallback;
+}
 
 function buildRuntimeInviteLink(invite: InviteHandle): string {
   const path = `/link/${encodeURIComponent(invite.inviteId)}`;
@@ -87,6 +93,19 @@ export default function PartnerConnect() {
     );
   const [inviteLinkInput, setInviteLinkInput] = useState('');
   const [pollError, setPollError] = useState<string | null>(null);
+  const [createError, setCreateError] = useState<RecoveryError | null>(null);
+  const [pasteError, setPasteError] = useState<string | null>(null);
+  const [lookupError, setLookupError] = useState<string | null>(null);
+  const [acceptError, setAcceptError] = useState<string | null>(null);
+  const [lookupRetryKey, setLookupRetryKey] = useState(0);
+
+  const handleLocalProfile = useCallback(() => {
+    router.push('/(settings)/profiles/new?from=partner-connect');
+  }, [router]);
+
+  const handleRetryLookup = useCallback(() => {
+    setLookupRetryKey((key) => key + 1);
+  }, []);
 
   useEffect(() => {
     if (coupleLink?.status === 'active') {
@@ -107,23 +126,27 @@ export default function PartnerConnect() {
   useEffect(() => {
     if (mode !== 'remote-accept' || !activeRemoteInvite?.inviteId) return;
     let alive = true;
+    setLookupError(null);
+    setRemoteInvite(null);
     lookupInvite(activeRemoteInvite.inviteId)
       .then((lookup) => {
         if (alive) setRemoteInvite(lookup);
       })
-      .catch(() => {
-        if (alive) setRemoteInvite(null);
+      .catch((err) => {
+        if (alive) {
+          setRemoteInvite(null);
+          setLookupError(errorBody(err, 'Check your connection and try again.'));
+        }
       });
     return () => {
       alive = false;
     };
-  }, [mode, activeRemoteInvite?.inviteId]);
+  }, [mode, activeRemoteInvite?.inviteId, lookupRetryKey]);
 
-  useEffect(() => {
-    if (mode !== 'remote-create' || !pendingInvite) return;
-    const handle = setInterval(async () => {
+  const completePendingInvite = useCallback(
+    async (inviteId: string) => {
       try {
-        const result = await finalizePendingInvite(pendingInvite.inviteId);
+        const result = await finalizePendingInvite(inviteId);
         if (result) {
           useVoteSyncStore
             .getState()
@@ -133,17 +156,30 @@ export default function PartnerConnect() {
           router.replace('/(tabs)/deck');
         }
       } catch (err) {
-        setPollError(
-          err instanceof Error ? err.message : 'Could not check invite'
-        );
+        setPollError(errorBody(err, 'Could not check invite'));
       }
+    },
+    [activeProfileId, router]
+  );
+
+  useEffect(() => {
+    if (mode !== 'remote-create' || !pendingInvite) return;
+    const handle = setInterval(() => {
+      void completePendingInvite(pendingInvite.inviteId);
     }, 4000);
     return () => clearInterval(handle);
-  }, [mode, pendingInvite, activeProfileId, router]);
+  }, [mode, pendingInvite, completePendingInvite]);
+
+  const handleRetryPoll = useCallback(() => {
+    if (!pendingInvite) return;
+    setPollError(null);
+    void completePendingInvite(pendingInvite.inviteId);
+  }, [completePendingInvite, pendingInvite]);
 
   const handleCreateRemoteInvite = async () => {
     try {
       setIsConnecting(true);
+      setCreateError(null);
       setPollError(null);
       const invite = await createInvite({
         profileName: myProfileName,
@@ -152,10 +188,11 @@ export default function PartnerConnect() {
       setPendingInvite(invite);
       setMode('remote-create');
     } catch (err) {
-      Alert.alert(
-        'Could not create invite',
-        err instanceof Error ? err.message : 'Try again'
-      );
+      setCreateError({
+        title: 'Could not create invite',
+        body: errorBody(err, 'Check your connection and try again.'),
+      });
+      setMode('menu');
     } finally {
       setIsConnecting(false);
     }
@@ -181,12 +218,12 @@ export default function PartnerConnect() {
   const handlePasteInviteLink = () => {
     const parsed = parseInviteUrl(inviteLinkInput);
     if (!parsed) {
-      Alert.alert(
-        'Invalid link',
-        'Paste the full invite link your partner created.'
-      );
+      setPasteError('Paste the full invite link your partner created.');
       return;
     }
+    setPasteError(null);
+    setLookupError(null);
+    setAcceptError(null);
     setRemoteInvite(null);
     setActiveRemoteInvite(parsed);
     setMode('remote-accept');
@@ -196,6 +233,7 @@ export default function PartnerConnect() {
     if (!activeRemoteInvite) return;
     try {
       setIsConnecting(true);
+      setAcceptError(null);
       await acceptInvite(activeRemoteInvite, {
         profileName: myProfileName,
         profileAvatar: myProfileAvatar,
@@ -210,10 +248,7 @@ export default function PartnerConnect() {
         },
       ]);
     } catch (err) {
-      Alert.alert(
-        'Could not link',
-        err instanceof Error ? err.message : 'Try again'
-      );
+      setAcceptError(errorBody(err, 'Check your connection and try again.'));
     } finally {
       setIsConnecting(false);
     }
@@ -236,9 +271,8 @@ export default function PartnerConnect() {
             myProfileName={myProfileName}
             myProfileAvatar={myProfileAvatar}
             isConnecting={isConnecting}
-            onLocalProfile={() =>
-              router.push('/(settings)/profiles/new?from=partner-connect')
-            }
+            createError={createError}
+            onLocalProfile={handleLocalProfile}
             onRemoteInvite={handleCreateRemoteInvite}
             onPasteInvite={() => setMode('remote-paste')}
           />
@@ -253,6 +287,8 @@ export default function PartnerConnect() {
             pollError={pollError}
             onShare={handleShareInvite}
             onCopy={handleCopyInvite}
+            onRetryPoll={handleRetryPoll}
+            onLocalProfile={handleLocalProfile}
             onBack={() => setMode('menu')}
           />
         ) : null}
@@ -260,7 +296,11 @@ export default function PartnerConnect() {
         {mode === 'remote-paste' ? (
           <PasteInviteContent
             value={inviteLinkInput}
-            onChange={setInviteLinkInput}
+            pasteError={pasteError}
+            onChange={(value) => {
+              setInviteLinkInput(value);
+              setPasteError(null);
+            }}
             onContinue={handlePasteInviteLink}
             onBack={() => setMode('menu')}
           />
@@ -269,7 +309,11 @@ export default function PartnerConnect() {
         {mode === 'remote-accept' ? (
           <RemoteAcceptContent
             remoteInvite={remoteInvite}
+            lookupError={lookupError}
+            acceptError={acceptError}
             isConnecting={isConnecting}
+            onRetryLookup={handleRetryLookup}
+            onLocalProfile={handleLocalProfile}
             onAccept={handleAcceptRemote}
             onBack={() => setMode('menu')}
           />
@@ -293,6 +337,7 @@ function MenuContent({
   myProfileName,
   myProfileAvatar,
   isConnecting,
+  createError,
   onLocalProfile,
   onRemoteInvite,
   onPasteInvite,
@@ -300,6 +345,7 @@ function MenuContent({
   myProfileName: string;
   myProfileAvatar: string | null;
   isConnecting: boolean;
+  createError: RecoveryError | null;
   onLocalProfile: () => void;
   onRemoteInvite: () => void;
   onPasteInvite: () => void;
@@ -342,6 +388,15 @@ function MenuContent({
         actionLabel="Paste link"
         onPress={onPasteInvite}
       />
+      {createError ? (
+        <RecoveryCard
+          title={createError.title}
+          body={createError.body}
+          primaryLabel="Try again"
+          onPrimary={onRemoteInvite}
+          onLocalProfile={onLocalProfile}
+        />
+      ) : null}
     </>
   );
 }
@@ -394,6 +449,8 @@ function RemoteCreateContent({
   pollError,
   onShare,
   onCopy,
+  onRetryPoll,
+  onLocalProfile,
   onBack,
 }: {
   invite: InviteHandle | null;
@@ -403,6 +460,8 @@ function RemoteCreateContent({
   pollError: string | null;
   onShare: () => void;
   onCopy: () => void;
+  onRetryPoll: () => void;
+  onLocalProfile: () => void;
   onBack: () => void;
 }) {
   const inviteUrl = invite ? buildRuntimeInviteLink(invite) : null;
@@ -466,7 +525,15 @@ function RemoteCreateContent({
           sheet. Leave this screen open so we can detect when your partner
           accepts.
         </Text>
-        {pollError ? <Text style={styles.errorText}>{pollError}</Text> : null}
+        {pollError ? (
+          <RecoveryCard
+            title="Could not check invite"
+            body={pollError}
+            primaryLabel="Check again"
+            onPrimary={onRetryPoll}
+            onLocalProfile={onLocalProfile}
+          />
+        ) : null}
       </View>
       <BackToMenu onPress={onBack} />
     </>
@@ -475,11 +542,13 @@ function RemoteCreateContent({
 
 function PasteInviteContent({
   value,
+  pasteError,
   onChange,
   onContinue,
   onBack,
 }: {
   value: string;
+  pasteError: string | null;
   onChange: (value: string) => void;
   onContinue: () => void;
   onBack: () => void;
@@ -507,6 +576,7 @@ function PasteInviteContent({
           autoCorrect={false}
           multiline
         />
+        {pasteError ? <Text style={styles.errorText}>{pasteError}</Text> : null}
         <Pressable
           accessibilityRole="button"
           disabled={!value.trim()}
@@ -523,12 +593,20 @@ function PasteInviteContent({
 
 function RemoteAcceptContent({
   remoteInvite,
+  lookupError,
+  acceptError,
   isConnecting,
+  onRetryLookup,
+  onLocalProfile,
   onAccept,
   onBack,
 }: {
   remoteInvite: InviteLookup | null;
+  lookupError: string | null;
+  acceptError: string | null;
   isConnecting: boolean;
+  onRetryLookup: () => void;
+  onLocalProfile: () => void;
   onAccept: () => void;
   onBack: () => void;
 }) {
@@ -538,6 +616,7 @@ function RemoteAcceptContent({
       : 'Your partner';
   const inviterAvatar =
     remoteInvite?.kind === 'pending' ? remoteInvite.inviterProfileAvatar : null;
+  const inviteIsPending = remoteInvite?.kind === 'pending';
 
   return (
     <>
@@ -561,19 +640,107 @@ function RemoteAcceptContent({
             your device.
           </Text>
         </View>
-        <Pressable
-          accessibilityRole="button"
-          disabled={isConnecting}
-          style={[styles.primaryButton, isConnecting && styles.disabled]}
-          onPress={onAccept}
-        >
-          <Text style={styles.primaryButtonText}>
-            {isConnecting ? 'Linking...' : 'Accept invite'}
-          </Text>
-        </Pressable>
+
+        {lookupError ? (
+          <RecoveryCard
+            title="Could not load invite"
+            body={lookupError}
+            primaryLabel="Try again"
+            onPrimary={onRetryLookup}
+            onLocalProfile={onLocalProfile}
+          />
+        ) : null}
+
+        {!lookupError && remoteInvite === null ? (
+          <Text style={styles.helperText}>Checking invite...</Text>
+        ) : null}
+
+        {!lookupError && remoteInvite?.kind === 'expired' ? (
+          <RecoveryCard
+            title="Invite expired"
+            body="Ask your partner to create a new invite, or use this device instead."
+            primaryLabel="Back to setup"
+            onPrimary={onBack}
+            onLocalProfile={onLocalProfile}
+          />
+        ) : null}
+
+        {!lookupError && remoteInvite?.kind === 'accepted' ? (
+          <RecoveryCard
+            title="Invite already used"
+            body="Ask your partner to create a new invite, or use this device instead."
+            primaryLabel="Back to setup"
+            onPrimary={onBack}
+            onLocalProfile={onLocalProfile}
+          />
+        ) : null}
+
+        {acceptError ? (
+          <RecoveryCard
+            title="Could not link"
+            body={acceptError}
+            primaryLabel="Try again"
+            onPrimary={onAccept}
+            onLocalProfile={onLocalProfile}
+          />
+        ) : null}
+
+        {inviteIsPending && !acceptError ? (
+          <Pressable
+            accessibilityRole="button"
+            disabled={isConnecting}
+            style={[styles.primaryButton, isConnecting && styles.disabled]}
+            onPress={onAccept}
+          >
+            <Text style={styles.primaryButtonText}>
+              {isConnecting ? 'Linking...' : 'Accept invite'}
+            </Text>
+          </Pressable>
+        ) : null}
       </View>
       <BackToMenu onPress={onBack} />
     </>
+  );
+}
+
+function RecoveryCard({
+  title,
+  body,
+  primaryLabel,
+  onPrimary,
+  onLocalProfile,
+}: {
+  title: string;
+  body: string;
+  primaryLabel: string;
+  onPrimary: () => void;
+  onLocalProfile?: () => void;
+}) {
+  return (
+    <View style={styles.recoveryCard}>
+      <Text style={styles.recoveryTitle}>{title}</Text>
+      <Text style={styles.recoveryBody}>{body}</Text>
+      <View style={styles.recoveryActions}>
+        <Pressable
+          accessibilityRole="button"
+          style={styles.primaryButton}
+          onPress={onPrimary}
+        >
+          <Text style={styles.primaryButtonText}>{primaryLabel}</Text>
+        </Pressable>
+        {onLocalProfile ? (
+          <Pressable
+            accessibilityRole="button"
+            style={styles.secondaryFullButton}
+            onPress={onLocalProfile}
+          >
+            <Text style={styles.secondaryButtonText}>
+              Use this device instead
+            </Text>
+          </Pressable>
+        ) : null}
+      </View>
+    </View>
   );
 }
 
@@ -776,6 +943,37 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 16,
     color: COLORS.no,
+  },
+  recoveryCard: {
+    gap: 10,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255,94,98,0.35)',
+    backgroundColor: 'rgba(255,94,98,0.08)',
+    padding: 14,
+  },
+  recoveryTitle: {
+    color: COLORS.text,
+    fontSize: 17,
+    fontWeight: '800',
+  },
+  recoveryBody: {
+    color: COLORS.textSecondary,
+    fontSize: 16,
+    lineHeight: 23,
+  },
+  recoveryActions: {
+    gap: 10,
+  },
+  secondaryFullButton: {
+    minHeight: 52,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.background,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingHorizontal: 14,
   },
   securityRow: {
     flexDirection: 'row',

@@ -1,4 +1,5 @@
 import { useKinks } from '../lib/data';
+import { CROSS_CARD_MATCHES } from '../lib/match/counterpartMatches';
 
 describe('paired kink data', () => {
   it('loads one-row role selector topics without legacy source rows', () => {
@@ -23,5 +24,18 @@ describe('paired kink data', () => {
     const selectorCards = kinks.filter((kink) => kink.pairMode);
     expect(selectorCards).toHaveLength(kinks.length);
     expect(kinks.some((kink) => kink.id.startsWith('pair:'))).toBe(false);
+  });
+
+  it('keeps cross-card counterpart matches valid and reciprocal', () => {
+    const { kinksById } = useKinks('en');
+
+    for (const [id, counterpartIds] of Object.entries(CROSS_CARD_MATCHES)) {
+      expect(kinksById[id]).toBeDefined();
+
+      for (const counterpartId of counterpartIds) {
+        expect(kinksById[counterpartId]).toBeDefined();
+        expect(CROSS_CARD_MATCHES[counterpartId]).toContain(id);
+      }
+    }
   });
 });

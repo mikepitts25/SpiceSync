@@ -3,9 +3,8 @@
 
 import React, { useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
-import Animated, { FadeInUp, FadeIn } from 'react-native-reanimated';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation } from '../../lib/i18n';
@@ -78,19 +77,15 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <Animated.View entering={FadeInUp.delay(100)} style={styles.header}>
+        <View style={styles.header}>
           <SpiceSyncLogo width={280} height={106} />
           <Text style={styles.headerSubtitle}>{t.home.subtitle}</Text>
-        </Animated.View>
+        </View>
 
         {/* Main Sections Grid */}
         <View style={styles.gridContainer}>
           {HOME_SECTIONS.map((section, index) => (
-            <Animated.View
-              key={section.id}
-              entering={FadeInUp.delay(200 + index * 100)}
-              style={styles.gridItem}
-            >
+            <View key={section.id} style={styles.gridItem}>
               <Pressable
                 style={[styles.sectionCard, { backgroundColor: section.color }]}
                 onPress={() => router.push(section.route as never)}
@@ -112,15 +107,12 @@ export default function HomeScreen() {
                   <Text style={styles.arrow}>→</Text>
                 </View>
               </Pressable>
-            </Animated.View>
+            </View>
           ))}
         </View>
 
         {/* Stats Section */}
-        <Animated.View
-          entering={FadeIn.delay(700)}
-          style={styles.statsContainer}
-        >
+        <View style={styles.statsContainer}>
           <View style={styles.stat}>
             <Text style={styles.statNumber}>{kinks.length}</Text>
             <Text style={styles.statLabel}>{t.home.totalKinks}</Text>
@@ -137,7 +129,7 @@ export default function HomeScreen() {
             <Text style={styles.statNumber}>200+</Text>
             <Text style={styles.statLabel}>{t.home.conversations}</Text>
           </View>
-        </Animated.View>
+        </View>
 
         <View style={{ height: 40 }} />
       </ScrollView>

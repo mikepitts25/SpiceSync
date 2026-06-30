@@ -12,6 +12,7 @@ describe('RelayClient', () => {
       client.createInvite({
         inviterDeviceId: 'dev_a',
         inviterPublicKey: 'pub_a',
+        inviterSigningPublicKey: 'sign_pub_a',
         inviteSecretHash: 'hash',
       }),
     ).resolves.toEqual({
@@ -25,6 +26,7 @@ describe('RelayClient', () => {
       body: JSON.stringify({
         inviterDeviceId: 'dev_a',
         inviterPublicKey: 'pub_a',
+        inviterSigningPublicKey: 'sign_pub_a',
         inviteSecretHash: 'hash',
       }),
     });

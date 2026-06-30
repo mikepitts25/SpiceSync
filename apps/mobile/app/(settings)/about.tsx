@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
 import { ChevronRight } from 'lucide-react-native';
 import { useRouter } from 'expo-router';

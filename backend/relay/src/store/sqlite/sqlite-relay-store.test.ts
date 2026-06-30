@@ -22,6 +22,7 @@ describe('SqliteRelayStore', () => {
     const invite = store.createInvite({
       inviterDeviceId: 'dev_a',
       inviterPublicKey: 'pub_a',
+      inviterSigningPublicKey: 'sign_pub_a',
       inviteSecretHash: 'hash',
       now: 1000,
       expiresAt: 2000,
@@ -31,6 +32,7 @@ describe('SqliteRelayStore', () => {
     expect(store.getInvite(invite.inviteId)).toMatchObject({
       inviterDeviceId: 'dev_a',
       inviterPublicKey: 'pub_a',
+      inviterSigningPublicKey: 'sign_pub_a',
       inviteSecretHash: 'hash',
       createdAt: 1000,
       expiresAt: 2000,
@@ -43,6 +45,7 @@ describe('SqliteRelayStore', () => {
     const invite = store.createInvite({
       inviterDeviceId: 'dev_a',
       inviterPublicKey: 'pub_a',
+      inviterSigningPublicKey: 'sign_pub_a',
       inviteSecretHash: 'hash',
       now: 1000,
       expiresAt: 2000,
@@ -52,11 +55,14 @@ describe('SqliteRelayStore', () => {
       inviteId: invite.inviteId,
       accepterDeviceId: 'dev_b',
       accepterPublicKey: 'pub_b',
+      accepterSigningPublicKey: 'sign_pub_b',
       now: 1500,
     });
 
     expect(result.couple.memberADeviceId).toBe('dev_a');
     expect(result.couple.memberBDeviceId).toBe('dev_b');
+    expect(result.couple.memberASigningPublicKey).toBe('sign_pub_a');
+    expect(result.couple.memberBSigningPublicKey).toBe('sign_pub_b');
     expect(store.getInvite(invite.inviteId)?.coupleId).toBe(result.couple.coupleId);
   });
 
@@ -64,6 +70,7 @@ describe('SqliteRelayStore', () => {
     const invite = store.createInvite({
       inviterDeviceId: 'dev_a',
       inviterPublicKey: 'pub_a',
+      inviterSigningPublicKey: 'sign_pub_a',
       inviteSecretHash: 'hash',
       now: 1000,
       expiresAt: 2000,
@@ -72,6 +79,7 @@ describe('SqliteRelayStore', () => {
       inviteId: invite.inviteId,
       accepterDeviceId: 'dev_b',
       accepterPublicKey: 'pub_b',
+      accepterSigningPublicKey: 'sign_pub_b',
       now: 1500,
     });
 
@@ -82,11 +90,13 @@ describe('SqliteRelayStore', () => {
       clientSequence: 1,
       encryptedPayload: 'ciphertext',
       payloadHash: 'hash_1',
+      signature: 'sig_1',
       now: 1600,
       expiresAt: 2000,
     });
 
     expect(event.serverSequence).toBe(1);
+    expect(event.signature).toBe('sig_1');
     expect(store.listEventsAfter(couple.coupleId, 0, 100)).toHaveLength(1);
     expect(store.listEventsAfter(couple.coupleId, event.serverSequence, 100)).toHaveLength(0);
   });
@@ -95,6 +105,7 @@ describe('SqliteRelayStore', () => {
     const invite = store.createInvite({
       inviterDeviceId: 'dev_a',
       inviterPublicKey: 'pub_a',
+      inviterSigningPublicKey: 'sign_pub_a',
       inviteSecretHash: 'hash',
       now: 1000,
       expiresAt: 2000,
@@ -103,6 +114,7 @@ describe('SqliteRelayStore', () => {
       inviteId: invite.inviteId,
       accepterDeviceId: 'dev_b',
       accepterPublicKey: 'pub_b',
+      accepterSigningPublicKey: 'sign_pub_b',
       now: 1500,
     });
 
@@ -113,6 +125,7 @@ describe('SqliteRelayStore', () => {
       clientSequence: 1,
       encryptedPayload: 'ciphertext',
       payloadHash: 'hash_1',
+      signature: 'sig_1',
       now: 1600,
       expiresAt: 2000,
     });
@@ -125,6 +138,7 @@ describe('SqliteRelayStore', () => {
         clientSequence: 1,
         encryptedPayload: 'ciphertext-2',
         payloadHash: 'hash_2',
+        signature: 'sig_2',
         now: 1700,
         expiresAt: 2000,
       }),

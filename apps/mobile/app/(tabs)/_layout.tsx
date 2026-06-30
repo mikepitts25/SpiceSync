@@ -7,7 +7,9 @@ export default function TabsLayout() {
     <Tabs
       initialRouteName="deck"
       screenOptions={{
+        animation: 'none',
         headerShown: false,
+        lazy: false,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
           display: 'none', // Hide the tab bar since we use the menu
