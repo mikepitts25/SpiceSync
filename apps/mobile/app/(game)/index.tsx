@@ -8,9 +8,12 @@ import React, {
 import {
   Animated,
   Pressable,
+  ScrollView,
   Share,
   StyleSheet,
+  Switch,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import { SafeAreaView } from '../../components/SafeAreaView';
@@ -52,6 +55,14 @@ import {
   formatGameCardTimerSeconds,
   parseGameCardTimerSeconds,
 } from '../../lib/gameTimer';
+import {
+  DEFAULT_GAME_PLAYER_NAMES,
+  advanceGameTurnIndex,
+  buildDrinkConsequence,
+  getGameTurn,
+  normalizeGamePlayerCount,
+  normalizeGamePlayers,
+} from '../../lib/gameSession';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
@@ -67,14 +78,35 @@ const GAME_MODE_LEVELS: Record<GameMode, GameIntensityLevel[]> = {
   intense: [4, 5],
 };
 
+const GAME_PLAYER_COUNT_OPTIONS = [2, 3, 4] as const;
+const PLAYER_NAME_ACCESSIBILITY_LABELS = [
+  'Player 1 name',
+  'Player 2 name',
+  'Player 3 name',
+  'Player 4 name',
+] as const;
+
 export default function GameHub() {
   const router = useRouter();
   const { t } = useTranslation();
   const localUnlocked = useSettingsStore((state) => state.unlocked);
   const unlocked = hasPremiumFeatureAccess(localUnlocked);
   const language = useSettingsStore((state) => state.language);
+  const drinkingMode = useSettingsStore((state) => state.drinkingMode);
+  const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
   const customCards = useCustomGameCardsStore((state) => state.cards);
   const [selectedMode, setSelectedMode] = useState<GameMode>('normal');
+  const [playerCount, setPlayerCount] = useState(2);
+  const [playerNames, setPlayerNames] = useState<string[]>([
+    ...DEFAULT_GAME_PLAYER_NAMES,
+  ]);
+  const [activePlayers, setActivePlayers] = useState<string[]>(
+    normalizeGamePlayers(DEFAULT_GAME_PLAYER_NAMES, 2)
+  );
+  const [turnIndex, setTurnIndex] = useState(0);
+  const [lastDrinkConsequence, setLastDrinkConsequence] = useState<
+    string | null
+  >(null);
   const [hasStarted, setHasStarted] = useState(false);
   const [visibleGameScene, setVisibleGameScene] =
     useState<VisibleGameScene>('intro');
@@ -97,6 +129,15 @@ export default function GameHub() {
 
   const selectedLevels = GAME_MODE_LEVELS[selectedMode];
   const selectedModeLabel = t.game.gameModes[selectedMode];
+  const setupPlayers = useMemo(
+    () => normalizeGamePlayers(playerNames, playerCount),
+    [playerCount, playerNames]
+  );
+  const currentTurn = useMemo(
+    () => getGameTurn(activePlayers, turnIndex),
+    [activePlayers, turnIndex]
+  );
+  const passActionLabel = drinkingMode ? 'Pass / Drink' : t.game.skip;
 
   const levelCards = useMemo(
     () => filterCardsBySelectedLevels(cards, selectedLevels),
@@ -172,6 +213,8 @@ export default function GameHub() {
     setDeckIndex(0);
     setTimerSeconds(0);
     setIsTimerRunning(false);
+    setTurnIndex(0);
+    setLastDrinkConsequence(null);
   }, []);
 
   useEffect(() => {
@@ -210,6 +253,9 @@ export default function GameHub() {
   const startGame = useCallback(() => {
     if (!levelCards.length) return;
 
+    setActivePlayers(setupPlayers);
+    setTurnIndex(0);
+    setLastDrinkConsequence(null);
     gameTransitionProgress.stopAnimation();
     setVisibleGameScene('game');
     setHasStarted(true);
@@ -218,13 +264,42 @@ export default function GameHub() {
       duration: GAME_SCENE_TRANSITION_MS,
       useNativeDriver: true,
     }).start();
-  }, [gameTransitionProgress, levelCards.length]);
+  }, [gameTransitionProgress, levelCards.length, setupPlayers]);
 
-  const drawCard = useCallback(() => {
+  const updatePlayerName = useCallback((index: number, name: string) => {
+    setPlayerNames((currentNames) =>
+      currentNames.map((currentName, currentIndex) =>
+        currentIndex === index ? name : currentName
+      )
+    );
+  }, []);
+
+  const changePlayerCount = useCallback((nextCount: number) => {
+    setPlayerCount(normalizeGamePlayerCount(nextCount));
+  }, []);
+
+  const advanceTurn = useCallback(
+    (passed: boolean) => {
+      if (passed && drinkingMode) {
+        setLastDrinkConsequence(buildDrinkConsequence(currentTurn.player));
+      } else {
+        setLastDrinkConsequence(null);
+      }
+
+      setTurnIndex((index) =>
+        advanceGameTurnIndex(index, activePlayers.length)
+      );
+    },
+    [activePlayers.length, currentTurn.player, drinkingMode]
+  );
+
+  const drawCard = useCallback((options: { passed?: boolean } = {}) => {
     if (!hasStarted) {
       startGame();
       return;
     }
+
+    advanceTurn(options.passed === true);
 
     if (deckIndex < deckOrder.length) {
       setCurrentCard(deckOrder[deckIndex]);
@@ -233,7 +308,15 @@ export default function GameHub() {
     }
 
     dealNewDeck(currentCard?.id);
-  }, [currentCard, dealNewDeck, deckIndex, deckOrder, hasStarted, startGame]);
+  }, [
+    advanceTurn,
+    currentCard,
+    dealNewDeck,
+    deckIndex,
+    deckOrder,
+    hasStarted,
+    startGame,
+  ]);
 
   const startTimer = useCallback(() => {
     if (totalTimerSeconds <= 0 || timerSeconds <= 0) return;
@@ -363,7 +446,10 @@ export default function GameHub() {
           >
             <View style={styles.introCard}>
               <CardAccentTop />
-              <View style={styles.introInner}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.introInner}
+              >
                 <View style={styles.introBadgeRow}>
                   {[t.game.truth, t.game.dare, t.game.challenge].map(
                     (label) => (
@@ -382,6 +468,78 @@ export default function GameHub() {
                     mode: selectedModeLabel,
                   })}
                 </Text>
+
+                <View style={styles.setupSection}>
+                  <Text style={styles.setupLabel}>Number of Players</Text>
+                  <View style={styles.playerCountRow}>
+                    {GAME_PLAYER_COUNT_OPTIONS.map((count) => {
+                      const active = playerCount === count;
+                      return (
+                        <Pressable
+                          key={count}
+                          accessibilityRole="button"
+                          accessibilityState={{ selected: active }}
+                          onPress={() => changePlayerCount(count)}
+                          style={[
+                            styles.playerCountButton,
+                            active && styles.playerCountButtonActive,
+                          ]}
+                        >
+                          <Text
+                            style={[
+                              styles.playerCountText,
+                              active && styles.playerCountTextActive,
+                            ]}
+                          >
+                            {count}
+                          </Text>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
+
+                  <View style={styles.playerNameGrid}>
+                    {DEFAULT_GAME_PLAYER_NAMES.slice(0, playerCount).map(
+                      (defaultName, index) => (
+                        <TextInput
+                          key={defaultName}
+                          accessibilityLabel={
+                            PLAYER_NAME_ACCESSIBILITY_LABELS[index]
+                          }
+                          value={playerNames[index]}
+                          onChangeText={(name) => updatePlayerName(index, name)}
+                          placeholder={defaultName}
+                          placeholderTextColor={COLORS.textMuted}
+                          autoCapitalize="words"
+                          autoCorrect={false}
+                          returnKeyType="done"
+                          style={styles.playerNameInput}
+                        />
+                      )
+                    )}
+                  </View>
+
+                  <View style={styles.drinkingToggleRow}>
+                    <View style={styles.drinkingToggleCopy}>
+                      <Text style={styles.drinkingToggleTitle}>
+                        Drinking game
+                      </Text>
+                      <Text style={styles.drinkingToggleBody}>
+                        Pass means the current player takes a drink.
+                      </Text>
+                    </View>
+                    <Switch
+                      accessibilityLabel="Drinking game"
+                      value={drinkingMode}
+                      onValueChange={setDrinkingMode}
+                      trackColor={{
+                        false: 'rgba(255,255,255,0.14)',
+                        true: 'rgba(255,47,146,0.55)',
+                      }}
+                      thumbColor={COLORS.textPrimary}
+                    />
+                  </View>
+                </View>
 
                 <Pressable
                   accessibilityRole="button"
@@ -416,7 +574,7 @@ export default function GameHub() {
                     </Text>
                   </LinearGradient>
                 </Pressable>
-              </View>
+              </ScrollView>
             </View>
           </Animated.View>
 
@@ -429,6 +587,27 @@ export default function GameHub() {
             style={[styles.sceneLayer, gameSceneStyle]}
           >
             <View style={styles.gameScene}>
+              <View style={styles.turnBanner}>
+                <View>
+                  <Text style={styles.turnEyebrow}>
+                    Turn {currentTurn.turnNumber}
+                  </Text>
+                  <Text style={styles.turnPlayer}>{currentTurn.player}</Text>
+                </View>
+                <View style={styles.turnTargetGroup}>
+                  <Text style={styles.turnTargetLabel}>For</Text>
+                  <Text style={styles.turnTarget}>{currentTurn.target}</Text>
+                </View>
+                {drinkingMode ? (
+                  <Text style={styles.turnDrinkMode}>Drinking game on</Text>
+                ) : null}
+                {lastDrinkConsequence ? (
+                  <Text style={styles.drinkConsequence}>
+                    {lastDrinkConsequence}
+                  </Text>
+                ) : null}
+              </View>
+
               <View style={styles.gameCard}>
                 <CardAccentTop />
                 <View style={styles.cardInner}>
@@ -530,10 +709,10 @@ export default function GameHub() {
 
               <View style={styles.actionRow}>
                 <ActionCircle
-                  label={t.game.skip.toUpperCase()}
+                  label={passActionLabel.toUpperCase()}
                   icon={X}
                   color={COLORS.no}
-                  onPress={drawCard}
+                  onPress={() => drawCard({ passed: true })}
                 />
                 <ActionCircle
                   label={t.game.draw.toUpperCase()}
@@ -542,7 +721,7 @@ export default function GameHub() {
                   color={COLORS.pink}
                   size={66}
                   iconSize={28}
-                  onPress={drawCard}
+                  onPress={() => drawCard()}
                 />
                 <ActionCircle
                   label={t.game.share.toUpperCase()}
@@ -683,12 +862,10 @@ const styles = StyleSheet.create({
     ...SHADOWS.card,
   },
   introInner: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 22,
     paddingVertical: 24,
-    gap: 18,
+    gap: 14,
   },
   introBadgeRow: {
     flexDirection: 'row',
@@ -723,6 +900,83 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  setupSection: {
+    alignSelf: 'stretch',
+    gap: 10,
+  },
+  setupLabel: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  playerCountRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  playerCountButton: {
+    minWidth: 52,
+    minHeight: 42,
+    borderRadius: 21,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+  },
+  playerCountButtonActive: {
+    borderColor: COLORS.pink,
+    backgroundColor: 'rgba(255,47,146,0.18)',
+  },
+  playerCountText: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  playerCountTextActive: {
+    color: COLORS.textPrimary,
+  },
+  playerNameGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  playerNameInput: {
+    flexGrow: 1,
+    flexBasis: '46%',
+    minHeight: 44,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '700',
+    paddingHorizontal: 12,
+  },
+  drinkingToggleRow: {
+    minHeight: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  drinkingToggleCopy: {
+    flex: 1,
+    gap: 3,
+  },
+  drinkingToggleTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  drinkingToggleBody: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    lineHeight: 20,
+    fontWeight: '600',
   },
   customDeckButton: {
     minHeight: 44,
@@ -763,7 +1017,57 @@ const styles = StyleSheet.create({
   },
   gameScene: {
     flex: 1,
-    gap: 12,
+    gap: 10,
+  },
+  turnBanner: {
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  turnEyebrow: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  turnPlayer: {
+    color: COLORS.textPrimary,
+    fontSize: 22,
+    lineHeight: 26,
+    fontWeight: '900',
+  },
+  turnTargetGroup: {
+    alignItems: 'flex-end',
+  },
+  turnTargetLabel: {
+    color: COLORS.maybe,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  turnTarget: {
+    color: COLORS.textPrimary,
+    fontSize: 18,
+    lineHeight: 22,
+    fontWeight: '900',
+  },
+  turnDrinkMode: {
+    color: COLORS.pink,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  drinkConsequence: {
+    width: '100%',
+    color: COLORS.maybe,
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
   },
   gameCard: {
     flex: 1,

@@ -18,4 +18,26 @@ describe('game hub transition animation', () => {
     expect(source).toMatch(/setVisibleGameScene\('intro'\)/);
     expect(source).toMatch(/useNativeDriver:\s*true/);
   });
+
+  it('collects player setup and drinking mode before starting the inline game', () => {
+    const source = readGameHubSource();
+
+    expect(source).toContain('normalizeGamePlayers');
+    expect(source).toContain('normalizeGamePlayerCount');
+    expect(source).toContain('setDrinkingMode');
+    expect(source).toContain('Number of Players');
+    expect(source).toContain('Drinking game');
+    expect(source).toContain('Player 4 name');
+  });
+
+  it('shows the current player, target, and drink consequence during play', () => {
+    const source = readGameHubSource();
+
+    expect(source).toContain('currentTurn.player');
+    expect(source).toContain('currentTurn.target');
+    expect(source).toContain('For');
+    expect(source).toContain('Pass / Drink');
+    expect(source).toContain('buildDrinkConsequence');
+    expect(source).toContain('lastDrinkConsequence');
+  });
 });
