@@ -30,14 +30,39 @@ describe('game hub transition animation', () => {
     expect(source).toContain('Player 4 name');
   });
 
-  it('shows the current player, target, and drink consequence during play', () => {
+  it('integrates turn context inside the active game card', () => {
     const source = readGameHubSource();
 
+    expect(source).toContain('styles.activeGameHeader');
+    expect(source).toContain('styles.activeGameTitleRow');
+    expect(source).toContain('styles.endGameButton');
+    expect(source).toContain('styles.cardTurnPanel');
+    expect(source).toContain('styles.cardTurnRoute');
+    expect(source).toContain('styles.cardTurnArrow');
+    expect(source).toContain('styles.statusPill');
+    expect(source).toContain('styles.cardConsequenceAlert');
+    expect(source).toContain('buildGameConsequence');
+    expect(source).toContain('buildGameShareMessage');
+    expect(source).toContain('savePersistedGameSession');
+    expect(source).toContain('loadPersistedGameSession');
+    expect(source).toContain('clearPersistedGameSession');
+    expect(source).toContain('Alert.alert');
+    expect(source).toContain('confirmEndGame');
+    expect(source).toContain('customDeckMode');
+    expect(source).toContain('Custom Only');
     expect(source).toContain('currentTurn.player');
     expect(source).toContain('currentTurn.target');
-    expect(source).toContain('For');
-    expect(source).toContain('Pass / Drink');
-    expect(source).toContain('buildDrinkConsequence');
-    expect(source).toContain('lastDrinkConsequence');
+    expect(source).toContain('→');
+    expect(source).toContain('Pass / Risk');
+    expect(source).toContain('lastConsequence');
+    expect(source).not.toContain('styles.turnStrip');
+    expect(source).not.toContain('styles.activeGameControlsRow');
+    expect(source).not.toContain('renderModeSelector(true)');
+    expect(source).not.toContain('styles.activeGameNoticePill');
+    expect(source).not.toContain('styles.cardTopRow');
+    expect(source).not.toContain('styles.categoryLabel');
+    expect(source).not.toContain('IntensityDots');
+    expect(source).not.toContain('turnTargetLabel}>For');
+    expect(source).not.toContain('turnDrinkMode');
   });
 });

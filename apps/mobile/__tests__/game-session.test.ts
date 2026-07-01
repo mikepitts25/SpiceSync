@@ -3,6 +3,8 @@ import {
   MAX_GAME_PLAYERS,
   MIN_GAME_PLAYERS,
   advanceGameTurnIndex,
+  buildGameConsequence,
+  buildGameShareMessage,
   buildDrinkConsequence,
   getGameTurn,
   normalizeGamePlayerCount,
@@ -49,5 +51,40 @@ describe('game session helpers', () => {
 
   it('builds a clear drinking consequence when a player passes', () => {
     expect(buildDrinkConsequence('Alex')).toBe('Alex takes a drink.');
+  });
+
+  it('randomizes non-drinking consequences without requiring the drinking toggle', () => {
+    const consequence = buildGameConsequence(
+      { player: 'Alex', target: 'Jordan', turnNumber: 1 },
+      false,
+      () => 0
+    );
+
+    expect(consequence).toEqual({
+      id: 'no-passes',
+      text: 'Alex cannot pass for the next 2 turns.',
+      includesDrink: false,
+    });
+  });
+
+  it('adds drinking outcomes to the consequence pool when drinking mode is enabled', () => {
+    const consequence = buildGameConsequence(
+      { player: 'Alex', target: 'Jordan', turnNumber: 1 },
+      true,
+      () => 0.99
+    );
+
+    expect(consequence.includesDrink).toBe(true);
+    expect(consequence.text).toBe('Alex takes a shot.');
+  });
+
+  it('formats shared game prompts with the acting player and target', () => {
+    expect(
+      buildGameShareMessage(
+        'SpiceSync Game Night: {{content}}',
+        'Tell a secret.',
+        { player: 'Alex', target: 'Jordan', turnNumber: 1 }
+      )
+    ).toBe('SpiceSync Game Night: Alex → Jordan\nTell a secret.');
   });
 });

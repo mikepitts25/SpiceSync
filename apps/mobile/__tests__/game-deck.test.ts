@@ -1,5 +1,8 @@
 import type { GameCard } from '../data/gameCards';
-import { createShuffledGameDeck } from '../lib/gameDeck';
+import {
+  createShuffledGameDeck,
+  selectGameCardsForCustomMode,
+} from '../lib/gameDeck';
 
 const card = (id: string): GameCard => ({
   id,
@@ -44,5 +47,20 @@ describe('game deck shuffling', () => {
     expect(new Set(deck.map((item) => item.id))).toEqual(
       new Set(cards.map((item) => item.id))
     );
+  });
+
+  it('can include custom cards or play custom cards only', () => {
+    const customCards = [card('custom-a'), card('custom-b')];
+
+    expect(
+      selectGameCardsForCustomMode(cards, customCards, 'include').map(
+        (item) => item.id
+      )
+    ).toEqual(['a', 'b', 'c', 'd', 'custom-a', 'custom-b']);
+    expect(
+      selectGameCardsForCustomMode(cards, customCards, 'customOnly').map(
+        (item) => item.id
+      )
+    ).toEqual(['custom-a', 'custom-b']);
   });
 });

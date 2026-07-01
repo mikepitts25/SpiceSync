@@ -121,12 +121,14 @@ export function buildReleaseDiagnostics(
       'notifications',
       'Notifications',
       shouldInitializeNotificationsOnLaunch(input.appOwnership)
-        ? 'pass'
-        : 'warning',
-      input.appOwnership === 'expo' ? 'Expo Go' : 'Release capable',
+        ? 'warning'
+        : 'pass',
       shouldInitializeNotificationsOnLaunch(input.appOwnership)
-        ? 'Launch notification setup is enabled outside Expo Go.'
-        : 'Expo Go skips launch notification setup; verify in a development or release build.'
+        ? 'Launch prompt'
+        : 'Opt-in only',
+      shouldInitializeNotificationsOnLaunch(input.appOwnership)
+        ? 'Notification permission is requested on app launch.'
+        : 'Notification permission is requested only when a user enables reminders.'
     ),
     makeCheck(
       'legal-routes',

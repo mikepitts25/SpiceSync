@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import {
+  Alert,
   Animated,
   Pressable,
   ScrollView,
@@ -37,7 +38,6 @@ import {
   AppHeader,
   AppTabBar,
   CardAccentTop,
-  IntensityDots,
 } from '../../components/app-chrome';
 import { ScreenTour } from '../../components/ScreenTour';
 import { type GameCard, getCardsByLanguage } from '../../data/gameCards';
@@ -46,8 +46,9 @@ import {
   type GameIntensityLevel,
 } from '../../lib/gameLevelFilter';
 import {
-  appendCustomGameCards,
   createShuffledGameDeck,
+  selectGameCardsForCustomMode,
+  type GameCustomDeckMode,
 } from '../../lib/gameDeck';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import {
@@ -58,11 +59,18 @@ import {
 import {
   DEFAULT_GAME_PLAYER_NAMES,
   advanceGameTurnIndex,
-  buildDrinkConsequence,
+  buildGameConsequence,
+  buildGameShareMessage,
   getGameTurn,
   normalizeGamePlayerCount,
   normalizeGamePlayers,
 } from '../../lib/gameSession';
+import {
+  clearPersistedGameSession,
+  createPersistedGameSession,
+  loadPersistedGameSession,
+  savePersistedGameSession,
+} from '../../lib/gameSessionPersistence';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
@@ -85,6 +93,10 @@ const PLAYER_NAME_ACCESSIBILITY_LABELS = [
   'Player 3 name',
   'Player 4 name',
 ] as const;
+const CUSTOM_DECK_MODE_OPTIONS = [
+  { value: 'include', label: 'Include Custom' },
+  { value: 'customOnly', label: 'Custom Only' },
+] as const;
 
 export default function GameHub() {
   const router = useRouter();
@@ -96,6 +108,8 @@ export default function GameHub() {
   const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
   const customCards = useCustomGameCardsStore((state) => state.cards);
   const [selectedMode, setSelectedMode] = useState<GameMode>('normal');
+  const [customDeckMode, setCustomDeckMode] =
+    useState<GameCustomDeckMode>('include');
   const [playerCount, setPlayerCount] = useState(2);
   const [playerNames, setPlayerNames] = useState<string[]>([
     ...DEFAULT_GAME_PLAYER_NAMES,
@@ -104,9 +118,7 @@ export default function GameHub() {
     normalizeGamePlayers(DEFAULT_GAME_PLAYER_NAMES, 2)
   );
   const [turnIndex, setTurnIndex] = useState(0);
-  const [lastDrinkConsequence, setLastDrinkConsequence] = useState<
-    string | null
-  >(null);
+  const [lastConsequence, setLastConsequence] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
   const [visibleGameScene, setVisibleGameScene] =
     useState<VisibleGameScene>('intro');
@@ -120,11 +132,16 @@ export default function GameHub() {
     normal: [],
     intense: [],
   });
+  const hasLoadedPersistedSessionRef = useRef(false);
+  const skipNextTimerResetRef = useRef(false);
 
+  const baseCards = useMemo(
+    () => getCardsByLanguage(language, unlocked),
+    [language, unlocked]
+  );
   const cards = useMemo(
-    () =>
-      appendCustomGameCards(getCardsByLanguage(language, unlocked), customCards),
-    [customCards, language, unlocked]
+    () => selectGameCardsForCustomMode(baseCards, customCards, customDeckMode),
+    [baseCards, customCards, customDeckMode]
   );
 
   const selectedLevels = GAME_MODE_LEVELS[selectedMode];
@@ -137,7 +154,7 @@ export default function GameHub() {
     () => getGameTurn(activePlayers, turnIndex),
     [activePlayers, turnIndex]
   );
-  const passActionLabel = drinkingMode ? 'Pass / Drink' : t.game.skip;
+  const passActionLabel = 'Pass / Risk';
 
   const levelCards = useMemo(
     () => filterCardsBySelectedLevels(cards, selectedLevels),
@@ -214,19 +231,100 @@ export default function GameHub() {
     setTimerSeconds(0);
     setIsTimerRunning(false);
     setTurnIndex(0);
-    setLastDrinkConsequence(null);
+    setLastConsequence(null);
   }, []);
 
   useEffect(() => {
-    if (!hasStarted) {
-      resetGameSession();
+    let cancelled = false;
+
+    loadPersistedGameSession()
+      .then((session) => {
+        if (cancelled || !session) return;
+
+        setSelectedMode(session.selectedMode);
+        setCustomDeckMode(session.customDeckMode);
+        setPlayerCount(session.playerCount);
+        setPlayerNames(session.playerNames);
+        setActivePlayers(session.activePlayers);
+        setTurnIndex(session.turnIndex);
+        setLastConsequence(session.lastConsequence);
+        setDeckOrder(session.deckOrder);
+        setDeckIndex(session.deckIndex);
+        skipNextTimerResetRef.current = session.currentCard !== null;
+        setCurrentCard(session.currentCard);
+        setTimerSeconds(session.timerSeconds);
+        setIsTimerRunning(session.isTimerRunning);
+        setDrinkingMode(session.drinkingMode);
+        setVisibleGameScene('game');
+        setHasStarted(true);
+        gameTransitionProgress.setValue(1);
+      })
+      .finally(() => {
+        if (!cancelled) {
+          hasLoadedPersistedSessionRef.current = true;
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [gameTransitionProgress, setDrinkingMode]);
+
+  useEffect(() => {
+    if (!hasLoadedPersistedSessionRef.current || !hasStarted) return;
+
+    const session = createPersistedGameSession({
+      selectedMode,
+      customDeckMode,
+      playerCount,
+      playerNames,
+      activePlayers,
+      turnIndex,
+      lastConsequence,
+      deckOrder,
+      deckIndex,
+      currentCard,
+      timerSeconds,
+      isTimerRunning,
+      drinkingMode,
+    });
+
+    savePersistedGameSession(session).catch(() => {
+      // Active game state can continue if local persistence is unavailable.
+    });
+  }, [
+    activePlayers,
+    currentCard,
+    customDeckMode,
+    deckIndex,
+    deckOrder,
+    drinkingMode,
+    hasStarted,
+    isTimerRunning,
+    lastConsequence,
+    playerCount,
+    playerNames,
+    selectedMode,
+    timerSeconds,
+    turnIndex,
+  ]);
+
+  useEffect(() => {
+    if (
+      !hasStarted &&
+      customDeckMode === 'customOnly' &&
+      customCards.length === 0
+    ) {
+      setCustomDeckMode('include');
+    }
+  }, [customCards.length, customDeckMode, hasStarted]);
+
+  useEffect(() => {
+    if (skipNextTimerResetRef.current) {
+      skipNextTimerResetRef.current = false;
       return;
     }
 
-    dealNewDeck();
-  }, [dealNewDeck, hasStarted, resetGameSession]);
-
-  useEffect(() => {
     setTimerSeconds(totalTimerSeconds);
     setIsTimerRunning(false);
   }, [totalTimerSeconds]);
@@ -255,7 +353,8 @@ export default function GameHub() {
 
     setActivePlayers(setupPlayers);
     setTurnIndex(0);
-    setLastDrinkConsequence(null);
+    setLastConsequence(null);
+    dealNewDeck();
     gameTransitionProgress.stopAnimation();
     setVisibleGameScene('game');
     setHasStarted(true);
@@ -264,7 +363,7 @@ export default function GameHub() {
       duration: GAME_SCENE_TRANSITION_MS,
       useNativeDriver: true,
     }).start();
-  }, [gameTransitionProgress, levelCards.length, setupPlayers]);
+  }, [dealNewDeck, gameTransitionProgress, levelCards.length, setupPlayers]);
 
   const updatePlayerName = useCallback((index: number, name: string) => {
     setPlayerNames((currentNames) =>
@@ -280,43 +379,48 @@ export default function GameHub() {
 
   const advanceTurn = useCallback(
     (passed: boolean) => {
-      if (passed && drinkingMode) {
-        setLastDrinkConsequence(buildDrinkConsequence(currentTurn.player));
+      if (passed) {
+        setLastConsequence(
+          buildGameConsequence(currentTurn, drinkingMode).text
+        );
       } else {
-        setLastDrinkConsequence(null);
+        setLastConsequence(null);
       }
 
       setTurnIndex((index) =>
         advanceGameTurnIndex(index, activePlayers.length)
       );
     },
-    [activePlayers.length, currentTurn.player, drinkingMode]
+    [activePlayers.length, currentTurn, drinkingMode]
   );
 
-  const drawCard = useCallback((options: { passed?: boolean } = {}) => {
-    if (!hasStarted) {
-      startGame();
-      return;
-    }
+  const drawCard = useCallback(
+    (options: { passed?: boolean } = {}) => {
+      if (!hasStarted) {
+        startGame();
+        return;
+      }
 
-    advanceTurn(options.passed === true);
+      advanceTurn(options.passed === true);
 
-    if (deckIndex < deckOrder.length) {
-      setCurrentCard(deckOrder[deckIndex]);
-      setDeckIndex((index) => index + 1);
-      return;
-    }
+      if (deckIndex < deckOrder.length) {
+        setCurrentCard(deckOrder[deckIndex]);
+        setDeckIndex((index) => index + 1);
+        return;
+      }
 
-    dealNewDeck(currentCard?.id);
-  }, [
-    advanceTurn,
-    currentCard,
-    dealNewDeck,
-    deckIndex,
-    deckOrder,
-    hasStarted,
-    startGame,
-  ]);
+      dealNewDeck(currentCard?.id);
+    },
+    [
+      advanceTurn,
+      currentCard,
+      dealNewDeck,
+      deckIndex,
+      deckOrder,
+      hasStarted,
+      startGame,
+    ]
+  );
 
   const startTimer = useCallback(() => {
     if (totalTimerSeconds <= 0 || timerSeconds <= 0) return;
@@ -332,7 +436,10 @@ export default function GameHub() {
     setTimerSeconds(totalTimerSeconds);
   }, [totalTimerSeconds]);
 
-  const endGame = useCallback(() => {
+  const finishEndGame = useCallback(() => {
+    clearPersistedGameSession().catch(() => {
+      // Ending the session should still return to setup if storage fails.
+    });
     gameTransitionProgress.stopAnimation();
     setVisibleGameScene('intro');
     setIsTimerRunning(false);
@@ -347,6 +454,17 @@ export default function GameHub() {
     });
   }, [gameTransitionProgress, resetGameSession]);
 
+  const confirmEndGame = useCallback(() => {
+    Alert.alert('End game?', 'This clears the current game session.', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: t.game.endGame,
+        style: 'destructive',
+        onPress: finishEndGame,
+      },
+    ]);
+  }, [finishEndGame, t.game.endGame]);
+
   const changeGameMode = useCallback((mode: GameMode) => {
     setSelectedMode(mode);
   }, []);
@@ -355,18 +473,49 @@ export default function GameHub() {
     if (!currentCard) return;
     try {
       await Share.share({
-        message: interpolate(t.game.shareMessage, {
-          content: currentCard.content,
-        }),
+        message: buildGameShareMessage(
+          t.game.shareMessage,
+          currentCard.content,
+          currentTurn
+        ),
       });
     } catch {
       // Native share cancellation does not need UI.
     }
-  }, [currentCard, t.game.shareMessage]);
+  }, [currentCard, currentTurn, t.game.shareMessage]);
 
-  const typeLabel = currentCard?.type
-    ? t.game[currentCard.type].toUpperCase()
-    : t.game.fallbackType.toUpperCase();
+  const renderModeSelector = () => (
+    <View style={styles.levelRow}>
+      {(['normal', 'intense'] as const).map((mode) => {
+        const active = selectedMode === mode;
+        const label = t.game.gameModes[mode];
+        return (
+          <Pressable
+            key={mode}
+            accessibilityRole="button"
+            accessibilityState={{ selected: active }}
+            onPress={() => changeGameMode(mode)}
+            style={styles.levelPress}
+          >
+            {active ? (
+              <LinearGradient
+                colors={GRADIENTS.primary}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+                style={styles.levelActive}
+              >
+                <Text style={styles.levelActiveText}>{label}</Text>
+              </LinearGradient>
+            ) : (
+              <View style={styles.levelInactive}>
+                <Text style={styles.levelInactiveText}>{label}</Text>
+              </View>
+            )}
+          </Pressable>
+        );
+      })}
+    </View>
+  );
 
   return (
     <SafeAreaView
@@ -383,57 +532,42 @@ export default function GameHub() {
           steps={t.tours.game}
         />
 
-        <View style={styles.headingRow}>
-          <Text style={styles.heading}>{t.game.gameNight.toUpperCase()}</Text>
-          {hasStarted ? (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t.game.endGame}
-              onPress={endGame}
-              style={styles.endGameButton}
-            >
-              <Text style={styles.endGameText}>{t.game.endGame}</Text>
-            </Pressable>
-          ) : null}
-        </View>
-
-        <View style={styles.modeGroup}>
-          <View style={styles.levelRow}>
-            {(['normal', 'intense'] as const).map((mode) => {
-              const active = selectedMode === mode;
-              const label = t.game.gameModes[mode];
-              return (
-                <Pressable
-                  key={mode}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: active }}
-                  onPress={() => changeGameMode(mode)}
-                  style={styles.levelPress}
-                >
-                  {active ? (
-                    <LinearGradient
-                      colors={GRADIENTS.primary}
-                      start={{ x: 0, y: 0.5 }}
-                      end={{ x: 1, y: 0.5 }}
-                      style={styles.levelActive}
-                    >
-                      <Text style={styles.levelActiveText}>{label}</Text>
-                    </LinearGradient>
-                  ) : (
-                    <View style={styles.levelInactive}>
-                      <Text style={styles.levelInactiveText}>{label}</Text>
-                    </View>
-                  )}
-                </Pressable>
-              );
-            })}
+        {hasStarted ? (
+          <View style={styles.activeGameHeader}>
+            <View style={styles.activeGameTitleRow}>
+              <View style={styles.activeGameTitleCopy}>
+                <Text style={styles.activeGameEyebrow}>
+                  {t.game.gameNight.toUpperCase()}
+                </Text>
+                <Text style={styles.activeGameTitle}>{selectedModeLabel}</Text>
+              </View>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t.game.endGame}
+                onPress={confirmEndGame}
+                style={styles.endGameButton}
+              >
+                <Text style={styles.endGameText}>{t.game.endGame}</Text>
+              </Pressable>
+            </View>
           </View>
-          {selectedMode === 'intense' ? (
-            <Text style={styles.intenseDisclaimer}>
-              {t.game.intenseDisclaimer}
-            </Text>
-          ) : null}
-        </View>
+        ) : (
+          <>
+            <View style={styles.headingRow}>
+              <Text style={styles.heading}>
+                {t.game.gameNight.toUpperCase()}
+              </Text>
+            </View>
+            <View style={styles.modeGroup}>
+              {renderModeSelector()}
+              {selectedMode === 'intense' ? (
+                <Text style={styles.intenseDisclaimer}>
+                  {t.game.intenseDisclaimer}
+                </Text>
+              ) : null}
+            </View>
+          </>
+        )}
 
         <View style={styles.transitionStage}>
           <Animated.View
@@ -525,7 +659,7 @@ export default function GameHub() {
                         Drinking game
                       </Text>
                       <Text style={styles.drinkingToggleBody}>
-                        Pass means the current player takes a drink.
+                        Adds drinks and shots to pass consequences.
                       </Text>
                     </View>
                     <Switch
@@ -539,6 +673,38 @@ export default function GameHub() {
                       thumbColor={COLORS.textPrimary}
                     />
                   </View>
+
+                  {customCards.length > 0 ? (
+                    <View style={styles.customDeckModeGroup}>
+                      <Text style={styles.setupLabel}>Deck Mix</Text>
+                      <View style={styles.customDeckModeRow}>
+                        {CUSTOM_DECK_MODE_OPTIONS.map((mode) => {
+                          const active = customDeckMode === mode.value;
+                          return (
+                            <Pressable
+                              key={mode.value}
+                              accessibilityRole="button"
+                              accessibilityState={{ selected: active }}
+                              onPress={() => setCustomDeckMode(mode.value)}
+                              style={[
+                                styles.customDeckModeButton,
+                                active && styles.customDeckModeButtonActive,
+                              ]}
+                            >
+                              <Text
+                                style={[
+                                  styles.customDeckModeText,
+                                  active && styles.customDeckModeTextActive,
+                                ]}
+                              >
+                                {mode.label}
+                              </Text>
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  ) : null}
                 </View>
 
                 <Pressable
@@ -548,9 +714,7 @@ export default function GameHub() {
                   style={styles.customDeckButton}
                 >
                   <PlusCircle size={18} color={COLORS.pink} />
-                  <Text style={styles.customDeckButtonText}>
-                    Custom Deck
-                  </Text>
+                  <Text style={styles.customDeckButtonText}>Custom Deck</Text>
                 </Pressable>
 
                 <Pressable
@@ -587,40 +751,64 @@ export default function GameHub() {
             style={[styles.sceneLayer, gameSceneStyle]}
           >
             <View style={styles.gameScene}>
-              <View style={styles.turnBanner}>
-                <View>
-                  <Text style={styles.turnEyebrow}>
-                    Turn {currentTurn.turnNumber}
-                  </Text>
-                  <Text style={styles.turnPlayer}>{currentTurn.player}</Text>
-                </View>
-                <View style={styles.turnTargetGroup}>
-                  <Text style={styles.turnTargetLabel}>For</Text>
-                  <Text style={styles.turnTarget}>{currentTurn.target}</Text>
-                </View>
-                {drinkingMode ? (
-                  <Text style={styles.turnDrinkMode}>Drinking game on</Text>
-                ) : null}
-                {lastDrinkConsequence ? (
-                  <Text style={styles.drinkConsequence}>
-                    {lastDrinkConsequence}
-                  </Text>
-                ) : null}
-              </View>
-
               <View style={styles.gameCard}>
                 <CardAccentTop />
                 <View style={styles.cardInner}>
-                  <View style={styles.cardTopRow}>
-                    <Text style={styles.categoryLabel}>{typeLabel}</Text>
-                    <IntensityDots
-                      value={
-                        currentCard?.intensity ??
-                        selectedLevels[selectedLevels.length - 1]
-                      }
-                      max={5}
-                    />
+                  <View style={styles.cardTurnPanel}>
+                    <View style={styles.cardTurnMetaRow}>
+                      <Text style={styles.cardTurnCounter}>
+                        Turn {currentTurn.turnNumber}
+                      </Text>
+                      {drinkingMode ? (
+                        <View style={styles.statusPill}>
+                          <Text style={styles.statusPillText}>Drinking</Text>
+                        </View>
+                      ) : null}
+                    </View>
+
+                    <View style={styles.cardTurnRoute}>
+                      <View style={styles.cardTurnPersonBlock}>
+                        <Text style={styles.cardTurnPersonLabel}>Acting</Text>
+                        <Text
+                          numberOfLines={1}
+                          adjustsFontSizeToFit
+                          minimumFontScale={0.82}
+                          style={styles.cardTurnName}
+                        >
+                          {currentTurn.player}
+                        </Text>
+                      </View>
+                      <Text style={styles.cardTurnArrow}>→</Text>
+                      <View
+                        style={[
+                          styles.cardTurnPersonBlock,
+                          styles.cardTurnTargetBlock,
+                        ]}
+                      >
+                        <Text style={styles.cardTurnPersonLabel}>Target</Text>
+                        <Text
+                          numberOfLines={1}
+                          adjustsFontSizeToFit
+                          minimumFontScale={0.82}
+                          style={[
+                            styles.cardTurnName,
+                            styles.cardTurnTargetName,
+                          ]}
+                        >
+                          {currentTurn.target}
+                        </Text>
+                      </View>
+                    </View>
+
+                    {lastConsequence ? (
+                      <View style={styles.cardConsequenceAlert}>
+                        <Text style={styles.cardConsequenceAlertText}>
+                          {lastConsequence}
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
+
                   <View style={styles.cardMainContent}>
                     <AccentBar />
 
@@ -658,8 +846,7 @@ export default function GameHub() {
                           <Text
                             style={[
                               styles.timerCountdown,
-                              timerSeconds <= 10 &&
-                                styles.timerCountdownUrgent,
+                              timerSeconds <= 10 && styles.timerCountdownUrgent,
                             ]}
                           >
                             {formatGameCardTimerSeconds(timerSeconds)}
@@ -770,13 +957,13 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 16,
     paddingBottom: 8,
-    gap: 12,
+    gap: 9,
   },
   headingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
+    minHeight: 34,
   },
   heading: {
     color: COLORS.textPrimary,
@@ -784,15 +971,47 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center',
   },
+  activeGameHeader: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.035)',
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  activeGameTitleRow: {
+    minHeight: 36,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  activeGameTitleCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: 1,
+  },
+  activeGameEyebrow: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    lineHeight: 18,
+    fontWeight: '800',
+  },
+  activeGameTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 18,
+    lineHeight: 22,
+    fontWeight: '900',
+  },
   endGameButton: {
-    position: 'absolute',
-    right: 0,
     borderRadius: 18,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.1)',
     backgroundColor: 'rgba(255,255,255,0.05)',
+    minHeight: 36,
+    justifyContent: 'center',
     paddingHorizontal: 12,
-    paddingVertical: 7,
+    paddingVertical: 5,
   },
   endGameText: {
     color: COLORS.textSub,
@@ -978,6 +1197,37 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontWeight: '600',
   },
+  customDeckModeGroup: {
+    gap: 8,
+  },
+  customDeckModeRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  customDeckModeButton: {
+    flex: 1,
+    minHeight: 42,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+  customDeckModeButtonActive: {
+    borderColor: COLORS.pink,
+    backgroundColor: 'rgba(255,47,146,0.18)',
+  },
+  customDeckModeText: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  customDeckModeTextActive: {
+    color: COLORS.textPrimary,
+  },
   customDeckButton: {
     minHeight: 44,
     borderRadius: RADII.pill,
@@ -1017,55 +1267,93 @@ const styles = StyleSheet.create({
   },
   gameScene: {
     flex: 1,
-    gap: 10,
+    gap: 8,
   },
-  turnBanner: {
-    borderRadius: 18,
+  cardTurnPanel: {
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    backgroundColor: 'rgba(255,255,255,0.035)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    gap: 6,
+  },
+  cardTurnMetaRow: {
+    minHeight: 25,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: 10,
+    gap: 8,
   },
-  turnEyebrow: {
+  cardTurnCounter: {
     color: COLORS.textMuted,
     fontSize: 16,
+    lineHeight: 20,
     fontWeight: '800',
   },
-  turnPlayer: {
-    color: COLORS.textPrimary,
-    fontSize: 22,
-    lineHeight: 26,
-    fontWeight: '900',
+  statusPill: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: 'rgba(255,47,146,0.26)',
+    backgroundColor: 'rgba(255,47,146,0.12)',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
   },
-  turnTargetGroup: {
-    alignItems: 'flex-end',
-  },
-  turnTargetLabel: {
-    color: COLORS.maybe,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  turnTarget: {
-    color: COLORS.textPrimary,
-    fontSize: 18,
-    lineHeight: 22,
-    fontWeight: '900',
-  },
-  turnDrinkMode: {
+  statusPillText: {
     color: COLORS.pink,
     fontSize: 16,
+    lineHeight: 20,
     fontWeight: '800',
   },
-  drinkConsequence: {
-    width: '100%',
+  cardTurnRoute: {
+    minHeight: 43,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  cardTurnPersonBlock: {
+    flex: 1,
+    minWidth: 0,
+    gap: 1,
+  },
+  cardTurnTargetBlock: {
+    alignItems: 'flex-end',
+  },
+  cardTurnPersonLabel: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    lineHeight: 20,
+    fontWeight: '800',
+  },
+  cardTurnName: {
+    color: COLORS.textPrimary,
+    fontSize: 19,
+    lineHeight: 23,
+    fontWeight: '900',
+  },
+  cardTurnTargetName: {
+    textAlign: 'right',
+  },
+  cardTurnArrow: {
+    width: 28,
+    color: COLORS.pink,
+    fontSize: 20,
+    lineHeight: 24,
+    fontWeight: '900',
+    textAlign: 'center',
+  },
+  cardConsequenceAlert: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,176,0,0.22)',
+    backgroundColor: 'rgba(255,176,0,0.08)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  cardConsequenceAlertText: {
     color: COLORS.maybe,
     fontSize: 16,
+    lineHeight: 20,
     fontWeight: '800',
     textAlign: 'center',
   },
@@ -1081,21 +1369,8 @@ const styles = StyleSheet.create({
   cardInner: {
     flex: 1,
     paddingHorizontal: 18,
-    paddingVertical: 16,
-    gap: 12,
-  },
-  cardTopRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-  },
-  categoryLabel: {
-    color: COLORS.pink,
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 1.4,
-    textAlign: 'center',
+    paddingVertical: 14,
+    gap: 10,
   },
   cardMainContent: {
     flex: 1,

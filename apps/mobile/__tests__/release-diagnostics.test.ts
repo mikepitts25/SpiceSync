@@ -29,12 +29,12 @@ describe('release readiness diagnostics', () => {
     expect(byId(checks, 'eas-project').status).toBe('warning');
     expect(byId(checks, 'supabase-relay').status).toBe('warning');
     expect(byId(checks, 'purchases').status).toBe('warning');
-    expect(byId(checks, 'notifications').status).toBe('warning');
+    expect(byId(checks, 'notifications').status).toBe('pass');
     expect(byId(checks, 'legal-routes').status).toBe('pass');
 
     expect(summarizeReleaseDiagnostics(checks)).toEqual({
-      pass: 2,
-      warning: 4,
+      pass: 3,
+      warning: 3,
       fail: 1,
       overall: 'fail',
     });

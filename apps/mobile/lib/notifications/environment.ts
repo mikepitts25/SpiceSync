@@ -1,5 +1,5 @@
 export function shouldInitializeNotificationsOnLaunch(
-  appOwnership: string | null | undefined
+  _appOwnership: string | null | undefined
 ): boolean {
-  return appOwnership !== 'expo';
+  return false;
 }

@@ -1,5 +1,7 @@
 import type { GameCard } from '../data/gameCards';
 
+export type GameCustomDeckMode = 'include' | 'customOnly';
+
 type ShuffleOptions = {
   previousOrderIds?: readonly string[];
   avoidFirstCardId?: string | null;
@@ -78,4 +80,16 @@ export function appendCustomGameCards(
       return true;
     }),
   ];
+}
+
+export function selectGameCardsForCustomMode(
+  cards: readonly GameCard[],
+  customCards: readonly GameCard[],
+  mode: GameCustomDeckMode
+): GameCard[] {
+  if (mode === 'customOnly') {
+    return [...customCards];
+  }
+
+  return appendCustomGameCards(cards, customCards);
 }

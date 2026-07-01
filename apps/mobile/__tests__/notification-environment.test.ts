@@ -5,9 +5,9 @@ describe('notification environment', () => {
     expect(shouldInitializeNotificationsOnLaunch('expo')).toBe(false);
   });
 
-  it('initializes notifications automatically in development and standalone builds', () => {
-    expect(shouldInitializeNotificationsOnLaunch('standalone')).toBe(true);
-    expect(shouldInitializeNotificationsOnLaunch('guest')).toBe(true);
-    expect(shouldInitializeNotificationsOnLaunch(null)).toBe(true);
+  it('does not request notification permission automatically in standalone builds', () => {
+    expect(shouldInitializeNotificationsOnLaunch('standalone')).toBe(false);
+    expect(shouldInitializeNotificationsOnLaunch('guest')).toBe(false);
+    expect(shouldInitializeNotificationsOnLaunch(null)).toBe(false);
   });
 });
