@@ -4,11 +4,12 @@ export const LEVEL3_CARDS: GameCard[] = [
   {
     id: 'lvl3-t-003',
     type: 'truth',
-    content: 'If you could only use one body part to pleasure me for the next 30 seconds, which would you choose and why?',
+    content:
+      'If you could only use one body part to pleasure me for the next 30 seconds, which would you choose and why?',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-005',
@@ -17,43 +18,47 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-007',
     type: 'truth',
-    content: 'If we were in a hotel room with thin walls and had to be quiet, how would you want me to take you?',
+    content:
+      'If we were in a hotel room with thin walls and had to be quiet, how would you want me to take you?',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-009',
     type: 'truth',
-    content: 'Describe exactly how you want me to undress you right now, step by step.',
+    content:
+      'Describe exactly how you want me to undress you right now, step by step.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-012',
     type: 'truth',
-    content: 'If we had to have quick sex right now, where and how would you want it?',
+    content:
+      'If we had to have quick sex right now, where and how would you want it?',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-014',
     type: 'truth',
-    content: 'Describe your ideal oral sex session with me. What do you want me to do?',
+    content:
+      'Describe exactly what you want my mouth to do—where it starts, where it lingers, what it skips. Talking only.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-d-001',
@@ -62,55 +67,60 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['music']
+    estimatedTime: '30 sec',
+    requires: ['music'],
   },
   {
     id: 'lvl3-d-003',
     type: 'dare',
-    content: 'Take an ice cube and trace it down my chest, around my nipples, and down my stomach.',
+    content:
+      'Take an ice cube and trace it down my chest, around my nipples, and down my stomach.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['ice']
+    estimatedTime: '1 min',
+    requires: ['ice'],
   },
   {
     id: 'lvl3-d-004',
     type: 'dare',
-    content: 'Kiss me from my neck down to my navel, taking your time at every spot.',
+    content:
+      'Kiss me from my neck down to my navel, taking your time at every spot.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-d-005',
     type: 'dare',
-    content: 'Whisper the dirtiest thing you want to do to me tonight, in full detail.',
+    content:
+      "Whisper the dirtiest thing you've thought about doing to me, in full detail. Right in my ear.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-006',
     type: 'dare',
-    content: 'Use a feather or soft fabric to tease my entire body, avoiding where I want it most until I beg.',
+    content:
+      'Use a feather or soft fabric on me for 1 minute—always almost, never quite, where I want it. Make me ask nicely.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['feather']
+    estimatedTime: '1 min',
+    requires: ['feather'],
   },
   {
     id: 'lvl3-d-007',
     type: 'dare',
-    content: 'Bite my neck and shoulder while grinding against me. Leave a mark.',
+    content:
+      'Bite my neck and shoulder while grinding against me. Leave a mark.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-d-008',
@@ -119,16 +129,17 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-011',
     type: 'dare',
-    content: 'Kiss every inch of my body except my lips and intimate areas. Make me desperate for more.',
+    content:
+      'Kiss every inch of my body except my lips and intimate areas. Make me desperate for more.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-012',
@@ -137,17 +148,18 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['honey']
+    estimatedTime: '30 sec',
+    requires: ['honey'],
   },
   {
     id: 'lvl3-d-013',
     type: 'dare',
-    content: 'Put my hand exactly where you want to be touched and guide me to show me how you like it.',
+    content:
+      'Put my hand exactly where you want to be touched and guide me to show me how you like it.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-014',
@@ -156,474 +168,640 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-c-002',
     type: 'challenge',
-    content: 'Temperature Play: Alternate between ice cubes and warm breath/mouth on sensitive areas. Notice my reactions.',
+    content:
+      'Temperature Play: Alternate between ice cubes and warm breath/mouth on sensitive areas. Notice my reactions.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['ice']
+    estimatedTime: '1 min',
+    requires: ['ice'],
   },
   {
     id: 'lvl3-c-005',
     type: 'challenge',
-    content: 'No Hands: Pleasure me for 1 minute using only your mouth. No hands allowed.',
+    content:
+      'No Hands: Pleasure me for 1 minute using only your mouth. No hands allowed.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-008',
     type: 'challenge',
-    content: 'Sensory Overload: Blindfold me. Use different textures (feather, fabric, ice, warm breath) all over my body. I guess what each is.',
+    content:
+      'Sensory Overload: Blindfold me. Use different textures (feather, fabric, ice, warm breath) all over my body. I guess what each is.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['blindfold', 'feather']
+    estimatedTime: '1 min',
+    requires: ['blindfold', 'feather'],
+    safetyNotes:
+      'Power play is by mutual agreement—either of you can pause or stop the scene at any time.',
   },
   {
     id: 'lvl3-c-010',
     type: 'challenge',
-    content: 'Copy Cat: You do something to me, I copy it exactly on you. Keep going, escalating each round.',
+    content:
+      'Copy Cat: You do something to me, I copy it exactly on you. Keep going, escalating each round.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-011',
     type: 'challenge',
-    content: 'Hold Still: I get to do whatever I want to you for 1 minute. You cannot move or make noise. Break the rules? Start over.',
+    content:
+      'Hold Still: I get to do whatever I want to you for 1 minute. You cannot move or make noise. Break the rules? Start over.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-012',
     type: 'challenge',
-    content: 'Body Map: I touch 5 spots on your body in a specific order. You must touch them back on me in reverse order. Miss one? Remove an item.',
+    content:
+      'Body Map: I touch 5 spots on your body in a specific order. You must touch them back on me in reverse order. Miss one? Remove an item.',
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-013',
     type: 'challenge',
-    content: 'No Talking: For the next 1 minute, no words. Only touch, sounds, and eye contact. Communicate everything with your body.',
+    content:
+      'No Talking: For the next 1 minute, no words. Only touch, sounds, and eye contact. Communicate everything with your body.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-015',
     type: 'challenge',
-    content: 'Kiss Marathon: 1 minute. Kiss every part of my body you can reach. I count the spots. Try to beat your record.',
+    content:
+      'Kiss Marathon: 1 minute. Kiss every part of my body you can reach. I count the spots. Try to beat your record.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-004',
     type: 'fantasy',
-    content: 'Describe a scenario where you catch me touching myself and decide to join in or watch.',
+    content:
+      'Describe a scenario where you catch me touching myself and decide to join in or watch.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-rp-004',
     type: 'roleplay',
-    content: 'Vampire and Victim: You want me. Bite my neck. Take what you need. Make me yours.',
+    content:
+      'Vampire and Victim: You want me. Bite my neck. Take what you need. Make me yours.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-rp-005',
     type: 'roleplay',
-    content: 'First Date: Act like we just met and can barely keep our hands to ourselves. The tension is electric.',
+    content:
+      'First Date: Act like we just met and can barely keep our hands to ourselves. The tension is electric.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-rp-006',
     type: 'roleplay',
-    content: 'Masseuse: Give me a professional massage that gets increasingly unprofessional. Start with my shoulders, end wherever you want.',
+    content:
+      'Masseuse: Give me a professional massage that gets increasingly unprofessional. Start with my shoulders, end wherever you want.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['oil-or-lotion']
+    estimatedTime: '1 min',
+    requires: ['oil'],
   },
   {
     id: 'lvl3-rp-007',
     type: 'roleplay',
-    content: 'Photographer and Nude Model: Direct me. Tell me exactly what position you want me in. Make me feel beautiful and desired.',
+    content:
+      'Photographer and Nude Model: Direct me. Tell me exactly what position you want me in. Make me feel beautiful and desired.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-t-001',
     type: 'truth',
-    content: 'Describe a specific fantasy location where you\'d want to have sex with me. Why there?',
+    content:
+      "Describe a fantasy location where you'd want us completely alone and completely shameless. Why there?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-002',
     type: 'truth',
-    content: 'What\'s a sexual boundary you have that you want me to know about?',
+    content:
+      "What's a sexual boundary you have that you want me to know about?",
     intensity: 3,
     category: 'communication',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-004',
     type: 'truth',
-    content: 'What\'s something you\'ve seen in a movie or read that you want to try with me?',
+    content:
+      "What's something you've seen in a movie or read that you want to try with me?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-006',
     type: 'truth',
-    content: 'What\'s your favorite position with me and what makes it so good?',
+    content: "What's your favorite position with me and what makes it so good?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-008',
     type: 'truth',
-    content: 'What\'s the most adventurous place you\'ve ever had sex or wanted to?',
+    content:
+      "What's the most adventurous place you've ever had sex or wanted to?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-010',
     type: 'truth',
-    content: 'What\'s a sexual skill you wish you were better at? I can help you practice.',
+    content:
+      "What's a sexual skill you wish you were better at? I can help you practice.",
     intensity: 3,
     category: 'communication',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-011',
     type: 'truth',
-    content: 'What\'s the dirtiest text message you\'ve ever wanted to send me but didn\'t?',
+    content:
+      "What's the dirtiest text message you've ever wanted to send me but didn't?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-013',
     type: 'truth',
-    content: 'What\'s something you\'ve always been curious about sexually but never tried?',
+    content:
+      "What's something you've always been curious about sexually but never tried?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-t-015',
     type: 'truth',
-    content: 'What\'s a \'secret\' spot on your body that drives you wild when touched?',
+    content:
+      "What's a 'secret' spot on your body that drives you wild when touched?",
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-d-002',
     type: 'dare',
-    content: 'Blindfold me and explore my body with your hands and mouth for 1 minute. I can\'t see anything.',
+    content:
+      "Blindfold me and explore my body with your hands and mouth for 1 minute. I can't see anything.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
-    requires: ['blindfold']
+    requires: ['blindfold'],
+    safetyNotes:
+      'Power play is by mutual agreement—either of you can pause or stop the scene at any time.',
   },
   {
     id: 'lvl3-d-009',
     type: 'dare',
-    content: 'Suck on my fingers like you\'re giving me oral sex. Show me your skills.',
+    content:
+      'Take my fingers into your mouth slowly, one at a time, eyes on mine the whole time.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '30 sec',
   },
   {
     id: 'lvl3-d-010',
     type: 'dare',
-    content: 'Tie my wrists loosely with a scarf or tie. Tease me for 1 minute while I\'m \'restrained\'.',
+    content:
+      "Tie my wrists loosely with a scarf or tie. Tease me for 1 minute while I'm 'restrained'.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
-    requires: ['scarf']
+    requires: ['scarf'],
+    safetyNotes:
+      'Keep any tie loose enough to slip out of instantly. Stop the moment anyone says stop.',
   },
   {
     id: 'lvl3-d-015',
     type: 'dare',
-    content: 'Give me a \'preview\' of what you want to do later—using only your body language and sounds.',
+    content:
+      "Give me a 'preview' of what you want to do later—using only your body language and sounds.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-001',
     type: 'challenge',
-    content: 'Red Light, Green Light: Touch me however you want. I\'ll say \'red\' to freeze you, \'green\' to continue. 5 rounds minimum.',
+    content:
+      "Red Light, Green Light: Touch me however you want. I'll say 'red' to freeze you, 'green' to continue. 5 rounds minimum.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-003',
     type: 'challenge',
-    content: 'Strip Dice: Roll a die. That\'s how many items of clothing you remove. Then I roll for you. Continue until someone is naked.',
+    content:
+      "Strip Dice: Roll a die. That's how many items of clothing you remove. Then I roll for you. Continue until someone is naked.",
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['dice']
+    estimatedTime: '1 min',
+    requires: ['dice'],
   },
   {
     id: 'lvl3-c-004',
     type: 'challenge',
-    content: 'Mirror Game: Whatever I do to you, you copy back on me. We escalate until someone can\'t take it anymore.',
+    content:
+      "Mirror Game: Whatever I do to you, you copy back on me. We escalate until someone can't take it anymore.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-006',
     type: 'challenge',
-    content: 'Alphabet Challenge: Go down on me and trace every letter of the alphabet with your tongue. Don\'t skip any.',
+    content:
+      'Alphabet Tease: Trace letters on the back of my neck with one fingertip. I guess the word. Winner gives one command.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-009',
     type: 'challenge',
-    content: 'Dirty 20 Questions: I\'m thinking of something explicit. You have 20 yes/no questions. Wrong guess means you do it anyway.',
+    content:
+      "Dirty 20 Questions: I'm thinking of something explicit. You have 20 yes/no questions. Wrong guess means you do it anyway.",
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-014',
     type: 'challenge',
-    content: 'Simon Says - Dirty Edition: \'Simon says touch yourself.\' \'Simon says kiss my neck.\' Move without Simon says? Lose clothing.',
+    content:
+      "Simon Says - Dirty Edition: 'Simon says touch yourself.' 'Simon says kiss my neck.' Move without Simon says? Lose clothing.",
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-001',
     type: 'fantasy',
-    content: 'Describe a scenario where we\'re in a secluded spot in the countryside. What do we do?',
+    content:
+      "Describe a scenario where we're in a secluded spot in the countryside. What do we do?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-002',
     type: 'fantasy',
-    content: 'Pretend we\'re strangers who meet at a salsa club in Cali. The chemistry is instant. Act out our first encounter.',
+    content:
+      "Pretend we're strangers who meet at a salsa club in Cali. The chemistry is instant. Act out our first encounter.",
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-003',
     type: 'fantasy',
-    content: 'Imagine we\'re in a hotel room with a view of the city. Describe how you\'d take me against the window.',
+    content:
+      "Imagine we're in a hotel room with a view of the city. Describe how you'd take me against the window.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-005',
     type: 'fantasy',
-    content: 'Pretend we\'re at a friend\'s party and sneak away to a bathroom or closet. Quick, quiet, intense.',
+    content:
+      "Pretend we're at a friend's party and sneak away to a bathroom or closet. Quick, quiet, intense.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-006',
     type: 'fantasy',
-    content: 'Describe a rainy afternoon where we\'re stuck inside with nothing to do but each other.',
+    content:
+      "Describe a rainy afternoon where we're stuck inside with nothing to do but each other.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-007',
     type: 'fantasy',
-    content: 'Imagine we\'re on a boat in the Caribbean. The sun is setting. What happens next?',
+    content:
+      "Imagine we're on a boat in the Caribbean. The sun is setting. What happens next?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-fn-008',
     type: 'fantasy',
-    content: 'Describe a scenario where I\'m wearing something that drives you crazy and you can\'t keep your hands off me.',
+    content:
+      "Describe a scenario where I'm wearing something that drives you crazy and you can't keep your hands off me.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-rp-001',
     type: 'roleplay',
-    content: 'Boss and Employee: I\'m here for my performance review. What exactly am I being graded on? Show me.',
+    content:
+      "Boss and Employee: I'm here for my performance review. What exactly am I being graded on? Show me.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-rp-002',
     type: 'roleplay',
-    content: 'Doctor and Patient: Give me a very thorough examination. Check everything. Don\'t miss a spot.',
+    content:
+      "Doctor and Patient: Give me a very thorough examination. Check everything. Don't miss a spot.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-rp-003',
     type: 'roleplay',
-    content: 'Personal Trainer: Put me through an intense workout session. Get me sweating. Use your hands to \'adjust\' my form.',
+    content:
+      "Personal Trainer: Put me through an intense workout session. Get me sweating. Use your hands to 'adjust' my form.",
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-016',
     type: 'dare',
-    content: 'Underwear Dare: You have to wear your partner\'s underwear for the rest of the game.',
+    content:
+      "Underwear Dare: You have to wear your partner's underwear for the rest of the game.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-017',
     type: 'dare',
-    content: 'Makeup Mirror: Let me put lipstick, eyeliner, or blush on you. Hold eye contact while I do it, then give me your best pose.',
+    content:
+      'Makeup Mirror: Let me put lipstick, eyeliner, or blush on you. Hold eye contact while I do it, then give me your best pose.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['makeup']
+    estimatedTime: '1 min',
+    requires: ['makeup'],
   },
   {
     id: 'lvl3-c-016',
     type: 'challenge',
-    content: 'Full Swap: Trade one visible clothing item and one hidden clothing item for the next 3 turns. Act like you picked the better outfit.',
+    content:
+      'Full Swap: Trade one visible clothing item and one hidden clothing item with me. Wear them like you mean it.',
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-018',
     type: 'dare',
-    content: 'Owned Outfit: Your partner picks an outfit from their closet that makes you look the most submissive, slutty, pretty, or ridiculous. Wear it until they release you.',
+    content:
+      'Owned Outfit: Your partner picks an outfit from their closet that makes you look the most submissive, slutty, pretty, or ridiculous. Wear it until they release you.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-d-019',
     type: 'dare',
-    content: 'Inspection: After your partner dresses you, stand still while they inspect every detail and make any adjustments they want.',
+    content:
+      'Inspection: After your partner dresses you, stand still while they inspect every detail and make any adjustments they want.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-c-017',
     type: 'challenge',
-    content: 'Partner\'s Doll: Your partner gets full control of your look: clothes, hair, makeup, pose, and attitude. Stay in character for the next 3 turns.',
+    content:
+      "Partner's Doll: For 1 minute I control your look—collar, hair, one accessory, pose. Hold the final pose like art.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['makeup']
+    estimatedTime: '1 min',
+    requires: ['makeup'],
+    safetyNotes:
+      'Keep anything at the neck loose and decorative—never restricting. Remove immediately on request.',
   },
   {
     id: 'lvl3-c-018',
     type: 'challenge',
-    content: 'Underwear Modeling: Your partner chooses a clean pair of their underwear for you. Put it on, model it, and let them decide if you are allowed to change back.',
+    content:
+      'Underwear Modeling: Your partner chooses a clean pair of their underwear for you. Put it on, model it, and let them decide if you are allowed to change back.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
+    estimatedTime: '1 min',
   },
   {
     id: 'lvl3-rp-008',
     type: 'roleplay',
-    content: 'Forced Makeover: Your partner is in charge of turning you into their ideal plaything. They choose the clothes, the makeup, the name, and how you act.',
+    content:
+      'Forced Makeover: Your partner is in charge of turning you into their ideal plaything. They choose the clothes, the makeup, the name, and how you act.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A',
-    requires: ['makeup']
+    estimatedTime: '1 min',
+    requires: ['makeup'],
   },
   {
     id: 'lvl3-rp-009',
     type: 'roleplay',
-    content: 'Laundry Thief: You got caught wearing your partner\'s clothes. They decide what you keep on, what gets taken off, and how you make it up to them.',
+    content:
+      "Laundry Thief: You got caught wearing your partner's clothes. They decide what you keep on, what gets taken off, and how you make it up to them.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: 'N/A'
-  }
+    estimatedTime: '1 min',
+  },
+  {
+    id: 'lvl3-qk-001',
+    type: 'dare',
+    content:
+      'Blindfold me. Touch me three times—fabric, fingertip, breath. I guess each one. Winner gives one command.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '1 min',
+    requires: ['blindfold'],
+    safetyNotes:
+      'Power play is by mutual agreement—either of you can pause or stop the scene at any time.',
+  },
+  {
+    id: 'lvl3-qk-002',
+    type: 'roleplay',
+    content:
+      'Photographer and Model: Direct my pose for a portrait—chin, shoulders, gaze. Take exactly one photo, for our eyes only.',
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '1 min',
+    requires: ['phone'],
+  },
+  {
+    id: 'lvl3-qk-003',
+    type: 'dare',
+    content:
+      'Ice cube between your fingers: trace my jaw, my throat, my collarbone. Stop the second it melts.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '30 sec',
+    requires: ['ice'],
+  },
+  {
+    id: 'lvl3-qk-004',
+    type: 'roleplay',
+    content:
+      "Royalty and Servant: I'm royalty for 1 minute. Address me properly, adjust my cushion, offer your arm. Excellence is expected.",
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '1 min',
+  },
+  {
+    id: 'lvl3-qk-005',
+    type: 'roleplay',
+    content:
+      'Strangers: We just met. Give me your best opening line and your worst one. I pick which earns a kiss on the cheek.',
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '1 min',
+  },
+  {
+    id: 'lvl3-qk-006',
+    type: 'dare',
+    content:
+      'Heels on—yours or mine to hand over like a ceremony. One slow lap of the room in them.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '1 min',
+    requires: ['heels'],
+  },
+  {
+    id: 'lvl3-qk-007',
+    type: 'dare',
+    content:
+      "Feather or fingertip: draw one slow line from my ankle to my knee. Announce where you're going before you start.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '30 sec',
+    requires: ['feather'],
+  },
+  {
+    id: 'lvl3-qk-008',
+    type: 'dare',
+    content:
+      "Show me the lingerie or underwear you'd most want me in. Describe exactly when I'll have earned the reveal.",
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '1 min',
+    requires: ['lingerie'],
+  },
+  {
+    id: 'lvl3-qk-009',
+    type: 'roleplay',
+    content:
+      'Teacher or student, boss or assistant, artist or muse—pick the pair, pick your side, and deliver the first line of the scene.',
+    intensity: 3,
+    category: 'playful',
+    isPremium: true,
+    estimatedTime: '30 sec',
+  },
+  {
+    id: 'lvl3-qk-010',
+    type: 'roleplay',
+    content:
+      'Vampire and Prey: one slow circle around me, one whispered threat, one kiss on the neck. Fangs optional.',
+    intensity: 3,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '1 min',
+  },
 ];

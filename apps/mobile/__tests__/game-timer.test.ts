@@ -28,39 +28,19 @@ describe('game card timer parsing', () => {
     ).toEqual([]);
   });
 
-  it('does not assign countdowns to discussion or quick creative cards', () => {
-    const cardsThatShouldNotShowTimers = MASTER_DECK.filter((card) => {
-      const isDiscussionCard = ['truth', 'fantasy', 'roleplay'].includes(
-        card.type
-      );
-      const isQuickCreativeAction =
-        /\b(trace|write|draw|letter|letters|poem|note|vision board|goals|playlist)\b/i.test(
-          card.content
-        );
-
-      return isDiscussionCard || isQuickCreativeAction;
-    });
-
-    expect(cardsThatShouldNotShowTimers.map((card) => card.id)).not.toEqual([]);
+  it('gives every playable card a quick 30- or 60-second countdown', () => {
+    // Every card is a quick game prompt now: estimatedTime is always
+    // '30 sec' or '1 min', so every draw gets a short countdown.
+    expect(ALL_PLAYABLE_CARDS.length).toBeGreaterThan(0);
     expect(
-      cardsThatShouldNotShowTimers.filter(
-        (card) => parseGameCardTimerSeconds(card.estimatedTime) > 0
+      ALL_PLAYABLE_CARDS.filter(
+        (card) => !['30 sec', '1 min'].includes(card.estimatedTime)
       )
     ).toEqual([]);
-  });
-
-  it('only assigns countdowns when the card text asks for seconds or minutes', () => {
-    const timedCards = ALL_PLAYABLE_CARDS.filter(
-      (card) => parseGameCardTimerSeconds(card.estimatedTime) > 0
-    );
-
-    expect(timedCards.map((card) => card.id)).not.toEqual([]);
     expect(
-      timedCards.filter(
+      ALL_PLAYABLE_CARDS.filter(
         (card) =>
-          !/\b\d+\s*(?:sec|second|seconds|min|minute|minutes|segundo|segundos|minuto|minutos)\b/i.test(
-            card.content
-          )
+          ![30, 60].includes(parseGameCardTimerSeconds(card.estimatedTime))
       )
     ).toEqual([]);
   });

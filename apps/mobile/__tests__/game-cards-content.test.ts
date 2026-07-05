@@ -1,0 +1,148 @@
+import { MASTER_DECK, type GameCard } from '../data/gameCards';
+import { ALL_CARDS_ES } from '../data/gameCards.es';
+
+const ALL_PLAYABLE_CARDS: GameCard[] = [...MASTER_DECK, ...ALL_CARDS_ES];
+const ACTION_TYPES = new Set(['dare', 'challenge', 'roleplay']);
+const ACTION_CARDS = ALL_PLAYABLE_CARDS.filter((card) =>
+  ACTION_TYPES.has(card.type)
+);
+
+// Explicit sex-act instructions are never allowed on action cards (dare,
+// challenge, roleplay). Truth/fantasy cards may discuss desires in words,
+// but action cards must stay quick, teasing, and playable in under a minute.
+const BANNED_ACT_PATTERN =
+  /\b(intercourse|penetrat\w*|blow ?job|go down on|oral sex|eat (?:me|you) out|rimming|\bfisting|\b69\b|sit on my face|make (?:me|you) (?:come|cum|climax|finish)|finish (?:me|you) off|edge (?:me|you)|edging|orgasm|sexo oral|penetra\w*|\ban(?:al|o)\b|orgasmo|correrse|c[oó]rrete|hasta que acabe)\b/i;
+
+// High-risk activities are banned everywhere, including discussion prompts.
+const HIGH_RISK_PATTERN =
+  /\b(chok\w+|breath ?play|strangl\w+|asphyx\w+|knife|blade|razor|blood ?play|\bblood\b|needle|watersport\w*|golden shower|\bpiss\w*|\bscat\b|drip\w* (?:hot |warm )?wax|wax on|hot wax|TENS unit|violet wand|electro ?stim\w*|gag (?:me|you|them)|asfixi\w+|estrangul\w+|ahog\w+|cuchillo|navaja|sangre|aguja|orin\w+|\bmear\b|gotea\w* cera|cera caliente)\b/i;
+
+// CNC belongs in boundary/fantasy discussion only, never as a dare.
+const CNC_ACTION_PATTERN =
+  /\b(pretend to say no|ignore (?:my|your|the) (?:no|safeword)|struggle against|fight back|don'?t stop no matter what|no matter what (?:I|you) say|aunque diga que no|ignora (?:mi|tu) no)\b/i;
+
+// Long-duration or scheduled tasks break the quick-game format.
+const LONG_DURATION_PATTERN =
+  /\b(tonight|all day|all night|for the next hour|an hour|1 hour|24[- ]hours?|weekend|this week|one week|for days|rest of the (?:day|night|evening)|later today|before bed|next (?:\d+|two|three|four|five) (?:turns?|rounds?)|\b(?:[2-9]|[1-9]\d) min(?:ute)?s?\b|esta noche|toda la noche|todo el d[ií]a|fin de semana|una hora|pr[oó]xim[oa]s? \d+ turnos)\b/i;
+
+// Props must be simple, common household or bedroom items.
+const ALLOWED_PROPS = new Set([
+  'ice',
+  'blindfold',
+  'scarf',
+  'candle',
+  'collar',
+  'leash',
+  'paddle',
+  'whip',
+  'feather',
+  'makeup',
+  'lipstick',
+  'mirror',
+  'phone',
+  'music',
+  'paper',
+  'pen',
+  'food',
+  'fruit',
+  'honey',
+  'oil',
+  'dice',
+  'headphones',
+  'earplugs',
+  'toy',
+  'cuffs',
+  'robe',
+  'lingerie',
+  'heels',
+  'perfume',
+  'clothing',
+  'chair',
+  'nail-polish',
+  'warm-cloth',
+  'body-safe-marker',
+]);
+
+// Action cards touching these themes must carry a safety note.
+const SAFETY_REQUIRED_PATTERN =
+  /\b(tie|tied|restrain\w*|cuff\w*|collar|leash|paddle|whip|degrad\w*|humiliat\w*|captive|property|belong to|esposas|correa|amarr\w*|propiedad)\b/i;
+
+const describeCard = (card: GameCard) => `${card.id}: ${card.content}`;
+
+describe('game card content policy', () => {
+  it('has a substantial deck in both languages', () => {
+    expect(MASTER_DECK.length).toBeGreaterThanOrEqual(400);
+    expect(ALL_CARDS_ES.length).toBeGreaterThanOrEqual(80);
+  });
+
+  it('uses only quick-play time estimates (30 sec or 1 min)', () => {
+    expect(
+      ALL_PLAYABLE_CARDS.filter(
+        (card) => !['30 sec', '1 min'].includes(card.estimatedTime)
+      ).map(describeCard)
+    ).toEqual([]);
+  });
+
+  it('never instructs sex acts on action cards', () => {
+    expect(
+      ACTION_CARDS.filter((card) => BANNED_ACT_PATTERN.test(card.content)).map(
+        describeCard
+      )
+    ).toEqual([]);
+  });
+
+  it('never includes high-risk activities anywhere in the deck', () => {
+    expect(
+      ALL_PLAYABLE_CARDS.filter((card) =>
+        HIGH_RISK_PATTERN.test(card.content)
+      ).map(describeCard)
+    ).toEqual([]);
+  });
+
+  it('never presents consent-override or CNC scenarios as action cards', () => {
+    expect(
+      ACTION_CARDS.filter((card) => CNC_ACTION_PATTERN.test(card.content)).map(
+        describeCard
+      )
+    ).toEqual([]);
+  });
+
+  it('never assigns long-duration or scheduled tasks', () => {
+    expect(
+      ALL_PLAYABLE_CARDS.filter((card) =>
+        LONG_DURATION_PATTERN.test(card.content)
+      ).map(describeCard)
+    ).toEqual([]);
+  });
+
+  it('only requires simple, common props', () => {
+    const badProps = ALL_PLAYABLE_CARDS.flatMap((card) =>
+      (card.requires ?? [])
+        .filter((prop) => !ALLOWED_PROPS.has(prop))
+        .map((prop) => `${card.id}: ${prop}`)
+    );
+    expect(badProps).toEqual([]);
+  });
+
+  it('adds safety notes to restraint, collar/leash, impact, and control cards', () => {
+    expect(
+      ACTION_CARDS.filter(
+        (card) =>
+          SAFETY_REQUIRED_PATTERN.test(card.content) && !card.safetyNotes
+      ).map(describeCard)
+    ).toEqual([]);
+  });
+
+  it('keeps every intensity level stocked, including the new quick-kink cards', () => {
+    for (const level of [1, 2, 3, 4, 5] as const) {
+      const cards = MASTER_DECK.filter((card) => card.intensity === level);
+      expect({ level, count: cards.length }).toEqual({
+        level,
+        count: expect.any(Number),
+      });
+      expect(cards.length).toBeGreaterThanOrEqual(40);
+    }
+    const quickKink = MASTER_DECK.filter((card) => card.id.includes('-qk-'));
+    expect(quickKink.length).toBeGreaterThanOrEqual(50);
+  });
+});
