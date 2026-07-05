@@ -73,6 +73,8 @@ apps/mobile/
 | `useShareCodes` | `lib/state/shareCodes.ts` | Offline share code generation/decoding |
 | `useConversationStore` | `lib/state/conversationStore.ts` | Conversation favorites, history, date-night settings |
 | `useStreakStore` | `lib/achievements.ts` | Daily streaks and achievement unlocks |
+| `useMatchPlansStore` | `lib/state/matchPlans.ts` | Local match-to-plan state: favorites, next session, completed history, private notes |
+| `useFantasyJournalStore` | `lib/state/fantasyJournal.ts` | Private fantasy journal; entries feed matching only via explicit share action |
 
 `lib/state/votes.ts` is a deprecated re-export shim — use `src/stores/votes.ts` directly.
 
@@ -80,6 +82,9 @@ apps/mobile/
 
 - **`lib/data.ts`** — Loads and deduplicates kink items from `data/kinks.en.json` / `data/kinks.es.json`. Collapses multi-step sequences into single entries.
 - **`lib/match/compute.ts`** — Pure function `computeMatchBuckets()` that produces `mutualYes`, `partial`, `mutualMaybe` buckets from two profiles' votes.
+- **`lib/match/actionBuckets.ts`** — `computeActionBuckets()` produces actionable groups (Ready Now / Curious Together / Needs Conversation / hidden count) from readiness-aware votes, plus `explainMatch()` for match explanations.
+- **`lib/votes/rolePreferences.ts`** — Vote record model. Votes are `yes/maybe/no`, optionally refined by a `readiness` state (`yes/curious/not_now/hard_no`) that always projects onto a legacy vote value for share-code/sync compatibility. A legacy plain `no` is treated as private (never surfaced), only an explicit `not_now` becomes a conversation topic.
+- **`lib/kinks/guidance.ts`** — Derives risk/trust/experience levels and prep/safety/aftercare/consent-prompt defaults from kink metadata; explicit JSON fields (`riskLevel`, `prep`, `safetyNotes`, `aftercare`, `consentPrompts`, …) win over derived defaults.
 - **`lib/safety/safetyFilter.ts`** — Validates custom activity titles/descriptions against a blocked-terms list.
 - **`lib/storage/mmkv.ts`** — AsyncStorage adapter named "mmkv" for historical reasons; was switched from react-native-mmkv to AsyncStorage for Expo Go compatibility.
 - **`lib/pricing.ts`** — IAP product SKUs and pack definitions ($4.99 base premium, $2.99 à la carte packs).

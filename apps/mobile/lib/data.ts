@@ -6,6 +6,10 @@ export type Tier = 'soft' | 'naughty' | 'xxx';
 export type PairRole = 'give' | 'receive';
 export type PairPreference = PairRole | 'both';
 
+export type RiskLevel = 'low' | 'medium' | 'high';
+export type TrustLevel = 'any' | 'established' | 'deep';
+export type ExperienceLevel = 'beginner' | 'intermediate' | 'advanced';
+
 export type KinkItem = {
   id: string;
   slug: string;
@@ -23,6 +27,19 @@ export type KinkItem = {
   sourceIds?: string[];
   availablePairRoles?: PairPreference[];
   matchesWith?: string[];
+  // Optional enrichment metadata. All fields may be absent in the JSON;
+  // lib/kinks/guidance.ts derives neutral defaults when they are.
+  subcategory?: string;
+  dynamicTags?: string[];
+  riskLevel?: RiskLevel;
+  trustLevel?: TrustLevel;
+  experienceLevel?: ExperienceLevel;
+  prep?: string[];
+  safetyNotes?: string[];
+  aftercare?: string[];
+  consentPrompts?: string[];
+  relatedKinks?: string[];
+  fantasyOnlyAllowed?: boolean;
 };
 
 const SPICY_HINTS = new Set([

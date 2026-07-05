@@ -6,22 +6,27 @@ import {
   Share,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import {
+  CalendarClock,
   Check,
   CheckCircle,
   ChevronLeft,
   ChevronRight,
   Circle,
-  Ellipsis,
+  EyeOff,
   Filter,
   Heart,
   LockKeyhole,
+  MessageCircle,
   Share2,
+  Sparkles,
+  Star,
   X,
 } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
@@ -36,14 +41,23 @@ import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
 import { useKinks } from '../../lib/data';
 import {
-  createMatchPlan,
   describeRoleCompatibility,
   filterMatchItems,
-  type MatchExperienceItem,
   type MatchRoleFilter,
   type MatchVisibilityFilter,
 } from '../../lib/match/experience';
-import { computeRevealBuckets } from '../../lib/match/reveal';
+import {
+  computeActionBuckets,
+  explainMatch,
+  type ActionMatchItem,
+  type MatchExplanation,
+} from '../../lib/match/actionBuckets';
+import {
+  buildProposalText,
+  selectNextSession,
+  useMatchPlansStore,
+  type MatchPlan,
+} from '../../lib/state/matchPlans';
 import { useViewedMatchesStore } from '../../lib/match/viewedMatches';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
@@ -60,9 +74,9 @@ import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
 const EMPTY_PROFILE_VOTES = Object.freeze({}) as Record<string, KinkVote>;
 
-type MatchItem = MatchExperienceItem;
+type MatchItem = ActionMatchItem;
 
-type BucketId = 'yes' | 'partial' | 'maybe';
+type BucketId = 'ready' | 'curious' | 'talk';
 type BucketTone = 'yes' | 'partial' | 'maybe';
 
 type BucketView = {
@@ -76,6 +90,8 @@ type BucketView = {
   locked: boolean;
   lockTitle?: string;
   unlockLabel?: string;
+  // Shown when some rows are visible but others still need consent.
+  lockedNote?: string;
   onUnlock?: () => void;
 };
 
@@ -241,11 +257,11 @@ export default function MatchesScreen() {
     ) as Record<string, KinkVote>;
   }, [isRemotePartner, localPartnerVotes, remotePartnerVotes]);
 
-  const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
+  const { kinks, kinksById } = useKinks(language === 'es' ? 'es' : 'en');
 
-  const { mutualYes, partialYesMaybe, mutualMaybe } = useMemo(
+  const actionBuckets = useMemo(
     () =>
-      computeRevealBuckets({
+      computeActionBuckets({
         kinks,
         mine: activeVotes,
         theirs: partnerVotes,
@@ -267,12 +283,38 @@ export default function MatchesScreen() {
     }))
   );
 
+  // Consent gating mirrors the pre-readiness model: anything that reveals a
+  // "maybe/maybe" pairing needs the mutualMaybe unlock, anything revealing a
+  // mixed signal (yes+maybe, or a not-now conversation topic) needs the
+  // partialYesMaybe unlock. Mutual-yes rows are always visible, as before.
+  const readyNow = actionBuckets.readyNow;
+
+  const visibleCurious = useMemo(
+    () =>
+      actionBuckets.curiousTogether.filter((item) =>
+        item.myVote === 'maybe' && item.partnerVote === 'maybe'
+          ? maybeUnlocked
+          : partialUnlocked
+      ),
+    [actionBuckets.curiousTogether, maybeUnlocked, partialUnlocked]
+  );
+
+  const visibleTalk = useMemo(
+    () =>
+      actionBuckets.needsConversation.filter((item) =>
+        item.reasons.includes('timing') ? partialUnlocked : true
+      ),
+    [actionBuckets.needsConversation, partialUnlocked]
+  );
+
   const totalMatches =
-    mutualYes.length + partialYesMaybe.length + mutualMaybe.length;
+    readyNow.length +
+    actionBuckets.curiousTogether.length +
+    actionBuckets.needsConversation.length;
 
   const allMatches = useMemo(
-    () => [...mutualYes, ...partialYesMaybe, ...mutualMaybe],
-    [mutualYes, partialYesMaybe, mutualMaybe]
+    () => [...readyNow, ...visibleCurious, ...visibleTalk],
+    [readyNow, visibleCurious, visibleTalk]
   );
 
   const viewedIds = useMemo(
@@ -292,17 +334,17 @@ export default function MatchesScreen() {
     [categoryFilter, intensityFilter, roleFilter, viewedIds, visibilityFilter]
   );
 
-  const filteredMutualYes = useMemo(
-    () => filterMatchItems(mutualYes, activeFilters),
-    [activeFilters, mutualYes]
+  const filteredReady = useMemo(
+    () => filterMatchItems(readyNow, activeFilters),
+    [activeFilters, readyNow]
   );
-  const filteredPartialYesMaybe = useMemo(
-    () => filterMatchItems(partialYesMaybe, activeFilters),
-    [activeFilters, partialYesMaybe]
+  const filteredCurious = useMemo(
+    () => filterMatchItems(visibleCurious, activeFilters),
+    [activeFilters, visibleCurious]
   );
-  const filteredMutualMaybe = useMemo(
-    () => filterMatchItems(mutualMaybe, activeFilters),
-    [activeFilters, mutualMaybe]
+  const filteredTalk = useMemo(
+    () => filterMatchItems(visibleTalk, activeFilters),
+    [activeFilters, visibleTalk]
   );
 
   const categoryOptions = useMemo(() => {
@@ -317,9 +359,32 @@ export default function MatchesScreen() {
     [allMatches, selectedMatchId]
   );
 
-  const selectedPlan = useMemo(
-    () => (selectedMatch ? createMatchPlan(selectedMatch) : []),
-    [selectedMatch]
+  const selectedExplanation = useMemo(
+    () =>
+      selectedMatch
+        ? explainMatch(selectedMatch, kinksById[selectedMatch.id])
+        : null,
+    [kinksById, selectedMatch]
+  );
+
+  const plansByKinkId = useMatchPlansStore((state) => state.plansByKinkId);
+  const toggleFavorite = useMatchPlansStore((state) => state.toggleFavorite);
+  const toggleNextSession = useMatchPlansStore(
+    (state) => state.toggleNextSession
+  );
+  const markCompleted = useMatchPlansStore((state) => state.markCompleted);
+  const setPlanNote = useMatchPlansStore((state) => state.setNote);
+
+  const selectedPlanState = selectedMatchId
+    ? plansByKinkId[selectedMatchId]
+    : undefined;
+
+  const nextSessionTitles = useMemo(
+    () =>
+      selectNextSession(plansByKinkId)
+        .map((plan) => kinksById[plan.kinkId]?.title)
+        .filter((title): title is string => Boolean(title)),
+    [kinksById, plansByKinkId]
   );
 
   useEffect(() => {
@@ -337,81 +402,108 @@ export default function MatchesScreen() {
     setPartnerPickerOpen(false);
   }, []);
 
-  const handleUnlock = useCallback((bucket: RevealConsentBucket) => {
-    void requestRevealUnlock(bucket);
+  const handleUnlock = useCallback((buckets: RevealConsentBucket[]) => {
+    for (const bucket of buckets) {
+      void requestRevealUnlock(bucket);
+    }
   }, []);
 
-  const buckets = useMemo<BucketView[]>(
-    () => [
+  const waitingOnPartner = useCallback(
+    (localConsents: boolean[]) =>
+      isRemotePartner && localConsents.every(Boolean),
+    [isRemotePartner]
+  );
+
+  const buckets = useMemo<BucketView[]>(() => {
+    const curiousTotal = actionBuckets.curiousTogether.length;
+    const talkTotal = actionBuckets.needsConversation.length;
+    const curiousHiddenRows = curiousTotal - visibleCurious.length;
+    const talkHiddenRows = talkTotal - visibleTalk.length;
+
+    const curiousMissingConsents: RevealConsentBucket[] = [];
+    if (!partialUnlocked) curiousMissingConsents.push('partialYesMaybe');
+    if (!maybeUnlocked) curiousMissingConsents.push('mutualMaybe');
+
+    return [
       {
-        id: 'yes',
+        id: 'ready',
         tone: 'yes',
         icon: Check,
-        title: t.matches.mutualYes,
-        blurb: t.matches.bucketYesBlurb,
-        total: mutualYes.length,
-        rows: filteredMutualYes,
+        title: t.matches.readyNow,
+        blurb: t.matches.bucketReadyBlurb,
+        total: readyNow.length,
+        rows: filteredReady,
         locked: false,
       },
       {
-        id: 'partial',
-        tone: 'partial',
-        icon: LockKeyhole,
-        title: t.matches.partialMatch,
-        blurb: t.matches.bucketPartialBlurb,
-        total: partialYesMaybe.length,
-        rows: filteredPartialYesMaybe,
-        locked: !partialUnlocked,
-        lockTitle: t.matches.partialYesLocked,
-        unlockLabel:
-          isRemotePartner && partialLocalConsent
-            ? t.matches.waitingForPartner
-            : t.matches.unlockPartialYes,
-        onUnlock: () => handleUnlock('partialYesMaybe'),
+        id: 'curious',
+        tone: 'maybe',
+        icon: Sparkles,
+        title: t.matches.curiousTogether,
+        blurb: t.matches.bucketCuriousBlurb,
+        total: curiousTotal,
+        rows: filteredCurious,
+        locked: curiousTotal > 0 && visibleCurious.length === 0,
+        lockTitle: t.matches.mutualMaybeLocked,
+        unlockLabel: waitingOnPartner([partialLocalConsent, maybeLocalConsent])
+          ? t.matches.waitingForPartner
+          : t.matches.unlockCurious,
+        lockedNote:
+          curiousHiddenRows > 0 && visibleCurious.length > 0
+            ? interpolate(t.matches.lockedRowsNote, {
+                count: curiousHiddenRows,
+              })
+            : undefined,
+        onUnlock: () => handleUnlock(curiousMissingConsents),
       },
       {
-        id: 'maybe',
-        tone: 'maybe',
-        icon: Ellipsis,
-        title: t.matches.mutualMaybe,
-        blurb: t.matches.bucketMaybeBlurb,
-        total: mutualMaybe.length,
-        rows: filteredMutualMaybe,
-        locked: !maybeUnlocked,
-        lockTitle: t.matches.mutualMaybeLocked,
-        unlockLabel:
-          isRemotePartner && maybeLocalConsent
-            ? t.matches.waitingForPartner
-            : t.matches.unlockMutualMaybe,
-        onUnlock: () => handleUnlock('mutualMaybe'),
+        id: 'talk',
+        tone: 'partial',
+        icon: MessageCircle,
+        title: t.matches.needsConversation,
+        blurb: t.matches.bucketTalkBlurb,
+        total: talkTotal,
+        rows: filteredTalk,
+        locked: talkTotal > 0 && visibleTalk.length === 0,
+        lockTitle: t.matches.partialYesLocked,
+        unlockLabel: waitingOnPartner([partialLocalConsent])
+          ? t.matches.waitingForPartner
+          : t.matches.unlockConversation,
+        lockedNote:
+          talkHiddenRows > 0 && visibleTalk.length > 0
+            ? interpolate(t.matches.lockedRowsNote, { count: talkHiddenRows })
+            : undefined,
+        onUnlock: () => handleUnlock(['partialYesMaybe']),
       },
-    ],
-    [
-      filteredMutualMaybe,
-      filteredMutualYes,
-      filteredPartialYesMaybe,
-      handleUnlock,
-      isRemotePartner,
-      maybeLocalConsent,
-      maybeUnlocked,
-      mutualMaybe.length,
-      mutualYes.length,
-      partialLocalConsent,
-      partialUnlocked,
-      partialYesMaybe.length,
-      t.matches.bucketMaybeBlurb,
-      t.matches.bucketPartialBlurb,
-      t.matches.bucketYesBlurb,
-      t.matches.mutualMaybe,
-      t.matches.mutualMaybeLocked,
-      t.matches.mutualYes,
-      t.matches.partialMatch,
-      t.matches.partialYesLocked,
-      t.matches.unlockMutualMaybe,
-      t.matches.unlockPartialYes,
-      t.matches.waitingForPartner,
-    ]
-  );
+    ];
+  }, [
+    actionBuckets.curiousTogether.length,
+    actionBuckets.needsConversation.length,
+    filteredCurious,
+    filteredReady,
+    filteredTalk,
+    handleUnlock,
+    maybeLocalConsent,
+    maybeUnlocked,
+    partialLocalConsent,
+    partialUnlocked,
+    readyNow.length,
+    t.matches.bucketCuriousBlurb,
+    t.matches.bucketReadyBlurb,
+    t.matches.bucketTalkBlurb,
+    t.matches.curiousTogether,
+    t.matches.lockedRowsNote,
+    t.matches.mutualMaybeLocked,
+    t.matches.needsConversation,
+    t.matches.partialYesLocked,
+    t.matches.readyNow,
+    t.matches.unlockConversation,
+    t.matches.unlockCurious,
+    t.matches.waitingForPartner,
+    visibleCurious.length,
+    visibleTalk.length,
+    waitingOnPartner,
+  ]);
 
   const activeBucket = useMemo(
     () => buckets.find((bucket) => bucket.id === selectedBucket) ?? null,
@@ -441,25 +533,32 @@ export default function MatchesScreen() {
     try {
       await Share.share({
         message: interpolate(t.matches.shareMessage, {
-          yes: mutualYes.length,
-          maybe:
-            (maybeUnlocked ? mutualMaybe.length : 0) +
-            (partialUnlocked ? partialYesMaybe.length : 0),
+          yes: readyNow.length,
+          maybe: visibleCurious.length,
         }),
       });
     } catch {
       Alert.alert(t.common.error, t.matches.shareError);
     }
   }, [
-    maybeUnlocked,
-    mutualMaybe.length,
-    partialUnlocked,
-    partialYesMaybe.length,
-    mutualYes.length,
+    readyNow.length,
+    visibleCurious.length,
     t.common.error,
     t.matches.shareError,
     t.matches.shareMessage,
   ]);
+
+  const handleShareProposal = useCallback(async (title: string) => {
+    try {
+      await Share.share({ message: buildProposalText(title) });
+    } catch {
+      // Sharing is best-effort; the proposal text stays available in-app.
+    }
+  }, []);
+
+  const showHiddenInfo = useCallback(() => {
+    Alert.alert(t.matches.hiddenTitle, t.matches.hiddenInfo);
+  }, [t.matches.hiddenInfo, t.matches.hiddenTitle]);
 
   if (!hydrated || !activeId) {
     return null;
@@ -513,13 +612,20 @@ export default function MatchesScreen() {
       >
         <MatchScreenContent
           selectedDetail={
-            selectedMatch ? (
+            selectedMatch && selectedExplanation ? (
               <MatchDetailPanel
                 item={selectedMatch}
-                plan={selectedPlan}
+                explanation={selectedExplanation}
+                plan={selectedPlanState}
                 completedSteps={completedPlanSteps}
                 onToggleStep={togglePlanStep}
+                onToggleFavorite={() => toggleFavorite(selectedMatch.id)}
+                onToggleNextSession={() => toggleNextSession(selectedMatch.id)}
+                onMarkCompleted={() => markCompleted(selectedMatch.id)}
+                onNoteChange={(note) => setPlanNote(selectedMatch.id, note)}
+                onShareProposal={() => handleShareProposal(selectedMatch.title)}
                 onClose={() => setSelectedMatchId(null)}
+                t={t}
               />
             ) : null
           }
@@ -638,6 +744,27 @@ export default function MatchesScreen() {
                 sharedPicksLabel={t.matches.sharedPicks}
                 onSelect={setSelectedBucket}
               />
+
+              <HiddenPrivacyTile
+                count={actionBuckets.hiddenCount}
+                title={t.matches.hiddenTitle}
+                blurb={t.matches.hiddenBlurb}
+                onPress={showHiddenInfo}
+              />
+
+              {nextSessionTitles.length ? (
+                <View style={styles.nextSessionStrip}>
+                  <View style={styles.nextSessionHeader}>
+                    <CalendarClock size={16} color={COLORS.accent} />
+                    <Text style={styles.nextSessionTitle}>
+                      {t.matches.nextSessionStrip.toUpperCase()}
+                    </Text>
+                  </View>
+                  <Text style={styles.nextSessionItems} numberOfLines={2}>
+                    {nextSessionTitles.join(' • ')}
+                  </Text>
+                </View>
+              ) : null}
 
               <Pressable
                 style={styles.sharePress}
@@ -880,19 +1007,145 @@ function FilterRow<T extends string>({
   );
 }
 
+function HiddenPrivacyTile({
+  count,
+  title,
+  blurb,
+  onPress,
+}: {
+  count: number;
+  title: string;
+  blurb: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${title}, ${count} items stay private`}
+      onPress={onPress}
+      style={styles.hiddenTile}
+    >
+      <View style={styles.hiddenIcon}>
+        <EyeOff size={16} color={COLORS.textMuted} />
+      </View>
+      <View style={styles.hiddenCopy}>
+        <Text style={styles.hiddenTitle}>
+          {title.toUpperCase()}
+          {count ? ` · ${count}` : ''}
+        </Text>
+        <Text style={styles.hiddenBlurb}>{blurb}</Text>
+      </View>
+    </Pressable>
+  );
+}
+
+function ChecklistCard({
+  title,
+  steps,
+  idPrefix,
+  completedSteps,
+  onToggleStep,
+}: {
+  title: string;
+  steps: string[];
+  idPrefix: string;
+  completedSteps: Record<string, true>;
+  onToggleStep: (stepId: string) => void;
+}) {
+  if (!steps.length) return null;
+  return (
+    <View style={styles.planCard}>
+      <Text style={styles.planTitle}>{title.toUpperCase()}</Text>
+      {steps.map((body, index) => {
+        const stepId = `${idPrefix}-${index}`;
+        const checked = Boolean(completedSteps[stepId]);
+        return (
+          <Pressable
+            key={stepId}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked }}
+            onPress={() => onToggleStep(stepId)}
+            style={styles.planStep}
+          >
+            {checked ? (
+              <CheckCircle size={18} color={COLORS.yes} />
+            ) : (
+              <Circle size={18} color={COLORS.textMuted} />
+            )}
+            <View style={styles.planStepCopy}>
+              <Text style={styles.planStepBody}>{body}</Text>
+            </View>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
+function PlanActionButton({
+  icon: Icon,
+  label,
+  active,
+  onPress,
+}: {
+  icon: typeof Star;
+  label: string;
+  active: boolean;
+  onPress: () => void;
+}) {
+  const color = active ? COLORS.pink : COLORS.textMuted;
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ selected: active }}
+      accessibilityLabel={label}
+      onPress={onPress}
+      style={[styles.planActionButton, active && styles.planActionButtonActive]}
+    >
+      <Icon size={16} color={color} fill={active ? COLORS.pink : 'none'} />
+      <Text style={[styles.planActionLabel, { color }]}>{label}</Text>
+    </Pressable>
+  );
+}
+
 function MatchDetailPanel({
   item,
+  explanation,
   plan,
   completedSteps,
   onToggleStep,
+  onToggleFavorite,
+  onToggleNextSession,
+  onMarkCompleted,
+  onNoteChange,
+  onShareProposal,
   onClose,
+  t,
 }: {
   item: MatchItem;
-  plan: ReturnType<typeof createMatchPlan>;
+  explanation: MatchExplanation;
+  plan?: MatchPlan;
   completedSteps: Record<string, true>;
   onToggleStep: (stepId: string) => void;
+  onToggleFavorite: () => void;
+  onToggleNextSession: () => void;
+  onMarkCompleted: () => void;
+  onNoteChange: (note: string) => void;
+  onShareProposal: () => void;
   onClose: () => void;
+  t: ReturnType<typeof useTranslation>['t'];
 }) {
+  const [noteDraft, setNoteDraft] = useState(plan?.note ?? '');
+
+  useEffect(() => {
+    setNoteDraft(plan?.note ?? '');
+    // Reset the draft only when switching activities, not on every keystroke
+    // round-trip through the store.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.id]);
+
+  const completedCount = plan?.completedAt.length ?? 0;
+
   return (
     <View style={styles.detailPanel}>
       <View style={styles.detailHeader}>
@@ -925,41 +1178,123 @@ function MatchDetailPanel({
         </View>
       </View>
 
+      <View style={styles.explanationCard}>
+        <Text style={styles.explanationLabel}>
+          {t.matches.whyThisMatch.toUpperCase()}
+        </Text>
+        <Text style={styles.explanationHeadline}>{explanation.headline}</Text>
+        <Text style={styles.explanationNote}>
+          {explanation.intensityRiskNote}
+        </Text>
+      </View>
+
       <View style={styles.roleCallout}>
         <Heart size={15} color={COLORS.pink} fill={COLORS.pink} />
-        <Text style={styles.roleCalloutText}>
-          {describeRoleCompatibility(item)}
-        </Text>
+        <Text style={styles.roleCalloutText}>{explanation.roleNote}</Text>
       </View>
 
       {item.description ? (
         <Text style={styles.detailDescription}>{item.description}</Text>
       ) : null}
 
+      <View style={styles.starterCard}>
+        <MessageCircle size={15} color={COLORS.accent} />
+        <View style={styles.starterCopy}>
+          <Text style={styles.starterLabel}>
+            {t.matches.conversationStarter.toUpperCase()}
+          </Text>
+          <Text style={styles.starterText}>
+            {explanation.conversationStarter}
+          </Text>
+        </View>
+      </View>
+
+      <ChecklistCard
+        title={t.matches.prepChecklist}
+        steps={explanation.prep}
+        idPrefix="prep"
+        completedSteps={completedSteps}
+        onToggleStep={onToggleStep}
+      />
+
+      {explanation.safetyNotes.length ? (
+        <View style={styles.safetyCard}>
+          <Text style={styles.safetyTitle}>
+            {t.matches.safetyNotes.toUpperCase()}
+          </Text>
+          {explanation.safetyNotes.map((note, index) => (
+            <Text key={index} style={styles.safetyNote}>
+              {`• ${note}`}
+            </Text>
+          ))}
+        </View>
+      ) : null}
+
+      <ChecklistCard
+        title={t.matches.aftercareChecklist}
+        steps={explanation.aftercare}
+        idPrefix="aftercare"
+        completedSteps={completedSteps}
+        onToggleStep={onToggleStep}
+      />
+
       <View style={styles.planCard}>
-        <Text style={styles.planTitle}>TRY TONIGHT</Text>
-        {plan.map((step) => {
-          const checked = Boolean(completedSteps[step.id]);
-          return (
-            <Pressable
-              key={step.id}
-              accessibilityRole="checkbox"
-              accessibilityState={{ checked }}
-              onPress={() => onToggleStep(step.id)}
-              style={styles.planStep}
-            >
-              {checked ? (
-                <CheckCircle size={18} color={COLORS.yes} />
-              ) : (
-                <Circle size={18} color={COLORS.textMuted} />
-              )}
-              <View style={styles.planStepCopy}>
-                <Text style={styles.planStepTitle}>{step.title}</Text>
-                <Text style={styles.planStepBody}>{step.body}</Text>
-              </View>
-            </Pressable>
-          );
-        })}
+        <Text style={styles.planTitle}>
+          {t.matches.planActions.toUpperCase()}
+        </Text>
+        <View style={styles.planActionRow}>
+          <PlanActionButton
+            icon={Star}
+            label={plan?.favorite ? t.matches.favorited : t.matches.favorite}
+            active={Boolean(plan?.favorite)}
+            onPress={onToggleFavorite}
+          />
+          <PlanActionButton
+            icon={CalendarClock}
+            label={
+              plan?.nextSession ? t.matches.planned : t.matches.nextSession
+            }
+            active={Boolean(plan?.nextSession)}
+            onPress={onToggleNextSession}
+          />
+          <PlanActionButton
+            icon={CheckCircle}
+            label={
+              completedCount
+                ? interpolate(t.matches.completedTimes, {
+                    count: completedCount,
+                  })
+                : t.matches.markCompleted
+            }
+            active={completedCount > 0}
+            onPress={onMarkCompleted}
+          />
+        </View>
+
+        <Text style={styles.noteLabel}>
+          {t.matches.privateNote.toUpperCase()}
+        </Text>
+        <TextInput
+          value={noteDraft}
+          onChangeText={setNoteDraft}
+          onEndEditing={() => onNoteChange(noteDraft)}
+          placeholder={t.matches.privateNotePlaceholder}
+          placeholderTextColor={COLORS.textMuted}
+          multiline
+          style={styles.noteInput}
+          accessibilityLabel={t.matches.privateNote}
+        />
+
+        <Pressable
+          accessibilityRole="button"
+          onPress={onShareProposal}
+          style={styles.proposalButton}
+        >
+          <Share2 size={15} color={COLORS.textPrimary} />
+          <Text style={styles.proposalButtonText}>
+            {t.matches.shareProposal.toUpperCase()}
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -1269,6 +1604,18 @@ export function BucketDetailView({
         onSelect={onSelect}
         hideHeader
       />
+
+      {bucket.lockedNote && bucket.onUnlock ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={bucket.lockedNote}
+          onPress={bucket.onUnlock}
+          style={styles.lockedNoteRow}
+        >
+          <LockKeyhole size={14} color={COLORS.textMuted} />
+          <Text style={styles.lockedNoteText}>{bucket.lockedNote}</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -1829,5 +2176,222 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 23,
     fontWeight: '600',
+  },
+  hiddenTile: {
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: 'rgba(255,255,255,0.024)',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  hiddenIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+  },
+  hiddenCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: 2,
+  },
+  hiddenTitle: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+  },
+  hiddenBlurb: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  nextSessionStrip: {
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(167,139,250,0.28)',
+    backgroundColor: 'rgba(167,139,250,0.08)',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 6,
+  },
+  nextSessionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  nextSessionTitle: {
+    color: COLORS.accent,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+  },
+  nextSessionItems: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  lockedNoteRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    minHeight: 38,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: 'rgba(255,255,255,0.026)',
+    paddingHorizontal: 12,
+  },
+  lockedNoteText: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  explanationCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(139,92,246,0.28)',
+    backgroundColor: 'rgba(139,92,246,0.08)',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    gap: 4,
+  },
+  explanationLabel: {
+    color: COLORS.secondary,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+  },
+  explanationHeadline: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    lineHeight: 23,
+    fontWeight: '700',
+  },
+  explanationNote: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    lineHeight: 23,
+    fontWeight: '600',
+  },
+  starterCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(167,139,250,0.28)',
+    backgroundColor: 'rgba(167,139,250,0.08)',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+  },
+  starterCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: 3,
+  },
+  starterLabel: {
+    color: COLORS.accent,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+  },
+  starterText: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    lineHeight: 23,
+    fontWeight: '600',
+  },
+  safetyCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(239,68,68,0.24)',
+    backgroundColor: 'rgba(239,68,68,0.06)',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    gap: 5,
+  },
+  safetyTitle: {
+    color: COLORS.no,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+  },
+  safetyNote: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    lineHeight: 23,
+    fontWeight: '600',
+  },
+  planActionRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  planActionButton: {
+    flex: 1,
+    minHeight: 56,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 8,
+  },
+  planActionButtonActive: {
+    borderColor: 'rgba(255,45,146,0.42)',
+    backgroundColor: 'rgba(255,45,146,0.12)',
+  },
+  planActionLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  noteLabel: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+    marginTop: 4,
+  },
+  noteInput: {
+    minHeight: 64,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: 'rgba(0,0,0,0.18)',
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    lineHeight: 22,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    textAlignVertical: 'top',
+  },
+  proposalButton: {
+    minHeight: 42,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,45,146,0.42)',
+    backgroundColor: 'rgba(255,45,146,0.14)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 12,
+  },
+  proposalButtonText: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.6,
   },
 });

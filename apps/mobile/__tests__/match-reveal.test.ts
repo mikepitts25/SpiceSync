@@ -1,7 +1,4 @@
-import {
-  computeRevealBuckets,
-  type RevealKink,
-} from '../lib/match/reveal';
+import { computeRevealBuckets, type RevealKink } from '../lib/match/reveal';
 
 const kinks: RevealKink[] = [
   {
@@ -103,6 +100,18 @@ describe('computeRevealBuckets', () => {
         'yes-no': 'no',
         'no-no': 'no',
       },
+    });
+
+    expect(buckets.mutualYes).toEqual([]);
+    expect(buckets.partialYesMaybe).toEqual([]);
+    expect(buckets.mutualMaybe).toEqual([]);
+  });
+
+  it('never surfaces ghost items for votes on removed catalog entries', () => {
+    const buckets = computeRevealBuckets({
+      kinks,
+      mine: { 'removed-card': 'yes' },
+      theirs: { 'removed-card': 'yes' },
     });
 
     expect(buckets.mutualYes).toEqual([]);

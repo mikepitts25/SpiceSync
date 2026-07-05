@@ -16,13 +16,13 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import {
   useVotesStore,
   type PairPreference,
+  type Readiness,
   type VoteValue,
 } from '../../src/stores/votes';
 import { useKinks, type KinkItem } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { normalizeVoteRecord } from '../../lib/votes/rolePreferences';
-import { COLORS, GRADIENTS } from '../../constants/theme';
-import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS } from '../../constants/theme';
 
 type Filter = 'all' | VoteValue;
 
@@ -33,15 +33,46 @@ const FILTERS: { key: Filter; label: string; color: string }[] = [
   { key: 'no', label: 'NO', color: COLORS.no },
 ];
 
-const VOTE_OPTIONS: { value: VoteValue; label: string; color: string }[] = [
-  { value: 'yes', label: 'YES', color: COLORS.yes },
-  { value: 'maybe', label: 'MAYBE', color: COLORS.maybe },
-  { value: 'no', label: 'NO', color: COLORS.no },
+// Refined readiness options. "Not now" is shared with your partner as a
+// talk-later topic; "Hard no" always stays private.
+const READINESS_OPTIONS: {
+  value: Readiness;
+  label: string;
+  hint: string;
+  color: string;
+}[] = [
+  { value: 'yes', label: 'YES', hint: 'Ready for this', color: COLORS.yes },
+  {
+    value: 'curious',
+    label: 'CURIOUS',
+    hint: 'Open to exploring',
+    color: COLORS.maybe,
+  },
+  {
+    value: 'not_now',
+    label: 'NOT NOW',
+    hint: 'Maybe later — shared as a talk topic',
+    color: COLORS.purpleLight,
+  },
+  {
+    value: 'hard_no',
+    label: 'HARD NO',
+    hint: 'Always stays private',
+    color: COLORS.no,
+  },
 ];
+
+const READINESS_BADGES: Record<Readiness, { label: string; color: string }> = {
+  yes: { label: 'YES', color: COLORS.yes },
+  curious: { label: 'CURIOUS', color: COLORS.maybe },
+  not_now: { label: 'NOT NOW', color: COLORS.purpleLight },
+  hard_no: { label: 'HARD NO', color: COLORS.no },
+};
 
 type SelectedItem = {
   kink: KinkItem;
   vote: VoteValue;
+  readiness?: Readiness;
   pairPreference?: PairPreference;
 };
 
@@ -59,7 +90,7 @@ export default function MyVotesScreen() {
   const profileVotes = useVotesStore((state) =>
     activeProfileId ? (state.votesByProfile[activeProfileId] ?? {}) : {}
   );
-  const setVote = useVotesStore((state) => state.setVote);
+  const setReadiness = useVotesStore((state) => state.setReadiness);
 
   const { votedKinks, counts } = useMemo(() => {
     const voted: SelectedItem[] = [];
@@ -71,6 +102,7 @@ export default function MyVotesScreen() {
         voted.push({
           kink,
           vote: vote.value,
+          readiness: vote.readiness,
           pairPreference: vote.pairPreference,
         });
         counts.all++;
@@ -89,12 +121,12 @@ export default function MyVotesScreen() {
     [votedKinks, filter]
   );
 
-  const handleChangeVote = (newVote: VoteValue) => {
+  const handleChangeReadiness = (readiness: Readiness) => {
     if (!selected || !activeProfileId) return;
-    setVote(
+    setReadiness(
       activeProfileId,
       selected.kink.id,
-      newVote,
+      readiness,
       selected.kink.pairMode ? selected.pairPreference : undefined
     );
     setSelected(null);
@@ -162,6 +194,7 @@ export default function MyVotesScreen() {
           <VoteRow
             kink={item.kink}
             vote={item.vote}
+            readiness={item.readiness}
             onPress={() => setSelected(item)}
           />
         )}
@@ -198,18 +231,25 @@ export default function MyVotesScreen() {
                   </Text>
                 ) : null}
 
-                <Text style={styles.sheetPrompt}>Change your vote</Text>
+                <Text style={styles.sheetPrompt}>Change your answer</Text>
 
-                <View style={styles.voteRow}>
-                  {VOTE_OPTIONS.map(({ value, label, color }) => {
-                    const isActive = selected.vote === value;
+                <View style={styles.readinessList}>
+                  {READINESS_OPTIONS.map(({ value, label, hint, color }) => {
+                    // Highlight the explicit readiness, or the legacy vote's
+                    // equivalent (yes→yes, maybe→curious). A plain legacy
+                    // "no" highlights nothing until the user refines it.
+                    const isActive = selected.readiness
+                      ? selected.readiness === value
+                      : (selected.vote === 'yes' && value === 'yes') ||
+                        (selected.vote === 'maybe' && value === 'curious');
                     return (
                       <Pressable
                         key={value}
                         accessibilityRole="button"
-                        onPress={() => handleChangeVote(value)}
+                        accessibilityState={{ selected: isActive }}
+                        onPress={() => handleChangeReadiness(value)}
                         style={[
-                          styles.voteBtn,
+                          styles.readinessBtn,
                           {
                             borderColor: isActive
                               ? color
@@ -218,19 +258,15 @@ export default function MyVotesScreen() {
                           isActive && { backgroundColor: color + '22' },
                         ]}
                       >
-                        <VoteIcon
-                          vote={value}
-                          active={isActive}
-                          color={color}
-                        />
                         <Text
                           style={[
-                            styles.voteBtnText,
-                            { color: isActive ? color : COLORS.textMuted },
+                            styles.readinessBtnLabel,
+                            { color: isActive ? color : COLORS.textPrimary },
                           ]}
                         >
                           {label}
                         </Text>
+                        <Text style={styles.readinessBtnHint}>{hint}</Text>
                       </Pressable>
                     );
                   })}
@@ -254,10 +290,12 @@ export default function MyVotesScreen() {
 function VoteRow({
   kink,
   vote,
+  readiness,
   onPress,
 }: {
   kink: KinkItem;
   vote: VoteValue;
+  readiness?: Readiness;
   onPress: () => void;
 }) {
   return (
@@ -280,12 +318,31 @@ function VoteRow({
           </Text>
         ) : null}
       </View>
-      <VoteBadge vote={vote} />
+      <VoteBadge vote={vote} readiness={readiness} />
     </Pressable>
   );
 }
 
-function VoteBadge({ vote }: { vote: VoteValue }) {
+function VoteBadge({
+  vote,
+  readiness,
+}: {
+  vote: VoteValue;
+  readiness?: Readiness;
+}) {
+  if (readiness) {
+    const { label, color } = READINESS_BADGES[readiness];
+    return (
+      <View
+        style={[
+          styles.badge,
+          { backgroundColor: color + '1F', borderColor: color + '4D' },
+        ]}
+      >
+        <Text style={[styles.badgeText, { color }]}>{label}</Text>
+      </View>
+    );
+  }
   if (vote === 'yes') {
     return (
       <View style={[styles.badge, styles.badgeYes]}>
@@ -308,23 +365,6 @@ function VoteBadge({ vote }: { vote: VoteValue }) {
       <Text style={[styles.badgeText, { color: COLORS.no }]}>NO</Text>
     </View>
   );
-}
-
-function VoteIcon({
-  vote,
-  active,
-  color,
-}: {
-  vote: VoteValue;
-  active: boolean;
-  color: string;
-}) {
-  const iconColor = active ? color : COLORS.textMuted;
-  if (vote === 'yes')
-    return <Check size={16} color={iconColor} strokeWidth={2.5} />;
-  if (vote === 'maybe')
-    return <Minus size={16} color={iconColor} strokeWidth={2.5} />;
-  return <X size={16} color={iconColor} strokeWidth={2.5} />;
 }
 
 const styles = StyleSheet.create({
@@ -478,24 +518,28 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
     marginTop: 6,
   },
-  voteRow: {
-    flexDirection: 'row',
-    gap: 10,
+  readinessList: {
+    gap: 8,
     marginTop: 2,
   },
-  voteBtn: {
-    flex: 1,
-    height: 52,
+  readinessBtn: {
+    minHeight: 56,
     borderRadius: 16,
     borderWidth: 1.5,
-    alignItems: 'center',
     justifyContent: 'center',
-    gap: 5,
+    gap: 2,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
   },
-  voteBtnText: {
+  readinessBtnLabel: {
     fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.8,
+  },
+  readinessBtnHint: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    fontWeight: '600',
   },
   cancelBtn: {
     height: 44,

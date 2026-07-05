@@ -85,6 +85,9 @@ export function computeRevealBuckets({
 
     const myKink = kinksById[mineKinkId];
     const theirKink = kinksById[theirKinkId];
+    // Votes can outlive catalog entries (e.g. an activity was removed in an
+    // update). Never surface a ghost item whose title would be a raw id.
+    if (!myKink && !theirKink) return;
     if (
       (myKink?.pairMode || theirKink?.pairMode) &&
       !preferencesCompatible(

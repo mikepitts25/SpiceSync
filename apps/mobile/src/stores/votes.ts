@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { mmkvStorage } from '../../lib/storage/mmkv';
 import {
+  effectiveReadiness,
+  makeReadinessRecord,
   makeVoteRecord,
   normalizeVoteRecord,
   preferencesCompatible,
@@ -9,12 +11,14 @@ import {
   type KinkVote,
   type NormalizedKinkVote,
   type PairPreference,
+  type Readiness,
   type VoteValue,
 } from '../../lib/votes/rolePreferences';
 
 export type {
   KinkVote,
   PairPreference,
+  Readiness,
   VoteValue,
 } from '../../lib/votes/rolePreferences';
 
@@ -41,6 +45,13 @@ type VotesState = {
     value: VoteValue,
     pairPreference?: PairPreference
   ) => void;
+  setReadiness: (
+    profileId: string,
+    kinkId: string,
+    readiness: Readiness,
+    pairPreference?: PairPreference
+  ) => void;
+  getReadiness: (profileId: string, kinkId: string) => Readiness | undefined;
   clearVote: (profileId: string, kinkId: string) => void;
   clearProfile: (profileId: string) => void;
   getVote: (profileId: string, kinkId: string) => VoteValue | undefined;
@@ -112,7 +123,8 @@ const normalizeVotesByProfile = (persisted: unknown): VotesByProfile => {
       if (vote) {
         nextVotes[normalizedKinkKey] = makeVoteRecord(
           vote.value,
-          vote.pairPreference
+          vote.pairPreference,
+          vote.readiness
         );
       }
     }
@@ -159,7 +171,8 @@ const migrateLegacyVotes = (persisted: PersistedVotes): VotesByProfile => {
         if (vote) {
           nextVotes[normalizedKinkKey] = makeVoteRecord(
             vote.value,
-            vote.pairPreference
+            vote.pairPreference,
+            vote.readiness
           );
         }
       }
@@ -197,6 +210,36 @@ export const useVotesStore = create<VotesState>()(
             },
           };
         });
+      },
+
+      setReadiness: (profileId, kinkId, readiness, pairPreference) => {
+        const normalizedProfile = normalizeKey(profileId);
+        const normalizedKink = normalizeKey(kinkId);
+        if (!normalizedProfile || !normalizedKink) return;
+
+        set((state) => {
+          const currentVotes = state.votesByProfile[normalizedProfile] || {};
+          const nextVotes = {
+            ...currentVotes,
+            [normalizedKink]: makeReadinessRecord(readiness, pairPreference),
+          };
+          return {
+            votesByProfile: {
+              ...state.votesByProfile,
+              [normalizedProfile]: nextVotes,
+            },
+          };
+        });
+      },
+
+      getReadiness: (profileId, kinkId) => {
+        const normalizedProfile = normalizeKey(profileId);
+        const normalizedKink = normalizeKey(kinkId);
+        if (!normalizedProfile || !normalizedKink) return undefined;
+
+        return effectiveReadiness(
+          get().votesByProfile[normalizedProfile]?.[normalizedKink]
+        );
       },
 
       clearVote: (profileId, kinkId) => {
@@ -443,7 +486,8 @@ export const useVotesStore = create<VotesState>()(
     {
       name: 'votes',
       storage: createJSONStorage(() => mmkvStorage),
-      version: 3,
+      // v4: vote records may carry an optional `readiness` refinement.
+      version: 4,
       migrate: (persistedState: unknown, _version: number) => {
         const legacy = migrateLegacyVotes(
           (persistedState as PersistedVotes | undefined) || {}
