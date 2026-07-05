@@ -22,8 +22,8 @@
     "slug": "deep-kissing",
     "title": "Deep Kissing Session",
     "titleEs": "Sesión de Besos Profundos",
-    "description": "Slow, deep kissing.",
-    "descriptionEs": "Besos lentos y profundos.",
+    "description": "Slow, deep kissing with unhurried pace, wandering hands, and full attention.",
+    "descriptionEs": "Besos lentos y profundos, sin prisa, con manos curiosas y atención plena.",
     "tags": [
       "kissing",
       "intimacy",
@@ -130,8 +130,8 @@
     "slug": "oral-pleasure",
     "title": "Oral Pleasure",
     "titleEs": "Placer Oral",
-    "description": "Oral pleasure.",
-    "descriptionEs": "Placer oral.",
+    "description": "Unhurried oral pleasure with attention to pace, pressure, and feedback.",
+    "descriptionEs": "Placer oral sin prisa, con atención al ritmo, la presión y las señales.",
     "tags": [
       "oral",
       "pleasure",
@@ -406,24 +406,6 @@
       "authority"
     ],
     "category": "roleplay",
-    "intensityScale": 2,
-    "tier": "naughty",
-    "pairMode": true
-  },
-  {
-    "id": "0056",
-    "slug": "anal-play-beginner",
-    "title": "Beginner Anal Exploration",
-    "titleEs": "Exploración Anal para Principiantes",
-    "description": "Explore beginner anal exploration as a shared interest.",
-    "descriptionEs": "Comiencen lento con mucho lubricante, toque externo suave.",
-    "tags": [
-      "anal",
-      "exploration",
-      "beginner",
-      "communication"
-    ],
-    "category": "sensory",
     "intensityScale": 2,
     "tier": "naughty",
     "pairMode": true
@@ -891,8 +873,8 @@
     "slug": "dildo",
     "title": "Dildo Play",
     "titleEs": "Juego con Dildo",
-    "description": "Use a dildo.",
-    "descriptionEs": "Juego con dildo con atención al ritmo, el ángulo y la comodidad.",
+    "description": "Dildo play with attention to size, angle, lube, and pace.",
+    "descriptionEs": "Juego con dildo, cuidando tamaño, ángulo, lubricante y ritmo.",
     "tags": [
       "dildo",
       "toys",
@@ -998,8 +980,8 @@
     "slug": "phone-sex",
     "title": "Phone Sex",
     "titleEs": "Sexo Telefónico",
-    "description": "Have an conversation over the phone when apart.",
-    "descriptionEs": "Tengan una conversación explícita por teléfono cuando estén separados.",
+    "description": "An intimate phone call when apart, building fantasy with voice alone.",
+    "descriptionEs": "Una llamada íntima en la distancia, creando fantasía solo con la voz.",
     "tags": [
       "audio",
       "distance",
@@ -1309,24 +1291,6 @@
     "pairMode": true
   },
   {
-    "id": "0042",
-    "slug": "bubble-bath",
-    "title": "Bubble Bath Romance",
-    "titleEs": "Baño de Burbujas",
-    "description": "Fill the tub with bubbles, light candles, and soak together.",
-    "descriptionEs": "Llenen la tina con burbujas, enciendan velas y remójense juntos.",
-    "tags": [
-      "water",
-      "playful",
-      "romance",
-      "bubbles"
-    ],
-    "category": "environment",
-    "intensityScale": 1,
-    "tier": "soft",
-    "pairMode": true
-  },
-  {
     "id": "0043",
     "slug": "breakfast-bed",
     "title": "Breakfast in Bed",
@@ -1493,8 +1457,8 @@
     "slug": "outdoor-quickie",
     "title": "Outdoor Quickie",
     "titleEs": "Rápido al Aire Libre",
-    "description": "Find a semi-secluded outdoor spot for a quick, thrilling encounter.",
-    "descriptionEs": "Encuentren un lugar semi-secluido al aire libre para un encuentro rápido.",
+    "description": "A quick, thrilling encounter outdoors on genuinely private property—a fenced yard, secluded land, or a rented cabin.",
+    "descriptionEs": "Un encuentro rápido y emocionante al aire libre en un espacio realmente privado—un patio cercado, terreno apartado o una cabaña rentada.",
     "tags": [
       "outdoor",
       "risky",
@@ -1511,8 +1475,8 @@
     "slug": "car-sex",
     "title": "Car Intimacy",
     "titleEs": "Intimidad en el Auto",
-    "description": "Get frisky in a parked car.",
-    "descriptionEs": "Diviértanse en un auto estacionado.",
+    "description": "Get frisky in a parked car in a private spot—a garage or private driveway keeps it exciting and legal.",
+    "descriptionEs": "Caricias y pasión en un auto estacionado en un lugar privado—una cochera o entrada privada lo mantiene emocionante y legal.",
     "tags": [
       "car",
       "confined",
@@ -1669,30 +1633,12 @@
     "pairMode": true
   },
   {
-    "id": "0082",
-    "slug": "prostate-play",
-    "title": "Prostate Play",
-    "titleEs": "Juego de Próstata",
-    "description": "Explore prostate stimulation for intense pleasure.",
-    "descriptionEs": "Exploren la estimulación de próstata para placer intenso.",
-    "tags": [
-      "prostate",
-      "anal",
-      "pleasure",
-      "exploration"
-    ],
-    "category": "sensory",
-    "intensityScale": 2,
-    "tier": "naughty",
-    "pairMode": true
-  },
-  {
     "id": "0083",
     "slug": "roleplay-capture",
     "title": "Captor/Captive",
     "titleEs": "Capturador/Cautivo",
-    "description": "One partner plays the captor, the other the willing or unwilling captive.",
-    "descriptionEs": "Roleplay de captor y cautivo con tensión dramática.",
+    "description": "A captor-and-captive scene where resistance is scripted, limits are agreed beforehand, and a safeword ends it instantly.",
+    "descriptionEs": "Una escena de captor y cautivo donde la resistencia es actuada, los límites se acuerdan antes y una palabra de seguridad la detiene al instante.",
     "tags": [
       "roleplay",
       "power",
@@ -1700,8 +1646,8 @@
       "dynamic"
     ],
     "category": "roleplay",
-    "intensityScale": 2,
-    "tier": "naughty",
+    "intensityScale": 3,
+    "tier": "xxx",
     "pairMode": true
   },
   {
@@ -1833,10 +1779,10 @@
   {
     "id": "0126",
     "slug": "public-exposure",
-    "title": "Risky Public Exposure",
-    "titleEs": "Exposición Pública",
-    "description": "Expose yourselves in public spaces where discovery is possible.",
-    "descriptionEs": "Expónganse en espacios públicos donde el descubrimiento es posible.",
+    "title": "Public Exposure Fantasy",
+    "titleEs": "Fantasía de Exhibición Pública",
+    "description": "Roleplay the thrill of possibly being seen while staying in genuinely private spaces—home, a booked room, or a private venue.",
+    "descriptionEs": "Jueguen con la emoción de ser vistos quedándose en espacios realmente privados—en casa, una habitación reservada o un lugar privado.",
     "tags": [
       "public",
       "exhibitionism",
@@ -1848,7 +1794,8 @@
     "category": "environment",
     "intensityScale": 3,
     "tier": "xxx",
-    "pairMode": true
+    "pairMode": true,
+    "fantasyOnlyAllowed": true
   },
   {
     "id": "0128",
@@ -2395,8 +2342,8 @@
     "slug": "edge-play-boundaries",
     "title": "Edge Play Boundaries",
     "titleEs": "Limites de Juego Intenso",
-    "description": "Discuss the thrill of higher-risk fantasies by naming hard, safety plans, and what stays fantasy-only.",
-    "descriptionEs": "Hablen del atractivo de fantasias de mayor riesgo definiendo limites firmes, planes de seguridad y lo que queda solo en fantasia.",
+    "description": "Discuss the thrill of higher-risk fantasies by naming hard limits, safety plans, and what stays fantasy-only.",
+    "descriptionEs": "Hablen de fantasías de mayor riesgo nombrando límites firmes, planes de seguridad y lo que queda solo en fantasía.",
     "tags": [
       "boundaries",
       "risk-aware",
@@ -2775,8 +2722,8 @@
     "slug": "sleepy-wakeup-fantasy",
     "title": "Sleepy Wake-Up Fantasy",
     "titleEs": "Fantasia de Despertar Sensual",
-    "description": "Discuss pre- sleepy or wake-up intimacy where consent is in advance and can be revoked anytime.",
-    "descriptionEs": "Hablen de intimidad somnolienta o al despertar, preacordada y revocable en cualquier momento.",
+    "description": "Discuss sleepy or wake-up intimacy where consent is agreed in advance, conditions are specific, and permission can be revoked at any time.",
+    "descriptionEs": "Hablen de la intimidad somnolienta o al despertar, con consentimiento acordado antes, condiciones claras y permiso revocable en cualquier momento.",
     "tags": [
       "sleepy",
       "consent",
@@ -2905,8 +2852,8 @@
     "slug": "blindfolded-group-play",
     "title": "Blindfolded Group Play Fantasy",
     "titleEs": "Fantasia de Juego Grupal con Venda",
-    "description": "Discuss a group fantasy where blindness, trust.",
-    "descriptionEs": "Hablen de una fantasia grupal donde la ceguera temporal, la confianza y el tacto negociado crean intensidad.",
+    "description": "Discuss a group fantasy built on blindfolds, trust, and heightened senses—kept at the fantasy level unless every step is negotiated.",
+    "descriptionEs": "Hablen de una fantasía grupal con vendas, confianza y sentidos intensificados—solo fantasía a menos que cada paso se negocie.",
     "tags": [
       "blindfold",
       "group",
@@ -2918,7 +2865,8 @@
     "category": "group",
     "intensityScale": 3,
     "tier": "xxx",
-    "pairMode": true
+    "pairMode": true,
+    "fantasyOnlyAllowed": true
   },
   {
     "id": "0191",
@@ -3216,8 +3164,8 @@
     "slug": "obedience-games",
     "title": "Obedience Games",
     "titleEs": "Juegos de Obediencia",
-    "description": "Use simple, instructions and rewards to explore being guided or guiding a partner.",
-    "descriptionEs": "Instrucciones simples y recompensas como juego de obediencia.",
+    "description": "Simple instructions and rewards to explore guiding or being guided.",
+    "descriptionEs": "Instrucciones sencillas y recompensas para explorar guiar o ser guiado.",
     "tags": [
       "obedience",
       "rewards",
@@ -3270,8 +3218,8 @@
     "slug": "gentle-discipline",
     "title": "Gentle Discipline",
     "titleEs": "Disciplina Suave",
-    "description": "Use mild, structure or correction as a playful way to build tension and attention.",
-    "descriptionEs": "Usen estructura o correccion leve y acordada como forma juguetona de crear tension y atencion.",
+    "description": "Mild structure or playful correction as a way to build tension and attention.",
+    "descriptionEs": "Estructura suave o correcciones juguetonas para crear tensión y atención.",
     "tags": [
       "discipline",
       "structure",
@@ -3540,8 +3488,8 @@
     "slug": "earplug-sensory-play",
     "title": "Earplug Sensory Play",
     "titleEs": "Juego Sensorial con Tapones",
-    "description": "Reduce sound.",
-    "descriptionEs": "Reduzcan el sonido con tapones o audifonos simples mientras dependen del tacto, senales y chequeos.",
+    "description": "Reduce sound with earplugs so touch, scent, and anticipation feel amplified.",
+    "descriptionEs": "Reduce el sonido con tapones para que el tacto, el aroma y la anticipación se sientan amplificados.",
     "tags": [
       "sensory-deprivation",
       "sound",
@@ -4028,8 +3976,8 @@
     "slug": "detective-interview-roleplay",
     "title": "Detective Interview Roleplay",
     "titleEs": "Roleplay de Entrevista Detectivesca",
-    "description": "Explore detective interview roleplay as a shared interest.",
-    "descriptionEs": "Jueguen con preguntas, secretos e interrogatorio seductor manteniendo consentimiento y tono claros.",
+    "description": "A tense detective-and-suspect interview scene with leading questions, bluffing, and slowly cracking composure.",
+    "descriptionEs": "Una escena de interrogatorio entre detective y sospechoso con preguntas capciosas, faroles y compostura que se quiebra poco a poco.",
     "tags": [
       "detective",
       "questions",
@@ -4244,8 +4192,8 @@
     "slug": "toy-shopping-together",
     "title": "Toy Shopping Together",
     "titleEs": "Comprar Juguetes Juntos",
-    "description": "Browse toys together and talk through curiosity,, materials, and cleaning.",
-    "descriptionEs": "Miren juguetes juntos y hablen de curiosidad, comodidad, materiales y limpieza.",
+    "description": "Browse toys together and talk through curiosity, materials, and cleaning.",
+    "descriptionEs": "Exploren juguetes juntos y hablen de curiosidad, materiales y limpieza.",
     "tags": [
       "toys",
       "shopping",
@@ -4334,8 +4282,8 @@
     "slug": "watching-partner-flirt",
     "title": "Watching Partner Flirt",
     "titleEs": "Ver a la Pareja Coquetear",
-    "description": "Explore the fantasy of watching a partner flirt in a,, and emotionally safe way.",
-    "descriptionEs": "Fantasía de observar coqueteo externo con seguridad emocional.",
+    "description": "Explore the fantasy of watching flirtation unfold within agreed, emotionally safe rules.",
+    "descriptionEs": "Exploren la fantasía de observar un coqueteo dentro de reglas acordadas y emocionalmente seguras.",
     "tags": [
       "flirting",
       "voyeur",
@@ -4460,8 +4408,8 @@
     "slug": "shared-fantasy-journal",
     "title": "Shared Fantasy Journal",
     "titleEs": "Diario de Fantasias Compartido",
-    "description": "Keep a private list of fantasies, maybes.",
-    "descriptionEs": "Mantengan una lista privada de fantasias, quizas y limites que ambas personas puedan revisar.",
+    "description": "Keep a private list of fantasies, maybes, and curiosities—the in-app fantasy journal keeps it on this device until something is ready to share.",
+    "descriptionEs": "Guarden una lista privada de fantasías, quizás y curiosidades—el diario de fantasías de la app la mantiene en este dispositivo hasta que algo esté listo para compartir.",
     "tags": [
       "fantasy",
       "journal",
@@ -4478,8 +4426,8 @@
     "slug": "strap-on",
     "title": "Strap-On Play",
     "titleEs": "Juego con Strap-On",
-    "description": "Use a strap-on.",
-    "descriptionEs": "Juego con strap-on con atención al ajuste, ritmo y ángulo.",
+    "description": "Strap-on play with attention to fit, angle, lube, and pace.",
+    "descriptionEs": "Juego con arnés, cuidando ajuste, ángulo, lubricante y ritmo.",
     "tags": [
       "strap-on",
       "toys",
@@ -4495,8 +4443,8 @@
     "slug": "pegging",
     "title": "Pegging",
     "titleEs": "Pegging",
-    "description": "Pegging play.",
-    "descriptionEs": "Juego de pegging.",
+    "description": "Pegging with a well-fitted harness, plenty of lube, and a gradual pace.",
+    "descriptionEs": "Pegging con un arnés bien ajustado, mucho lubricante y un ritmo gradual.",
     "tags": [
       "pegging",
       "anal",
@@ -4582,8 +4530,8 @@
     "slug": "caning",
     "title": "Caning",
     "titleEs": "Vara",
-    "description": "Deliver measured strokes.",
-    "descriptionEs": "Aplica golpes medidos con una vara solo en zonas carnosas, negociando límites y haciendo pausas para consultar.",
+    "description": "Measured cane strokes with warm-up, careful placement, and frequent check-ins.",
+    "descriptionEs": "Golpes medidos de vara con calentamiento, colocación cuidadosa y pausas frecuentes para confirmar.",
     "tags": [
       "impact",
       "intense",
@@ -5433,5 +5381,313 @@
     "intensityScale": 3,
     "tier": "xxx",
     "pairMode": true
+  },
+  {
+    "id": "0357",
+    "slug": "position-exploration",
+    "title": "Position Exploration",
+    "titleEs": "Exploración de Posiciones",
+    "description": "Try new positions together, adjusting angles, pillows, and pace to discover what feels best.",
+    "descriptionEs": "Prueben nuevas posiciones juntos, ajustando ángulos, almohadas y ritmo para descubrir lo que se siente mejor.",
+    "tags": [
+      "positions",
+      "novelty",
+      "exploration",
+      "intimacy"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0358",
+    "slug": "morning-sex",
+    "title": "Morning Sex",
+    "titleEs": "Sexo Matutino",
+    "description": "Slow, sleepy intimacy first thing in the morning, before the day begins.",
+    "descriptionEs": "Intimidad lenta y somnolienta a primera hora, antes de que empiece el día.",
+    "tags": [
+      "morning",
+      "spontaneity",
+      "intimacy",
+      "warmth"
+    ],
+    "category": "environment",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0359",
+    "slug": "private-quickie",
+    "title": "Quickie",
+    "titleEs": "Rapidito",
+    "description": "A fast, urgent encounter at home—stolen minutes that keep the spark alive.",
+    "descriptionEs": "Un encuentro rápido y urgente en casa—minutos robados que mantienen viva la chispa.",
+    "tags": [
+      "spontaneity",
+      "urgency",
+      "passion"
+    ],
+    "category": "environment",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0360",
+    "slug": "slow-sex-session",
+    "title": "Slow Sex Session",
+    "titleEs": "Sesión de Sexo Lento",
+    "description": "A tantra-inspired session: extended eye contact, synchronized breathing, and deliberately unhurried touch.",
+    "descriptionEs": "Una sesión inspirada en el tantra: contacto visual prolongado, respiración sincronizada y caricias deliberadamente pausadas.",
+    "tags": [
+      "tantra",
+      "slow",
+      "breathing",
+      "connection",
+      "presence"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0361",
+    "slug": "switch-play",
+    "title": "Switch Play",
+    "titleEs": "Intercambio de Roles",
+    "description": "Trade leading and following between scenes—exploring both sides of a power dynamic.",
+    "descriptionEs": "Intercambien quién dirige y quién se entrega entre escenas—explorando ambos lados de una dinámica de poder.",
+    "tags": [
+      "power-exchange",
+      "switching",
+      "dominance",
+      "submission"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true,
+    "consentPrompts": [
+      "Which side of the dynamic feels newer, and what would make it feel safe?",
+      "What signals swap the roles mid-scene if something is not working?"
+    ]
+  },
+  {
+    "id": "0362",
+    "slug": "guided-self-pleasure",
+    "title": "Guided Self-Pleasure",
+    "titleEs": "Autoplacer Guiado",
+    "description": "One voice guides, one body follows: spoken instructions shaping solo pleasure step by step.",
+    "descriptionEs": "Una voz guía y un cuerpo obedece: instrucciones habladas que moldean el placer en solitario paso a paso.",
+    "tags": [
+      "instruction",
+      "control",
+      "voice",
+      "masturbation"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0363",
+    "slug": "genital-worship",
+    "title": "Genital Worship",
+    "titleEs": "Adoración Genital",
+    "description": "Unhurried, appreciative attention with praise, kisses, and admiration as the whole point.",
+    "descriptionEs": "Atención pausada y llena de aprecio, con elogios, besos y admiración como único objetivo.",
+    "tags": [
+      "worship",
+      "praise",
+      "oral",
+      "admiration"
+    ],
+    "category": "paired_play",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true,
+    "relatedKinks": [
+      "0187",
+      "0221"
+    ]
+  },
+  {
+    "id": "0364",
+    "slug": "wand-massager",
+    "title": "Wand Massager",
+    "titleEs": "Masajeador Tipo Varita",
+    "description": "Powerful wand vibrations over the whole body, from shoulders to more sensitive places.",
+    "descriptionEs": "Potentes vibraciones de varita por todo el cuerpo, desde los hombros hasta zonas más sensibles.",
+    "tags": [
+      "toys",
+      "vibration",
+      "intensity"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0365",
+    "slug": "couples-vibrator",
+    "title": "Couples Vibrator",
+    "titleEs": "Vibrador Compartido",
+    "description": "A wearable vibrator designed to be shared during sex, adding a hum both bodies feel.",
+    "descriptionEs": "Un vibrador ponible diseñado para compartirse durante el sexo, sumando una vibración que ambos cuerpos sienten.",
+    "tags": [
+      "toys",
+      "vibration",
+      "shared"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0366",
+    "slug": "stroker-sleeve-toys",
+    "title": "Stroker & Sleeve Toys",
+    "titleEs": "Estimuladores de Manga",
+    "description": "Textured sleeve or stroker toys woven into hand play, teasing, or shared shows.",
+    "descriptionEs": "Mangas texturizadas o estimuladores integrados en caricias manuales, provocación o exhibiciones compartidas.",
+    "tags": [
+      "toys",
+      "texture",
+      "stimulation"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0367",
+    "slug": "lube-exploration",
+    "title": "Lube Exploration",
+    "titleEs": "Exploración de Lubricantes",
+    "description": "Compare textures and formulas—water-based, silicone, hybrid—and discover how much smoother everything feels.",
+    "descriptionEs": "Comparen texturas y fórmulas—base de agua, silicona, híbridas—y descubran cuánto más suave se siente todo.",
+    "tags": [
+      "lube",
+      "comfort",
+      "exploration"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
+  },
+  {
+    "id": "0368",
+    "slug": "warming-cooling-lube",
+    "title": "Warming & Cooling Lubes",
+    "titleEs": "Lubricantes de Calor y Frío",
+    "description": "Warming and cooling formulas that add gentle temperature surprises to familiar touch.",
+    "descriptionEs": "Fórmulas que calientan o refrescan, añadiendo suaves sorpresas de temperatura a caricias conocidas.",
+    "tags": [
+      "lube",
+      "temperature",
+      "sensation"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 1,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0369",
+    "slug": "positioning-wedge",
+    "title": "Positioning Wedge & Sex Furniture",
+    "titleEs": "Cuña de Posiciones y Muebles Íntimos",
+    "description": "Wedges, ramps, or supportive furniture that unlock comfortable angles and longer sessions.",
+    "descriptionEs": "Cuñas, rampas o muebles de apoyo que permiten ángulos cómodos y sesiones más largas.",
+    "tags": [
+      "furniture",
+      "positions",
+      "comfort"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0370",
+    "slug": "scene-debrief",
+    "title": "Scene Debrief",
+    "titleEs": "Charla Post-Escena",
+    "description": "A gentle talk after play: what felt great, what to adjust, and what to try next time.",
+    "descriptionEs": "Una charla suave después del juego: qué se sintió increíble, qué ajustar y qué probar la próxima vez.",
+    "tags": [
+      "aftercare",
+      "communication",
+      "reflection"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
+  },
+  {
+    "id": "0371",
+    "slug": "ruined-orgasm",
+    "title": "Ruined Orgasm",
+    "titleEs": "Orgasmo Arruinado",
+    "description": "Stimulation stops at the exact peak, letting climax fade unfinished—intense control play by agreement.",
+    "descriptionEs": "La estimulación se detiene justo en la cima, dejando que el clímax se desvanezca a medias—un juego intenso de control por acuerdo.",
+    "tags": [
+      "orgasm-control",
+      "denial",
+      "edging",
+      "control"
+    ],
+    "category": "paired_play",
+    "intensityScale": 3,
+    "tier": "xxx",
+    "pairMode": true,
+    "riskLevel": "medium",
+    "relatedKinks": [
+      "0061",
+      "0062",
+      "0138"
+    ],
+    "consentPrompts": [
+      "How is a ruined finish different from denial for each of you?",
+      "What aftercare follows if frustration lands harder than expected?"
+    ]
+  },
+  {
+    "id": "0372",
+    "slug": "intimate-grooming",
+    "title": "Intimate Shaving & Grooming",
+    "titleEs": "Afeitado y Cuidado Íntimo",
+    "description": "Careful shaving or grooming as intimate service—warm water, fresh razor, steady hands, and trust.",
+    "descriptionEs": "Afeitado o arreglo cuidadoso como un acto íntimo—agua tibia, rastrillo nuevo, manos firmes y confianza.",
+    "tags": [
+      "grooming",
+      "trust",
+      "service",
+      "ritual"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true,
+    "riskLevel": "medium",
+    "prep": [
+      "Use a fresh razor, clean towels, and unscented shaving products.",
+      "Test any product on a small patch of skin first."
+    ],
+    "safetyNotes": [
+      "Go slowly around sensitive areas and keep the skin taut.",
+      "Skip shaving over irritated or broken skin."
+    ]
   }
 ]
