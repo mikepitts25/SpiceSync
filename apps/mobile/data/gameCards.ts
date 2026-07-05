@@ -930,7 +930,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     id: 'p-d3',
     type: 'dare',
     content:
-      'Tie my wrists with a scarf. 1 minute. Do whatever you want to me.',
+      'Tie my wrists loosely with a scarf. For 1 minute, tease me with fingertips, eye contact, and your voice only.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -983,7 +983,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     id: 'p-d10',
     type: 'dare',
     content:
-      'Kiss every inch of me—everywhere EXCEPT my lips. Stop only when I beg for your mouth.',
+      'Kiss five safe places on me—everywhere except my lips. Pause before each one until I want the next.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -1020,7 +1020,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      '⚠️ BREATH PLAY: Never restrict airflow. Light pressure on sides only. Establish clear safeword before starting.',
+      'Keep the hand on the chin only, with zero pressure on the throat or airway. Stop immediately on request.',
   },
   {
     id: 'p-d18',
@@ -1204,18 +1204,18 @@ export const PREMIUM_CARDS: GameCard[] = [
     estimatedTime: '1 min',
     requires: ['candle'],
     safetyNotes:
-      '⚠️ WAX PLAY: Use only body-safe candles (soy or paraffin, NOT beeswax). Test temperature on wrist first. Avoid face and genitals.',
+      'Candle is atmosphere only. Keep flame away from skin, hair, fabric, and props.',
   },
   {
     id: 'k-p2',
     type: 'dare',
     content:
-      'Collar and lead: Put it on me. Lead me wherever you want. Use the leash to guide my head.',
+      'Collar and Lead: Put it on me, clip the leash if we have one, and lead me exactly three gentle steps. No pulling—just presence.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
-    requires: ['collar'],
+    requires: ['collar', 'leash'],
     safetyNotes:
       'Keep anything at the neck loose and decorative—never restricting. Remove immediately on request.',
   },

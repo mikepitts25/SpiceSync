@@ -47,7 +47,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-t-012',
     type: 'truth',
     content:
-      'How do you feel about being watched while you pleasure yourself? Or watching me?',
+      'How do you feel about being watched while you pose for me? Or watching me pose for you?',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -67,7 +67,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-t-015',
     type: 'truth',
     content:
-      'Describe your ideal dominant/submissive session with me. How does it start, progress, and end?',
+      'Describe your ideal 1-minute dominant/submissive exchange with me. Who leads, and what is the first command?',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -103,13 +103,14 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-d-003',
     type: 'dare',
     content:
-      'Spank me 20 times—alternating cheeks, varying intensity. Make me count and thank you after each one.',
+      'Place the paddle in my hands. Take it back slowly, then give one featherlight tap over clothing if we both agree.',
     intensity: 4,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
+    requires: ['paddle'],
     safetyNotes:
-      'Target fleshy parts of buttocks and thighs only. Avoid tailbone, hips, and kidneys.',
+      'One symbolic tap only, over clothing. Avoid joints, spine, kidneys, neck, and any area not clearly agreed.',
   },
   {
     id: 'lvl4-d-006',
@@ -128,7 +129,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-d-008',
     type: 'dare',
     content:
-      'Pull my hair firmly while taking me from behind. Control my head. Make me feel owned.',
+      'Stand behind me, gather my hair close to the scalp, and guide my chin up with one gentle tug while you praise the view.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -146,7 +147,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Breath play is edge play. Never restrict blood flow to brain. Keep pressure on sides only, never front.',
+      'Wall holds are symbolic only. Keep pressure light, avoid the neck, and stop immediately on request.',
   },
   {
     id: 'lvl4-d-010',
@@ -163,14 +164,14 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-d-012',
     type: 'dare',
     content:
-      'Put a collar on me. Lead me around. Use it to guide my head where you want it.',
+      'Put a collar on me, clip the leash if we have one, and lead me exactly three gentle steps. No pulling—just presence.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
-    requires: ['collar'],
+    requires: ['collar', 'leash'],
     safetyNotes:
-      'Collars should fit snugly but not restrict breathing. Never pull hard on neck.',
+      'Collars stay loose and decorative. Hold the leash with slack, never pull the neck, and remove immediately on request.',
   },
   {
     id: 'lvl4-d-013',
@@ -183,7 +184,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     estimatedTime: '1 min',
     requires: ['candle'],
     safetyNotes:
-      'Use only body-safe candles designed for wax play. Test temperature first. Avoid face and genitals.',
+      'Candle is atmosphere only. Keep flame away from skin, hair, fabric, and props.',
   },
   {
     id: 'lvl4-c-001',
@@ -194,19 +195,21 @@ export const LEVEL4_CARDS: GameCard[] = [
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    safetyNotes:
+      'Power play is by mutual agreement. Stay within stated limits and pause immediately on request.',
   },
   {
     id: 'lvl4-c-005',
     type: 'challenge',
     content:
-      'Impact Play Session: Use hands, paddles, or floggers. 20 strikes. Vary intensity. Build up slowly.',
+      'Paddle Ceremony: One partner presents the paddle. The other names one rule for if it is ever used, then sets it aside.',
     intensity: 4,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes:
-      'Start light and warm up. Target buttocks and thighs only. Check in frequently.',
+      'This is negotiation and presentation only. Do not escalate to real impact during the game.',
   },
   {
     id: 'lvl4-c-006',
@@ -238,24 +241,26 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-c-013',
     type: 'challenge',
     content:
-      'Service Submission: For 1 minute, you serve me—massage, fetch drinks, pleasure me on demand. Your only goal is my satisfaction.',
+      'Service Submission: For 1 minute, serve me by fixing my outfit, pouring a drink, or kneeling beside me if you choose.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    safetyNotes:
+      'Service play stays symbolic and non-sexual in the game. Either partner can pause or redirect.',
   },
   {
     id: 'lvl4-c-014',
     type: 'challenge',
     content:
-      'Fear Play Lite: Blindfold me. Use unexpected touches, sounds, and sensations. Keep me on edge.',
+      'Mystery Sensation: Blindfold me. Use one safe texture, one whisper, and one fingertip touch. I guess each one.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['blindfold'],
     safetyNotes:
-      'Fear play requires high trust. Never truly endanger. Check in frequently.',
+      'Keep the play area clear. Avoid startling, pain, or anything not agreed.',
   },
   {
     id: 'lvl4-c-015',

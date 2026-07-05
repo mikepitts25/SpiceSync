@@ -33,7 +33,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-t-009',
     type: 'truth',
     content:
-      'If we had a whole day with no interruptions, how would you want to spend it with me?',
+      'If we had one uninterrupted private minute, what would you want me to do first?',
     intensity: 2,
     category: 'playful',
     isPremium: true,
@@ -53,7 +53,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-t-015',
     type: 'truth',
     content:
-      'What song, when it plays, makes you think of me and feel that warm feeling inside?',
+      'What song would make you want to pull me closer right now, and where would your hands go?',
     intensity: 2,
     category: 'emotional',
     isPremium: true,
@@ -63,7 +63,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-d-001',
     type: 'dare',
     content:
-      'Give me a 5-minute full-body massage, starting at my shoulders and working down to my feet.',
+      'Give me a 1-minute slow shoulder massage, then pause and ask where your hands should go next.',
     intensity: 2,
     category: 'physical',
     isPremium: true,
@@ -104,7 +104,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-d-006',
     type: 'dare',
     content:
-      'Give me eskimo kisses (rubbing noses) for 30 seconds while telling me what you love about my laugh.',
+      'Brush your nose against mine, then whisper one thing I do that makes you want to kiss me.',
     intensity: 2,
     category: 'playful',
     isPremium: true,
@@ -133,7 +133,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-d-009',
     type: 'dare',
     content:
-      'Dance with me to a slow song, pulling me as close as possible. No space between us.',
+      'Dance with me for 1 minute like the music is private and the room belongs to us.',
     intensity: 2,
     category: 'physical',
     isPremium: true,
@@ -144,7 +144,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-d-010',
     type: 'dare',
     content:
-      'Give me a foot massage while telling me about your day in detail.',
+      'Hold one of my feet or hands like it deserves worship, then compliment it for 30 seconds.',
     intensity: 2,
     category: 'physical',
     isPremium: true,
@@ -174,7 +174,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-d-013',
     type: 'dare',
     content:
-      'Give me butterfly kisses (fluttering eyelashes) on my cheek while humming something romantic.',
+      'Hover your lips near my cheek for 10 seconds before kissing it. Make me wait for it.',
     intensity: 2,
     category: 'playful',
     isPremium: true,
@@ -204,7 +204,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-c-002',
     type: 'challenge',
     content:
-      'Playlist Swap: Create a 5-song playlist for each other that represents your feelings. Listen together and discuss.',
+      'Mood Music: Each of you names one song for a slow striptease entrance. Hum 10 seconds of yours.',
     intensity: 2,
     category: 'emotional',
     isPremium: true,
@@ -215,7 +215,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-c-003',
     type: 'challenge',
     content:
-      'Surprise Date Planning: Each of you plans a surprise element for a future date. Reveal them to each other now.',
+      'Surprise Signal: Each of you invents one secret gesture that means "I want your attention." Demonstrate it.',
     intensity: 2,
     category: 'playful',
     isPremium: true,
@@ -391,7 +391,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-t-005',
     type: 'truth',
     content:
-      "What's a romantic gesture from a movie or show that you'd secretly love me to do?",
+      "What's a bold little gesture from me that would make you blush in under 10 seconds?",
     intensity: 2,
     category: 'emotional',
     isPremium: true,
@@ -620,7 +620,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-d-017',
     type: 'dare',
     content:
-      'Nail Salon: Your partner must paint your nails or toenails with a color of their choice.',
+      'Nail Salon: Your partner paints one nail with a color of their choice, then kisses the air above it like a finished masterpiece.',
     intensity: 2,
     category: 'playful',
     isPremium: true,
@@ -652,7 +652,7 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-d-018',
     type: 'dare',
     content:
-      'Hidden Claim: Your partner chooses one of their clothing items for you to wear under your outfit for the rest of the game.',
+      'Hidden Claim: Your partner chooses one clothing item for you to slip on or hold under your outfit for exactly 1 minute.',
     intensity: 2,
     category: 'intimate',
     isPremium: true,

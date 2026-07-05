@@ -485,7 +485,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-c-009',
     type: 'challenge',
     content:
-      "Dirty 20 Questions: I'm thinking of something explicit. You have 20 yes/no questions. Wrong guess means you do it anyway.",
+      "Dirty 20 Questions: I'm thinking of something I want you to do to me. You get 20 yes/no questions; wrong guess means you ask for a clue, not a demand.",
     intensity: 3,
     category: 'playful',
     isPremium: true,
@@ -605,7 +605,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-d-016',
     type: 'dare',
     content:
-      "Underwear Dare: You have to wear your partner's underwear for the rest of the game.",
+      'Underwear Dare: Choose lingerie, panties, a bra, or underwear from the drawer or imagination. Present it and say how you would style it on me.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
@@ -626,17 +626,18 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-c-016',
     type: 'challenge',
     content:
-      'Full Swap: Trade one visible clothing item and one hidden clothing item with me. Wear them like you mean it.',
+      'Clothes Swap: Trade one visible clothing item. Then each of you names the lingerie, panties, or bra you would add to finish the look.',
     intensity: 3,
     category: 'playful',
     isPremium: true,
     estimatedTime: '1 min',
+    requires: ['clothing'],
   },
   {
     id: 'lvl3-d-018',
     type: 'dare',
     content:
-      'Owned Outfit: Your partner picks an outfit from their closet that makes you look the most submissive, slutty, pretty, or ridiculous. Wear it until they release you.',
+      'Owned Outfit: Your partner picks one item or accessory that makes you look submissive, pretty, bold, or ridiculous. Wear it for 1 minute.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
@@ -669,17 +670,18 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-c-018',
     type: 'challenge',
     content:
-      'Underwear Modeling: Your partner chooses a clean pair of their underwear for you. Put it on, model it, and let them decide if you are allowed to change back.',
+      'Underwear Modeling: Choose clean lingerie, panties, a bra, or underwear. Hold it against your outfit or model it over clothing for 1 minute.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    requires: ['lingerie'],
   },
   {
     id: 'lvl3-rp-008',
     type: 'roleplay',
     content:
-      'Forced Makeover: Your partner is in charge of turning you into their ideal plaything. They choose the clothes, the makeup, the name, and how you act.',
+      'Makeover Command: Your partner chooses one clothing detail, one makeup touch, one name, and one pose for your 1-minute transformation.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
@@ -690,7 +692,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-rp-009',
     type: 'roleplay',
     content:
-      "Laundry Thief: You got caught wearing your partner's clothes. They decide what you keep on, what gets taken off, and how you make it up to them.",
+      "Laundry Thief: You got caught borrowing your partner's clothes. They choose one item you keep on and one pose you hold for 30 seconds.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
@@ -700,7 +702,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-qk-001',
     type: 'dare',
     content:
-      'Blindfold me. Touch me three times—fabric, fingertip, breath. I guess each one. Winner gives one command.',
+      'Blindfold me. Touch me three times—fabric, fingertip, breath. I guess each one. Winner gives one within-limits command.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
@@ -777,7 +779,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-qk-008',
     type: 'dare',
     content:
-      "Show me the lingerie or underwear you'd most want me in. Describe exactly when I'll have earned the reveal.",
+      "Show me the lingerie, panties, bra, or underwear you'd most want me in. Describe the reveal without acting it out.",
     intensity: 3,
     category: 'intimate',
     isPremium: true,

@@ -15,13 +15,13 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-t-003',
     type: 'truth',
     content:
-      'Would you ever want to involve another person in our sex life? Who and in what capacity?',
+      'Would you ever enjoy being watched or watching me in fantasy only? What boundary would keep it safe?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Group play requires enthusiastic consent from all parties. Discuss boundaries extensively beforehand.',
+      'Keep this as fantasy/boundary talk inside the game. No third party is being invited or planned.',
   },
   {
     id: 'lvl5-t-005',
@@ -37,19 +37,19 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-t-007',
     type: 'truth',
     content:
-      'Would you want to be completely immobilized—bound, gagged, blindfolded, at my total mercy?',
+      'Would you want to be blindfolded, posed, and verbally controlled for 1 minute? What would be exciting, and what is off-limits?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Total immobilization requires extreme safety measures. Never leave unattended. Monitor breathing constantly.',
+      'Blindfold and control play should stay brief, verbal, and easy to stop immediately.',
   },
   {
     id: 'lvl5-t-009',
     type: 'truth',
     content:
-      'Describe a 24/7 power exchange relationship. Would you want that? In what capacity?',
+      'Describe a one-minute D/s ritual you would actually enjoy in this game. What is the rule, and what is the reward?',
     intensity: 5,
     category: 'communication',
     isPremium: true,
@@ -59,25 +59,25 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-t-011',
     type: 'truth',
     content:
-      'Would you want to be shared? Passed around? Completely used by multiple people?',
+      'Would you want to be displayed for my attention like a trophy? What would make that feel hot instead of uncomfortable?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Group scenarios require STI discussions, birth control, and extensive safety planning.',
+      'Display and objectification play should be mutually wanted, reversible, and followed with genuine praise.',
   },
   {
     id: 'lvl5-t-013',
     type: 'truth',
     content:
-      'Describe your ideal CNC (consensual non-consent) scene in explicit detail. Safewords? Aftercare?',
+      'CNC stays fantasy/boundary talk only: what words or scenarios are off-limits, and what keeps consent clear for you?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'CNC requires extensive negotiation, multiple safewords, and thorough aftercare. Debrief extensively.',
+      'Discussion only. Do not act out CNC from a game card; keep consent explicit and easy to pause.',
   },
   {
     id: 'lvl5-t-015',
@@ -93,14 +93,14 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-d-002',
     type: 'dare',
     content:
-      'Intense impact scene: 50 strikes with paddle, flogger, or cane. Build intensity. Make me feel every one.',
+      'Paddle Choice: Place the paddle in my open hands. I present it back and name one rule for if it is ever used.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes:
-      'Warm up gradually. Target buttocks and thighs only. Check in every 10 strikes. Watch for skin damage.',
+      'Presentation and negotiation only. Do not escalate to repeated impact during the game.',
   },
   {
     id: 'lvl5-d-003',
@@ -112,7 +112,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'EXTREME RISK. Never compress arteries. Never restrict blood flow to brain. Research extensively before attempting.',
+      'Silence is symbolic only. Never cover the mouth or restrict breathing.',
   },
   {
     id: 'lvl5-d-005',
@@ -136,7 +136,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'EXTREME RISK. Use blunt knife for beginners. Never cut toward body. Consider fake knife for psychological effect.',
+      'Remove only one easy clothing item and stop immediately if either partner hesitates.',
   },
   {
     id: 'lvl5-d-007',
@@ -149,19 +149,19 @@ export const LEVEL5_CARDS: GameCard[] = [
     estimatedTime: '30 sec',
     requires: ['perfume'],
     safetyNotes:
-      'Urine is generally sterile but can transmit infections. Avoid contact with eyes or open wounds. Shower after.',
+      'Avoid eyes, irritated skin, and allergies. Use scent lightly.',
   },
   {
     id: 'lvl5-d-008',
     type: 'dare',
     content:
-      'Public risk: Touch me intimately in a semi-public place where we might get caught. The thrill of almost being seen.',
+      'Private Risk: Stand close like we might get caught, but stay fully private. One secret touch above the waist, then step away.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Public play laws vary. Ensure no non-consenting people can see. Risk of arrest in many jurisdictions.',
+      'Keep this private. Do not involve bystanders or public spaces.',
   },
   {
     id: 'lvl5-d-009',
@@ -173,7 +173,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Use copious lube. Go slowly. Stop if pain occurs. Never use without flared base.',
+      'Inspection is symbolic. Adjust posture gently and avoid anything that feels demeaning unless explicitly welcomed.',
   },
   {
     id: 'lvl5-d-010',
@@ -185,7 +185,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'EXTENSIVE preparation required. Use more lube than you think necessary. Stop immediately if resistance or pain.',
+      'Ownership language must be mutually wanted. End with real praise and stop instantly on request.',
   },
   {
     id: 'lvl5-d-012',
@@ -197,19 +197,19 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Never use above waist. Avoid if pregnant or have heart condition. Start at lowest setting.',
+      'Use a light touch only. Stop if scratching feels sharp or unpleasant.',
   },
   {
     id: 'lvl5-d-013',
     type: 'dare',
     content:
-      'Hypnosis play: Put me in trance. Give me suggestions. Control my mind, not just my body.',
+      'Focus Game: Hold eye contact for 30 seconds while giving me one simple suggestion for how to pose.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Hypnosis requires training. Cannot make someone do something against their values. Always bring out of trance properly.',
+      'No hypnosis or altered-state play. This is eye contact and a simple consensual prompt only.',
   },
   {
     id: 'lvl5-d-015',
@@ -248,14 +248,14 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-c-004',
     type: 'challenge',
     content:
-      'Pain processing: Take increasing impact. Learn to breathe through it. Transform pain into pleasure.',
+      'Impact Negotiation: Tap the paddle once against your own palm, then tell me where a featherlight tap would be allowed later.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes:
-      'Build slowly. Use breathing techniques. Stop at any request. Aftercare is essential.',
+      'Negotiation only. No repeated impact or escalation during the game.',
   },
   {
     id: 'lvl5-c-005',
@@ -268,29 +268,31 @@ export const LEVEL5_CARDS: GameCard[] = [
     estimatedTime: '1 min',
     requires: ['blindfold'],
     safetyNotes:
-      'Extended deprivation can cause disorientation. Never leave alone. Monitor for distress.',
+      'Blindfold play stays brief. Keep the area clear and stop immediately on request.',
   },
   {
     id: 'lvl5-c-006',
     type: 'challenge',
     content:
-      'Protocol training: Learn specific positions, responses, and behaviors. Practice until perfect. Serve me exactly as commanded.',
-    intensity: 5,
-    category: 'intimate',
-    isPremium: true,
-    estimatedTime: '1 min',
-  },
-  {
-    id: 'lvl5-c-008',
-    type: 'challenge',
-    content:
-      'Humiliation scene: Degrade me thoroughly. Make me feel small. Then build me back up with intense aftercare.',
+      'Protocol Minute: Choose one posture, one response, and one reward. Practice the ritual once, then release the role.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Humiliation can trigger real insecurities. Extensive aftercare required. Reaffirm love and value.',
+      'Protocol play should be clear, brief, and easy to exit. Praise the effort afterward.',
+  },
+  {
+    id: 'lvl5-c-008',
+    type: 'challenge',
+    content:
+      'Humiliation-Lite: Agree on one wicked line that feels playful, say it once, then immediately answer with real praise.',
+    intensity: 5,
+    category: 'intimate',
+    isPremium: true,
+    estimatedTime: '1 min',
+    safetyNotes:
+      'Use only agreed words. Keep it playful, stop instantly on discomfort, and end with genuine reassurance.',
   },
   {
     id: 'lvl5-c-009',
@@ -303,7 +305,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     estimatedTime: '1 min',
     requires: ['scarf'],
     safetyNotes:
-      'Position must not strain joints. Check circulation frequently. Provide water and bathroom breaks.',
+      'Symbolic restraint only. Keep it loose enough to slip free and never leave a restrained partner alone.',
   },
   {
     id: 'lvl5-c-010',
@@ -321,25 +323,25 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-c-011',
     type: 'challenge',
     content:
-      'Fear play: Create a scene that scares me—in a controlled way. Push psychological boundaries. Then hold me after.',
+      'Suspense Scene: I close my eyes while you make three sounds around me—fabric, breath, fingertip tap. I guess each one.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Fear play requires high trust. Never truly endanger. Debrief thoroughly. Provide extensive comfort after.',
+      'No fear or startle play. Keep sensations gentle and predictable enough to feel safe.',
   },
   {
     id: 'lvl5-c-012',
     type: 'challenge',
     content:
-      'Pain and pleasure mix: Alternate intense sensation with pleasure. Learn to associate the two. Transform your response.',
+      'Intensity Mix: Alternate one firm shoulder squeeze, one soft touch, and one filthy compliment for 1 minute.',
     intensity: 5,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Build intensity gradually. Watch for overwhelm. Aftercare should be gentle and loving.',
+      'Keep pressure comfortable and avoid neck, joints, spine, or any sore area.',
   },
   {
     id: 'lvl5-c-014',
@@ -351,7 +353,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Group play requires consent from all. Discuss boundaries extensively. Have safe sex supplies ready.',
+      'Fantasy ranking only. No planning, pressure, or third-party involvement from this card.',
   },
   {
     id: 'lvl5-c-015',
@@ -377,7 +379,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-fn-002',
     type: 'fantasy',
     content:
-      'Imagine a 24/7 D/s relationship. What would our daily life look like? Rules? Rituals? Rewards and punishments?',
+      'Imagine a one-minute D/s ritual for us. What is the rule, what is the reward, and what word ends the role?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -387,31 +389,31 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-fn-003',
     type: 'fantasy',
     content:
-      'Describe a group scene with 3+ people. Who are they? What happens? What are the boundaries?',
+      'Describe the fantasy of being watched without making it real: what is exciting, and what boundary protects us?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Group scenarios require STI discussions, birth control, and extensive safety planning.',
+      'Fantasy only. Do not involve or expose non-consenting people.',
   },
   {
     id: 'lvl5-fn-005',
     type: 'fantasy',
     content:
-      'Describe your ultimate edge play fantasy. The risk, the danger, the trust required.',
+      'Describe the taboo prop that would change the room fastest—collar, leash, whip, paddle, or lingerie. Why that one?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Edge play carries real risks. Research thoroughly before attempting.',
+      'Fantasy and prop talk only. Do not escalate to risky play from this card.',
   },
   {
     id: 'lvl5-fn-006',
     type: 'fantasy',
     content:
-      'Imagine being completely objectified—used as furniture, a toy, a thing. No humanity, just utility. Then being brought back.',
+      'Imagine being displayed like art for 1 minute. How should I pose you, praise you, and bring you back?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -421,19 +423,19 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-fn-007',
     type: 'fantasy',
     content:
-      'Describe a public humiliation scene—being paraded, displayed, used while others watch. The shame and the arousal.',
+      'Describe a private display scene: what would I have you wear, how would you stand, and what praise would undo the embarrassment?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Public play must not involve non-consenting observers. Consider legal and social risks.',
+      'Keep display play private and mutually wanted. End with real praise.',
   },
   {
     id: 'lvl5-fn-008',
     type: 'fantasy',
     content:
-      'Imagine a transformation scene—pet play, dollification, dehumanization. Becoming something else entirely for a time.',
+      'Imagine a 1-minute transformation scene—pet, doll, trophy, or muse. What changes first: clothes, posture, voice, or name?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
@@ -443,11 +445,13 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-rp-002',
     type: 'roleplay',
     content:
-      'Predator and Prey: You hunt me. I run. You catch me. You consume me. The chase, the capture, the claiming.',
+      'Cat and Mouse: Circle me once, catch my wrist gently, and claim one compliment from me before you let go.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    safetyNotes:
+      'Keep pursuit symbolic and gentle. No grabbing, blocking exits, or fear play.',
   },
   {
     id: 'lvl5-t-001',
@@ -489,19 +493,19 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Edge play carries real risks. Research thoroughly. Consider professional instruction.',
+      'Psychological intensity should stay verbal, consensual, and easy to stop.',
   },
   {
     id: 'lvl5-t-010',
     type: 'truth',
     content:
-      "What's the most pain you'd be willing to take for pleasure? What kind of pain?",
+      'What kind of impact-lite would you actually enjoy: a palm tap, paddle presence, hair tug, scratch, or none?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Pain play requires understanding of anatomy. Avoid joints, spine, kidneys, and neck.',
+      'Discuss limits before any impact. In the game, keep it symbolic or featherlight.',
   },
   {
     id: 'lvl5-t-012',
@@ -532,63 +536,65 @@ export const LEVEL5_CARDS: GameCard[] = [
     isPremium: true,
     estimatedTime: '30 sec',
     safetyNotes:
-      'Never leave restrained person alone. Check circulation constantly. Establish non-verbal safeword. Keep safety shears nearby.',
+      'No restraint is used. This is command and stillness only; stop immediately on request.',
   },
   {
     id: 'lvl5-d-014',
     type: 'dare',
     content:
-      'Permission Game: For the rest of this round, I ask permission before touching you at all. Deny me at least once. Enjoy it.',
+      'Permission Game: For 1 minute, I ask permission before any touch. Deny me at least once. Enjoy it.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     safetyNotes:
-      'Chastity devices must fit properly. Remove if discoloration or numbness occurs. Maintain hygiene.',
+      'Permission play stays verbal and brief. Either partner can opt out or redirect.',
   },
   {
     id: 'lvl5-c-007',
     type: 'challenge',
     content:
-      "Edge play exploration: Try one edge play activity you've both researched and agreed on. Go slowly. Communicate constantly.",
+      'Prop Boundary: Choose collar, leash, whip, paddle, lingerie, or makeup. Each of you says yes, maybe, or no for game use.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
-    safetyNotes:
-      'Edge play carries real risks. Research extensively. Have safety plan. Know when to stop.',
+    safetyNotes: 'Boundary talk only. A no ends the topic without debate.',
   },
   {
     id: 'lvl5-fn-004',
     type: 'fantasy',
     content:
-      "Imagine an extreme CNC scenario. How does it start? What happens? How does it end? What's the safeword?",
+      'CNC boundary check, fantasy only: name one hard no, one required safeword, and one aftercare need.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
-    safetyNotes:
-      'CNC requires extensive negotiation. Multiple safewords. Thorough aftercare. Debrief extensively.',
+    safetyNotes: 'Discussion only. Do not act out CNC from a game card.',
   },
   {
     id: 'lvl5-rp-001',
     type: 'roleplay',
     content:
-      'Master/Mistress and Slave: You own me completely. I have no rights, no will, no purpose except to serve you. Prove your ownership.',
+      'Master/Mistress and Devoted: Give one command within limits. I obey once, then you release me with praise.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    safetyNotes:
+      'Power play is by mutual agreement. Keep commands brief, non-sexual, and easy to refuse.',
   },
   {
     id: 'lvl5-rp-003',
     type: 'roleplay',
     content:
-      "Owner and Pet: I'm your pet—dog, cat, pony. Train me. Reward me. Discipline me. I exist for your amusement.",
+      'Owner and Pet: Give me a playful pet name, one simple pose or trick, and one reward. I stay in character for 30 seconds.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    safetyNotes:
+      'Pet play stays playful and brief. No degradation unless explicitly welcomed.',
   },
   {
     id: 'lvl5-rp-004',
@@ -604,21 +610,25 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-rp-005',
     type: 'roleplay',
     content:
-      "Deity and Worshipper: You're a god/goddess. I'm your devoted follower. I'll do anything to please you. Sacrifice everything.",
+      "Deity and Worshipper: You're divine. I offer one compliment, one pose, and one act of service. You reward me with praise.",
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    safetyNotes:
+      'Worship play should feel affirming. Keep service simple and within limits.',
   },
   {
     id: 'lvl5-rp-007',
     type: 'roleplay',
     content:
-      "Mad Scientist and Experiment: I'm your creation. You're testing my responses. Pushing my limits. Recording everything.",
+      'Mad Scientist and Experiment: Test my responses to posture, eye contact, and one whispered command. Record your findings out loud.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    safetyNotes:
+      'No medical or risky play. Keep the experiment theatrical and consent-based.',
   },
   {
     id: 'lvl5-qk-001',

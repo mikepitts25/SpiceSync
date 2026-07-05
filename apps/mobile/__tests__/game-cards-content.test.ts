@@ -23,7 +23,12 @@ const CNC_ACTION_PATTERN =
 
 // Long-duration or scheduled tasks break the quick-game format.
 const LONG_DURATION_PATTERN =
-  /\b(tonight|all day|all night|for the next hour|an hour|1 hour|24[- ]hours?|weekend|this week|one week|for days|rest of the (?:day|night|evening)|later today|before bed|next (?:\d+|two|three|four|five) (?:turns?|rounds?)|\b(?:[2-9]|[1-9]\d) min(?:ute)?s?\b|esta noche|toda la noche|todo el d[ií]a|fin de semana|una hora|pr[oó]xim[oa]s? \d+ turnos)\b/i;
+  /\b(tonight|all day|all night|for the next hour|an hour|1 hour|24[- ]hours?|24\/7|weekend|this week|one week|for days|for the rest|rest of the (?:game|day|night|evening)|later today|before bed|future date|next (?:\d+|two|three|four|five) (?:turns?|rounds?)|\b(?:[2-9]|[1-9]\d)[- ]min(?:ute)?s?\b|esta noche|toda la noche|todo el d[ií]a|fin de semana|una hora|pr[oó]xim[oa]s? \d+ turnos)\b/i;
+
+// The game should not drift into broad party-game filler. Even the lowest
+// levels should stay flirty, intimate, or kink-adjacent.
+const GENERIC_PARTY_GAME_PATTERN =
+  /\b(first impression|one type of cuisine|travel anywhere|any superpower|describe me to a stranger|silliest face|mental picture|talk about our day|gentleman\/lady from an old movie|piggyback ride|20 Questions: Think of something, and I have|shared playlist|5-song playlist|ridiculous story|favorite song that reminds you of us|romantic gesture from a movie|whole day with no interruptions)\b/i;
 
 // Props must be simple, common household or bedroom items.
 const ALLOWED_PROPS = new Set([
@@ -115,6 +120,14 @@ describe('game card content policy', () => {
     ).toEqual([]);
   });
 
+  it('keeps prompts intimate or kink-adjacent instead of broad party-game filler', () => {
+    expect(
+      ALL_PLAYABLE_CARDS.filter((card) =>
+        GENERIC_PARTY_GAME_PATTERN.test(card.content)
+      ).map(describeCard)
+    ).toEqual([]);
+  });
+
   it('only requires simple, common props', () => {
     const badProps = ALL_PLAYABLE_CARDS.flatMap((card) =>
       (card.requires ?? [])
@@ -144,5 +157,24 @@ describe('game card content policy', () => {
     }
     const quickKink = MASTER_DECK.filter((card) => card.id.includes('-qk-'));
     expect(quickKink.length).toBeGreaterThanOrEqual(50);
+  });
+
+  it('keeps the requested clothing, swap, and prop themes represented', () => {
+    const deckText = MASTER_DECK.map((card) => card.content).join(' ');
+    for (const term of [
+      'lingerie',
+      'panties',
+      'bra',
+      'makeup',
+      'collar',
+      'leash',
+      'whip',
+      'paddle',
+      'Clothes Swap',
+      'Gender-Swap',
+      'Role Reversal',
+    ]) {
+      expect(deckText).toContain(term);
+    }
   });
 });

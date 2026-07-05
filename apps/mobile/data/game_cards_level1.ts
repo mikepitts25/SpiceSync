@@ -4,7 +4,8 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-002',
     type: 'truth',
-    content: 'What was your first impression of me? Be completely honest.',
+    content:
+      'What was the first physical detail about me that caught your attention? Be specific.',
     intensity: 1,
     category: 'communication',
     isPremium: false,
@@ -14,7 +15,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-t-004',
     type: 'truth',
     content:
-      'If you could only eat one type of cuisine for the rest of your life, which would you choose and why?',
+      'If I fed you one bite slowly right now, what would you want it to be?',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -24,7 +25,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-t-007',
     type: 'truth',
     content:
-      'If we could travel anywhere in the world together, where would you take me?',
+      'If we slipped away for one private minute right now, where would you take me?',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -34,7 +35,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-t-009',
     type: 'truth',
     content:
-      'What quality do you admire most in me that you wish you had more of?',
+      'What is one confident move I make that you secretly find attractive?',
     intensity: 1,
     category: 'communication',
     isPremium: false,
@@ -44,7 +45,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-t-011',
     type: 'truth',
     content:
-      'If you had to describe me to a stranger using only three words, what would they be?',
+      'Describe my flirt style in three words, then show me one of them.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -53,7 +54,8 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-015',
     type: 'truth',
-    content: 'If you could have any superpower, what would it be and why?',
+    content:
+      'If you could control one tiny thing about this round—my posture, my voice, or my hands—which would you choose?',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -83,7 +85,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-d-003',
     type: 'dare',
     content:
-      'Make the silliest face you can and hold it for 10 seconds while I take a mental picture.',
+      'Give me your most innocent face, then your most guilty face. Hold each for 5 seconds.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -103,7 +105,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-d-006',
     type: 'dare',
     content:
-      'Feed me a piece of fruit or chocolate—slowly, like in a romantic movie.',
+      'Feed me one bite of fruit or chocolate slowly, like you know I am watching your mouth.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -113,7 +115,8 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-d-007',
     type: 'dare',
-    content: 'Play with my hair for 1 minute while we talk about our day.',
+    content:
+      'Play with my hair for 1 minute while telling me exactly how you like me looking at you.',
     intensity: 1,
     category: 'physical',
     isPremium: false,
@@ -123,7 +126,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-d-008',
     type: 'dare',
     content:
-      'Give me three genuine compliments, each one about something different.',
+      'Give me three compliments: one sweet, one physical, and one that would make me blush.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -133,7 +136,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-d-009',
     type: 'dare',
     content:
-      'Kiss the back of my hand like a gentleman/lady from an old movie.',
+      'Kiss the back of my hand like you are asking permission to flirt harder.',
     intensity: 1,
     category: 'physical',
     isPremium: false,
@@ -143,7 +146,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-d-010',
     type: 'dare',
     content:
-      'Do your best impression of me—how I laugh, how I talk, how I move.',
+      'Swap flirt styles with me for 30 seconds: move, talk, and tease the way I do.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -153,7 +156,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-d-013',
     type: 'dare',
     content:
-      'Draw a heart on my palm with your finger and tell me what it represents to you.',
+      'Draw a tiny secret symbol on my palm and whisper what you want it to mean this round.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -162,7 +165,8 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-d-014',
     type: 'dare',
-    content: 'Give me a piggyback ride around the room while humming our song.',
+    content:
+      'Stand behind me, place your hands on my waist, and guide one slow turn like I am on display.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -206,7 +210,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-004',
     type: 'challenge',
     content:
-      'Question Game: Take turns asking each other questions. You must answer honestly. Go for 10 questions.',
+      'Quick Fire: Ask each other three flirty yes/no questions. No dodging, no explaining until the timer ends.',
     intensity: 1,
     category: 'communication',
     isPremium: false,
@@ -216,7 +220,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-005',
     type: 'challenge',
     content:
-      'Mirror Me: Copy everything I do for 1 minute—every movement, every expression. Try to make me laugh.',
+      'Mirror Me: Copy my slowest, most seductive movement for 1 minute. Then I copy yours.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -226,7 +230,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-006',
     type: 'challenge',
     content:
-      '20 Questions: Think of something, and I have 20 yes/no questions to guess what it is about you.',
+      '20 Questions: Pick one thing you want me to do to you right now. I get 20 yes/no questions to guess it.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -236,7 +240,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-007',
     type: 'challenge',
     content:
-      'Playlist Creation: Each of you adds 3 songs to a shared playlist that represents your relationship.',
+      'Soundtrack Swap: Each of you names one song that would make this room feel hotter right now.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -247,7 +251,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-009',
     type: 'challenge',
     content:
-      'Future Planning: Together, plan one small adventure or date you want to have in the next month.',
+      'Next Move: Each of you names one quick thing you want the other to do before the next draw.',
     intensity: 1,
     category: 'communication',
     isPremium: false,
@@ -267,7 +271,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-012',
     type: 'challenge',
     content:
-      'Story Building: Take turns adding one sentence to create a ridiculous story together. Make it as silly as possible.',
+      'Tease Story: Take turns adding one sentence to describe how this round gets more tempting.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -277,7 +281,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-013',
     type: 'challenge',
     content:
-      'Memory Lane: Share your favorite memory of us from each season of the year.',
+      'Memory Spark: Each of you names one moment when the other looked especially irresistible.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -287,7 +291,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-c-014',
     type: 'challenge',
     content:
-      'Thumb War Tournament: Best of 5 thumb wars. Winner gets to choose the next activity.',
+      "Hand Control: Thumb wrestle once. Winner places the loser's hand somewhere non-explicit for 10 seconds.",
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -297,7 +301,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-fn-003',
     type: 'fantasy',
     content:
-      'Describe our perfect lazy Sunday morning together—what time we wake up, what we eat, what we do.',
+      'Describe waking up next to me and the first teasing thing you would do before either of us gets up.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -307,7 +311,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-fn-006',
     type: 'fantasy',
     content:
-      'Describe the coziest possible evening we could have together right now.',
+      'Describe the coziest outfit you could put me in right now, then what you would adjust first.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -317,7 +321,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-fn-007',
     type: 'fantasy',
     content:
-      "Imagine we could teleport anywhere right now. Where do we land, and what's the first thing we do?",
+      "Imagine we could vanish for one private minute. Where do we land, and what's the first thing you whisper?",
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -374,7 +378,8 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-008',
     type: 'truth',
-    content: "What's your favorite song that reminds you of us?",
+    content:
+      'What sound from me—laugh, sigh, whisper, or breath—gets your attention fastest?',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -383,7 +388,8 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-010',
     type: 'truth',
-    content: "What's your favorite childhood memory?",
+    content:
+      'What is one innocent habit of mine that becomes distracting when you notice it?',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -401,7 +407,7 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-013',
     type: 'truth',
-    content: "What's something you've always wanted to learn or try?",
+    content: "What's one playful role swap you would try with me for 1 minute?",
     intensity: 1,
     category: 'communication',
     isPremium: false,
@@ -410,7 +416,8 @@ export const LEVEL1_CARDS: GameCard[] = [
   {
     id: 'lvl1-t-014',
     type: 'truth',
-    content: "What's the most romantic thing someone has ever done for you?",
+    content:
+      'What is one small seductive gesture from me that would feel romantic and dangerous at the same time?',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -490,7 +497,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-fn-001',
     type: 'fantasy',
     content:
-      "Imagine we're on a picnic in a beautiful garden. Describe what we'd eat, where we'd sit, and what we'd talk about.",
+      'Imagine we are alone on a blanket outside. Describe the teasing rule we both have to follow for 1 minute.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -510,7 +517,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-fn-004',
     type: 'fantasy',
     content:
-      "Imagine we're old and gray, sitting on our porch. What are we doing? What are we talking about?",
+      'Imagine I am dressed exactly how you like. What am I wearing, and what do you notice first?',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
@@ -520,7 +527,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-fn-005',
     type: 'fantasy',
     content:
-      "Pretend we're tourists in our own city. Where would you take me on a 'first date' exploring?",
+      "Pretend we're strangers at a hotel bar. Give me the first line that would make me stay.",
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -530,7 +537,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-fn-008',
     type: 'fantasy',
     content:
-      "Pretend we're characters in a romantic comedy. What would our 'meet cute' scene look like?",
+      "Pretend we're characters in a secret flirtation. What tiny signal tells me you want my attention?",
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -550,7 +557,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-rp-002',
     type: 'roleplay',
     content:
-      "Tour Guide: You're showing me around your hometown (or favorite place). Tell me all the special spots.",
+      'Stylist and Client: Adjust one part of my outfit and tell me why it looks better your way.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -560,7 +567,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-rp-003',
     type: 'roleplay',
     content:
-      "Chef and Food Critic: You've made me a special meal. Describe each dish with passion and flair.",
+      'Makeup Artist and Muse: Pretend to touch up my look with one fingertip, then show me the final pose.',
     intensity: 1,
     category: 'playful',
     isPremium: false,
@@ -580,7 +587,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-rp-005',
     type: 'roleplay',
     content:
-      "Pen Pals: We're writing letters to each other from different countries. What do you tell me about your life?",
+      'Secret Admirer: Deliver a 30-second confession about the part of me you cannot stop noticing.',
     intensity: 1,
     category: 'communication',
     isPremium: false,
@@ -590,7 +597,7 @@ export const LEVEL1_CARDS: GameCard[] = [
     id: 'lvl1-rp-007',
     type: 'roleplay',
     content:
-      "Book Club: We're discussing our favorite book. Convince me why I should read it.",
+      'Photographer and Model: Direct one pose, one look, and one expression. Keep it tasteful but charged.',
     intensity: 1,
     category: 'communication',
     isPremium: false,
