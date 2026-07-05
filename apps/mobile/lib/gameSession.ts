@@ -20,6 +20,12 @@ export type GameConsequence = {
   includesDrink: boolean;
 };
 
+export type GameRoundOutcome = {
+  nextTurnIndex: number;
+  consequence: GameConsequence | null;
+  requiresAcknowledgement: boolean;
+};
+
 type GameConsequenceTemplate = {
   id: string;
   includesDrink: boolean;
@@ -138,6 +144,32 @@ export function buildGameConsequence(
     id: consequence.id,
     text: consequence.build(turn),
     includesDrink: consequence.includesDrink,
+  };
+}
+
+export function resolveGameRoundOutcome({
+  turnIndex,
+  playerCount,
+  turn,
+  passed,
+  drinkingMode,
+  random = Math.random,
+}: {
+  turnIndex: number;
+  playerCount: number;
+  turn: GameTurn;
+  passed: boolean;
+  drinkingMode: boolean;
+  random?: () => number;
+}): GameRoundOutcome {
+  const consequence = passed
+    ? buildGameConsequence(turn, drinkingMode, random)
+    : null;
+
+  return {
+    nextTurnIndex: advanceGameTurnIndex(turnIndex, playerCount),
+    consequence,
+    requiresAcknowledgement: consequence !== null,
   };
 }
 

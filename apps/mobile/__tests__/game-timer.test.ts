@@ -11,7 +11,8 @@ describe('game card timer parsing', () => {
     expect(parseGameCardTimerSeconds('quick')).toBe(0);
   });
 
-  it('parses explicit countdown estimates', () => {
+  it('parses explicit countdown estimates from ten seconds through one minute', () => {
+    expect(parseGameCardTimerSeconds('10 sec')).toBe(10);
     expect(parseGameCardTimerSeconds('30 sec')).toBe(30);
     expect(parseGameCardTimerSeconds('1 min')).toBe(60);
     expect(parseGameCardTimerSeconds('5 min')).toBe(60);
@@ -28,20 +29,22 @@ describe('game card timer parsing', () => {
     ).toEqual([]);
   });
 
-  it('gives every playable card a quick 30- or 60-second countdown', () => {
-    // Every card is a quick game prompt now: estimatedTime is always
-    // '30 sec' or '1 min', so every draw gets a short countdown.
+  it('uses optional quick countdowns only when a card benefits from a timer', () => {
     expect(ALL_PLAYABLE_CARDS.length).toBeGreaterThan(0);
-    expect(
-      ALL_PLAYABLE_CARDS.filter(
-        (card) => !['30 sec', '1 min'].includes(card.estimatedTime)
-      )
-    ).toEqual([]);
+    expect(ALL_PLAYABLE_CARDS.some((card) => card.estimatedTime === 'N/A')).toBe(
+      true
+    );
     expect(
       ALL_PLAYABLE_CARDS.filter(
         (card) =>
-          ![30, 60].includes(parseGameCardTimerSeconds(card.estimatedTime))
+          !['N/A', '10 sec', '30 sec', '1 min'].includes(card.estimatedTime)
       )
+    ).toEqual([]);
+    expect(
+      ALL_PLAYABLE_CARDS.filter((card) => {
+        const seconds = parseGameCardTimerSeconds(card.estimatedTime);
+        return seconds !== 0 && (seconds < 10 || seconds > 60);
+      })
     ).toEqual([]);
   });
 

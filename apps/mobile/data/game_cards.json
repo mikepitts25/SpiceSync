@@ -293,14 +293,15 @@
     {
       "id": "p-d3",
       "type": "dare",
-      "content": "Tie my wrists with a scarf. 1 minute. Do whatever you want to me.",
+      "content": "Tie my wrists loosely with a scarf. For 1 minute, tease me with fingertips, eye contact, and your voice only.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
       "estimatedTime": "1 min",
       "requires": [
         "scarf"
-      ]
+      ],
+      "safetyNotes": "Keep any tie loose enough to slip out of instantly. Stop the moment anyone says stop."
     },
     {
       "id": "p-d5",
@@ -457,7 +458,7 @@
     {
       "id": "p-c10",
       "type": "challenge",
-      "content": "Hold Still: I do whatever I want to you for 1 minute. You are not allowed to move or make noise. If you do—you have to start over.",
+      "content": "Hold Still: For 1 minute, I give three above-the-waist touches: a shoulder squeeze, a slow collarbone trace, and a kiss near your neck. You stay still or say pause.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
@@ -1969,14 +1970,15 @@
     {
       "id": "lvl3-d-002",
       "type": "dare",
-      "content": "Blindfold me and explore my body with your hands and mouth for 1 minute. I can",
+      "content": "Blindfold me for 1 minute. Kiss one shoulder, trace both forearms with your fingertips, then whisper where your hands are going next.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
       "estimatedTime": "1 min",
       "requires": [
         "blindfold"
-      ]
+      ],
+      "safetyNotes": "Power play is by mutual agreement—either of you can pause or stop the scene at any time."
     },
     {
       "id": "lvl3-d-003",
@@ -2210,7 +2212,7 @@
     {
       "id": "lvl3-c-011",
       "type": "challenge",
-      "content": "Hold Still: I get to do whatever I want to you for 1 minute. You cannot move or make noise. Break the rules? Start over.",
+      "content": "Hold Still: For 1 minute, I trace one line down your arm, give one shoulder kiss, and whisper one instruction. You stay still or say pause.",
       "intensity": 3,
       "category": "intimate",
       "isPremium": true,
@@ -2543,20 +2545,20 @@
     {
       "id": "lvl4-d-001",
       "type": "dare",
-      "content": "Tie my wrists to the bed/frame with soft restraints. You have 1 minute to do whatever you want.",
+      "content": "Tie my wrists loosely with a soft scarf—loose enough to slip. For 1 minute, tease me with only fingertips and your voice.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
       "estimatedTime": "1 min",
       "requires": [
-        "restraints"
+        "scarf"
       ],
       "safetyNotes": "Use quick-release knots or safety clips. Never leave restrained partner unattended. Check circulation frequently."
     },
     {
       "id": "lvl4-d-002",
       "type": "dare",
-      "content": "Blindfold me completely. No peeking. Explore my body with various sensations for 1 minute.",
+      "content": "Blindfold me for 1 minute. Use three sensations in order: fingertip along my collarbone, soft fabric across my forearm, and warm breath near my ear. I guess each one.",
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
@@ -2734,7 +2736,7 @@
     {
       "id": "lvl4-c-003",
       "type": "challenge",
-      "content": "Sensory Deprivation: Blindfold and headphones on me. You have 1 minute to do whatever you want. I won",
+      "content": "Sensory Deprivation: Blindfold and headphones on me for 1 minute. Keep one hand on my shoulder, tap my palm twice, trace one line down my forearm, then remove both props and check in.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
@@ -2861,7 +2863,7 @@
     {
       "id": "lvl4-c-014",
       "type": "challenge",
-      "content": "Fear Play Lite: Blindfold me. Use unexpected touches, sounds, and sensations. Keep me on edge.",
+      "content": "Mystery Touch: Blindfold me for 1 minute. Touch my forearm or shoulder once with one object or one body part. I guess what touched me; wrong guess means I remove one clothing item, right guess means you remove one.",
       "intensity": 4,
       "category": "intimate",
       "isPremium": true,
@@ -2869,7 +2871,7 @@
       "requires": [
         "blindfold"
       ],
-      "safetyNotes": "Fear play requires high trust. Never truly endanger. Check in frequently."
+      "safetyNotes": "Keep objects clean, soft, and room temperature. Avoid startling, pain, or anything not agreed."
     },
     {
       "id": "lvl4-c-015",
@@ -3407,17 +3409,15 @@
     {
       "id": "lvl5-c-005",
       "type": "challenge",
-      "content": "Sensory deprivation extreme: Blindfold, earplugs, restraints. 1 hour. You control everything I experience.",
+      "content": "Sensory Dial: Blindfold me for 1 minute. Alternate one cool touch, one warm breath, one whispered word. I guess which comes next.",
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
       "estimatedTime": "1 min",
       "requires": [
-        "blindfold",
-        "earplugs",
-        "restraints"
+        "blindfold"
       ],
-      "safetyNotes": "Extended deprivation can cause disorientation. Never leave alone. Monitor for distress."
+      "safetyNotes": "Blindfold play stays brief. Keep the area clear and stop immediately on request."
     },
     {
       "id": "lvl5-c-006",

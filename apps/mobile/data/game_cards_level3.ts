@@ -9,7 +9,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-005',
@@ -18,27 +18,27 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-007',
     type: 'truth',
     content:
-      'If we were in a hotel room with thin walls and had to be quiet, how would you want me to take you?',
+      'In a hotel room with thin walls, what kind of quiet touch would build the most tension?',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-009',
     type: 'truth',
     content:
-      'Describe exactly how you want me to undress you right now, step by step.',
+      'Describe exactly how you like to be undressed, step by step.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-012',
@@ -48,7 +48,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-014',
@@ -58,7 +58,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-d-001',
@@ -218,7 +218,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-c-011',
     type: 'challenge',
     content:
-      'Hold Still: I get to do whatever I want to you for 1 minute. You cannot move or make noise. Break the rules? Start over.',
+      'Hold Still: For 1 minute, I trace one line down your arm, give one shoulder kiss, and whisper one instruction. You stay still or say pause.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
@@ -262,7 +262,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-rp-004',
@@ -313,36 +313,36 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-002',
     type: 'truth',
     content:
-      "What's a sexual boundary you have that you want me to know about?",
+      "What's a sexual boundary you want clearly understood?",
     intensity: 3,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-004',
     type: 'truth',
     content:
-      "What's something you've seen in a movie or read that you want to try with me?",
+      "What's something from a movie or book that sounds worth trying?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-006',
     type: 'truth',
-    content: "What's your favorite position with me and what makes it so good?",
+    content: "What position feels best to you, and what makes it so good?",
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-008',
@@ -352,7 +352,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-010',
@@ -362,7 +362,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-011',
@@ -372,7 +372,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-013',
@@ -382,7 +382,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-t-015',
@@ -392,13 +392,13 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'physical',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-d-002',
     type: 'dare',
     content:
-      "Blindfold me and explore my body with your hands and mouth for 1 minute. I can't see anything.",
+      'Blindfold me for 1 minute. Kiss one shoulder, trace both forearms with your fingertips, then whisper where your hands are going next.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
@@ -509,7 +509,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-fn-002',
@@ -519,7 +519,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-fn-003',
@@ -529,7 +529,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-fn-005',
@@ -539,7 +539,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-fn-006',
@@ -549,7 +549,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-fn-007',
@@ -559,7 +559,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-fn-008',
@@ -569,7 +569,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl3-rp-001',

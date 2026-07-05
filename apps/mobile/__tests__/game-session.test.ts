@@ -6,6 +6,7 @@ import {
   buildGameConsequence,
   buildGameShareMessage,
   buildDrinkConsequence,
+  resolveGameRoundOutcome,
   getGameTurn,
   normalizeGamePlayerCount,
   normalizeGamePlayers,
@@ -76,6 +77,43 @@ describe('game session helpers', () => {
 
     expect(consequence.includesDrink).toBe(true);
     expect(consequence.text).toBe('Alex takes a shot.');
+  });
+
+  it('completes a revealed card by advancing to the next player without an acknowledgement', () => {
+    const outcome = resolveGameRoundOutcome({
+      turnIndex: 0,
+      playerCount: 2,
+      turn: { player: 'Alex', target: 'Jordan', turnNumber: 1 },
+      passed: false,
+      drinkingMode: false,
+    });
+
+    expect(outcome).toEqual({
+      nextTurnIndex: 1,
+      consequence: null,
+      requiresAcknowledgement: false,
+    });
+  });
+
+  it('requires acknowledgement before continuing after a pass or risk', () => {
+    const outcome = resolveGameRoundOutcome({
+      turnIndex: 0,
+      playerCount: 2,
+      turn: { player: 'Alex', target: 'Jordan', turnNumber: 1 },
+      passed: true,
+      drinkingMode: false,
+      random: () => 0,
+    });
+
+    expect(outcome).toEqual({
+      nextTurnIndex: 1,
+      consequence: {
+        id: 'no-passes',
+        text: 'Alex cannot pass for the next 2 turns.',
+        includesDrink: false,
+      },
+      requiresAcknowledgement: true,
+    });
   });
 
   it('formats shared game prompts with the acting player and target', () => {

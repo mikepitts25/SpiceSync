@@ -43,21 +43,21 @@ export const FREE_CARDS: GameCard[] = [
   {
     id: 'f-t1',
     type: 'truth',
-    content: 'Tell me one thing you want me to do to you RIGHT NOW.',
+    content: 'Tell me one thing you want to happen RIGHT NOW.',
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-t2',
     type: 'truth',
     content:
-      'Name the exact thing I can do (or that I already do) that makes you lose control. Show me where.',
+      'Name one exact thing that makes you lose control. Show me where.',
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-t3',
@@ -67,7 +67,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-t5',
@@ -76,7 +76,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-d1',
@@ -133,7 +133,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: '30 sec',
   },
   {
     id: 'f-c3',
@@ -153,7 +153,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: '30 sec',
     requires: ['ice'],
   },
   {
@@ -163,7 +163,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-fn4',
@@ -172,7 +172,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-r2',
@@ -220,7 +220,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-t2',
@@ -230,17 +230,17 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-t3',
     type: 'truth',
     content:
-      'Where do you want me to kiss you when you want things to build slowly?',
+      'Where do you like to be kissed when you want things to build slowly?',
     intensity: 2,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-d1',
@@ -283,21 +283,21 @@ export const FREE_CARDS: GameCard[] = [
     id: 'f-n-c2',
     type: 'challenge',
     content:
-      'Compliment Ladder: Take turns giving compliments for 1 minute. No repeats.',
+      'Compliment Ladder: Take turns giving compliments for 30 seconds. No repeats.',
     intensity: 1,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: '30 sec',
   },
   {
     id: 'f-n-c3',
     type: 'challenge',
     content:
-      'Slow Dance: Hold me close and move together for 1 minute, with or without music.',
+      'Slow Dance: Hold me close and move together for 30 seconds, with or without music.',
     intensity: 2,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: '30 sec',
   },
   {
     id: 'f-n-f1',
@@ -307,7 +307,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-f2',
@@ -317,7 +317,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-r1',
@@ -343,11 +343,11 @@ export const FREE_CARDS: GameCard[] = [
     id: 'f-i-t1',
     type: 'truth',
     content:
-      'Do you like taking control, giving up control, or switching between both with me?',
+      'Do you like taking control, giving up control, or switching between both?',
     intensity: 4,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-t2',
@@ -357,7 +357,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-t3',
@@ -367,7 +367,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-t4',
@@ -377,13 +377,13 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 5,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-d1',
     type: 'dare',
     content:
-      'Blindfold me with a soft cloth and tease my senses for 1 minute. Check in first.',
+      'Blindfold me with a soft cloth for 1 minute. Trace my wrist to elbow, whisper one compliment, then brush fabric across my forearm. Check in first.',
     intensity: 4,
     category: 'physical',
     isPremium: false,
@@ -481,7 +481,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-f2',
@@ -491,7 +491,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-f3',
@@ -501,7 +501,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-r1',
@@ -542,17 +542,17 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-t5',
     type: 'truth',
     content:
-      'What is one flirty thing I do that you wish I would do more often?',
+      'What is one flirty thing that always gets your attention?',
     intensity: 2,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-t6',
@@ -562,7 +562,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-d4',
@@ -586,21 +586,21 @@ export const FREE_CARDS: GameCard[] = [
     id: 'f-n-d6',
     type: 'dare',
     content:
-      'Give me a neck and shoulder massage for 1 minute while keeping close.',
+      'Give me a neck and shoulder massage for 30 seconds while keeping close.',
     intensity: 2,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: '30 sec',
   },
   {
     id: 'f-n-c4',
     type: 'challenge',
     content:
-      'Temptation Timer: Try to make me smile, blush, or laugh in 1 minute.',
+      'Temptation Timer: Try to make me smile, blush, or laugh in 30 seconds.',
     intensity: 2,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: '30 sec',
   },
   {
     id: 'f-n-c5',
@@ -619,7 +619,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 3,
     category: 'playful',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-n-r3',
@@ -629,7 +629,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 2,
     category: 'physical',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: '30 sec',
   },
   {
     id: 'f-n-r4',
@@ -649,7 +649,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-t6',
@@ -659,7 +659,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-t7',
@@ -669,7 +669,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 5,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-t8',
@@ -679,7 +679,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 5,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-d6',
@@ -792,7 +792,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-f5',
@@ -802,7 +802,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-f6',
@@ -812,7 +812,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-f7',
@@ -822,7 +822,7 @@ export const FREE_CARDS: GameCard[] = [
     intensity: 5,
     category: 'emotional',
     isPremium: false,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'f-i-r4',
@@ -845,7 +845,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-t3',
@@ -855,27 +855,27 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-t4',
     type: 'truth',
     content:
-      'Tell me the one thing I do in bed that makes you lose control. Describe it in detail.',
+      'What is one thing in bed that makes you lose control? Describe it in detail.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-t6',
     type: 'truth',
     content:
-      'Describe your ideal quickie with me. Location, how it starts, and how it ends.',
+      'Describe your ideal quickie. Location, how it starts, and how it ends.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-t10',
@@ -885,7 +885,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-t11',
@@ -895,16 +895,16 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-t12',
     type: 'truth',
-    content: 'How do you want me to undress you right now? Walk me through it.',
+    content: 'How do you like to be undressed? Walk me through it.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-t14',
@@ -914,7 +914,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-d2',
@@ -1066,7 +1066,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     id: 'p-c10',
     type: 'challenge',
     content:
-      'Hold Still: I do whatever I want to you for 1 minute. You are not allowed to move or make noise. If you do—you have to start over.',
+      'Hold Still: For 1 minute, I give three above-the-waist touches: a shoulder squeeze, a slow collarbone trace, and a kiss near your neck. You stay still or say pause.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -1140,7 +1140,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-fn4',
@@ -1150,7 +1150,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'p-fn5',
@@ -1160,7 +1160,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'k-ch3',
@@ -1170,7 +1170,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'k-i1',
@@ -1292,7 +1292,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'k-g2',
@@ -1302,7 +1302,7 @@ export const PREMIUM_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
 ];
 

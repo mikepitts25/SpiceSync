@@ -16,7 +16,7 @@ export const VACATION_CARDS: GameCard[] = [
   { id: 'vac-d1', type: 'dare', content: "Beach strip: Remove one item like we're on a completely private beach. Make it dramatic.", intensity: 3, category: 'playful', isPremium: true, estimatedTime: '1 min' },
   { id: 'vac-d2', type: 'dare', content: "Pretend we're in a hot tub at a resort. Give me a 'underwater' massage with your hands.", intensity: 3, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
   { id: 'vac-d3', type: 'dare', content: "Whisper something dirty in my ear like you're trying to turn me on in a crowded tourist spot.", intensity: 3, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
-  { id: 'vac-d4', type: 'dare', content: "Pretend we're camping and need to stay quiet. Show me how you'd keep me silent.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
+  { id: 'vac-d4', type: 'dare', content: "Pretend we're camping and need to stay quiet. Put one finger near my lips, whisper the rule, then give me a silent 30-second kiss.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
   
   // ROLEPLAY
   { id: 'vac-r1', type: 'roleplay', content: "Hotel strangers: We just met at the hotel bar. You're trying to convince me to come to your room.", intensity: 4, category: 'playful', isPremium: true, estimatedTime: '1 min' },
@@ -46,7 +46,7 @@ export const KINKY201_CARDS: GameCard[] = [
   
   // DARE
   { id: 'k201-d1', type: 'dare', content: "Light bondage: Use a necktie to gently bind my wrists. Take control for 1 minute.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min', requires: ['necktie'] },
-  { id: 'k201-d2', type: 'dare', content: "Sensory deprivation: Blindfold me. You have 1 minute to do anything except penetrate.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min', requires: ['blindfold'] },
+  { id: 'k201-d2', type: 'dare', content: "Sensory deprivation: Blindfold me for 1 minute. Trace my forearm with fingertips, tap my shoulder twice, then guide my hand to your chest.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min', requires: ['blindfold'] },
   { id: 'k201-d3', type: 'dare', content: "Temperature play: Use ice on my skin, then warm breath, then your mouth. Alternate.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min', requires: ['ice'] },
   { id: 'k201-d4', type: 'dare', content: "Spanking session: 15 spanks, alternating intensity. I count and thank you after each.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
   { id: 'k201-d5', type: 'dare', content: "Orgasm denial: Bring me to the edge 3 times. I beg each time. You decide if I finish.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
@@ -58,7 +58,7 @@ export const KINKY201_CARDS: GameCard[] = [
   { id: 'k201-r3', type: 'roleplay', content: "Pet play: I'm your obedient pet. You pet me, reward me, discipline me. Use a collar if available.", intensity: 4, category: 'intimate', isPremium: true, estimatedTime: '1 min', requires: ['collar'] },
   
   // CHALLENGE
-  { id: 'k201-c1', type: 'challenge', content: "Submission challenge: For 1 minute, I cannot move without permission. You tease me relentlessly.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
+  { id: 'k201-c1', type: 'challenge', content: "Submission challenge: For 1 minute, I ask permission before moving. Give me three small commands: hands on thighs, eyes on you, hold still for a kiss.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
   { id: 'k201-c2', type: 'challenge', content: "Impact play: Use your hand, a paddle, or flogger. 20 strikes. I choose the intensity progression.", intensity: 5, category: 'intimate', isPremium: true, estimatedTime: '1 min' },
   
   // FANTASY

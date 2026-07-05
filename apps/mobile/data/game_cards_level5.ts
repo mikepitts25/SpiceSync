@@ -9,7 +9,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-t-003',
@@ -19,7 +19,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Keep this as fantasy/boundary talk inside the game. No third party is being invited or planned.',
   },
@@ -31,7 +31,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-t-007',
@@ -41,7 +41,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Blindfold and control play should stay brief, verbal, and easy to stop immediately.',
   },
@@ -53,7 +53,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-t-011',
@@ -63,7 +63,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Display and objectification play should be mutually wanted, reversible, and followed with genuine praise.',
   },
@@ -75,7 +75,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Discussion only. Do not act out CNC from a game card; keep consent explicit and easy to pause.',
   },
@@ -83,11 +83,11 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-t-015',
     type: 'truth',
     content:
-      'If you could push one boundary with me—agreed, safe, unhurried—which one? Why that one?',
+      'If you could push one boundary—agreed, safe, unhurried—which one? Why that one?',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-d-002',
@@ -373,7 +373,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-fn-002',
@@ -383,7 +383,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-fn-003',
@@ -393,7 +393,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Fantasy only. Do not involve or expose non-consenting people.',
   },
@@ -405,7 +405,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Fantasy and prop talk only. Do not escalate to risky play from this card.',
   },
@@ -417,7 +417,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-fn-007',
@@ -427,7 +427,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Keep display play private and mutually wanted. End with real praise.',
   },
@@ -439,7 +439,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-rp-002',
@@ -461,7 +461,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-t-004',
@@ -471,7 +471,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-t-006',
@@ -481,7 +481,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-t-008',
@@ -491,7 +491,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Psychological intensity should stay verbal, consensual, and easy to stop.',
   },
@@ -503,7 +503,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Discuss limits before any impact. In the game, keep it symbolic or featherlight.',
   },
@@ -514,7 +514,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-t-014',
@@ -524,7 +524,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-d-001',
@@ -569,7 +569,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
     safetyNotes: 'Discussion only. Do not act out CNC from a game card.',
   },
   {
@@ -604,7 +604,7 @@ export const LEVEL5_CARDS: GameCard[] = [
     intensity: 5,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl5-rp-005',

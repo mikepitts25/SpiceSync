@@ -9,7 +9,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-002',
@@ -19,7 +19,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-006',
@@ -29,7 +29,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-010',
@@ -39,7 +39,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
     safetyNotes:
       'Never leave a restrained person alone. Keep safety shears nearby. Check circulation.',
   },
@@ -51,27 +51,27 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-014',
     type: 'truth',
     content:
-      'Would you want me to mark you—hickeys, scratches, bites? Where and how visible?',
+      'Do visible or hidden marks sound exciting to you—hickeys, scratches, bites? Where would feel okay?',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-015',
     type: 'truth',
     content:
-      'Describe your ideal 1-minute dominant/submissive exchange with me. Who leads, and what is the first command?',
+      'Describe an ideal short dominant/submissive exchange. Who leads, and what is the first command?',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-d-001',
@@ -90,7 +90,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-d-002',
     type: 'dare',
     content:
-      'Blindfold me completely. No peeking. Explore my body with various sensations for 1 minute.',
+      'Blindfold me for 1 minute. Use three sensations in order: fingertip along my collarbone, soft fabric across my forearm, and warm breath near my ear. I guess each one.',
     intensity: 4,
     category: 'physical',
     isPremium: true,
@@ -145,7 +145,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: '10 sec',
     safetyNotes:
       'Wall holds are symbolic only. Keep pressure light, avoid the neck, and stop immediately on request.',
   },
@@ -253,14 +253,14 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-c-014',
     type: 'challenge',
     content:
-      'Mystery Sensation: Blindfold me. Use one safe texture, one whisper, and one fingertip touch. I guess each one.',
+      'Mystery Touch: Blindfold me for 1 minute. Touch my forearm or shoulder once with one object or one body part. I guess what touched me; wrong guess means I remove one clothing item, right guess means you remove one.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['blindfold'],
     safetyNotes:
-      'Keep the play area clear. Avoid startling, pain, or anything not agreed.',
+      'Keep objects clean, soft, and room temperature. Avoid startling, pain, or anything not agreed.',
   },
   {
     id: 'lvl4-c-015',
@@ -280,7 +280,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-rp-003',
@@ -316,21 +316,21 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-t-003',
     type: 'truth',
     content:
-      "Describe a specific power exchange scenario you'd want to try with me. Who has control?",
+      "Describe a specific power exchange scenario that sounds interesting. Who has control?",
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-004',
     type: 'truth',
     content:
-      "What's something you want me to do to you that requires complete trust?",
+      "What trust-based activity sounds exciting only with clear consent and limits?",
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-005',
@@ -340,7 +340,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-007',
@@ -350,17 +350,17 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-008',
     type: 'truth',
     content:
-      "Describe how you'd want me to take control of your pleasure completely. Every decision mine.",
+      "Describe what complete control of pleasure would look like in a safe, negotiated scene.",
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-009',
@@ -370,17 +370,17 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-011',
     type: 'truth',
     content:
-      "What's the most submissive thing you'd let me do to you right now?",
+      "What's a submissive act that sounds exciting in the right moment?",
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-t-013',
@@ -390,7 +390,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'communication',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-d-004',
@@ -455,7 +455,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-c-003',
     type: 'challenge',
     content:
-      "Sensory Deprivation: Blindfold and headphones on me. You have 1 minute to do whatever you want. I won't know what's coming.",
+      'Sensory Deprivation: Blindfold and headphones on me for 1 minute. Keep one hand on my shoulder, tap my palm twice, trace one line down my forearm, then remove both props and check in.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
@@ -517,7 +517,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-fn-002',
@@ -527,7 +527,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-fn-003',
@@ -537,7 +537,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-fn-004',
@@ -547,17 +547,17 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-fn-006',
     type: 'fantasy',
     content:
-      "Describe a punishment scene you'd find exciting. What did I do wrong? How do you correct me?",
+      "Describe a punishment scene that sounds exciting. What rule was broken, and what correction fits?",
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-fn-007',
@@ -567,7 +567,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-fn-008',
@@ -577,7 +577,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: 'N/A',
   },
   {
     id: 'lvl4-rp-001',
@@ -690,7 +690,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '1 min',
+    estimatedTime: '10 sec',
     requires: ['toy'],
   },
   {
@@ -748,7 +748,7 @@ export const LEVEL4_CARDS: GameCard[] = [
     intensity: 4,
     category: 'intimate',
     isPremium: true,
-    estimatedTime: '30 sec',
+    estimatedTime: '10 sec',
     requires: ['cuffs'],
     safetyNotes:
       'Keep any tie loose enough to slip out of instantly. Stop the moment anyone says stop.',

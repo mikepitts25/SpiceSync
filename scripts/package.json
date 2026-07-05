@@ -11,6 +11,7 @@
     "validate": "node card-manager.js validate",
     "search": "node card-manager.js search",
     "export": "node card-manager.js export",
-    "migrate": "node migrate-cards-to-json.js"
+    "migrate": "node migrate-cards-to-json.js",
+    "sync:translations": "node sync-game-card-translations.js"
   }
 }

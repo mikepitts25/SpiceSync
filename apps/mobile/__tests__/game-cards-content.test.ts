@@ -25,6 +25,12 @@ const CNC_ACTION_PATTERN =
 const LONG_DURATION_PATTERN =
   /\b(tonight|all day|all night|for the next hour|an hour|1 hour|24[- ]hours?|24\/7|weekend|this week|one week|for days|for the rest|rest of the (?:game|day|night|evening)|later today|before bed|future date|next (?:\d+|two|three|four|five) (?:turns?|rounds?)|\b(?:[2-9]|[1-9]\d)[- ]min(?:ute)?s?\b|esta noche|toda la noche|todo el d[ií]a|fin de semana|una hora|pr[oó]xim[oa]s? \d+ turnos)\b/i;
 
+// Action cards should give the acting player a concrete action. Open-ended
+// control language makes the game hard to play and pushes too much negotiation
+// into the middle of a round.
+const VAGUE_ACTION_PROMPT_PATTERN =
+  /\b(do whatever (?:you|i) want|do anything except|various sensations|tease my senses|tease me relentlessly|control everything i experience|explore my body)\b/i;
+
 // The game should not drift into broad party-game filler. Even the lowest
 // levels should stay flirty, intimate, or kink-adjacent.
 const GENERIC_PARTY_GAME_PATTERN =
@@ -80,12 +86,39 @@ describe('game card content policy', () => {
     expect(ALL_CARDS_ES.length).toBeGreaterThanOrEqual(80);
   });
 
-  it('uses only quick-play time estimates (30 sec or 1 min)', () => {
+  it('uses optional quick-play time estimates from ten seconds through one minute', () => {
     expect(
       ALL_PLAYABLE_CARDS.filter(
-        (card) => !['30 sec', '1 min'].includes(card.estimatedTime)
+        (card) =>
+          !['N/A', '10 sec', '30 sec', '1 min'].includes(card.estimatedTime)
       ).map(describeCard)
     ).toEqual([]);
+  });
+
+  it('leaves discussion cards untimed so players can talk naturally', () => {
+    expect(
+      MASTER_DECK.filter(
+        (card) =>
+          ['truth', 'fantasy'].includes(card.type) &&
+          card.estimatedTime !== 'N/A'
+      ).map(describeCard)
+    ).toEqual([]);
+  });
+
+  it('uses more general wording for preference questions when no direct action is needed', () => {
+    const card = MASTER_DECK.find((candidate) => candidate.id === 'f-n-t3');
+
+    expect(card?.content).toBe(
+      'Where do you like to be kissed when you want things to build slowly?'
+    );
+  });
+
+  it('keeps early physical prompts short enough not to feel too intense', () => {
+    const cardById = new Map(MASTER_DECK.map((card) => [card.id, card]));
+
+    expect(cardById.get('f-n-c3')?.estimatedTime).toBe('30 sec');
+    expect(cardById.get('lvl2-d-008')?.estimatedTime).toBe('30 sec');
+    expect(cardById.get('lvl2-d-012')?.estimatedTime).toBe('30 sec');
   });
 
   it('never instructs sex acts on action cards', () => {
@@ -118,6 +151,22 @@ describe('game card content policy', () => {
         LONG_DURATION_PATTERN.test(card.content)
       ).map(describeCard)
     ).toEqual([]);
+  });
+
+  it('makes action prompts specific instead of open-ended', () => {
+    expect(
+      ACTION_CARDS.filter((card) =>
+        VAGUE_ACTION_PROMPT_PATTERN.test(card.content)
+      ).map(describeCard)
+    ).toEqual([]);
+  });
+
+  it('keeps the level 4 blindfold mystery challenge guess-based', () => {
+    const card = MASTER_DECK.find((candidate) => candidate.id === 'lvl4-c-014');
+
+    expect(card?.content).toBe(
+      'Mystery Touch: Blindfold me for 1 minute. Touch my forearm or shoulder once with one object or one body part. I guess what touched me; wrong guess means I remove one clothing item, right guess means you remove one.'
+    );
   });
 
   it('keeps prompts intimate or kink-adjacent instead of broad party-game filler', () => {
