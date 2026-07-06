@@ -5689,5 +5689,365 @@
       "Go slowly around sensitive areas and keep the skin taut.",
       "Skip shaving over irritated or broken skin."
     ]
+  },
+  {
+    "id": "0373",
+    "slug": "clothes-swap-play",
+    "title": "Clothes Swap Play",
+    "titleEs": "Juego de Intercambio de Ropa",
+    "description": "Trading one visible clothing item or signature accessory to borrow a different look, scent, or attitude.",
+    "descriptionEs": "Intercambiar una prenda visible o accesorio característico para adoptar otra imagen, aroma o actitud.",
+    "tags": [
+      "clothing",
+      "swap",
+      "presentation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0374",
+    "slug": "gender-expression-swap",
+    "title": "Gender-Expression Swap",
+    "titleEs": "Intercambio de Expresión de Género",
+    "description": "Trying a different presentation style through clothing, posture, voice, makeup, or flirt energy in a respectful way.",
+    "descriptionEs": "Probar un estilo de presentación distinto mediante ropa, postura, voz, maquillaje o energía de coqueteo de forma respetuosa.",
+    "tags": [
+      "gender",
+      "presentation",
+      "role-swap"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true,
+    "consentPrompts": [
+      "What feels affirming or exciting about changing presentation?",
+      "What would feel mocking or uncomfortable?"
+    ]
+  },
+  {
+    "id": "0375",
+    "slug": "underwear-panty-play",
+    "title": "Underwear & Panty Play",
+    "titleEs": "Juego con Ropa Interior y Panties",
+    "description": "Clean underwear, panties, briefs, or lingerie become teasing props for styling, reveals, and private admiration.",
+    "descriptionEs": "Ropa interior limpia, panties, bóxers o lencería se convierten en accesorios de provocación, estilo, revelación y admiración privada.",
+    "tags": [
+      "underwear",
+      "panties",
+      "lingerie"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0376",
+    "slug": "bra-cleavage-teasing",
+    "title": "Bra & Cleavage Teasing",
+    "titleEs": "Provocación con Brasier y Escote",
+    "description": "Bras, bralettes, cleavage lines, straps, and reveal timing used as visual teasing and presentation play.",
+    "descriptionEs": "Brasieres, bralettes, líneas de escote, tirantes y momentos de revelación usados como provocación visual y juego de presentación.",
+    "tags": [
+      "bra",
+      "cleavage",
+      "teasing"
+    ],
+    "category": "sensory",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0377",
+    "slug": "makeup-play",
+    "title": "Makeup Play",
+    "titleEs": "Juego con Maquillaje",
+    "description": "Lipstick, eyeliner, blush, shimmer, or smudged marks used for transformation, flirting, or light control.",
+    "descriptionEs": "Labial, delineador, rubor, brillo o marcas difuminadas usados para transformación, coqueteo o control ligero.",
+    "tags": [
+      "makeup",
+      "lipstick",
+      "transformation"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true,
+    "prep": [
+      "Use clean products and avoid anything that irritates skin or eyes."
+    ]
+  },
+  {
+    "id": "0378",
+    "slug": "nail-polish-play",
+    "title": "Nail Polish Play",
+    "titleEs": "Juego con Esmalte de Uñas",
+    "description": "Painting one nail, choosing a color, or using hands as a tiny display of care, control, or flirtation.",
+    "descriptionEs": "Pintar una uña, elegir un color o usar las manos como una pequeña muestra de cuidado, control o coqueteo.",
+    "tags": [
+      "nails",
+      "grooming",
+      "presentation"
+    ],
+    "category": "sensory",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
+  },
+  {
+    "id": "0379",
+    "slug": "inspection-play",
+    "title": "Inspection Play",
+    "titleEs": "Juego de Inspección",
+    "description": "A slow, consensual check of posture, outfit, grooming, or rules with clear praise and adjustments.",
+    "descriptionEs": "Una revisión lenta y consensuada de postura, ropa, arreglo o reglas con elogios claros y ajustes.",
+    "tags": [
+      "inspection",
+      "control",
+      "presentation"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true,
+    "riskLevel": "low",
+    "consentPrompts": [
+      "Which details feel good to have noticed?",
+      "What kinds of criticism are off-limits?"
+    ]
+  },
+  {
+    "id": "0380",
+    "slug": "presentation-play",
+    "title": "Presentation Play",
+    "titleEs": "Juego de Presentación",
+    "description": "Being posed, displayed, modeled, or admired as a chosen object of attention for a short, agreed moment.",
+    "descriptionEs": "Posar, exhibirse, modelar o ser admirado como objeto elegido de atención durante un momento breve y acordado.",
+    "tags": [
+      "display",
+      "posing",
+      "admiration"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0381",
+    "slug": "ownership-language",
+    "title": "Ownership Language",
+    "titleEs": "Lenguaje de Pertenencia",
+    "description": "Words like mine, claimed, chosen, or belonging used as consensual verbal intensity without changing real autonomy.",
+    "descriptionEs": "Palabras como mío, marcada, elegido o pertenencia usadas como intensidad verbal consensuada sin cambiar la autonomía real.",
+    "tags": [
+      "ownership",
+      "language",
+      "control"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true,
+    "consentPrompts": [
+      "Which ownership words feel exciting?",
+      "Which words feel too real or uncomfortable?"
+    ]
+  },
+  {
+    "id": "0382",
+    "slug": "command-voice",
+    "title": "Command Voice",
+    "titleEs": "Voz de Mando",
+    "description": "Tone, pacing, and short instructions used to create authority, anticipation, or obedience energy.",
+    "descriptionEs": "Tono, ritmo e instrucciones breves usados para crear autoridad, anticipación o energía de obediencia.",
+    "tags": [
+      "voice",
+      "commands",
+      "authority"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0383",
+    "slug": "role-reversal",
+    "title": "Role Reversal",
+    "titleEs": "Inversión de Roles",
+    "description": "Swapping the usual lead, follow, tease, or service energy to discover how a different role feels.",
+    "descriptionEs": "Invertir la energía habitual de liderazgo, seguimiento, provocación o servicio para descubrir cómo se siente otro rol.",
+    "tags": [
+      "role-swap",
+      "switch",
+      "dynamics"
+    ],
+    "category": "roleplay",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0384",
+    "slug": "toy-presentation",
+    "title": "Toy Presentation",
+    "titleEs": "Presentación de Juguetes",
+    "description": "Choosing, displaying, or handing over a toy as anticipation, ceremony, or negotiation before any use.",
+    "descriptionEs": "Elegir, exhibir o entregar un juguete como anticipación, ceremonia o negociación antes de cualquier uso.",
+    "tags": [
+      "toys",
+      "anticipation",
+      "ceremony"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0385",
+    "slug": "toy-denial",
+    "title": "Toy Denial",
+    "titleEs": "Negación con Juguetes",
+    "description": "A toy stays visible but off-limits, creating anticipation through permission, delay, or playful rules.",
+    "descriptionEs": "Un juguete permanece visible pero fuera de límites, creando anticipación mediante permiso, demora o reglas juguetonas.",
+    "tags": [
+      "toys",
+      "denial",
+      "anticipation"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0386",
+    "slug": "paddle-whip-presence",
+    "title": "Paddle & Whip Presence",
+    "titleEs": "Presencia de Pala y Látigo",
+    "description": "A paddle, crop, or soft whip adds ceremony, attention, and threat of intensity without requiring impact.",
+    "descriptionEs": "Una pala, fusta o látigo suave añade ceremonia, atención y amenaza de intensidad sin requerir impacto.",
+    "tags": [
+      "paddle",
+      "whip",
+      "props"
+    ],
+    "category": "props_and_toys",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true,
+    "riskLevel": "medium",
+    "safetyNotes": [
+      "Treat impact props as symbolic until boundaries, target areas, and intensity are clearly agreed."
+    ]
+  },
+  {
+    "id": "0387",
+    "slug": "consent-card",
+    "title": "Consent Card",
+    "titleEs": "Tarjeta de Consentimiento",
+    "description": "A written green, yellow, and red boundary card that makes desires, limits, and check-ins easy to review.",
+    "descriptionEs": "Una tarjeta escrita con límites verdes, amarillos y rojos que facilita revisar deseos, límites y pausas de comunicación.",
+    "tags": [
+      "consent",
+      "boundaries",
+      "communication"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
+  },
+  {
+    "id": "0388",
+    "slug": "fantasy-confession",
+    "title": "Fantasy Confession",
+    "titleEs": "Confesión de Fantasía",
+    "description": "A private fantasy is named and labelled as fantasy-only, curious, or wanted, without pressure to act.",
+    "descriptionEs": "Una fantasía privada se nombra y etiqueta como solo fantasía, curiosidad o deseo, sin presión para actuar.",
+    "tags": [
+      "fantasy",
+      "confession",
+      "privacy"
+    ],
+    "category": "communication",
+    "intensityScale": 2,
+    "tier": "naughty",
+    "pairMode": true
+  },
+  {
+    "id": "0389",
+    "slug": "kink-archetype-quiz",
+    "title": "Kink Archetype Quiz",
+    "titleEs": "Quiz de Arquetipos Kink",
+    "description": "A playful profile check for sensory seeker, service lover, brat, switch, dominant, submissive, or explorer energy.",
+    "descriptionEs": "Un perfil lúdico para explorar energía sensorial, de servicio, brat, switch, dominante, sumisa o exploradora.",
+    "tags": [
+      "quiz",
+      "archetypes",
+      "compatibility"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
+  },
+  {
+    "id": "0390",
+    "slug": "scene-proposal",
+    "title": "Scene Proposal",
+    "titleEs": "Propuesta de Escena",
+    "description": "A short pitch for a future scene: mood, roles, props, boundaries, and aftercare before any planning.",
+    "descriptionEs": "Una propuesta breve para una escena futura: ambiente, roles, accesorios, límites y cuidado posterior antes de planear.",
+    "tags": [
+      "planning",
+      "scene",
+      "negotiation"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
+  },
+  {
+    "id": "0391",
+    "slug": "reassurance-kink",
+    "title": "Reassurance Kink",
+    "titleEs": "Kink de Reafirmación",
+    "description": "Praise, calming words, and emotional rebuilding become part of the turn-on, especially after vulnerability.",
+    "descriptionEs": "Los elogios, palabras calmantes y reconstrucción emocional se vuelven parte de la excitación, especialmente tras la vulnerabilidad.",
+    "tags": [
+      "reassurance",
+      "praise",
+      "aftercare"
+    ],
+    "category": "aftercare",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
+  },
+  {
+    "id": "0392",
+    "slug": "prop-boundary-check",
+    "title": "Prop Boundary Check",
+    "titleEs": "Chequeo de Límites con Accesorios",
+    "description": "A quick yes, maybe, or no sorting of props such as blindfolds, collars, leashes, paddles, makeup, and toys.",
+    "descriptionEs": "Una clasificación rápida de sí, quizás o no para accesorios como vendas, collares, correas, palas, maquillaje y juguetes.",
+    "tags": [
+      "props",
+      "boundaries",
+      "consent"
+    ],
+    "category": "communication",
+    "intensityScale": 1,
+    "tier": "soft",
+    "pairMode": true
   }
 ]

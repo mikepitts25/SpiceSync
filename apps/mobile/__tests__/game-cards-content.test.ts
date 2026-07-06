@@ -1,4 +1,5 @@
 import { MASTER_DECK, type GameCard } from '../data/gameCards';
+import { ALL_CARDS_FROM_JSON } from '../data/cardLoader';
 import { ALL_CARDS_ES } from '../data/gameCards.es';
 
 const ALL_PLAYABLE_CARDS: GameCard[] = [...MASTER_DECK, ...ALL_CARDS_ES];
@@ -6,6 +7,10 @@ const ACTION_TYPES = new Set(['dare', 'challenge', 'roleplay']);
 const ACTION_CARDS = ALL_PLAYABLE_CARDS.filter((card) =>
   ACTION_TYPES.has(card.type)
 );
+const EXPECTED_PROP_BOUNDARY_CONTENT =
+  'Prop Boundary Check: Player up picks one prop—collar, leash, whip, paddle, lingerie, or makeup. Both players answer yes, maybe, or no. Use that prop later only if both say yes or maybe.';
+const EXPECTED_PROP_BOUNDARY_SAFETY =
+  'Boundary talk only. A no ends the topic without debate; do not use that prop during the game.';
 
 // Explicit sex-act instructions are never allowed on action cards (dare,
 // challenge, roleplay). Truth/fantasy cards may discuss desires in words,
@@ -159,6 +164,20 @@ describe('game card content policy', () => {
         VAGUE_ACTION_PROMPT_PATTERN.test(card.content)
       ).map(describeCard)
     ).toEqual([]);
+  });
+
+  it('makes the prop boundary challenge explicit about action and outcome', () => {
+    const runtimeCard = MASTER_DECK.find(
+      (candidate) => candidate.id === 'lvl5-c-007'
+    );
+    const jsonCard = ALL_CARDS_FROM_JSON.find(
+      (candidate) => candidate.id === 'lvl5-c-007'
+    );
+
+    expect(runtimeCard?.content).toBe(EXPECTED_PROP_BOUNDARY_CONTENT);
+    expect(runtimeCard?.safetyNotes).toBe(EXPECTED_PROP_BOUNDARY_SAFETY);
+    expect(jsonCard?.content).toBe(EXPECTED_PROP_BOUNDARY_CONTENT);
+    expect(jsonCard?.safetyNotes).toBe(EXPECTED_PROP_BOUNDARY_SAFETY);
   });
 
   it('keeps the level 4 blindfold mystery challenge guess-based', () => {

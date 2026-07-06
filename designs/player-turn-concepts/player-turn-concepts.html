@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpiceSync Player Turn Concepts</title>
+    <style>
+      :root {
+        --bg: #090008;
+        --panel: #170813;
+        --panel-2: #22111c;
+        --line: rgba(255, 255, 255, 0.1);
+        --line-hot: rgba(255, 45, 146, 0.44);
+        --pink: #ff2d92;
+        --pink-2: #ff4faf;
+        --red: #ff453a;
+        --orange: #ff9b2f;
+        --violet: #8b5cf6;
+        --cyan: #28d8ff;
+        --mint: #39e6a6;
+        --text: #fff7fb;
+        --sub: #cdbac8;
+        --muted: #8f7c8a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        width: 590px;
+        height: 1280px;
+        overflow: hidden;
+        background: var(--bg);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        letter-spacing: 0;
+      }
+
+      .screen {
+        display: none;
+        position: relative;
+        width: 590px;
+        height: 1280px;
+        overflow: hidden;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 14% 2%, rgba(139, 92, 246, 0.18), transparent 18%),
+          radial-gradient(circle at 86% 8%, rgba(255, 45, 146, 0.16), transparent 20%),
+          linear-gradient(180deg, #070006 0%, #14000d 52%, #050004 100%);
+      }
+
+      .screen.active {
+        display: block;
+      }
+
+      .screen::before {
+        content: "";
+        position: absolute;
+        inset: -180px -80px auto;
+        height: 370px;
+        background:
+          radial-gradient(circle at 30% 60%, rgba(255, 45, 146, 0.14), transparent 20%),
+          radial-gradient(circle at 70% 40%, rgba(255, 155, 47, 0.08), transparent 18%);
+        filter: blur(20px);
+      }
+
+      .safe {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        padding: 34px 22px 28px;
+      }
+
+      .status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 28px;
+        padding: 0 12px;
+        color: white;
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .signals {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .battery {
+        border: 2px solid white;
+        border-radius: 7px;
+        padding: 1px 6px;
+        font-size: 14px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 44px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+      }
+
+      .logo {
+        font-size: 31px;
+        font-weight: 950;
+        color: var(--pink);
+        text-shadow: 0 0 18px rgba(255, 45, 146, 0.42);
+      }
+
+      .logo span {
+        color: #9a6dff;
+      }
+
+      .tagline {
+        margin-left: 23px;
+        margin-top: 3px;
+        color: rgba(255, 255, 255, 0.28);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 4px;
+      }
+
+      .menu {
+        width: 48px;
+        height: 48px;
+        border-radius: 24px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+        font-size: 26px;
+        font-weight: 900;
+      }
+
+      .game-title {
+        margin-top: 38px;
+        min-height: 76px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.035);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 16px;
+      }
+
+      .eyebrow {
+        color: var(--muted);
+        font-size: 22px;
+        line-height: 23px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .mode {
+        color: var(--text);
+        font-size: 26px;
+        line-height: 28px;
+        font-weight: 950;
+      }
+
+      .end {
+        min-height: 48px;
+        border-radius: 24px;
+        padding: 0 19px;
+        display: grid;
+        place-items: center;
+        color: var(--sub);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 21px;
+        font-weight: 900;
+      }
+
+      .title-drink {
+        min-height: 38px;
+        border-radius: 19px;
+        padding: 0 15px;
+        display: grid;
+        place-items: center;
+        color: var(--pink-2);
+        border: 1px solid rgba(255, 45, 146, 0.34);
+        background: rgba(255, 45, 146, 0.16);
+        font-size: 18px;
+        font-weight: 950;
+      }
+
+      .game-card {
+        margin-top: 14px;
+        min-height: 704px;
+        border-radius: 30px;
+        border: 2px solid rgba(255, 45, 146, 0.34);
+        background:
+          linear-gradient(180deg, rgba(255, 45, 146, 0.07), transparent 14%),
+          rgba(18, 0, 12, 0.92);
+        box-shadow:
+          0 0 0 1px rgba(255, 69, 58, 0.16),
+          0 18px 50px rgba(255, 45, 146, 0.08);
+        overflow: hidden;
+      }
+
+      .hot-line {
+        height: 5px;
+        background: linear-gradient(90deg, var(--pink), var(--orange), var(--red));
+        box-shadow: 0 0 16px rgba(255, 45, 146, 0.68);
+      }
+
+      .inner {
+        padding: 20px 26px 24px;
+      }
+
+      .language {
+        width: 142px;
+        height: 48px;
+        margin: 20px auto 22px;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .language div {
+        display: grid;
+        place-items: center;
+        font-size: 19px;
+        font-weight: 950;
+        color: var(--muted);
+      }
+
+      .language .active-lang {
+        color: white;
+        background: rgba(255, 45, 146, 0.36);
+      }
+
+      .mystery {
+        height: 308px;
+        border-radius: 26px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.045);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 30px;
+      }
+
+      .accent {
+        width: 84px;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--pink), var(--orange));
+        margin: 0 auto 16px;
+      }
+
+      .mystery .kicker {
+        color: var(--muted);
+        font-size: 20px;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .mystery .title {
+        margin-top: 10px;
+        font-size: 46px;
+        line-height: 50px;
+        font-weight: 950;
+      }
+
+      .mystery .body {
+        margin-top: 18px;
+        color: var(--sub);
+        font-size: 22px;
+        line-height: 30px;
+        font-weight: 750;
+      }
+
+      .bottom-tabs {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 28px;
+        height: 78px;
+        border-radius: 39px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.055);
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+      }
+
+      .tab {
+        color: var(--muted);
+        font-size: 10px;
+        text-align: center;
+        font-weight: 850;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+
+      .tab .icon {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 22px;
+        line-height: 22px;
+      }
+
+      .tab.active {
+        min-height: 64px;
+        margin-right: 6px;
+        border-radius: 32px;
+        background: var(--pink);
+        color: white;
+        display: grid;
+        place-items: center;
+      }
+
+      .turn-spotlight {
+        position: relative;
+        border-radius: 24px;
+        padding: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background:
+          radial-gradient(circle at 18% 20%, rgba(255, 45, 146, 0.22), transparent 30%),
+          radial-gradient(circle at 83% 22%, rgba(40, 216, 255, 0.18), transparent 30%),
+          rgba(255, 255, 255, 0.04);
+      }
+
+      .spot-row {
+        display: grid;
+        grid-template-columns: 1fr 70px 1fr;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .stage-card {
+        min-height: 112px;
+        border-radius: 22px;
+        padding: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.22);
+      }
+
+      .stage-card.lead {
+        background:
+          linear-gradient(180deg, rgba(255, 45, 146, 0.18), rgba(255, 45, 146, 0.05)),
+          rgba(0, 0, 0, 0.24);
+      }
+
+      .stage-card.target {
+        background:
+          linear-gradient(180deg, rgba(40, 216, 255, 0.14), rgba(40, 216, 255, 0.04)),
+          rgba(0, 0, 0, 0.24);
+      }
+
+      .role {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .name {
+        margin-top: 8px;
+        font-size: 31px;
+        line-height: 34px;
+        font-weight: 950;
+      }
+
+      .subline {
+        margin-top: 8px;
+        color: var(--sub);
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 800;
+      }
+
+      .arrow-orb {
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 31px;
+        font-weight: 950;
+        background: linear-gradient(135deg, var(--pink), var(--orange));
+        box-shadow: 0 0 24px rgba(255, 45, 146, 0.46);
+      }
+
+      .turn-caption {
+        margin-top: 15px;
+        min-height: 44px;
+        border-radius: 22px;
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 19px;
+        line-height: 22px;
+        font-weight: 900;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .drink-pill {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        padding: 7px 13px;
+        border-radius: 999px;
+        background: rgba(255, 45, 146, 0.22);
+        border: 1px solid rgba(255, 45, 146, 0.34);
+        color: var(--pink-2);
+        font-size: 17px;
+        font-weight: 950;
+      }
+
+      .wheel-panel {
+        border-radius: 24px;
+        padding: 18px 16px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background:
+          radial-gradient(circle at center, rgba(255, 45, 146, 0.16), transparent 58%),
+          rgba(255, 255, 255, 0.04);
+      }
+
+      .wheel-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .wheel {
+        position: relative;
+        width: 210px;
+        height: 210px;
+        margin: 12px auto 6px;
+        border-radius: 105px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        background:
+          conic-gradient(from -40deg, rgba(255, 45, 146, 0.62), rgba(255, 155, 47, 0.2), rgba(40, 216, 255, 0.35), rgba(139, 92, 246, 0.2), rgba(255, 45, 146, 0.62)),
+          rgba(0, 0, 0, 0.28);
+        box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .wheel::after {
+        content: "";
+        position: absolute;
+        inset: 42px;
+        border-radius: 84px;
+        background: #150711;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .chip {
+        position: absolute;
+        z-index: 1;
+        width: 78px;
+        height: 78px;
+        border-radius: 39px;
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 17px;
+        font-weight: 950;
+        border: 2px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.09);
+      }
+
+      .chip.one {
+        left: 66px;
+        top: -7px;
+        background: linear-gradient(180deg, var(--pink), #9d0a52);
+      }
+
+      .chip.two {
+        right: -4px;
+        bottom: 38px;
+        background: linear-gradient(180deg, var(--cyan), #17657c);
+      }
+
+      .chip.three {
+        left: -4px;
+        bottom: 38px;
+      }
+
+      .center-lock {
+        position: absolute;
+        z-index: 2;
+        inset: 74px;
+        border-radius: 31px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #1b0b15, #2b1021);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--pink);
+        font-size: 28px;
+        font-weight: 950;
+      }
+
+      .wheel-copy {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .wheel-box {
+        min-height: 76px;
+        border-radius: 18px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.055);
+      }
+
+      .wheel-box b {
+        display: block;
+        font-size: 15px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      .wheel-box span {
+        display: block;
+        margin-top: 5px;
+        font-size: 24px;
+        font-weight: 950;
+      }
+
+      .mission {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background:
+          linear-gradient(135deg, rgba(255, 45, 146, 0.16), rgba(139, 92, 246, 0.08)),
+          rgba(255, 255, 255, 0.045);
+      }
+
+      .mission-top {
+        min-height: 86px;
+        padding: 18px 18px 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .mission-number {
+        color: var(--orange);
+        font-size: 15px;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .mission-title {
+        margin-top: 4px;
+        font-size: 34px;
+        line-height: 36px;
+        font-weight: 950;
+      }
+
+      .mission-body {
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .mission-strip {
+        min-height: 92px;
+        border-radius: 20px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(0, 0, 0, 0.22);
+      }
+
+      .mission-strip .label {
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .mission-strip .person {
+        margin-top: 4px;
+        font-size: 30px;
+        font-weight: 950;
+      }
+
+      .mission-arrow {
+        width: 58px;
+        height: 58px;
+        border-radius: 29px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 45, 146, 0.2);
+        color: var(--pink);
+        font-size: 30px;
+        font-weight: 950;
+      }
+
+      .mission-brief {
+        min-height: 66px;
+        border-radius: 18px;
+        padding: 12px 15px;
+        color: var(--sub);
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 800;
+        background: rgba(255, 255, 255, 0.055);
+      }
+
+      .mission-footer {
+        display: flex;
+        gap: 10px;
+      }
+
+      .mini-pill {
+        flex: 1;
+        min-height: 42px;
+        border-radius: 21px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--sub);
+        font-size: 15px;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .mini-pill.hot {
+        color: white;
+        background: linear-gradient(90deg, var(--pink), var(--orange));
+      }
+
+      .idea-label {
+        position: absolute;
+        left: 38px;
+        top: 84px;
+        z-index: 3;
+        padding: 6px 10px;
+        border-radius: 14px;
+        color: white;
+        background: rgba(0, 0, 0, 0.42);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 12px;
+        font-weight: 950;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="screen" id="spotlight">
+      <div class="idea-label">Option A · Spotlight Duel</div>
+      <div class="safe">
+        <div class="status"><span>10:37</span><span class="signals">▮▮▮ Wi-Fi <span class="battery">74</span></span></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">Spice<span>Sync</span></div>
+            <div class="tagline">DISCOVER TOGETHER</div>
+          </div>
+          <div class="menu">≡</div>
+        </div>
+        <div class="game-title">
+          <div><div class="eyebrow">Game Night</div><div class="mode">Intense</div></div>
+          <div class="title-drink">Drinking</div>
+          <div class="end">End Game</div>
+        </div>
+        <div class="game-card">
+          <div class="hot-line"></div>
+          <div class="inner">
+            <div class="turn-spotlight">
+              <div class="spot-row">
+                <div class="stage-card lead">
+                  <div class="role">Player up</div>
+                  <div class="name">Player 1</div>
+                </div>
+                <div class="arrow-orb">→</div>
+                <div class="stage-card target">
+                  <div class="role">Target</div>
+                  <div class="name">Player 2</div>
+                </div>
+              </div>
+            </div>
+            <div class="language"><div class="active-lang">EN</div><div>ES</div></div>
+            <div class="mystery">
+              <div>
+                <div class="accent"></div>
+                <div class="kicker">Mystery card</div>
+                <div class="title">Tap to Spin</div>
+                <div class="body">The next card stays hidden until the roulette lands.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-tabs">
+          <div class="tab"><span class="icon">♙</span>Profiles</div>
+          <div class="tab"><span class="icon">▱</span>Deck</div>
+          <div class="tab"><span class="icon">♡</span>Matches</div>
+          <div class="tab"><span class="icon">◔</span>Convo</div>
+          <div class="tab active"><span class="icon">▣</span>Game</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="wheel">
+      <div class="idea-label">Option B · Turn Wheel</div>
+      <div class="safe">
+        <div class="status"><span>10:37</span><span class="signals">▮▮▮ Wi-Fi <span class="battery">74</span></span></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">Spice<span>Sync</span></div>
+            <div class="tagline">DISCOVER TOGETHER</div>
+          </div>
+          <div class="menu">≡</div>
+        </div>
+        <div class="game-title">
+          <div><div class="eyebrow">Game Night</div><div class="mode">Intense</div></div>
+          <div class="end">End Game</div>
+        </div>
+        <div class="game-card">
+          <div class="hot-line"></div>
+          <div class="inner">
+            <div class="wheel-panel">
+              <div class="wheel-title"><span>Player turn</span><span>Drinking</span></div>
+              <div class="wheel">
+                <div class="chip one">P1</div>
+                <div class="chip two">P2</div>
+                <div class="chip three">P3</div>
+                <div class="center-lock">→</div>
+              </div>
+              <div class="wheel-copy">
+                <div class="wheel-box"><b>Now spinning</b><span>Player 1</span></div>
+                <div class="wheel-box"><b>Target locked</b><span>Player 2</span></div>
+              </div>
+            </div>
+            <div class="language"><div class="active-lang">EN</div><div>ES</div></div>
+            <div class="mystery">
+              <div>
+                <div class="accent"></div>
+                <div class="kicker">Mystery card</div>
+                <div class="title">Tap to Spin</div>
+                <div class="body">The next card stays hidden until the roulette lands.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-tabs">
+          <div class="tab"><span class="icon">♙</span>Profiles</div>
+          <div class="tab"><span class="icon">▱</span>Deck</div>
+          <div class="tab"><span class="icon">♡</span>Matches</div>
+          <div class="tab"><span class="icon">◔</span>Convo</div>
+          <div class="tab active"><span class="icon">▣</span>Game</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="mission">
+      <div class="idea-label">Option C · Mission Brief</div>
+      <div class="safe">
+        <div class="status"><span>10:37</span><span class="signals">▮▮▮ Wi-Fi <span class="battery">74</span></span></div>
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">Spice<span>Sync</span></div>
+            <div class="tagline">DISCOVER TOGETHER</div>
+          </div>
+          <div class="menu">≡</div>
+        </div>
+        <div class="game-title">
+          <div><div class="eyebrow">Game Night</div><div class="mode">Intense</div></div>
+          <div class="end">End Game</div>
+        </div>
+        <div class="game-card">
+          <div class="hot-line"></div>
+          <div class="inner">
+            <div class="mission">
+              <div class="mission-top">
+                <div class="mission-number">Round 1 of 3 · Drinking mode</div>
+                <div class="mission-title">Player 1 has the mic</div>
+              </div>
+              <div class="mission-body">
+                <div class="mission-strip">
+                  <div><div class="label">Lead</div><div class="person">Player 1</div></div>
+                  <div class="mission-arrow">→</div>
+                  <div style="text-align:right"><div class="label">Target</div><div class="person">Player 2</div></div>
+                </div>
+                <div class="mission-brief">Read the card like a secret assignment. Player 2 is the focus unless the card says both players.</div>
+                <div class="mission-footer">
+                  <div class="mini-pill hot">Tap to Spin</div>
+                  <div class="mini-pill">Next: Player 2</div>
+                </div>
+              </div>
+            </div>
+            <div class="language"><div class="active-lang">EN</div><div>ES</div></div>
+            <div class="mystery">
+              <div>
+                <div class="accent"></div>
+                <div class="kicker">Mystery card</div>
+                <div class="title">Tap to Spin</div>
+                <div class="body">The next card stays hidden until the roulette lands.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-tabs">
+          <div class="tab"><span class="icon">♙</span>Profiles</div>
+          <div class="tab"><span class="icon">▱</span>Deck</div>
+          <div class="tab"><span class="icon">♡</span>Matches</div>
+          <div class="tab"><span class="icon">◔</span>Convo</div>
+          <div class="tab active"><span class="icon">▣</span>Game</div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const id = window.location.hash.replace("#", "") || "spotlight";
+      const screen = document.getElementById(id);
+      (screen || document.getElementById("spotlight")).classList.add("active");
+    </script>
+  </body>
+</html>

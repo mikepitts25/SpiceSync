@@ -554,12 +554,13 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-c-007',
     type: 'challenge',
     content:
-      'Prop Boundary: Choose collar, leash, whip, paddle, lingerie, or makeup. Each of you says yes, maybe, or no for game use.',
+      'Prop Boundary Check: Player up picks one prop—collar, leash, whip, paddle, lingerie, or makeup. Both players answer yes, maybe, or no. Use that prop later only if both say yes or maybe.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
-    safetyNotes: 'Boundary talk only. A no ends the topic without debate.',
+    safetyNotes:
+      'Boundary talk only. A no ends the topic without debate; do not use that prop during the game.',
   },
   {
     id: 'lvl5-fn-004',

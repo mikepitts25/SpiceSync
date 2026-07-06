@@ -79,10 +79,26 @@ describe('game hub transition animation', () => {
     expect(source).toContain('styles.cardBackPanel');
     expect(source).toContain('resolveGameRoundOutcome');
     expect(source).toContain('Player up');
-    expect(source).toContain('Tap Draw');
+    expect(source).toContain('Tap to Spin');
     expect(source).not.toContain('Share2');
     expect(source).not.toContain('handleShare');
     expect(source).not.toContain('buildGameShareMessage');
+  });
+
+  it('uses the hidden card itself as the draw control', () => {
+    const source = readGameHubSource();
+
+    expect(source).toContain(
+      "readyPrompt: (player) => `${player}, tap the card to spin.`"
+    );
+    expect(source).toContain("tapDraw: 'Tap to Spin'");
+    expect(source).toContain('styles.cardBackPress');
+    expect(source).toContain('accessibilityLabel={cardCopy.tapDraw}');
+    expect(source).toContain('onPress={startRouletteDraw}');
+    expect(source).not.toContain('cardCopy.draw.toUpperCase()');
+    expect(source).not.toContain(
+      "roundPhase === 'ready' ? startRouletteDraw : undefined"
+    );
   });
 
   it('offers an English and Spanish toggle on the game card text', () => {
@@ -104,11 +120,10 @@ describe('game hub transition animation', () => {
     expect(source).toContain('cardCopy.mysteryCard');
     expect(source).toContain('cardCopy.tapDraw');
     expect(source).toContain('cardCopy.hiddenCardBody');
-    expect(source).toContain('cardCopy.draw.toUpperCase()');
     expect(source).toContain('Jugador activo');
     expect(source).toContain('Objetivo');
     expect(source).toContain('Carta misteriosa');
-    expect(source).toContain('Saca carta');
+    expect(source).toContain('Toca para girar');
     expect(source).toContain('La próxima carta se mantiene oculta');
     expect(source).toContain('Bebiendo');
     expect(source).toContain('Pasar / Riesgo');

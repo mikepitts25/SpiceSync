@@ -153,6 +153,29 @@ const KINK_MATCH_EXPANSION_SLUGS = [
   'shared-fantasy-journal',
 ];
 
+const COMPETITOR_INSPIRED_KINK_SLUGS = [
+  'clothes-swap-play',
+  'gender-expression-swap',
+  'underwear-panty-play',
+  'bra-cleavage-teasing',
+  'makeup-play',
+  'nail-polish-play',
+  'inspection-play',
+  'presentation-play',
+  'ownership-language',
+  'command-voice',
+  'role-reversal',
+  'toy-presentation',
+  'toy-denial',
+  'paddle-whip-presence',
+  'consent-card',
+  'fantasy-confession',
+  'kink-archetype-quiz',
+  'scene-proposal',
+  'reassurance-kink',
+  'prop-boundary-check',
+];
+
 const KINK_MATCH_EXCLUDED_EXPANSION_SLUGS = [
   'incest-fantasy',
   'blood-play',
@@ -324,7 +347,9 @@ describe('kink content policy', () => {
 
   it('keeps role-selectable descriptions neutral to give, receive, or both', () => {
     const roleOrientedDescriptions = kinksEN
-      .filter((kink) => ROLE_ORIENTED_DESCRIPTION_PATTERN.test(kink.description))
+      .filter((kink) =>
+        ROLE_ORIENTED_DESCRIPTION_PATTERN.test(kink.description)
+      )
       .map((kink) => `${kink.id} ${kink.title}: ${kink.description}`);
 
     expect(roleOrientedDescriptions).toEqual([]);
@@ -341,7 +366,10 @@ describe('kink content policy', () => {
         .filter((kink) =>
           SPANISH_ROLE_ORIENTED_DESCRIPTION_PATTERN.test(kink.descriptionEs)
         )
-        .map((kink) => `en.descriptionEs ${kink.id} ${kink.title}: ${kink.descriptionEs}`),
+        .map(
+          (kink) =>
+            `en.descriptionEs ${kink.id} ${kink.title}: ${kink.descriptionEs}`
+        ),
     ];
 
     expect(roleOrientedDescriptions).toEqual([]);
@@ -357,6 +385,22 @@ describe('kink content policy', () => {
       expect({
         language,
         missing: KINK_MATCH_EXPANSION_SLUGS.filter((slug) => !slugs.has(slug)),
+      }).toEqual({ language, missing: [] });
+    }
+  });
+
+  it('includes competitor-inspired micro-kink concepts in primary language data', () => {
+    for (const [language, kinks] of [
+      ['en', kinksEN],
+      ['es', kinksES],
+    ] as const) {
+      const slugs = new Set(kinks.map((kink) => kink.slug));
+
+      expect({
+        language,
+        missing: COMPETITOR_INSPIRED_KINK_SLUGS.filter(
+          (slug) => !slugs.has(slug)
+        ),
       }).toEqual({ language, missing: [] });
     }
   });

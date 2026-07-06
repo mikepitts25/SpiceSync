@@ -12,6 +12,10 @@ const translationCsvPath = path.join(
   appRoot,
   'data/game_card_translations.csv'
 );
+const EXPECTED_PROP_BOUNDARY_CONTENT_EN =
+  'Prop Boundary Check: Player up picks one prop—collar, leash, whip, paddle, lingerie, or makeup. Both players answer yes, maybe, or no. Use that prop later only if both say yes or maybe.';
+const EXPECTED_PROP_BOUNDARY_CONTENT_ES =
+  'Chequeo de objetos: El jugador activo elige un objeto: collar, correa, látigo, pala, lencería o maquillaje. Ambos dicen sí, quizás o no. Usen ese objeto más tarde solo si ambos dicen sí o quizás.';
 
 function parseCsvLine(line: string) {
   const fields: string[] = [];
@@ -46,6 +50,9 @@ describe('game card translations', () => {
     const translatedCard = MASTER_DECK.find(
       (card) => card.id === 'lvl4-c-014'
     ) as GameCard;
+    const propBoundaryCard = MASTER_DECK.find(
+      (card) => card.id === 'lvl5-c-007'
+    ) as GameCard;
 
     expect(hasGameCardSpanishTranslation(translatedCard.id)).toBe(true);
     expect(getGameCardDisplayContent(translatedCard, 'es')).toBe(
@@ -53,6 +60,12 @@ describe('game card translations', () => {
     );
     expect(getGameCardDisplayContent(translatedCard, 'en')).toBe(
       translatedCard.content
+    );
+    expect(getGameCardDisplayContent(propBoundaryCard, 'es')).toBe(
+      EXPECTED_PROP_BOUNDARY_CONTENT_ES
+    );
+    expect(getGameCardDisplayContent(propBoundaryCard, 'en')).toBe(
+      EXPECTED_PROP_BOUNDARY_CONTENT_EN
     );
 
     // A card whose id has no Spanish entry falls back to its English content.
@@ -106,6 +119,15 @@ describe('game card translations', () => {
     );
     expect(mysteryTouchRow?.[spanishIndex]).toBe(
       'Toque misterioso: Véndame los ojos durante 1 minuto. Toca mi antebrazo o mi hombro una vez con un objeto o una parte del cuerpo. Yo adivino qué me tocó; si fallo, me quito una prenda, y si acierto, te la quitas tú.'
+    );
+
+    const propBoundaryRow = rowById.get('lvl5-c-007');
+
+    expect(propBoundaryRow?.[englishIndex]).toBe(
+      EXPECTED_PROP_BOUNDARY_CONTENT_EN
+    );
+    expect(propBoundaryRow?.[spanishIndex]).toBe(
+      EXPECTED_PROP_BOUNDARY_CONTENT_ES
     );
   });
 });
