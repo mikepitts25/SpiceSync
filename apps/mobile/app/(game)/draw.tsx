@@ -11,7 +11,6 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Audio } from 'expo-av';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
@@ -32,6 +31,7 @@ import {
 } from '../../lib/gameTimer';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { appendCustomGameCards } from '../../lib/gameDeck';
+import { playGameSound, unloadGameSounds } from '../../lib/gameSounds';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -96,13 +96,13 @@ export default function CardDraw() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timerProgress, setTimerProgress] = useState(1);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const soundRef = useRef<Audio.Sound | null>(null);
 
   const flipAnim = React.useRef(new Animated.Value(0)).current;
   const scaleAnim = React.useRef(new Animated.Value(0.8)).current;
 
-  // Play buzzer sound using vibration
+  // Play a gentle chime (plus vibration where available) when time is up
   const playBuzzerSound = useCallback(async () => {
+    playGameSound('timerEnd');
     try {
       // Use vibration as buzzer (cross-platform)
       if (typeof navigator !== 'undefined' && navigator.vibrate) {
@@ -171,9 +171,9 @@ export default function CardDraw() {
   // Cleanup sound on unmount
   useEffect(() => {
     return () => {
-      if (soundRef.current) {
-        soundRef.current.unloadAsync();
-      }
+      unloadGameSounds().catch(() => {
+        // Releasing audio is best-effort on unmount.
+      });
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
       }
@@ -245,6 +245,7 @@ export default function CardDraw() {
         useNativeDriver: true,
       }).start(() => {
         // Flip animation
+        playGameSound('cardFlip');
         Animated.timing(flipAnim, {
           toValue: 1,
           duration: 400,

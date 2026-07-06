@@ -26,7 +26,6 @@ import {
   Pause,
   PlusCircle,
   Play,
-  RefreshCw,
   RotateCcw,
   Timer,
   X,
@@ -79,6 +78,7 @@ import {
   loadPersistedGameSession,
   savePersistedGameSession,
 } from '../../lib/gameSessionPersistence';
+import { playGameSound, unloadGameSounds } from '../../lib/gameSounds';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
@@ -134,8 +134,6 @@ type CardLanguageCopy = {
   hiddenCardBody: string;
   rouletteSpinning: string;
   level: (intensity: GameCard['intensity']) => string;
-  draw: string;
-  choosing: string;
   done: string;
   passRisk: string;
   consequence: string;
@@ -167,16 +165,14 @@ const CARD_LANGUAGE_COPY: Record<GameCardDisplayLanguage, CardLanguageCopy> = {
     playerOf: (turnNumber, playerCount) =>
       `Player ${turnNumber} of ${playerCount}`,
     target: 'Target',
-    readyPrompt: (player) => `${player}, tap Draw when ready.`,
+    readyPrompt: (player) => `${player}, tap the card to spin.`,
     spinningPrompt: (player) => `${player}, the deck is choosing...`,
     revealedPrompt: (player) => `${player}, resolve this card.`,
     mysteryCard: 'Mystery card',
-    tapDraw: 'Tap Draw',
+    tapDraw: 'Tap to Spin',
     hiddenCardBody: 'The next card stays hidden until the roulette lands.',
     rouletteSpinning: 'Roulette is spinning',
     level: (intensity) => `Level ${intensity}`,
-    draw: 'Draw',
-    choosing: 'Choosing',
     done: 'Done',
     passRisk: 'Pass / Risk',
     consequence: 'Consequence',
@@ -214,17 +210,15 @@ const CARD_LANGUAGE_COPY: Record<GameCardDisplayLanguage, CardLanguageCopy> = {
     playerOf: (turnNumber, playerCount) =>
       `Jugador ${turnNumber} de ${playerCount}`,
     target: 'Objetivo',
-    readyPrompt: (player) => `${player}, toca Sacar cuando estés listo.`,
+    readyPrompt: (player) => `${player}, toca la carta para girar.`,
     spinningPrompt: (player) => `${player}, el mazo está eligiendo...`,
     revealedPrompt: (player) => `${player}, resuelve esta carta.`,
     mysteryCard: 'Carta misteriosa',
-    tapDraw: 'Saca carta',
+    tapDraw: 'Toca para girar',
     hiddenCardBody:
       'La próxima carta se mantiene oculta hasta que termine la ruleta.',
     rouletteSpinning: 'La ruleta gira',
     level: (intensity) => `Nivel ${intensity}`,
-    draw: 'Sacar',
-    choosing: 'Eligiendo',
     done: 'Listo',
     passRisk: 'Pasar / Riesgo',
     consequence: 'Consecuencia',
@@ -455,6 +449,9 @@ export default function GameHub() {
     setDeckIndex(nextDeckIndex);
     setLastDrawnCardId(nextCard?.id ?? lastDrawnCardId);
     setRoundPhase(nextCard ? 'revealed' : 'ready');
+    if (nextCard) {
+      playGameSound('cardFlip');
+    }
   }, [dealNewDeck, deckIndex, deckOrder, lastDrawnCardId]);
 
   const resetGameSession = useCallback(() => {
@@ -477,6 +474,9 @@ export default function GameHub() {
     return () => {
       clearRouletteInterval();
       rouletteSpinProgress.stopAnimation();
+      unloadGameSounds().catch(() => {
+        // Releasing audio is best-effort on unmount.
+      });
     };
   }, [clearRouletteInterval, rouletteSpinProgress]);
 
@@ -593,6 +593,7 @@ export default function GameHub() {
       setTimerSeconds((seconds) => {
         if (seconds <= 1) {
           setIsTimerRunning(false);
+          playGameSound('timerEnd');
           return 0;
         }
 
@@ -656,6 +657,7 @@ export default function GameHub() {
     setTimerSeconds(0);
     setIsTimerRunning(false);
     setRoundPhase('spinning');
+    playGameSound('rouletteSpin');
     rouletteSpinProgress.setValue(0);
     setRoulettePreviewIndex((index) => (index + 1) % levelCards.length);
 
@@ -692,6 +694,7 @@ export default function GameHub() {
       if (!isCardRevealed) return;
 
       setIsTimerRunning(false);
+      playGameSound(passed ? 'success' : 'consequence');
 
       const outcome = resolveGameRoundOutcome({
         turnIndex,
@@ -1152,7 +1155,21 @@ export default function GameHub() {
 
                   <View style={styles.cardMainContent}>
                     {roundPhase === 'ready' ? (
-                      <View style={styles.cardBackPanel}>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={cardCopy.tapDraw}
+                        accessibilityHint={cardCopy.hiddenCardBody}
+                        accessibilityState={{
+                          disabled: levelCards.length === 0,
+                        }}
+                        disabled={levelCards.length === 0}
+                        onPress={startRouletteDraw}
+                        style={({ pressed }) => [
+                          styles.cardBackPanel,
+                          styles.cardBackPress,
+                          pressed && styles.cardBackPressPressed,
+                        ]}
+                      >
                         <AccentBar />
                         <Text style={styles.cardBackKicker}>
                           {cardCopy.mysteryCard}
@@ -1163,7 +1180,7 @@ export default function GameHub() {
                         <Text style={styles.cardBackBody}>
                           {cardCopy.hiddenCardBody}
                         </Text>
-                      </View>
+                      </Pressable>
                     ) : roundPhase === 'spinning' ? (
                       <Animated.View
                         style={[
@@ -1179,7 +1196,7 @@ export default function GameHub() {
                         <Text style={styles.cardBackTitle}>
                           {roulettePreviewCard
                             ? titleForCard(roulettePreviewCard, cardCopy.titles)
-                            : cardCopy.draw}
+                            : cardCopy.tapDraw}
                         </Text>
                         <Text style={styles.rouletteMeta}>
                           {roulettePreviewCard
@@ -1277,43 +1294,25 @@ export default function GameHub() {
                 </View>
               </View>
 
-              <View style={styles.actionRow}>
-                {isCardRevealed ? (
-                  <>
-                    <ActionCircle
-                      label={cardCopy.passRisk.toUpperCase()}
-                      icon={X}
-                      color={COLORS.no}
-                      onPress={() => finishRevealedCard(true)}
-                    />
-                    <ActionCircle
-                      label={cardCopy.done.toUpperCase()}
-                      icon={CheckCircle}
-                      variant="gradient"
-                      color={COLORS.pink}
-                      size={66}
-                      iconSize={28}
-                      onPress={() => finishRevealedCard(false)}
-                    />
-                  </>
-                ) : (
+              {isCardRevealed ? (
+                <View style={styles.actionRow}>
                   <ActionCircle
-                    label={
-                      roundPhase === 'spinning'
-                        ? cardCopy.choosing.toUpperCase()
-                        : cardCopy.draw.toUpperCase()
-                    }
-                    icon={RefreshCw}
+                    label={cardCopy.passRisk.toUpperCase()}
+                    icon={X}
+                    color={COLORS.no}
+                    onPress={() => finishRevealedCard(true)}
+                  />
+                  <ActionCircle
+                    label={cardCopy.done.toUpperCase()}
+                    icon={CheckCircle}
                     variant="gradient"
                     color={COLORS.pink}
                     size={66}
                     iconSize={28}
-                    onPress={
-                      roundPhase === 'ready' ? startRouletteDraw : undefined
-                    }
+                    onPress={() => finishRevealedCard(false)}
                   />
-                )}
-              </View>
+                </View>
+              ) : null}
             </View>
           </Animated.View>
         </View>
@@ -1872,6 +1871,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 22,
     gap: 10,
+  },
+  cardBackPress: {
+    borderColor: 'rgba(255,47,146,0.24)',
+  },
+  cardBackPressPressed: {
+    backgroundColor: 'rgba(255,47,146,0.08)',
+    transform: [{ scale: 0.985 }],
   },
   roulettePanel: {
     borderColor: 'rgba(255,47,146,0.35)',
