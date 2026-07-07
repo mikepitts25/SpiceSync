@@ -337,13 +337,6 @@ export default function GameHub() {
     levelCards.length > 0
       ? levelCards[roulettePreviewIndex % levelCards.length]
       : null;
-  const turnPrompt =
-    roundPhase === 'ready'
-      ? cardCopy.readyPrompt(currentTurn.player)
-      : roundPhase === 'spinning'
-        ? cardCopy.spinningPrompt(currentTurn.player)
-        : cardCopy.revealedPrompt(currentTurn.player);
-
   const introSceneStyle = useMemo(
     () => ({
       opacity: gameTransitionProgress.interpolate({
@@ -846,22 +839,57 @@ export default function GameHub() {
         {hasStarted ? (
           <View style={styles.activeGameHeader}>
             <View style={styles.activeGameTitleRow}>
-              <View style={styles.activeGameTitleCopy}>
-                <Text style={styles.activeGameEyebrow}>
-                  {cardCopy.gameNight.toUpperCase()}
-                </Text>
-                <Text style={styles.activeGameTitle}>
-                  {selectedCardModeLabel}
-                </Text>
+              <View style={styles.activeGameHeaderZone}>
+                <View style={styles.activeGameTitleCopy}>
+                  <Text style={styles.activeGameEyebrow}>
+                    {cardCopy.gameNight.toUpperCase()}
+                  </Text>
+                  <Text style={styles.activeGameTitle}>
+                    {selectedCardModeLabel}
+                  </Text>
+                </View>
               </View>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={cardCopy.endGame}
-                onPress={confirmEndGame}
-                style={styles.endGameButton}
+              <View
+                style={[
+                  styles.activeGameHeaderZone,
+                  styles.activeGameHeaderCenter,
+                ]}
               >
-                <Text style={styles.endGameText}>{cardCopy.endGame}</Text>
-              </Pressable>
+                {drinkingMode ? (
+                  <View style={styles.activeGameDrinkPill}>
+                    <Text
+                      numberOfLines={1}
+                      adjustsFontSizeToFit
+                      minimumFontScale={0.86}
+                      style={styles.activeGameDrinkText}
+                    >
+                      {cardCopy.drinking}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+              <View
+                style={[
+                  styles.activeGameHeaderZone,
+                  styles.activeGameHeaderAction,
+                ]}
+              >
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={cardCopy.endGame}
+                  onPress={confirmEndGame}
+                  style={styles.endGameButton}
+                >
+                  <Text
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.82}
+                    style={styles.endGameText}
+                  >
+                    {cardCopy.endGame}
+                  </Text>
+                </Pressable>
+              </View>
             </View>
           </View>
         ) : (
@@ -1067,27 +1095,16 @@ export default function GameHub() {
               <View style={styles.gameCard}>
                 <CardAccentTop />
                 <View style={styles.cardInner}>
-                  <View style={styles.cardTurnPanel}>
-                    <View style={styles.cardTurnMetaRow}>
-                      <Text style={styles.cardTurnCounter}>
-                        {cardCopy.playerUp}
-                      </Text>
-                      {drinkingMode ? (
-                        <View style={styles.statusPill}>
-                          <Text style={styles.statusPillText}>
-                            {cardCopy.drinking}
-                          </Text>
-                        </View>
-                      ) : null}
-                    </View>
-
-                    <View style={styles.cardTurnRoute}>
-                      <View style={styles.cardTurnPersonBlock}>
+                  <View style={styles.turnSpotlightPanel}>
+                    <View style={styles.turnSpotlightRoute}>
+                      <View
+                        style={[
+                          styles.turnSpotlightCard,
+                          styles.turnSpotlightCardLead,
+                        ]}
+                      >
                         <Text style={styles.cardTurnPersonLabel}>
-                          {cardCopy.playerOf(
-                            currentTurn.turnNumber,
-                            activePlayers.length
-                          )}
+                          {cardCopy.playerUp}
                         </Text>
                         <Text
                           numberOfLines={1}
@@ -1098,10 +1115,18 @@ export default function GameHub() {
                           {currentTurn.player}
                         </Text>
                       </View>
-                      <Text style={styles.cardTurnArrow}>→</Text>
+                      <LinearGradient
+                        colors={GRADIENTS.primary}
+                        start={{ x: 0, y: 0.5 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.turnSpotlightArrowOrb}
+                      >
+                        <Text style={styles.turnSpotlightArrowText}>→</Text>
+                      </LinearGradient>
                       <View
                         style={[
-                          styles.cardTurnPersonBlock,
+                          styles.turnSpotlightCard,
+                          styles.turnSpotlightCardTarget,
                           styles.cardTurnTargetBlock,
                         ]}
                       >
@@ -1121,8 +1146,6 @@ export default function GameHub() {
                         </Text>
                       </View>
                     </View>
-
-                    <Text style={styles.cardTurnPrompt}>{turnPrompt}</Text>
                   </View>
 
                   <View style={styles.cardLanguageToggle}>
@@ -1444,11 +1467,20 @@ const styles = StyleSheet.create({
     minHeight: 36,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
+    gap: 8,
+  },
+  activeGameHeaderZone: {
+    flex: 1,
+    minWidth: 0,
+    justifyContent: 'center',
+  },
+  activeGameHeaderCenter: {
+    alignItems: 'center',
+  },
+  activeGameHeaderAction: {
+    alignItems: 'flex-end',
   },
   activeGameTitleCopy: {
-    flex: 1,
     minWidth: 0,
     gap: 1,
   },
@@ -1464,13 +1496,33 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontWeight: '900',
   },
+  activeGameDrinkPill: {
+    maxWidth: '100%',
+    minHeight: 36,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,47,146,0.34)',
+    backgroundColor: 'rgba(255,47,146,0.16)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+  },
+  activeGameDrinkText: {
+    color: COLORS.pink,
+    fontSize: 16,
+    fontWeight: '900',
+    textAlign: 'center',
+  },
   endGameButton: {
+    maxWidth: '100%',
     borderRadius: 18,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.1)',
     backgroundColor: 'rgba(255,255,255,0.05)',
     minHeight: 36,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 5,
   },
@@ -1730,52 +1782,36 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 8,
   },
-  cardTurnPanel: {
-    borderRadius: 16,
+  turnSpotlightPanel: {
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: 'rgba(255,255,255,0.035)',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    gap: 6,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    padding: 12,
   },
-  cardTurnMetaRow: {
-    minHeight: 25,
+  turnSpotlightRoute: {
+    minHeight: 98,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 8,
+    gap: 9,
   },
-  cardTurnCounter: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: '800',
-  },
-  statusPill: {
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: 'rgba(255,47,146,0.26)',
-    backgroundColor: 'rgba(255,47,146,0.12)',
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-  },
-  statusPillText: {
-    color: COLORS.pink,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: '800',
-  },
-  cardTurnRoute: {
-    minHeight: 43,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  cardTurnPersonBlock: {
+  turnSpotlightCard: {
     flex: 1,
     minWidth: 0,
-    gap: 1,
+    minHeight: 84,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    justifyContent: 'center',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    gap: 6,
+  },
+  turnSpotlightCardLead: {
+    backgroundColor: 'rgba(255,47,146,0.14)',
+  },
+  turnSpotlightCardTarget: {
+    backgroundColor: 'rgba(0,217,255,0.1)',
   },
   cardTurnTargetBlock: {
     alignItems: 'flex-end',
@@ -1783,31 +1819,32 @@ const styles = StyleSheet.create({
   cardTurnPersonLabel: {
     color: COLORS.textMuted,
     fontSize: 16,
-    lineHeight: 20,
-    fontWeight: '800',
+    lineHeight: 19,
+    fontWeight: '900',
+    textTransform: 'uppercase',
   },
   cardTurnName: {
     color: COLORS.textPrimary,
-    fontSize: 19,
-    lineHeight: 23,
+    fontSize: 24,
+    lineHeight: 28,
     fontWeight: '900',
   },
   cardTurnTargetName: {
     textAlign: 'right',
   },
-  cardTurnArrow: {
-    width: 28,
-    color: COLORS.pink,
-    fontSize: 20,
-    lineHeight: 24,
-    fontWeight: '900',
-    textAlign: 'center',
+  turnSpotlightArrowOrb: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...SHADOWS.glow(COLORS.pink),
   },
-  cardTurnPrompt: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: '700',
+  turnSpotlightArrowText: {
+    color: COLORS.textPrimary,
+    fontSize: 30,
+    lineHeight: 34,
+    fontWeight: '900',
     textAlign: 'center',
   },
   gameCard: {
@@ -1854,10 +1891,11 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
   },
   cardMainContent: {
-    flex: 1,
-    justifyContent: 'center',
+    alignSelf: 'stretch',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     gap: 12,
+    marginTop: 10,
   },
   cardBackPanel: {
     width: '100%',

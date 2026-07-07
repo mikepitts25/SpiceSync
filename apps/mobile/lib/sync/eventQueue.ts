@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { encodeBase64 } from './base64';
 import { randomBytes } from './crypto';
-import type { PairPreference } from '../votes/rolePreferences';
+import type { PairPreference, Readiness } from '../votes/rolePreferences';
 
 export type SyncEventType =
   | 'vote.upsert'
@@ -21,6 +21,7 @@ export type PlainSyncEvent =
       cardId: string;
       vote: 'yes' | 'maybe' | 'no';
       pairPreference?: PairPreference;
+      readiness?: Readiness;
       updatedAt: number;
     }
   | {

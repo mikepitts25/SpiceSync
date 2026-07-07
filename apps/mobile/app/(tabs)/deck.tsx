@@ -21,13 +21,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import { Check, Ellipsis, X } from 'lucide-react-native';
+import { Check, Clock3, Ellipsis, X } from 'lucide-react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
 import {
   AccentBar,
-  ActionCircle,
   AppHeader,
   AppTabBar,
   IntensityDots,
@@ -48,9 +47,10 @@ import { useSettingsStore } from '../../src/stores/settingsStore';
 import {
   useVotesStore,
   type PairPreference,
-  type VoteValue,
+  type Readiness,
 } from '../../src/stores/votes';
 import { useTranslation } from '../../lib/i18n';
+import { playGameSound } from '../../lib/gameSounds';
 import {
   COLORS,
   GRADIENTS,
@@ -78,6 +78,43 @@ const TIER_COLORS: Record<string, string> = {
   naughty: COLORS.purple,
   xxx: COLORS.no,
 };
+
+const READINESS_ACTIONS = [
+  {
+    label: 'Hard No',
+    readiness: 'hard_no',
+    direction: 'left',
+    color: COLORS.no,
+    icon: X,
+  },
+  {
+    label: 'Not Now',
+    readiness: 'not_now',
+    direction: 'left',
+    color: COLORS.purpleLight,
+    icon: Clock3,
+  },
+  {
+    label: 'Curious',
+    readiness: 'curious',
+    direction: 'up',
+    color: COLORS.maybe,
+    icon: Ellipsis,
+  },
+  {
+    label: 'Yes',
+    readiness: 'yes',
+    direction: 'right',
+    color: COLORS.pink,
+    icon: Check,
+  },
+] as const satisfies readonly {
+  label: string;
+  readiness: Readiness;
+  direction: SwipeDirection;
+  color: string;
+  icon: typeof Check;
+}[];
 
 type KinkCardFrameProps = {
   item: KinkItem;
@@ -177,10 +214,28 @@ function KinkCardFrame({
 
         <View style={styles.partnerBlock}>
           <View style={styles.partnerPill}>
-            <ProfileAvatarIcon avatar={partnerEmoji} size={24} framed={false} />
+            <View style={styles.partnerAvatarSlot}>
+              <ProfileAvatarIcon
+                avatar={partnerEmoji}
+                size={24}
+                framed={false}
+              />
+            </View>
             <View style={styles.partnerCopy}>
-              <Text style={styles.partnerName}>{partnerName}</Text>
-              <Text style={styles.partnerStatus}>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.84}
+                style={styles.partnerName}
+              >
+                {partnerName}
+              </Text>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.84}
+                style={styles.partnerStatus}
+              >
                 {partnerVoted ? `${partnerVotedLabel} ✓` : partnerNotVotedLabel}
               </Text>
             </View>
@@ -388,7 +443,7 @@ export default function DeckScreen() {
   const activeProfileIdValue = activeProfile?.id ?? null;
   const partnerProfileIdValue = partnerProfile?.id ?? null;
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
-  const setVote = useVotesStore((state) => state.setVote);
+  const setReadiness = useVotesStore((state) => state.setReadiness);
   const clearVotesForKinks = useVotesStore((state) => state.clearVotesForKinks);
 
   const filteredKinks = useMemo(
@@ -423,7 +478,7 @@ export default function DeckScreen() {
   const [indexByKey, setIndexByKey] = useState<Record<string, number>>({});
   const [cardAnimating, setCardAnimating] = useState(false);
   const [pairPreference, setPairPreference] = useState<PairPreference>('both');
-  const queuedVoteRef = useRef<VoteValue | null>(null);
+  const queuedReadinessRef = useRef<Readiness | null>(null);
   const topCardRef = useRef<SwipeDeckHandle>(null);
   const previousCardIdRef = useRef<string | null>(null);
   const activeCardOpacity = useSharedValue(1);
@@ -475,45 +530,47 @@ export default function DeckScreen() {
   const handleSwipeResult = useCallback(
     (dir: SwipeDirection) => {
       if (!current || !activeProfileIdValue) {
-        queuedVoteRef.current = null;
+        queuedReadinessRef.current = null;
         setCardAnimating(false);
         return;
       }
 
-      const directionToVote: Record<SwipeDirection, VoteValue> = {
-        left: 'no',
+      const directionToReadiness: Record<SwipeDirection, Readiness> = {
+        left: 'hard_no',
         right: 'yes',
-        up: 'maybe',
+        up: 'curious',
       };
 
-      const voteValue = queuedVoteRef.current ?? directionToVote[dir];
-      queuedVoteRef.current = null;
+      const readiness = queuedReadinessRef.current ?? directionToReadiness[dir];
+      queuedReadinessRef.current = null;
 
       activeCardOpacity.value = 0;
-      setVote(
+      setReadiness(
         activeProfileIdValue,
         current.id,
-        voteValue,
+        readiness,
         current.pairMode ? pairPreference : undefined
       );
       setCardAnimating(false);
     },
-    [current, activeProfileIdValue, pairPreference, setVote, activeCardOpacity]
+    [
+      current,
+      activeProfileIdValue,
+      pairPreference,
+      setReadiness,
+      activeCardOpacity,
+    ]
   );
 
-  const handleButtonVote = useCallback(
-    (value: VoteValue) => {
+  const handleReadinessVote = useCallback(
+    (action: (typeof READINESS_ACTIONS)[number]) => {
       if (!current || cardAnimating) return;
       const handle = topCardRef.current;
       if (!handle || handle.isAnimating()) return;
-      const valueToDirection: Record<VoteValue, SwipeDirection> = {
-        yes: 'right',
-        no: 'left',
-        maybe: 'up',
-      };
 
-      queuedVoteRef.current = value;
-      handle.programmaticSwipe(valueToDirection[value]);
+      playGameSound('cardFlip');
+      queuedReadinessRef.current = action.readiness;
+      handle.programmaticSwipe(action.direction);
     },
     [cardAnimating, current]
   );
@@ -711,28 +768,39 @@ export default function DeckScreen() {
           />
         </View>
 
-        <View style={styles.actionRow}>
-          <ActionCircle
-            label={t.deck.pass.toUpperCase()}
-            icon={X}
-            color={COLORS.no}
-            onPress={() => handleButtonVote('no')}
-          />
-          <ActionCircle
-            label={t.deck.yes.toUpperCase()}
-            icon={Check}
-            variant="gradient"
-            color={COLORS.pink}
-            size={66}
-            iconSize={28}
-            onPress={() => handleButtonVote('yes')}
-          />
-          <ActionCircle
-            label={t.deck.maybe.toUpperCase()}
-            icon={Ellipsis}
-            color={COLORS.maybe}
-            onPress={() => handleButtonVote('maybe')}
-          />
+        <View style={styles.actionGrid}>
+          {READINESS_ACTIONS.map((action) => {
+            const Icon = action.icon;
+            const primary = action.readiness === 'yes';
+            return (
+              <Pressable
+                key={action.readiness}
+                accessibilityRole="button"
+                accessibilityLabel={action.label}
+                onPress={() => handleReadinessVote(action)}
+                style={({ pressed }) => [
+                  styles.readinessAction,
+                  { borderColor: action.color },
+                  primary && styles.readinessActionPrimary,
+                  pressed && styles.readinessActionPressed,
+                ]}
+              >
+                <Icon
+                  size={18}
+                  color={primary ? COLORS.textPrimary : action.color}
+                  strokeWidth={3}
+                />
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.82}
+                  style={styles.readinessActionText}
+                >
+                  {action.label}
+                </Text>
+              </Pressable>
+            );
+          })}
         </View>
       </View>
 
@@ -921,37 +989,88 @@ const styles = StyleSheet.create({
     letterSpacing: 1.4,
   },
   partnerPill: {
-    flexDirection: 'row',
+    minWidth: 196,
+    maxWidth: '86%',
+    minHeight: 66,
+    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
     backgroundColor: COLORS.cardAlt,
     borderRadius: 12,
-    padding: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  partnerAvatarSlot: {
+    position: 'absolute',
+    left: 14,
+    top: '50%',
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    transform: [{ translateY: -12 }],
   },
   partnerCopy: {
-    flexShrink: 1,
+    width: '100%',
+    minWidth: 0,
+    alignItems: 'center',
+    paddingHorizontal: 32,
   },
   partnerName: {
+    width: '100%',
     color: COLORS.textPrimary,
     fontSize: 16,
     fontWeight: '800',
     textAlign: 'center',
   },
   partnerStatus: {
+    width: '100%',
     color: COLORS.textSub,
     fontSize: 16,
     fontWeight: '600',
     marginTop: 2,
     textAlign: 'center',
   },
-  actionRow: {
-    paddingTop: 10,
+  actionGrid: {
+    width: '100%',
+    maxWidth: 460,
+    alignSelf: 'center',
+    paddingTop: 8,
     paddingBottom: 6,
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 28,
+    gap: 8,
+  },
+  readinessAction: {
+    flexBasis: '48%',
+    flexGrow: 1,
+    minWidth: 132,
+    minHeight: 46,
+    borderRadius: 16,
+    borderWidth: 1,
+    backgroundColor: COLORS.cardAlt,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 10,
+  },
+  readinessActionPrimary: {
+    backgroundColor: COLORS.pink,
+    borderColor: COLORS.pink,
+  },
+  readinessActionPressed: {
+    opacity: 0.82,
+    transform: [{ scale: 0.98 }],
+  },
+  readinessActionText: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0,
+    textAlign: 'center',
   },
   centerState: {
     flex: 1,

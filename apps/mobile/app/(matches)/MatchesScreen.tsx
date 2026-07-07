@@ -250,8 +250,12 @@ export default function MatchesScreen() {
     return Object.fromEntries(
       Object.entries(remotePartnerVotes).map(([cardId, record]) => [
         cardId,
-        record.pairPreference
-          ? { value: record.vote, pairPreference: record.pairPreference }
+        record.pairPreference || record.readiness
+          ? {
+              value: record.vote,
+              pairPreference: record.pairPreference,
+              readiness: record.readiness,
+            }
           : record.vote,
       ])
     ) as Record<string, KinkVote>;

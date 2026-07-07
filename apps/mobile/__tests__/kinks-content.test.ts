@@ -30,6 +30,8 @@ const REMOVED_PHYSICAL_HARM_SLUGS = [
   'scarification',
 ];
 
+const REMOVED_VAGUE_KINK_SLUGS = ['manual-stimulation'];
+
 const KINK_MATCH_EXPANSION_SLUGS = [
   'latex-leather-fetish',
   'foot-worship',
@@ -291,6 +293,22 @@ describe('kink content policy', () => {
         removedSlugs.has(slug)
       )
     ).toEqual([]);
+  });
+
+  it('excludes vague activity labels that do not give users a clear prompt', () => {
+    const removedSlugs = new Set(REMOVED_VAGUE_KINK_SLUGS);
+
+    for (const [language, kinks] of [
+      ['en', kinksEN as KinkContentRecord[]],
+      ['es', kinksES as KinkContentRecord[]],
+    ] as const) {
+      expect({
+        language,
+        present: kinks
+          .filter((kink) => removedSlugs.has(kink.slug))
+          .map((kink) => `${kink.id} ${kink.title}`),
+      }).toEqual({ language, present: [] });
+    }
   });
 
   it('models role-selectable kink activities as one topic row in both languages', () => {

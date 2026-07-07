@@ -36,10 +36,11 @@ describe('game hub transition animation', () => {
     expect(source).toContain('styles.activeGameHeader');
     expect(source).toContain('styles.activeGameTitleRow');
     expect(source).toContain('styles.endGameButton');
-    expect(source).toContain('styles.cardTurnPanel');
-    expect(source).toContain('styles.cardTurnRoute');
-    expect(source).toContain('styles.cardTurnArrow');
-    expect(source).toContain('styles.statusPill');
+    expect(source).toContain('styles.activeGameDrinkPill');
+    expect(source).toContain('styles.turnSpotlightPanel');
+    expect(source).toContain('styles.turnSpotlightRoute');
+    expect(source).toContain('styles.turnSpotlightCard');
+    expect(source).toContain('styles.turnSpotlightArrowOrb');
     expect(source).toContain('resolveGameRoundOutcome');
     expect(source).toContain('styles.consequenceModalBackdrop');
     expect(source).toContain('savePersistedGameSession');
@@ -54,6 +55,10 @@ describe('game hub transition animation', () => {
     expect(source).toContain('→');
     expect(source).toContain('Pass / Risk');
     expect(source).toContain('lastConsequence');
+    expect(source).toContain('{drinkingMode ? (');
+    expect(source).not.toContain('styles.cardTurnPanel');
+    expect(source).not.toContain('styles.cardTurnPrompt');
+    expect(source).not.toContain('turnPrompt');
     expect(source).not.toContain('buildGameShareMessage');
     expect(source).not.toContain('styles.turnStrip');
     expect(source).not.toContain('styles.activeGameControlsRow');
@@ -64,6 +69,26 @@ describe('game hub transition animation', () => {
     expect(source).not.toContain('IntensityDots');
     expect(source).not.toContain('turnTargetLabel}>For');
     expect(source).not.toContain('turnDrinkMode');
+  });
+
+  it('centers drinking mode in the active game header', () => {
+    const source = readGameHubSource();
+
+    expect(source).toContain('styles.activeGameHeaderZone');
+    expect(source).toContain('styles.activeGameHeaderCenter');
+    expect(source).toContain('styles.activeGameHeaderAction');
+    expect(source).toMatch(
+      /activeGameHeaderZone:\s*{[^}]*flex: 1[^}]*minWidth: 0/s
+    );
+    expect(source).toMatch(
+      /activeGameHeaderCenter:\s*{[^}]*alignItems: 'center'/s
+    );
+    expect(source).toMatch(
+      /activeGameHeaderAction:\s*{[^}]*alignItems: 'flex-end'/s
+    );
+    expect(source).not.toMatch(
+      /activeGameTitleRow:\s*{[^}]*justifyContent: 'space-between'/s
+    );
   });
 
   it('keeps card draws hidden behind roulette and blocks on pass consequences', () => {
@@ -110,6 +135,17 @@ describe('game hub transition animation', () => {
     expect(source).toContain('styles.cardLanguageToggle');
     expect(source).toContain('EN');
     expect(source).toContain('ES');
+  });
+
+  it('places the hidden card directly below the turn controls', () => {
+    const source = readGameHubSource();
+
+    expect(source).toMatch(
+      /cardMainContent:\s*{[^}]*alignSelf: 'stretch'[^}]*justifyContent: 'flex-start'[^}]*marginTop: 10/s
+    );
+    expect(source).not.toMatch(
+      /cardMainContent:\s*{[^}]*flex: 1,\s*justifyContent: 'center'/s
+    );
   });
 
   it('uses the card language toggle for game-state copy around hidden cards', () => {

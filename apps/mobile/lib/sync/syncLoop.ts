@@ -14,6 +14,7 @@ import { RelayHttpError } from './relayClient';
 import { getRelayClient } from './relayConfig';
 import { useRevealConsentStore } from './revealConsent';
 import type { SyncEventResponse } from './relayTypes';
+import { isReadiness, readinessToVote } from '../votes/rolePreferences';
 
 function signaturePayload(
   eventId: string,
@@ -54,15 +55,18 @@ function isPlainSyncEvent(value: unknown): value is PlainSyncEvent {
   }
 
   if (event.eventType === 'vote.upsert') {
+    const readinessValid =
+      event.readiness === undefined ||
+      (isReadiness(event.readiness) &&
+        readinessToVote(event.readiness) === event.vote);
     return (
       typeof event.cardId === 'string' &&
-      (event.vote === 'yes' || event.vote === 'maybe' || event.vote === 'no')
+      (event.vote === 'yes' || event.vote === 'maybe' || event.vote === 'no') &&
+      readinessValid
     );
   }
   if (event.eventType === 'reveal.unlock') {
-    return (
-      event.bucket === 'partialYesMaybe' || event.bucket === 'mutualMaybe'
-    );
+    return event.bucket === 'partialYesMaybe' || event.bucket === 'mutualMaybe';
   }
   if (event.eventType === 'progress.snapshot') {
     return typeof event.answeredCount === 'number';
@@ -142,6 +146,7 @@ function applyDecryptedEvent(event: PlainSyncEvent, receivedAt: number): void {
       cardId: event.cardId,
       vote: event.vote,
       pairPreference: event.pairPreference,
+      readiness: event.readiness,
       updatedAt: event.updatedAt,
       receivedAt,
     });

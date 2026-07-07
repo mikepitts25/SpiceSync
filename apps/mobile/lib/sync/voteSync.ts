@@ -12,6 +12,7 @@ import {
   normalizeVoteRecord,
   sameVoteRecord,
   type PairPreference,
+  type Readiness,
 } from '../votes/rolePreferences';
 import { useCoupleLinkStore } from './coupleLink';
 import { useEventQueueStore } from './eventQueue';
@@ -40,11 +41,17 @@ export const useVoteSyncStore = create<VoteSyncState>()(
 function diffVotes(
   previous: Record<string, KinkVote> | undefined,
   next: Record<string, KinkVote> | undefined
-): { cardId: string; vote: VoteValue; pairPreference?: PairPreference }[] {
+): {
+  cardId: string;
+  vote: VoteValue;
+  pairPreference?: PairPreference;
+  readiness?: Readiness;
+}[] {
   const changes: {
     cardId: string;
     vote: VoteValue;
     pairPreference?: PairPreference;
+    readiness?: Readiness;
   }[] = [];
   if (!next) return changes;
   const prev = previous || {};
@@ -55,6 +62,7 @@ function diffVotes(
       cardId,
       vote: vote.value,
       pairPreference: vote.pairPreference,
+      readiness: vote.readiness,
     });
   }
   return changes;
@@ -65,6 +73,7 @@ async function enqueueVoteChanges(
     cardId: string;
     vote: VoteValue;
     pairPreference?: PairPreference;
+    readiness?: Readiness;
   }[]
 ): Promise<void> {
   if (changes.length === 0) return;
@@ -82,6 +91,7 @@ async function enqueueVoteChanges(
       cardId: change.cardId,
       vote: change.vote,
       pairPreference: change.pairPreference,
+      readiness: change.readiness,
       updatedAt,
     });
   }

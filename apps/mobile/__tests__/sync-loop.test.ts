@@ -179,7 +179,8 @@ describe('sync loop', () => {
       eventId: 'evt_partner_1',
       authorDeviceId: 'dev_partner',
       cardId: 'pair:oral-pleasure',
-      vote: 'yes' as const,
+      vote: 'no' as const,
+      readiness: 'not_now' as const,
       pairPreference: 'give' as const,
       updatedAt: 1700,
     };
@@ -224,7 +225,8 @@ describe('sync loop', () => {
     expect(
       usePartnerVotesStore.getState().byCardId['pair:oral-pleasure']
     ).toMatchObject({
-      vote: 'yes',
+      vote: 'no',
+      readiness: 'not_now',
       pairPreference: 'give',
     });
     expect(useCoupleLinkStore.getState().link?.lastPulledServerSequence).toBe(

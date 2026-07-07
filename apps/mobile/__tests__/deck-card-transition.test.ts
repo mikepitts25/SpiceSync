@@ -16,7 +16,7 @@ describe('deck card transitions', () => {
     expect(source).toMatch(/ACTIVE_CARD_FADE_IN_MS\s*=\s*220/);
     expect(source).toMatch(/cardOpacity\.value\s*\*\s*enterProgress\.value/);
     expect(source).toMatch(/cardOpacity\.value\s*=\s*withTiming\(\s*0/);
-    expect(source).toMatch(/activeCardOpacity\.value\s*=\s*0;\s+setVote/);
+    expect(source).toMatch(/activeCardOpacity\.value\s*=\s*0;\s+setReadiness/);
     expect(source).toMatch(/useLayoutEffect\(\(\)\s*=>/);
     expect(source).toMatch(/activeCardOpacity\.value\s*=\s*withTiming\(\s*1/);
     expect(source).toMatch(/key=\{current\.id\}/);
