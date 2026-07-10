@@ -188,6 +188,7 @@ function TimerPanel({
   const activeAction = timer.running ? timer.onPause : timer.onStart;
   const ActiveIcon = timer.running ? Pause : Play;
   const progressWidth = `${progress * 100}%` as `${number}%`;
+  const formattedTime = formatGameCardTimerSeconds(timer.remainingSeconds);
 
   return (
     <View style={styles.timerPanel}>
@@ -195,10 +196,11 @@ function TimerPanel({
         <View>
           <Text style={styles.timerEstimate}>{timerEstimate}</Text>
           <Text
+            accessibilityLabel={timeExpired ? timer.timesUpLabel : undefined}
             accessibilityLiveRegion="polite"
             style={[styles.timerValue, urgent && styles.timerUrgent]}
           >
-            {formatGameCardTimerSeconds(timer.remainingSeconds)}
+            {formattedTime}
           </Text>
         </View>
         {timeExpired ? (
@@ -415,12 +417,15 @@ const styles = StyleSheet.create({
   },
   timerActions: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 10,
   },
   timerAction: {
     minWidth: GAME_CONTROL_MIN_SIZE,
     minHeight: GAME_CONTROL_MIN_SIZE,
-    flex: 1,
+    flexBasis: 132,
+    flexGrow: 1,
+    flexShrink: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -436,9 +441,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,45,146,0.16)',
   },
   timerActionText: {
+    flexShrink: 1,
     color: COLORS.textPrimary,
     fontSize: 16,
     fontWeight: '800',
+    textAlign: 'center',
   },
   outcomes: {
     minHeight: 88,

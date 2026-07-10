@@ -272,4 +272,55 @@ describe('game-screen presentation components', () => {
     ).toHaveLength(0);
     expect(tree!.root.findByProps({ children: '1 min' })).toBeDefined();
   });
+
+  it('allows localized timer actions to wrap and grow with system text', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GameRoundPanel
+          {...props}
+          timer={{
+            ...props.timer,
+            startLabel: 'Comenzar',
+            resetLabel: 'Reiniciar',
+          }}
+        />
+      );
+    });
+
+    const reset = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Reiniciar'
+    );
+    expect(StyleSheet.flatten(reset.parent!.props.style).flexWrap).toBe('wrap');
+    expect(flattenedPressableStyle(reset).flexBasis).toBeGreaterThanOrEqual(
+      120
+    );
+    const resetText = reset
+      .findAllByType(Text)
+      .find((node) => node.props.children === 'Reiniciar');
+    expect(StyleSheet.flatten(resetText!.props.style)).toMatchObject({
+      flexShrink: 1,
+      textAlign: 'center',
+    });
+  });
+
+  it('announces the translated expiry status from the live timer value', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GameRoundPanel
+          {...props}
+          timer={{ ...props.timer, remainingSeconds: 0 }}
+        />
+      );
+    });
+
+    const expiry = tree!.root.find(
+      (node) => node.props.accessibilityLabel === "Time's Up!"
+    );
+    expect(expiry.props.accessibilityLiveRegion).toBe('polite');
+    expect(expiry.props.children).toBe('0:00');
+  });
 });
