@@ -197,7 +197,7 @@ function TimerPanel({
           <Text style={styles.timerEstimate}>{timerEstimate}</Text>
           <Text
             accessibilityLabel={timeExpired ? timer.timesUpLabel : undefined}
-            accessibilityLiveRegion="polite"
+            accessibilityLiveRegion={timeExpired ? 'polite' : undefined}
             style={[styles.timerValue, urgent && styles.timerUrgent]}
           >
             {formattedTime}

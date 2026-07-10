@@ -305,11 +305,18 @@ describe('game-screen presentation components', () => {
     });
   });
 
-  it('announces the translated expiry status from the live timer value', () => {
+  it('keeps the active countdown silent and announces only expiry', () => {
     const props = roundProps();
     let tree: TestRenderer.ReactTestRenderer;
     TestRenderer.act(() => {
-      tree = TestRenderer.create(
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const activeCountdown = tree!.root.findByProps({ children: '0:09' });
+    expect(activeCountdown.props.accessibilityLiveRegion).toBeUndefined();
+
+    TestRenderer.act(() => {
+      tree!.update(
         <GameRoundPanel
           {...props}
           timer={{ ...props.timer, remainingSeconds: 0 }}
