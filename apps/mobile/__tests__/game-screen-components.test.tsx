@@ -2,6 +2,12 @@ import React from 'react';
 import { Pressable, StyleSheet, TextInput } from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
+jest.mock('expo-router', () => ({
+  useRouter: () => ({
+    navigate: jest.fn(),
+  }),
+}));
+
 jest.mock('expo-linear-gradient', () => ({
   LinearGradient: ({ children, ...props }: any) => {
     const { View } = require('react-native');
@@ -14,6 +20,38 @@ const {
   GameButton,
   GameSegmentedControl,
 } = require('../components/game/GameControls');
+const { GameSetupPanel } = require('../components/game/GameSetupPanel');
+
+function setupProps() {
+  return {
+    gameNightLabel: 'GAME NIGHT',
+    introTitle: 'Pick your vibe',
+    introBody: '120 cards ready for Normal mode.',
+    badgeLabels: ['TRUTH', 'DARE', 'CHALLENGE'],
+    mode: 'normal',
+    modeOptions: [
+      { value: 'normal', label: 'Normal' },
+      { value: 'intense', label: 'Intense' },
+    ],
+    onModeChange: jest.fn(),
+    intenseDisclaimer: undefined,
+    playerCount: 2,
+    playerNames: ['Player 1', 'Player 2', 'Player 3', 'Player 4'],
+    onPlayerCountChange: jest.fn(),
+    onPlayerNameChange: jest.fn(),
+    drinkingMode: false,
+    onDrinkingModeChange: jest.fn(),
+    cardLanguage: 'en',
+    onCardLanguageChange: jest.fn(),
+    customCardsAvailable: true,
+    customDeckMode: 'include',
+    onCustomDeckModeChange: jest.fn(),
+    onOpenCustomDeck: jest.fn(),
+    startLabel: 'Start Playing',
+    onStart: jest.fn(),
+    startDisabled: false,
+  };
+}
 
 function flattenedPressableStyle(node: TestRenderer.ReactTestInstance) {
   const value =
@@ -75,5 +113,40 @@ describe('game-screen presentation components', () => {
     expect(spanish.props.accessibilityState).toEqual({ selected: false });
     TestRenderer.act(() => spanish.props.onPress());
     expect(onChange).toHaveBeenCalledWith('es');
+  });
+
+  it('groups setup controls and forwards player, language, deck, and start actions', () => {
+    const props = setupProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameSetupPanel {...props} />);
+    });
+
+    const playerFour = tree!.root.find(
+      (node) => node.props.accessibilityLabel === '4 players'
+    );
+    TestRenderer.act(() => playerFour.props.onPress());
+    expect(props.onPlayerCountChange).toHaveBeenCalledWith(4);
+
+    const firstName = tree!.root.findAllByType(TextInput)[0];
+    TestRenderer.act(() =>
+      firstName.props.onChangeText('Alexandria-Montgomery-24')
+    );
+    expect(props.onPlayerNameChange).toHaveBeenCalledWith(
+      0,
+      'Alexandria-Montgomery-24'
+    );
+
+    const spanish = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Card language: ES'
+    );
+    TestRenderer.act(() => spanish.props.onPress());
+    expect(props.onCardLanguageChange).toHaveBeenCalledWith('es');
+
+    const start = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Start Playing'
+    );
+    TestRenderer.act(() => start.props.onPress());
+    expect(props.onStart).toHaveBeenCalledTimes(1);
   });
 });
