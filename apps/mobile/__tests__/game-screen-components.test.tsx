@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, TextInput } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
 jest.mock('expo-router', () => ({
@@ -21,6 +21,10 @@ const {
   GameSegmentedControl,
 } = require('../components/game/GameControls');
 const { GameSetupPanel } = require('../components/game/GameSetupPanel');
+const {
+  GamePlayerMatchup,
+  GameSessionHeader,
+} = require('../components/game/GameSessionChrome');
 
 function setupProps() {
   return {
@@ -148,5 +152,50 @@ describe('game-screen presentation components', () => {
     );
     TestRenderer.act(() => start.props.onPress());
     expect(props.onStart).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders a stable Spanish session header with optional drinking status', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GameSessionHeader
+          gameNightLabel="NOCHE DE JUEGO"
+          modeLabel="Intenso"
+          drinkingLabel="Bebiendo"
+          endGameLabel="Terminar juego"
+          onEndGame={jest.fn()}
+        />
+      );
+    });
+    expect(tree!.root.findByProps({ children: 'Bebiendo' })).toBeDefined();
+    expect(
+      tree!.root.find(
+        (node) => node.props.accessibilityLabel === 'Terminar juego'
+      )
+    ).toBeDefined();
+  });
+
+  it('keeps 24-character player names in one bounded matchup row', () => {
+    const longName = 'Alexandria-Montgomery-24';
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GamePlayerMatchup
+          playerLabel="PLAYER UP"
+          playerName={longName}
+          targetLabel="TARGET"
+          targetName={longName}
+        />
+      );
+    });
+    const names = tree!.root
+      .findAllByType(Text)
+      .filter((name) => name.props.children === longName);
+    expect(names).toHaveLength(2);
+    names.forEach((name) => {
+      expect(name.props.numberOfLines).toBe(1);
+      expect(name.props.adjustsFontSizeToFit).toBe(true);
+      expect(name.props.minimumFontScale).toBe(0.72);
+    });
   });
 });
