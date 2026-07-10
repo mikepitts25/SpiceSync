@@ -25,70 +25,30 @@ describe('game hub transition animation', () => {
     expect(source).toContain('normalizeGamePlayers');
     expect(source).toContain('normalizeGamePlayerCount');
     expect(source).toContain('setDrinkingMode');
-    expect(source).toContain('Number of Players');
-    expect(source).toContain('Drinking game');
-    expect(source).toContain('Player 4 name');
+    expect(source).toContain('playerCount={playerCount}');
+    expect(source).toContain('playerNames={playerNames}');
+    expect(source).toContain('onPlayerCountChange={changePlayerCount}');
+    expect(source).toContain('onPlayerNameChange={updatePlayerName}');
+    expect(source).toContain('onDrinkingModeChange={setDrinkingMode}');
   });
 
-  it('integrates turn context inside the active game card', () => {
+  it('composes focused presentation components while retaining game ownership', () => {
     const source = readGameHubSource();
 
-    expect(source).toContain('styles.activeGameHeader');
-    expect(source).toContain('styles.activeGameTitleRow');
-    expect(source).toContain('styles.endGameButton');
-    expect(source).toContain('styles.activeGameDrinkPill');
-    expect(source).toContain('styles.turnSpotlightPanel');
-    expect(source).toContain('styles.turnSpotlightRoute');
-    expect(source).toContain('styles.turnSpotlightCard');
-    expect(source).toContain('styles.turnSpotlightArrowOrb');
+    expect(source).toContain("from '../../components/game/GameSetupPanel'");
+    expect(source).toContain("from '../../components/game/GameSessionChrome'");
+    expect(source).toContain("from '../../components/game/GameRoundPanel'");
+    expect(source).toContain('<GameSetupPanel');
+    expect(source).toContain('<GameSessionHeader');
+    expect(source).toContain('<GamePlayerMatchup');
+    expect(source).toContain('<GameRoundPanel');
     expect(source).toContain('resolveGameRoundOutcome');
-    expect(source).toContain('styles.consequenceModalBackdrop');
     expect(source).toContain('savePersistedGameSession');
     expect(source).toContain('loadPersistedGameSession');
     expect(source).toContain('clearPersistedGameSession');
-    expect(source).toContain('Alert.alert');
-    expect(source).toContain('confirmEndGame');
-    expect(source).toContain('customDeckMode');
-    expect(source).toContain('Custom Only');
-    expect(source).toContain('currentTurn.player');
-    expect(source).toContain('currentTurn.target');
-    expect(source).toContain('→');
-    expect(source).toContain('Pass / Risk');
-    expect(source).toContain('lastConsequence');
-    expect(source).toContain('{drinkingMode ? (');
-    expect(source).not.toContain('styles.cardTurnPanel');
-    expect(source).not.toContain('styles.cardTurnPrompt');
-    expect(source).not.toContain('turnPrompt');
-    expect(source).not.toContain('buildGameShareMessage');
-    expect(source).not.toContain('styles.turnStrip');
-    expect(source).not.toContain('styles.activeGameControlsRow');
-    expect(source).not.toContain('renderModeSelector(true)');
-    expect(source).not.toContain('styles.activeGameNoticePill');
-    expect(source).not.toContain('styles.cardTopRow');
-    expect(source).not.toContain('styles.categoryLabel');
-    expect(source).not.toContain('IntensityDots');
-    expect(source).not.toContain('turnTargetLabel}>For');
-    expect(source).not.toContain('turnDrinkMode');
-  });
-
-  it('centers drinking mode in the active game header', () => {
-    const source = readGameHubSource();
-
-    expect(source).toContain('styles.activeGameHeaderZone');
-    expect(source).toContain('styles.activeGameHeaderCenter');
-    expect(source).toContain('styles.activeGameHeaderAction');
-    expect(source).toMatch(
-      /activeGameHeaderZone:\s*{[^}]*flex: 1[^}]*minWidth: 0/s
-    );
-    expect(source).toMatch(
-      /activeGameHeaderCenter:\s*{[^}]*alignItems: 'center'/s
-    );
-    expect(source).toMatch(
-      /activeGameHeaderAction:\s*{[^}]*alignItems: 'flex-end'/s
-    );
-    expect(source).not.toMatch(
-      /activeGameTitleRow:\s*{[^}]*justifyContent: 'space-between'/s
-    );
+    expect(source).toContain('startRouletteDraw');
+    expect(source).toContain('finishRevealedCard');
+    expect(source).toContain('acknowledgeConsequence');
   });
 
   it('keeps card draws hidden behind roulette and blocks on pass consequences', () => {
@@ -101,7 +61,6 @@ describe('game hub transition animation', () => {
     expect(source).toContain('rouletteIntervalRef');
     expect(source).toContain('acknowledgeConsequence');
     expect(source).toContain('styles.consequenceModalBackdrop');
-    expect(source).toContain('styles.cardBackPanel');
     expect(source).toContain('resolveGameRoundOutcome');
     expect(source).toContain('Player up');
     expect(source).toContain('Tap to Spin');
@@ -117,9 +76,8 @@ describe('game hub transition animation', () => {
       "readyPrompt: (player) => `${player}, tap the card to spin.`"
     );
     expect(source).toContain("tapDraw: 'Tap to Spin'");
-    expect(source).toContain('styles.cardBackPress');
-    expect(source).toContain('accessibilityLabel={cardCopy.tapDraw}');
-    expect(source).toContain('onPress={startRouletteDraw}');
+    expect(source).toContain('drawLabel={cardCopy.tapDraw}');
+    expect(source).toContain('onDraw={startRouletteDraw}');
     expect(source).not.toContain('cardCopy.draw.toUpperCase()');
     expect(source).not.toContain(
       "roundPhase === 'ready' ? startRouletteDraw : undefined"
@@ -132,20 +90,8 @@ describe('game hub transition animation', () => {
     expect(source).toContain('cardLanguage');
     expect(source).toContain('setCardLanguage');
     expect(source).toContain('getGameCardDisplayContent');
-    expect(source).toContain('styles.cardLanguageToggle');
-    expect(source).toContain('EN');
-    expect(source).toContain('ES');
-  });
-
-  it('places the hidden card directly below the turn controls', () => {
-    const source = readGameHubSource();
-
-    expect(source).toMatch(
-      /cardMainContent:\s*{[^}]*alignSelf: 'stretch'[^}]*justifyContent: 'flex-start'[^}]*marginTop: 10/s
-    );
-    expect(source).not.toMatch(
-      /cardMainContent:\s*{[^}]*flex: 1,\s*justifyContent: 'center'/s
-    );
+    expect(source).toContain('language={cardLanguage}');
+    expect(source).toContain('onLanguageChange={setCardLanguage}');
   });
 
   it('uses the card language toggle for game-state copy around hidden cards', () => {

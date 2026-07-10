@@ -10,34 +10,24 @@ import {
   Animated,
   Modal,
   Pressable,
-  ScrollView,
   StyleSheet,
-  Switch,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import { SafeAreaView } from '../../components/SafeAreaView';
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
-import {
-  CheckCircle,
-  Pause,
-  PlusCircle,
-  Play,
-  RotateCcw,
-  Timer,
-  X,
-} from 'lucide-react-native';
 
+import { AppHeader, AppTabBar } from '../../components/app-chrome';
 import {
-  AccentBar,
-  ActionCircle,
-  AppHeader,
-  AppTabBar,
-  CardAccentTop,
-} from '../../components/app-chrome';
+  GameSetupPanel,
+  type GameSetupMode as GameMode,
+} from '../../components/game/GameSetupPanel';
+import {
+  GamePlayerMatchup,
+  GameSessionHeader,
+} from '../../components/game/GameSessionChrome';
+import { GameRoundPanel } from '../../components/game/GameRoundPanel';
 import { ScreenTour } from '../../components/ScreenTour';
 import {
   type GameCard,
@@ -60,7 +50,6 @@ import {
 import { interpolate, useTranslation } from '../../lib/i18n';
 import {
   formatGameCardTimerEstimate,
-  formatGameCardTimerSeconds,
   parseGameCardTimerSeconds,
 } from '../../lib/gameTimer';
 import {
@@ -82,9 +71,8 @@ import { playGameSound, unloadGameSounds } from '../../lib/gameSounds';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
-import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../constants/theme';
+import { COLORS, SHADOWS } from '../../constants/theme';
 
-type GameMode = 'normal' | 'intense';
 type VisibleGameScene = 'intro' | 'game';
 type GameRoundPhase = 'ready' | 'spinning' | 'revealed';
 
@@ -97,24 +85,6 @@ const GAME_MODE_LEVELS: Record<GameMode, GameIntensityLevel[]> = {
   intense: [4, 5],
 };
 
-const GAME_PLAYER_COUNT_OPTIONS = [2, 3, 4] as const;
-const PLAYER_NAME_ACCESSIBILITY_LABELS = [
-  'Player 1 name',
-  'Player 2 name',
-  'Player 3 name',
-  'Player 4 name',
-] as const;
-const CUSTOM_DECK_MODE_OPTIONS = [
-  { value: 'include', label: 'Include Custom' },
-  { value: 'customOnly', label: 'Custom Only' },
-] as const;
-const CARD_LANGUAGE_OPTIONS: {
-  value: GameCardDisplayLanguage;
-  label: string;
-}[] = [
-  { value: 'en', label: 'EN' },
-  { value: 'es', label: 'ES' },
-];
 type CardLanguageCopy = {
   gameNight: string;
   gameModes: Record<GameMode, string>;
@@ -321,9 +291,6 @@ export default function GameHub() {
     () => parseGameCardTimerSeconds(currentCard?.estimatedTime ?? ''),
     [currentCard]
   );
-
-  const timerProgress =
-    totalTimerSeconds > 0 ? timerSeconds / totalTimerSeconds : 1;
 
   const timerEstimateText =
     totalTimerSeconds > 0
@@ -788,39 +755,6 @@ export default function GameHub() {
     setSelectedMode(mode);
   }, []);
 
-  const renderModeSelector = () => (
-    <View style={styles.levelRow}>
-      {(['normal', 'intense'] as const).map((mode) => {
-        const active = selectedMode === mode;
-        const label = t.game.gameModes[mode];
-        return (
-          <Pressable
-            key={mode}
-            accessibilityRole="button"
-            accessibilityState={{ selected: active }}
-            onPress={() => changeGameMode(mode)}
-            style={styles.levelPress}
-          >
-            {active ? (
-              <LinearGradient
-                colors={GRADIENTS.primary}
-                start={{ x: 0, y: 0.5 }}
-                end={{ x: 1, y: 0.5 }}
-                style={styles.levelActive}
-              >
-                <Text style={styles.levelActiveText}>{label}</Text>
-              </LinearGradient>
-            ) : (
-              <View style={styles.levelInactive}>
-                <Text style={styles.levelInactiveText}>{label}</Text>
-              </View>
-            )}
-          </Pressable>
-        );
-      })}
-    </View>
-  );
-
   return (
     <SafeAreaView
       style={styles.screen}
@@ -837,78 +771,14 @@ export default function GameHub() {
         />
 
         {hasStarted ? (
-          <View style={styles.activeGameHeader}>
-            <View style={styles.activeGameTitleRow}>
-              <View style={styles.activeGameHeaderZone}>
-                <View style={styles.activeGameTitleCopy}>
-                  <Text style={styles.activeGameEyebrow}>
-                    {cardCopy.gameNight.toUpperCase()}
-                  </Text>
-                  <Text style={styles.activeGameTitle}>
-                    {selectedCardModeLabel}
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={[
-                  styles.activeGameHeaderZone,
-                  styles.activeGameHeaderCenter,
-                ]}
-              >
-                {drinkingMode ? (
-                  <View style={styles.activeGameDrinkPill}>
-                    <Text
-                      numberOfLines={1}
-                      adjustsFontSizeToFit
-                      minimumFontScale={0.86}
-                      style={styles.activeGameDrinkText}
-                    >
-                      {cardCopy.drinking}
-                    </Text>
-                  </View>
-                ) : null}
-              </View>
-              <View
-                style={[
-                  styles.activeGameHeaderZone,
-                  styles.activeGameHeaderAction,
-                ]}
-              >
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={cardCopy.endGame}
-                  onPress={confirmEndGame}
-                  style={styles.endGameButton}
-                >
-                  <Text
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.82}
-                    style={styles.endGameText}
-                  >
-                    {cardCopy.endGame}
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-        ) : (
-          <>
-            <View style={styles.headingRow}>
-              <Text style={styles.heading}>
-                {t.game.gameNight.toUpperCase()}
-              </Text>
-            </View>
-            <View style={styles.modeGroup}>
-              {renderModeSelector()}
-              {selectedMode === 'intense' ? (
-                <Text style={styles.intenseDisclaimer}>
-                  {t.game.intenseDisclaimer}
-                </Text>
-              ) : null}
-            </View>
-          </>
-        )}
+          <GameSessionHeader
+            gameNightLabel={cardCopy.gameNight.toUpperCase()}
+            modeLabel={selectedCardModeLabel}
+            drinkingLabel={drinkingMode ? cardCopy.drinking : undefined}
+            endGameLabel={cardCopy.endGame}
+            onEndGame={confirmEndGame}
+          />
+        ) : null}
 
         <View style={styles.transitionStage}>
           <Animated.View
@@ -919,168 +789,43 @@ export default function GameHub() {
             }
             style={[styles.sceneLayer, introSceneStyle]}
           >
-            <View style={styles.introCard}>
-              <CardAccentTop />
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.introInner}
-              >
-                <View style={styles.introBadgeRow}>
-                  {[t.game.truth, t.game.dare, t.game.challenge].map(
-                    (label) => (
-                      <View key={label} style={styles.introBadge}>
-                        <Text style={styles.introBadgeText}>
-                          {label.toUpperCase()}
-                        </Text>
-                      </View>
-                    )
-                  )}
-                </View>
-                <Text style={styles.introTitle}>{t.game.introTitle}</Text>
-                <Text style={styles.introBody}>
-                  {interpolate(t.game.introBody, {
-                    count: levelCards.length,
-                    mode: selectedModeLabel,
-                  })}
-                </Text>
-
-                <View style={styles.setupSection}>
-                  <Text style={styles.setupLabel}>Number of Players</Text>
-                  <View style={styles.playerCountRow}>
-                    {GAME_PLAYER_COUNT_OPTIONS.map((count) => {
-                      const active = playerCount === count;
-                      return (
-                        <Pressable
-                          key={count}
-                          accessibilityRole="button"
-                          accessibilityState={{ selected: active }}
-                          onPress={() => changePlayerCount(count)}
-                          style={[
-                            styles.playerCountButton,
-                            active && styles.playerCountButtonActive,
-                          ]}
-                        >
-                          <Text
-                            style={[
-                              styles.playerCountText,
-                              active && styles.playerCountTextActive,
-                            ]}
-                          >
-                            {count}
-                          </Text>
-                        </Pressable>
-                      );
-                    })}
-                  </View>
-
-                  <View style={styles.playerNameGrid}>
-                    {DEFAULT_GAME_PLAYER_NAMES.slice(0, playerCount).map(
-                      (defaultName, index) => (
-                        <TextInput
-                          key={defaultName}
-                          accessibilityLabel={
-                            PLAYER_NAME_ACCESSIBILITY_LABELS[index]
-                          }
-                          value={playerNames[index]}
-                          onChangeText={(name) => updatePlayerName(index, name)}
-                          placeholder={defaultName}
-                          placeholderTextColor={COLORS.textMuted}
-                          autoCapitalize="words"
-                          autoCorrect={false}
-                          returnKeyType="done"
-                          style={styles.playerNameInput}
-                        />
-                      )
-                    )}
-                  </View>
-
-                  <View style={styles.drinkingToggleRow}>
-                    <View style={styles.drinkingToggleCopy}>
-                      <Text style={styles.drinkingToggleTitle}>
-                        Drinking game
-                      </Text>
-                      <Text style={styles.drinkingToggleBody}>
-                        Adds drinks and shots to pass consequences.
-                      </Text>
-                    </View>
-                    <Switch
-                      accessibilityLabel="Drinking game"
-                      value={drinkingMode}
-                      onValueChange={setDrinkingMode}
-                      trackColor={{
-                        false: 'rgba(255,255,255,0.14)',
-                        true: 'rgba(255,47,146,0.55)',
-                      }}
-                      thumbColor={COLORS.textPrimary}
-                    />
-                  </View>
-
-                  {customCards.length > 0 ? (
-                    <View style={styles.customDeckModeGroup}>
-                      <Text style={styles.setupLabel}>Deck Mix</Text>
-                      <View style={styles.customDeckModeRow}>
-                        {CUSTOM_DECK_MODE_OPTIONS.map((mode) => {
-                          const active = customDeckMode === mode.value;
-                          return (
-                            <Pressable
-                              key={mode.value}
-                              accessibilityRole="button"
-                              accessibilityState={{ selected: active }}
-                              onPress={() => setCustomDeckMode(mode.value)}
-                              style={[
-                                styles.customDeckModeButton,
-                                active && styles.customDeckModeButtonActive,
-                              ]}
-                            >
-                              <Text
-                                style={[
-                                  styles.customDeckModeText,
-                                  active && styles.customDeckModeTextActive,
-                                ]}
-                              >
-                                {mode.label}
-                              </Text>
-                            </Pressable>
-                          );
-                        })}
-                      </View>
-                    </View>
-                  ) : null}
-                </View>
-
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel="Open custom deck"
-                  onPress={() => router.push('/(game)/custom-deck')}
-                  style={styles.customDeckButton}
-                >
-                  <PlusCircle size={18} color={COLORS.pink} />
-                  <Text style={styles.customDeckButtonText}>Custom Deck</Text>
-                </Pressable>
-
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={t.game.startPlaying}
-                  disabled={!levelCards.length}
-                  onPress={startGame}
-                  style={styles.startPress}
-                >
-                  <LinearGradient
-                    colors={
-                      levelCards.length ? GRADIENTS.primary : GRADIENTS.card
-                    }
-                    start={{ x: 0, y: 0.5 }}
-                    end={{ x: 1, y: 0.5 }}
-                    style={styles.startButton}
-                  >
-                    <Play size={22} color={COLORS.textPrimary} fill="white" />
-                    <Text style={styles.startButtonText}>
-                      {t.game.startPlaying}
-                    </Text>
-                  </LinearGradient>
-                </Pressable>
-              </ScrollView>
-            </View>
+            <GameSetupPanel
+              gameNightLabel={t.game.gameNight.toUpperCase()}
+              introTitle={t.game.introTitle}
+              introBody={interpolate(t.game.introBody, {
+                count: levelCards.length,
+                mode: selectedModeLabel,
+              })}
+              badgeLabels={[t.game.truth, t.game.dare, t.game.challenge].map(
+                (label) => label.toUpperCase()
+              )}
+              mode={selectedMode}
+              modeOptions={(['normal', 'intense'] as const).map((value) => ({
+                value,
+                label: t.game.gameModes[value],
+              }))}
+              onModeChange={changeGameMode}
+              intenseDisclaimer={
+                selectedMode === 'intense'
+                  ? t.game.intenseDisclaimer
+                  : undefined
+              }
+              playerCount={playerCount}
+              playerNames={playerNames}
+              onPlayerCountChange={changePlayerCount}
+              onPlayerNameChange={updatePlayerName}
+              drinkingMode={drinkingMode}
+              onDrinkingModeChange={setDrinkingMode}
+              cardLanguage={cardLanguage}
+              onCardLanguageChange={setCardLanguage}
+              customCardsAvailable={customCards.length > 0}
+              customDeckMode={customDeckMode}
+              onCustomDeckModeChange={setCustomDeckMode}
+              onOpenCustomDeck={() => router.push('/(game)/custom-deck')}
+              startLabel={t.game.startPlaying}
+              onStart={startGame}
+              startDisabled={levelCards.length === 0}
+            />
           </Animated.View>
 
           <Animated.View
@@ -1092,250 +837,61 @@ export default function GameHub() {
             style={[styles.sceneLayer, gameSceneStyle]}
           >
             <View style={styles.gameScene}>
-              <View style={styles.gameCard}>
-                <CardAccentTop />
-                <View style={styles.cardInner}>
-                  <View style={styles.turnSpotlightPanel}>
-                    <View style={styles.turnSpotlightRoute}>
-                      <View
-                        style={[
-                          styles.turnSpotlightCard,
-                          styles.turnSpotlightCardLead,
-                        ]}
-                      >
-                        <Text style={styles.cardTurnPersonLabel}>
-                          {cardCopy.playerUp}
-                        </Text>
-                        <Text
-                          numberOfLines={1}
-                          adjustsFontSizeToFit
-                          minimumFontScale={0.82}
-                          style={styles.cardTurnName}
-                        >
-                          {currentTurn.player}
-                        </Text>
-                      </View>
-                      <LinearGradient
-                        colors={GRADIENTS.primary}
-                        start={{ x: 0, y: 0.5 }}
-                        end={{ x: 1, y: 0.5 }}
-                        style={styles.turnSpotlightArrowOrb}
-                      >
-                        <Text style={styles.turnSpotlightArrowText}>→</Text>
-                      </LinearGradient>
-                      <View
-                        style={[
-                          styles.turnSpotlightCard,
-                          styles.turnSpotlightCardTarget,
-                          styles.cardTurnTargetBlock,
-                        ]}
-                      >
-                        <Text style={styles.cardTurnPersonLabel}>
-                          {cardCopy.target}
-                        </Text>
-                        <Text
-                          numberOfLines={1}
-                          adjustsFontSizeToFit
-                          minimumFontScale={0.82}
-                          style={[
-                            styles.cardTurnName,
-                            styles.cardTurnTargetName,
-                          ]}
-                        >
-                          {currentTurn.target}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View style={styles.cardLanguageToggle}>
-                    {CARD_LANGUAGE_OPTIONS.map((option) => {
-                      const isActive = cardLanguage === option.value;
-                      return (
-                        <Pressable
-                          key={option.value}
-                          accessibilityRole="button"
-                          accessibilityState={{ selected: isActive }}
-                          accessibilityLabel={`Show card in ${option.label}`}
-                          onPress={() => setCardLanguage(option.value)}
-                          style={[
-                            styles.cardLanguageButton,
-                            isActive && styles.cardLanguageButtonActive,
-                          ]}
-                        >
-                          <Text
-                            style={[
-                              styles.cardLanguageText,
-                              isActive && styles.cardLanguageTextActive,
-                            ]}
-                          >
-                            {option.label}
-                          </Text>
-                        </Pressable>
-                      );
-                    })}
-                  </View>
-
-                  <View style={styles.cardMainContent}>
-                    {roundPhase === 'ready' ? (
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel={cardCopy.tapDraw}
-                        accessibilityHint={cardCopy.hiddenCardBody}
-                        accessibilityState={{
-                          disabled: levelCards.length === 0,
-                        }}
-                        disabled={levelCards.length === 0}
-                        onPress={startRouletteDraw}
-                        style={({ pressed }) => [
-                          styles.cardBackPanel,
-                          styles.cardBackPress,
-                          pressed && styles.cardBackPressPressed,
-                        ]}
-                      >
-                        <AccentBar />
-                        <Text style={styles.cardBackKicker}>
-                          {cardCopy.mysteryCard}
-                        </Text>
-                        <Text style={styles.cardBackTitle}>
-                          {cardCopy.tapDraw}
-                        </Text>
-                        <Text style={styles.cardBackBody}>
-                          {cardCopy.hiddenCardBody}
-                        </Text>
-                      </Pressable>
-                    ) : roundPhase === 'spinning' ? (
-                      <Animated.View
-                        style={[
-                          styles.cardBackPanel,
-                          styles.roulettePanel,
-                          rouletteCardStyle,
-                        ]}
-                      >
-                        <AccentBar />
-                        <Text style={styles.cardBackKicker}>
-                          {cardCopy.rouletteSpinning}
-                        </Text>
-                        <Text style={styles.cardBackTitle}>
-                          {roulettePreviewCard
-                            ? titleForCard(roulettePreviewCard, cardCopy.titles)
-                            : cardCopy.tapDraw}
-                        </Text>
-                        <Text style={styles.rouletteMeta}>
-                          {roulettePreviewCard
-                            ? cardCopy.level(roulettePreviewCard.intensity)
-                            : selectedCardModeLabel}
-                        </Text>
-                      </Animated.View>
-                    ) : (
-                      <>
-                        <AccentBar />
-
-                        <Text style={styles.cardTitle}>
-                          {currentCard
-                            ? titleForCard(currentCard, cardCopy.titles)
-                            : cardCopy.noCardsForLevels}
-                        </Text>
-                        <Text style={styles.cardBody}>
-                          {displayedCardContent}
-                        </Text>
-
-                        <View style={styles.timerBadge}>
-                          <Timer size={14} color={COLORS.maybe} />
-                          <Text style={styles.timerText}>
-                            {timerEstimateText}
-                          </Text>
-                        </View>
-                      </>
-                    )}
-                  </View>
-
-                  {isCardRevealed && totalTimerSeconds > 0 ? (
-                    <View style={styles.timerPanel}>
-                      <View style={styles.timerProgressTrack}>
-                        <View
-                          style={[
-                            styles.timerProgressFill,
-                            {
-                              width: `${timerProgress * 100}%`,
-                              backgroundColor:
-                                timerSeconds <= 10 ? COLORS.no : COLORS.pink,
-                            },
-                          ]}
-                        />
-                      </View>
-                      <View style={styles.timerPanelRow}>
-                        <View>
-                          <Text
-                            style={[
-                              styles.timerCountdown,
-                              timerSeconds <= 10 && styles.timerCountdownUrgent,
-                            ]}
-                          >
-                            {formatGameCardTimerSeconds(timerSeconds)}
-                          </Text>
-                          <Text style={styles.timerStatus}>
-                            {timerSeconds === 0
-                              ? cardCopy.timesUp
-                              : timerEstimateText}
-                          </Text>
-                        </View>
-                        <View style={styles.timerButtonRow}>
-                          <Pressable
-                            accessibilityRole="button"
-                            accessibilityLabel={
-                              isTimerRunning
-                                ? cardCopy.pauseTimer
-                                : cardCopy.startTimer
-                            }
-                            onPress={isTimerRunning ? pauseTimer : startTimer}
-                            style={styles.timerControlButton}
-                          >
-                            {isTimerRunning ? (
-                              <Pause size={16} color={COLORS.textPrimary} />
-                            ) : (
-                              <Play size={16} color={COLORS.textPrimary} />
-                            )}
-                            <Text style={styles.timerControlText}>
-                              {isTimerRunning
-                                ? cardCopy.pauseTimer
-                                : cardCopy.startTimer}
-                            </Text>
-                          </Pressable>
-                          <Pressable
-                            accessibilityRole="button"
-                            accessibilityLabel={cardCopy.resetTimer}
-                            onPress={resetTimer}
-                            style={styles.timerIconButton}
-                          >
-                            <RotateCcw size={17} color={COLORS.textPrimary} />
-                          </Pressable>
-                        </View>
-                      </View>
-                    </View>
-                  ) : null}
-                </View>
-              </View>
-
-              {isCardRevealed ? (
-                <View style={styles.actionRow}>
-                  <ActionCircle
-                    label={cardCopy.passRisk.toUpperCase()}
-                    icon={X}
-                    color={COLORS.no}
-                    onPress={() => finishRevealedCard(true)}
-                  />
-                  <ActionCircle
-                    label={cardCopy.done.toUpperCase()}
-                    icon={CheckCircle}
-                    variant="gradient"
-                    color={COLORS.pink}
-                    size={66}
-                    iconSize={28}
-                    onPress={() => finishRevealedCard(false)}
-                  />
-                </View>
-              ) : null}
+              <GamePlayerMatchup
+                playerLabel={cardCopy.playerUp.toUpperCase()}
+                playerName={currentTurn.player}
+                targetLabel={cardCopy.target.toUpperCase()}
+                targetName={currentTurn.target}
+              />
+              <GameRoundPanel
+                phase={roundPhase}
+                language={cardLanguage}
+                onLanguageChange={setCardLanguage}
+                drawDisabled={levelCards.length === 0}
+                onDraw={startRouletteDraw}
+                mysteryLabel={cardCopy.mysteryCard}
+                drawLabel={cardCopy.tapDraw}
+                hiddenBody={cardCopy.hiddenCardBody}
+                spinningLabel={cardCopy.rouletteSpinning}
+                spinningTitle={
+                  roulettePreviewCard
+                    ? titleForCard(roulettePreviewCard, cardCopy.titles)
+                    : cardCopy.tapDraw
+                }
+                spinningMeta={
+                  roulettePreviewCard
+                    ? cardCopy.level(roulettePreviewCard.intensity)
+                    : selectedCardModeLabel
+                }
+                revealedTitle={
+                  currentCard
+                    ? titleForCard(currentCard, cardCopy.titles)
+                    : cardCopy.noCardsForLevels
+                }
+                revealedBody={displayedCardContent}
+                timerEstimate={timerEstimateText}
+                timer={
+                  isCardRevealed && totalTimerSeconds > 0
+                    ? {
+                        totalSeconds: totalTimerSeconds,
+                        remainingSeconds: timerSeconds,
+                        running: isTimerRunning,
+                        timesUpLabel: cardCopy.timesUp,
+                        startLabel: cardCopy.startTimer,
+                        pauseLabel: cardCopy.pauseTimer,
+                        resetLabel: cardCopy.resetTimer,
+                        onStart: startTimer,
+                        onPause: pauseTimer,
+                        onReset: resetTimer,
+                      }
+                    : undefined
+                }
+                rouletteStyle={rouletteCardStyle}
+                passRiskLabel={cardCopy.passRisk.toUpperCase()}
+                doneLabel={cardCopy.done.toUpperCase()}
+                onPassRisk={() => finishRevealedCard(true)}
+                onDone={() => finishRevealedCard(false)}
+              />
             </View>
           </Animated.View>
         </View>
@@ -1443,140 +999,6 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     gap: 9,
   },
-  headingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 34,
-  },
-  heading: {
-    color: COLORS.textPrimary,
-    fontSize: 22,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  activeGameHeader: {
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: 'rgba(255,255,255,0.035)',
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-  },
-  activeGameTitleRow: {
-    minHeight: 36,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  activeGameHeaderZone: {
-    flex: 1,
-    minWidth: 0,
-    justifyContent: 'center',
-  },
-  activeGameHeaderCenter: {
-    alignItems: 'center',
-  },
-  activeGameHeaderAction: {
-    alignItems: 'flex-end',
-  },
-  activeGameTitleCopy: {
-    minWidth: 0,
-    gap: 1,
-  },
-  activeGameEyebrow: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    lineHeight: 18,
-    fontWeight: '800',
-  },
-  activeGameTitle: {
-    color: COLORS.textPrimary,
-    fontSize: 18,
-    lineHeight: 22,
-    fontWeight: '900',
-  },
-  activeGameDrinkPill: {
-    maxWidth: '100%',
-    minHeight: 36,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: 'rgba(255,47,146,0.34)',
-    backgroundColor: 'rgba(255,47,146,0.16)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-  },
-  activeGameDrinkText: {
-    color: COLORS.pink,
-    fontSize: 16,
-    fontWeight: '900',
-    textAlign: 'center',
-  },
-  endGameButton: {
-    maxWidth: '100%',
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    minHeight: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-  },
-  endGameText: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  levelRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  modeGroup: {
-    alignItems: 'center',
-    gap: 7,
-  },
-  levelPress: {
-    borderRadius: 20,
-    overflow: 'hidden',
-  },
-  levelActive: {
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 7,
-  },
-  levelActiveText: {
-    color: COLORS.textPrimary,
-    fontSize: 16,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  levelInactive: {
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    paddingHorizontal: 16,
-    paddingVertical: 7,
-  },
-  levelInactiveText: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  intenseDisclaimer: {
-    color: COLORS.maybe,
-    fontSize: 16,
-    fontWeight: '700',
-    lineHeight: 18,
-    textAlign: 'center',
-    paddingHorizontal: 8,
-  },
   transitionStage: {
     flex: 1,
     position: 'relative',
@@ -1584,477 +1006,9 @@ const styles = StyleSheet.create({
   sceneLayer: {
     ...StyleSheet.absoluteFillObject,
   },
-  introCard: {
-    flex: 1,
-    borderRadius: RADII.card,
-    backgroundColor: COLORS.card,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-    overflow: 'hidden',
-    ...SHADOWS.card,
-  },
-  introInner: {
-    alignItems: 'center',
-    paddingHorizontal: 22,
-    paddingVertical: 24,
-    gap: 14,
-  },
-  introBadgeRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  introBadge: {
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    backgroundColor: 'rgba(255,255,255,0.04)',
-  },
-  introBadgeText: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  introTitle: {
-    color: COLORS.textPrimary,
-    fontSize: 34,
-    lineHeight: 39,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  introBody: {
-    color: COLORS.textSub,
-    fontSize: 17,
-    lineHeight: 24,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  setupSection: {
-    alignSelf: 'stretch',
-    gap: 10,
-  },
-  setupLabel: {
-    color: COLORS.textPrimary,
-    fontSize: 16,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  playerCountRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  playerCountButton: {
-    minWidth: 52,
-    minHeight: 42,
-    borderRadius: 21,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-  },
-  playerCountButtonActive: {
-    borderColor: COLORS.pink,
-    backgroundColor: 'rgba(255,47,146,0.18)',
-  },
-  playerCountText: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  playerCountTextActive: {
-    color: COLORS.textPrimary,
-  },
-  playerNameGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  playerNameInput: {
-    flexGrow: 1,
-    flexBasis: '46%',
-    minHeight: 44,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    color: COLORS.textPrimary,
-    fontSize: 16,
-    fontWeight: '700',
-    paddingHorizontal: 12,
-  },
-  drinkingToggleRow: {
-    minHeight: 50,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  drinkingToggleCopy: {
-    flex: 1,
-    gap: 3,
-  },
-  drinkingToggleTitle: {
-    color: COLORS.textPrimary,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  drinkingToggleBody: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: '600',
-  },
-  customDeckModeGroup: {
-    gap: 8,
-  },
-  customDeckModeRow: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  customDeckModeButton: {
-    flex: 1,
-    minHeight: 42,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-  },
-  customDeckModeButtonActive: {
-    borderColor: COLORS.pink,
-    backgroundColor: 'rgba(255,47,146,0.18)',
-  },
-  customDeckModeText: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  customDeckModeTextActive: {
-    color: COLORS.textPrimary,
-  },
-  customDeckButton: {
-    minHeight: 44,
-    borderRadius: RADII.pill,
-    borderWidth: 1,
-    borderColor: 'rgba(255,47,146,0.35)',
-    backgroundColor: 'rgba(255,47,146,0.08)',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingHorizontal: 14,
-  },
-  customDeckButtonText: {
-    color: COLORS.pink,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  startPress: {
-    alignSelf: 'stretch',
-    borderRadius: RADII.pill,
-    overflow: 'hidden',
-    marginTop: 4,
-  },
-  startButton: {
-    minHeight: 58,
-    borderRadius: RADII.pill,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-    paddingHorizontal: 18,
-  },
-  startButtonText: {
-    color: COLORS.textPrimary,
-    fontSize: 18,
-    fontWeight: '800',
-  },
   gameScene: {
     flex: 1,
     gap: 8,
-  },
-  turnSpotlightPanel: {
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    padding: 12,
-  },
-  turnSpotlightRoute: {
-    minHeight: 98,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 9,
-  },
-  turnSpotlightCard: {
-    flex: 1,
-    minWidth: 0,
-    minHeight: 84,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    justifyContent: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    gap: 6,
-  },
-  turnSpotlightCardLead: {
-    backgroundColor: 'rgba(255,47,146,0.14)',
-  },
-  turnSpotlightCardTarget: {
-    backgroundColor: 'rgba(0,217,255,0.1)',
-  },
-  cardTurnTargetBlock: {
-    alignItems: 'flex-end',
-  },
-  cardTurnPersonLabel: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    lineHeight: 19,
-    fontWeight: '900',
-    textTransform: 'uppercase',
-  },
-  cardTurnName: {
-    color: COLORS.textPrimary,
-    fontSize: 24,
-    lineHeight: 28,
-    fontWeight: '900',
-  },
-  cardTurnTargetName: {
-    textAlign: 'right',
-  },
-  turnSpotlightArrowOrb: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...SHADOWS.glow(COLORS.pink),
-  },
-  turnSpotlightArrowText: {
-    color: COLORS.textPrimary,
-    fontSize: 30,
-    lineHeight: 34,
-    fontWeight: '900',
-    textAlign: 'center',
-  },
-  gameCard: {
-    flex: 1,
-    borderRadius: RADII.card,
-    backgroundColor: COLORS.card,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-    overflow: 'hidden',
-    ...SHADOWS.card,
-  },
-  cardInner: {
-    flex: 1,
-    paddingHorizontal: 18,
-    paddingVertical: 14,
-    gap: 10,
-  },
-  cardLanguageToggle: {
-    alignSelf: 'center',
-    minHeight: 34,
-    flexDirection: 'row',
-    borderRadius: 17,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    overflow: 'hidden',
-  },
-  cardLanguageButton: {
-    width: 52,
-    minHeight: 34,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cardLanguageButtonActive: {
-    backgroundColor: 'rgba(255,47,146,0.24)',
-  },
-  cardLanguageText: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    fontWeight: '900',
-    textAlign: 'center',
-  },
-  cardLanguageTextActive: {
-    color: COLORS.textPrimary,
-  },
-  cardMainContent: {
-    alignSelf: 'stretch',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    gap: 12,
-    marginTop: 10,
-  },
-  cardBackPanel: {
-    width: '100%',
-    minHeight: 230,
-    borderRadius: 22,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.045)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 18,
-    paddingVertical: 22,
-    gap: 10,
-  },
-  cardBackPress: {
-    borderColor: 'rgba(255,47,146,0.24)',
-  },
-  cardBackPressPressed: {
-    backgroundColor: 'rgba(255,47,146,0.08)',
-    transform: [{ scale: 0.985 }],
-  },
-  roulettePanel: {
-    borderColor: 'rgba(255,47,146,0.35)',
-    backgroundColor: 'rgba(255,47,146,0.09)',
-  },
-  cardBackKicker: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: '900',
-    textAlign: 'center',
-    textTransform: 'uppercase',
-  },
-  cardBackTitle: {
-    color: COLORS.textPrimary,
-    fontSize: 34,
-    lineHeight: 39,
-    fontWeight: '900',
-    textAlign: 'center',
-  },
-  cardBackBody: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    lineHeight: 23,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  rouletteMeta: {
-    color: COLORS.pink,
-    fontSize: 18,
-    lineHeight: 22,
-    fontWeight: '900',
-    textAlign: 'center',
-  },
-  cardTitle: {
-    color: COLORS.textPrimary,
-    fontSize: 30,
-    lineHeight: 35,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  cardBody: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    lineHeight: 23,
-    textAlign: 'center',
-  },
-  timerBadge: {
-    alignSelf: 'center',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  timerText: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  timerPanel: {
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: COLORS.cardAlt,
-    padding: 12,
-    gap: 12,
-  },
-  timerProgressTrack: {
-    height: 7,
-    borderRadius: 999,
-    backgroundColor: 'rgba(255,255,255,0.12)',
-    overflow: 'hidden',
-  },
-  timerProgressFill: {
-    height: '100%',
-    borderRadius: 999,
-  },
-  timerPanelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  timerCountdown: {
-    color: COLORS.textPrimary,
-    fontSize: 30,
-    lineHeight: 34,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  timerCountdownUrgent: {
-    color: COLORS.no,
-  },
-  timerStatus: {
-    color: COLORS.textMuted,
-    fontSize: 16,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  timerButtonRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  timerControlButton: {
-    minHeight: 42,
-    borderRadius: 21,
-    paddingHorizontal: 14,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 7,
-    backgroundColor: COLORS.pink,
-  },
-  timerControlText: {
-    color: COLORS.textPrimary,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  timerIconButton: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.05)',
-  },
-  actionRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 28,
   },
   consequenceModalBackdrop: {
     flex: 1,
