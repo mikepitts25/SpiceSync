@@ -25,6 +25,7 @@ const {
   GamePlayerMatchup,
   GameSessionHeader,
 } = require('../components/game/GameSessionChrome');
+const { GameRoundPanel } = require('../components/game/GameRoundPanel');
 
 function setupProps() {
   return {
@@ -54,6 +55,41 @@ function setupProps() {
     startLabel: 'Start Playing',
     onStart: jest.fn(),
     startDisabled: false,
+  };
+}
+
+function roundProps() {
+  return {
+    phase: 'revealed',
+    language: 'en',
+    onLanguageChange: jest.fn(),
+    drawDisabled: false,
+    onDraw: jest.fn(),
+    mysteryLabel: 'Mystery card',
+    drawLabel: 'Tap to Spin',
+    hiddenBody: 'The next card stays hidden until the roulette lands.',
+    spinningLabel: 'Roulette is spinning',
+    spinningTitle: 'Challenge Round',
+    spinningMeta: 'Level 2',
+    revealedTitle: 'Challenge Round',
+    revealedBody: 'Ask twenty yes/no questions.',
+    timerEstimate: '1 min',
+    timer: {
+      totalSeconds: 60,
+      remainingSeconds: 9,
+      running: false,
+      timesUpLabel: "Time's Up!",
+      startLabel: 'Start',
+      pauseLabel: 'Pause',
+      resetLabel: 'Reset',
+      onStart: jest.fn(),
+      onPause: jest.fn(),
+      onReset: jest.fn(),
+    },
+    passRiskLabel: 'PASS / RISK',
+    doneLabel: 'DONE',
+    onPassRisk: jest.fn(),
+    onDone: jest.fn(),
   };
 }
 
@@ -197,5 +233,43 @@ describe('game-screen presentation components', () => {
       expect(name.props.adjustsFontSizeToFit).toBe(true);
       expect(name.props.minimumFontScale).toBe(0.72);
     });
+  });
+
+  it('renders urgent timed challenge controls and forwards outcomes', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+    expect(tree!.root.findByProps({ children: '0:09' })).toBeDefined();
+    expect(
+      tree!.root.findByProps({ children: 'Challenge Round' })
+    ).toBeDefined();
+    TestRenderer.act(() =>
+      tree!.root
+        .find((node) => node.props.accessibilityLabel === 'PASS / RISK')
+        .props.onPress()
+    );
+    TestRenderer.act(() =>
+      tree!.root
+        .find((node) => node.props.accessibilityLabel === 'DONE')
+        .props.onPress()
+    );
+    expect(props.onPassRisk).toHaveBeenCalledTimes(1);
+    expect(props.onDone).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not render timer controls for an untimed revealed card', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GameRoundPanel {...props} timer={undefined} />
+      );
+    });
+    expect(
+      tree!.root.findAll((node) => node.props.accessibilityLabel === 'Reset')
+    ).toHaveLength(0);
+    expect(tree!.root.findByProps({ children: '1 min' })).toBeDefined();
   });
 });
