@@ -103,20 +103,26 @@ export function GameButton({
   icon,
   variant = 'primary',
   disabled = false,
+  compact = false,
+  labelNumberOfLines,
 }: {
   label: string;
   onPress: () => void;
   icon?: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'danger';
   disabled?: boolean;
+  compact?: boolean;
+  labelNumberOfLines?: number;
 }) {
   const content = (
     <>
       {icon}
       <Text
+        numberOfLines={labelNumberOfLines}
         style={[
           styles.buttonText,
           variant !== 'primary' && styles.buttonTextSecondary,
+          compact && styles.buttonTextCompact,
         ]}
       >
         {label}
@@ -142,7 +148,7 @@ export function GameButton({
           colors={GRADIENTS.primary}
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
-          style={styles.buttonBody}
+          style={[styles.buttonBody, compact && styles.buttonBodyCompact]}
         >
           {content}
         </LinearGradient>
@@ -150,6 +156,7 @@ export function GameButton({
         <View
           style={[
             styles.buttonBody,
+            compact && styles.buttonBodyCompact,
             styles.buttonSecondary,
             variant === 'danger' && styles.buttonDanger,
           ]}
@@ -237,6 +244,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     borderRadius: RADII.pill,
   },
+  buttonBodyCompact: {
+    minHeight: GAME_CONTROL_MIN_SIZE,
+    paddingHorizontal: 12,
+  },
   buttonSecondary: {
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.11)',
@@ -248,6 +259,11 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: COLORS.textPrimary, fontSize: 17, fontWeight: '900' },
   buttonTextSecondary: { color: COLORS.textSub },
+  buttonTextCompact: {
+    flexShrink: 1,
+    fontSize: 15,
+    textAlign: 'center',
+  },
   pressed: { opacity: 0.84, transform: [{ scale: 0.985 }] },
   disabled: { opacity: 0.42 },
 });

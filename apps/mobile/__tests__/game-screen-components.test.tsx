@@ -234,12 +234,26 @@ describe('game-screen presentation components', () => {
         />
       );
     });
+    const gameNight = tree!.root.findByProps({ children: 'NOCHE DE JUEGO' });
+    expect(gameNight.props.numberOfLines).toBe(2);
+    expect(StyleSheet.flatten(gameNight.props.style).textAlign).toBe('center');
+
     expect(tree!.root.findByProps({ children: 'Bebiendo' })).toBeDefined();
+
+    const endGameButton = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Terminar juego'
+    );
     expect(
-      tree!.root.find(
-        (node) => node.props.accessibilityLabel === 'Terminar juego'
-      )
-    ).toBeDefined();
+      flattenedPressableStyle(endGameButton).minHeight
+    ).toBeGreaterThanOrEqual(GAME_CONTROL_MIN_SIZE);
+    const endGameText = endGameButton
+      .findAllByType(Text)
+      .find((node) => node.props.children === 'Terminar juego');
+    expect(endGameText!.props.numberOfLines).toBe(2);
+    expect(StyleSheet.flatten(endGameText!.props.style)).toMatchObject({
+      flexShrink: 1,
+      textAlign: 'center',
+    });
   });
 
   it('keeps 24-character player names in one bounded matchup row', () => {

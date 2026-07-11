@@ -21,11 +21,11 @@ export function GameSessionHeader({
 }) {
   return (
     <GameSurface style={styles.header}>
-      <View style={styles.headerZone}>
-        <Text numberOfLines={1} style={styles.eyebrow}>
+      <View style={[styles.headerZone, styles.headerLead]}>
+        <Text numberOfLines={2} style={styles.eyebrow}>
           {gameNightLabel}
         </Text>
-        <Text numberOfLines={1} style={styles.mode}>
+        <Text numberOfLines={2} style={styles.mode}>
           {modeLabel}
         </Text>
       </View>
@@ -36,6 +36,8 @@ export function GameSessionHeader({
       </View>
       <View style={[styles.headerZone, styles.headerAction]}>
         <GameButton
+          compact
+          labelNumberOfLines={2}
           label={endGameLabel}
           variant="secondary"
           onPress={onEndGame}
@@ -91,15 +93,22 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   headerZone: {
-    flex: 1,
     minWidth: 0,
+    flexBasis: 0,
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerLead: {
+    flexGrow: 1.15,
   },
   headerCenter: {
-    alignItems: 'center',
+    flexGrow: 1,
   },
   headerAction: {
     minHeight: 44,
-    alignItems: 'flex-end',
+    flexGrow: 1.2,
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
   eyebrow: {
@@ -107,12 +116,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
+    textAlign: 'center',
   },
   mode: {
     color: COLORS.textPrimary,
     fontSize: 18,
     fontWeight: '900',
     marginTop: 2,
+    textAlign: 'center',
   },
   matchup: {
     flexDirection: 'row',
