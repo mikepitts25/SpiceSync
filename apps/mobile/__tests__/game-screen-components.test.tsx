@@ -18,6 +18,7 @@ jest.mock('expo-linear-gradient', () => ({
 const {
   GAME_CONTROL_MIN_SIZE,
   GameButton,
+  GamePill,
   GameSegmentedControl,
 } = require('../components/game/GameControls');
 const { GameSetupPanel } = require('../components/game/GameSetupPanel');
@@ -236,8 +237,16 @@ describe('game-screen presentation components', () => {
     const gameNight = tree!.root.findByProps({ children: 'NOCHE DE JUEGO' });
     expect(gameNight.props.numberOfLines).toBe(2);
     expect(StyleSheet.flatten(gameNight.props.style).textAlign).toBe('center');
+    expect(
+      StyleSheet.flatten(gameNight.parent!.props.style).minWidth
+    ).toBeGreaterThanOrEqual(92);
 
-    expect(tree!.root.findByProps({ children: 'Bebiendo' })).toBeDefined();
+    const drinking = tree!.root.findByProps({ children: 'Bebiendo' });
+    expect(drinking.props.numberOfLines).toBe(1);
+    const drinkingPill = tree!.root.findByType(GamePill);
+    expect(
+      StyleSheet.flatten(drinkingPill.parent!.props.style).minWidth
+    ).toBeGreaterThanOrEqual(100);
 
     const endGameButton = tree!.root.find(
       (node) => node.props.accessibilityLabel === 'Terminar juego'
@@ -253,6 +262,10 @@ describe('game-screen presentation components', () => {
       flexShrink: 1,
       textAlign: 'center',
     });
+    const endGame = tree!.root.findByType(GameButton);
+    expect(
+      StyleSheet.flatten(endGame.parent!.props.style).minWidth
+    ).toBeGreaterThanOrEqual(96);
   });
 
   it('keeps 24-character player names in one bounded matchup row', () => {

@@ -38,7 +38,12 @@ export function GamePill({
 }) {
   return (
     <View style={[styles.pill, styles[`pill_${tone}`]]}>
-      <Text style={[styles.pillText, styles[`pillText_${tone}`]]}>{label}</Text>
+      <Text
+        numberOfLines={1}
+        style={[styles.pillText, styles[`pillText_${tone}`]]}
+      >
+        {label}
+      </Text>
     </View>
   );
 }
@@ -261,7 +266,7 @@ const styles = StyleSheet.create({
   buttonTextSecondary: { color: COLORS.textSub },
   buttonTextCompact: {
     flexShrink: 1,
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'center',
   },
   pressed: { opacity: 0.84, transform: [{ scale: 0.985 }] },

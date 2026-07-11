@@ -102,12 +102,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerLead: {
+    minWidth: 92,
     flexGrow: 1.15,
   },
   headerCenter: {
+    minWidth: 100,
     flexGrow: 1,
   },
   headerAction: {
+    minWidth: 96,
     minHeight: 44,
     flexGrow: 1.2,
     alignItems: 'stretch',
