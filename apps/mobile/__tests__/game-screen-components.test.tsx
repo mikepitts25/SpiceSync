@@ -164,8 +164,7 @@ describe('game-screen presentation components', () => {
 
     const selector = tree!.root.find(
       (node) =>
-        node.type === View &&
-        node.props.accessibilityLabel === 'Card language'
+        node.type === View && node.props.accessibilityLabel === 'Card language'
     );
     expect(StyleSheet.flatten(selector.props.style).alignSelf).toBe('flex-end');
     expect(
@@ -277,6 +276,38 @@ describe('game-screen presentation components', () => {
       expect(name.props.numberOfLines).toBe(1);
       expect(name.props.adjustsFontSizeToFit).toBe(true);
       expect(name.props.minimumFontScale).toBe(0.72);
+    });
+  });
+
+  it('centers Spanish role labels and player names in both matchup boxes', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GamePlayerMatchup
+          playerLabel="JUGADOR ACTIVO"
+          playerName="Player 2"
+          targetLabel="OBJETIVO"
+          targetName="Player 3"
+        />
+      );
+    });
+
+    const roles = ['JUGADOR ACTIVO', 'OBJETIVO'].map((label) =>
+      tree!.root.findByProps({ children: label })
+    );
+    roles.forEach((role) => {
+      expect(role.props.numberOfLines).toBe(2);
+      expect(StyleSheet.flatten(role.props.style).textAlign).toBe('center');
+      expect(StyleSheet.flatten(role.parent!.props.style).alignItems).toBe(
+        'center'
+      );
+    });
+
+    const names = ['Player 2', 'Player 3'].map((name) =>
+      tree!.root.findByProps({ children: name })
+    );
+    names.forEach((name) => {
+      expect(StyleSheet.flatten(name.props.style).textAlign).toBe('center');
     });
   });
 

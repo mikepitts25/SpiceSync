@@ -60,12 +60,14 @@ export function GamePlayerMatchup({
 }) {
   const person = (label: string, name: string, target: boolean) => (
     <View style={[styles.person, target ? styles.target : styles.player]}>
-      <Text style={[styles.role, target && styles.targetText]}>{label}</Text>
+      <Text numberOfLines={2} style={styles.role}>
+        {label}
+      </Text>
       <Text
         numberOfLines={1}
         adjustsFontSizeToFit
         minimumFontScale={0.72}
-        style={[styles.name, target && styles.targetText]}
+        style={styles.name}
       >
         {name}
       </Text>
@@ -135,6 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
     minHeight: 92,
+    alignItems: 'center',
     justifyContent: 'center',
     borderRadius: RADII.card,
     paddingHorizontal: 14,
@@ -151,15 +154,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.7,
+    textAlign: 'center',
   },
   name: {
     color: COLORS.textPrimary,
     fontSize: 20,
     fontWeight: '900',
     marginTop: 5,
-  },
-  targetText: {
-    textAlign: 'right',
+    textAlign: 'center',
   },
   arrow: {
     width: 52,
