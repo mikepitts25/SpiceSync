@@ -98,15 +98,18 @@ export function GameRoundPanel({
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.cardContent}
         >
-          <GameSegmentedControl
-            accessibilityLabel="Card language"
-            value={language}
-            options={[
-              { value: 'en', label: 'EN' },
-              { value: 'es', label: 'ES' },
-            ]}
-            onChange={onLanguageChange}
-          />
+          <View style={styles.languageControlRow}>
+            <GameSegmentedControl
+              compact
+              accessibilityLabel="Card language"
+              value={language}
+              options={[
+                { value: 'en', label: 'EN' },
+                { value: 'es', label: 'ES' },
+              ]}
+              onChange={onLanguageChange}
+            />
+          </View>
           {phase === 'ready' ? (
             <Pressable
               accessibilityRole="button"
@@ -319,6 +322,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 16,
     gap: 14,
+  },
+  languageControlRow: {
+    alignItems: 'flex-end',
   },
   cardBack: {
     minHeight: 220,

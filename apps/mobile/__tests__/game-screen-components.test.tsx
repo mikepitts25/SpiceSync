@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
 jest.mock('expo-router', () => ({
@@ -153,6 +153,37 @@ describe('game-screen presentation components', () => {
     expect(spanish.props.accessibilityState).toEqual({ selected: false });
     TestRenderer.act(() => spanish.props.onPress());
     expect(onChange).toHaveBeenCalledWith('es');
+  });
+
+  it('keeps the active language selector compact, right aligned, and tappable', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const selector = tree!.root.find(
+      (node) =>
+        node.type === View &&
+        node.props.accessibilityLabel === 'Card language'
+    );
+    expect(StyleSheet.flatten(selector.props.style).alignSelf).toBe('flex-end');
+    expect(
+      StyleSheet.flatten(selector.parent!.parent!.props.style).alignItems
+    ).toBe('flex-end');
+
+    const options = ['EN', 'ES'].map((label) =>
+      tree!.root.find(
+        (node) => node.props.accessibilityLabel === `Card language: ${label}`
+      )
+    );
+    expect(options).toHaveLength(2);
+    options.forEach((option) => {
+      expect(flattenedPressableStyle(option)).toMatchObject({
+        minWidth: GAME_CONTROL_MIN_SIZE,
+        minHeight: GAME_CONTROL_MIN_SIZE,
+      });
+    });
   });
 
   it('groups setup controls and forwards player, language, deck, and start actions', () => {

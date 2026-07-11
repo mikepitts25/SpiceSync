@@ -53,14 +53,19 @@ export function GameSegmentedControl<T extends string>({
   value,
   options,
   onChange,
+  compact = false,
 }: {
   accessibilityLabel: string;
   value: T;
   options: readonly GameSegmentOption<T>[];
   onChange: (value: T) => void;
+  compact?: boolean;
 }) {
   return (
-    <View accessibilityLabel={accessibilityLabel} style={styles.segmented}>
+    <View
+      accessibilityLabel={accessibilityLabel}
+      style={[styles.segmented, compact && styles.segmentedCompact]}
+    >
       {options.map((option) => {
         const selected = option.value === value;
         return (
@@ -72,6 +77,7 @@ export function GameSegmentedControl<T extends string>({
             onPress={() => onChange(option.value)}
             style={({ pressed }) => [
               styles.segmentOption,
+              compact && styles.segmentOptionCompact,
               selected && styles.segmentOptionSelected,
               pressed && styles.pressed,
             ]}
@@ -200,12 +206,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.04)',
     overflow: 'hidden',
   },
+  segmentedCompact: {
+    alignSelf: 'flex-end',
+  },
   segmentOption: {
     minWidth: GAME_CONTROL_MIN_SIZE,
     minHeight: GAME_CONTROL_MIN_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
+  },
+  segmentOptionCompact: {
+    paddingHorizontal: 10,
   },
   segmentOptionSelected: { backgroundColor: 'rgba(255,45,146,0.24)' },
   segmentText: { color: COLORS.textMuted, fontSize: 16, fontWeight: '900' },
