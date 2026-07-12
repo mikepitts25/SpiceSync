@@ -1,5 +1,12 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
 jest.mock('expo-router', () => ({
@@ -11,7 +18,8 @@ jest.mock('expo-router', () => ({
 jest.mock('expo-linear-gradient', () => ({
   LinearGradient: ({ children, ...props }: any) => {
     const { View } = require('react-native');
-    return <View {...props}>{children}</View>;
+    const { testID: _testID, ...viewProps } = props;
+    return <View {...viewProps}>{children}</View>;
   },
 }));
 
@@ -384,6 +392,38 @@ describe('game-screen presentation components', () => {
       paddingVertical: 8,
       gap: 6,
     });
+  });
+
+  it('shows the scroll cue only while revealed content remains below', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const scrollView = tree!.root.findByType(ScrollView);
+    expect(
+      tree!.root.findAllByProps({ testID: 'game-round-scroll-cue' })
+    ).toHaveLength(0);
+
+    TestRenderer.act(() => {
+      scrollView.props.onLayout({
+        nativeEvent: { layout: { height: 300 } },
+      });
+      scrollView.props.onContentSizeChange(320, 500);
+    });
+    expect(
+      tree!.root.findAllByProps({ testID: 'game-round-scroll-cue' })
+    ).toHaveLength(1);
+
+    TestRenderer.act(() => {
+      scrollView.props.onScroll({
+        nativeEvent: { contentOffset: { y: 200 } },
+      });
+    });
+    expect(
+      tree!.root.findAllByProps({ testID: 'game-round-scroll-cue' })
+    ).toHaveLength(0);
   });
 
   it('renders urgent timed challenge controls and forwards outcomes', () => {

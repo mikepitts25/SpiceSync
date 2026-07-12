@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Animated,
   Pressable,
@@ -12,6 +12,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import {
   CheckCircle,
+  ChevronDown,
   Pause,
   Play,
   RotateCcw,
@@ -68,6 +69,8 @@ export type GameRoundPanelProps = {
   rouletteStyle?: StyleProp<ViewStyle>;
 };
 
+const SCROLL_END_TOLERANCE = 8;
+
 export function GameRoundPanel({
   phase,
   language,
@@ -90,12 +93,29 @@ export function GameRoundPanel({
   onDone,
   rouletteStyle,
 }: GameRoundPanelProps) {
+  const [contentHeight, setContentHeight] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const showScrollCue =
+    phase === 'revealed' &&
+    viewportHeight > 0 &&
+    contentHeight > viewportHeight + SCROLL_END_TOLERANCE &&
+    scrollOffset + viewportHeight < contentHeight - SCROLL_END_TOLERANCE;
+
   return (
     <View style={styles.stage}>
       <GameSurface elevated style={styles.card}>
         <CardAccentTop />
         <ScrollView
           showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onContentSizeChange={(_, height) => setContentHeight(height)}
+          onLayout={(event) =>
+            setViewportHeight(event.nativeEvent.layout.height)
+          }
+          onScroll={(event) =>
+            setScrollOffset(event.nativeEvent.contentOffset.y)
+          }
           contentContainerStyle={styles.cardContent}
         >
           <View style={styles.languageControlRow}>
@@ -149,6 +169,21 @@ export function GameRoundPanel({
             <TimerPanel timer={timer} timerEstimate={timerEstimate} />
           ) : null}
         </ScrollView>
+        {showScrollCue ? (
+          <LinearGradient
+            testID="game-round-scroll-cue"
+            accessible={false}
+            pointerEvents="none"
+            colors={['rgba(13,0,6,0)', COLORS.card]}
+            style={styles.scrollCue}
+          >
+            <ChevronDown
+              size={18}
+              color={COLORS.textSub}
+              strokeWidth={2.5}
+            />
+          </LinearGradient>
+        ) : null}
       </GameSurface>
       {phase === 'revealed' ? (
         <View style={styles.outcomes}>
@@ -322,6 +357,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     gap: 10,
+  },
+  scrollCue: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    left: 0,
+    height: 54,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 7,
   },
   languageControlRow: {
     alignItems: 'flex-end',
