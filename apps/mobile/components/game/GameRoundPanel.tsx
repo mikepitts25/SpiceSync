@@ -177,11 +177,7 @@ export function GameRoundPanel({
             colors={['rgba(13,0,6,0)', COLORS.card]}
             style={styles.scrollCue}
           >
-            <ChevronDown
-              size={18}
-              color={COLORS.textSub}
-              strokeWidth={2.5}
-            />
+            <ChevronDown size={18} color={COLORS.textSub} strokeWidth={2.5} />
           </LinearGradient>
         ) : null}
       </GameSurface>

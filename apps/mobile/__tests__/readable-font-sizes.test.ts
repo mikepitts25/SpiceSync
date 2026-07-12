@@ -39,7 +39,8 @@ const ALLOWED_SMALL_TEXT = [
     },
   ].map((entry) => ({
     ...entry,
-    reason: 'Compact game metadata is intentionally secondary to challenge copy.',
+    reason:
+      'Compact game metadata is intentionally secondary to challenge copy.',
   })),
   ...[
     'filtersSummary',
@@ -126,16 +127,8 @@ describe('readable font sizes', () => {
         'game',
         'GameRoundPanel.tsx'
       )}:outcomeLabel:14`,
-      `${path.join(
-        'components',
-        'game',
-        'GameSessionChrome.tsx'
-      )}:eyebrow:12`,
-      `${path.join(
-        'components',
-        'game',
-        'GameSessionChrome.tsx'
-      )}:role:12`,
+      `${path.join('components', 'game', 'GameSessionChrome.tsx')}:eyebrow:12`,
+      `${path.join('components', 'game', 'GameSessionChrome.tsx')}:role:12`,
     ]);
   });
 

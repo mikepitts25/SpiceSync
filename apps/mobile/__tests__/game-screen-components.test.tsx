@@ -492,7 +492,9 @@ describe('game-screen presentation components', () => {
     expect(
       tree!.root
         .findAllByType(Text)
-        .filter((node) => ['Comenzar', 'Reiniciar'].includes(node.props.children))
+        .filter((node) =>
+          ['Comenzar', 'Reiniciar'].includes(node.props.children)
+        )
     ).toHaveLength(0);
   });
 
