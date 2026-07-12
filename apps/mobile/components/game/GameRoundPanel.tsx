@@ -142,7 +142,7 @@ export function GameRoundPanel({
               <AccentBar />
               <Text style={styles.title}>{revealedTitle}</Text>
               <Text style={styles.body}>{revealedBody}</Text>
-              <GamePill label={timerEstimate} tone="warning" />
+              {timer ? null : <GamePill label={timerEstimate} tone="warning" />}
             </View>
           )}
           {phase === 'revealed' && timer ? (
@@ -194,10 +194,15 @@ function TimerPanel({
   const formattedTime = formatGameCardTimerSeconds(timer.remainingSeconds);
 
   return (
-    <View style={styles.timerPanel}>
-      <View style={styles.timerHeading}>
-        <View>
-          <Text style={styles.timerEstimate}>{timerEstimate}</Text>
+    <View testID="game-timer-strip" style={styles.timerPanel}>
+      <View style={styles.timerMainRow}>
+        <View style={styles.timerReadout}>
+          <Text
+            numberOfLines={1}
+            style={[styles.timerEstimate, timeExpired && styles.timesUp]}
+          >
+            {timeExpired ? timer.timesUpLabel : timerEstimate}
+          </Text>
           <Text
             accessibilityLabel={timeExpired ? timer.timesUpLabel : undefined}
             accessibilityLiveRegion={timeExpired ? 'polite' : undefined}
@@ -206,9 +211,31 @@ function TimerPanel({
             {formattedTime}
           </Text>
         </View>
-        {timeExpired ? (
-          <Text style={styles.timesUp}>{timer.timesUpLabel}</Text>
-        ) : null}
+        <View style={styles.timerActions}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={activeLabel}
+            onPress={activeAction}
+            style={({ pressed }) => [
+              styles.timerAction,
+              styles.timerActionPrimary,
+              pressed && styles.pressed,
+            ]}
+          >
+            <ActiveIcon size={19} color={COLORS.textPrimary} />
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={timer.resetLabel}
+            onPress={timer.onReset}
+            style={({ pressed }) => [
+              styles.timerAction,
+              pressed && styles.pressed,
+            ]}
+          >
+            <RotateCcw size={18} color={COLORS.textSub} />
+          </Pressable>
+        </View>
       </View>
       <View style={styles.progressTrack}>
         <View
@@ -218,33 +245,6 @@ function TimerPanel({
             urgent && styles.progressUrgent,
           ]}
         />
-      </View>
-      <View style={styles.timerActions}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={activeLabel}
-          onPress={activeAction}
-          style={({ pressed }) => [
-            styles.timerAction,
-            styles.timerActionPrimary,
-            pressed && styles.pressed,
-          ]}
-        >
-          <ActiveIcon size={18} color={COLORS.textPrimary} />
-          <Text style={styles.timerActionText}>{activeLabel}</Text>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={timer.resetLabel}
-          onPress={timer.onReset}
-          style={({ pressed }) => [
-            styles.timerAction,
-            pressed && styles.pressed,
-          ]}
-        >
-          <RotateCcw size={18} color={COLORS.textSub} />
-          <Text style={styles.timerActionText}>{timer.resetLabel}</Text>
-        </Pressable>
       </View>
     </View>
   );
@@ -319,9 +319,9 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flexGrow: 1,
-    paddingHorizontal: 18,
-    paddingVertical: 16,
-    gap: 14,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 10,
   },
   languageControlRow: {
     alignItems: 'flex-end',
@@ -343,9 +343,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(194,24,91,0.12)',
   },
   challenge: {
-    gap: 13,
-    paddingHorizontal: 5,
-    paddingVertical: 8,
+    gap: 10,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
     alignItems: 'flex-start',
   },
   kicker: {
@@ -357,14 +357,14 @@ const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.textPrimary,
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: '900',
-    lineHeight: 38,
+    lineHeight: 34,
   },
   body: {
     color: COLORS.textSub,
-    fontSize: 17,
-    lineHeight: 25,
+    fontSize: 16,
+    lineHeight: 22,
   },
   spinningMeta: {
     color: COLORS.maybe,
@@ -372,28 +372,38 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   timerPanel: {
-    gap: 12,
-    borderRadius: 18,
+    gap: 6,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
     backgroundColor: 'rgba(255,255,255,0.045)',
-    padding: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
-  timerHeading: {
-    minHeight: 58,
+  timerMainRow: {
+    minHeight: GAME_CONTROL_MIN_SIZE,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 12,
+    gap: 10,
+  },
+  timerReadout: {
+    minWidth: 0,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 9,
   },
   timerEstimate: {
+    flexShrink: 1,
     color: COLORS.textMuted,
     fontSize: 14,
     fontWeight: '800',
   },
   timerValue: {
     color: COLORS.pink,
-    fontSize: 34,
+    fontSize: 28,
+    lineHeight: 32,
     fontWeight: '900',
     fontVariant: ['tabular-nums'],
   },
@@ -401,16 +411,12 @@ const styles = StyleSheet.create({
     color: COLORS.no,
   },
   timesUp: {
-    flexShrink: 1,
     color: COLORS.no,
-    fontSize: 18,
-    fontWeight: '900',
-    textAlign: 'right',
   },
   progressTrack: {
-    height: 7,
+    height: 5,
     overflow: 'hidden',
-    borderRadius: 4,
+    borderRadius: 3,
     backgroundColor: 'rgba(255,255,255,0.1)',
   },
   progressFill: {
@@ -423,35 +429,21 @@ const styles = StyleSheet.create({
   },
   timerActions: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
+    gap: 8,
   },
   timerAction: {
     minWidth: GAME_CONTROL_MIN_SIZE,
     minHeight: GAME_CONTROL_MIN_SIZE,
-    flexBasis: 132,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 7,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.1)',
     backgroundColor: 'rgba(255,255,255,0.045)',
-    paddingHorizontal: 12,
   },
   timerActionPrimary: {
     borderColor: 'rgba(255,45,146,0.38)',
     backgroundColor: 'rgba(255,45,146,0.16)',
-  },
-  timerActionText: {
-    flexShrink: 1,
-    color: COLORS.textPrimary,
-    fontSize: 16,
-    fontWeight: '800',
-    textAlign: 'center',
   },
   outcomes: {
     minHeight: 88,

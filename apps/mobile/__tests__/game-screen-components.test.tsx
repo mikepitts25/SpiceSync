@@ -352,6 +352,40 @@ describe('game-screen presentation components', () => {
     });
   });
 
+  it('uses dense readable challenge copy and one compact timer estimate', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const title = tree!.root.findByProps({ children: 'Challenge Round' });
+    expect(StyleSheet.flatten(title.props.style)).toMatchObject({
+      fontSize: 28,
+      lineHeight: 34,
+    });
+
+    const body = tree!.root.findByProps({
+      children: 'Ask twenty yes/no questions.',
+    });
+    expect(StyleSheet.flatten(body.props.style)).toMatchObject({
+      fontSize: 16,
+      lineHeight: 22,
+    });
+
+    const estimates = tree!.root
+      .findAllByType(Text)
+      .filter((node) => node.props.children === '1 min');
+    expect(estimates).toHaveLength(1);
+
+    const strip = tree!.root.findByProps({ testID: 'game-timer-strip' });
+    expect(StyleSheet.flatten(strip.props.style)).toMatchObject({
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      gap: 6,
+    });
+  });
+
   it('renders urgent timed challenge controls and forwards outcomes', () => {
     const props = roundProps();
     let tree: TestRenderer.ReactTestRenderer;
@@ -390,7 +424,7 @@ describe('game-screen presentation components', () => {
     expect(tree!.root.findByProps({ children: '1 min' })).toBeDefined();
   });
 
-  it('allows localized timer actions to wrap and grow with system text', () => {
+  it('keeps localized icon timer actions at least 44 points', () => {
     const props = roundProps();
     let tree: TestRenderer.ReactTestRenderer;
     TestRenderer.act(() => {
@@ -406,20 +440,20 @@ describe('game-screen presentation components', () => {
       );
     });
 
-    const reset = tree!.root.find(
-      (node) => node.props.accessibilityLabel === 'Reiniciar'
+    const actions = ['Comenzar', 'Reiniciar'].map((label) =>
+      tree!.root.find((node) => node.props.accessibilityLabel === label)
     );
-    expect(StyleSheet.flatten(reset.parent!.props.style).flexWrap).toBe('wrap');
-    expect(flattenedPressableStyle(reset).flexBasis).toBeGreaterThanOrEqual(
-      120
-    );
-    const resetText = reset
-      .findAllByType(Text)
-      .find((node) => node.props.children === 'Reiniciar');
-    expect(StyleSheet.flatten(resetText!.props.style)).toMatchObject({
-      flexShrink: 1,
-      textAlign: 'center',
+    actions.forEach((action) => {
+      expect(flattenedPressableStyle(action)).toMatchObject({
+        minWidth: GAME_CONTROL_MIN_SIZE,
+        minHeight: GAME_CONTROL_MIN_SIZE,
+      });
     });
+    expect(
+      tree!.root
+        .findAllByType(Text)
+        .filter((node) => ['Comenzar', 'Reiniciar'].includes(node.props.children))
+    ).toHaveLength(0);
   });
 
   it('keeps the active countdown silent and announces only expiry', () => {
