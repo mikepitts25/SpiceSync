@@ -20,7 +20,7 @@ const HOME_SECTIONS = [
     emoji: '🔥',
     color: '#FF6B9D',
     gradient: ['#FF6B9D', '#F472B6'],
-    route: '/(tabs)/kinks',
+    route: '/(tabs)/deck',
   },
   {
     id: 'game',

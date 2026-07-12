@@ -63,7 +63,7 @@ Hardcoded English that bypasses `lib/i18n`:
   any other literals.
 Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
 
-### 5. Consolidate rating entry points
+### 5. Consolidate rating entry points — ✅ DONE
 
 - `app/(tabs)/kinks.tsx` (tier picker), `app/(tabs)/categories.tsx`,
   `app/(tabs)/browse.tsx`, and `app/(tabs)/deck.tsx` all lead to rating
