@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   segmentedCompact: {
-    width: 88,
+    minWidth: 88,
     minHeight: GAME_CONTROL_MIN_SIZE,
     flexDirection: 'row',
     alignSelf: 'flex-end',
@@ -242,9 +242,9 @@ const styles = StyleSheet.create({
   segmentedCompactTrack: {
     position: 'absolute',
     top: 4,
+    right: 4,
+    bottom: 4,
     left: 4,
-    width: 80,
-    height: 36,
     flexDirection: 'row',
     borderRadius: 18,
     borderWidth: 1,
@@ -260,13 +260,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   segmentOptionCompact: {
-    width: GAME_CONTROL_MIN_SIZE,
-    height: GAME_CONTROL_MIN_SIZE,
+    flexGrow: 1,
     paddingHorizontal: 8,
   },
   segmentOptionCompactVisual: {
-    width: 40,
-    height: 36,
+    flex: 1,
   },
   segmentOptionSelected: { backgroundColor: 'rgba(255,45,146,0.24)' },
   segmentText: { color: COLORS.textMuted, fontSize: 16, fontWeight: '900' },

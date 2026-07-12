@@ -168,18 +168,26 @@ describe('game-screen presentation components', () => {
       (node) =>
         node.type === View && node.props.accessibilityLabel === 'Card language'
     );
-    expect(StyleSheet.flatten(selector.props.style)).toMatchObject({
+    const selectorStyle = StyleSheet.flatten(selector.props.style);
+    expect(selectorStyle).toMatchObject({
       alignSelf: 'flex-end',
-      width: 88,
+      minWidth: 88,
       minHeight: 44,
     });
+    expect(selectorStyle.width).toBeUndefined();
+    expect(selectorStyle.height).toBeUndefined();
     const visualTrack = selector.find(
       (node) => node.type === View && node.props.pointerEvents === 'none'
     );
-    expect(StyleSheet.flatten(visualTrack.props.style)).toMatchObject({
-      width: 80,
-      height: 36,
+    const visualTrackStyle = StyleSheet.flatten(visualTrack.props.style);
+    expect(visualTrackStyle).toMatchObject({
+      top: 4,
+      right: 4,
+      bottom: 4,
+      left: 4,
     });
+    expect(visualTrackStyle.width).toBeUndefined();
+    expect(visualTrackStyle.height).toBeUndefined();
     expect(
       StyleSheet.flatten(selector.parent!.parent!.props.style).alignItems
     ).toBe('flex-end');
@@ -190,10 +198,13 @@ describe('game-screen presentation components', () => {
       )
     );
     options.forEach((option) => {
-      expect(flattenedPressableStyle(option)).toMatchObject({
+      const optionStyle = flattenedPressableStyle(option);
+      expect(optionStyle).toMatchObject({
         minWidth: GAME_CONTROL_MIN_SIZE,
         minHeight: GAME_CONTROL_MIN_SIZE,
       });
+      expect(optionStyle.width).toBeUndefined();
+      expect(optionStyle.height).toBeUndefined();
       expect(option.props.hitSlop).toBeUndefined();
     });
   });
