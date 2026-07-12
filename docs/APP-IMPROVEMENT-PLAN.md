@@ -130,7 +130,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   (e.g., first third biased low intensity, ramping up). Keep it seeded/testable
   like the existing shuffle (it takes an injectable `random`).
 
-### 11. More consequences, scaled to mode
+### 11. More consequences, scaled to mode — ✅ DONE
 
 - Only 5 base + 3 drinking templates in `lib/gameSession.ts:35-81`; they
   repeat after a few passes.

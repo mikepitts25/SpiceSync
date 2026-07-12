@@ -75,7 +75,6 @@ import {
 import {
   DEFAULT_GAME_PLAYER_NAMES,
   type GameConsequence,
-  type GameTurn,
   getGameTurn,
   normalizeGamePlayerCount,
   normalizeGamePlayers,
@@ -769,15 +768,12 @@ export default function GameHub() {
         turn: currentTurn,
         passed,
         drinkingMode,
+        intenseMode: selectedMode === 'intense',
       });
 
       if (outcome.requiresAcknowledgement && outcome.consequence) {
         setLastConsequence(
-          formatGameConsequenceText(
-            outcome.consequence,
-            currentTurn,
-            cardLanguage
-          )
+          formatGameConsequenceText(outcome.consequence, cardLanguage)
         );
         return;
       }
@@ -792,6 +788,7 @@ export default function GameHub() {
       drinkingMode,
       isCardRevealed,
       moveToReadyForTurn,
+      selectedMode,
       turnIndex,
     ]
   );
@@ -1117,33 +1114,11 @@ function formatCardLanguageTimerEstimate(
 
 function formatGameConsequenceText(
   consequence: GameConsequence,
-  turn: GameTurn,
   language: GameCardDisplayLanguage
 ) {
-  if (language !== 'es') {
-    return consequence.text;
-  }
-
-  switch (consequence.id) {
-    case 'no-passes':
-      return `${turn.player} no puede pasar durante los próximos 2 turnos.`;
-    case 'clothing':
-      return `${turn.player} se quita una prenda.`;
-    case 'embarrassing-truth':
-      return `${turn.player} le cuenta a ${turn.target} un secreto vergonzoso.`;
-    case 'pet-role':
-      return `${turn.player} es la mascota de ${turn.target} durante los próximos 5 minutos.`;
-    case 'target-command':
-      return `${turn.target} le da a ${turn.player} una orden inofensiva.`;
-    case 'drink':
-      return `${turn.player} toma un trago.`;
-    case 'target-picks-drink':
-      return `${turn.target} elige un trago para ${turn.player}.`;
-    case 'shot':
-      return `${turn.player} toma un shot.`;
-    default:
-      return consequence.text;
-  }
+  // Spanish copy lives on the consequence itself now, built alongside the
+  // English text by the templates in lib/gameSession.ts.
+  return language === 'es' ? consequence.textEs : consequence.text;
 }
 
 const styles = StyleSheet.create({

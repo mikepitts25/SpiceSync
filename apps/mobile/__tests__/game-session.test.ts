@@ -125,6 +125,7 @@ describe('game session helpers', () => {
     expect(consequence).toEqual({
       id: 'no-passes',
       text: 'Alex cannot pass for the next 2 turns.',
+      textEs: 'Alex no puede pasar durante los próximos 2 turnos.',
       includesDrink: false,
     });
   });
@@ -138,6 +139,46 @@ describe('game session helpers', () => {
 
     expect(consequence.includesDrink).toBe(true);
     expect(consequence.text).toBe('Alex takes a shot.');
+    expect(consequence.textEs).toBe('Alex toma un shot.');
+  });
+
+  it('keeps spicy forfeits like clothing removal out of normal mode', () => {
+    const turn = { player: 'Alex', target: 'Jordan', turnNumber: 1 };
+    const idsForMode = (intenseMode: boolean) => {
+      const seen = new Set<string>();
+      for (let step = 0; step < 200; step += 1) {
+        seen.add(
+          buildGameConsequence(turn, false, () => step / 200, intenseMode).id
+        );
+      }
+      return seen;
+    };
+
+    const normalIds = idsForMode(false);
+    const intenseIds = idsForMode(true);
+
+    expect(normalIds.has('clothing')).toBe(false);
+    expect(normalIds.has('pet-role')).toBe(false);
+    expect(intenseIds.has('clothing')).toBe(true);
+    expect(intenseIds.has('slow-dance')).toBe(true);
+    // The pool grew well beyond the original five templates.
+    expect(normalIds.size).toBeGreaterThanOrEqual(9);
+    expect(intenseIds.size).toBeGreaterThanOrEqual(14);
+  });
+
+  it('lets the target invent the consequence as one of the options', () => {
+    const turn = { player: 'Alex', target: 'Jordan', turnNumber: 1 };
+    const all = Array.from({ length: 200 }, (_, step) =>
+      buildGameConsequence(turn, false, () => step / 200)
+    );
+    const invent = all.find((item) => item.id === 'target-invents');
+
+    expect(invent?.text).toBe(
+      'Jordan invents the consequence. Alex may ask for one redo.'
+    );
+    expect(invent?.textEs).toBe(
+      'Jordan inventa la consecuencia. Alex puede pedir un solo cambio.'
+    );
   });
 
   it('completes a revealed card by advancing to the next player without an acknowledgement', () => {
@@ -171,6 +212,7 @@ describe('game session helpers', () => {
       consequence: {
         id: 'no-passes',
         text: 'Alex cannot pass for the next 2 turns.',
+        textEs: 'Alex no puede pasar durante los próximos 2 turnos.',
         includesDrink: false,
       },
       requiresAcknowledgement: true,

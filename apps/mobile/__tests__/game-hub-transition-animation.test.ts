@@ -73,7 +73,7 @@ describe('game hub transition animation', () => {
     const source = readGameHubSource();
 
     expect(source).toContain(
-      "readyPrompt: (player) => `${player}, tap the card to spin.`"
+      'readyPrompt: (player) => `${player}, tap the card to spin.`'
     );
     expect(source).toContain("tapDraw: 'Tap to Spin'");
     expect(source).toContain('drawLabel={cardCopy.tapDraw}');
@@ -116,8 +116,17 @@ describe('game hub transition animation', () => {
 
     expect(source).toContain('formatGameConsequenceText');
     expect(source).toContain('cardLanguage');
-    expect(source).toContain('no puede pasar durante los próximos 2 turnos');
-    expect(source).toContain('se quita una prenda');
-    expect(source).toContain('toma un shot');
+    expect(source).toContain('consequence.textEs');
+
+    // The Spanish copy now lives on the consequence templates themselves.
+    const sessionSource = fs.readFileSync(
+      path.join(appRoot, 'lib/gameSession.ts'),
+      'utf8'
+    );
+    expect(sessionSource).toContain(
+      'no puede pasar durante los próximos 2 turnos'
+    );
+    expect(sessionSource).toContain('se quita una prenda');
+    expect(sessionSource).toContain('toma un shot');
   });
 });
