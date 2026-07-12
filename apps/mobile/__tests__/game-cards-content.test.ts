@@ -1,5 +1,6 @@
 import { MASTER_DECK, type GameCard } from '../data/gameCards';
 import { ALL_CARDS_ES } from '../data/gameCards.es';
+import { ALL_CARDS_FROM_JSON } from '../data/cardLoader';
 
 const ALL_PLAYABLE_CARDS: GameCard[] = [...MASTER_DECK, ...ALL_CARDS_ES];
 const ACTION_TYPES = new Set(['dare', 'challenge', 'roleplay']);
@@ -193,6 +194,33 @@ describe('game card content policy', () => {
 
     for (const [id, content] of Object.entries(EXPECTED_CONCRETE_ACTIONS)) {
       expect(cardById.get(id)?.content).toBe(content);
+    }
+  });
+
+  it('keeps revised cards synchronized with the legacy JSON mirror', () => {
+    const mirroredIds = [
+      'lvl2-c-009',
+      'lvl4-c-005',
+      'lvl5-d-002',
+      'lvl5-c-004',
+      'lvl5-c-007',
+      'lvl5-c-014',
+    ];
+    const runtimeById = new Map(MASTER_DECK.map((card) => [card.id, card]));
+    const jsonById = new Map(
+      ALL_CARDS_FROM_JSON.map((card) => [card.id, card])
+    );
+
+    for (const id of mirroredIds) {
+      const runtimeCard = runtimeById.get(id);
+      const jsonCard = jsonById.get(id);
+
+      expect(jsonCard).toBeDefined();
+      expect(jsonCard?.content).toBe(runtimeCard?.content);
+      expect(jsonCard?.category).toBe(runtimeCard?.category);
+      expect(jsonCard?.estimatedTime).toBe(runtimeCard?.estimatedTime);
+      expect(jsonCard?.requires).toEqual(runtimeCard?.requires);
+      expect(jsonCard?.safetyNotes).toBe(runtimeCard?.safetyNotes);
     }
   });
 

@@ -1611,15 +1611,11 @@
     {
       "id": "lvl2-c-009",
       "type": "challenge",
-      "content": "Future Vision Board: Together, discuss and write down 5 shared goals or dreams for your future.",
+      "content": "Future Snapshot: Player up poses with Target as if one shared dream just came true. Hold the celebration pose for 30 seconds and announce what happened.",
       "intensity": 2,
-      "category": "communication",
+      "category": "playful",
       "isPremium": true,
-      "estimatedTime": "1 min",
-      "requires": [
-        "paper",
-        "pen"
-      ]
+      "estimatedTime": "30 sec"
     },
     {
       "id": "lvl2-c-010",
@@ -2760,7 +2756,7 @@
     {
       "id": "lvl4-c-005",
       "type": "challenge",
-      "content": "Impact Play Session: Use hands, paddles, or floggers. 20 strikes. Vary intensity. Build up slowly.",
+      "content": "Paddle Balance: Player up balances the paddle across Target's open palms. Target holds still for 30 seconds; if it drops, Target gives Player up one wicked compliment.",
       "intensity": 4,
       "category": "physical",
       "isPremium": true,
@@ -2768,7 +2764,7 @@
       "requires": [
         "paddle"
       ],
-      "safetyNotes": "Start light and warm up. Target buttocks and thighs only. Check in frequently."
+      "safetyNotes": "The paddle is a balance prop only. Do not swing it or use it for impact."
     },
     {
       "id": "lvl4-c-006",
@@ -3204,7 +3200,7 @@
     {
       "id": "lvl5-d-002",
       "type": "dare",
-      "content": "Intense impact scene: 50 strikes with paddle, flogger, or cane. Build intensity. Make me feel every one.",
+      "content": "Paddle Claim: Player up taps the paddle once against their own palm, lays it across Target's lap, and gives one pose command. Target holds the pose for 30 seconds.",
       "intensity": 5,
       "category": "physical",
       "isPremium": true,
@@ -3212,7 +3208,7 @@
       "requires": [
         "paddle"
       ],
-      "safetyNotes": "Warm up gradually. Target buttocks and thighs only. Check in every 10 strikes. Watch for skin damage."
+      "safetyNotes": "One self-tap and presentation only. Do not strike Target with the paddle."
     },
     {
       "id": "lvl5-d-003",
@@ -3396,7 +3392,7 @@
     {
       "id": "lvl5-c-004",
       "type": "challenge",
-      "content": "Pain processing: Take increasing impact. Learn to breathe through it. Transform pain into pleasure.",
+      "content": "Paddle Signal: Player up places the paddle in Target's hands. Target presents it back, and Player up gives one featherlight tap over clothing.",
       "intensity": 5,
       "category": "physical",
       "isPremium": true,
@@ -3404,7 +3400,7 @@
       "requires": [
         "paddle"
       ],
-      "safetyNotes": "Build slowly. Use breathing techniques. Stop at any request. Aftercare is essential."
+      "safetyNotes": "One featherlight tap over clothing only. Avoid the neck, spine, joints, kidneys, and any sore area."
     },
     {
       "id": "lvl5-c-005",
@@ -3432,12 +3428,15 @@
     {
       "id": "lvl5-c-007",
       "type": "challenge",
-      "content": "Prop Boundary Check: Player up picks one prop—collar, leash, whip, paddle, lingerie, or makeup. Both players answer yes, maybe, or no. Use that prop later only if both say yes or maybe.",
+      "content": "Collar Claim: Player up puts a collar on Target. Target wears it for the next two rounds, then Player up removes it slowly.",
       "intensity": 5,
       "category": "intimate",
       "isPremium": true,
       "estimatedTime": "1 min",
-      "safetyNotes": "Boundary talk only. A no ends the topic without debate; do not use that prop during the game."
+      "requires": [
+        "collar"
+      ],
+      "safetyNotes": "Keep the collar loose and decorative, never restrictive. Remove it immediately on request or discomfort."
     },
     {
       "id": "lvl5-c-008",
@@ -3505,12 +3504,15 @@
     {
       "id": "lvl5-c-014",
       "type": "challenge",
-      "content": "Group scene preparation: Plan a threesome or moresome. Discuss boundaries, STI status, birth control, and aftercare for all.",
+      "content": "Lipstick Mark: Player up puts lipstick on Target—one bold lip, cheek mark, or kiss print. Target keeps it for the next two rounds.",
       "intensity": 5,
-      "category": "communication",
+      "category": "playful",
       "isPremium": true,
       "estimatedTime": "1 min",
-      "safetyNotes": "Group play requires consent from all. Discuss boundaries extensively. Have safe sex supplies ready."
+      "requires": [
+        "lipstick"
+      ],
+      "safetyNotes": "Use skin-safe lipstick. Target may choose a visible or discreet placement and remove it at any time."
     },
     {
       "id": "lvl5-c-015",
