@@ -234,7 +234,7 @@ export default function SuggestionsHub() {
               </Text>
               <Pressable
                 style={styles.emptyButton}
-                onPress={() => router.push('/(deck)')}
+                onPress={() => router.push('/(tabs)/deck')}
               >
                 <Text style={styles.emptyButtonText}>Go to Deck</Text>
               </Pressable>
@@ -287,7 +287,7 @@ export default function SuggestionsHub() {
             <View style={styles.actionGrid}>
               <Pressable
                 style={styles.actionButton}
-                onPress={() => router.push('/(deck)')}
+                onPress={() => router.push('/(tabs)/deck')}
               >
                 <Text style={styles.actionEmoji}>🎴</Text>
                 <Text style={styles.actionText}>Swipe More</Text>

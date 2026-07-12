@@ -103,7 +103,7 @@ export async function scheduleDailyNotification(
         data: {
           type: 'daily_card',
           activityId: activity?.id,
-          screen: '(deck)',
+          screen: '(tabs)/deck',
         },
         sound: 'default',
       },
@@ -228,7 +228,7 @@ export async function sendTestNotification(): Promise<void> {
         body: activity
           ? `Sample: ${activity.title}`
           : 'This is how your daily notifications will look!',
-        data: { type: 'test', screen: '(deck)' },
+        data: { type: 'test', screen: '(tabs)/deck' },
         sound: 'default',
       },
       trigger: null, // Immediate

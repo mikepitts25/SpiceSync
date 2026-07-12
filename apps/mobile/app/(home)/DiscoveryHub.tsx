@@ -92,7 +92,7 @@ export default function DiscoveryHub() {
   };
 
   const startSwiping = () => {
-    router.push('/(deck)');
+    router.push('/(tabs)/deck');
   };
 
   return (

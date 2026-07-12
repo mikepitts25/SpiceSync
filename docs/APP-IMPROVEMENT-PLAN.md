@@ -11,7 +11,7 @@ Work top to bottom within a priority tier unless told otherwise.
 
 ## P0 — Critical bug (fix before anything else)
 
-### 1. Votes silently dropped on the legacy deck route
+### 1. Votes silently dropped on the legacy deck route — ✅ DONE
 
 - `app/(home)/DiscoveryHub.tsx:95` and `app/(suggestions)/index.tsx:237,290`
   push to `/(deck)`, which resolves to the **legacy** `app/(deck)/DeckScreen.tsx`,
