@@ -152,7 +152,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
 
 ## P3 — Store-readiness and debt
 
-### 13. App Store metadata pass
+### 13. App Store metadata pass — ✅ DONE (see docs/app-store-metadata.md)
 
 - iOS guideline 1.1.4 rejections in this category are usually about store
   METADATA (screenshots, description), not the app. Keep listing copy
