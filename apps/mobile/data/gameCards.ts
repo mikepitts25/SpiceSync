@@ -36,6 +36,12 @@ export interface GameCard {
   estimatedTime: string;
   requires?: string[];
   safetyNotes?: string;
+  // Player-count flags. Unflagged cards fall back to a category heuristic in
+  // lib/gamePlayerFilter.ts: intimate/physical cards are written
+  // couple-to-couple and stay 2-player; flirty/party categories carry
+  // 3-4 player games.
+  minPlayers?: number;
+  maxPlayers?: number;
 }
 
 // ─── FREE TIER ─────────────────────────────────────────────
@@ -52,8 +58,7 @@ export const FREE_CARDS: GameCard[] = [
   {
     id: 'f-t2',
     type: 'truth',
-    content:
-      'Name one exact thing that makes you lose control. Show me where.',
+    content: 'Name one exact thing that makes you lose control. Show me where.',
     intensity: 3,
     category: 'intimate',
     isPremium: false,
@@ -548,8 +553,7 @@ export const FREE_CARDS: GameCard[] = [
   {
     id: 'f-n-t5',
     type: 'truth',
-    content:
-      'What is one flirty thing that always gets your attention?',
+    content: 'What is one flirty thing that always gets your attention?',
     intensity: 2,
     category: 'emotional',
     isPremium: false,

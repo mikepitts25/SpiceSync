@@ -95,7 +95,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   - confidence/prep challenges
 - Solo mode skips the Player→Target matchup UI and consequences.
 
-### 8. Group-safe card flags (3–4 players)
+### 8. Group-safe card flags (3–4 players) — ✅ DONE
 
 - Cards are written couple-to-couple ("Undress me completely using only your
   mouth") but the turn engine (`getGameTurn` in `lib/gameSession.ts`) deals

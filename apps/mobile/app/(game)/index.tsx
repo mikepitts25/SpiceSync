@@ -46,10 +46,16 @@ import {
   type GameIntensityLevel,
 } from '../../lib/gameLevelFilter';
 import {
+  appendCustomGameCards,
   createShuffledGameDeck,
   selectGameCardsForCustomMode,
   type GameCustomDeckMode,
 } from '../../lib/gameDeck';
+import {
+  GROUP_PLAYER_THRESHOLD,
+  filterCardsByPlayerCount,
+} from '../../lib/gamePlayerFilter';
+import { GROUP_CARDS } from '../../data/game_cards_group';
 import {
   computeMutualYesKinks,
   createMatchInspiredCards,
@@ -288,13 +294,22 @@ export default function GameHub() {
     () => getCardsByLanguage('en', unlocked),
     [unlocked]
   );
-  const cards = useMemo(
-    () =>
-      soloMode
-        ? getSoloGameCards(unlocked)
-        : selectGameCardsForCustomMode(baseCards, customCards, customDeckMode),
-    [soloMode, unlocked, baseCards, customCards, customDeckMode]
-  );
+  const cards = useMemo(() => {
+    if (soloMode) return getSoloGameCards(unlocked);
+
+    const selected = selectGameCardsForCustomMode(
+      baseCards,
+      customCards,
+      customDeckMode
+    );
+    // Group nights add the party pool; the player-count filter then drops
+    // couple-only intimacy so guests never get dealt it.
+    const withGroupCards =
+      playerCount >= GROUP_PLAYER_THRESHOLD && customDeckMode === 'include'
+        ? appendCustomGameCards(selected, GROUP_CARDS)
+        : selected;
+    return filterCardsByPlayerCount(withGroupCards, playerCount);
+  }, [soloMode, unlocked, baseCards, customCards, customDeckMode, playerCount]);
 
   // Match-aware deck inputs: only mutual-yes kinks — data both partners have
   // already revealed to each other — ever influence the game.
