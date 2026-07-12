@@ -73,7 +73,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   redirect or remove it from navigation. Note `app/(tabs)/kinks.tsx:48` uses
   `(useProfiles() as any)` — that screen is legacy-quality anyway.
 
-### 6. Starter pack onboarding (time-to-first-match)
+### 6. Starter pack onboarding (time-to-first-match) — ✅ DONE
 
 - New couples face 330 kinks (`data/kinks.en.json`) before anything happens.
 - Curate ~15 broadly-popular, low-intensity kink ids as a "starter pack";

@@ -235,6 +235,12 @@ export const en = {
       "You've rated everything here. See what you two matched on.",
     progressLabel: '{{current}} of {{total}}',
     potentialMatch: '+1 potential match',
+    starterBadge: 'Starter Pack',
+    starterHint: '{{count}} easy picks to get you matching fast',
+    starterCompleteTitle: 'Starter pack complete! 🎉',
+    starterCompleteDesc:
+      'Full catalog unlocked. See what you two matched on so far.',
+    keepSwiping: 'Keep Swiping',
     resetCategory: 'Reset this category',
     resetDeck: 'Reset Deck',
     viewMatches: 'View Matches',

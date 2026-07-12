@@ -8,7 +8,14 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
@@ -57,6 +64,12 @@ import {
   voteToReadiness,
   type NormalizedKinkVote,
 } from '../../lib/votes/rolePreferences';
+import {
+  STARTER_PACK_KINK_IDS,
+  filterToStarterPack,
+  isStarterPackActive,
+} from '../../lib/kinks/starterPack';
+import { useStarterPackStore } from '../../lib/state/starterPack';
 import { interpolate as interpolateI18n, useTranslation } from '../../lib/i18n';
 import { playGameSound } from '../../lib/gameSounds';
 import {
@@ -456,16 +469,6 @@ export default function DeckScreen() {
   const setReadiness = useVotesStore((state) => state.setReadiness);
   const clearVotesForKinks = useVotesStore((state) => state.clearVotesForKinks);
 
-  const filteredKinks = useMemo(
-    () => filterKinksByTier(kinks, selectedTier),
-    [kinks, selectedTier]
-  );
-
-  const allKinkIdsInFilter = useMemo(
-    () => filteredKinks.map((k) => k.id),
-    [filteredKinks]
-  );
-
   const activeProfileVotes = useVotesStore((state) =>
     activeProfileIdValue
       ? state.votesByProfile[activeProfileIdValue]
@@ -478,13 +481,41 @@ export default function DeckScreen() {
   );
   const remotePartnerVotes = usePartnerVotesStore((state) => state.byCardId);
 
+  const starterDismissed = useStarterPackStore((state) =>
+    activeProfileIdValue
+      ? !!state.dismissedByProfile[activeProfileIdValue]
+      : false
+  );
+  const dismissStarterPack = useStarterPackStore((state) => state.dismiss);
+  const votedCount = activeProfileVotes
+    ? Object.keys(activeProfileVotes).length
+    : 0;
+  const starterActive =
+    !!activeProfileIdValue &&
+    isStarterPackActive({ votedCount, dismissed: starterDismissed });
+
+  const filteredKinks = useMemo(
+    () =>
+      starterActive
+        ? filterToStarterPack(kinks)
+        : filterKinksByTier(kinks, selectedTier),
+    [kinks, selectedTier, starterActive]
+  );
+
+  const allKinkIdsInFilter = useMemo(
+    () => filteredKinks.map((k) => k.id),
+    [filteredKinks]
+  );
+
   const queue = useMemo(() => {
     if (!activeProfileIdValue) return filteredKinks;
     const voted = activeProfileVotes || {};
     return filteredKinks.filter((kink) => voted[kink.id] === undefined);
   }, [filteredKinks, activeProfileIdValue, activeProfileVotes]);
 
-  const key = `${activeProfileIdValue ?? 'none'}::${selectedTier ?? 'all'}`;
+  const key = `${activeProfileIdValue ?? 'none'}::${
+    starterActive ? 'starter' : (selectedTier ?? 'all')
+  }`;
   const [indexByKey, setIndexByKey] = useState<Record<string, number>>({});
   const [cardAnimating, setCardAnimating] = useState(false);
   const [pairPreference, setPairPreference] = useState<PairPreference>('both');
@@ -497,6 +528,7 @@ export default function DeckScreen() {
   >([]);
   const [showMatchPulse, setShowMatchPulse] = useState(false);
   const [celebrateKey, setCelebrateKey] = useState<string | null>(null);
+  const [starterCelebrating, setStarterCelebrating] = useState(false);
   const matchPulseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null
   );
@@ -626,9 +658,14 @@ export default function DeckScreen() {
         }
       }
 
-      // This vote emptied the queue: celebrate finishing the tier.
+      // This vote emptied the queue: celebrate finishing the tier — or, in
+      // starter mode, finishing the pack (which unlocks the full catalog).
       if (queue.length === 1) {
-        setCelebrateKey(key);
+        if (starterActive) {
+          setStarterCelebrating(true);
+        } else {
+          setCelebrateKey(key);
+        }
         playGameSound('success');
       }
     },
@@ -644,6 +681,7 @@ export default function DeckScreen() {
       triggerMatchPulse,
       queue.length,
       key,
+      starterActive,
     ]
   );
 
@@ -859,7 +897,7 @@ export default function DeckScreen() {
   const progressLabel = `${interpolateI18n(t.deck.progressLabel, {
     current: positionInFilter,
     total: totalInFilter,
-  })} · ${getTierOptionLabel(selectedTier, t)}`;
+  })} · ${starterActive ? t.deck.starterBadge : getTierOptionLabel(selectedTier, t)}`;
 
   return (
     <SafeAreaView
@@ -887,7 +925,10 @@ export default function DeckScreen() {
         <View style={styles.filterBlock}>
           <View style={styles.filterHeader}>
             <Text style={styles.filterTitle}>
-              {t.common.intensity.toUpperCase()}
+              {(starterActive
+                ? t.deck.starterBadge
+                : t.common.intensity
+              ).toUpperCase()}
             </Text>
             {canUndo ? (
               <Pressable
@@ -905,39 +946,65 @@ export default function DeckScreen() {
             ) : null}
           </View>
 
-          <View style={styles.tierGrid}>
-            {TIER_FILTER_OPTIONS.map((option) => {
-              const active = selectedTier === option.value;
-              return (
-                <Pressable
-                  key={option.label}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: active }}
-                  onPress={() => applyTierFilter(option.value)}
-                  style={styles.tierPress}
-                >
-                  {active ? (
-                    <LinearGradient
-                      colors={GRADIENTS.primary}
-                      start={{ x: 0, y: 0.5 }}
-                      end={{ x: 1, y: 0.5 }}
-                      style={styles.tierActive}
-                    >
-                      <Text style={styles.tierActiveText}>
-                        {getTierOptionLabel(option.value, t)}
-                      </Text>
-                    </LinearGradient>
-                  ) : (
-                    <View style={styles.tierInactive}>
-                      <Text style={styles.tierInactiveText}>
-                        {getTierOptionLabel(option.value, t)}
-                      </Text>
-                    </View>
-                  )}
-                </Pressable>
-              );
-            })}
-          </View>
+          {starterActive ? (
+            <View style={styles.starterRow}>
+              <Text style={styles.starterHint}>
+                {interpolateI18n(t.deck.starterHint, {
+                  count: STARTER_PACK_KINK_IDS.length,
+                })}
+              </Text>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t.deck.skip}
+                onPress={() => {
+                  if (activeProfileIdValue) {
+                    dismissStarterPack(activeProfileIdValue);
+                  }
+                }}
+                style={({ pressed }) => [
+                  styles.undoButton,
+                  styles.starterSkipButton,
+                  pressed && styles.readinessActionPressed,
+                ]}
+              >
+                <Text style={styles.undoButtonText}>{t.deck.skip}</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <View style={styles.tierGrid}>
+              {TIER_FILTER_OPTIONS.map((option) => {
+                const active = selectedTier === option.value;
+                return (
+                  <Pressable
+                    key={option.label}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: active }}
+                    onPress={() => applyTierFilter(option.value)}
+                    style={styles.tierPress}
+                  >
+                    {active ? (
+                      <LinearGradient
+                        colors={GRADIENTS.primary}
+                        start={{ x: 0, y: 0.5 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.tierActive}
+                      >
+                        <Text style={styles.tierActiveText}>
+                          {getTierOptionLabel(option.value, t)}
+                        </Text>
+                      </LinearGradient>
+                    ) : (
+                      <View style={styles.tierInactive}>
+                        <Text style={styles.tierInactiveText}>
+                          {getTierOptionLabel(option.value, t)}
+                        </Text>
+                      </View>
+                    )}
+                  </Pressable>
+                );
+              })}
+            </View>
+          )}
 
           <Text style={styles.deckProgressLabel}>{progressLabel}</Text>
         </View>
@@ -1007,6 +1074,66 @@ export default function DeckScreen() {
           })}
         </View>
       </View>
+
+      <Modal
+        visible={starterCelebrating}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setStarterCelebrating(false)}
+      >
+        <View style={styles.starterModalBackdrop}>
+          <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+            <ConfettiCannon
+              count={120}
+              origin={{ x: SCREEN_W / 2, y: -20 }}
+              autoStart
+              fadeOut
+              fallSpeed={2600}
+              explosionSpeed={380}
+              colors={[
+                COLORS.pink,
+                COLORS.purple,
+                COLORS.maybe,
+                COLORS.textPrimary,
+              ]}
+            />
+          </View>
+          <View style={styles.starterModalCard}>
+            <Text style={styles.emptyTitle}>{t.deck.starterCompleteTitle}</Text>
+            <Text style={styles.emptyCopy}>{t.deck.starterCompleteDesc}</Text>
+            <View style={styles.emptyActions}>
+              <Pressable
+                accessibilityRole="button"
+                style={styles.outlineButton}
+                onPress={() => setStarterCelebrating(false)}
+              >
+                <Text style={styles.outlineButtonText}>
+                  {t.deck.keepSwiping.toUpperCase()}
+                </Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                style={styles.gradientButtonPress}
+                onPress={() => {
+                  setStarterCelebrating(false);
+                  router.navigate('/(tabs)/matches');
+                }}
+              >
+                <LinearGradient
+                  colors={GRADIENTS.primary}
+                  start={{ x: 0, y: 0.5 }}
+                  end={{ x: 1, y: 0.5 }}
+                  style={styles.gradientButton}
+                >
+                  <Text style={styles.gradientButtonText}>
+                    {t.deck.viewMatches.toUpperCase()}
+                  </Text>
+                </LinearGradient>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
       <AppTabBar active="deck" />
     </SafeAreaView>
@@ -1120,6 +1247,43 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
+  },
+  starterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  starterHint: {
+    flexShrink: 1,
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  starterSkipButton: {
+    position: 'relative',
+    right: undefined,
+  },
+  starterModalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(5,5,10,0.82)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 22,
+  },
+  starterModalCard: {
+    width: '100%',
+    maxWidth: 420,
+    borderRadius: 24,
+    borderWidth: 2,
+    borderColor: 'rgba(255,45,146,0.34)',
+    backgroundColor: COLORS.card,
+    paddingHorizontal: 22,
+    paddingVertical: 26,
+    alignItems: 'center',
+    gap: 12,
+    ...SHADOWS.card,
   },
   deckArea: {
     flex: 1,

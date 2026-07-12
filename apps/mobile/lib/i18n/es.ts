@@ -240,6 +240,12 @@ export const es: Translations = {
     tierCompleteDesc: 'Ya calificaste todo aquí. Mira en qué coincidieron.',
     progressLabel: '{{current}} de {{total}}',
     potentialMatch: '+1 match potencial',
+    starterBadge: 'Pack inicial',
+    starterHint: '{{count}} opciones fáciles para conseguir matches rápido',
+    starterCompleteTitle: '¡Pack inicial completo! 🎉',
+    starterCompleteDesc:
+      'Catálogo completo desbloqueado. Mira en qué coincidieron hasta ahora.',
+    keepSwiping: 'Seguir votando',
     resetCategory: 'Reiniciar esta categoría',
     resetDeck: 'Reiniciar cartas',
     viewMatches: 'Ver Matches',
