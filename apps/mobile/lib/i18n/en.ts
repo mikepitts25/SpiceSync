@@ -428,6 +428,7 @@ export const en = {
     gameModeA11y: 'Game mode',
     numberOfPlayers: 'Number of Players',
     playersCountA11y: '{{count}} players',
+    soloPlayerA11y: '1 player (solo)',
     playerNameA11y: 'Player {{number}} name',
     drinkingGame: 'Drinking game',
     drinkingGameDesc: 'Adds drinks and shots to pass consequences.',

@@ -27,6 +27,7 @@ import type { GameCardDisplayLanguage } from '../../data/gameCardTranslations';
 import { formatGameCardTimerSeconds } from '../../lib/gameTimer';
 import {
   GAME_CONTROL_MIN_SIZE,
+  GameButton,
   GamePill,
   GameSegmentedControl,
   GameSurface,
@@ -68,6 +69,10 @@ export type GameRoundPanelProps = {
   onPassRisk: () => void;
   onDone: () => void;
   rouletteStyle?: StyleProp<ViewStyle>;
+  // Solo mode: offer saving reflective cards into the fantasy journal.
+  journalLabel?: string;
+  journalSaved?: boolean;
+  onSaveToJournal?: () => void;
 };
 
 const SCROLL_END_TOLERANCE = 8;
@@ -93,6 +98,9 @@ export function GameRoundPanel({
   onPassRisk,
   onDone,
   rouletteStyle,
+  journalLabel,
+  journalSaved = false,
+  onSaveToJournal,
 }: GameRoundPanelProps) {
   const { t } = useTranslation();
   const [contentHeight, setContentHeight] = useState(0);
@@ -183,6 +191,15 @@ export function GameRoundPanel({
               </View>
               <Text style={styles.body}>{revealedBody}</Text>
               {timer ? null : <GamePill label={timerEstimate} tone="warning" />}
+              {journalLabel && onSaveToJournal ? (
+                <GameButton
+                  compact
+                  label={journalLabel}
+                  variant="secondary"
+                  disabled={journalSaved}
+                  onPress={onSaveToJournal}
+                />
+              ) : null}
             </View>
           )}
           {phase === 'revealed' && timer ? (

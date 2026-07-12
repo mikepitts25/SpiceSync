@@ -13,12 +13,40 @@ import {
 } from '../lib/gameSession';
 
 describe('game session helpers', () => {
-  it('limits the player count to the supported two-to-four player range', () => {
-    expect(MIN_GAME_PLAYERS).toBe(2);
+  it('limits the player count to the supported one-to-four player range', () => {
+    expect(MIN_GAME_PLAYERS).toBe(1);
     expect(MAX_GAME_PLAYERS).toBe(4);
-    expect(normalizeGamePlayerCount(1)).toBe(2);
+    expect(normalizeGamePlayerCount(0)).toBe(1);
+    expect(normalizeGamePlayerCount(1)).toBe(1);
     expect(normalizeGamePlayerCount(3)).toBe(3);
     expect(normalizeGamePlayerCount(8)).toBe(4);
+  });
+
+  it('makes the solo player both actor and target on every turn', () => {
+    expect(
+      Array.from({ length: 3 }, (_, index) => getGameTurn(['Alex'], index))
+    ).toEqual([
+      { player: 'Alex', target: 'Alex', turnNumber: 1 },
+      { player: 'Alex', target: 'Alex', turnNumber: 1 },
+      { player: 'Alex', target: 'Alex', turnNumber: 1 },
+    ]);
+  });
+
+  it('never produces a consequence in solo sessions, even on a pass', () => {
+    const outcome = resolveGameRoundOutcome({
+      turnIndex: 2,
+      playerCount: 1,
+      turn: { player: 'Alex', target: 'Alex', turnNumber: 1 },
+      passed: true,
+      drinkingMode: true,
+      random: () => 0,
+    });
+
+    expect(outcome).toEqual({
+      nextTurnIndex: 3,
+      consequence: null,
+      requiresAcknowledgement: false,
+    });
   });
 
   it('normalizes player names and fills missing names with stable defaults', () => {

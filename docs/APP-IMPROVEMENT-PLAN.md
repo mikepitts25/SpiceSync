@@ -84,7 +84,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
 
 ## P2 — Game overhaul (fun & sexy for 1–4 players)
 
-### 7. Solo mode (1 player)
+### 7. Solo mode (1 player) — ✅ DONE
 
 - `lib/gameSession.ts:1` hardcodes `MIN_GAME_PLAYERS = 2`; setup panel offers
   only 2/3/4 (`components/game/GameSetupPanel.tsx:108`).

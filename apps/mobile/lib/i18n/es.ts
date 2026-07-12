@@ -434,6 +434,7 @@ export const es: Translations = {
     gameModeA11y: 'Modo de juego',
     numberOfPlayers: 'Número de jugadores',
     playersCountA11y: '{{count}} jugadores',
+    soloPlayerA11y: '1 jugador (solo)',
     playerNameA11y: 'Nombre del jugador {{number}}',
     drinkingGame: 'Juego de beber',
     drinkingGameDesc: 'Agrega tragos y shots para pasar consecuencias.',

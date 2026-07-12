@@ -35,6 +35,8 @@ import {
   type GameCardType,
   getCardsByLanguage,
 } from '../../data/gameCards';
+import { getSoloGameCards } from '../../data/game_cards_solo';
+import { useFantasyJournalStore } from '../../lib/state/fantasyJournal';
 import {
   getGameCardDisplayContent,
   type GameCardDisplayLanguage,
@@ -118,6 +120,9 @@ type CardLanguageCopy = {
   level: (intensity: GameCard['intensity']) => string;
   done: string;
   passRisk: string;
+  skip: string;
+  saveToJournal: string;
+  savedToJournal: string;
   consequence: string;
   acknowledgeConsequence: string;
   ok: string;
@@ -157,6 +162,9 @@ const CARD_LANGUAGE_COPY: Record<GameCardDisplayLanguage, CardLanguageCopy> = {
     level: (intensity) => `Level ${intensity}`,
     done: 'Done',
     passRisk: 'Pass / Risk',
+    skip: 'Skip',
+    saveToJournal: 'Save to Journal',
+    savedToJournal: 'Saved ✓',
     consequence: 'Consequence',
     acknowledgeConsequence: 'Acknowledge consequence',
     ok: 'OK',
@@ -203,6 +211,9 @@ const CARD_LANGUAGE_COPY: Record<GameCardDisplayLanguage, CardLanguageCopy> = {
     level: (intensity) => `Nivel ${intensity}`,
     done: 'Listo',
     passRisk: 'Pasar / Riesgo',
+    skip: 'Saltar',
+    saveToJournal: 'Guardar en diario',
+    savedToJournal: 'Guardado ✓',
     consequence: 'Consecuencia',
     acknowledgeConsequence: 'Aceptar consecuencia',
     ok: 'Aceptar',
@@ -272,13 +283,17 @@ export default function GameHub() {
   const hasLoadedPersistedSessionRef = useRef(false);
   const skipNextTimerResetRef = useRef(false);
 
+  const soloMode = playerCount === 1;
   const baseCards = useMemo(
     () => getCardsByLanguage('en', unlocked),
     [unlocked]
   );
   const cards = useMemo(
-    () => selectGameCardsForCustomMode(baseCards, customCards, customDeckMode),
-    [baseCards, customCards, customDeckMode]
+    () =>
+      soloMode
+        ? getSoloGameCards(unlocked)
+        : selectGameCardsForCustomMode(baseCards, customCards, customDeckMode),
+    [soloMode, unlocked, baseCards, customCards, customDeckMode]
   );
 
   // Match-aware deck inputs: only mutual-yes kinks — data both partners have
@@ -426,12 +441,16 @@ export default function GameHub() {
         previousOrderIds: lastDeckOrderIdsRef.current[selectedMode],
         avoidFirstCardId,
         intensityArc: true,
-        favoredCategories,
+        favoredCategories: soloMode ? undefined : favoredCategories,
       });
-      const inspiredCards = createMatchInspiredCards(mutualYesKinks, {
-        language: cardLanguage,
-        intensity: selectedMode === 'intense' ? 4 : 3,
-      });
+      // Match-inspired cards assume both partners are present; solo decks
+      // stay on their own anticipation/self-discovery pool.
+      const inspiredCards = soloMode
+        ? []
+        : createMatchInspiredCards(mutualYesKinks, {
+            language: cardLanguage,
+            intensity: selectedMode === 'intense' ? 4 : 3,
+          });
       const nextDeck = interleaveMatchInspiredCards(shuffled, inspiredCards);
 
       lastDeckOrderIdsRef.current[selectedMode] = nextDeck.map(
@@ -443,7 +462,14 @@ export default function GameHub() {
 
       return nextDeck;
     },
-    [levelCards, selectedMode, favoredCategories, mutualYesKinks, cardLanguage]
+    [
+      levelCards,
+      selectedMode,
+      soloMode,
+      favoredCategories,
+      mutualYesKinks,
+      cardLanguage,
+    ]
   );
 
   const clearRouletteInterval = useCallback(() => {
@@ -821,6 +847,42 @@ export default function GameHub() {
     setSelectedMode(mode);
   }, []);
 
+  const addJournalEntry = useFantasyJournalStore((state) => state.addEntry);
+  const [journaledCardIds, setJournaledCardIds] = useState<Set<string>>(
+    () => new Set()
+  );
+  const currentCardJournaled = currentCard
+    ? journaledCardIds.has(currentCard.id)
+    : false;
+  const canSaveToJournal =
+    soloMode &&
+    isCardRevealed &&
+    !!activeKey &&
+    !!currentCard &&
+    (currentCard.type === 'truth' || currentCard.type === 'fantasy');
+
+  const saveCardToJournal = useCallback(() => {
+    if (!canSaveToJournal || !activeKey || !currentCard) return;
+    if (journaledCardIds.has(currentCard.id)) return;
+
+    const entry = addJournalEntry({
+      profileId: activeKey,
+      title: displayedCardContent,
+      status: 'fantasy_only',
+    });
+    if (entry) {
+      setJournaledCardIds((prev) => new Set(prev).add(currentCard.id));
+      playGameSound('success');
+    }
+  }, [
+    canSaveToJournal,
+    activeKey,
+    currentCard,
+    journaledCardIds,
+    addJournalEntry,
+    displayedCardContent,
+  ]);
+
   return (
     <SafeAreaView
       style={styles.screen}
@@ -903,12 +965,14 @@ export default function GameHub() {
             style={[styles.sceneLayer, gameSceneStyle]}
           >
             <View style={styles.gameScene}>
-              <GamePlayerMatchup
-                playerLabel={cardCopy.playerUp.toUpperCase()}
-                playerName={currentTurn.player}
-                targetLabel={cardCopy.target.toUpperCase()}
-                targetName={currentTurn.target}
-              />
+              {soloMode ? null : (
+                <GamePlayerMatchup
+                  playerLabel={cardCopy.playerUp.toUpperCase()}
+                  playerName={currentTurn.player}
+                  targetLabel={cardCopy.target.toUpperCase()}
+                  targetName={currentTurn.target}
+                />
+              )}
               <GameRoundPanel
                 phase={roundPhase}
                 language={cardLanguage}
@@ -953,10 +1017,24 @@ export default function GameHub() {
                     : undefined
                 }
                 rouletteStyle={rouletteCardStyle}
-                passRiskLabel={cardCopy.passRisk.toUpperCase()}
+                passRiskLabel={(soloMode
+                  ? cardCopy.skip
+                  : cardCopy.passRisk
+                ).toUpperCase()}
                 doneLabel={cardCopy.done.toUpperCase()}
                 onPassRisk={() => finishRevealedCard(true)}
                 onDone={() => finishRevealedCard(false)}
+                journalLabel={
+                  canSaveToJournal
+                    ? currentCardJournaled
+                      ? cardCopy.savedToJournal
+                      : cardCopy.saveToJournal
+                    : undefined
+                }
+                journalSaved={currentCardJournaled}
+                onSaveToJournal={
+                  canSaveToJournal ? saveCardToJournal : undefined
+                }
               />
             </View>
           </Animated.View>

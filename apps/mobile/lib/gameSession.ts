@@ -1,5 +1,6 @@
-export const MIN_GAME_PLAYERS = 2;
+export const MIN_GAME_PLAYERS = 1;
 export const MAX_GAME_PLAYERS = 4;
+export const SOLO_PLAYER_COUNT = 1;
 
 export const DEFAULT_GAME_PLAYER_NAMES = [
   'Player 1',
@@ -103,6 +104,16 @@ export function getGameTurn(
   turnIndex: number
 ): GameTurn {
   const normalizedPlayers = normalizeGamePlayers(players, players.length);
+
+  // Solo play: the single player is both actor and target every turn.
+  if (normalizedPlayers.length === 1) {
+    return {
+      player: normalizedPlayers[0],
+      target: normalizedPlayers[0],
+      turnNumber: 1,
+    };
+  }
+
   const wholeTurnIndex = Math.floor(turnIndex);
   const safeIndex =
     ((wholeTurnIndex % normalizedPlayers.length) + normalizedPlayers.length) %
@@ -168,9 +179,11 @@ export function resolveGameRoundOutcome({
   drinkingMode: boolean;
   random?: () => number;
 }): GameRoundOutcome {
-  const consequence = passed
-    ? buildGameConsequence(turn, drinkingMode, random)
-    : null;
+  // Solo sessions have no consequences — passing just moves on.
+  const consequence =
+    passed && playerCount > SOLO_PLAYER_COUNT
+      ? buildGameConsequence(turn, drinkingMode, random)
+      : null;
 
   return {
     nextTurnIndex: advanceGameTurnIndex(turnIndex, playerCount),

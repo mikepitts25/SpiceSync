@@ -77,6 +77,9 @@ export function GameSetupPanel({
   startDisabled,
 }: GameSetupPanelProps) {
   const { t } = useTranslation();
+  // Solo sessions skip consequences and use their own card pool, so the
+  // drinking and custom-deck controls don't apply.
+  const solo = playerCount === 1;
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -107,13 +110,15 @@ export function GameSetupPanel({
           <Text style={styles.body}>{introBody}</Text>
           <Text style={styles.sectionLabel}>{t.game.numberOfPlayers}</Text>
           <View style={styles.playerCountRow}>
-            {[2, 3, 4].map((count) => (
+            {[1, 2, 3, 4].map((count) => (
               <Pressable
                 key={count}
                 accessibilityRole="button"
-                accessibilityLabel={interpolate(t.game.playersCountA11y, {
-                  count,
-                })}
+                accessibilityLabel={
+                  count === 1
+                    ? t.game.soloPlayerA11y
+                    : interpolate(t.game.playersCountA11y, { count })
+                }
                 accessibilityState={{ selected: playerCount === count }}
                 onPress={() => onPlayerCountChange(count)}
                 style={[
@@ -141,23 +146,25 @@ export function GameSetupPanel({
               />
             ))}
           </View>
-          <View style={styles.optionRow}>
-            <View style={styles.optionCopy}>
-              <Text style={styles.optionTitle}>{t.game.drinkingGame}</Text>
-              <Text style={styles.optionBody}>{t.game.drinkingGameDesc}</Text>
+          {solo ? null : (
+            <View style={styles.optionRow}>
+              <View style={styles.optionCopy}>
+                <Text style={styles.optionTitle}>{t.game.drinkingGame}</Text>
+                <Text style={styles.optionBody}>{t.game.drinkingGameDesc}</Text>
+              </View>
+              <Switch
+                accessibilityLabel={t.game.drinkingGame}
+                value={drinkingMode}
+                onValueChange={onDrinkingModeChange}
+                trackColor={{
+                  false: 'rgba(255,255,255,0.14)',
+                  true: 'rgba(255,47,146,0.55)',
+                }}
+                thumbColor={COLORS.textPrimary}
+                style={styles.switch}
+              />
             </View>
-            <Switch
-              accessibilityLabel={t.game.drinkingGame}
-              value={drinkingMode}
-              onValueChange={onDrinkingModeChange}
-              trackColor={{
-                false: 'rgba(255,255,255,0.14)',
-                true: 'rgba(255,47,146,0.55)',
-              }}
-              thumbColor={COLORS.textPrimary}
-              style={styles.switch}
-            />
-          </View>
+          )}
           <View style={styles.languageRow}>
             <Text style={styles.sectionLabel}>{t.game.cardLanguage}</Text>
             <GameSegmentedControl
@@ -170,7 +177,7 @@ export function GameSetupPanel({
               onChange={onCardLanguageChange}
             />
           </View>
-          {customCardsAvailable ? (
+          {customCardsAvailable && !solo ? (
             <View style={styles.languageRow}>
               <Text style={styles.sectionLabel}>{t.game.deckMix}</Text>
               <GameSegmentedControl
@@ -184,12 +191,14 @@ export function GameSetupPanel({
               />
             </View>
           ) : null}
-          <GameButton
-            label={t.game.customDeck}
-            variant="secondary"
-            icon={<PlusCircle size={18} color={COLORS.pink} />}
-            onPress={onOpenCustomDeck}
-          />
+          {solo ? null : (
+            <GameButton
+              label={t.game.customDeck}
+              variant="secondary"
+              icon={<PlusCircle size={18} color={COLORS.pink} />}
+              onPress={onOpenCustomDeck}
+            />
+          )}
           <GameButton
             label={startLabel}
             icon={<Play size={20} color={COLORS.textPrimary} fill="white" />}
