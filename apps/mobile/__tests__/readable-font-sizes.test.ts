@@ -42,6 +42,37 @@ const ALLOWED_SMALL_TEXT = [
     reason: 'Short, compact secondary label—not long card body text.',
   },
   ...[
+    {
+      file: path.join('components', 'game', 'GameRoundPanel.tsx'),
+      style: 'kicker',
+      minSize: 14,
+    },
+    {
+      file: path.join('components', 'game', 'GameRoundPanel.tsx'),
+      style: 'timerEstimate',
+      minSize: 14,
+    },
+    {
+      file: path.join('components', 'game', 'GameRoundPanel.tsx'),
+      style: 'outcomeLabel',
+      minSize: 14,
+    },
+    {
+      file: path.join('components', 'game', 'GameSessionChrome.tsx'),
+      style: 'eyebrow',
+      minSize: 12,
+    },
+    {
+      file: path.join('components', 'game', 'GameSessionChrome.tsx'),
+      style: 'role',
+      minSize: 12,
+    },
+  ].map((entry) => ({
+    ...entry,
+    reason:
+      'Compact game metadata is intentionally secondary to challenge copy.',
+  })),
+  ...[
     'filtersSummary',
     'filtersToggleActionText',
     'filterGroupLabel',
@@ -109,6 +140,28 @@ function isAllowedSmallText(finding: Finding): boolean {
 }
 
 describe('readable font sizes', () => {
+  it('limits compact game metadata exceptions to approved styles', () => {
+    const gameExceptions = ALLOWED_SMALL_TEXT.filter((allowed) =>
+      allowed.file.includes(`${path.sep}game${path.sep}`)
+    ).map((allowed) => `${allowed.file}:${allowed.style}:${allowed.minSize}`);
+
+    expect(gameExceptions).toEqual([
+      `${path.join('components', 'game', 'GameRoundPanel.tsx')}:kicker:14`,
+      `${path.join(
+        'components',
+        'game',
+        'GameRoundPanel.tsx'
+      )}:timerEstimate:14`,
+      `${path.join(
+        'components',
+        'game',
+        'GameRoundPanel.tsx'
+      )}:outcomeLabel:14`,
+      `${path.join('components', 'game', 'GameSessionChrome.tsx')}:eyebrow:12`,
+      `${path.join('components', 'game', 'GameSessionChrome.tsx')}:role:12`,
+    ]);
+  });
+
   it('does not use sub-16px hardcoded text styles outside the bottom navbar', () => {
     const findings = SCAN_DIRS.flatMap(listSourceFiles).flatMap((file) => {
       const source = fs.readFileSync(path.join(PROJECT_ROOT, file), 'utf8');

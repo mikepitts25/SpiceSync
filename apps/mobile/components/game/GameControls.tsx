@@ -38,7 +38,12 @@ export function GamePill({
 }) {
   return (
     <View style={[styles.pill, styles[`pill_${tone}`]]}>
-      <Text style={[styles.pillText, styles[`pillText_${tone}`]]}>{label}</Text>
+      <Text
+        numberOfLines={1}
+        style={[styles.pillText, styles[`pillText_${tone}`]]}
+      >
+        {label}
+      </Text>
     </View>
   );
 }
@@ -53,14 +58,32 @@ export function GameSegmentedControl<T extends string>({
   value,
   options,
   onChange,
+  compact = false,
 }: {
   accessibilityLabel: string;
   value: T;
   options: readonly GameSegmentOption<T>[];
   onChange: (value: T) => void;
+  compact?: boolean;
 }) {
   return (
-    <View accessibilityLabel={accessibilityLabel} style={styles.segmented}>
+    <View
+      accessibilityLabel={accessibilityLabel}
+      style={compact ? styles.segmentedCompact : styles.segmented}
+    >
+      {compact ? (
+        <View pointerEvents="none" style={styles.segmentedCompactTrack}>
+          {options.map((option) => (
+            <View
+              key={option.value}
+              style={[
+                styles.segmentOptionCompactVisual,
+                option.value === value && styles.segmentOptionSelected,
+              ]}
+            />
+          ))}
+        </View>
+      ) : null}
       {options.map((option) => {
         const selected = option.value === value;
         return (
@@ -72,7 +95,8 @@ export function GameSegmentedControl<T extends string>({
             onPress={() => onChange(option.value)}
             style={({ pressed }) => [
               styles.segmentOption,
-              selected && styles.segmentOptionSelected,
+              compact && styles.segmentOptionCompact,
+              selected && !compact && styles.segmentOptionSelected,
               pressed && styles.pressed,
             ]}
           >
@@ -97,20 +121,26 @@ export function GameButton({
   icon,
   variant = 'primary',
   disabled = false,
+  compact = false,
+  labelNumberOfLines,
 }: {
   label: string;
   onPress: () => void;
   icon?: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'danger';
   disabled?: boolean;
+  compact?: boolean;
+  labelNumberOfLines?: number;
 }) {
   const content = (
     <>
       {icon}
       <Text
+        numberOfLines={labelNumberOfLines}
         style={[
           styles.buttonText,
           variant !== 'primary' && styles.buttonTextSecondary,
+          compact && styles.buttonTextCompact,
         ]}
       >
         {label}
@@ -136,7 +166,7 @@ export function GameButton({
           colors={GRADIENTS.primary}
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
-          style={styles.buttonBody}
+          style={[styles.buttonBody, compact && styles.buttonBodyCompact]}
         >
           {content}
         </LinearGradient>
@@ -144,6 +174,7 @@ export function GameButton({
         <View
           style={[
             styles.buttonBody,
+            compact && styles.buttonBodyCompact,
             styles.buttonSecondary,
             variant === 'danger' && styles.buttonDanger,
           ]}
@@ -200,12 +231,39 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.04)',
     overflow: 'hidden',
   },
+  segmentedCompact: {
+    minWidth: 88,
+    minHeight: GAME_CONTROL_MIN_SIZE,
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    position: 'relative',
+    backgroundColor: 'transparent',
+  },
+  segmentedCompactTrack: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    bottom: 4,
+    left: 4,
+    flexDirection: 'row',
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    overflow: 'hidden',
+  },
   segmentOption: {
     minWidth: GAME_CONTROL_MIN_SIZE,
     minHeight: GAME_CONTROL_MIN_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
+  },
+  segmentOptionCompact: {
+    paddingHorizontal: 8,
+  },
+  segmentOptionCompactVisual: {
+    flex: 1,
   },
   segmentOptionSelected: { backgroundColor: 'rgba(255,45,146,0.24)' },
   segmentText: { color: COLORS.textMuted, fontSize: 16, fontWeight: '900' },
@@ -225,6 +283,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     borderRadius: RADII.pill,
   },
+  buttonBodyCompact: {
+    minHeight: GAME_CONTROL_MIN_SIZE,
+    paddingHorizontal: 12,
+  },
   buttonSecondary: {
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.11)',
@@ -236,6 +298,11 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: COLORS.textPrimary, fontSize: 17, fontWeight: '900' },
   buttonTextSecondary: { color: COLORS.textSub },
+  buttonTextCompact: {
+    flexShrink: 1,
+    fontSize: 16,
+    textAlign: 'center',
+  },
   pressed: { opacity: 0.84, transform: [{ scale: 0.985 }] },
   disabled: { opacity: 0.42 },
 });

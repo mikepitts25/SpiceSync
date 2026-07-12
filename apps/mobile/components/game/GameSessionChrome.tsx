@@ -21,11 +21,11 @@ export function GameSessionHeader({
 }) {
   return (
     <GameSurface style={styles.header}>
-      <View style={styles.headerZone}>
-        <Text numberOfLines={1} style={styles.eyebrow}>
+      <View style={[styles.headerZone, styles.headerLead]}>
+        <Text numberOfLines={2} style={styles.eyebrow}>
           {gameNightLabel}
         </Text>
-        <Text numberOfLines={1} style={styles.mode}>
+        <Text numberOfLines={2} style={styles.mode}>
           {modeLabel}
         </Text>
       </View>
@@ -36,6 +36,8 @@ export function GameSessionHeader({
       </View>
       <View style={[styles.headerZone, styles.headerAction]}>
         <GameButton
+          compact
+          labelNumberOfLines={2}
           label={endGameLabel}
           variant="secondary"
           onPress={onEndGame}
@@ -58,12 +60,14 @@ export function GamePlayerMatchup({
 }) {
   const person = (label: string, name: string, target: boolean) => (
     <View style={[styles.person, target ? styles.target : styles.player]}>
-      <Text style={[styles.role, target && styles.targetText]}>{label}</Text>
+      <Text numberOfLines={2} style={styles.role}>
+        {label}
+      </Text>
       <Text
         numberOfLines={1}
         adjustsFontSizeToFit
         minimumFontScale={0.72}
-        style={[styles.name, target && styles.targetText]}
+        style={styles.name}
       >
         {name}
       </Text>
@@ -83,23 +87,33 @@ export function GamePlayerMatchup({
 
 const styles = StyleSheet.create({
   header: {
-    minHeight: 76,
+    minHeight: 64,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
   },
   headerZone: {
-    flex: 1,
     minWidth: 0,
+    flexBasis: 0,
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerLead: {
+    minWidth: 92,
+    flexGrow: 1.15,
   },
   headerCenter: {
-    alignItems: 'center',
+    minWidth: 100,
+    flexGrow: 1,
   },
   headerAction: {
+    minWidth: 96,
     minHeight: 44,
-    alignItems: 'flex-end',
+    flexGrow: 1.2,
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
   eyebrow: {
@@ -107,12 +121,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
+    textAlign: 'center',
   },
   mode: {
     color: COLORS.textPrimary,
     fontSize: 18,
     fontWeight: '900',
     marginTop: 2,
+    textAlign: 'center',
   },
   matchup: {
     flexDirection: 'row',
@@ -124,6 +140,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
     minHeight: 92,
+    alignItems: 'center',
     justifyContent: 'center',
     borderRadius: RADII.card,
     paddingHorizontal: 14,
@@ -140,15 +157,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.7,
+    textAlign: 'center',
   },
   name: {
     color: COLORS.textPrimary,
     fontSize: 20,
     fontWeight: '900',
     marginTop: 5,
-  },
-  targetText: {
-    textAlign: 'right',
+    textAlign: 'center',
   },
   arrow: {
     width: 52,

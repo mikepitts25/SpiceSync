@@ -1,5 +1,12 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
 jest.mock('expo-router', () => ({
@@ -11,14 +18,17 @@ jest.mock('expo-router', () => ({
 jest.mock('expo-linear-gradient', () => ({
   LinearGradient: ({ children, ...props }: any) => {
     const { View } = require('react-native');
-    return <View {...props}>{children}</View>;
+    const { testID: _testID, ...viewProps } = props;
+    return <View {...viewProps}>{children}</View>;
   },
 }));
 
 const {
   GAME_CONTROL_MIN_SIZE,
   GameButton,
+  GamePill,
   GameSegmentedControl,
+  GameSurface,
 } = require('../components/game/GameControls');
 const { GameSetupPanel } = require('../components/game/GameSetupPanel');
 const {
@@ -155,6 +165,90 @@ describe('game-screen presentation components', () => {
     expect(onChange).toHaveBeenCalledWith('es');
   });
 
+  it('keeps the active language selector compact, right aligned, and tappable', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const selector = tree!.root.find(
+      (node) =>
+        node.type === View && node.props.accessibilityLabel === 'Card language'
+    );
+    const selectorStyle = StyleSheet.flatten(selector.props.style);
+    expect(selectorStyle).toMatchObject({
+      alignSelf: 'flex-end',
+      minWidth: 88,
+      minHeight: 44,
+    });
+    expect(selectorStyle.width).toBeUndefined();
+    expect(selectorStyle.height).toBeUndefined();
+    const visualTrack = selector.find(
+      (node) => node.type === View && node.props.pointerEvents === 'none'
+    );
+    const visualTrackStyle = StyleSheet.flatten(visualTrack.props.style);
+    expect(visualTrackStyle).toMatchObject({
+      top: 4,
+      right: 4,
+      bottom: 4,
+      left: 4,
+    });
+    expect(visualTrackStyle.width).toBeUndefined();
+    expect(visualTrackStyle.height).toBeUndefined();
+    expect(
+      StyleSheet.flatten(selector.parent!.parent!.props.style).alignItems
+    ).toBe('flex-end');
+
+    const options = ['EN', 'ES'].map((label) =>
+      tree!.root.find(
+        (node) => node.props.accessibilityLabel === `Card language: ${label}`
+      )
+    );
+    options.forEach((option) => {
+      const optionStyle = flattenedPressableStyle(option);
+      expect(optionStyle).toMatchObject({
+        minWidth: GAME_CONTROL_MIN_SIZE,
+        minHeight: GAME_CONTROL_MIN_SIZE,
+      });
+      expect(optionStyle.width).toBeUndefined();
+      expect(optionStyle.height).toBeUndefined();
+      expect(optionStyle.flexGrow).toBeUndefined();
+      expect(option.props.hitSlop).toBeUndefined();
+    });
+  });
+
+  it('shares one responsive revealed heading row with the compact language selector', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const headingRow = tree!.root.findByProps({
+      testID: 'game-revealed-heading-row',
+    });
+    expect(StyleSheet.flatten(headingRow.props.style)).toMatchObject({
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+    });
+    expect(StyleSheet.flatten(headingRow.props.style).height).toBeUndefined();
+    expect(
+      StyleSheet.flatten(headingRow.props.style).maxHeight
+    ).toBeUndefined();
+    expect(
+      headingRow.findByProps({ children: 'Challenge Round' })
+    ).toBeDefined();
+    expect(
+      headingRow.find(
+        (node) =>
+          node.type === View &&
+          node.props.accessibilityLabel === 'Card language'
+      )
+    ).toBeDefined();
+  });
+
   it('groups setup controls and forwards player, language, deck, and start actions', () => {
     const props = setupProps();
     let tree: TestRenderer.ReactTestRenderer;
@@ -203,12 +297,43 @@ describe('game-screen presentation components', () => {
         />
       );
     });
-    expect(tree!.root.findByProps({ children: 'Bebiendo' })).toBeDefined();
+    const headerSurface = tree!.root.findByType(GameSurface);
+    expect(StyleSheet.flatten(headerSurface.props.style)).toMatchObject({
+      minHeight: 64,
+      paddingVertical: 6,
+    });
+    const gameNight = tree!.root.findByProps({ children: 'NOCHE DE JUEGO' });
+    expect(gameNight.props.numberOfLines).toBe(2);
+    expect(StyleSheet.flatten(gameNight.props.style).textAlign).toBe('center');
     expect(
-      tree!.root.find(
-        (node) => node.props.accessibilityLabel === 'Terminar juego'
-      )
-    ).toBeDefined();
+      StyleSheet.flatten(gameNight.parent!.props.style).minWidth
+    ).toBeGreaterThanOrEqual(92);
+
+    const drinking = tree!.root.findByProps({ children: 'Bebiendo' });
+    expect(drinking.props.numberOfLines).toBe(1);
+    const drinkingPill = tree!.root.findByType(GamePill);
+    expect(
+      StyleSheet.flatten(drinkingPill.parent!.props.style).minWidth
+    ).toBeGreaterThanOrEqual(100);
+
+    const endGameButton = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Terminar juego'
+    );
+    expect(
+      flattenedPressableStyle(endGameButton).minHeight
+    ).toBeGreaterThanOrEqual(GAME_CONTROL_MIN_SIZE);
+    const endGameText = endGameButton
+      .findAllByType(Text)
+      .find((node) => node.props.children === 'Terminar juego');
+    expect(endGameText!.props.numberOfLines).toBe(2);
+    expect(StyleSheet.flatten(endGameText!.props.style)).toMatchObject({
+      flexShrink: 1,
+      textAlign: 'center',
+    });
+    const endGame = tree!.root.findByType(GameButton);
+    expect(
+      StyleSheet.flatten(endGame.parent!.props.style).minWidth
+    ).toBeGreaterThanOrEqual(96);
   });
 
   it('keeps 24-character player names in one bounded matchup row', () => {
@@ -233,6 +358,104 @@ describe('game-screen presentation components', () => {
       expect(name.props.adjustsFontSizeToFit).toBe(true);
       expect(name.props.minimumFontScale).toBe(0.72);
     });
+  });
+
+  it('centers Spanish role labels and player names in both matchup boxes', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GamePlayerMatchup
+          playerLabel="JUGADOR ACTIVO"
+          playerName="Player 2"
+          targetLabel="OBJETIVO"
+          targetName="Player 3"
+        />
+      );
+    });
+
+    const roles = ['JUGADOR ACTIVO', 'OBJETIVO'].map((label) =>
+      tree!.root.findByProps({ children: label })
+    );
+    roles.forEach((role) => {
+      expect(role.props.numberOfLines).toBe(2);
+      expect(StyleSheet.flatten(role.props.style).textAlign).toBe('center');
+      expect(StyleSheet.flatten(role.parent!.props.style).alignItems).toBe(
+        'center'
+      );
+    });
+
+    const names = ['Player 2', 'Player 3'].map((name) =>
+      tree!.root.findByProps({ children: name })
+    );
+    names.forEach((name) => {
+      expect(StyleSheet.flatten(name.props.style).textAlign).toBe('center');
+    });
+  });
+
+  it('uses dense readable challenge copy and one compact timer estimate', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const title = tree!.root.findByProps({ children: 'Challenge Round' });
+    expect(StyleSheet.flatten(title.props.style)).toMatchObject({
+      fontSize: 28,
+      lineHeight: 34,
+    });
+
+    const body = tree!.root.findByProps({
+      children: 'Ask twenty yes/no questions.',
+    });
+    expect(StyleSheet.flatten(body.props.style)).toMatchObject({
+      fontSize: 16,
+      lineHeight: 22,
+    });
+
+    const estimates = tree!.root
+      .findAllByType(Text)
+      .filter((node) => node.props.children === '1 min');
+    expect(estimates).toHaveLength(1);
+
+    const strip = tree!.root.findByProps({ testID: 'game-timer-strip' });
+    expect(StyleSheet.flatten(strip.props.style)).toMatchObject({
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      gap: 6,
+    });
+  });
+
+  it('shows the scroll cue only while revealed content remains below', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const scrollView = tree!.root.findByType(ScrollView);
+    expect(
+      tree!.root.findAllByProps({ testID: 'game-round-scroll-cue' })
+    ).toHaveLength(0);
+
+    TestRenderer.act(() => {
+      scrollView.props.onLayout({
+        nativeEvent: { layout: { height: 300 } },
+      });
+      scrollView.props.onContentSizeChange(320, 500);
+    });
+    expect(
+      tree!.root.findAllByProps({ testID: 'game-round-scroll-cue' })
+    ).toHaveLength(1);
+
+    TestRenderer.act(() => {
+      scrollView.props.onScroll({
+        nativeEvent: { contentOffset: { y: 200 } },
+      });
+    });
+    expect(
+      tree!.root.findAllByProps({ testID: 'game-round-scroll-cue' })
+    ).toHaveLength(0);
   });
 
   it('renders urgent timed challenge controls and forwards outcomes', () => {
@@ -273,7 +496,7 @@ describe('game-screen presentation components', () => {
     expect(tree!.root.findByProps({ children: '1 min' })).toBeDefined();
   });
 
-  it('allows localized timer actions to wrap and grow with system text', () => {
+  it('keeps localized icon timer actions at least 44 points', () => {
     const props = roundProps();
     let tree: TestRenderer.ReactTestRenderer;
     TestRenderer.act(() => {
@@ -289,20 +512,22 @@ describe('game-screen presentation components', () => {
       );
     });
 
-    const reset = tree!.root.find(
-      (node) => node.props.accessibilityLabel === 'Reiniciar'
+    const actions = ['Comenzar', 'Reiniciar'].map((label) =>
+      tree!.root.find((node) => node.props.accessibilityLabel === label)
     );
-    expect(StyleSheet.flatten(reset.parent!.props.style).flexWrap).toBe('wrap');
-    expect(flattenedPressableStyle(reset).flexBasis).toBeGreaterThanOrEqual(
-      120
-    );
-    const resetText = reset
-      .findAllByType(Text)
-      .find((node) => node.props.children === 'Reiniciar');
-    expect(StyleSheet.flatten(resetText!.props.style)).toMatchObject({
-      flexShrink: 1,
-      textAlign: 'center',
+    actions.forEach((action) => {
+      expect(flattenedPressableStyle(action)).toMatchObject({
+        minWidth: GAME_CONTROL_MIN_SIZE,
+        minHeight: GAME_CONTROL_MIN_SIZE,
+      });
     });
+    expect(
+      tree!.root
+        .findAllByType(Text)
+        .filter((node) =>
+          ['Comenzar', 'Reiniciar'].includes(node.props.children)
+        )
+    ).toHaveLength(0);
   });
 
   it('keeps the active countdown silent and announces only expiry', () => {
