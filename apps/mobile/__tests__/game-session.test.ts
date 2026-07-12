@@ -29,25 +29,58 @@ describe('game session helpers', () => {
     ]);
   });
 
-  it('assigns the current player and the next player as the target', () => {
-    const players = ['Alex', 'Jordan', 'Casey', 'Taylor'];
+  it('keeps two-player turns paired with the only other player', () => {
+    const players = ['Alex', 'Jordan'];
 
-    expect(getGameTurn(players, 0)).toEqual({
-      player: 'Alex',
-      target: 'Jordan',
-      turnNumber: 1,
-    });
-    expect(getGameTurn(players, 3)).toEqual({
-      player: 'Taylor',
-      target: 'Alex',
-      turnNumber: 4,
-    });
+    expect(
+      Array.from({ length: 4 }, (_, index) => getGameTurn(players, index))
+    ).toEqual([
+      { player: 'Alex', target: 'Jordan', turnNumber: 1 },
+      { player: 'Jordan', target: 'Alex', turnNumber: 2 },
+      { player: 'Alex', target: 'Jordan', turnNumber: 1 },
+      { player: 'Jordan', target: 'Alex', turnNumber: 2 },
+    ]);
   });
 
-  it('advances turns around the table without exceeding the player list', () => {
+  it('rotates every three-player actor through both possible targets', () => {
+    const players = ['Alex', 'Jordan', 'Casey'];
+
+    expect(
+      Array.from({ length: 6 }, (_, index) => getGameTurn(players, index))
+    ).toEqual([
+      { player: 'Alex', target: 'Jordan', turnNumber: 1 },
+      { player: 'Jordan', target: 'Casey', turnNumber: 2 },
+      { player: 'Casey', target: 'Alex', turnNumber: 3 },
+      { player: 'Alex', target: 'Casey', turnNumber: 1 },
+      { player: 'Jordan', target: 'Alex', turnNumber: 2 },
+      { player: 'Casey', target: 'Jordan', turnNumber: 3 },
+    ]);
+  });
+
+  it('rotates every four-player actor through all three possible targets', () => {
+    const players = ['Alex', 'Jordan', 'Casey', 'Taylor'];
+    const turns = Array.from({ length: 12 }, (_, index) =>
+      getGameTurn(players, index)
+    );
+
+    for (const player of players) {
+      expect(
+        new Set(
+          turns
+            .filter((turn) => turn.player === player)
+            .map((turn) => turn.target)
+        )
+      ).toEqual(new Set(players.filter((candidate) => candidate !== player)));
+    }
+  });
+
+  it('advances a monotonic turn counter while player positions wrap', () => {
     expect(advanceGameTurnIndex(0, 4)).toBe(1);
-    expect(advanceGameTurnIndex(3, 4)).toBe(0);
-    expect(advanceGameTurnIndex(7, 4)).toBe(0);
+    expect(advanceGameTurnIndex(3, 4)).toBe(4);
+    expect(advanceGameTurnIndex(7, 4)).toBe(8);
+    expect(
+      getGameTurn(['Alex', 'Jordan', 'Casey', 'Taylor'], 4).turnNumber
+    ).toBe(1);
   });
 
   it('builds a clear drinking consequence when a player passes', () => {

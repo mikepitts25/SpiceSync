@@ -103,11 +103,18 @@ export function getGameTurn(
   turnIndex: number
 ): GameTurn {
   const normalizedPlayers = normalizeGamePlayers(players, players.length);
+  const wholeTurnIndex = Math.floor(turnIndex);
   const safeIndex =
-    ((Math.floor(turnIndex) % normalizedPlayers.length) +
-      normalizedPlayers.length) %
+    ((wholeTurnIndex % normalizedPlayers.length) + normalizedPlayers.length) %
     normalizedPlayers.length;
-  const targetIndex = (safeIndex + 1) % normalizedPlayers.length;
+  const completedPasses = Math.floor(
+    Math.max(0, wholeTurnIndex) / normalizedPlayers.length
+  );
+  const targetOffset =
+    normalizedPlayers.length === 2
+      ? 1
+      : (completedPasses % (normalizedPlayers.length - 1)) + 1;
+  const targetIndex = (safeIndex + targetOffset) % normalizedPlayers.length;
 
   return {
     player: normalizedPlayers[safeIndex],
@@ -118,10 +125,9 @@ export function getGameTurn(
 
 export function advanceGameTurnIndex(
   turnIndex: number,
-  playerCount: number
+  _playerCount: number
 ): number {
-  const normalizedCount = normalizeGamePlayerCount(playerCount);
-  return (Math.floor(turnIndex) + 1) % normalizedCount;
+  return Math.max(0, Math.floor(turnIndex)) + 1;
 }
 
 export function buildDrinkConsequence(playerName: string): string {
