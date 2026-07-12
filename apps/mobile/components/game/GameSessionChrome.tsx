@@ -87,12 +87,12 @@ export function GamePlayerMatchup({
 
 const styles = StyleSheet.create({
   header: {
-    minHeight: 76,
+    minHeight: 64,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
   },
   headerZone: {
     minWidth: 0,

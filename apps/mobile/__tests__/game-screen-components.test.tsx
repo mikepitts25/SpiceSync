@@ -20,6 +20,7 @@ const {
   GameButton,
   GamePill,
   GameSegmentedControl,
+  GameSurface,
 } = require('../components/game/GameControls');
 const { GameSetupPanel } = require('../components/game/GameSetupPanel');
 const {
@@ -167,7 +168,11 @@ describe('game-screen presentation components', () => {
       (node) =>
         node.type === View && node.props.accessibilityLabel === 'Card language'
     );
-    expect(StyleSheet.flatten(selector.props.style).alignSelf).toBe('flex-end');
+    expect(StyleSheet.flatten(selector.props.style)).toMatchObject({
+      alignSelf: 'flex-end',
+      width: 80,
+      minHeight: 36,
+    });
     expect(
       StyleSheet.flatten(selector.parent!.parent!.props.style).alignItems
     ).toBe('flex-end');
@@ -177,11 +182,16 @@ describe('game-screen presentation components', () => {
         (node) => node.props.accessibilityLabel === `Card language: ${label}`
       )
     );
-    expect(options).toHaveLength(2);
     options.forEach((option) => {
       expect(flattenedPressableStyle(option)).toMatchObject({
-        minWidth: GAME_CONTROL_MIN_SIZE,
-        minHeight: GAME_CONTROL_MIN_SIZE,
+        minWidth: 40,
+        minHeight: 36,
+      });
+      expect(option.props.hitSlop).toEqual({
+        top: 4,
+        bottom: 4,
+        left: 2,
+        right: 2,
       });
     });
   });
@@ -233,6 +243,11 @@ describe('game-screen presentation components', () => {
           onEndGame={jest.fn()}
         />
       );
+    });
+    const headerSurface = tree!.root.findByType(GameSurface);
+    expect(StyleSheet.flatten(headerSurface.props.style)).toMatchObject({
+      minHeight: 64,
+      paddingVertical: 6,
     });
     const gameNight = tree!.root.findByProps({ children: 'NOCHE DE JUEGO' });
     expect(gameNight.props.numberOfLines).toBe(2);

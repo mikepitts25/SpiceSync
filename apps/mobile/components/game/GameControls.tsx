@@ -79,6 +79,9 @@ export function GameSegmentedControl<T extends string>({
             accessibilityRole="button"
             accessibilityLabel={`${accessibilityLabel}: ${option.label}`}
             accessibilityState={{ selected }}
+            hitSlop={
+              compact ? { top: 4, bottom: 4, left: 2, right: 2 } : undefined
+            }
             onPress={() => onChange(option.value)}
             style={({ pressed }) => [
               styles.segmentOption,
@@ -219,7 +222,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   segmentedCompact: {
+    width: 80,
+    minHeight: 36,
     alignSelf: 'flex-end',
+    borderRadius: 18,
   },
   segmentOption: {
     minWidth: GAME_CONTROL_MIN_SIZE,
@@ -229,7 +235,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   segmentOptionCompact: {
-    paddingHorizontal: 10,
+    minWidth: 40,
+    minHeight: 36,
+    paddingHorizontal: 8,
   },
   segmentOptionSelected: { backgroundColor: 'rgba(255,45,146,0.24)' },
   segmentText: { color: COLORS.textMuted, fontSize: 16, fontWeight: '900' },
