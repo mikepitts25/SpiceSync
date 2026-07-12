@@ -13,12 +13,15 @@ import { SafeAreaView } from '../../components/SafeAreaView';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
+  FadeInUp,
+  FadeOut,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import ConfettiCannon from 'react-native-confetti-cannon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import { Check, Clock3, Ellipsis, Undo2, X } from 'lucide-react-native';
@@ -49,8 +52,12 @@ import {
   type PairPreference,
   type Readiness,
 } from '../../src/stores/votes';
-import type { NormalizedKinkVote } from '../../lib/votes/rolePreferences';
-import { useTranslation } from '../../lib/i18n';
+import {
+  effectiveReadiness,
+  voteToReadiness,
+  type NormalizedKinkVote,
+} from '../../lib/votes/rolePreferences';
+import { interpolate as interpolateI18n, useTranslation } from '../../lib/i18n';
 import { playGameSound } from '../../lib/gameSounds';
 import {
   COLORS,
@@ -486,6 +493,11 @@ export default function DeckScreen() {
       record: NormalizedKinkVote | undefined;
     }[]
   >([]);
+  const [showMatchPulse, setShowMatchPulse] = useState(false);
+  const [celebrateKey, setCelebrateKey] = useState<string | null>(null);
+  const matchPulseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const queuedReadinessRef = useRef<Readiness | null>(null);
   const topCardRef = useRef<SwipeDeckHandle>(null);
   const previousCardIdRef = useRef<string | null>(null);
@@ -495,7 +507,27 @@ export default function DeckScreen() {
 
   useEffect(() => {
     setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
+    setCelebrateKey(null);
   }, [key]);
+
+  const triggerMatchPulse = useCallback(() => {
+    setShowMatchPulse(true);
+    if (matchPulseTimeoutRef.current) {
+      clearTimeout(matchPulseTimeoutRef.current);
+    }
+    matchPulseTimeoutRef.current = setTimeout(
+      () => setShowMatchPulse(false),
+      1400
+    );
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (matchPulseTimeoutRef.current) {
+        clearTimeout(matchPulseTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setVoteHistory([]);
@@ -576,6 +608,27 @@ export default function DeckScreen() {
         current.pairMode ? pairPreference : undefined
       );
       setCardAnimating(false);
+
+      // Match momentum: if the partner already leaned in on this kink and
+      // this vote leans in too, surface the potential match right away.
+      const selfInterested = readiness === 'yes' || readiness === 'curious';
+      if (selfInterested) {
+        const remoteRecord = remotePartnerVotes[current.id];
+        const partnerReadiness = isRemotePartner
+          ? remoteRecord
+            ? (remoteRecord.readiness ?? voteToReadiness(remoteRecord.vote))
+            : undefined
+          : effectiveReadiness(partnerVotes?.[current.id]);
+        if (partnerReadiness === 'yes' || partnerReadiness === 'curious') {
+          triggerMatchPulse();
+        }
+      }
+
+      // This vote emptied the queue: celebrate finishing the tier.
+      if (queue.length === 1) {
+        setCelebrateKey(key);
+        playGameSound('success');
+      }
     },
     [
       current,
@@ -583,6 +636,12 @@ export default function DeckScreen() {
       pairPreference,
       setReadiness,
       activeCardOpacity,
+      isRemotePartner,
+      remotePartnerVotes,
+      partnerVotes,
+      triggerMatchPulse,
+      queue.length,
+      key,
     ]
   );
 
@@ -699,6 +758,7 @@ export default function DeckScreen() {
   }
 
   if (!queue.length || !current) {
+    const celebrating = celebrateKey === key;
     return (
       <SafeAreaView
         style={styles.screen}
@@ -707,8 +767,12 @@ export default function DeckScreen() {
         <StatusBar style="light" />
         <AppHeader />
         <View style={styles.centerState}>
-          <Text style={styles.emptyTitle}>{t.deck.caughtUpTitle}</Text>
-          <Text style={styles.emptyCopy}>{t.deck.caughtUpDesc}</Text>
+          <Text style={styles.emptyTitle}>
+            {celebrating ? t.deck.tierCompleteTitle : t.deck.caughtUpTitle}
+          </Text>
+          <Text style={styles.emptyCopy}>
+            {celebrating ? t.deck.tierCompleteDesc : t.deck.caughtUpDesc}
+          </Text>
           <View style={styles.emptyActions}>
             {canUndo ? (
               <Pressable
@@ -751,6 +815,24 @@ export default function DeckScreen() {
             </Pressable>
           </View>
         </View>
+        {celebrating ? (
+          <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+            <ConfettiCannon
+              count={120}
+              origin={{ x: SCREEN_W / 2, y: -20 }}
+              autoStart
+              fadeOut
+              fallSpeed={2600}
+              explosionSpeed={380}
+              colors={[
+                COLORS.pink,
+                COLORS.purple,
+                COLORS.maybe,
+                COLORS.textPrimary,
+              ]}
+            />
+          </View>
+        ) : null}
         <AppTabBar active="deck" />
       </SafeAreaView>
     );
@@ -767,6 +849,15 @@ export default function DeckScreen() {
   const partnerVoted = isRemotePartner
     ? !!remotePartnerVotes[current.id]
     : !!partnerVotes?.[current.id];
+  const totalInFilter = filteredKinks.length;
+  const positionInFilter = Math.min(
+    totalInFilter - queue.length + 1,
+    totalInFilter
+  );
+  const progressLabel = `${interpolateI18n(t.deck.progressLabel, {
+    current: positionInFilter,
+    total: totalInFilter,
+  })} · ${getTierOptionLabel(selectedTier, t)}`;
 
   return (
     <SafeAreaView
@@ -845,9 +936,21 @@ export default function DeckScreen() {
               );
             })}
           </View>
+
+          <Text style={styles.deckProgressLabel}>{progressLabel}</Text>
         </View>
 
         <View style={styles.deckArea}>
+          {showMatchPulse ? (
+            <Animated.View
+              pointerEvents="none"
+              entering={FadeInUp.duration(220)}
+              exiting={FadeOut.duration(200)}
+              style={styles.matchPulse}
+            >
+              <Text style={styles.matchPulseText}>{t.deck.potentialMatch}</Text>
+            </Animated.View>
+          ) : null}
           <SwipeableKinkCard
             key={current.id}
             ref={topCardRef}
@@ -1009,8 +1112,30 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: 'center',
   },
+  deckProgressLabel: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
   deckArea: {
     flex: 1,
+  },
+  matchPulse: {
+    position: 'absolute',
+    top: 10,
+    alignSelf: 'center',
+    zIndex: 5,
+    borderRadius: 16,
+    backgroundColor: COLORS.pink,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    ...SHADOWS.card,
+  },
+  matchPulseText: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '800',
   },
   kinkCard: {
     flex: 1,

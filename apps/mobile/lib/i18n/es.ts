@@ -236,6 +236,10 @@ export const es: Translations = {
     caughtUpTitle: 'Ya estás al día',
     caughtUpDesc:
       'Revisa coincidencias o reinicia esta baraja para volver a votar.',
+    tierCompleteTitle: '¡Baraja completa! 🎉',
+    tierCompleteDesc: 'Ya calificaste todo aquí. Mira en qué coincidieron.',
+    progressLabel: '{{current}} de {{total}}',
+    potentialMatch: '+1 match potencial',
     resetCategory: 'Reiniciar esta categoría',
     resetDeck: 'Reiniciar cartas',
     viewMatches: 'Ver Matches',

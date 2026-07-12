@@ -41,7 +41,7 @@ Work top to bottom within a priority tier unless told otherwise.
 - There is an abandoned remote branch `origin/feat/deck-undo` worth mining,
   but do not merge it blindly — the deck screen has since been rewritten.
 
-### 3. Progress + payoff loop on the deck
+### 3. Progress + payoff loop on the deck — ✅ DONE
 
 - No position indicator today. Add "12 of 89 · Naughty" near the tier filter
   in `app/(tabs)/deck.tsx` (queue length is already computed).

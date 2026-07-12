@@ -230,6 +230,11 @@ export const en = {
     endOfDeckDesc: "You've voted on everything in this category.",
     caughtUpTitle: "You're all caught up",
     caughtUpDesc: 'Review matches or reset this deck to swipe again.',
+    tierCompleteTitle: 'Deck complete! 🎉',
+    tierCompleteDesc:
+      "You've rated everything here. See what you two matched on.",
+    progressLabel: '{{current}} of {{total}}',
+    potentialMatch: '+1 potential match',
     resetCategory: 'Reset this category',
     resetDeck: 'Reset Deck',
     viewMatches: 'View Matches',
