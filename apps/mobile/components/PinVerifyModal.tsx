@@ -9,7 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import type { Profile } from '../src/stores/profiles';
+import type { Profile } from '../lib/state/profiles';
 
 type VerifyResult = { success: true } | { success: false; error?: string };
 

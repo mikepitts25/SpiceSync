@@ -66,7 +66,7 @@ import {
   useRevealConsentStore,
   type RevealConsentBucket,
 } from '../../lib/sync/revealConsent';
-import { useProfilesStore, type Profile } from '../../src/stores/profiles';
+import { useProfilesStore, type Profile } from '../../lib/state/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore, type KinkVote } from '../../src/stores/votes';
 import { interpolate, useTranslation } from '../../lib/i18n';

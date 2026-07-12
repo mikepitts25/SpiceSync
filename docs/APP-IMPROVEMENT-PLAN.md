@@ -159,7 +159,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   neutral/non-graphic (consistent with CONTRIBUTING.md), 17+ rating, and
   mention age gate + discrete mode + local-only storage in review notes.
 
-### 14. Dead code / structure consolidation
+### 14. Dead code / structure consolidation — ✅ DONE
 
 - Finish the `lib/` vs `src/` store consolidation (CLAUDE.md notes the split).
   Duplicates: two theme files (`constants/theme.ts`, `src/constants/theme.ts`),

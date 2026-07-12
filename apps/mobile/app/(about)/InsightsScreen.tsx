@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useVotesStore } from '../../src/stores/votes';
-import { useProfilesStore } from '../../src/stores/profiles';
+import { useProfilesStore } from '../../lib/state/profiles';
 import { useKinks } from '../../lib/data';
 import { useSettings } from '../../lib/state/useStore';
 import { voteValue } from '../../lib/votes/rolePreferences';

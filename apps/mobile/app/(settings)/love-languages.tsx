@@ -24,7 +24,7 @@ import {
   QuizResult,
 } from '../../lib/loveLanguages';
 import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
-import { useProfilesStore } from '../../src/stores/profiles';
+import { useProfilesStore } from '../../lib/state/profiles';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 

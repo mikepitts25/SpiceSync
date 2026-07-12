@@ -44,7 +44,7 @@ apps/mobile/
   data/             # Static content: kinks JSON, game cards, conversation starters
   hooks/            # Custom React hooks
   lib/              # Business logic and state stores
-  src/              # Additional stores and components (legacy split, not fully consolidated)
+  src/              # Remaining stores + emoji constants (being folded into lib/)
 ```
 
 ### Route Groups
@@ -76,7 +76,6 @@ apps/mobile/
 | `useMatchPlansStore` | `lib/state/matchPlans.ts` | Local match-to-plan state: favorites, next session, completed history, private notes |
 | `useFantasyJournalStore` | `lib/state/fantasyJournal.ts` | Private fantasy journal; entries feed matching only via explicit share action |
 
-`lib/state/votes.ts` is a deprecated re-export shim — use `src/stores/votes.ts` directly.
 
 ### Key Modules
 
