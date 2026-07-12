@@ -39,7 +39,7 @@ Node version constraint: `>=20 <23`.
 ```
 apps/mobile/
   app/              # Expo Router screens (route groups below)
-  components/       # Shared UI components (SwipeDeck, FlippableCard, etc.)
+  components/       # Shared UI components (app-chrome, game/, matches/, etc.)
   constants/        # theme.ts — single source of colors/typography
   data/             # Static content: kinks JSON, game cards, conversation starters
   hooks/            # Custom React hooks
@@ -75,6 +75,7 @@ apps/mobile/
 | `useStreakStore` | `lib/achievements.ts` | Daily streaks and achievement unlocks |
 | `useMatchPlansStore` | `lib/state/matchPlans.ts` | Local match-to-plan state: favorites, next session, completed history, private notes |
 | `useFantasyJournalStore` | `lib/state/fantasyJournal.ts` | Private fantasy journal; entries feed matching only via explicit share action |
+| `useStarterPackStore` | `lib/state/starterPack.ts` | Per-profile skip flags for the new-user starter pack on the deck |
 
 
 ### Key Modules
@@ -89,6 +90,11 @@ apps/mobile/
 - **`lib/pricing.ts`** — IAP product SKUs and pack definitions ($4.99 base premium, $2.99 à la carte packs).
 - **`lib/lock.ts`** — Biometric/FaceID app lock via `expo-local-authentication` + `expo-secure-store`.
 - **`lib/deepLinks.ts`** — Handles `spicesync://invite?code=XXX-XXX` deep links for partner invite flow.
+- **`lib/gameDeck.ts`** — Seeded deck shuffle with an optional warm-up→peak `intensityArc` and `favoredCategories` bias (both driven by an injectable `random`).
+- **`lib/gameMatchDeck.ts`** — Match-aware game deck helpers: derives mutual-yes kinks (the only vote data the game may use), maps them to favored card categories, and generates "Inspired by your matches" cards.
+- **`lib/gamePlayerFilter.ts`** — Filters game cards by player count: explicit `minPlayers`/`maxPlayers` flags win; unflagged intimate/physical cards stay couple-only, flirty categories carry 3–4 player games.
+- **`lib/gameSession.ts`** — Turn engine (solo/couple/group), mode-scaled consequence pool with EN/ES text on each template, and heat-round prompts for 3–4 player games.
+- **`lib/kinks/starterPack.ts`** — Curated 15-kink starter pack served to fresh profiles on the deck until they've cast that many votes (or skipped).
 
 ### Data Files
 

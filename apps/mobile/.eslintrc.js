@@ -9,4 +9,12 @@ module.exports = {
     // Allow duplicate imports (needed for react-native-gesture-handler side-effect import)
     'import/no-duplicates': 'off',
   },
+  overrides: [
+    {
+      // Plain Node scripts (release checks, data tooling) use CommonJS
+      // globals like __dirname.
+      files: ['scripts/**/*.js'],
+      env: { node: true },
+    },
+  ],
 };
