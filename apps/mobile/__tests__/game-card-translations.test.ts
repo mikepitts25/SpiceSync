@@ -12,10 +12,26 @@ const translationCsvPath = path.join(
   appRoot,
   'data/game_card_translations.csv'
 );
-const EXPECTED_PROP_BOUNDARY_CONTENT_EN =
-  'Prop Boundary Check: Player up picks one prop—collar, leash, whip, paddle, lingerie, or makeup. Both players answer yes, maybe, or no. Use that prop later only if both say yes or maybe.';
-const EXPECTED_PROP_BOUNDARY_CONTENT_ES =
-  'Chequeo de objetos: El jugador activo elige un objeto: collar, correa, látigo, pala, lencería o maquillaje. Ambos dicen sí, quizás o no. Usen ese objeto más tarde solo si ambos dicen sí o quizás.';
+const EXPECTED_REVISED_CONTENT_ES = {
+  'f-i-r2':
+    'Cautivo / Tentación: Jugador activo venda a Objetivo, lo rodea una vez y dirige una pose—arrodillarse, ponerse de pie o girar. Objetivo elige una, la mantiene 10 segundos y Jugador activo retira la venda.',
+  'lvl2-c-009':
+    'Foto del futuro: Jugador activo posa con Objetivo como si un sueño compartido acabara de cumplirse. Mantengan la pose de celebración durante 30 segundos y anuncien qué ocurrió.',
+  'lvl3-qk-008':
+    'Estilo de lencería: Jugador activo elige una prenda limpia de lencería, pantaletas, sostén o ropa interior para Objetivo. Objetivo la sostiene sobre su conjunto mientras Jugador activo dirige una pose durante 30 segundos.',
+  'lvl4-c-005':
+    'Equilibrio con la pala: Jugador activo equilibra la pala sobre las palmas abiertas de Objetivo. Objetivo se queda quieto durante 30 segundos; si se cae, Objetivo le da a Jugador activo un cumplido pícaro.',
+  'lvl4-qk-007':
+    'Cetro de pala: Objetivo sostiene la pala como un cetro real mientras Jugador activo dirige una pose autoritaria. Objetivo mantiene la pose durante 30 segundos.',
+  'lvl5-d-002':
+    'Reclamo con la pala: Jugador activo golpea una vez la pala contra su propia palma, la coloca sobre el regazo de Objetivo y da una orden de pose. Objetivo mantiene la pose durante 30 segundos.',
+  'lvl5-c-004':
+    'Señal con la pala: Jugador activo coloca la pala en las manos de Objetivo. Objetivo la presenta de vuelta y Jugador activo da un golpecito suavísimo sobre la ropa.',
+  'lvl5-c-007':
+    'Reclamo con collar: Jugador activo le pone un collar a Objetivo. Objetivo lo lleva durante las próximas dos rondas y luego Jugador activo se lo quita lentamente.',
+  'lvl5-c-014':
+    'Marca de labial: Jugador activo le pone labial a Objetivo—labios llamativos, una marca en la mejilla o la huella de un beso. Objetivo lo conserva durante las próximas dos rondas.',
+} as const;
 
 function parseCsvLine(line: string) {
   const fields: string[] = [];
@@ -50,10 +66,6 @@ describe('game card translations', () => {
     const translatedCard = MASTER_DECK.find(
       (card) => card.id === 'lvl4-c-014'
     ) as GameCard;
-    const propBoundaryCard = MASTER_DECK.find(
-      (card) => card.id === 'lvl5-c-007'
-    ) as GameCard;
-
     expect(hasGameCardSpanishTranslation(translatedCard.id)).toBe(true);
     expect(getGameCardDisplayContent(translatedCard, 'es')).toBe(
       'Toque misterioso: Véndame los ojos durante 1 minuto. Toca mi antebrazo o mi hombro una vez con un objeto o una parte del cuerpo. Yo adivino qué me tocó; si fallo, me quito una prenda, y si acierto, te la quitas tú.'
@@ -61,12 +73,16 @@ describe('game card translations', () => {
     expect(getGameCardDisplayContent(translatedCard, 'en')).toBe(
       translatedCard.content
     );
-    expect(getGameCardDisplayContent(propBoundaryCard, 'es')).toBe(
-      EXPECTED_PROP_BOUNDARY_CONTENT_ES
-    );
-    expect(getGameCardDisplayContent(propBoundaryCard, 'en')).toBe(
-      EXPECTED_PROP_BOUNDARY_CONTENT_EN
-    );
+
+    for (const [id, expectedContent] of Object.entries(
+      EXPECTED_REVISED_CONTENT_ES
+    )) {
+      const card = MASTER_DECK.find((candidate) => candidate.id === id) as GameCard;
+
+      expect(hasGameCardSpanishTranslation(id)).toBe(true);
+      expect(getGameCardDisplayContent(card, 'es')).toBe(expectedContent);
+      expect(getGameCardDisplayContent(card, 'en')).toBe(card.content);
+    }
 
     // A card whose id has no Spanish entry falls back to its English content.
     const untranslatedCard = {
@@ -121,13 +137,15 @@ describe('game card translations', () => {
       'Toque misterioso: Véndame los ojos durante 1 minuto. Toca mi antebrazo o mi hombro una vez con un objeto o una parte del cuerpo. Yo adivino qué me tocó; si fallo, me quito una prenda, y si acierto, te la quitas tú.'
     );
 
-    const propBoundaryRow = rowById.get('lvl5-c-007');
+    const masterCardById = new Map(MASTER_DECK.map((card) => [card.id, card]));
 
-    expect(propBoundaryRow?.[englishIndex]).toBe(
-      EXPECTED_PROP_BOUNDARY_CONTENT_EN
-    );
-    expect(propBoundaryRow?.[spanishIndex]).toBe(
-      EXPECTED_PROP_BOUNDARY_CONTENT_ES
-    );
+    for (const [id, expectedContent] of Object.entries(
+      EXPECTED_REVISED_CONTENT_ES
+    )) {
+      const row = rowById.get(id);
+
+      expect(row?.[englishIndex]).toBe(masterCardById.get(id)?.content);
+      expect(row?.[spanishIndex]).toBe(expectedContent);
+    }
   });
 });
