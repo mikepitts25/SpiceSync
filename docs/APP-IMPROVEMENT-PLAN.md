@@ -166,7 +166,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   two profile stores, `src/stores/settings.ts` vs `settingsStore.ts`.
 - The P0 bug is exactly the class of failure this split causes.
 
-### 15. Split MatchesScreen.tsx
+### 15. Split MatchesScreen.tsx — ✅ DONE
 
 - `app/(matches)/MatchesScreen.tsx` is 2,401 lines. Split into bucket
   section components before it calcifies. Consider a Matches tab badge with

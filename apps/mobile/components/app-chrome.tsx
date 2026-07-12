@@ -53,6 +53,7 @@ import {
   type GradientTuple,
 } from '../constants/theme';
 import { useTranslation } from '../lib/i18n';
+import { useReadyNowCount } from '../lib/match/useReadyNowCount';
 
 const MAIN_TOPIC_FONT_SIZE = 24;
 const NORMAL_FONT_SIZE = 16;
@@ -203,24 +204,38 @@ const TAB_ITEMS: {
 export function AppTabBar({ active }: { active?: TabKey }) {
   const router = useRouter();
   const { t } = useTranslation();
+  const readyNowCount = useReadyNowCount();
 
   return (
     <View style={styles.tabBar}>
       {TAB_ITEMS.map((item) => {
         const Icon = item.icon;
         const selected = item.key === active;
+        const showBadge = item.key === 'matches' && readyNowCount > 0;
         const content = (
           <>
-            <Icon
-              size={17}
-              color={selected ? COLORS.textPrimary : COLORS.textMuted}
-              fill={
-                selected && item.key === 'matches'
-                  ? COLORS.textPrimary
-                  : 'transparent'
-              }
-              strokeWidth={2.2}
-            />
+            <View>
+              <Icon
+                size={17}
+                color={selected ? COLORS.textPrimary : COLORS.textMuted}
+                fill={
+                  selected && item.key === 'matches'
+                    ? COLORS.textPrimary
+                    : 'transparent'
+                }
+                strokeWidth={2.2}
+              />
+              {showBadge ? (
+                <View
+                  style={styles.tabBadge}
+                  accessibilityLabel={`${readyNowCount} matches ready now`}
+                >
+                  <Text style={styles.tabBadgeText}>
+                    {readyNowCount > 99 ? '99+' : readyNowCount}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
             <Text style={[styles.tabLabel, selected && styles.tabLabelActive]}>
               {t.tabs[item.label as keyof typeof t.tabs].toUpperCase()}
             </Text>
@@ -589,6 +604,23 @@ const styles = StyleSheet.create({
   },
   tabLabelActive: {
     color: COLORS.textPrimary,
+  },
+  tabBadge: {
+    position: 'absolute',
+    top: -6,
+    right: -12,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: COLORS.pink,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+  tabBadgeText: {
+    color: COLORS.textPrimary,
+    fontSize: 10,
+    fontWeight: '800',
   },
   card: {
     backgroundColor: COLORS.card,

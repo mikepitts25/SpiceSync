@@ -11,6 +11,12 @@ const ALLOWED_SMALL_TEXT = [
     minSize: 9,
     reason: 'Bottom navbar labels are intentionally compact by user request.',
   },
+  {
+    file: path.join('components', 'app-chrome.tsx'),
+    style: 'tabBadgeText',
+    minSize: 10,
+    reason: 'Bottom navbar count badge shares the compact navbar scale.',
+  },
   ...[
     {
       file: path.join('components', 'game', 'GameRoundPanel.tsx'),

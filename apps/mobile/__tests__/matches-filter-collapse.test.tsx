@@ -27,11 +27,9 @@ jest.mock('react-native-safe-area-context', () => ({
   },
 }));
 
-const {
-  MatchFilters,
-  MatchScreenContent,
-  MatchSection,
-} = require('../app/(matches)/MatchesScreen');
+const { MatchScreenContent } = require('../app/(matches)/MatchesScreen');
+const { MatchFilters } = require('../components/matches/MatchFilters');
+const { MatchSection } = require('../components/matches/MatchBuckets');
 
 const defaultProps = {
   visibility: 'all' as const,
