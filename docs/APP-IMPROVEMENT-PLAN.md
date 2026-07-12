@@ -31,7 +31,7 @@ Work top to bottom within a priority tier unless told otherwise.
 
 ## P1 — Kink deck UX (highest user-visible payoff)
 
-### 2. Undo on the swipe deck
+### 2. Undo on the swipe deck — ✅ DONE
 
 - A mis-swiped "Hard No" is unrecoverable and hard-nos are permanently hidden
   from matching by design (`lib/votes/rolePreferences.ts`).

@@ -21,7 +21,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import { Check, Clock3, Ellipsis, X } from 'lucide-react-native';
+import { Check, Clock3, Ellipsis, Undo2, X } from 'lucide-react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -49,6 +49,7 @@ import {
   type PairPreference,
   type Readiness,
 } from '../../src/stores/votes';
+import type { NormalizedKinkVote } from '../../lib/votes/rolePreferences';
 import { useTranslation } from '../../lib/i18n';
 import { playGameSound } from '../../lib/gameSounds';
 import {
@@ -478,6 +479,13 @@ export default function DeckScreen() {
   const [indexByKey, setIndexByKey] = useState<Record<string, number>>({});
   const [cardAnimating, setCardAnimating] = useState(false);
   const [pairPreference, setPairPreference] = useState<PairPreference>('both');
+  const [voteHistory, setVoteHistory] = useState<
+    {
+      profileId: string;
+      kinkId: string;
+      record: NormalizedKinkVote | undefined;
+    }[]
+  >([]);
   const queuedReadinessRef = useRef<Readiness | null>(null);
   const topCardRef = useRef<SwipeDeckHandle>(null);
   const previousCardIdRef = useRef<string | null>(null);
@@ -488,6 +496,10 @@ export default function DeckScreen() {
   useEffect(() => {
     setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
   }, [key]);
+
+  useEffect(() => {
+    setVoteHistory([]);
+  }, [activeProfileIdValue]);
 
   useEffect(() => {
     const max = Math.max(0, queue.length - 1);
@@ -544,6 +556,18 @@ export default function DeckScreen() {
       const readiness = queuedReadinessRef.current ?? directionToReadiness[dir];
       queuedReadinessRef.current = null;
 
+      const previousRecord = useVotesStore
+        .getState()
+        .getVoteRecord(activeProfileIdValue, current.id);
+      setVoteHistory((prev) => [
+        ...prev.slice(-19),
+        {
+          profileId: activeProfileIdValue,
+          kinkId: current.id,
+          record: previousRecord,
+        },
+      ]);
+
       activeCardOpacity.value = 0;
       setReadiness(
         activeProfileIdValue,
@@ -574,6 +598,54 @@ export default function DeckScreen() {
     },
     [cardAnimating, current]
   );
+
+  const handleUndo = useCallback(() => {
+    if (cardAnimating) return;
+    if (topCardRef.current?.isAnimating()) return;
+
+    const entry = voteHistory[voteHistory.length - 1];
+    if (!entry || entry.profileId !== activeProfileIdValue) return;
+
+    const store = useVotesStore.getState();
+    if (!entry.record) {
+      store.clearVote(entry.profileId, entry.kinkId);
+    } else if (entry.record.readiness) {
+      store.setReadiness(
+        entry.profileId,
+        entry.kinkId,
+        entry.record.readiness,
+        entry.record.pairPreference
+      );
+    } else {
+      store.setVote(
+        entry.profileId,
+        entry.kinkId,
+        entry.record.value,
+        entry.record.pairPreference
+      );
+    }
+
+    setVoteHistory((prev) => prev.slice(0, -1));
+
+    // Point the queue back at the restored card (only possible when the
+    // undo cleared the vote, which puts the card back in the queue).
+    if (!entry.record) {
+      const votesAfterUndo =
+        useVotesStore.getState().votesByProfile[entry.profileId] || {};
+      const restoredIndex = filteredKinks
+        .filter((kink) => votesAfterUndo[kink.id] === undefined)
+        .findIndex((kink) => kink.id === entry.kinkId);
+      if (restoredIndex >= 0) {
+        setIndexByKey((prev) => ({ ...prev, [key]: restoredIndex }));
+      }
+    }
+
+    playGameSound('cardFlip');
+  }, [cardAnimating, voteHistory, activeProfileIdValue, filteredKinks, key]);
+
+  const canUndo =
+    voteHistory.length > 0 &&
+    voteHistory[voteHistory.length - 1]?.profileId === activeProfileIdValue;
 
   const applyTierFilter = useCallback(
     (tier: Tier) => {
@@ -638,6 +710,18 @@ export default function DeckScreen() {
           <Text style={styles.emptyTitle}>{t.deck.caughtUpTitle}</Text>
           <Text style={styles.emptyCopy}>{t.deck.caughtUpDesc}</Text>
           <View style={styles.emptyActions}>
+            {canUndo ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t.deck.undo}
+                style={styles.outlineButton}
+                onPress={handleUndo}
+              >
+                <Text style={styles.outlineButtonText}>
+                  {t.deck.undo.toUpperCase()}
+                </Text>
+              </Pressable>
+            ) : null}
             <Pressable
               style={styles.outlineButton}
               onPress={() => {
@@ -712,6 +796,20 @@ export default function DeckScreen() {
             <Text style={styles.filterTitle}>
               {t.common.intensity.toUpperCase()}
             </Text>
+            {canUndo ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t.deck.undo}
+                onPress={handleUndo}
+                style={({ pressed }) => [
+                  styles.undoButton,
+                  pressed && styles.readinessActionPressed,
+                ]}
+              >
+                <Undo2 size={16} color={COLORS.textSub} strokeWidth={2.5} />
+                <Text style={styles.undoButtonText}>{t.deck.undo}</Text>
+              </Pressable>
+            ) : null}
           </View>
 
           <View style={styles.tierGrid}>
@@ -841,6 +939,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  undoButton: {
+    position: 'absolute',
+    right: 0,
+    minHeight: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: COLORS.borderFaint,
+    backgroundColor: COLORS.cardAlt,
+    paddingHorizontal: 10,
+  },
+  undoButtonText: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '800',
   },
   filterTitle: {
     color: COLORS.pink,

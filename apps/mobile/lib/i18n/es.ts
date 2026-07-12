@@ -243,6 +243,7 @@ export const es: Translations = {
     partnerVoted: 'votó',
     partnerNotVoted: 'aún no ha votado',
     pass: 'Pasar',
+    undo: 'Deshacer',
     allFilter: 'Todo',
     allIntensity: 'Todos los niveles de intensidad',
     xxxIntensity: 'Intensidad XXX',

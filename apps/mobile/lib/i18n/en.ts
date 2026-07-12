@@ -237,6 +237,7 @@ export const en = {
     partnerVoted: 'voted',
     partnerNotVoted: "hasn't voted yet",
     pass: 'Pass',
+    undo: 'Undo',
     allFilter: 'All',
     allIntensity: 'All intensity levels',
     xxxIntensity: 'XXX intensity',
