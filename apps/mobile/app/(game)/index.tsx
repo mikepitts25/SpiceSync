@@ -76,6 +76,8 @@ import {
   DEFAULT_GAME_PLAYER_NAMES,
   type GameConsequence,
   getGameTurn,
+  getHeatRoundPrompt,
+  isHeatRound,
   normalizeGamePlayerCount,
   normalizeGamePlayers,
   resolveGameRoundOutcome,
@@ -104,6 +106,14 @@ const GAME_MODE_LEVELS: Record<GameMode, GameIntensityLevel[]> = {
   intense: [4, 5],
 };
 
+const ALL_GAME_CARD_TYPES: GameCardType[] = [
+  'truth',
+  'dare',
+  'challenge',
+  'fantasy',
+  'roleplay',
+];
+
 type CardLanguageCopy = {
   gameNight: string;
   gameModes: Record<GameMode, string>;
@@ -128,6 +138,8 @@ type CardLanguageCopy = {
   skip: string;
   saveToJournal: string;
   savedToJournal: string;
+  heatRound: string;
+  heatRoundHint: string;
   consequence: string;
   acknowledgeConsequence: string;
   ok: string;
@@ -170,6 +182,8 @@ const CARD_LANGUAGE_COPY: Record<GameCardDisplayLanguage, CardLanguageCopy> = {
     skip: 'Skip',
     saveToJournal: 'Save to Journal',
     savedToJournal: 'Saved ✓',
+    heatRound: 'Heat Round',
+    heatRoundHint: 'Everyone plays this one',
     consequence: 'Consequence',
     acknowledgeConsequence: 'Acknowledge consequence',
     ok: 'OK',
@@ -219,6 +233,8 @@ const CARD_LANGUAGE_COPY: Record<GameCardDisplayLanguage, CardLanguageCopy> = {
     skip: 'Saltar',
     saveToJournal: 'Guardar en diario',
     savedToJournal: 'Guardado ✓',
+    heatRound: 'Ronda de Calor',
+    heatRoundHint: 'Todos juegan esta',
     consequence: 'Consecuencia',
     acknowledgeConsequence: 'Aceptar consecuencia',
     ok: 'Aceptar',
@@ -251,6 +267,12 @@ export default function GameHub() {
   const setDrinkingMode = useSettingsStore((state) => state.setDrinkingMode);
   const customCards = useCustomGameCardsStore((state) => state.cards);
   const [selectedMode, setSelectedMode] = useState<GameMode>('normal');
+  // null = follow the mode's default levels; an array = user customized.
+  const [customLevels, setCustomLevels] = useState<GameIntensityLevel[] | null>(
+    null
+  );
+  const [enabledTypes, setEnabledTypes] =
+    useState<GameCardType[]>(ALL_GAME_CARD_TYPES);
   const [cardLanguage, setCardLanguage] = useState<GameCardDisplayLanguage>(
     language === 'es' ? 'es' : 'en'
   );
@@ -357,7 +379,7 @@ export default function GameHub() {
     [mutualYesKinks]
   );
 
-  const selectedLevels = GAME_MODE_LEVELS[selectedMode];
+  const selectedLevels = customLevels ?? GAME_MODE_LEVELS[selectedMode];
   const selectedModeLabel = t.game.gameModes[selectedMode];
   const setupPlayers = useMemo(
     () => normalizeGamePlayers(playerNames, playerCount),
@@ -371,8 +393,11 @@ export default function GameHub() {
   const selectedCardModeLabel = cardCopy.gameModes[selectedMode];
 
   const levelCards = useMemo(
-    () => filterCardsBySelectedLevels(cards, selectedLevels),
-    [cards, selectedLevels]
+    () =>
+      filterCardsBySelectedLevels(cards, selectedLevels).filter((card) =>
+        enabledTypes.includes(card.type)
+      ),
+    [cards, selectedLevels, enabledTypes]
   );
 
   const totalTimerSeconds = useMemo(
@@ -458,13 +483,15 @@ export default function GameHub() {
         favoredCategories: soloMode ? undefined : favoredCategories,
       });
       // Match-inspired cards assume both partners are present; solo decks
-      // stay on their own anticipation/self-discovery pool.
-      const inspiredCards = soloMode
-        ? []
-        : createMatchInspiredCards(mutualYesKinks, {
-            language: cardLanguage,
-            intensity: selectedMode === 'intense' ? 4 : 3,
-          });
+      // stay on their own anticipation/self-discovery pool, and a deck with
+      // challenges filtered out shouldn't sneak them back in.
+      const inspiredCards =
+        soloMode || !enabledTypes.includes('challenge')
+          ? []
+          : createMatchInspiredCards(mutualYesKinks, {
+              language: cardLanguage,
+              intensity: selectedMode === 'intense' ? 4 : 3,
+            });
       const nextDeck = interleaveMatchInspiredCards(shuffled, inspiredCards);
 
       lastDeckOrderIdsRef.current[selectedMode] = nextDeck.map(
@@ -483,6 +510,7 @@ export default function GameHub() {
       favoredCategories,
       mutualYesKinks,
       cardLanguage,
+      enabledTypes,
     ]
   );
 
@@ -555,6 +583,17 @@ export default function GameHub() {
 
         setSelectedMode(session.selectedMode);
         setCustomDeckMode(session.customDeckMode);
+        setCustomLevels(
+          (session.customLevels as GameIntensityLevel[] | null | undefined) ??
+            null
+        );
+        setEnabledTypes(() => {
+          const restored = (session.enabledTypes ?? []).filter(
+            (type): type is GameCardType =>
+              ALL_GAME_CARD_TYPES.includes(type as GameCardType)
+          );
+          return restored.length ? restored : ALL_GAME_CARD_TYPES;
+        });
         setPlayerCount(session.playerCount);
         setPlayerNames(session.playerNames);
         setActivePlayers(session.activePlayers);
@@ -591,6 +630,8 @@ export default function GameHub() {
     const session = createPersistedGameSession({
       selectedMode,
       customDeckMode,
+      customLevels,
+      enabledTypes,
       playerCount,
       playerNames,
       activePlayers,
@@ -611,6 +652,8 @@ export default function GameHub() {
     activePlayers,
     currentCard,
     customDeckMode,
+    customLevels,
+    enabledTypes,
     deckIndex,
     deckOrder,
     drinkingMode,
@@ -710,6 +753,9 @@ export default function GameHub() {
     setPlayerCount(normalizeGamePlayerCount(nextCount));
   }, []);
 
+  const heatRoundActive =
+    hasStarted && !soloMode && isHeatRound(turnIndex, activePlayers.length);
+
   const startRouletteDraw = useCallback(() => {
     if (!hasStarted) {
       startGame();
@@ -717,6 +763,25 @@ export default function GameHub() {
     }
 
     if (roundPhase !== 'ready' || levelCards.length === 0) return;
+
+    // Heat rounds skip the roulette: one prompt, everyone plays at once.
+    if (heatRoundActive) {
+      const prompt = getHeatRoundPrompt(turnIndex);
+      setCurrentCard({
+        id: `heat-${turnIndex}`,
+        type: 'challenge',
+        content: cardLanguage === 'es' ? prompt.textEs : prompt.text,
+        intensity: 3,
+        category: 'playful',
+        isPremium: false,
+        estimatedTime: 'N/A',
+      });
+      setTimerSeconds(0);
+      setIsTimerRunning(false);
+      setRoundPhase('revealed');
+      playGameSound('cardFlip');
+      return;
+    }
 
     clearRouletteInterval();
     setCurrentCard(null);
@@ -748,6 +813,9 @@ export default function GameHub() {
   }, [
     clearRouletteInterval,
     hasStarted,
+    heatRoundActive,
+    turnIndex,
+    cardLanguage,
     levelCards.length,
     revealNextCard,
     rouletteSpinProgress,
@@ -857,6 +925,35 @@ export default function GameHub() {
 
   const changeGameMode = useCallback((mode: GameMode) => {
     setSelectedMode(mode);
+    // Switching modes returns level selection to the mode's defaults.
+    setCustomLevels(null);
+  }, []);
+
+  const toggleLevel = useCallback(
+    (level: GameIntensityLevel) => {
+      const next = selectedLevels.includes(level)
+        ? selectedLevels.filter((item) => item !== level)
+        : [...selectedLevels, level].sort((a, b) => a - b);
+      if (!next.length) return;
+
+      const modeDefault = GAME_MODE_LEVELS[selectedMode];
+      const matchesModeDefault =
+        next.length === modeDefault.length &&
+        modeDefault.every((item) => next.includes(item));
+      setCustomLevels(matchesModeDefault ? null : next);
+    },
+    [selectedLevels, selectedMode]
+  );
+
+  const toggleCardType = useCallback((type: GameCardType) => {
+    setEnabledTypes((current) => {
+      const next = current.includes(type)
+        ? current.filter((item) => item !== type)
+        : ALL_GAME_CARD_TYPES.filter(
+            (item) => current.includes(item) || item === type
+          );
+      return next.length ? next : current;
+    });
   }, []);
 
   const addJournalEntry = useFantasyJournalStore((state) => state.addEntry);
@@ -954,6 +1051,10 @@ export default function GameHub() {
               playerNames={playerNames}
               onPlayerCountChange={changePlayerCount}
               onPlayerNameChange={updatePlayerName}
+              selectedLevels={selectedLevels}
+              onToggleLevel={toggleLevel}
+              enabledTypes={enabledTypes}
+              onToggleType={toggleCardType}
               drinkingMode={drinkingMode}
               onDrinkingModeChange={setDrinkingMode}
               cardLanguage={cardLanguage}
@@ -977,7 +1078,16 @@ export default function GameHub() {
             style={[styles.sceneLayer, gameSceneStyle]}
           >
             <View style={styles.gameScene}>
-              {soloMode ? null : (
+              {soloMode ? null : heatRoundActive ? (
+                <View style={styles.heatBanner}>
+                  <Text style={styles.heatBannerTitle}>
+                    🔥 {cardCopy.heatRound.toUpperCase()}
+                  </Text>
+                  <Text style={styles.heatBannerHint}>
+                    {cardCopy.heatRoundHint}
+                  </Text>
+                </View>
+              ) : (
                 <GamePlayerMatchup
                   playerLabel={cardCopy.playerUp.toUpperCase()}
                   playerName={currentTurn.player}
@@ -1007,7 +1117,9 @@ export default function GameHub() {
                 }
                 revealedTitle={
                   currentCard
-                    ? titleForCard(currentCard, cardCopy.titles)
+                    ? currentCard.id.startsWith('heat-')
+                      ? cardCopy.heatRound
+                      : titleForCard(currentCard, cardCopy.titles)
                     : cardCopy.noCardsForLevels
                 }
                 revealedBody={displayedCardContent}
@@ -1143,6 +1255,31 @@ const styles = StyleSheet.create({
   gameScene: {
     flex: 1,
     gap: 8,
+  },
+  heatBanner: {
+    minHeight: 64,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,176,0,0.4)',
+    backgroundColor: 'rgba(255,176,0,0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    gap: 2,
+  },
+  heatBannerTitle: {
+    color: COLORS.maybe,
+    fontSize: 18,
+    fontWeight: '900',
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+  heatBannerHint: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
   },
   consequenceModalBackdrop: {
     flex: 1,

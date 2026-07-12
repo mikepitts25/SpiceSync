@@ -1,11 +1,14 @@
 import {
   DEFAULT_GAME_PLAYER_NAMES,
+  HEAT_ROUND_INTERVAL,
   MAX_GAME_PLAYERS,
   MIN_GAME_PLAYERS,
   advanceGameTurnIndex,
   buildGameConsequence,
   buildGameShareMessage,
   buildDrinkConsequence,
+  getHeatRoundPrompt,
+  isHeatRound,
   resolveGameRoundOutcome,
   getGameTurn,
   normalizeGamePlayerCount,
@@ -217,6 +220,24 @@ describe('game session helpers', () => {
       },
       requiresAcknowledgement: true,
     });
+  });
+
+  it('fires heat rounds only for groups, every few turns', () => {
+    expect(isHeatRound(HEAT_ROUND_INTERVAL, 2)).toBe(false);
+    expect(isHeatRound(HEAT_ROUND_INTERVAL, 1)).toBe(false);
+    expect(isHeatRound(0, 4)).toBe(false);
+    expect(isHeatRound(HEAT_ROUND_INTERVAL, 3)).toBe(true);
+    expect(isHeatRound(HEAT_ROUND_INTERVAL * 2, 4)).toBe(true);
+    expect(isHeatRound(HEAT_ROUND_INTERVAL + 1, 4)).toBe(false);
+  });
+
+  it('rotates heat prompts so consecutive heat rounds differ', () => {
+    const first = getHeatRoundPrompt(HEAT_ROUND_INTERVAL);
+    const second = getHeatRoundPrompt(HEAT_ROUND_INTERVAL * 2);
+
+    expect(first.text.length).toBeGreaterThan(0);
+    expect(first.textEs.length).toBeGreaterThan(0);
+    expect(second.id).not.toBe(first.id);
   });
 
   it('formats shared game prompts with the acting player and target', () => {

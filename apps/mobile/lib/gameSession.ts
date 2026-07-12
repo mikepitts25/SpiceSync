@@ -296,6 +296,73 @@ export function resolveGameRoundOutcome({
   };
 }
 
+// ─── Heat rounds ────────────────────────────────────────────────────────────
+// Every few turns in a 3-4 player game, the whole room plays one prompt at
+// once so non-active players stay engaged.
+
+export const HEAT_ROUND_INTERVAL = 6;
+
+export type HeatRoundPrompt = {
+  id: string;
+  text: string;
+  textEs: string;
+};
+
+const HEAT_ROUND_PROMPTS: HeatRoundPrompt[] = [
+  {
+    id: 'toast',
+    text: 'Group toast: each player says one thing they love about the night so far. Clink on it.',
+    textEs:
+      'Brindis grupal: cada jugador dice algo que le encanta de la noche hasta ahora. Brinden por eso.',
+  },
+  {
+    id: 'wink-off',
+    text: 'Wink-off: everyone throws their most dramatic wink at once. The group crowns a winner.',
+    textEs:
+      'Duelo de guiños: todos lanzan su guiño más dramático a la vez. El grupo corona a un ganador.',
+  },
+  {
+    id: 'compliment-circle',
+    text: 'Compliment circle: everyone compliments the player on their left, no repeats allowed.',
+    textEs:
+      'Círculo de cumplidos: cada uno felicita al jugador de su izquierda, sin repetir.',
+  },
+  {
+    id: 'dance-break',
+    text: 'Dance break: 20 seconds, everyone dances at once, full commitment.',
+    textEs:
+      'Pausa de baile: 20 segundos, todos bailan a la vez, con total entrega.',
+  },
+  {
+    id: 'group-pose',
+    text: 'Album cover: strike a dramatic group pose together and hold it for 10 seconds.',
+    textEs:
+      'Portada de disco: hagan juntos una pose grupal dramática y manténganla 10 segundos.',
+  },
+  {
+    id: 'speed-round',
+    text: 'Speed round: going clockwise, everyone describes their perfect date in five words or less.',
+    textEs:
+      'Ronda rápida: en sentido horario, cada uno describe su cita perfecta en cinco palabras o menos.',
+  },
+];
+
+export function isHeatRound(turnIndex: number, playerCount: number): boolean {
+  if (playerCount < 3) return false;
+  const wholeTurnIndex = Math.floor(turnIndex);
+  return wholeTurnIndex > 0 && wholeTurnIndex % HEAT_ROUND_INTERVAL === 0;
+}
+
+export function getHeatRoundPrompt(turnIndex: number): HeatRoundPrompt {
+  // Rotate deterministically through the pool so back-to-back heat rounds
+  // in one session never repeat a prompt.
+  const ordinal = Math.max(
+    0,
+    Math.floor(Math.floor(turnIndex) / HEAT_ROUND_INTERVAL) - 1
+  );
+  return HEAT_ROUND_PROMPTS[ordinal % HEAT_ROUND_PROMPTS.length];
+}
+
 export function buildGameShareMessage(
   template: string,
   content: string,

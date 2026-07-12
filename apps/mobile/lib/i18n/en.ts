@@ -439,6 +439,8 @@ export const en = {
     drinkingGame: 'Drinking game',
     drinkingGameDesc: 'Adds drinks and shots to pass consequences.',
     cardLanguage: 'Card Language',
+    levelsLabel: 'Levels',
+    cardTypesLabel: 'Card Types',
     deckMix: 'Deck Mix',
     includeCustom: 'Include Custom',
     customOnly: 'Custom Only',

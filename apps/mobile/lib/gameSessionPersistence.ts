@@ -23,6 +23,9 @@ export type PersistedGameSession = {
   timerSeconds: number;
   isTimerRunning: boolean;
   drinkingMode: boolean;
+  // Optional setup filters (added later; absent in older sessions).
+  customLevels?: number[] | null;
+  enabledTypes?: string[] | null;
   savedAt: number;
 };
 
@@ -89,6 +92,13 @@ function isPersistedGameSession(value: unknown): value is PersistedGameSession {
     typeof session.timerSeconds === 'number' &&
     typeof session.isTimerRunning === 'boolean' &&
     typeof session.drinkingMode === 'boolean' &&
+    (session.customLevels === undefined ||
+      session.customLevels === null ||
+      (Array.isArray(session.customLevels) &&
+        session.customLevels.every((level) => typeof level === 'number'))) &&
+    (session.enabledTypes === undefined ||
+      session.enabledTypes === null ||
+      isStringArray(session.enabledTypes)) &&
     typeof session.savedAt === 'number'
   );
 }

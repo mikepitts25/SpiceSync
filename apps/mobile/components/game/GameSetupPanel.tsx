@@ -13,7 +13,9 @@ import { Play, PlusCircle } from 'lucide-react-native';
 import { COLORS } from '../../constants/theme';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import type { GameCardDisplayLanguage } from '../../data/gameCardTranslations';
+import type { GameCardType } from '../../data/gameCards';
 import type { GameCustomDeckMode } from '../../lib/gameDeck';
+import type { GameIntensityLevel } from '../../lib/gameLevelFilter';
 import { CardAccentTop } from '../app-chrome';
 import {
   GameButton,
@@ -38,6 +40,10 @@ export type GameSetupPanelProps = {
   playerNames: string[];
   onPlayerCountChange: (count: number) => void;
   onPlayerNameChange: (index: number, name: string) => void;
+  selectedLevels: readonly GameIntensityLevel[];
+  onToggleLevel: (level: GameIntensityLevel) => void;
+  enabledTypes: readonly GameCardType[];
+  onToggleType: (type: GameCardType) => void;
   drinkingMode: boolean;
   onDrinkingModeChange: (value: boolean) => void;
   cardLanguage: GameCardDisplayLanguage;
@@ -64,6 +70,10 @@ export function GameSetupPanel({
   playerNames,
   onPlayerCountChange,
   onPlayerNameChange,
+  selectedLevels,
+  onToggleLevel,
+  enabledTypes,
+  onToggleType,
   drinkingMode,
   onDrinkingModeChange,
   cardLanguage,
@@ -165,6 +175,64 @@ export function GameSetupPanel({
               />
             </View>
           )}
+          <View style={styles.languageRow}>
+            <Text style={styles.sectionLabel}>{t.game.levelsLabel}</Text>
+            <View style={styles.chipRow}>
+              {([1, 2, 3, 4, 5] as GameIntensityLevel[]).map((level) => {
+                const active = selectedLevels.includes(level);
+                return (
+                  <Pressable
+                    key={level}
+                    accessibilityRole="button"
+                    accessibilityLabel={interpolate(t.game.levelOf, { level })}
+                    accessibilityState={{ selected: active }}
+                    onPress={() => onToggleLevel(level)}
+                    style={[styles.chip, active && styles.chipActive]}
+                  >
+                    <Text
+                      style={[styles.chipText, active && styles.chipTextActive]}
+                    >
+                      {interpolate(t.game.levelShort, { level })}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={styles.languageRow}>
+            <Text style={styles.sectionLabel}>{t.game.cardTypesLabel}</Text>
+            <View style={styles.chipRow}>
+              {(
+                [
+                  'truth',
+                  'dare',
+                  'challenge',
+                  'fantasy',
+                  'roleplay',
+                ] as GameCardType[]
+              ).map((type) => {
+                const active = enabledTypes.includes(type);
+                return (
+                  <Pressable
+                    key={type}
+                    accessibilityRole="button"
+                    accessibilityLabel={t.game[type]}
+                    accessibilityState={{ selected: active }}
+                    onPress={() => onToggleType(type)}
+                    style={[styles.chip, active && styles.chipActive]}
+                  >
+                    <Text
+                      style={[styles.chipText, active && styles.chipTextActive]}
+                    >
+                      {t.game[type]}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
           <View style={styles.languageRow}>
             <Text style={styles.sectionLabel}>{t.game.cardLanguage}</Text>
             <GameSegmentedControl
@@ -340,5 +408,34 @@ const styles = StyleSheet.create({
   },
   languageRow: {
     gap: 8,
+  },
+  chipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  chip: {
+    minHeight: 44,
+    minWidth: 52,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: COLORS.cardAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 14,
+  },
+  chipActive: {
+    borderColor: COLORS.pink,
+    backgroundColor: 'rgba(255,47,146,0.18)',
+  },
+  chipText: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  chipTextActive: {
+    color: COLORS.textPrimary,
   },
 });

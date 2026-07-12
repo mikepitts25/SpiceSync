@@ -140,7 +140,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   (`app/(game)/index.tsx:959`) in sync — or better, move consequence copy
   into i18n.
 
-### 12. Setup flexibility + heat rounds
+### 12. Setup flexibility + heat rounds — ✅ DONE
 
 - Modes hardcode levels (`GAME_MODE_LEVELS` in `app/(game)/index.tsx:83`:
   normal=1-3, intense=4-5). Allow custom level selection and card-type
