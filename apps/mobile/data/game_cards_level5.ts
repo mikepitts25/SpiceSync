@@ -93,14 +93,14 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-d-002',
     type: 'dare',
     content:
-      'Paddle Choice: Place the paddle in my open hands. I present it back and name one rule for if it is ever used.',
+      "Paddle Claim: Player up taps the paddle once against their own palm, lays it across Target's lap, and gives one pose command. Target holds the pose for 30 seconds.",
     intensity: 5,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes:
-      'Presentation and negotiation only. Do not escalate to repeated impact during the game.',
+      'One self-tap and presentation only. Do not strike Target with the paddle.',
   },
   {
     id: 'lvl5-d-003',
@@ -248,14 +248,14 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-c-004',
     type: 'challenge',
     content:
-      'Impact Negotiation: Tap the paddle once against your own palm, then tell me where a featherlight tap would be allowed later.',
+      "Paddle Signal: Player up places the paddle in Target's hands. Target presents it back, and Player up gives one featherlight tap over clothing.",
     intensity: 5,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes:
-      'Negotiation only. No repeated impact or escalation during the game.',
+      'One featherlight tap over clothing only. Avoid the neck, spine, joints, kidneys, and any sore area.',
   },
   {
     id: 'lvl5-c-005',
@@ -347,13 +347,14 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-c-014',
     type: 'challenge',
     content:
-      'Rank these fantasies out loud: being watched, watching me, sharing control with a third—in fantasy only. No planning. Just honesty.',
+      'Lipstick Mark: Player up puts lipstick on Target—one bold lip, cheek mark, or kiss print. Target keeps it for the next two rounds.',
     intensity: 5,
-    category: 'communication',
+    category: 'playful',
     isPremium: true,
     estimatedTime: '1 min',
+    requires: ['lipstick'],
     safetyNotes:
-      'Fantasy ranking only. No planning, pressure, or third-party involvement from this card.',
+      'Use skin-safe lipstick. Target may choose a visible or discreet placement and remove it at any time.',
   },
   {
     id: 'lvl5-c-015',
@@ -554,13 +555,14 @@ export const LEVEL5_CARDS: GameCard[] = [
     id: 'lvl5-c-007',
     type: 'challenge',
     content:
-      'Prop Boundary Check: Player up picks one prop—collar, leash, whip, paddle, lingerie, or makeup. Both players answer yes, maybe, or no. Use that prop later only if both say yes or maybe.',
+      'Collar Claim: Player up puts a collar on Target. Target wears it for the next two rounds, then Player up removes it slowly.',
     intensity: 5,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
+    requires: ['collar'],
     safetyNotes:
-      'Boundary talk only. A no ends the topic without debate; do not use that prop during the game.',
+      'Keep the collar loose and decorative, never restrictive. Remove it immediately on request or discomfort.',
   },
   {
     id: 'lvl5-fn-004',

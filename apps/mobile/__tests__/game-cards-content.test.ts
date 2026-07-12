@@ -1,5 +1,4 @@
 import { MASTER_DECK, type GameCard } from '../data/gameCards';
-import { ALL_CARDS_FROM_JSON } from '../data/cardLoader';
 import { ALL_CARDS_ES } from '../data/gameCards.es';
 
 const ALL_PLAYABLE_CARDS: GameCard[] = [...MASTER_DECK, ...ALL_CARDS_ES];
@@ -7,10 +6,31 @@ const ACTION_TYPES = new Set(['dare', 'challenge', 'roleplay']);
 const ACTION_CARDS = ALL_PLAYABLE_CARDS.filter((card) =>
   ACTION_TYPES.has(card.type)
 );
-const EXPECTED_PROP_BOUNDARY_CONTENT =
-  'Prop Boundary Check: Player up picks one prop—collar, leash, whip, paddle, lingerie, or makeup. Both players answer yes, maybe, or no. Use that prop later only if both say yes or maybe.';
-const EXPECTED_PROP_BOUNDARY_SAFETY =
-  'Boundary talk only. A no ends the topic without debate; do not use that prop during the game.';
+const EXPECTED_CONCRETE_ACTIONS = {
+  'f-i-r2':
+    'Captive / Temptation: Player up blindfolds Target, circles them once, and directs one pose—kneel, stand, or turn. Target chooses one, holds it for 10 seconds, then Player up removes the blindfold.',
+  'lvl2-c-009':
+    'Future Snapshot: Player up poses with Target as if one shared dream just came true. Hold the celebration pose for 30 seconds and announce what happened.',
+  'lvl3-qk-008':
+    'Lingerie Styling: Player up chooses one clean lingerie, panties, bra, or underwear item for Target. Target holds it against their outfit while Player up directs one pose for 30 seconds.',
+  'lvl4-c-005':
+    "Paddle Balance: Player up balances the paddle across Target's open palms. Target holds still for 30 seconds; if it drops, Target gives Player up one wicked compliment.",
+  'lvl4-qk-007':
+    'Paddle Scepter: Target holds the paddle like a royal scepter while Player up directs one commanding pose. Target holds the pose for 30 seconds.',
+  'lvl5-d-002':
+    "Paddle Claim: Player up taps the paddle once against their own palm, lays it across Target's lap, and gives one pose command. Target holds the pose for 30 seconds.",
+  'lvl5-c-004':
+    "Paddle Signal: Player up places the paddle in Target's hands. Target presents it back, and Player up gives one featherlight tap over clothing.",
+  'lvl5-c-007':
+    'Collar Claim: Player up puts a collar on Target. Target wears it for the next two rounds, then Player up removes it slowly.',
+  'lvl5-c-014':
+    'Lipstick Mark: Player up puts lipstick on Target—one bold lip, cheek mark, or kiss print. Target keeps it for the next two rounds.',
+} as const;
+
+const DEFERRED_ACTION_PROMPT_PATTERN =
+  /\b(discuss and write down|negotiate what happens next|names? one rule for (?:if|when) it is ever used|would be allowed later|describe the reveal without acting it out|rank these fantasies|prop boundary check)\b/i;
+
+const ALLOWED_TWO_ROUND_CARD_IDS = new Set(['lvl5-c-007', 'lvl5-c-014']);
 
 // Explicit sex-act instructions are never allowed on action cards (dare,
 // challenge, roleplay). Truth/fantasy cards may discuss desires in words,
@@ -152,8 +172,10 @@ describe('game card content policy', () => {
 
   it('never assigns long-duration or scheduled tasks', () => {
     expect(
-      ALL_PLAYABLE_CARDS.filter((card) =>
-        LONG_DURATION_PATTERN.test(card.content)
+      ALL_PLAYABLE_CARDS.filter(
+        (card) =>
+          LONG_DURATION_PATTERN.test(card.content) &&
+          !ALLOWED_TWO_ROUND_CARD_IDS.has(card.id)
       ).map(describeCard)
     ).toEqual([]);
   });
@@ -166,18 +188,20 @@ describe('game card content policy', () => {
     ).toEqual([]);
   });
 
-  it('makes the prop boundary challenge explicit about action and outcome', () => {
-    const runtimeCard = MASTER_DECK.find(
-      (candidate) => candidate.id === 'lvl5-c-007'
-    );
-    const jsonCard = ALL_CARDS_FROM_JSON.find(
-      (candidate) => candidate.id === 'lvl5-c-007'
-    );
+  it('uses exact concrete Player up and Target instructions for audited action cards', () => {
+    const cardById = new Map(MASTER_DECK.map((card) => [card.id, card]));
 
-    expect(runtimeCard?.content).toBe(EXPECTED_PROP_BOUNDARY_CONTENT);
-    expect(runtimeCard?.safetyNotes).toBe(EXPECTED_PROP_BOUNDARY_SAFETY);
-    expect(jsonCard?.content).toBe(EXPECTED_PROP_BOUNDARY_CONTENT);
-    expect(jsonCard?.safetyNotes).toBe(EXPECTED_PROP_BOUNDARY_SAFETY);
+    for (const [id, content] of Object.entries(EXPECTED_CONCRETE_ACTIONS)) {
+      expect(cardById.get(id)?.content).toBe(content);
+    }
+  });
+
+  it('does not defer action cards to discussion, negotiation, or later planning', () => {
+    expect(
+      ACTION_CARDS.filter((card) =>
+        DEFERRED_ACTION_PROMPT_PATTERN.test(card.content)
+      ).map(describeCard)
+    ).toEqual([]);
   });
 
   it('keeps the level 4 blindfold mystery challenge guess-based', () => {

@@ -779,7 +779,7 @@ export const LEVEL3_CARDS: GameCard[] = [
     id: 'lvl3-qk-008',
     type: 'dare',
     content:
-      "Show me the lingerie, panties, bra, or underwear you'd most want me in. Describe the reveal without acting it out.",
+      'Lingerie Styling: Player up chooses one clean lingerie, panties, bra, or underwear item for Target. Target holds it against their outfit while Player up directs one pose for 30 seconds.',
     intensity: 3,
     category: 'intimate',
     isPremium: true,

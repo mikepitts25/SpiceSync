@@ -266,12 +266,11 @@ export const LEVEL2_CARDS: GameCard[] = [
     id: 'lvl2-c-009',
     type: 'challenge',
     content:
-      'Future Vision Board: Together, discuss and write down 5 shared goals or dreams for your future.',
+      'Future Snapshot: Player up poses with Target as if one shared dream just came true. Hold the celebration pose for 30 seconds and announce what happened.',
     intensity: 2,
-    category: 'communication',
+    category: 'playful',
     isPremium: true,
     estimatedTime: '30 sec',
-    requires: ['paper', 'pen'],
   },
   {
     id: 'lvl2-c-013',

@@ -202,14 +202,14 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-c-005',
     type: 'challenge',
     content:
-      'Paddle Ceremony: One partner presents the paddle. The other names one rule for if it is ever used, then sets it aside.',
+      "Paddle Balance: Player up balances the paddle across Target's open palms. Target holds still for 30 seconds; if it drops, Target gives Player up one wicked compliment.",
     intensity: 4,
     category: 'physical',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes:
-      'This is negotiation and presentation only. Do not escalate to real impact during the game.',
+      'The paddle is a balance prop only. Do not swing it or use it for impact.',
   },
   {
     id: 'lvl4-c-006',
@@ -697,14 +697,14 @@ export const LEVEL4_CARDS: GameCard[] = [
     id: 'lvl4-qk-007',
     type: 'dare',
     content:
-      'Paddle Presence: Place the paddle in my open palms like a ceremony. I present it back and name one rule for when it is ever used.',
+      'Paddle Scepter: Target holds the paddle like a royal scepter while Player up directs one commanding pose. Target holds the pose for 30 seconds.',
     intensity: 4,
     category: 'intimate',
     isPremium: true,
     estimatedTime: '1 min',
     requires: ['paddle'],
     safetyNotes:
-      'Presentation or one featherlight tap over clothing only—no real impact mid-game. Agree on it first.',
+      'The paddle is a posing prop only. Do not swing it or use it for impact.',
   },
   {
     id: 'lvl4-qk-008',

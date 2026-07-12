@@ -517,13 +517,14 @@ export const FREE_CARDS: GameCard[] = [
     id: 'f-i-r2',
     type: 'roleplay',
     content:
-      'Captive / Temptation: Use a blindfold or pretend restraint, then negotiate what happens next.',
+      'Captive / Temptation: Player up blindfolds Target, circles them once, and directs one pose—kneel, stand, or turn. Target chooses one, holds it for 10 seconds, then Player up removes the blindfold.',
     intensity: 5,
     category: 'intimate',
     isPremium: false,
     estimatedTime: '1 min',
+    requires: ['blindfold'],
     safetyNotes:
-      'Keep restraint pretend or easy-release unless both partners explicitly agree.',
+      'Blindfold play stays brief. Keep the area clear and remove the blindfold immediately on request.',
   },
   {
     id: 'f-i-r3',
