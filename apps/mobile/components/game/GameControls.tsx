@@ -260,7 +260,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   segmentOptionCompact: {
-    flexGrow: 1,
     paddingHorizontal: 8,
   },
   segmentOptionCompactVisual: {

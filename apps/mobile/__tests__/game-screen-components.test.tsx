@@ -213,8 +213,40 @@ describe('game-screen presentation components', () => {
       });
       expect(optionStyle.width).toBeUndefined();
       expect(optionStyle.height).toBeUndefined();
+      expect(optionStyle.flexGrow).toBeUndefined();
       expect(option.props.hitSlop).toBeUndefined();
     });
+  });
+
+  it('shares one responsive revealed heading row with the compact language selector', () => {
+    const props = roundProps();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameRoundPanel {...props} />);
+    });
+
+    const headingRow = tree!.root.findByProps({
+      testID: 'game-revealed-heading-row',
+    });
+    expect(StyleSheet.flatten(headingRow.props.style)).toMatchObject({
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+    });
+    expect(StyleSheet.flatten(headingRow.props.style).height).toBeUndefined();
+    expect(
+      StyleSheet.flatten(headingRow.props.style).maxHeight
+    ).toBeUndefined();
+    expect(
+      headingRow.findByProps({ children: 'Challenge Round' })
+    ).toBeDefined();
+    expect(
+      headingRow.find(
+        (node) =>
+          node.type === View &&
+          node.props.accessibilityLabel === 'Card language'
+      )
+    ).toBeDefined();
   });
 
   it('groups setup controls and forwards player, language, deck, and start actions', () => {

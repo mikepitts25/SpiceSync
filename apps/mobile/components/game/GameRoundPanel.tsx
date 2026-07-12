@@ -101,6 +101,18 @@ export function GameRoundPanel({
     viewportHeight > 0 &&
     contentHeight > viewportHeight + SCROLL_END_TOLERANCE &&
     scrollOffset + viewportHeight < contentHeight - SCROLL_END_TOLERANCE;
+  const languageControl = (
+    <GameSegmentedControl
+      compact
+      accessibilityLabel="Card language"
+      value={language}
+      options={[
+        { value: 'en', label: 'EN' },
+        { value: 'es', label: 'ES' },
+      ]}
+      onChange={onLanguageChange}
+    />
+  );
 
   return (
     <View style={styles.stage}>
@@ -118,18 +130,9 @@ export function GameRoundPanel({
           }
           contentContainerStyle={styles.cardContent}
         >
-          <View style={styles.languageControlRow}>
-            <GameSegmentedControl
-              compact
-              accessibilityLabel="Card language"
-              value={language}
-              options={[
-                { value: 'en', label: 'EN' },
-                { value: 'es', label: 'ES' },
-              ]}
-              onChange={onLanguageChange}
-            />
-          </View>
+          {phase === 'revealed' ? null : (
+            <View style={styles.languageControlRow}>{languageControl}</View>
+          )}
           {phase === 'ready' ? (
             <Pressable
               accessibilityRole="button"
@@ -159,8 +162,23 @@ export function GameRoundPanel({
             </Animated.View>
           ) : (
             <View style={styles.challenge}>
-              <AccentBar />
-              <Text style={styles.title}>{revealedTitle}</Text>
+              <View
+                testID="game-revealed-heading-row"
+                style={styles.revealedHeadingRow}
+              >
+                <View style={styles.revealedHeading}>
+                  <AccentBar />
+                  <Text style={styles.title}>{revealedTitle}</Text>
+                </View>
+                <View
+                  style={[
+                    styles.languageControlRow,
+                    styles.revealedLanguageControl,
+                  ]}
+                >
+                  {languageControl}
+                </View>
+              </View>
               <Text style={styles.body}>{revealedBody}</Text>
               {timer ? null : <GamePill label={timerEstimate} tone="warning" />}
             </View>
@@ -366,6 +384,25 @@ const styles = StyleSheet.create({
   },
   languageControlRow: {
     alignItems: 'flex-end',
+  },
+  revealedHeadingRow: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    gap: 10,
+  },
+  revealedHeading: {
+    minWidth: 160,
+    flexBasis: 180,
+    flexGrow: 1,
+    flexShrink: 1,
+    alignItems: 'flex-start',
+    gap: 10,
+  },
+  revealedLanguageControl: {
+    flexShrink: 0,
+    marginLeft: 'auto',
   },
   cardBack: {
     minHeight: 220,
