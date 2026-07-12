@@ -52,7 +52,7 @@ Work top to bottom within a priority tier unless told otherwise.
 - Celebrate finishing a tier (reuse `components/EnhancedMatchCelebration.tsx`
   or a lighter variant) with a CTA to the Matches tab.
 
-### 4. i18n gaps on core screens (ES users see mixed language)
+### 4. i18n gaps on core screens (ES users see mixed language) — ✅ DONE
 
 Hardcoded English that bypasses `lib/i18n`:
 - `READINESS_ACTIONS` labels in `app/(tabs)/deck.tsx:82-117`

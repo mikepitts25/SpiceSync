@@ -22,6 +22,7 @@ import {
 
 import { AccentBar, CardAccentTop } from '../app-chrome';
 import { COLORS, GRADIENTS, RADII } from '../../constants/theme';
+import { useTranslation } from '../../lib/i18n';
 import type { GameCardDisplayLanguage } from '../../data/gameCardTranslations';
 import { formatGameCardTimerSeconds } from '../../lib/gameTimer';
 import {
@@ -93,6 +94,7 @@ export function GameRoundPanel({
   onDone,
   rouletteStyle,
 }: GameRoundPanelProps) {
+  const { t } = useTranslation();
   const [contentHeight, setContentHeight] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -104,7 +106,7 @@ export function GameRoundPanel({
   const languageControl = (
     <GameSegmentedControl
       compact
-      accessibilityLabel="Card language"
+      accessibilityLabel={t.game.cardLanguage}
       value={language}
       options={[
         { value: 'en', label: 'EN' },

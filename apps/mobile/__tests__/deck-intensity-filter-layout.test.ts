@@ -40,10 +40,10 @@ describe('Deck intensity filter layout', () => {
   });
 
   it('shows every readiness choice directly on the card', () => {
-    expect(deckSource).toContain("label: 'Hard No'");
-    expect(deckSource).toContain("label: 'Not Now'");
-    expect(deckSource).toContain("label: 'Curious'");
-    expect(deckSource).toContain("label: 'Yes'");
+    expect(deckSource).toContain("labelKey: 'hardNo'");
+    expect(deckSource).toContain("labelKey: 'notNow'");
+    expect(deckSource).toContain("labelKey: 'curious'");
+    expect(deckSource).toContain("labelKey: 'yes'");
     expect(deckSource).toContain("readiness: 'hard_no'");
     expect(deckSource).toContain("readiness: 'not_now'");
     expect(deckSource).toContain("readiness: 'curious'");

@@ -174,7 +174,7 @@ describe('game-screen presentation components', () => {
 
     const selector = tree!.root.find(
       (node) =>
-        node.type === View && node.props.accessibilityLabel === 'Card language'
+        node.type === View && node.props.accessibilityLabel === 'Card Language'
     );
     const selectorStyle = StyleSheet.flatten(selector.props.style);
     expect(selectorStyle).toMatchObject({
@@ -202,7 +202,7 @@ describe('game-screen presentation components', () => {
 
     const options = ['EN', 'ES'].map((label) =>
       tree!.root.find(
-        (node) => node.props.accessibilityLabel === `Card language: ${label}`
+        (node) => node.props.accessibilityLabel === `Card Language: ${label}`
       )
     );
     options.forEach((option) => {
@@ -244,7 +244,7 @@ describe('game-screen presentation components', () => {
       headingRow.find(
         (node) =>
           node.type === View &&
-          node.props.accessibilityLabel === 'Card language'
+          node.props.accessibilityLabel === 'Card Language'
       )
     ).toBeDefined();
   });
@@ -272,7 +272,7 @@ describe('game-screen presentation components', () => {
     );
 
     const spanish = tree!.root.find(
-      (node) => node.props.accessibilityLabel === 'Card language: ES'
+      (node) => node.props.accessibilityLabel === 'Card Language: ES'
     );
     TestRenderer.act(() => spanish.props.onPress());
     expect(props.onCardLanguageChange).toHaveBeenCalledWith('es');

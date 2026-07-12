@@ -11,6 +11,7 @@ import {
 import { Play, PlusCircle } from 'lucide-react-native';
 
 import { COLORS } from '../../constants/theme';
+import { interpolate, useTranslation } from '../../lib/i18n';
 import type { GameCardDisplayLanguage } from '../../data/gameCardTranslations';
 import type { GameCustomDeckMode } from '../../lib/gameDeck';
 import { CardAccentTop } from '../app-chrome';
@@ -75,6 +76,7 @@ export function GameSetupPanel({
   onStart,
   startDisabled,
 }: GameSetupPanelProps) {
+  const { t } = useTranslation();
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -83,7 +85,7 @@ export function GameSetupPanel({
       <View style={styles.hero}>
         <Text style={styles.eyebrow}>{gameNightLabel}</Text>
         <GameSegmentedControl
-          accessibilityLabel="Game mode"
+          accessibilityLabel={t.game.gameModeA11y}
           value={mode}
           options={modeOptions}
           onChange={onModeChange}
@@ -103,13 +105,15 @@ export function GameSetupPanel({
           </View>
           <Text style={styles.title}>{introTitle}</Text>
           <Text style={styles.body}>{introBody}</Text>
-          <Text style={styles.sectionLabel}>Number of Players</Text>
+          <Text style={styles.sectionLabel}>{t.game.numberOfPlayers}</Text>
           <View style={styles.playerCountRow}>
             {[2, 3, 4].map((count) => (
               <Pressable
                 key={count}
                 accessibilityRole="button"
-                accessibilityLabel={`${count} players`}
+                accessibilityLabel={interpolate(t.game.playersCountA11y, {
+                  count,
+                })}
                 accessibilityState={{ selected: playerCount === count }}
                 onPress={() => onPlayerCountChange(count)}
                 style={[
@@ -125,7 +129,9 @@ export function GameSetupPanel({
             {playerNames.slice(0, playerCount).map((name, index) => (
               <TextInput
                 key={index}
-                accessibilityLabel={`Player ${index + 1} name`}
+                accessibilityLabel={interpolate(t.game.playerNameA11y, {
+                  number: index + 1,
+                })}
                 value={name}
                 onChangeText={(value) => onPlayerNameChange(index, value)}
                 autoCapitalize="words"
@@ -137,13 +143,11 @@ export function GameSetupPanel({
           </View>
           <View style={styles.optionRow}>
             <View style={styles.optionCopy}>
-              <Text style={styles.optionTitle}>Drinking game</Text>
-              <Text style={styles.optionBody}>
-                Adds drinks and shots to pass consequences.
-              </Text>
+              <Text style={styles.optionTitle}>{t.game.drinkingGame}</Text>
+              <Text style={styles.optionBody}>{t.game.drinkingGameDesc}</Text>
             </View>
             <Switch
-              accessibilityLabel="Drinking game"
+              accessibilityLabel={t.game.drinkingGame}
               value={drinkingMode}
               onValueChange={onDrinkingModeChange}
               trackColor={{
@@ -155,9 +159,9 @@ export function GameSetupPanel({
             />
           </View>
           <View style={styles.languageRow}>
-            <Text style={styles.sectionLabel}>Card Language</Text>
+            <Text style={styles.sectionLabel}>{t.game.cardLanguage}</Text>
             <GameSegmentedControl
-              accessibilityLabel="Card language"
+              accessibilityLabel={t.game.cardLanguage}
               value={cardLanguage}
               options={[
                 { value: 'en', label: 'EN' },
@@ -168,20 +172,20 @@ export function GameSetupPanel({
           </View>
           {customCardsAvailable ? (
             <View style={styles.languageRow}>
-              <Text style={styles.sectionLabel}>Deck Mix</Text>
+              <Text style={styles.sectionLabel}>{t.game.deckMix}</Text>
               <GameSegmentedControl
-                accessibilityLabel="Deck mix"
+                accessibilityLabel={t.game.deckMix}
                 value={customDeckMode}
                 options={[
-                  { value: 'include', label: 'Include Custom' },
-                  { value: 'customOnly', label: 'Custom Only' },
+                  { value: 'include', label: t.game.includeCustom },
+                  { value: 'customOnly', label: t.game.customOnly },
                 ]}
                 onChange={onCustomDeckModeChange}
               />
             </View>
           ) : null}
           <GameButton
-            label="Custom Deck"
+            label={t.game.customDeck}
             variant="secondary"
             icon={<PlusCircle size={18} color={COLORS.pink} />}
             onPress={onOpenCustomDeck}

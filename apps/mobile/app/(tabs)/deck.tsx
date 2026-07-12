@@ -89,35 +89,35 @@ const TIER_COLORS: Record<string, string> = {
 
 const READINESS_ACTIONS = [
   {
-    label: 'Hard No',
+    labelKey: 'hardNo',
     readiness: 'hard_no',
     direction: 'left',
     color: COLORS.no,
     icon: X,
   },
   {
-    label: 'Not Now',
+    labelKey: 'notNow',
     readiness: 'not_now',
     direction: 'left',
     color: COLORS.purpleLight,
     icon: Clock3,
   },
   {
-    label: 'Curious',
+    labelKey: 'curious',
     readiness: 'curious',
     direction: 'up',
     color: COLORS.maybe,
     icon: Ellipsis,
   },
   {
-    label: 'Yes',
+    labelKey: 'yes',
     readiness: 'yes',
     direction: 'right',
     color: COLORS.pink,
     icon: Check,
   },
 ] as const satisfies readonly {
-  label: string;
+  labelKey: 'hardNo' | 'notNow' | 'curious' | 'yes';
   readiness: Readiness;
   direction: SwipeDirection;
   color: string;
@@ -155,10 +155,16 @@ function KinkCardFrame({
   pairPreference,
   onPairPreferenceChange,
 }: KinkCardFrameProps) {
+  const { t } = useTranslation();
   const tierColor = item.tier
     ? (TIER_COLORS[item.tier] ?? COLORS.pink)
     : COLORS.pink;
   const roleSelectorEnabled = !!onPairPreferenceChange;
+  const roleLabels: Record<PairPreference, string> = {
+    give: t.deck.give,
+    receive: t.deck.receive,
+    both: t.deck.both,
+  };
 
   return (
     <>
@@ -206,11 +212,7 @@ function KinkCardFrame({
                           active && styles.roleOptionTextActive,
                         ]}
                       >
-                        {option === 'give'
-                          ? 'Give'
-                          : option === 'receive'
-                            ? 'Receive'
-                            : 'Both'}
+                        {roleLabels[option]}
                       </Text>
                     </Pressable>
                   );
@@ -973,11 +975,12 @@ export default function DeckScreen() {
           {READINESS_ACTIONS.map((action) => {
             const Icon = action.icon;
             const primary = action.readiness === 'yes';
+            const actionLabel = t.deck[action.labelKey];
             return (
               <Pressable
                 key={action.readiness}
                 accessibilityRole="button"
-                accessibilityLabel={action.label}
+                accessibilityLabel={actionLabel}
                 onPress={() => handleReadinessVote(action)}
                 style={({ pressed }) => [
                   styles.readinessAction,
@@ -997,7 +1000,7 @@ export default function DeckScreen() {
                   minimumFontScale={0.82}
                   style={styles.readinessActionText}
                 >
-                  {action.label}
+                  {actionLabel}
                 </Text>
               </Pressable>
             );
