@@ -17,6 +17,7 @@ import {
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
 
 import { AppHeader, AppTabBar } from '../../components/app-chrome';
 import {
@@ -47,6 +48,17 @@ import {
   selectGameCardsForCustomMode,
   type GameCustomDeckMode,
 } from '../../lib/gameDeck';
+import {
+  computeMutualYesKinks,
+  createMatchInspiredCards,
+  getFavoredCardCategories,
+  interleaveMatchInspiredCards,
+} from '../../lib/gameMatchDeck';
+import { useKinks } from '../../lib/data';
+import { useProfilesStore } from '../../lib/state/profiles';
+import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
+import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
+import { useVotesStore, type KinkVote } from '../../src/stores/votes';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import {
   formatGameCardTimerEstimate,
@@ -269,6 +281,53 @@ export default function GameHub() {
     [baseCards, customCards, customDeckMode]
   );
 
+  // Match-aware deck inputs: only mutual-yes kinks — data both partners have
+  // already revealed to each other — ever influence the game.
+  const coupleLink = useCoupleLinkStore((state) => state.link);
+  const isRemotePartner = coupleLink?.status === 'active';
+  const { profiles, activeProfileId } = useProfilesStore(
+    useShallow((state) => ({
+      profiles: state.getProfiles(),
+      activeProfileId: state.getActiveProfileId(),
+    }))
+  );
+  const activeKey = activeProfileId ? String(activeProfileId) : null;
+  const partnerKey = useMemo(() => {
+    const partner = profiles.find((profile) => profile.id !== activeProfileId);
+    return partner ? String(partner.id) : null;
+  }, [profiles, activeProfileId]);
+  const [activeVotes, localPartnerVotes] = useVotesStore(
+    useShallow((state) => [
+      activeKey ? state.votesByProfile[activeKey] : undefined,
+      partnerKey ? state.votesByProfile[partnerKey] : undefined,
+    ])
+  );
+  const remotePartnerVotes = usePartnerVotesStore((state) => state.byCardId);
+  const partnerVotesMap = useMemo(() => {
+    if (!isRemotePartner) return localPartnerVotes;
+    return Object.fromEntries(
+      Object.entries(remotePartnerVotes).map(([cardId, record]) => [
+        cardId,
+        record.pairPreference || record.readiness
+          ? {
+              value: record.vote,
+              pairPreference: record.pairPreference,
+              readiness: record.readiness,
+            }
+          : record.vote,
+      ])
+    ) as Record<string, KinkVote>;
+  }, [isRemotePartner, localPartnerVotes, remotePartnerVotes]);
+  const { kinks } = useKinks(cardLanguage === 'es' ? 'es' : 'en');
+  const mutualYesKinks = useMemo(
+    () => computeMutualYesKinks(kinks, activeVotes, partnerVotesMap),
+    [kinks, activeVotes, partnerVotesMap]
+  );
+  const favoredCategories = useMemo(
+    () => getFavoredCardCategories(mutualYesKinks),
+    [mutualYesKinks]
+  );
+
   const selectedLevels = GAME_MODE_LEVELS[selectedMode];
   const selectedModeLabel = t.game.gameModes[selectedMode];
   const setupPlayers = useMemo(
@@ -363,10 +422,17 @@ export default function GameHub() {
 
   const dealNewDeck = useCallback(
     (avoidFirstCardId?: string | null) => {
-      const nextDeck = createShuffledGameDeck(levelCards, {
+      const shuffled = createShuffledGameDeck(levelCards, {
         previousOrderIds: lastDeckOrderIdsRef.current[selectedMode],
         avoidFirstCardId,
+        intensityArc: true,
+        favoredCategories,
       });
+      const inspiredCards = createMatchInspiredCards(mutualYesKinks, {
+        language: cardLanguage,
+        intensity: selectedMode === 'intense' ? 4 : 3,
+      });
+      const nextDeck = interleaveMatchInspiredCards(shuffled, inspiredCards);
 
       lastDeckOrderIdsRef.current[selectedMode] = nextDeck.map(
         (card) => card.id
@@ -377,7 +443,7 @@ export default function GameHub() {
 
       return nextDeck;
     },
-    [levelCards, selectedMode]
+    [levelCards, selectedMode, favoredCategories, mutualYesKinks, cardLanguage]
   );
 
   const clearRouletteInterval = useCallback(() => {

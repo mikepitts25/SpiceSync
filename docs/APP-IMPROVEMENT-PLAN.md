@@ -110,7 +110,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   `data/game_cards_level{1-5}.ts`, ES variants in `data/gameCards.es.ts` and
   `data/gameCardTranslations.ts`.
 
-### 9. Match-aware game deck (the differentiator)
+### 9. Match-aware game deck (the differentiator) — ✅ DONE
 
 - The game ignores the couple's vote data entirely. The app knows their
   mutual yeses (`lib/match/compute.ts` `computeMatchBuckets`,
