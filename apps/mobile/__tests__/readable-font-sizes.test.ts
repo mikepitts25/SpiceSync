@@ -11,6 +11,36 @@ const ALLOWED_SMALL_TEXT = [
     minSize: 9,
     reason: 'Bottom navbar labels are intentionally compact by user request.',
   },
+  {
+    file: path.join('components', 'game', 'GameSessionChrome.tsx'),
+    style: 'eyebrow',
+    minSize: 12,
+    reason: 'Short, compact secondary label—not long card body text.',
+  },
+  {
+    file: path.join('components', 'game', 'GameSessionChrome.tsx'),
+    style: 'role',
+    minSize: 12,
+    reason: 'Short, compact secondary label—not long card body text.',
+  },
+  {
+    file: path.join('components', 'game', 'GameRoundPanel.tsx'),
+    style: 'kicker',
+    minSize: 14,
+    reason: 'Short, compact secondary label—not long card body text.',
+  },
+  {
+    file: path.join('components', 'game', 'GameRoundPanel.tsx'),
+    style: 'timerEstimate',
+    minSize: 14,
+    reason: 'Short, compact secondary label—not long card body text.',
+  },
+  {
+    file: path.join('components', 'game', 'GameRoundPanel.tsx'),
+    style: 'outcomeLabel',
+    minSize: 14,
+    reason: 'Short, compact secondary label—not long card body text.',
+  },
   ...[
     'filtersSummary',
     'filtersToggleActionText',
