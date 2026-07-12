@@ -6,6 +6,39 @@ type ShuffleOptions = {
   previousOrderIds?: readonly string[];
   avoidFirstCardId?: string | null;
   random?: () => number;
+  // Sort the shuffled deck into a warm-up → build → peak ramp instead of a
+  // flat shuffle, so intense sessions don't open on a level-5 card cold.
+  intensityArc?: boolean;
+  // Card categories the couple has shown mutual interest in; matching cards
+  // are pulled earlier in the deck.
+  favoredCategories?: ReadonlySet<string>;
+};
+
+// Jitter keeps the ramp organic: cards can locally trade places, but the
+// overall order still climbs from low to high intensity.
+const ARC_JITTER = 2.4;
+const FAVORED_CATEGORY_BOOST = 0.8;
+
+const applyDealOrderBias = (
+  deck: GameCard[],
+  intensityArc: boolean,
+  favoredCategories: ReadonlySet<string> | undefined,
+  random: () => number
+): GameCard[] => {
+  if (!intensityArc && !favoredCategories?.size) {
+    return deck;
+  }
+
+  return deck
+    .map((card) => ({
+      card,
+      key:
+        (intensityArc ? card.intensity : 0) +
+        (random() - 0.5) * ARC_JITTER -
+        (favoredCategories?.has(card.category) ? FAVORED_CATEGORY_BOOST : 0),
+    }))
+    .sort((a, b) => a.key - b.key)
+    .map((entry) => entry.card);
 };
 
 const idsFor = (cards: readonly GameCard[]) => cards.map((card) => card.id);
@@ -51,14 +84,18 @@ export function createShuffledGameDeck(
     previousOrderIds = [],
     avoidFirstCardId = null,
     random = Math.random,
+    intensityArc = false,
+    favoredCategories,
   }: ShuffleOptions = {}
 ) {
-  const deck = [...cards];
+  let deck = [...cards];
 
   for (let index = deck.length - 1; index > 0; index -= 1) {
     const swapIndex = Math.floor(random() * (index + 1));
     [deck[index], deck[swapIndex]] = [deck[swapIndex], deck[index]];
   }
+
+  deck = applyDealOrderBias(deck, intensityArc, favoredCategories, random);
 
   if (deck.length > 1 && hasSameOrder(deck, previousOrderIds)) {
     deck.push(deck.shift() as GameCard);

@@ -122,7 +122,7 @@ Add keys to `lib/i18n/en.ts` + `lib/i18n/es.ts` and use them.
   other (same rule as the matches screen / reveal consent in
   `lib/sync/revealConsent.ts`).
 
-### 10. Session intensity arc
+### 10. Session intensity arc — ✅ DONE
 
 - `createShuffledGameDeck` is a flat shuffle; intense mode can open on a
   level-5 card cold.
