@@ -170,8 +170,15 @@ describe('game-screen presentation components', () => {
     );
     expect(StyleSheet.flatten(selector.props.style)).toMatchObject({
       alignSelf: 'flex-end',
+      width: 88,
+      minHeight: 44,
+    });
+    const visualTrack = selector.find(
+      (node) => node.type === View && node.props.pointerEvents === 'none'
+    );
+    expect(StyleSheet.flatten(visualTrack.props.style)).toMatchObject({
       width: 80,
-      minHeight: 36,
+      height: 36,
     });
     expect(
       StyleSheet.flatten(selector.parent!.parent!.props.style).alignItems
@@ -184,15 +191,10 @@ describe('game-screen presentation components', () => {
     );
     options.forEach((option) => {
       expect(flattenedPressableStyle(option)).toMatchObject({
-        minWidth: 40,
-        minHeight: 36,
+        minWidth: GAME_CONTROL_MIN_SIZE,
+        minHeight: GAME_CONTROL_MIN_SIZE,
       });
-      expect(option.props.hitSlop).toEqual({
-        top: 4,
-        bottom: 4,
-        left: 2,
-        right: 2,
-      });
+      expect(option.props.hitSlop).toBeUndefined();
     });
   });
 

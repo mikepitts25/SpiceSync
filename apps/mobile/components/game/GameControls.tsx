@@ -69,8 +69,21 @@ export function GameSegmentedControl<T extends string>({
   return (
     <View
       accessibilityLabel={accessibilityLabel}
-      style={[styles.segmented, compact && styles.segmentedCompact]}
+      style={compact ? styles.segmentedCompact : styles.segmented}
     >
+      {compact ? (
+        <View pointerEvents="none" style={styles.segmentedCompactTrack}>
+          {options.map((option) => (
+            <View
+              key={option.value}
+              style={[
+                styles.segmentOptionCompactVisual,
+                option.value === value && styles.segmentOptionSelected,
+              ]}
+            />
+          ))}
+        </View>
+      ) : null}
       {options.map((option) => {
         const selected = option.value === value;
         return (
@@ -79,14 +92,11 @@ export function GameSegmentedControl<T extends string>({
             accessibilityRole="button"
             accessibilityLabel={`${accessibilityLabel}: ${option.label}`}
             accessibilityState={{ selected }}
-            hitSlop={
-              compact ? { top: 4, bottom: 4, left: 2, right: 2 } : undefined
-            }
             onPress={() => onChange(option.value)}
             style={({ pressed }) => [
               styles.segmentOption,
               compact && styles.segmentOptionCompact,
-              selected && styles.segmentOptionSelected,
+              selected && !compact && styles.segmentOptionSelected,
               pressed && styles.pressed,
             ]}
           >
@@ -222,10 +232,25 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   segmentedCompact: {
-    width: 80,
-    minHeight: 36,
+    width: 88,
+    minHeight: GAME_CONTROL_MIN_SIZE,
+    flexDirection: 'row',
     alignSelf: 'flex-end',
+    position: 'relative',
+    backgroundColor: 'transparent',
+  },
+  segmentedCompactTrack: {
+    position: 'absolute',
+    top: 4,
+    left: 4,
+    width: 80,
+    height: 36,
+    flexDirection: 'row',
     borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    overflow: 'hidden',
   },
   segmentOption: {
     minWidth: GAME_CONTROL_MIN_SIZE,
@@ -235,9 +260,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   segmentOptionCompact: {
-    minWidth: 40,
-    minHeight: 36,
+    width: GAME_CONTROL_MIN_SIZE,
+    height: GAME_CONTROL_MIN_SIZE,
     paddingHorizontal: 8,
+  },
+  segmentOptionCompactVisual: {
+    width: 40,
+    height: 36,
   },
   segmentOptionSelected: { backgroundColor: 'rgba(255,45,146,0.24)' },
   segmentText: { color: COLORS.textMuted, fontSize: 16, fontWeight: '900' },
