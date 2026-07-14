@@ -1,5 +1,11 @@
 # Deck Tap Voting and Card Overflow Design
 
+> **Status: Superseded.** The tap-only voting decision in this document was
+> replaced by the approved four-way swipe design in
+> `2026-07-14-deck-four-way-swipe-voting-design.md`. The card-overflow proposal
+> must be reconsidered separately because vertical card scrolling would
+> conflict with the approved up/down voting gestures.
+
 ## Goal
 
 Prevent long Deck cards from overlapping their role and partner controls, and make the four readiness choices unambiguous by replacing Deck swipe voting with explicit buttons.
