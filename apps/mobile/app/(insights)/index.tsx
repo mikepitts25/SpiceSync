@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import InsightsCoupleMark from '../../components/InsightsCoupleMark';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useVotesStore } from '../../src/stores/votes';
 import { voteValue } from '../../lib/votes/rolePreferences';
 import { useKinks } from '../../lib/data';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useSettingsStore } from '../../src/stores/settingsStore';
-
-const { width: SCREEN_W } = Dimensions.get('window');
 
 interface StatCardProps {
   title: string;
@@ -34,6 +34,10 @@ export default function InsightsDashboard() {
   const language = useSettingsStore((state) => state.language);
   const activeProfileId = useProfilesStore((state) =>
     state.getActiveProfileId()
+  );
+  const activeProfile = useProfilesStore((state) => state.getActiveProfile());
+  const coupleLink = useCoupleLinkStore((state) =>
+    state.link?.status === 'active' ? state.link : null
   );
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
   const votes = useVotesStore((state) =>
@@ -125,7 +129,13 @@ export default function InsightsDashboard() {
 
         {/* Compatibility Score */}
         <View style={styles.scoreCard}>
-          <Text style={styles.scoreEmoji}>💑</Text>
+          <View style={styles.scoreMark}>
+            <InsightsCoupleMark
+              linked={Boolean(coupleLink)}
+              activeAvatar={activeProfile?.emoji}
+              partnerAvatar={coupleLink?.partnerProfileAvatar}
+            />
+          </View>
           <Text style={styles.scoreValue}>{insights.compatibilityScore}%</Text>
           <Text style={styles.scoreLabel}>Compatibility Score</Text>
           <Text style={styles.scoreDescription}>
@@ -157,15 +167,17 @@ export default function InsightsDashboard() {
               <View key={index} style={styles.barRow}>
                 <Text style={styles.barLabel}>{item.label}</Text>
                 <View style={styles.barWrapper}>
-                  <View
-                    style={[
-                      styles.bar,
-                      {
-                        width: `${(item.value / maxVotes) * 100}%`,
-                        backgroundColor: item.color,
-                      },
-                    ]}
-                  />
+                  <View style={styles.barTrack}>
+                    <View
+                      style={[
+                        styles.bar,
+                        {
+                          width: `${(item.value / maxVotes) * 100}%`,
+                          backgroundColor: item.color,
+                        },
+                      ]}
+                    />
+                  </View>
                   <Text style={styles.barValue}>{item.value}</Text>
                 </View>
               </View>
@@ -265,8 +277,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  scoreEmoji: {
-    fontSize: 48,
+  scoreMark: {
     marginBottom: SIZES.padding,
   },
   scoreValue: {
@@ -351,6 +362,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: SIZES.padding,
+  },
+  barTrack: {
+    flex: 1,
   },
   bar: {
     height: 24,

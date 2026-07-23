@@ -43,6 +43,18 @@ export default function RootLayout() {
         });
     }
 
+    // Top up the rolling notification queues so fired entries are replaced with
+    // fresh messages instead of the queue draining. Deliberately outside the
+    // guard above: that guard exists to avoid *requesting* permission on
+    // launch, while refreshing is a no-op unless permission is already granted.
+    import('../lib/notifications')
+      .then(({ refreshScheduledNotifications }) =>
+        refreshScheduledNotifications()
+      )
+      .catch((error) => {
+        console.error('[App] Notification refresh failed:', error);
+      });
+
     const { checkAndUpdateStreak } = useStreakStore.getState();
     const result = checkAndUpdateStreak();
     if (result.streakUpdated) {

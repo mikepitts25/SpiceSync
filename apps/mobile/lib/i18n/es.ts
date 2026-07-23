@@ -248,6 +248,11 @@ export const es: Translations = {
     keepSwiping: 'Seguir votando',
     resetCategory: 'Reiniciar esta categoría',
     resetDeck: 'Reiniciar cartas',
+    resetDeckHint: 'Pide confirmación antes de borrar tus votos',
+    resetDeckConfirmTitle: '¿Reiniciar esta baraja?',
+    resetDeckConfirmBody:
+      'Esto borra tus {{count}} votos guardados en {{deck}} y reparte todas las cartas de nuevo. Tu pareja conserva los suyos y esto no se puede deshacer.',
+    resetDeckConfirmAction: 'Borrar mis votos',
     viewMatches: 'Ver Matches',
     partnerFallback: 'Pareja',
     partnerVoted: 'votó',

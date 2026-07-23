@@ -5,6 +5,7 @@ import { useRouter, useRootNavigationState } from 'expo-router';
 import { useSettings } from '../lib/state/useStore';
 import { useProfilesStore } from '../lib/state/profiles';
 import { getAppEntryDestination } from '../lib/welcome/routing';
+import MatchCoupleIcon from '../components/MatchCoupleIcon';
 
 export default function EntryGate() {
   const router = useRouter();
@@ -39,7 +40,12 @@ export default function EntryGate() {
   // Loading state
   return (
     <View style={styles.container}>
-      <Text style={styles.emoji}>💑</Text>
+      <View style={styles.coupleIcon}>
+        <MatchCoupleIcon
+          size={64}
+          accessibilityLabel="SpiceSync couple match"
+        />
+      </View>
       <Text style={styles.text}>Loading...</Text>
     </View>
   );
@@ -52,8 +58,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  emoji: {
-    fontSize: 64,
+  coupleIcon: {
     marginBottom: 16,
   },
   text: {

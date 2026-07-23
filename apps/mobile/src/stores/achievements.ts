@@ -20,7 +20,7 @@ export interface Achievement {
 interface AchievementsState {
   achievements: Achievement[];
   totalUnlocked: number;
-  
+
   // Actions
   initializeAchievements: () => void;
   incrementProgress: (achievementId: string, amount?: number) => void;
@@ -32,7 +32,10 @@ interface AchievementsState {
 }
 
 // Achievement definitions
-const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unlockedAt'>[] = [
+const ACHIEVEMENT_DEFINITIONS: Omit<
+  Achievement,
+  'current' | 'unlocked' | 'unlockedAt'
+>[] = [
   // VOTING ACHIEVEMENTS
   {
     id: 'first-vote',
@@ -79,7 +82,7 @@ const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unloc
     requirement: 500,
     category: 'voting',
   },
-  
+
   // MATCHES ACHIEVEMENTS
   {
     id: 'first-match',
@@ -112,7 +115,7 @@ const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unloc
     id: 'matches-50',
     title: 'Soulmates',
     description: 'Get 50 matches',
-    emoji: '💑',
+    emoji: '💕',
     tier: 'gold',
     requirement: 50,
     category: 'matches',
@@ -126,7 +129,7 @@ const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unloc
     requirement: 100,
     category: 'matches',
   },
-  
+
   // GAME ACHIEVEMENTS
   {
     id: 'first-game',
@@ -164,7 +167,7 @@ const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unloc
     requirement: 5,
     category: 'game',
   },
-  
+
   // STREAK ACHIEVEMENTS
   {
     id: 'streak-3',
@@ -202,13 +205,13 @@ const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unloc
     requirement: 100,
     category: 'streak',
   },
-  
+
   // SOCIAL ACHIEVEMENTS
   {
     id: 'partner-connected',
     title: 'Better Together',
     description: 'Connect with a partner',
-    emoji: '💑',
+    emoji: '💕',
     tier: 'bronze',
     requirement: 1,
     category: 'social',
@@ -222,7 +225,7 @@ const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unloc
     requirement: 1,
     category: 'social',
   },
-  
+
   // EXPLORER ACHIEVEMENTS
   {
     id: 'categories-3',
@@ -262,31 +265,42 @@ const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, 'current' | 'unlocked' | 'unloc
   },
 ];
 
+const MATCH_COUPLE_ARTWORK_ACHIEVEMENT_IDS = new Set([
+  'matches-50',
+  'partner-connected',
+]);
+
+export function usesMatchCoupleArtwork(achievementId: string): boolean {
+  return MATCH_COUPLE_ARTWORK_ACHIEVEMENT_IDS.has(achievementId);
+}
+
 export const useAchievementsStore = create<AchievementsState>()(
   persist(
     (set, get) => ({
       achievements: [],
       totalUnlocked: 0,
-      
+
       initializeAchievements: () => {
         const { achievements } = get();
         if (achievements.length === 0) {
-          const newAchievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map((def) => ({
-            ...def,
-            current: 0,
-            unlocked: false,
-          }));
+          const newAchievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map(
+            (def) => ({
+              ...def,
+              current: 0,
+              unlocked: false,
+            })
+          );
           set({ achievements: newAchievements });
         }
       },
-      
+
       incrementProgress: (achievementId, amount = 1) => {
         set((state) => {
           const achievements = state.achievements.map((ach) => {
             if (ach.id === achievementId && !ach.unlocked) {
               const newCurrent = ach.current + amount;
               const shouldUnlock = newCurrent >= ach.requirement;
-              
+
               return {
                 ...ach,
                 current: newCurrent,
@@ -296,16 +310,18 @@ export const useAchievementsStore = create<AchievementsState>()(
             }
             return ach;
           });
-          
-          const newTotalUnlocked = achievements.filter((a) => a.unlocked).length;
-          
-          return { 
+
+          const newTotalUnlocked = achievements.filter(
+            (a) => a.unlocked
+          ).length;
+
+          return {
             achievements,
             totalUnlocked: newTotalUnlocked,
           };
         });
       },
-      
+
       unlockAchievement: (achievementId) => {
         set((state) => {
           const achievements = state.achievements.map((ach) => {
@@ -319,31 +335,33 @@ export const useAchievementsStore = create<AchievementsState>()(
             }
             return ach;
           });
-          
-          const newTotalUnlocked = achievements.filter((a) => a.unlocked).length;
-          
+
+          const newTotalUnlocked = achievements.filter(
+            (a) => a.unlocked
+          ).length;
+
           return {
             achievements,
             totalUnlocked: newTotalUnlocked,
           };
         });
       },
-      
+
       getAchievement: (id) => {
         return get().achievements.find((a) => a.id === id);
       },
-      
+
       getByCategory: (category) => {
         return get().achievements.filter((a) => a.category === category);
       },
-      
+
       getRecentUnlocks: (count = 5) => {
-        return get().achievements
-          .filter((a) => a.unlocked)
+        return get()
+          .achievements.filter((a) => a.unlocked)
           .sort((a, b) => (b.unlockedAt || 0) - (a.unlockedAt || 0))
           .slice(0, count);
       },
-      
+
       getProgress: () => {
         const { achievements } = get();
         const unlocked = achievements.filter((a) => a.unlocked).length;

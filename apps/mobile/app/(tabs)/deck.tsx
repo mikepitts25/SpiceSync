@@ -9,6 +9,7 @@ import React, {
   useState,
 } from 'react';
 import {
+  Alert,
   Dimensions,
   Modal,
   Pressable,
@@ -746,6 +747,51 @@ export default function DeckScreen() {
     voteHistory.length > 0 &&
     voteHistory[voteHistory.length - 1]?.profileId === activeProfileIdValue;
 
+  const handleResetDeck = useCallback(() => {
+    if (!activeProfileIdValue) return;
+    const voted = activeProfileVotes || {};
+    const clearedCount = allKinkIdsInFilter.filter(
+      (id) => voted[id] !== undefined
+    ).length;
+    if (clearedCount === 0) {
+      setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
+      return;
+    }
+
+    const deckLabel = starterActive
+      ? t.deck.starterBadge
+      : getTierOptionLabel(selectedTier, t);
+
+    Alert.alert(
+      t.deck.resetDeckConfirmTitle,
+      interpolateI18n(t.deck.resetDeckConfirmBody, {
+        count: clearedCount,
+        deck: deckLabel,
+      }),
+      [
+        { text: t.common.cancel, style: 'cancel' },
+        {
+          text: t.deck.resetDeckConfirmAction,
+          style: 'destructive',
+          onPress: () => {
+            clearVotesForKinks(activeProfileIdValue, allKinkIdsInFilter);
+            setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  }, [
+    activeProfileIdValue,
+    activeProfileVotes,
+    allKinkIdsInFilter,
+    clearVotesForKinks,
+    key,
+    selectedTier,
+    starterActive,
+    t,
+  ]);
+
   const applyTierFilter = useCallback(
     (tier: Tier) => {
       if (tier) {
@@ -827,12 +873,11 @@ export default function DeckScreen() {
               </Pressable>
             ) : null}
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t.deck.resetDeck}
+              accessibilityHint={t.deck.resetDeckHint}
               style={styles.outlineButton}
-              onPress={() => {
-                if (!activeProfileIdValue) return;
-                clearVotesForKinks(activeProfileIdValue, allKinkIdsInFilter);
-                setIndexByKey((prev) => ({ ...prev, [key]: 0 }));
-              }}
+              onPress={handleResetDeck}
             >
               <Text style={styles.outlineButtonText}>
                 {t.deck.resetDeck.toUpperCase()}

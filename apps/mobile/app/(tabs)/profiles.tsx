@@ -8,6 +8,7 @@ import { ChevronRight, Heart, Plus, Users, Zap } from 'lucide-react-native';
 import { useShallow } from 'zustand/react/shallow';
 
 import { AppHeader, AppTabBar } from '../../components/app-chrome';
+import CoupleAvatarPair from '../../components/CoupleAvatarPair';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
 import { useTranslation } from '../../lib/i18n';
@@ -30,12 +31,6 @@ const ACTIVE_PROFILE_AVATAR_SIZE = 76;
 const PROFILE_STRIP_AVATAR_SIZE = 68;
 const PROFILE_STRIP_ICON_SIZE = 58;
 const PARTNER_AVATAR_SIZE = 64;
-const PARTNER_AVATAR_ICON_SIZE = 52;
-const PARTNER_OVERLAP = 18;
-const PARTNER_HEART_SIZE = 26;
-const PARTNER_HEART_LEFT =
-  PARTNER_AVATAR_SIZE - PARTNER_OVERLAP / 2 - PARTNER_HEART_SIZE / 2;
-const PARTNER_HEART_TOP = (PARTNER_AVATAR_SIZE - PARTNER_HEART_SIZE) / 2;
 
 export default function ProfilesHubScreen() {
   const router = useRouter();
@@ -172,8 +167,7 @@ export default function ProfilesHubScreen() {
           <View style={styles.avatarRow}>
             {profiles.map((profile, index) => {
               const dotColor =
-                profile.color ??
-                PROFILE_COLORS[index % PROFILE_COLORS.length];
+                profile.color ?? PROFILE_COLORS[index % PROFILE_COLORS.length];
               const isActive = profile.id === activeProfileId;
               return (
                 <Pressable
@@ -220,39 +214,13 @@ export default function ProfilesHubScreen() {
         <View style={styles.sectionCard}>
           {coupleLink ? (
             <View style={styles.partnerCentered}>
-              <View style={styles.partnerAvatars}>
-                <LinearGradient
-                  colors={GRADIENTS.primary}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.partnerAvatarCircle}
-                >
-                  <ProfileAvatarIcon
-                    avatar={activeProfile?.emoji}
-                    size={PARTNER_AVATAR_ICON_SIZE}
-                    framed={false}
-                  />
-                </LinearGradient>
-                <View style={styles.partnerHeartBadge}>
-                  <Heart
-                    size={14}
-                    color={COLORS.textPrimary}
-                    fill={COLORS.textPrimary}
-                  />
-                </View>
-                <LinearGradient
-                  colors={['#60A5FA', '#8B5CF6']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={[styles.partnerAvatarCircle, styles.partnerAvatarRight]}
-                >
-                  <ProfileAvatarIcon
-                    avatar={partnerAvatar}
-                    size={PARTNER_AVATAR_ICON_SIZE}
-                    framed={false}
-                  />
-                </LinearGradient>
-              </View>
+              <CoupleAvatarPair
+                firstAvatar={activeProfile?.emoji}
+                secondAvatar={partnerAvatar}
+                size={PARTNER_AVATAR_SIZE}
+                accessibilityLabel={`${myName} and ${partnerName}`}
+                testID="profiles-active-couple"
+              />
 
               <Text style={styles.partnerCoupledName}>
                 {myName} & {partnerName}
@@ -472,37 +440,6 @@ const styles = StyleSheet.create({
   partnerCentered: {
     alignItems: 'center',
     gap: 10,
-  },
-  partnerAvatars: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'relative',
-    height: PARTNER_AVATAR_SIZE,
-    width: PARTNER_AVATAR_SIZE * 2 - PARTNER_OVERLAP,
-  },
-  partnerAvatarCircle: {
-    width: PARTNER_AVATAR_SIZE,
-    height: PARTNER_AVATAR_SIZE,
-    borderRadius: PARTNER_AVATAR_SIZE / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
-  },
-  partnerAvatarRight: {
-    marginLeft: -PARTNER_OVERLAP,
-    zIndex: 0,
-  },
-  partnerHeartBadge: {
-    position: 'absolute',
-    left: PARTNER_HEART_LEFT,
-    top: PARTNER_HEART_TOP,
-    zIndex: 2,
-    width: PARTNER_HEART_SIZE,
-    height: PARTNER_HEART_SIZE,
-    borderRadius: PARTNER_HEART_SIZE / 2,
-    backgroundColor: COLORS.pink,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   partnerCoupledName: {
     color: COLORS.textPrimary,

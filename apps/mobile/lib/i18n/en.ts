@@ -243,6 +243,11 @@ export const en = {
     keepSwiping: 'Keep Swiping',
     resetCategory: 'Reset this category',
     resetDeck: 'Reset Deck',
+    resetDeckHint: 'Asks for confirmation before erasing your votes',
+    resetDeckConfirmTitle: 'Reset this deck?',
+    resetDeckConfirmBody:
+      'This erases your {{count}} saved votes in {{deck}} and deals every card again. Your partner keeps theirs, and this cannot be undone.',
+    resetDeckConfirmAction: 'Erase My Votes',
     viewMatches: 'View Matches',
     partnerFallback: 'Partner',
     partnerVoted: 'voted',
