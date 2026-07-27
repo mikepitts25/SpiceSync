@@ -388,7 +388,19 @@ export const es: Translations = {
 
   // Game
   game: {
-    title: '🎲 Spice Dice',
+    title: 'Juegos',
+    spiceDeck: 'Mazo Picante',
+    spiceDeckDescription: 'Saca una carta y sigue la chispa.',
+    matchMissions: 'Misiones de Matches',
+    matchMissionsDescription:
+      'Convierte un match compartido en un reto opcional.',
+    knowMeBetter: 'Conóceme Mejor',
+    knowMeBetterDescription: 'Predigan, revelen y aprendan algo nuevo.',
+    coupleDice: 'Dados en Pareja',
+    coupleDiceDescription: 'Tiren una idea rápida juntos.',
+    moreWaysToPlay: 'Más formas de jugar',
+    comingSoon: 'Próximamente',
+    playNow: 'Jugar ahora',
     gameNight: 'Noche de juego',
     levelOf: 'Nivel {{level}} de 5',
     levelsSelected: 'Niveles {{levels}} seleccionados',

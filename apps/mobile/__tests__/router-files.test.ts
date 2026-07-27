@@ -16,6 +16,17 @@ describe('expo router file layout', () => {
     expect(gameLayout).toContain('<Stack.Screen name="spice-deck" />');
   });
 
+  it('uses the dedicated Spice Deck route from the Games menu', () => {
+    const gameIndex = fs.readFileSync(
+      path.join(appRoot, '(game)', 'index.tsx'),
+      'utf8'
+    );
+
+    expect(gameIndex).toContain("router.push('/(game)/spice-deck')");
+    expect(gameIndex).toContain('GAME_HUB_MODES');
+    expect(gameIndex).not.toContain('savePersistedGameSession');
+  });
+
   it('keeps welcome helper modules outside the app route tree', () => {
     expect(fs.existsSync(path.join(appRoot, 'welcome', 'content.ts'))).toBe(
       false

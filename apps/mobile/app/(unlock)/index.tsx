@@ -187,7 +187,7 @@ export default function UnlockScreen() {
                 <Text style={styles.featuresTitle}>Premium Includes:</Text>
                 {[
                   { icon: '✨', text: 'All 200+ premium activities' },
-                  { icon: '🎲', text: 'Spice Dice couples game' },
+                  { icon: '🎲', text: 'Spice Deck couples game' },
                   { icon: '👥', text: 'Unlimited profiles' },
                   { icon: '📊', text: 'Advanced insights & analytics' },
                   { icon: '🎨', text: 'Custom activities' },

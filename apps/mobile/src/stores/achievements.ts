@@ -134,7 +134,7 @@ const ACHIEVEMENT_DEFINITIONS: Omit<
   {
     id: 'first-game',
     title: 'Game On',
-    description: 'Play your first Spice Dice game',
+    description: 'Play your first Spice Deck game',
     emoji: '🎲',
     tier: 'bronze',
     requirement: 1,

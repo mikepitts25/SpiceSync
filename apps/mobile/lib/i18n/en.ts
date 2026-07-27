@@ -382,7 +382,18 @@ export const en = {
 
   // Game
   game: {
-    title: '🎲 Spice Dice',
+    title: 'Games',
+    spiceDeck: 'Spice Deck',
+    spiceDeckDescription: 'Draw a card and follow the spark.',
+    matchMissions: 'Match Missions',
+    matchMissionsDescription: 'Turn a shared match into an opt-in challenge.',
+    knowMeBetter: 'Know Me Better',
+    knowMeBetterDescription: 'Predict, reveal, and learn something new.',
+    coupleDice: 'Couple Dice',
+    coupleDiceDescription: 'Roll a quick prompt together.',
+    moreWaysToPlay: 'More ways to play',
+    comingSoon: 'Coming soon',
+    playNow: 'Play now',
     gameNight: 'Game Night',
     levelOf: 'Level {{level}} of 5',
     levelsSelected: 'Levels {{levels}} selected',
