@@ -44,7 +44,7 @@ describe('premium access', () => {
 
   it('uses the shared access helper from premium-gated screens', () => {
     const gatedScreens = [
-      path.join(appRoot, '(game)', 'index.tsx'),
+      path.join(appRoot, '(game)', 'spice-deck.tsx'),
       path.join(appRoot, '(game)', 'draw.tsx'),
       path.join(appRoot, '(game)', 'custom-deck.tsx'),
       path.join(appRoot, '(settings)', 'export.tsx'),

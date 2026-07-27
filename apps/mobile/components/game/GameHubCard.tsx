@@ -139,13 +139,13 @@ const styles = StyleSheet.create({
   },
   description: {
     color: COLORS.textSub,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
     lineHeight: 21,
   },
   status: {
     color: COLORS.textMuted,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '800',
     textAlign: 'right',
   },

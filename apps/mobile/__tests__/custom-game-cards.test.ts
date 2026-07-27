@@ -65,13 +65,13 @@ describe('custom game cards', () => {
       path.join(appRoot, '(game)', '_layout.tsx'),
       'utf8'
     );
-    const gameScreen = fs.readFileSync(
-      path.join(appRoot, '(game)', 'index.tsx'),
+    const spiceDeckScreen = fs.readFileSync(
+      path.join(appRoot, '(game)', 'spice-deck.tsx'),
       'utf8'
     );
 
     expect(gameLayout).toContain('<Stack.Screen name="custom-deck" />');
-    expect(gameScreen).toContain("router.push('/(game)/custom-deck')");
+    expect(spiceDeckScreen).toContain("router.push('/(game)/custom-deck')");
   });
 
   it('lets users exit the custom deck builder back to the game menu', () => {
