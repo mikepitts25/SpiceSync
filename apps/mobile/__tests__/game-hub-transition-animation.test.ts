@@ -2,15 +2,15 @@ import fs from 'fs';
 import path from 'path';
 
 const appRoot = path.resolve(__dirname, '..');
-const gameHubPath = path.join(appRoot, 'app/(game)/index.tsx');
+const spiceDeckPath = path.join(appRoot, 'app/(game)/spice-deck.tsx');
 
-function readGameHubSource() {
-  return fs.readFileSync(gameHubPath, 'utf8');
+function readSpiceDeckSource() {
+  return fs.readFileSync(spiceDeckPath, 'utf8');
 }
 
-describe('game hub transition animation', () => {
+describe('Spice Deck transition animation', () => {
   it('crossfades between the intro and active game scenes without changing routes', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
 
     expect(source).toMatch(/Animated\.Value\(0\)/);
     expect(source).toMatch(/Animated\.timing\(gameTransitionProgress/);
@@ -20,7 +20,7 @@ describe('game hub transition animation', () => {
   });
 
   it('collects player setup and drinking mode before starting the inline game', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
 
     expect(source).toContain('normalizeGamePlayers');
     expect(source).toContain('normalizeGamePlayerCount');
@@ -33,7 +33,9 @@ describe('game hub transition animation', () => {
   });
 
   it('composes focused presentation components while retaining game ownership', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
+
+    expect(source).toContain('function SpiceDeckScreen');
 
     expect(source).toContain("from '../../components/game/GameSetupPanel'");
     expect(source).toContain("from '../../components/game/GameSessionChrome'");
@@ -52,7 +54,7 @@ describe('game hub transition animation', () => {
   });
 
   it('keeps card draws hidden behind roulette and blocks on pass consequences', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
 
     expect(source).toContain(
       "type GameRoundPhase = 'ready' | 'spinning' | 'revealed'"
@@ -70,7 +72,7 @@ describe('game hub transition animation', () => {
   });
 
   it('uses the hidden card itself as the draw control', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
 
     expect(source).toContain(
       'readyPrompt: (player) => `${player}, tap the card to spin.`'
@@ -85,7 +87,7 @@ describe('game hub transition animation', () => {
   });
 
   it('offers an English and Spanish toggle on the game card text', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
 
     expect(source).toContain('cardLanguage');
     expect(source).toContain('setCardLanguage');
@@ -95,7 +97,7 @@ describe('game hub transition animation', () => {
   });
 
   it('uses the card language toggle for game-state copy around hidden cards', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
 
     expect(source).toContain('CARD_LANGUAGE_COPY');
     expect(source).toContain('cardCopy.playerUp');
@@ -112,7 +114,7 @@ describe('game hub transition animation', () => {
   });
 
   it('translates generated pass consequences when Spanish card mode is active', () => {
-    const source = readGameHubSource();
+    const source = readSpiceDeckSource();
 
     expect(source).toContain('formatGameConsequenceText');
     expect(source).toContain('cardLanguage');

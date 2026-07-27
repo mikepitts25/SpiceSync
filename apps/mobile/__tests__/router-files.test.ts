@@ -4,6 +4,18 @@ import path from 'path';
 const appRoot = path.join(__dirname, '..', 'app');
 
 describe('expo router file layout', () => {
+  it('registers the dedicated Spice Deck route', () => {
+    const gameLayout = fs.readFileSync(
+      path.join(appRoot, '(game)', '_layout.tsx'),
+      'utf8'
+    );
+
+    expect(fs.existsSync(path.join(appRoot, '(game)', 'spice-deck.tsx'))).toBe(
+      true
+    );
+    expect(gameLayout).toContain('<Stack.Screen name="spice-deck" />');
+  });
+
   it('keeps welcome helper modules outside the app route tree', () => {
     expect(fs.existsSync(path.join(appRoot, 'welcome', 'content.ts'))).toBe(
       false
