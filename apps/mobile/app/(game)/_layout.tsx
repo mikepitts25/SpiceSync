@@ -6,6 +6,9 @@ export default function GameLayout() {
     <Stack screenOptions={STACK_SCREEN_OPTIONS}>
       <Stack.Screen name="index" />
       <Stack.Screen name="spice-deck" />
+      <Stack.Screen name="match-missions" />
+      <Stack.Screen name="know-me-better" />
+      <Stack.Screen name="couple-dice" />
       <Stack.Screen name="draw" />
       <Stack.Screen name="custom-deck" />
       <Stack.Screen name="complete" />

@@ -1,12 +1,12 @@
 import { GAME_HUB_MODES, getGameHubMode } from '../lib/gameHubModes';
 
 describe('game hub modes', () => {
-  it('keeps Spice Deck as the only playable mode', () => {
+  it('enables every implemented game mode', () => {
     expect(GAME_HUB_MODES.map(({ id, available }) => [id, available])).toEqual([
       ['spice-deck', true],
-      ['match-missions', false],
-      ['know-me-better', false],
-      ['couple-dice', false],
+      ['match-missions', true],
+      ['know-me-better', true],
+      ['couple-dice', true],
     ]);
   });
 

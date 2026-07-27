@@ -36,7 +36,7 @@ export const GAME_HUB_MODES: readonly GameHubMode[] = [
     descriptionKey: 'matchMissionsDescription',
     icon: 'target',
     route: '/(game)/match-missions',
-    available: false,
+    available: true,
   },
   {
     id: 'know-me-better',
@@ -44,7 +44,7 @@ export const GAME_HUB_MODES: readonly GameHubMode[] = [
     descriptionKey: 'knowMeBetterDescription',
     icon: 'heart-handshake',
     route: '/(game)/know-me-better',
-    available: false,
+    available: true,
   },
   {
     id: 'couple-dice',
@@ -52,7 +52,7 @@ export const GAME_HUB_MODES: readonly GameHubMode[] = [
     descriptionKey: 'coupleDiceDescription',
     icon: 'dices',
     route: '/(game)/couple-dice',
-    available: false,
+    available: true,
   },
 ];
 

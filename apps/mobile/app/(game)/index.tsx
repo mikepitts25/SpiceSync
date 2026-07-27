@@ -38,7 +38,7 @@ export default function GameHub() {
               statusLabel={mode.available ? t.game.playNow : t.game.comingSoon}
               onPress={
                 mode.available
-                  ? () => router.push('/(game)/spice-deck')
+                  ? () => router.push(mode.route)
                   : undefined
               }
             />

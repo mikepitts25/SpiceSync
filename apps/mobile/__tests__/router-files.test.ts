@@ -14,6 +14,9 @@ describe('expo router file layout', () => {
       true
     );
     expect(gameLayout).toContain('<Stack.Screen name="spice-deck" />');
+    expect(gameLayout).toContain('<Stack.Screen name="match-missions" />');
+    expect(gameLayout).toContain('<Stack.Screen name="know-me-better" />');
+    expect(gameLayout).toContain('<Stack.Screen name="couple-dice" />');
   });
 
   it('uses the dedicated Spice Deck route from the Games menu', () => {
@@ -22,8 +25,8 @@ describe('expo router file layout', () => {
       'utf8'
     );
 
-    expect(gameIndex).toContain("router.push('/(game)/spice-deck')");
     expect(gameIndex).toContain('GAME_HUB_MODES');
+    expect(gameIndex).toContain('router.push(mode.route)');
     expect(gameIndex).not.toContain('savePersistedGameSession');
   });
 
