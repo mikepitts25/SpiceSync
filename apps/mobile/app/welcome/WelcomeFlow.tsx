@@ -21,6 +21,7 @@ import {
   UserRound,
   X,
 } from 'lucide-react-native';
+import { useShallow } from 'zustand/react/shallow';
 import { useSettings } from '../../lib/state/useStore';
 import { useProfilesStore } from '../../lib/state/profiles';
 import {
@@ -52,10 +53,12 @@ export default function WelcomeFlow() {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const setAgeConfirmed = useSettings((state) => state.setAgeConfirmed);
-  const { hydrated, hasActiveProfile } = useProfilesStore((state) => ({
-    hydrated: state.isHydrated(),
-    hasActiveProfile: state.hasActiveProfile(),
-  }));
+  const { hydrated, hasActiveProfile } = useProfilesStore(
+    useShallow((state) => ({
+      hydrated: state.isHydrated(),
+      hasActiveProfile: state.hasActiveProfile(),
+    }))
+  );
 
   const [currentScreen, setCurrentScreen] = useState<WelcomeScreenId>('brand');
   const [fadeAnim] = useState(new Animated.Value(1));

@@ -26,6 +26,7 @@ import {
 import { BackHeader } from '../../components/app-chrome';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { COLORS, FONTS } from '../../constants/theme';
+import { useShallow } from 'zustand/react/shallow';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import {
@@ -65,10 +66,12 @@ export default function PartnerConnect() {
   }>();
 
   const coupleLink = useCoupleLinkStore((state) => state.link);
-  const { profiles, activeProfileId } = useProfilesStore((state) => ({
-    profiles: state.getProfiles(),
-    activeProfileId: state.getActiveProfileId(),
-  }));
+  const { profiles, activeProfileId } = useProfilesStore(
+    useShallow((state) => ({
+      profiles: state.getProfiles(),
+      activeProfileId: state.getActiveProfileId(),
+    }))
+  );
 
   const activeProfile = useMemo(
     () => profiles.find((profile) => profile.id === activeProfileId) ?? null,

@@ -23,6 +23,7 @@ import {
   LOVE_LANGUAGE_DESCRIPTIONS,
   QuizResult,
 } from '../../lib/loveLanguages';
+import { useShallow } from 'zustand/react/shallow';
 import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
@@ -31,10 +32,12 @@ import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 export default function LoveLanguagesQuizScreen() {
   const router = useRouter();
 
-  const { activeId, profiles } = useProfilesStore((state) => ({
-    activeId: state.getActiveProfileId(),
-    profiles: state.getProfiles(),
-  }));
+  const { activeId, profiles } = useProfilesStore(
+    useShallow((state) => ({
+      activeId: state.getActiveProfileId(),
+      profiles: state.getProfiles(),
+    }))
+  );
 
   const { setResult, getResult } = useLoveLanguagesStore();
 
