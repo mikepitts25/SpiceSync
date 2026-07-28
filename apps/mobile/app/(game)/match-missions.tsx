@@ -22,6 +22,7 @@ import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
 import { useVotesStore, type KinkVote } from '../../src/stores/votes';
 import { computeMutualYesKinks } from '../../lib/gameMatchDeck';
 import { useMatchMissionsStore } from '../../lib/state/matchMissions';
+import { useStreakStore } from '../../lib/achievements';
 import {
   remainingMissionMs,
   formatRemainingDuration,
@@ -109,11 +110,13 @@ export default function MatchMissionsScreen() {
   const startMission = useCallback(() => {
     if (!activeKey) return;
     missionsStore.startDraftedMission(activeKey);
+    useStreakStore.getState().recordGamePlayed('match-missions');
   }, [activeKey, missionsStore]);
 
   const completeMission = useCallback(() => {
     if (!activeKey) return;
     missionsStore.completeMission(activeKey);
+    useStreakStore.getState().recordMissionCompleted();
   }, [activeKey, missionsStore]);
 
   const skipMission = useCallback(() => {

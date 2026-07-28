@@ -6,14 +6,19 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 // Achievement types
-export type AchievementId = 
+export type AchievementId =
   | 'seven_day_explorer'
   | 'first_match'
   | 'tried_10_things'
   | 'deep_dive'
   | 'streak_3'
   | 'streak_7'
-  | 'streak_30';
+  | 'streak_30'
+  | 'first_game'
+  | 'dice_roller'
+  | 'mission_complete'
+  | 'mind_reader'
+  | 'game_explorer';
 
 export interface Achievement {
   id: AchievementId;
@@ -21,8 +26,22 @@ export interface Achievement {
   description: string;
   icon: string;
   unlockedAt?: number;
-  category: 'engagement' | 'exploration' | 'streak';
+  category: 'engagement' | 'exploration' | 'streak' | 'game';
 }
+
+/** Game modes that count toward the `game_explorer` achievement. */
+export type GameModeId =
+  | 'spice-deck'
+  | 'couple-dice'
+  | 'know-me-better'
+  | 'match-missions';
+
+export const TRACKED_GAME_MODES: readonly GameModeId[] = [
+  'spice-deck',
+  'couple-dice',
+  'know-me-better',
+  'match-missions',
+];
 
 export const ACHIEVEMENTS: Achievement[] = [
   {
@@ -74,6 +93,41 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: '👑',
     category: 'streak',
   },
+  {
+    id: 'first_game',
+    title: 'Game On',
+    description: 'Play your first game',
+    icon: '🎲',
+    category: 'game',
+  },
+  {
+    id: 'dice_roller',
+    title: 'Roll With It',
+    description: 'Roll 10 Couple Dice prompts',
+    icon: '🎰',
+    category: 'game',
+  },
+  {
+    id: 'mission_complete',
+    title: 'Mission Accomplished',
+    description: 'Complete your first Match Mission',
+    icon: '🎯',
+    category: 'game',
+  },
+  {
+    id: 'mind_reader',
+    title: 'Mind Reader',
+    description: 'Match on 10 Know Me Better guesses',
+    icon: '🔮',
+    category: 'game',
+  },
+  {
+    id: 'game_explorer',
+    title: 'Game Explorer',
+    description: 'Play all four game modes',
+    icon: '🕹️',
+    category: 'game',
+  },
 ];
 
 // Streak and achievement state
@@ -88,13 +142,23 @@ interface StreakState {
   activitiesCompleted: string[]; // Activity IDs
   categoriesCompleted: Record<string, string[]>; // category -> activity IDs
   matchCount: number;
-  
+
+  // Game tracking
+  gameModesPlayed: GameModeId[];
+  diceRollCount: number;
+  missionsCompleted: number;
+  knowMeBetterMatches: number;
+
   // Achievements
   unlockedAchievements: AchievementId[];
-  
+
   // Actions
   recordActivity: (activityId: string, category: string) => void;
   recordMatch: () => void;
+  recordGamePlayed: (mode: GameModeId) => void;
+  recordDiceRoll: () => void;
+  recordMissionCompleted: () => void;
+  recordKnowMeBetterMatches: (matches: number) => void;
   checkAndUpdateStreak: () => { streakUpdated: boolean; streakBroken: boolean };
   checkAchievements: () => AchievementId[];
   getUnlockedAchievements: () => Achievement[];
@@ -121,6 +185,13 @@ function isToday(dateStr: string): boolean {
   return dateStr === getTodayString();
 }
 
+// Game tracking fields were added after launch, so state persisted by an
+// older build rehydrates without them. Read defensively rather than
+// assuming the array exists.
+function modesPlayed(state: Pick<StreakState, 'gameModesPlayed'>): GameModeId[] {
+  return state.gameModesPlayed ?? [];
+}
+
 // Helper to check if date was yesterday
 function isYesterday(dateStr: string): boolean {
   const yesterday = new Date();
@@ -138,6 +209,10 @@ export const useStreakStore = create<StreakState>()(
       activitiesCompleted: [],
       categoriesCompleted: {},
       matchCount: 0,
+      gameModesPlayed: [],
+      diceRollCount: 0,
+      missionsCompleted: 0,
+      knowMeBetterMatches: 0,
       unlockedAchievements: [],
 
       recordActivity: (activityId: string, category: string) => {
@@ -176,6 +251,32 @@ export const useStreakStore = create<StreakState>()(
       recordMatch: () => {
         const state = get();
         set({ matchCount: state.matchCount + 1 });
+        get().checkAchievements();
+      },
+
+      recordGamePlayed: (mode) => {
+        const played = modesPlayed(get());
+        if (!played.includes(mode)) {
+          set({ gameModesPlayed: [...played, mode] });
+        }
+        get().checkAchievements();
+      },
+
+      recordDiceRoll: () => {
+        set({ diceRollCount: (get().diceRollCount ?? 0) + 1 });
+        get().checkAchievements();
+      },
+
+      recordMissionCompleted: () => {
+        set({ missionsCompleted: (get().missionsCompleted ?? 0) + 1 });
+        get().checkAchievements();
+      },
+
+      recordKnowMeBetterMatches: (matches) => {
+        if (matches <= 0) return;
+        set({
+          knowMeBetterMatches: (get().knowMeBetterMatches ?? 0) + matches,
+        });
         get().checkAchievements();
       },
 
@@ -253,6 +354,19 @@ export const useStreakStore = create<StreakState>()(
             return Math.min(state.currentStreak / 7, 1);
           case 'streak_30':
             return Math.min(state.currentStreak / 30, 1);
+          case 'first_game':
+            return modesPlayed(state).length >= 1 ? 1 : 0;
+          case 'dice_roller':
+            return Math.min((state.diceRollCount ?? 0) / 10, 1);
+          case 'mission_complete':
+            return (state.missionsCompleted ?? 0) >= 1 ? 1 : 0;
+          case 'mind_reader':
+            return Math.min((state.knowMeBetterMatches ?? 0) / 10, 1);
+          case 'game_explorer':
+            return Math.min(
+              modesPlayed(state).length / TRACKED_GAME_MODES.length,
+              1
+            );
           default:
             return 0;
         }
@@ -293,6 +407,22 @@ export const useStreakStore = create<StreakState>()(
             case 'streak_30':
               shouldUnlock = state.currentStreak >= 30;
               break;
+            case 'first_game':
+              shouldUnlock = modesPlayed(state).length >= 1;
+              break;
+            case 'dice_roller':
+              shouldUnlock = (state.diceRollCount ?? 0) >= 10;
+              break;
+            case 'mission_complete':
+              shouldUnlock = (state.missionsCompleted ?? 0) >= 1;
+              break;
+            case 'mind_reader':
+              shouldUnlock = (state.knowMeBetterMatches ?? 0) >= 10;
+              break;
+            case 'game_explorer':
+              shouldUnlock =
+                modesPlayed(state).length >= TRACKED_GAME_MODES.length;
+              break;
           }
           
           if (shouldUnlock) {
@@ -312,6 +442,22 @@ export const useStreakStore = create<StreakState>()(
     {
       name: 'spicesync-streak-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      // State persisted before game tracking existed has no game fields.
+      // Without this merge they rehydrate as undefined and crash the
+      // achievement checks, so fall back to each field's initial value.
+      merge: (persisted, current) => {
+        const saved = (persisted ?? {}) as Partial<StreakState>;
+        return {
+          ...current,
+          ...saved,
+          gameModesPlayed: saved.gameModesPlayed ?? current.gameModesPlayed,
+          diceRollCount: saved.diceRollCount ?? current.diceRollCount,
+          missionsCompleted:
+            saved.missionsCompleted ?? current.missionsCompleted,
+          knowMeBetterMatches:
+            saved.knowMeBetterMatches ?? current.knowMeBetterMatches,
+        };
+      },
     }
   )
 );

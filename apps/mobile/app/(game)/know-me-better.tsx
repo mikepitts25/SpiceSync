@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
@@ -16,6 +16,7 @@ import { KnowMeBetterSummary } from '../../components/game/KnowMeBetterSummary';
 import { COLORS } from '../../constants/theme';
 import { useTranslation, interpolate } from '../../lib/i18n';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useStreakStore } from '../../lib/achievements';
 import {
   buildSessionQuestions,
   recordRound,
@@ -54,6 +55,7 @@ export default function KnowMeBetterScreen() {
   const [results, setResults] = useState<RoundResult[]>([]);
   const [answerer, setAnswerer] = useState<string>(partnerA);
   const [answererOption, setAnswererOption] = useState<string | null>(null);
+  const creditedMatchesRef = useRef(0);
 
   const currentQuestion = questions[roundIndex];
   const isLastRound = roundIndex >= questions.length - 1;
@@ -78,6 +80,8 @@ export default function KnowMeBetterScreen() {
     setResults([]);
     setAnswerer(partnerA);
     setAnswererOption(null);
+    creditedMatchesRef.current = 0;
+    useStreakStore.getState().recordGamePlayed('know-me-better');
     setPhase('choose_answerer');
   }, [roundCount, language, partnerA]);
 
@@ -109,10 +113,20 @@ export default function KnowMeBetterScreen() {
   }, [partnerA, partnerB]);
 
   const endSession = useCallback(() => {
+    // Bank only the matches not yet credited: endSession is reachable from
+    // both the reveal card and the always-visible End game button, and a
+    // session can be ended more than once before starting a new one.
+    const matches = results.filter((result) => result.isMatch).length;
+    const uncredited = matches - creditedMatchesRef.current;
+    if (uncredited > 0) {
+      useStreakStore.getState().recordKnowMeBetterMatches(uncredited);
+      creditedMatchesRef.current = matches;
+    }
     setPhase('summary');
-  }, []);
+  }, [results]);
 
   const playAgain = useCallback(() => {
+    creditedMatchesRef.current = 0;
     setPhase('setup');
   }, []);
 

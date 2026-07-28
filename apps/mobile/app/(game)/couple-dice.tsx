@@ -23,6 +23,7 @@ import {
   type DiceRoll,
 } from '../../lib/coupleDice';
 import { useCoupleDiceStore } from '../../lib/state/coupleDice';
+import { useStreakStore } from '../../lib/achievements';
 
 const ROLL_ANIMATION_TICKS = 6;
 const ROLL_ANIMATION_TICK_MS = 90;
@@ -81,6 +82,12 @@ export default function CoupleDiceScreen() {
         }
         setRolling(false);
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+
+        // Count the settled roll only — the intermediate animation ticks
+        // are the same roll still spinning, not separate prompts.
+        const { recordDiceRoll, recordGamePlayed } = useStreakStore.getState();
+        recordGamePlayed('couple-dice');
+        recordDiceRoll();
       }
     }, ROLL_ANIMATION_TICK_MS);
   }, [intensityLevels, diceLanguage]);

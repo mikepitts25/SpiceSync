@@ -82,6 +82,7 @@ import {
   normalizeGamePlayers,
   resolveGameRoundOutcome,
 } from '../../lib/gameSession';
+import { useStreakStore } from '../../lib/achievements';
 import {
   clearPersistedGameSession,
   createPersistedGameSession,
@@ -716,6 +717,7 @@ export default function SpiceDeckScreen() {
   const startGame = useCallback(() => {
     if (!levelCards.length) return;
 
+    useStreakStore.getState().recordGamePlayed('spice-deck');
     setActivePlayers(setupPlayers);
     setTurnIndex(0);
     setLastConsequence(null);
