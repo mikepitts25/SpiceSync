@@ -5,6 +5,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+import {
+  BACKFILL_VERSION,
+  computeBackfill,
+  shouldRunBackfill,
+  type BackfillSources,
+} from './achievementBackfill';
+
 // Achievement types
 export type AchievementId =
   | 'seven_day_explorer'
@@ -152,7 +159,11 @@ interface StreakState {
   // Achievements
   unlockedAchievements: AchievementId[];
 
+  /** Version of the retroactive credit already applied (0 = never run). */
+  backfillVersion: number;
+
   // Actions
+  applyBackfill: (sources: BackfillSources) => boolean;
   recordActivity: (activityId: string, category: string) => void;
   recordMatch: () => void;
   recordGamePlayed: (mode: GameModeId) => void;
@@ -214,6 +225,23 @@ export const useStreakStore = create<StreakState>()(
       missionsCompleted: 0,
       knowMeBetterMatches: 0,
       unlockedAchievements: [],
+      backfillVersion: 0,
+
+      applyBackfill: (sources) => {
+        const state = get();
+        if (!shouldRunBackfill(state.backfillVersion)) return false;
+
+        const next = computeBackfill(sources, {
+          gameModesPlayed: modesPlayed(state),
+          diceRollCount: state.diceRollCount ?? 0,
+          missionsCompleted: state.missionsCompleted ?? 0,
+          matchCount: state.matchCount ?? 0,
+        });
+
+        set({ ...next, backfillVersion: BACKFILL_VERSION });
+        get().checkAchievements();
+        return true;
+      },
 
       recordActivity: (activityId: string, category: string) => {
         const state = get();
@@ -456,6 +484,7 @@ export const useStreakStore = create<StreakState>()(
             saved.missionsCompleted ?? current.missionsCompleted,
           knowMeBetterMatches:
             saved.knowMeBetterMatches ?? current.knowMeBetterMatches,
+          backfillVersion: saved.backfillVersion ?? current.backfillVersion,
         };
       },
     }

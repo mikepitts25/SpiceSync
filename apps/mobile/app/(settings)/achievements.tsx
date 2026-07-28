@@ -70,23 +70,23 @@ function AchievementCard({
       </Text>
 
       {!unlocked ? (
-        <View style={styles.progressTrack}>
-          <LinearGradient
-            colors={GRADIENTS.primary}
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
-            style={[
-              styles.progressFill,
-              { width: `${Math.max(6, Math.min(progress, 1) * 100)}%` },
-            ]}
-          />
-        </View>
-      ) : null}
+        <>
+          <View style={styles.lockedOverlay}>
+            <Text style={styles.lockedText}>Locked</Text>
+          </View>
 
-      {!unlocked ? (
-        <View style={styles.lockedOverlay}>
-          <Text style={styles.lockedText}>Locked</Text>
-        </View>
+          <View style={styles.progressTrack}>
+            <LinearGradient
+              colors={GRADIENTS.primary}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+              style={[
+                styles.progressFill,
+                { width: `${Math.max(6, Math.min(progress, 1) * 100)}%` },
+              ]}
+            />
+          </View>
+        </>
       ) : null}
     </View>
   );
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   badgeCard: {
     width: '48%',
-    minHeight: 184,
+    minHeight: 210,
     borderRadius: 18,
     backgroundColor: COLORS.card,
     borderWidth: 1,
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   progressTrack: {
-    marginTop: 'auto',
     width: '100%',
     height: 6,
     borderRadius: 3,
@@ -150,14 +149,19 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 3,
   },
+  // A locked card is the default state, so it gets a small badge rather
+  // than a full-card scrim — an absolute overlay sat on top of the
+  // description and made both unreadable.
   lockedOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 'auto',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.07)',
   },
   lockedText: {
-    color: COLORS.textSub,
+    color: COLORS.textMuted,
     fontSize: 16,
     fontWeight: '800',
     letterSpacing: 1.1,

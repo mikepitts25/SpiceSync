@@ -15,6 +15,10 @@ import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/theme';
 import { useStreakStore } from '../lib/achievements';
+import { collectBackfillSources } from '../lib/achievementBackfill';
+import { useCoupleDiceStore } from '../lib/state/coupleDice';
+import { useMatchMissionsStore } from '../lib/state/matchMissions';
+import { useMatchPlansStore } from '../lib/state/matchPlans';
 import BiometricLockGate from '../components/BiometricLockGate';
 import { useDeepLinks } from '../lib/deepLinks';
 import { STACK_SCREEN_OPTIONS } from '../lib/navigation/transitions';
@@ -60,6 +64,33 @@ export default function RootLayout() {
     if (result.streakUpdated) {
       console.log('[App] Streak updated:', result);
     }
+
+    // Credit history that predates achievement tracking. These stores
+    // rehydrate from AsyncStorage asynchronously, so reading them on the
+    // same tick would see empty state and permanently stamp a zero
+    // backfill. Wait for every persisted source to finish rehydrating.
+    let cancelled = false;
+    Promise.all([
+      useCoupleDiceStore.persist.rehydrate(),
+      useMatchMissionsStore.persist.rehydrate(),
+      useMatchPlansStore.persist.rehydrate(),
+    ])
+      .then(() => {
+        if (cancelled) return;
+        const applied = useStreakStore
+          .getState()
+          .applyBackfill(collectBackfillSources());
+        if (applied) {
+          console.log('[App] Retroactive achievement credit applied');
+        }
+      })
+      .catch((error) => {
+        console.error('[App] Achievement backfill failed:', error);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
