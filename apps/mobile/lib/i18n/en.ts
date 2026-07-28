@@ -728,6 +728,7 @@ export const en = {
     noProfileTitle: 'Create a profile first',
     noProfileBody: 'Know Me Better needs an active profile to keep score.',
     setupTitle: 'How many rounds?',
+    setupSubtitle: 'Take turns answering and guessing. Pick a length to start.',
     rounds1: '1 round',
     rounds3: '3 rounds',
     rounds5: '5 rounds',

@@ -737,6 +737,8 @@ export const es: Translations = {
     noProfileBody:
       'Conóceme Mejor necesita un perfil activo para llevar el puntaje.',
     setupTitle: '¿Cuántas rondas?',
+    setupSubtitle:
+      'Túrnense para responder y adivinar. Elijan una duración para empezar.',
     rounds1: '1 ronda',
     rounds3: '3 rondas',
     rounds5: '5 rondas',

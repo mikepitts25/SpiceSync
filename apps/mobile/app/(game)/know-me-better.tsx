@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
 
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { BackHeader } from '../../components/app-chrome';
@@ -36,10 +37,12 @@ export default function KnowMeBetterScreen() {
   const router = useRouter();
   const { t, language } = useTranslation();
 
-  const { profiles, hasActiveProfile } = useProfilesStore((state) => ({
-    profiles: state.getProfiles(),
-    hasActiveProfile: state.hasActiveProfile(),
-  }));
+  const { profiles, hasActiveProfile } = useProfilesStore(
+    useShallow((state) => ({
+      profiles: state.getProfiles(),
+      hasActiveProfile: state.hasActiveProfile(),
+    }))
+  );
 
   const partnerA = profiles[0]?.name ?? t.knowMeBetter.partnerA;
   const partnerB = profiles[1]?.name ?? t.knowMeBetter.partnerB;
@@ -135,7 +138,7 @@ export default function KnowMeBetterScreen() {
     body = (
       <KnowMeBetterSetup
         title={t.knowMeBetter.setupTitle}
-        subtitle={t.knowMeBetter.subtitle}
+        subtitle={t.knowMeBetter.setupSubtitle}
         roundOptions={roundOptions}
         selectedRounds={roundCount}
         onSelectRounds={setRoundCount}
