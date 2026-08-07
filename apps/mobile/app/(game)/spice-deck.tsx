@@ -67,7 +67,7 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
 import { useVotesStore, type KinkVote } from '../../src/stores/votes';
-import { interpolate, useTranslation } from '../../lib/i18n';
+import { useTranslation } from '../../lib/i18n';
 import {
   formatGameCardTimerEstimate,
   parseGameCardTimerSeconds,
@@ -381,7 +381,6 @@ export default function SpiceDeckScreen() {
   );
 
   const selectedLevels = customLevels ?? GAME_MODE_LEVELS[selectedMode];
-  const selectedModeLabel = t.game.gameModes[selectedMode];
   const setupPlayers = useMemo(
     () => normalizeGamePlayers(playerNames, playerCount),
     [playerCount, playerNames]
@@ -1031,24 +1030,12 @@ export default function SpiceDeckScreen() {
             <GameSetupPanel
               gameNightLabel={t.game.gameNight.toUpperCase()}
               introTitle={t.game.introTitle}
-              introBody={interpolate(t.game.introBody, {
-                count: levelCards.length,
-                mode: selectedModeLabel,
-              })}
-              badgeLabels={[t.game.truth, t.game.dare, t.game.challenge].map(
-                (label) => label.toUpperCase()
-              )}
               mode={selectedMode}
               modeOptions={(['normal', 'intense'] as const).map((value) => ({
                 value,
                 label: t.game.gameModes[value],
               }))}
               onModeChange={changeGameMode}
-              intenseDisclaimer={
-                selectedMode === 'intense'
-                  ? t.game.intenseDisclaimer
-                  : undefined
-              }
               playerCount={playerCount}
               playerNames={playerNames}
               onPlayerCountChange={changePlayerCount}

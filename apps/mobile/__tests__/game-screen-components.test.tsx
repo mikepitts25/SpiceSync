@@ -40,16 +40,13 @@ const { GameRoundPanel } = require('../components/game/GameRoundPanel');
 function setupProps() {
   return {
     gameNightLabel: 'GAME NIGHT',
-    introTitle: 'Pick your vibe',
-    introBody: '120 cards ready for Normal mode.',
-    badgeLabels: ['TRUTH', 'DARE', 'CHALLENGE'],
+    introTitle: 'Pick your vibe. Draw a card.',
     mode: 'normal',
     modeOptions: [
       { value: 'normal', label: 'Normal' },
       { value: 'intense', label: 'Intense' },
     ],
     onModeChange: jest.fn(),
-    intenseDisclaimer: undefined,
     playerCount: 2,
     playerNames: ['Player 1', 'Player 2', 'Player 3', 'Player 4'],
     onPlayerCountChange: jest.fn(),
@@ -286,6 +283,40 @@ describe('game-screen presentation components', () => {
     );
     TestRenderer.act(() => start.props.onPress());
     expect(props.onStart).toHaveBeenCalledTimes(1);
+  });
+
+  it('consolidates setup controls without card-count copy, type badges, or scrolling', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameSetupPanel {...setupProps()} />);
+    });
+
+    expect(tree!.root.findAllByType(ScrollView)).toHaveLength(0);
+    expect(
+      tree!.root.findByProps({ children: 'Pick your vibe. Draw a card.' })
+    ).toBeDefined();
+    expect(
+      tree!.root.findAll(
+        (node) => node.props.children === '120 cards ready for Normal mode.'
+      )
+    ).toHaveLength(0);
+    expect(
+      tree!.root.findAll((node) => node.props.children === 'TRUTH')
+    ).toHaveLength(0);
+
+    const controls = tree!.root.findByProps({
+      testID: 'game-setup-primary-controls',
+    });
+    expect(StyleSheet.flatten(controls.props.style)).toMatchObject({
+      flexDirection: 'row',
+      alignItems: 'center',
+    });
+    expect(
+      controls.find((node) => node.props.accessibilityLabel === 'Game mode')
+    ).toBeDefined();
+    expect(
+      controls.find((node) => node.props.accessibilityLabel === 'Card Language')
+    ).toBeDefined();
   });
 
   it('renders a stable Spanish session header with optional drinking status', () => {

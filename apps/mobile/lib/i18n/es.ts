@@ -410,8 +410,7 @@ export const es: Translations = {
     levelsWithLabels: 'Niveles {{levels}}',
     noTimeLimit: 'Sin límite de tiempo',
     drawToBegin: 'Saca una carta para comenzar.',
-    introTitle: 'Preparen el ambiente y enciendan la chispa.',
-    introBody: '{{count}} cartas listas para {{mode}}.',
+    introTitle: 'Elige tu vibra. Saca una carta.',
     startPlaying: 'Empezar a jugar',
     endGame: 'Terminar juego',
     gameModes: {

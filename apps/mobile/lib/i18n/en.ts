@@ -403,8 +403,7 @@ export const en = {
     levelsWithLabels: 'Levels {{levels}}',
     noTimeLimit: 'No time limit',
     drawToBegin: 'Draw a card to begin.',
-    introTitle: 'Set the mood, then deal the spark.',
-    introBody: '{{count}} cards ready for {{mode}}.',
+    introTitle: 'Pick your vibe. Draw a card.',
     startPlaying: 'Start Playing',
     endGame: 'End Game',
     gameModes: {
