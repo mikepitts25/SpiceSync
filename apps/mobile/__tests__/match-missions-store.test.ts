@@ -114,6 +114,20 @@ describe('match missions store', () => {
     expect(history[0].status).toBe('expired');
   });
 
+  it('does not publish a store update when no mission is due to expire', () => {
+    const store = useMatchMissionsStore.getState();
+    store.drawCandidate('profile-1', [kinks[0]], { random: () => 0 });
+    store.startDraftedMission('profile-1', { now: 0, durationMs: 1000 });
+
+    const listener = jest.fn();
+    const unsubscribe = useMatchMissionsStore.subscribe(listener);
+
+    useMatchMissionsStore.getState().expireDueMissions('profile-1', 500);
+
+    unsubscribe();
+    expect(listener).not.toHaveBeenCalled();
+  });
+
   it('discards a draft without starting it', () => {
     const store = useMatchMissionsStore.getState();
     store.drawCandidate('profile-1', kinks, { random: () => 0 });

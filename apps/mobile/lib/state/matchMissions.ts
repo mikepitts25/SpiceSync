@@ -167,7 +167,10 @@ export const useMatchMissionsStore = create<MatchMissionsState>()(
           if (!profileState) return state;
 
           const missions = expireStaleMissions(profileState.missions, now);
-          if (missions === profileState.missions) return state;
+          const changed = missions.some(
+            (mission, index) => mission !== profileState.missions[index]
+          );
+          if (!changed) return state;
 
           return {
             byProfileId: { ...state.byProfileId, [profileId]: { missions } },

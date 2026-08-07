@@ -64,6 +64,18 @@ target 'SpiceSync' do
         end
       end
     end
+
+    # Xcode 16+/26 clang enforces stricter C++20 consteval checks that break
+    # fmt's FMT_STRING macro (bundled transitively via Folly/Hermes). Building
+    # just this pod as C++17 sidesteps the failure without touching anything
+    # else's language standard. Local dev-build workaround only.
+    installer.pods_project.targets.each do |target|
+      if target.name == 'fmt'
+        target.build_configurations.each do |config|
+          config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'gnu++17'
+        end
+      end
+    end
   end
 
   post_integrate do |installer|
