@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
+  Animated,
   Pressable,
   StyleSheet,
   Switch,
@@ -7,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { Play, PlusCircle } from 'lucide-react-native';
+import { Layers3, PlusCircle } from 'lucide-react-native';
 
 import { COLORS } from '../../constants/theme';
 import { interpolate, useTranslation } from '../../lib/i18n';
@@ -79,6 +80,24 @@ export function GameSetupPanel({
   startDisabled,
 }: GameSetupPanelProps) {
   const { t } = useTranslation();
+  const setupOpacity = useRef(new Animated.Value(0)).current;
+  const setupTranslateY = useRef(new Animated.Value(8)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(setupOpacity, {
+        toValue: 1,
+        duration: 220,
+        useNativeDriver: true,
+      }),
+      Animated.timing(setupTranslateY, {
+        toValue: 0,
+        duration: 220,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [setupOpacity, setupTranslateY]);
+
   // Solo sessions skip consequences and use their own card pool, so the
   // drinking and custom-deck controls don't apply.
   const solo = playerCount === 1;
@@ -88,178 +107,215 @@ export function GameSetupPanel({
         <Text style={styles.eyebrow}>{gameNightLabel}</Text>
       </View>
 
-      <GameSurface elevated style={styles.setupCard}>
-        <CardAccentTop />
-        <View style={styles.setupInner}>
-          <Text style={styles.title}>{introTitle}</Text>
-          <View
-            testID="game-setup-primary-controls"
-            style={styles.primaryControls}
-          >
-            <GameSegmentedControl
-              accessibilityLabel={t.game.gameModeA11y}
-              value={mode}
-              options={modeOptions}
-              onChange={onModeChange}
-              compact
-            />
-            <GameSegmentedControl
-              accessibilityLabel={t.game.cardLanguage}
-              value={cardLanguage}
-              options={[
-                { value: 'en', label: 'EN' },
-                { value: 'es', label: 'ES' },
-              ]}
-              onChange={onCardLanguageChange}
-              compact
-            />
-          </View>
-          <Text style={styles.sectionLabel}>{t.game.numberOfPlayers}</Text>
-          <View style={styles.playerCountRow}>
-            {[1, 2, 3, 4].map((count) => (
-              <Pressable
-                key={count}
-                accessibilityRole="button"
-                accessibilityLabel={
-                  count === 1
-                    ? t.game.soloPlayerA11y
-                    : interpolate(t.game.playersCountA11y, { count })
-                }
-                accessibilityState={{ selected: playerCount === count }}
-                onPress={() => onPlayerCountChange(count)}
-                style={[
-                  styles.playerCount,
-                  playerCount === count && styles.playerCountActive,
-                ]}
+      <Animated.View
+        style={{
+          opacity: setupOpacity,
+          transform: [{ translateY: setupTranslateY }],
+        }}
+      >
+        <GameSurface elevated style={styles.setupCard}>
+          <View pointerEvents="none" style={styles.accentWash} />
+          <CardAccentTop />
+          <View style={styles.setupInner}>
+            <Text style={styles.title}>{introTitle}</Text>
+            <View
+              testID="game-setup-settings-strip"
+              style={styles.settingsStrip}
+            >
+              <View
+                testID="game-setup-primary-controls"
+                style={styles.primaryControls}
               >
-                <Text style={styles.playerCountText}>{count}</Text>
-              </Pressable>
-            ))}
-          </View>
-          <View style={styles.nameGrid}>
-            {playerNames.slice(0, playerCount).map((name, index) => (
-              <TextInput
-                key={index}
-                accessibilityLabel={interpolate(t.game.playerNameA11y, {
-                  number: index + 1,
-                })}
-                value={name}
-                onChangeText={(value) => onPlayerNameChange(index, value)}
-                autoCapitalize="words"
-                autoCorrect={false}
-                returnKeyType="done"
-                style={styles.nameInput}
-              />
-            ))}
-          </View>
-          {solo ? null : (
-            <View style={styles.optionRow}>
-              <View style={styles.optionCopy}>
-                <Text style={styles.optionTitle}>{t.game.drinkingGame}</Text>
+                <View style={styles.settingColumn}>
+                  <Text style={styles.sectionLabel}>{t.game.modeLabel}</Text>
+                  <GameSegmentedControl
+                    accessibilityLabel={t.game.gameModeA11y}
+                    value={mode}
+                    options={modeOptions}
+                    onChange={onModeChange}
+                    compact
+                  />
+                </View>
+                <View style={styles.settingColumn}>
+                  <Text style={styles.sectionLabel}>{t.game.cardsLabel}</Text>
+                  <GameSegmentedControl
+                    accessibilityLabel={t.game.cardLanguage}
+                    value={cardLanguage}
+                    options={[
+                      { value: 'en', label: 'EN' },
+                      { value: 'es', label: 'ES' },
+                    ]}
+                    onChange={onCardLanguageChange}
+                    compact
+                  />
+                </View>
               </View>
-              <Switch
-                accessibilityLabel={t.game.drinkingGame}
-                value={drinkingMode}
-                onValueChange={onDrinkingModeChange}
-                trackColor={{
-                  false: 'rgba(255,255,255,0.14)',
-                  true: 'rgba(255,47,146,0.55)',
-                }}
-                thumbColor={COLORS.textPrimary}
-                style={styles.switch}
-              />
             </View>
-          )}
-          <View style={styles.languageRow}>
-            <Text style={styles.sectionLabel}>{t.game.levelsLabel}</Text>
-            <View style={styles.chipRow}>
-              {([1, 2, 3, 4, 5] as GameIntensityLevel[]).map((level) => {
-                const active = selectedLevels.includes(level);
-                return (
-                  <Pressable
-                    key={level}
-                    accessibilityRole="button"
-                    accessibilityLabel={interpolate(t.game.levelOf, { level })}
-                    accessibilityState={{ selected: active }}
-                    onPress={() => onToggleLevel(level)}
-                    style={[styles.chip, active && styles.chipActive]}
-                  >
-                    <Text
-                      style={[styles.chipText, active && styles.chipTextActive]}
-                    >
-                      {interpolate(t.game.levelShort, { level })}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-          </View>
 
-          <View style={styles.languageRow}>
-            <Text style={styles.sectionLabel}>{t.game.cardTypesLabel}</Text>
-            <View style={styles.chipRow}>
-              {(
-                [
-                  'truth',
-                  'dare',
-                  'challenge',
-                  'fantasy',
-                  'roleplay',
-                ] as GameCardType[]
-              ).map((type) => {
-                const active = enabledTypes.includes(type);
-                return (
+            <View testID="game-setup-players" style={styles.zone}>
+              <Text style={styles.sectionLabel}>{t.game.numberOfPlayers}</Text>
+              <View style={styles.playerCountRow}>
+                {[1, 2, 3, 4].map((count) => (
                   <Pressable
-                    key={type}
+                    key={count}
                     accessibilityRole="button"
-                    accessibilityLabel={t.game[type]}
-                    accessibilityState={{ selected: active }}
-                    onPress={() => onToggleType(type)}
-                    style={[styles.chip, active && styles.chipActive]}
+                    accessibilityLabel={
+                      count === 1
+                        ? t.game.soloPlayerA11y
+                        : interpolate(t.game.playersCountA11y, { count })
+                    }
+                    accessibilityState={{ selected: playerCount === count }}
+                    onPress={() => onPlayerCountChange(count)}
+                    style={[
+                      styles.playerCount,
+                      playerCount === count && styles.playerCountActive,
+                    ]}
                   >
-                    <Text
-                      style={[styles.chipText, active && styles.chipTextActive]}
-                    >
-                      {t.game[type]}
-                    </Text>
+                    <Text style={styles.playerCountText}>{count}</Text>
                   </Pressable>
-                );
-              })}
+                ))}
+              </View>
+              <View style={styles.nameGrid}>
+                {playerNames.slice(0, playerCount).map((name, index) => (
+                  <TextInput
+                    key={index}
+                    accessibilityLabel={interpolate(t.game.playerNameA11y, {
+                      number: index + 1,
+                    })}
+                    value={name}
+                    onChangeText={(value) => onPlayerNameChange(index, value)}
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                    returnKeyType="done"
+                    style={styles.nameInput}
+                  />
+                ))}
+              </View>
             </View>
-          </View>
 
-          {customCardsAvailable && !solo ? (
-            <View style={styles.languageRow}>
-              <Text style={styles.sectionLabel}>{t.game.deckMix}</Text>
-              <GameSegmentedControl
-                accessibilityLabel={t.game.deckMix}
-                value={customDeckMode}
-                options={[
-                  { value: 'include', label: t.game.includeCustom },
-                  { value: 'customOnly', label: t.game.customOnly },
-                ]}
-                onChange={onCustomDeckModeChange}
-              />
+            <View testID="game-setup-deck" style={styles.zone}>
+              {solo ? null : (
+                <View style={styles.optionRow}>
+                  <View style={styles.optionCopy}>
+                    <Text style={styles.optionTitle}>
+                      {t.game.drinkingGame}
+                    </Text>
+                  </View>
+                  <Switch
+                    accessibilityLabel={t.game.drinkingGame}
+                    value={drinkingMode}
+                    onValueChange={onDrinkingModeChange}
+                    trackColor={{
+                      false: 'rgba(255,255,255,0.14)',
+                      true: 'rgba(255,47,146,0.55)',
+                    }}
+                    thumbColor={COLORS.textPrimary}
+                    style={styles.switch}
+                  />
+                </View>
+              )}
+              <View style={styles.languageRow}>
+                <Text style={styles.sectionLabel}>{t.game.levelsLabel}</Text>
+                <View style={styles.chipRow}>
+                  {([1, 2, 3, 4, 5] as GameIntensityLevel[]).map((level) => {
+                    const active = selectedLevels.includes(level);
+                    return (
+                      <Pressable
+                        key={level}
+                        accessibilityRole="button"
+                        accessibilityLabel={interpolate(t.game.levelOf, {
+                          level,
+                        })}
+                        accessibilityState={{ selected: active }}
+                        onPress={() => onToggleLevel(level)}
+                        style={[styles.chip, active && styles.chipActive]}
+                      >
+                        <Text
+                          style={[
+                            styles.chipText,
+                            active && styles.chipTextActive,
+                          ]}
+                        >
+                          {interpolate(t.game.levelShort, { level })}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+
+              <View style={styles.languageRow}>
+                <Text style={styles.sectionLabel}>{t.game.cardTypesLabel}</Text>
+                <View style={styles.chipRow}>
+                  {(
+                    [
+                      'truth',
+                      'dare',
+                      'challenge',
+                      'fantasy',
+                      'roleplay',
+                    ] as GameCardType[]
+                  ).map((type) => {
+                    const active = enabledTypes.includes(type);
+                    return (
+                      <Pressable
+                        key={type}
+                        accessibilityRole="button"
+                        accessibilityLabel={t.game[type]}
+                        accessibilityState={{ selected: active }}
+                        onPress={() => onToggleType(type)}
+                        style={[styles.chip, active && styles.chipActive]}
+                      >
+                        <Text
+                          style={[
+                            styles.chipText,
+                            active && styles.chipTextActive,
+                          ]}
+                        >
+                          {t.game[type]}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+
+              {customCardsAvailable && !solo ? (
+                <View style={styles.languageRow}>
+                  <Text style={styles.sectionLabel}>{t.game.deckMix}</Text>
+                  <GameSegmentedControl
+                    accessibilityLabel={t.game.deckMix}
+                    value={customDeckMode}
+                    options={[
+                      { value: 'include', label: t.game.includeCustom },
+                      { value: 'customOnly', label: t.game.customOnly },
+                    ]}
+                    onChange={onCustomDeckModeChange}
+                  />
+                </View>
+              ) : null}
             </View>
-          ) : null}
-          {solo ? null : (
+
+            {solo ? null : (
+              <GameButton
+                label={t.game.customDeck}
+                variant="secondary"
+                icon={<PlusCircle size={18} color={COLORS.pink} />}
+                onPress={onOpenCustomDeck}
+                compact
+              />
+            )}
             <GameButton
-              label={t.game.customDeck}
-              variant="secondary"
-              icon={<PlusCircle size={18} color={COLORS.pink} />}
-              onPress={onOpenCustomDeck}
+              label={startLabel}
+              icon={<Layers3 size={20} color={COLORS.textPrimary} />}
+              emphasis="game"
+              onPress={onStart}
+              disabled={startDisabled}
               compact
             />
-          )}
-          <GameButton
-            label={startLabel}
-            icon={<Play size={20} color={COLORS.textPrimary} fill="white" />}
-            onPress={onStart}
-            disabled={startDisabled}
-            compact
-          />
-        </View>
-      </GameSurface>
+          </View>
+        </GameSurface>
+      </Animated.View>
     </View>
   );
 }
@@ -283,10 +339,18 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card,
     overflow: 'hidden',
   },
+  accentWash: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'rgba(201,11,90,0.045)',
+  },
   setupInner: {
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 8,
+    paddingVertical: 10,
+    gap: 6,
   },
   title: {
     color: COLORS.textPrimary,
@@ -295,17 +359,33 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     textAlign: 'center',
   },
+  settingsStrip: {
+    paddingBottom: 2,
+  },
   primaryControls: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
   },
+  settingColumn: {
+    alignItems: 'center',
+    gap: 2,
+  },
+  zone: {
+    gap: 5,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.07)',
+    paddingTop: 6,
+  },
   sectionLabel: {
-    color: COLORS.textPrimary,
+    color: COLORS.textSub,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '900',
+    letterSpacing: 0.8,
+    lineHeight: 18,
     textAlign: 'center',
+    textTransform: 'uppercase',
   },
   playerCountRow: {
     flexDirection: 'row',
@@ -324,7 +404,12 @@ const styles = StyleSheet.create({
   },
   playerCountActive: {
     borderColor: COLORS.pink,
-    backgroundColor: 'rgba(255,47,146,0.18)',
+    backgroundColor: 'rgba(255,47,146,0.28)',
+    shadowColor: COLORS.pink,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.18,
+    shadowRadius: 6,
+    elevation: 2,
   },
   playerCountText: {
     color: COLORS.textPrimary,
@@ -390,7 +475,12 @@ const styles = StyleSheet.create({
   },
   chipActive: {
     borderColor: COLORS.pink,
-    backgroundColor: 'rgba(255,47,146,0.18)',
+    backgroundColor: 'rgba(255,47,146,0.28)',
+    shadowColor: COLORS.pink,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.18,
+    shadowRadius: 6,
+    elevation: 2,
   },
   chipText: {
     color: COLORS.textSub,

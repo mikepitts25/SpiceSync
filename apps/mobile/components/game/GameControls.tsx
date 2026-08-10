@@ -120,6 +120,7 @@ export function GameButton({
   onPress,
   icon,
   variant = 'primary',
+  emphasis = 'default',
   disabled = false,
   compact = false,
   labelNumberOfLines,
@@ -128,6 +129,7 @@ export function GameButton({
   onPress: () => void;
   icon?: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'danger';
+  emphasis?: 'default' | 'game';
   disabled?: boolean;
   compact?: boolean;
   labelNumberOfLines?: number;
@@ -163,10 +165,18 @@ export function GameButton({
     >
       {variant === 'primary' ? (
         <LinearGradient
-          colors={GRADIENTS.primary}
+          colors={
+            emphasis === 'game'
+              ? ['#C90B5A', '#FF2D92', '#FF4F7A']
+              : GRADIENTS.primary
+          }
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
-          style={[styles.buttonBody, compact && styles.buttonBodyCompact]}
+          style={[
+            styles.buttonBody,
+            compact && styles.buttonBodyCompact,
+            emphasis === 'game' && styles.buttonBodyGame,
+          ]}
         >
           {content}
         </LinearGradient>
@@ -286,6 +296,10 @@ const styles = StyleSheet.create({
   buttonBodyCompact: {
     minHeight: GAME_CONTROL_MIN_SIZE,
     paddingHorizontal: 12,
+  },
+  buttonBodyGame: {
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.22)',
   },
   buttonSecondary: {
     borderWidth: 1,
