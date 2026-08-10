@@ -72,6 +72,17 @@ describe('Spice Deck maximum-content layout', () => {
     await waitFor(element(by.id('game-setup-overflow-scroll')))
       .toBeVisible()
       .withTimeout(15000);
+    await element(by.id('game-setup-overflow-scroll')).scrollTo('top');
+    await waitFor(element(by.label('1 jugador (solo)')))
+      .toBeVisible(100)
+      .whileElement(by.id('game-setup-overflow-scroll'))
+      .scroll(200, 'down');
+    await expect(element(by.label('4 jugadores'))).toBeVisible(100);
+    await waitFor(element(by.label('Nivel 1 de 5')))
+      .toBeVisible(100)
+      .whileElement(by.id('game-setup-overflow-scroll'))
+      .scroll(300, 'down');
+    await expect(element(by.label('Nivel 5 de 5'))).toBeVisible(100);
     await element(by.id('game-setup-overflow-scroll')).scrollTo('bottom');
     await expect(element(by.id('game-setup-start-action'))).toBeVisible(100);
   });

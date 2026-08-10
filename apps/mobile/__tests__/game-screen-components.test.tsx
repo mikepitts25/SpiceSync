@@ -502,6 +502,17 @@ describe('game-screen presentation components', () => {
     });
     expect(overflowScroll.type).toBe(ScrollView);
     expect(overflowScroll.props.keyboardShouldPersistTaps).toBe('handled');
+    expect(
+      StyleSheet.flatten(
+        tree!.root.findByProps({ testID: 'game-setup-level-row' }).props.style
+      )
+    ).toMatchObject({ flexDirection: 'column' });
+    expect(
+      StyleSheet.flatten(
+        tree!.root.findByProps({ testID: 'game-setup-level-controls' }).props
+          .style
+      )
+    ).toMatchObject({ flexWrap: 'wrap' });
   });
 
   it('renders a stable Spanish session header with optional drinking status', () => {

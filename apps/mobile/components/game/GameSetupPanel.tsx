@@ -104,6 +104,7 @@ export function GameSetupPanel({
   // Solo sessions skip consequences and use their own card pool, so the
   // drinking and custom-deck controls don't apply.
   const solo = playerCount === 1;
+  const usesLargeTextLayout = fontScale >= 1.3;
   const setupContent = (
     <>
       <View style={styles.hero}>
@@ -270,11 +271,30 @@ export function GameSetupPanel({
                   />
                 </View>
               )}
-              <View style={styles.compactDeckRow}>
-                <Text style={[styles.sectionLabel, styles.rowSectionLabel]}>
+              <View
+                testID="game-setup-level-row"
+                style={[
+                  styles.compactDeckRow,
+                  usesLargeTextLayout && styles.compactDeckRowLargeText,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.sectionLabel,
+                    styles.rowSectionLabel,
+                    usesLargeTextLayout && styles.rowSectionLabelLargeText,
+                  ]}
+                >
                   {t.game.levelsLabel}
                 </Text>
-                <View style={[styles.chipRow, styles.levelChipRow]}>
+                <View
+                  testID="game-setup-level-controls"
+                  style={[
+                    styles.chipRow,
+                    styles.levelChipRow,
+                    usesLargeTextLayout && styles.levelChipRowLargeText,
+                  ]}
+                >
                   {([1, 2, 3, 4, 5] as GameIntensityLevel[]).map((level) => {
                     const active = selectedLevels.includes(level);
                     return (
@@ -623,13 +643,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
+  compactDeckRowLargeText: {
+    alignItems: 'stretch',
+    flexDirection: 'column',
+    gap: 4,
+  },
   rowSectionLabel: {
     flex: 1,
     textAlign: 'left',
   },
+  rowSectionLabelLargeText: {
+    flex: 0,
+    alignSelf: 'stretch',
+  },
   levelChipRow: {
     flexWrap: 'nowrap',
     gap: 4,
+  },
+  levelChipRowLargeText: {
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
   },
   deckMixControl: {
     flex: 2.35,
