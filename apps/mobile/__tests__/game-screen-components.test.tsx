@@ -40,7 +40,7 @@ const { GameRoundPanel } = require('../components/game/GameRoundPanel');
 function setupProps() {
   return {
     gameNightLabel: 'GAME NIGHT',
-    introTitle: 'Pick your vibe. Draw a card.',
+    introTitle: 'Your deck. Your pace.',
     mode: 'normal',
     modeOptions: [
       { value: 'normal', label: 'Normal' },
@@ -63,7 +63,7 @@ function setupProps() {
     customDeckMode: 'include',
     onCustomDeckModeChange: jest.fn(),
     onOpenCustomDeck: jest.fn(),
-    startLabel: 'Start Playing',
+    startLabel: 'Deal First Card',
     onStart: jest.fn(),
     startDisabled: false,
   };
@@ -279,7 +279,7 @@ describe('game-screen presentation components', () => {
     expect(props.onCardLanguageChange).toHaveBeenCalledWith('es');
 
     const start = tree!.root.find(
-      (node) => node.props.accessibilityLabel === 'Start Playing'
+      (node) => node.props.accessibilityLabel === 'Deal First Card'
     );
     TestRenderer.act(() => start.props.onPress());
     expect(props.onStart).toHaveBeenCalledTimes(1);
@@ -293,7 +293,7 @@ describe('game-screen presentation components', () => {
 
     expect(tree!.root.findAllByType(ScrollView)).toHaveLength(0);
     expect(
-      tree!.root.findByProps({ children: 'Pick your vibe. Draw a card.' })
+      tree!.root.findByProps({ children: 'Your deck. Your pace.' })
     ).toBeDefined();
     expect(
       tree!.root.findAll(
@@ -317,6 +317,33 @@ describe('game-screen presentation components', () => {
     expect(
       controls.find((node) => node.props.accessibilityLabel === 'Card Language')
     ).toBeDefined();
+  });
+
+  it('renders a structured game-table setup with a deck-specific primary action', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameSetupPanel {...setupProps()} />);
+    });
+
+    expect(
+      tree!.root.findByProps({ children: 'Your deck. Your pace.' })
+    ).toBeDefined();
+    expect(
+      tree!.root.findByProps({ testID: 'game-setup-settings-strip' })
+    ).toBeDefined();
+    expect(
+      tree!.root.findByProps({ testID: 'game-setup-players' })
+    ).toBeDefined();
+    expect(
+      tree!.root.findByProps({ testID: 'game-setup-deck' })
+    ).toBeDefined();
+
+    const start = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Deal First Card'
+    );
+    expect(flattenedPressableStyle(start)).toMatchObject({
+      minHeight: GAME_CONTROL_MIN_SIZE,
+    });
   });
 
   it('renders a stable Spanish session header with optional drinking status', () => {
