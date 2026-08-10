@@ -51,6 +51,7 @@ export function GamePill({
 export type GameSegmentOption<T extends string> = {
   value: T;
   label: string;
+  accessibilityLabel?: string;
 };
 
 export function GameSegmentedControl<T extends string>({
@@ -95,7 +96,7 @@ export function GameSegmentedControl<T extends string>({
           <Pressable
             key={option.value}
             accessibilityRole="button"
-            accessibilityLabel={`${accessibilityLabel}: ${option.label}`}
+            accessibilityLabel={`${accessibilityLabel}: ${option.accessibilityLabel ?? option.label}`}
             accessibilityState={{ selected }}
             onPress={() => onChange(option.value)}
             style={({ pressed }) => [
@@ -108,8 +109,11 @@ export function GameSegmentedControl<T extends string>({
           >
             <Text
               numberOfLines={fill ? 2 : undefined}
+              adjustsFontSizeToFit={fill}
+              minimumFontScale={fill ? 0.78 : undefined}
               style={[
                 styles.segmentText,
+                fill && styles.segmentTextFill,
                 selected && styles.segmentTextSelected,
               ]}
             >
@@ -146,6 +150,8 @@ export function GameButton({
       {icon}
       <Text
         numberOfLines={labelNumberOfLines}
+        adjustsFontSizeToFit={labelNumberOfLines !== undefined}
+        minimumFontScale={labelNumberOfLines ? 0.76 : undefined}
         style={[
           styles.buttonText,
           variant !== 'primary' && styles.buttonTextSecondary,
@@ -292,6 +298,12 @@ const styles = StyleSheet.create({
   },
   segmentOptionSelected: { backgroundColor: 'rgba(255,45,146,0.24)' },
   segmentText: { color: COLORS.textMuted, fontSize: 16, fontWeight: '900' },
+  segmentTextFill: {
+    fontSize: 16,
+    lineHeight: 18,
+    letterSpacing: -0.2,
+    textAlign: 'center',
+  },
   segmentTextSelected: { color: COLORS.textPrimary },
   buttonPress: {
     minWidth: GAME_CONTROL_MIN_SIZE,

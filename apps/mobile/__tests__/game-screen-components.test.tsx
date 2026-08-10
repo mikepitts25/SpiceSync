@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
+let mockFontScale = 1;
+const ReactNative = require('react-native');
+
 jest.mock('expo-router', () => ({
   useRouter: () => ({
     navigate: jest.fn(),
@@ -114,6 +117,24 @@ function flattenedPressableStyle(node: TestRenderer.ReactTestInstance) {
 }
 
 describe('game-screen presentation components', () => {
+  beforeAll(() => {
+    jest.spyOn(ReactNative, 'useWindowDimensions').mockImplementation(() => ({
+      ...ReactNative.Dimensions.get('window'),
+      fontScale: mockFontScale,
+    }));
+  });
+
+  afterEach(() => {
+    mockFontScale = 1;
+    TestRenderer.act(() => {
+      useSettingsStore.setState({ language: 'en' });
+    });
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it('keeps buttons and segmented options at least 44 points tall', () => {
     let tree: TestRenderer.ReactTestRenderer;
     TestRenderer.act(() => {
@@ -274,7 +295,7 @@ describe('game-screen presentation components', () => {
     );
 
     const spanish = tree!.root.find(
-      (node) => node.props.accessibilityLabel === 'Card Language: Spanish'
+      (node) => node.props.accessibilityLabel === 'Card Language: ES'
     );
     TestRenderer.act(() => spanish.props.onPress());
     expect(props.onCardLanguageChange).toHaveBeenCalledWith('es');
@@ -356,20 +377,17 @@ describe('game-screen presentation components', () => {
 
     expect(
       tree!.root.find(
-        (node) =>
-          node.props.accessibilityLabel === 'Idioma de las cartas: Inglés'
+        (node) => node.props.accessibilityLabel === 'Idioma de las cartas: EN'
       )
     ).toBeDefined();
     expect(
       tree!.root.find(
-        (node) =>
-          node.props.accessibilityLabel === 'Idioma de las cartas: Español'
+        (node) => node.props.accessibilityLabel === 'Idioma de las cartas: ES'
       )
     ).toBeDefined();
 
-    TestRenderer.act(() => {
-      useSettingsStore.setState({ language: 'en' });
-    });
+    expect(tree!.root.findByProps({ children: 'Inglés' })).toBeDefined();
+    expect(tree!.root.findByProps({ children: 'Español' })).toBeDefined();
   });
 
   it('keeps the maximum Spanish four-player setup bounded with its actions visible', () => {
@@ -406,12 +424,27 @@ describe('game-screen presentation components', () => {
     });
     const inputs = names.findAllByType(TextInput);
     expect(inputs).toHaveLength(4);
-    inputs.forEach((input) => {
+    inputs.forEach((input, index) => {
       expect(StyleSheet.flatten(input.props.style)).toMatchObject({
+        width: '100%',
+      });
+      expect(StyleSheet.flatten(input.props.style)).toMatchObject({
+        fontSize: 16,
+        letterSpacing: -1.2,
+      });
+      const slot = tree!.root.findByProps({
+        testID: `game-setup-player-slot-${index + 1}`,
+      });
+      expect(StyleSheet.flatten(slot.props.style)).toMatchObject({
         width: '23%',
         minWidth: GAME_CONTROL_MIN_SIZE,
         minHeight: GAME_CONTROL_MIN_SIZE,
       });
+      expect(
+        tree!.root.findByProps({
+          testID: `game-setup-player-index-${index + 1}`,
+        }).props.children
+      ).toBe(index + 1);
     });
 
     const actions = tree!.root.findByProps({ testID: 'game-setup-actions' });
@@ -419,6 +452,10 @@ describe('game-screen presentation components', () => {
       flexDirection: 'row',
     });
     expect(StyleSheet.flatten(actions.props.style).marginTop).toBeUndefined();
+    const startSlot = tree!.root.findByProps({
+      testID: 'game-setup-start-action',
+    });
+    expect(StyleSheet.flatten(startSlot.props.style).flex).toBeGreaterThan(1);
     expect(
       actions.find(
         (node) => node.props.accessibilityLabel === 'Repartir la primera carta.'
@@ -438,10 +475,33 @@ describe('game-screen presentation components', () => {
       flexDirection: 'row',
       alignItems: 'center',
     });
-
-    TestRenderer.act(() => {
-      useSettingsStore.setState({ language: 'en' });
+    ['Incluir personalizadas', 'Solo personalizadas'].forEach((label) => {
+      const option = deckMix.findByProps({ children: label });
+      expect(option.props.adjustsFontSizeToFit).toBe(true);
+      expect(option.props.minimumFontScale).toBeGreaterThanOrEqual(0.78);
     });
+
+    const cta = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Repartir la primera carta.'
+    );
+    const ctaText = cta.findByProps({
+      children: 'Repartir la primera carta.',
+    });
+    expect(ctaText.props.adjustsFontSizeToFit).toBe(true);
+  });
+
+  it('uses a reachable scroll container only for large Dynamic Type', () => {
+    mockFontScale = 1.35;
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameSetupPanel {...setupProps()} />);
+    });
+
+    const overflowScroll = tree!.root.findByProps({
+      testID: 'game-setup-overflow-scroll',
+    });
+    expect(overflowScroll.type).toBe(ScrollView);
+    expect(overflowScroll.props.keyboardShouldPersistTaps).toBe('handled');
   });
 
   it('renders a stable Spanish session header with optional drinking status', () => {

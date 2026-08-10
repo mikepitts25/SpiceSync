@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   Pressable,
+  ScrollView,
   StyleSheet,
   Switch,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { Layers3, PlusCircle } from 'lucide-react-native';
@@ -80,6 +82,7 @@ export function GameSetupPanel({
   startDisabled,
 }: GameSetupPanelProps) {
   const { t } = useTranslation();
+  const { fontScale } = useWindowDimensions();
   const setupOpacity = useRef(new Animated.Value(0)).current;
   const setupTranslateY = useRef(new Animated.Value(8)).current;
 
@@ -101,8 +104,8 @@ export function GameSetupPanel({
   // Solo sessions skip consequences and use their own card pool, so the
   // drinking and custom-deck controls don't apply.
   const solo = playerCount === 1;
-  return (
-    <View testID="game-setup-bounded-panel" style={styles.content}>
+  const setupContent = (
+    <>
       <View style={styles.hero}>
         <Text style={styles.eyebrow}>{gameNightLabel}</Text>
       </View>
@@ -144,8 +147,16 @@ export function GameSetupPanel({
                     accessibilityLabel={t.game.cardLanguage}
                     value={cardLanguage}
                     options={[
-                      { value: 'en', label: t.game.cardLanguageEnglish },
-                      { value: 'es', label: t.game.cardLanguageSpanish },
+                      {
+                        value: 'en',
+                        label: t.game.cardLanguageEnglish,
+                        accessibilityLabel: 'EN',
+                      },
+                      {
+                        value: 'es',
+                        label: t.game.cardLanguageSpanish,
+                        accessibilityLabel: 'ES',
+                      },
                     ]}
                     onChange={onCardLanguageChange}
                     compact
@@ -199,23 +210,41 @@ export function GameSetupPanel({
                 ]}
               >
                 {playerNames.slice(0, playerCount).map((name, index) => (
-                  <TextInput
+                  <View
                     key={index}
-                    accessibilityLabel={interpolate(t.game.playerNameA11y, {
-                      number: index + 1,
-                    })}
-                    value={name}
-                    onChangeText={(value) => onPlayerNameChange(index, value)}
-                    autoCapitalize="words"
-                    autoCorrect={false}
-                    returnKeyType="done"
+                    testID={`game-setup-player-slot-${index + 1}`}
                     style={[
-                      styles.nameInput,
-                      playerCount >= 3 && styles.nameInputDense,
-                      playerCount === 3 && styles.nameInputThree,
-                      playerCount === 4 && styles.nameInputFour,
+                      styles.nameSlot,
+                      playerCount >= 3 && styles.nameSlotDense,
+                      playerCount === 3 && styles.nameSlotThree,
+                      playerCount === 4 && styles.nameSlotFour,
                     ]}
-                  />
+                  >
+                    <TextInput
+                      accessibilityLabel={interpolate(t.game.playerNameA11y, {
+                        number: index + 1,
+                      })}
+                      value={name}
+                      onChangeText={(value) => onPlayerNameChange(index, value)}
+                      autoCapitalize="words"
+                      autoCorrect={false}
+                      returnKeyType="done"
+                      style={[
+                        styles.nameInput,
+                        playerCount >= 3 && styles.nameInputDense,
+                      ]}
+                    />
+                    {playerCount >= 3 ? (
+                      <View pointerEvents="none" style={styles.playerIndex}>
+                        <Text
+                          testID={`game-setup-player-index-${index + 1}`}
+                          style={styles.playerIndexText}
+                        >
+                          {index + 1}
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
                 ))}
               </View>
             </View>
@@ -316,7 +345,13 @@ export function GameSetupPanel({
                 >
                   <Text
                     numberOfLines={2}
-                    style={[styles.sectionLabel, styles.rowSectionLabel]}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.8}
+                    style={[
+                      styles.sectionLabel,
+                      styles.rowSectionLabel,
+                      styles.deckMixLabel,
+                    ]}
                   >
                     {t.game.deckMix}
                   </Text>
@@ -338,7 +373,7 @@ export function GameSetupPanel({
 
             <View testID="game-setup-actions" style={styles.actionsRow}>
               {solo ? null : (
-                <View style={styles.actionSlot}>
+                <View style={[styles.actionSlot, styles.customActionSlot]}>
                   <GameButton
                     label={t.game.customDeck}
                     variant="secondary"
@@ -352,7 +387,7 @@ export function GameSetupPanel({
               <View
                 collapsable={false}
                 testID="game-setup-start-action"
-                style={styles.actionSlot}
+                style={[styles.actionSlot, styles.startActionSlot]}
               >
                 <GameButton
                   label={startLabel}
@@ -368,6 +403,26 @@ export function GameSetupPanel({
           </View>
         </GameSurface>
       </Animated.View>
+    </>
+  );
+
+  if (fontScale >= 1.3) {
+    return (
+      <ScrollView
+        testID="game-setup-overflow-scroll"
+        style={styles.overflowScroll}
+        contentContainerStyle={styles.overflowContent}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator
+      >
+        {setupContent}
+      </ScrollView>
+    );
+  }
+
+  return (
+    <View testID="game-setup-bounded-panel" style={styles.content}>
+      {setupContent}
     </View>
   );
 }
@@ -377,6 +432,13 @@ const styles = StyleSheet.create({
     maxHeight: '100%',
     gap: 10,
     paddingBottom: 0,
+  },
+  overflowScroll: {
+    flex: 1,
+  },
+  overflowContent: {
+    gap: 10,
+    paddingBottom: 24,
   },
   hero: {
     gap: 6,
@@ -481,10 +543,26 @@ const styles = StyleSheet.create({
   nameGridDense: {
     flexWrap: 'nowrap',
   },
-  nameInput: {
+  nameSlot: {
     flexGrow: 1,
     flexBasis: '46%',
     minWidth: 120,
+    minHeight: 44,
+    position: 'relative',
+  },
+  nameSlotDense: {
+    flexGrow: 0,
+    flexBasis: 'auto',
+    minWidth: 44,
+  },
+  nameSlotThree: {
+    width: '31%',
+  },
+  nameSlotFour: {
+    width: '23%',
+  },
+  nameInput: {
+    width: '100%',
     minHeight: 44,
     borderRadius: 14,
     borderWidth: 1,
@@ -497,16 +575,27 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   nameInputDense: {
-    flexGrow: 0,
-    flexBasis: 'auto',
-    minWidth: 44,
-    paddingHorizontal: 8,
+    fontSize: 16,
+    letterSpacing: -1.2,
+    paddingLeft: 4,
+    paddingRight: 22,
   },
-  nameInputThree: {
-    width: '31%',
+  playerIndex: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    minWidth: 18,
+    minHeight: 18,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.card,
   },
-  nameInputFour: {
-    width: '23%',
+  playerIndexText: {
+    color: COLORS.pink,
+    fontSize: 16,
+    fontWeight: '900',
+    lineHeight: 18,
   },
   optionRow: {
     minHeight: 44,
@@ -544,6 +633,10 @@ const styles = StyleSheet.create({
   },
   deckMixControl: {
     flex: 2.35,
+  },
+  deckMixLabel: {
+    fontSize: 16,
+    lineHeight: 18,
   },
   chipRow: {
     flexDirection: 'row',
@@ -586,5 +679,11 @@ const styles = StyleSheet.create({
   actionSlot: {
     flex: 1,
     minWidth: 0,
+  },
+  customActionSlot: {
+    flex: 0.95,
+  },
+  startActionSlot: {
+    flex: 1.55,
   },
 });
