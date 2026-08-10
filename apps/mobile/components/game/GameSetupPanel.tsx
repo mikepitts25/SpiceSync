@@ -349,7 +349,11 @@ export function GameSetupPanel({
                   />
                 </View>
               )}
-              <View style={styles.actionSlot}>
+              <View
+                collapsable={false}
+                testID="game-setup-start-action"
+                style={styles.actionSlot}
+              >
                 <GameButton
                   label={startLabel}
                   icon={<Layers3 size={20} color={COLORS.textPrimary} />}
