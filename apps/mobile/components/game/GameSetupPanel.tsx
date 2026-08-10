@@ -144,8 +144,8 @@ export function GameSetupPanel({
                     accessibilityLabel={t.game.cardLanguage}
                     value={cardLanguage}
                     options={[
-                      { value: 'en', label: 'EN' },
-                      { value: 'es', label: 'ES' },
+                      { value: 'en', label: t.game.cardLanguageEnglish },
+                      { value: 'es', label: t.game.cardLanguageSpanish },
                     ]}
                     onChange={onCardLanguageChange}
                     compact

@@ -458,6 +458,8 @@ export const es: Translations = {
     drinkingGame: 'Juego de beber',
     drinkingGameDesc: 'Agrega tragos y shots para pasar consecuencias.',
     cardLanguage: 'Idioma de las cartas',
+    cardLanguageEnglish: 'Inglés',
+    cardLanguageSpanish: 'Español',
     levelsLabel: 'Niveles',
     cardTypesLabel: 'Tipos de carta',
     deckMix: 'Mezcla de baraja',

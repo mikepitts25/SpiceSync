@@ -274,7 +274,7 @@ describe('game-screen presentation components', () => {
     );
 
     const spanish = tree!.root.find(
-      (node) => node.props.accessibilityLabel === 'Card Language: ES'
+      (node) => node.props.accessibilityLabel === 'Card Language: Spanish'
     );
     TestRenderer.act(() => spanish.props.onPress());
     expect(props.onCardLanguageChange).toHaveBeenCalledWith('es');
@@ -342,6 +342,33 @@ describe('game-screen presentation components', () => {
     );
     expect(flattenedPressableStyle(start)).toMatchObject({
       minHeight: GAME_CONTROL_MIN_SIZE,
+    });
+  });
+
+  it('uses localized visible labels for the card-language selector', () => {
+    TestRenderer.act(() => {
+      useSettingsStore.setState({ language: 'es' });
+    });
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<GameSetupPanel {...setupProps()} />);
+    });
+
+    expect(
+      tree!.root.find(
+        (node) =>
+          node.props.accessibilityLabel === 'Idioma de las cartas: Inglés'
+      )
+    ).toBeDefined();
+    expect(
+      tree!.root.find(
+        (node) =>
+          node.props.accessibilityLabel === 'Idioma de las cartas: Español'
+      )
+    ).toBeDefined();
+
+    TestRenderer.act(() => {
+      useSettingsStore.setState({ language: 'en' });
     });
   });
 
