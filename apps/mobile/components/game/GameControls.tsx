@@ -59,17 +59,22 @@ export function GameSegmentedControl<T extends string>({
   options,
   onChange,
   compact = false,
+  fill = false,
 }: {
   accessibilityLabel: string;
   value: T;
   options: readonly GameSegmentOption<T>[];
   onChange: (value: T) => void;
   compact?: boolean;
+  fill?: boolean;
 }) {
   return (
     <View
       accessibilityLabel={accessibilityLabel}
-      style={compact ? styles.segmentedCompact : styles.segmented}
+      style={[
+        compact ? styles.segmentedCompact : styles.segmented,
+        fill && styles.segmentedFill,
+      ]}
     >
       {compact ? (
         <View pointerEvents="none" style={styles.segmentedCompactTrack}>
@@ -96,11 +101,13 @@ export function GameSegmentedControl<T extends string>({
             style={({ pressed }) => [
               styles.segmentOption,
               compact && styles.segmentOptionCompact,
+              fill && styles.segmentOptionFill,
               selected && !compact && styles.segmentOptionSelected,
               pressed && styles.pressed,
             ]}
           >
             <Text
+              numberOfLines={fill ? 2 : undefined}
               style={[
                 styles.segmentText,
                 selected && styles.segmentTextSelected,
@@ -249,6 +256,9 @@ const styles = StyleSheet.create({
     position: 'relative',
     backgroundColor: 'transparent',
   },
+  segmentedFill: {
+    flex: 1,
+  },
   segmentedCompactTrack: {
     position: 'absolute',
     top: 4,
@@ -270,6 +280,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   segmentOptionCompact: {
+    paddingHorizontal: 8,
+  },
+  segmentOptionFill: {
+    flex: 1,
+    minWidth: GAME_CONTROL_MIN_SIZE,
     paddingHorizontal: 8,
   },
   segmentOptionCompactVisual: {

@@ -36,6 +36,7 @@ const {
   GameSessionHeader,
 } = require('../components/game/GameSessionChrome');
 const { GameRoundPanel } = require('../components/game/GameRoundPanel');
+const { useSettingsStore } = require('../src/stores/settingsStore');
 
 function setupProps() {
   return {
@@ -334,15 +335,85 @@ describe('game-screen presentation components', () => {
     expect(
       tree!.root.findByProps({ testID: 'game-setup-players' })
     ).toBeDefined();
-    expect(
-      tree!.root.findByProps({ testID: 'game-setup-deck' })
-    ).toBeDefined();
+    expect(tree!.root.findByProps({ testID: 'game-setup-deck' })).toBeDefined();
 
     const start = tree!.root.find(
       (node) => node.props.accessibilityLabel === 'Deal First Card'
     );
     expect(flattenedPressableStyle(start)).toMatchObject({
       minHeight: GAME_CONTROL_MIN_SIZE,
+    });
+  });
+
+  it('keeps the maximum Spanish four-player setup bounded with its actions visible', () => {
+    TestRenderer.act(() => {
+      useSettingsStore.setState({ language: 'es' });
+    });
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <View style={{ height: 650 }}>
+          <GameSetupPanel
+            {...setupProps()}
+            gameNightLabel="NOCHE DE JUEGO"
+            introTitle="Tu mazo. Tu ritmo."
+            startLabel="Repartir la primera carta."
+            playerCount={4}
+            customCardsAvailable
+          />
+        </View>
+      );
+    });
+
+    const boundedPanel = tree!.root.findByProps({
+      testID: 'game-setup-bounded-panel',
+    });
+    expect(StyleSheet.flatten(boundedPanel.props.style)).toMatchObject({
+      maxHeight: '100%',
+    });
+
+    const names = tree!.root.findByProps({ testID: 'game-setup-name-grid' });
+    expect(StyleSheet.flatten(names.props.style)).toMatchObject({
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+    });
+    const inputs = names.findAllByType(TextInput);
+    expect(inputs).toHaveLength(4);
+    inputs.forEach((input) => {
+      expect(StyleSheet.flatten(input.props.style)).toMatchObject({
+        width: '23%',
+        minWidth: GAME_CONTROL_MIN_SIZE,
+        minHeight: GAME_CONTROL_MIN_SIZE,
+      });
+    });
+
+    const actions = tree!.root.findByProps({ testID: 'game-setup-actions' });
+    expect(StyleSheet.flatten(actions.props.style)).toMatchObject({
+      flexDirection: 'row',
+    });
+    expect(StyleSheet.flatten(actions.props.style).marginTop).toBeUndefined();
+    expect(
+      actions.find(
+        (node) => node.props.accessibilityLabel === 'Repartir la primera carta.'
+      )
+    ).toBeDefined();
+    expect(
+      actions.find(
+        (node) => node.props.accessibilityLabel === 'Baraja personalizada'
+      )
+    ).toBeDefined();
+
+    const deckMix = tree!.root.findByProps({
+      testID: 'game-setup-deck-mix',
+    });
+    expect(StyleSheet.flatten(deckMix.props.style)).toMatchObject({
+      minHeight: GAME_CONTROL_MIN_SIZE,
+      flexDirection: 'row',
+      alignItems: 'center',
+    });
+
+    TestRenderer.act(() => {
+      useSettingsStore.setState({ language: 'en' });
     });
   });
 
