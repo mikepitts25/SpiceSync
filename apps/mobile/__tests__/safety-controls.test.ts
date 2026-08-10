@@ -7,12 +7,21 @@ import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import { useVoteSyncStore } from '../lib/sync/voteSync';
 import {
   clearActiveProfileVotes,
+  deleteProfileAndData,
   disconnectRemotePartnerLocal,
   resetAppOnDevice,
 } from '../lib/safety/localDataControls';
 import { useSettings } from '../lib/state/useStore';
 import { useSettingsStore } from '../src/stores/settingsStore';
 import { useVotesStore } from '../src/stores/votes';
+import { useLoveLanguagesStore } from '../src/stores/loveLanguages';
+import { useCoupleDiceStore } from '../lib/state/coupleDice';
+import { useFantasyJournalStore } from '../lib/state/fantasyJournal';
+import { useStarterPackStore } from '../lib/state/starterPack';
+import { useCustomGameCardsStore } from '../src/stores/customGameCards';
+import { useLevelingStore } from '../src/stores/leveling';
+import { useNudgesStore } from '../src/stores/nudges';
+import { PREMIUM_STORAGE_KEY, usePremiumStore } from '../src/stores/premium';
 
 function memoryIdentityDeps() {
   const secure = new Map<string, string>();
@@ -53,11 +62,22 @@ beforeEach(() => {
   useEventQueueStore.setState({ pending: [], nextClientSequence: 1 });
   useVoteSyncStore.setState({ localProfileId: null });
   useSettingsStore.setState({
-    activeProfileId: null,
-    profiles: [],
-    ageVerified: true,
+    language: 'en',
   });
   useSettings.setState({ ageConfirmed: true });
+  useLoveLanguagesStore.setState({ results: {} });
+  useCoupleDiceStore.setState({ savedByProfileId: {} });
+  useFantasyJournalStore.setState({ entries: {} });
+  useStarterPackStore.setState({ dismissedByProfile: {} });
+  useCustomGameCardsStore.setState({ cards: [] });
+  useLevelingStore.setState({
+    xp: 0,
+    totalXP: 0,
+    level: 1,
+    showLevelUp: false,
+  });
+  useNudgesStore.setState({ nudges: [], unreadCount: 0 });
+  usePremiumStore.getState().clearStoreEntitlement();
   setIdentityDeps(memoryIdentityDeps());
   _resetCacheForTests();
 });
@@ -158,6 +178,89 @@ describe('local safety data controls', () => {
     });
   });
 
+  it('deletes the selected profile and its private profile-scoped data only', () => {
+    const profiles = [
+      {
+        id: 'profile-a',
+        name: 'A',
+        displayName: 'A',
+        emoji: 'fire',
+        createdAt: 1,
+        updatedAt: 1,
+      },
+      {
+        id: 'profile-b',
+        name: 'B',
+        displayName: 'B',
+        emoji: 'heart',
+        createdAt: 2,
+        updatedAt: 2,
+      },
+    ];
+    useProfilesStore.setState({
+      profiles,
+      activeProfileId: 'profile-a',
+      currentUserId: 'profile-a',
+      hydrated: true,
+    });
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-a': { 'card-a': 'yes' },
+        'profile-b': { 'card-b': 'maybe' },
+      },
+    });
+    useLoveLanguagesStore.setState({
+      results: {
+        'profile-a': {
+          profileId: 'profile-a',
+          result: {} as never,
+          completedAt: 1,
+        },
+        'profile-b': {
+          profileId: 'profile-b',
+          result: {} as never,
+          completedAt: 2,
+        },
+      },
+    });
+    useCoupleDiceStore.setState({
+      savedByProfileId: {
+        'profile-a': [{ id: 'a', savedAt: 1 } as never],
+        'profile-b': [{ id: 'b', savedAt: 2 } as never],
+      },
+    });
+    useFantasyJournalStore.setState({
+      entries: {
+        a: { id: 'a', profileId: 'profile-a' } as never,
+        b: { id: 'b', profileId: 'profile-b' } as never,
+      },
+    });
+    useStarterPackStore.setState({
+      dismissedByProfile: { 'profile-a': true, 'profile-b': true },
+    });
+
+    deleteProfileAndData('profile-a');
+
+    expect(
+      useProfilesStore.getState().profiles.map((profile) => profile.id)
+    ).toEqual(['profile-b']);
+    expect(useVotesStore.getState().votesByProfile).toEqual({
+      'profile-b': { 'card-b': 'maybe' },
+    });
+    expect(Object.keys(useLoveLanguagesStore.getState().results)).toEqual([
+      'profile-b',
+    ]);
+    expect(Object.keys(useCoupleDiceStore.getState().savedByProfileId)).toEqual(
+      ['profile-b']
+    );
+    expect(Object.keys(useFantasyJournalStore.getState().entries)).toEqual([
+      'b',
+    ]);
+    expect(useStarterPackStore.getState().dismissedByProfile).toEqual({
+      'profile-b': true,
+    });
+  });
+
   it('resets app data on this device', async () => {
     useProfilesStore.setState({
       profiles: [
@@ -192,18 +295,25 @@ describe('local safety data controls', () => {
     });
     useVoteSyncStore.setState({ localProfileId: 'profile-a' });
     useSettingsStore.setState({
-      activeProfileId: 'legacy-profile',
-      profiles: [
-        {
-          id: 'legacy-profile',
-          name: 'Legacy',
-          emoji: '🔥',
-          createdAt: 1,
-        },
-      ],
-      ageVerified: true,
+      language: 'es',
+      biometricLockEnabled: true,
+      hapticsEnabled: false,
+      discreteModeEnabled: false,
+      drinkingMode: true,
     });
     useSettings.setState({ ageConfirmed: true });
+    useCustomGameCardsStore.setState({
+      cards: [{ id: 'custom-1', content: 'private card' } as never],
+    });
+    useLevelingStore.setState({ xp: 42, totalXP: 99, level: 3 });
+    useNudgesStore.setState({
+      nudges: [{ id: 'nudge-1' } as never],
+      unreadCount: 1,
+    });
+    usePremiumStore
+      .getState()
+      .setLifetimeEntitlement('signed-store-token', 1720000000000);
+    await AsyncStorage.setItem('temporary-private-data', 'remove me');
 
     await resetAppOnDevice();
 
@@ -217,10 +327,26 @@ describe('local safety data controls', () => {
     expect(useCoupleLinkStore.getState().link).toBeNull();
     expect(useVoteSyncStore.getState().localProfileId).toBeNull();
     expect(useSettingsStore.getState()).toMatchObject({
-      activeProfileId: null,
-      profiles: [],
-      ageVerified: false,
+      language: 'en',
+      biometricLockEnabled: false,
+      hapticsEnabled: true,
+      discreteModeEnabled: true,
+      drinkingMode: false,
     });
     expect(useSettings.getState().ageConfirmed).toBe(false);
+    expect(useCustomGameCardsStore.getState().cards).toEqual([]);
+    expect(useLevelingStore.getState()).toMatchObject({
+      xp: 0,
+      totalXP: 0,
+      level: 1,
+    });
+    expect(useNudgesStore.getState()).toMatchObject({
+      nudges: [],
+      unreadCount: 0,
+    });
+    expect(usePremiumStore.getState().isPremium()).toBe(true);
+    expect(await AsyncStorage.getItem(PREMIUM_STORAGE_KEY)).not.toBeNull();
+    expect(await AsyncStorage.getItem('temporary-private-data')).toBeNull();
   });
 });
+import AsyncStorage from '@react-native-async-storage/async-storage';

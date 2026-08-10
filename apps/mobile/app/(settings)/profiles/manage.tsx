@@ -32,6 +32,7 @@ import {
   type Profile,
 } from '../../../lib/state/profiles';
 import { getProfilePinActionLabel } from '../../../lib/profile-management';
+import { deleteProfileAndData } from '../../../lib/safety/localDataControls';
 import { COLORS, SHADOWS } from '../../../constants/theme';
 
 export default function ManageProfileScreen() {
@@ -39,9 +40,11 @@ export default function ManageProfileScreen() {
   const { profileId } = useLocalSearchParams<{ profileId?: string }>();
   const profiles = useProfilesStore((state) => state.profiles);
   const activeProfileId = useProfilesStore((state) => state.activeProfileId);
-  const deleteProfile = useProfilesStore((state) => state.deleteProfile);
   const verifyPin = useProfilesStore((state) => state.verifyPin);
   const [pinPromptOpen, setPinPromptOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<
+    'activate' | 'edit' | 'pin' | 'delete' | null
+  >(null);
 
   const profile = useMemo(
     () => profiles.find((item) => item.id === profileId) ?? null,
@@ -49,17 +52,29 @@ export default function ManageProfileScreen() {
   );
   const isActive = !!profile && profile.id === activeProfileId;
 
-  const activateProfile = () => {
-    if (!profile || isActive) return;
-    if (profile.pin) {
-      setPinPromptOpen(true);
+  const performAction = (
+    action: 'activate' | 'edit' | 'pin' | 'delete'
+  ) => {
+    if (!profile) return;
+
+    if (action === 'activate') {
+      if (!isActive) setActiveProfile(profile.id);
       return;
     }
-    setActiveProfile(profile.id);
-  };
-
-  const confirmDelete = () => {
-    if (!profile) return;
+    if (action === 'edit') {
+      router.push({
+        pathname: '/(settings)/profiles/edit',
+        params: { profileId: profile.id },
+      });
+      return;
+    }
+    if (action === 'pin') {
+      router.push({
+        pathname: '/(settings)/profiles/pin',
+        params: { profileId: profile.id },
+      });
+      return;
+    }
 
     Alert.alert(
       'Delete profile?',
@@ -70,12 +85,24 @@ export default function ManageProfileScreen() {
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            deleteProfile(profile.id);
+            deleteProfileAndData(profile.id);
             router.replace('/(settings)/profiles');
           },
         },
       ]
     );
+  };
+
+  const requestAction = (
+    action: 'activate' | 'edit' | 'pin' | 'delete'
+  ) => {
+    if (!profile) return;
+    if (profile.pin) {
+      setPendingAction(action);
+      setPinPromptOpen(true);
+      return;
+    }
+    performAction(action);
   };
 
   if (!profile) {
@@ -156,7 +183,7 @@ export default function ManageProfileScreen() {
               value={isActive ? 'Selected' : 'Select'}
               tint={COLORS.yes}
               badgeBg="rgba(34,197,94,0.12)"
-              onPress={isActive ? undefined : activateProfile}
+              onPress={isActive ? undefined : () => requestAction('activate')}
             />
             <SectionRow
               icon={Pencil}
@@ -164,12 +191,7 @@ export default function ManageProfileScreen() {
               value="Name / avatar"
               tint={COLORS.pink}
               badgeBg="rgba(255,45,146,0.12)"
-              onPress={() =>
-                router.push({
-                  pathname: '/(settings)/profiles/edit',
-                  params: { profileId: profile.id },
-                })
-              }
+              onPress={() => requestAction('edit')}
             />
             <SectionRow
               icon={KeyRound}
@@ -177,12 +199,7 @@ export default function ManageProfileScreen() {
               value={profile.pin ? 'Set' : 'Not set'}
               tint={COLORS.purpleLight}
               badgeBg="rgba(167,139,250,0.12)"
-              onPress={() =>
-                router.push({
-                  pathname: '/(settings)/profiles/pin',
-                  params: { profileId: profile.id },
-                })
-              }
+              onPress={() => requestAction('pin')}
             />
             <SectionRow
               icon={Trash2}
@@ -190,7 +207,7 @@ export default function ManageProfileScreen() {
               value="Remove"
               tint={COLORS.no}
               badgeBg="rgba(239,68,68,0.12)"
-              onPress={confirmDelete}
+              onPress={() => requestAction('delete')}
               last
             />
           </View>
@@ -202,8 +219,9 @@ export default function ManageProfileScreen() {
         profiles={[profile as Profile]}
         onClose={() => setPinPromptOpen(false)}
         onSuccess={() => {
-          setActiveProfile(profile.id);
           setPinPromptOpen(false);
+          if (pendingAction) performAction(pendingAction);
+          setPendingAction(null);
         }}
         onVerifyProfile={(item, pin) =>
           verifyPin(item.id, pin)

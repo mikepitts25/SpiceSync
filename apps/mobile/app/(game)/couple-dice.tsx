@@ -1,7 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import * as Haptics from 'expo-haptics';
 
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { BackHeader } from '../../components/app-chrome';
@@ -24,11 +23,13 @@ import {
 } from '../../lib/coupleDice';
 import { useCoupleDiceStore } from '../../lib/state/coupleDice';
 import { useStreakStore } from '../../lib/achievements';
+import { PremiumGate } from '../../components/PremiumGate';
+import { haptic } from '../../hooks/useHaptics';
 
 const ROLL_ANIMATION_TICKS = 6;
 const ROLL_ANIMATION_TICK_MS = 90;
 
-export default function CoupleDiceScreen() {
+function CoupleDiceScreen() {
   const { t, language } = useTranslation();
   const activeProfileId = useProfilesStore((state) =>
     state.getActiveProfileId()
@@ -63,7 +64,7 @@ export default function CoupleDiceScreen() {
 
     setRolling(true);
     setSavedRollId(null);
-    Haptics.selectionAsync().catch(() => {});
+    haptic('selection').catch(() => {});
 
     let ticks = 0;
     rollIntervalRef.current = setInterval(() => {
@@ -81,7 +82,7 @@ export default function CoupleDiceScreen() {
           rollIntervalRef.current = null;
         }
         setRolling(false);
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+        haptic('light').catch(() => {});
 
         // Count the settled roll only — the intermediate animation ticks
         // are the same roll still spinning, not separate prompts.
@@ -173,6 +174,14 @@ export default function CoupleDiceScreen() {
         ) : null}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export default function PremiumCoupleDiceScreen() {
+  return (
+    <PremiumGate>
+      <CoupleDiceScreen />
+    </PremiumGate>
   );
 }
 

@@ -1,31 +1,34 @@
+import { PRODUCT_SKUS } from '../lib/pricing';
 import { usePremiumStore } from '../src/stores/premium';
 
 describe('premium store', () => {
   beforeEach(() => {
-    usePremiumStore.setState({
-      subscription: {
-        tier: 'free',
-        expiresAt: null,
-        startedAt: 1,
-        productId: null,
-        receipt: null,
-        isGift: false,
-      },
-      packs: [],
-      giftCodes: [],
-      isLoading: false,
-      showPaywall: false,
-      paywallFeature: null,
+    usePremiumStore.getState().clearStoreEntitlement();
+  });
+
+  it('records only the lifetime store entitlement as premium', () => {
+    usePremiumStore
+      .getState()
+      .setLifetimeEntitlement('signed-store-token', 1720000000000);
+
+    const state = usePremiumStore.getState();
+    expect(state.isPremium()).toBe(true);
+    expect(state.subscription).toMatchObject({
+      tier: 'premium',
+      productId: PRODUCT_SKUS.PREMIUM_LIFETIME,
+      receipt: 'signed-store-token',
+      startedAt: 1720000000000,
     });
   });
 
-  it('validates gift-code format without redeeming typed codes locally', async () => {
-    const code = 'SPICE-ABCDEFGHJKLM';
+  it('revokes cached access when the store reports no entitlement', () => {
+    usePremiumStore
+      .getState()
+      .setLifetimeEntitlement('signed-store-token', 1720000000000);
 
-    expect(usePremiumStore.getState().validateGiftCode(code)).toBe(true);
-    await expect(usePremiumStore.getState().redeemGiftCode(code)).resolves.toBe(
-      false
-    );
-    expect(usePremiumStore.getState().subscription.tier).toBe('free');
+    usePremiumStore.getState().clearStoreEntitlement();
+
+    expect(usePremiumStore.getState().isPremium()).toBe(false);
+    expect(usePremiumStore.getState().subscription.receipt).toBeNull();
   });
 });

@@ -1823,7 +1823,8 @@
       "roleplay",
       "power",
       "capture",
-      "dynamic"
+      "dynamic",
+      "safeword"
     ],
     "category": "roleplay",
     "intensityScale": 3,
@@ -6247,7 +6248,9 @@
       "orgasm-control",
       "denial",
       "edging",
-      "control"
+      "control",
+      "consent",
+      "aftercare"
     ],
     "category": "paired_play",
     "intensityScale": 3,

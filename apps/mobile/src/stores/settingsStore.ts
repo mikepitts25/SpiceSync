@@ -1,148 +1,42 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
+
 import { mmkvStorage } from '../../lib/storage/mmkv';
-import { normalizeProfileAvatar } from '../constants/emojis';
-
-// Unified Settings Store - Single source of truth
-// Consolidates: useStore (legacy) + useSettingsStore (age-gate)
-
-export interface Profile {
-  id: string;
-  name: string;
-  emoji: string;
-  createdAt: number;
-}
 
 export interface SettingsState {
-  // Profile Management
-  activeProfileId: string | null;
-  profiles: Profile[];
-
-  // App Preferences
   language: 'en' | 'es';
   biometricLockEnabled: boolean;
   hapticsEnabled: boolean;
-
-  // Age Verification (consolidated from age-gate store)
-  ageVerified: boolean;
-
-  // Premium Status
-  unlocked: boolean;
-
-  // Game Modes
+  discreteModeEnabled: boolean;
   drinkingMode: boolean;
 
-  // Actions
-  setActiveProfile: (id: string) => void;
-  addProfile: (profile: Omit<Profile, 'id' | 'createdAt'>) => Profile;
-  removeProfile: (id: string) => void;
-  updateProfile: (id: string, updates: Partial<Profile>) => void;
-
-  setLanguage: (lang: 'en' | 'es') => void;
+  setLanguage: (language: 'en' | 'es') => void;
   setBiometricLockEnabled: (enabled: boolean) => void;
   setHapticsEnabled: (enabled: boolean) => void;
-
-  verifyAge: () => void;
-  resetAgeVerification: () => void;
-
-  setUnlocked: (unlocked: boolean) => void;
-
+  setDiscreteModeEnabled: (enabled: boolean) => void;
   setDrinkingMode: (enabled: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
-    (set, get) => ({
-      // Initial State
-      activeProfileId: null,
-      profiles: [],
-
+    (set) => ({
       language: 'en',
       biometricLockEnabled: false,
       hapticsEnabled: true,
-
-      ageVerified: false,
-
-      unlocked: false,
-
+      discreteModeEnabled: true,
       drinkingMode: false,
 
-      // Profile Actions
-      setActiveProfile: (id) => set({ activeProfileId: id }),
-
-      addProfile: (profile) => {
-        const newProfile: Profile = {
-          ...profile,
-          emoji: normalizeProfileAvatar(profile.emoji),
-          id: `profile-${Date.now()}`,
-          createdAt: Date.now(),
-        };
-        set((state) => ({
-          profiles: [...state.profiles, newProfile],
-          activeProfileId: state.activeProfileId || newProfile.id,
-        }));
-        return newProfile;
-      },
-
-      removeProfile: (id) => {
-        set((state) => {
-          const newProfiles = state.profiles.filter((p) => p.id !== id);
-          return {
-            profiles: newProfiles,
-            activeProfileId:
-              state.activeProfileId === id
-                ? newProfiles[0]?.id || null
-                : state.activeProfileId,
-          };
-        });
-      },
-
-      updateProfile: (id, updates) => {
-        set((state) => ({
-          profiles: state.profiles.map((p) =>
-            p.id === id
-              ? {
-                  ...p,
-                  ...updates,
-                  emoji:
-                    updates.emoji === undefined
-                      ? p.emoji
-                      : normalizeProfileAvatar(updates.emoji),
-                }
-              : p
-          ),
-        }));
-      },
-
-      // Preference Actions
       setLanguage: (language) => set({ language }),
       setBiometricLockEnabled: (biometricLockEnabled) =>
         set({ biometricLockEnabled }),
       setHapticsEnabled: (hapticsEnabled) => set({ hapticsEnabled }),
-
-      // Age Verification
-      verifyAge: () => set({ ageVerified: true }),
-      resetAgeVerification: () => set({ ageVerified: false }),
-
-      // Premium
-      setUnlocked: (unlocked) => set({ unlocked }),
-
-      // Game Modes
+      setDiscreteModeEnabled: (discreteModeEnabled) =>
+        set({ discreteModeEnabled }),
       setDrinkingMode: (drinkingMode) => set({ drinkingMode }),
     }),
     {
-      name: 'spicesync-settings-v2',
+      name: 'spicesync-settings-v3',
       storage: createJSONStorage(() => mmkvStorage),
     }
   )
 );
-
-// Legacy exports for backward compatibility during migration
-export const useSettings = useSettingsStore;
-
-// Migration helper - call this once on app startup
-export async function migrateLegacySettings(): Promise<void> {
-  // Check for old settings keys and migrate
-  // This would be implemented based on legacy storage keys
-  console.log('[Settings] Migration check complete');
-}

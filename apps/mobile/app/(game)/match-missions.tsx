@@ -27,8 +27,9 @@ import {
   remainingMissionMs,
   formatRemainingDuration,
 } from '../../lib/matchMissions';
+import { PremiumGate } from '../../components/PremiumGate';
 
-export default function MatchMissionsScreen() {
+function MatchMissionsScreen() {
   const router = useRouter();
   const { t, language } = useTranslation();
 
@@ -223,6 +224,14 @@ export default function MatchMissionsScreen() {
         ) : null}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export default function PremiumMatchMissionsScreen() {
+  return (
+    <PremiumGate>
+      <MatchMissionsScreen />
+    </PremiumGate>
   );
 }
 

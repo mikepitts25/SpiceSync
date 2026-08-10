@@ -3,7 +3,7 @@
 // If it can't be acted on in the next 1 minute, it's cut.
 
 // ─── IMPORTS (all at top to avoid Metro initialization issues) ─────────────
-import { FREE_CARDS_ES, ALL_CARDS_ES } from './gameCards.es';
+import { getGameCardDisplayContent } from './gameCardTranslations';
 import {
   EXPANSION_CARDS,
   LEVEL1_CARDS,
@@ -12,6 +12,7 @@ import {
   LEVEL4_CARDS,
   LEVEL5_CARDS,
 } from './game_cards_expansion';
+import { ALL_PACK_CARDS } from '../lib/packActivities';
 
 export type GameCardType =
   | 'truth'
@@ -1354,15 +1355,25 @@ export {
   LEVEL5_CARDS,
 };
 
-export const MASTER_DECK: GameCard[] = [...ALL_CARDS, ...EXPANSION_CARDS];
+export const MASTER_DECK: GameCard[] = [
+  ...ALL_CARDS,
+  ...EXPANSION_CARDS,
+];
 
 // ─── LANGUAGE HELPERS ──────────────────────────────────────────────────────
 export const getCardsByLanguage = (
   lang: 'en' | 'es',
   unlocked: boolean
 ): GameCard[] => {
-  if (lang === 'es') return unlocked ? ALL_CARDS_ES : FREE_CARDS_ES;
-  return unlocked ? MASTER_DECK : FREE_CARDS;
+  const pool = unlocked
+    ? [...MASTER_DECK, ...ALL_PACK_CARDS]
+    : [...FREE_CARDS, ...LEVEL1_CARDS];
+
+  if (lang === 'en') return pool;
+  return pool.map((card) => ({
+    ...card,
+    content: getGameCardDisplayContent(card, 'es'),
+  }));
 };
 
 export const getRandomCardByLang = (

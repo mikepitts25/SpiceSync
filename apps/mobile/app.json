@@ -52,7 +52,8 @@
       ],
       "expo-font",
       "@react-native-community/datetimepicker",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-iap"
     ],
     "extra": {
       "router": {},

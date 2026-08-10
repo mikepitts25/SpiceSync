@@ -20,11 +20,15 @@ import {
   useProfilesStore,
   type Profile,
 } from '../../../lib/state/profiles';
+import { deleteProfileAndData } from '../../../lib/safety/localDataControls';
 import { BackHeader } from '../../../components/app-chrome';
 import ProfileAvatarIcon from '../../../components/ProfileAvatarIcon';
 import { useTranslation, interpolate } from '../../../lib/i18n';
 import { getProfileManageDestination } from '../../../lib/profile-management';
 import { COLORS, GRADIENTS } from '../../../constants/theme';
+import { usePremiumStore } from '../../../src/stores/premium';
+import { hasPremiumFeatureAccess } from '../../../lib/purchases/access';
+import { canCreateProfile } from '../../../lib/purchases/premiumPolicy';
 
 const DOT_COLORS = [
   COLORS.pink,
@@ -36,13 +40,19 @@ const DOT_COLORS = [
 
 type PinPrompt = {
   profile: Profile;
+  action: 'activate' | 'delete';
 } | null;
 
 export default function ProfilesScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const { profiles, activeProfileId, verifyPin, deleteProfile } =
+  const { profiles, activeProfileId, verifyPin } =
     useProfilesStore();
+  const locallyEntitled = usePremiumStore((state) => state.isPremium());
+  const canAddProfile = canCreateProfile(
+    profiles.length,
+    hasPremiumFeatureAccess(locallyEntitled)
+  );
   const [pinPrompt, setPinPrompt] = useState<PinPrompt>(null);
   const [enteredPin, setEnteredPin] = useState('');
   const [pinError, setPinError] = useState<string | null>(null);
@@ -56,7 +66,7 @@ export default function ProfilesScreen() {
   const activateProfile = (profile: Profile) => {
     if (profile.id === activeProfileId) return;
     if (profile.pin) {
-      setPinPrompt({ profile });
+      setPinPrompt({ profile, action: 'activate' });
       setEnteredPin('');
       setPinError(null);
       return;
@@ -74,11 +84,15 @@ export default function ProfilesScreen() {
       setPinError(t.profiles.incorrectPin);
       return;
     }
-    setActiveProfile(pinPrompt.profile.id);
+    if (pinPrompt.action === 'activate') {
+      setActiveProfile(pinPrompt.profile.id);
+    } else {
+      showDeleteConfirmation(pinPrompt.profile);
+    }
     closePinPrompt();
   };
 
-  const confirmDelete = (profile: Profile) => {
+  const showDeleteConfirmation = (profile: Profile) => {
     Alert.alert(
       t.profiles.deleteProfile,
       interpolate(t.profiles.deleteProfileDesc, { name: profile.name }),
@@ -87,10 +101,20 @@ export default function ProfilesScreen() {
         {
           text: t.common.delete,
           style: 'destructive',
-          onPress: () => deleteProfile(profile.id),
+          onPress: () => deleteProfileAndData(profile.id),
         },
       ]
     );
+  };
+
+  const confirmDelete = (profile: Profile) => {
+    if (profile.pin) {
+      setPinPrompt({ profile, action: 'delete' });
+      setEnteredPin('');
+      setPinError(null);
+      return;
+    }
+    showDeleteConfirmation(profile);
   };
 
   return (
@@ -166,11 +190,17 @@ export default function ProfilesScreen() {
         ListFooterComponent={
           <Pressable
             accessibilityRole="button"
-            onPress={() => router.push('/(settings)/profiles/new')}
+            onPress={() =>
+              router.push(
+                canAddProfile ? '/(settings)/profiles/new' : '/(unlock)'
+              )
+            }
             style={styles.addButton}
           >
             <Plus size={18} color={COLORS.pink} />
-            <Text style={styles.addButtonText}>Add Profile</Text>
+            <Text style={styles.addButtonText}>
+              {canAddProfile ? 'Add Profile' : 'Unlock Unlimited Profiles'}
+            </Text>
           </Pressable>
         }
         ListEmptyComponent={

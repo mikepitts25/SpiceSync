@@ -5,6 +5,7 @@ import 'react-native-get-random-values';
 import React, { useEffect } from 'react';
 import { AppState } from 'react-native';
 import { Stack } from 'expo-router';
+import { router } from 'expo-router';
 import Constants from 'expo-constants';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
@@ -27,11 +28,52 @@ import { cleanupLegacyPartnerCodes } from '../lib/sync/legacyPartnerCleanup';
 import { startSyncLoop, stopSyncLoop, syncOnce } from '../lib/sync/syncLoop';
 import { startVoteSync } from '../lib/sync/voteSync';
 import { shouldInitializeNotificationsOnLaunch } from '../lib/notifications/environment';
+import {
+  isPurchaseProviderConfigured,
+  purchaseService,
+} from '../lib/purchases/purchaseService';
+import { getNotificationDestination } from '../lib/notifications/routing';
 
 export default function RootLayout() {
   useDeepLinks();
 
   useEffect(() => {
+    let responseSubscription: { remove: () => void } | null = null;
+    let cancelledResponseSetup = false;
+    import('../lib/notifications')
+      .then(
+        async ({
+          addNotificationResponseListener,
+          getLastNotificationResponse,
+        }) => {
+          const openResponse = (response: {
+            notification: {
+              request: { content: { data?: Record<string, unknown> } };
+            };
+          }) => {
+            const destination = getNotificationDestination(
+              response.notification.request.content.data
+            );
+            if (destination) router.push(destination as never);
+          };
+
+          if (cancelledResponseSetup) return;
+          responseSubscription = addNotificationResponseListener(openResponse);
+          const lastResponse = await getLastNotificationResponse();
+          if (!cancelledResponseSetup && lastResponse)
+            openResponse(lastResponse);
+        }
+      )
+      .catch((error) => {
+        console.warn('[App] Notification response setup failed:', error);
+      });
+
+    if (isPurchaseProviderConfigured()) {
+      purchaseService.initialize().catch((error) => {
+        console.warn('[App] Purchase initialization failed:', error);
+      });
+    }
+
     cleanupLegacyPartnerCodes();
 
     if (shouldInitializeNotificationsOnLaunch(Constants.appOwnership)) {
@@ -90,6 +132,11 @@ export default function RootLayout() {
 
     return () => {
       cancelled = true;
+      cancelledResponseSetup = true;
+      responseSubscription?.remove();
+      if (isPurchaseProviderConfigured()) {
+        purchaseService.dispose().catch(() => undefined);
+      }
     };
   }, []);
 

@@ -9,13 +9,14 @@ import {
 } from 'react-native';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
-import { useRouter } from 'expo-router';
+import Constants from 'expo-constants';
+import { useFocusEffect, useRouter } from 'expo-router';
 import {
   BarChart3,
   Bell,
   ChevronRight,
   Fingerprint,
-  Gift,
+  EyeOff,
   Globe,
   Info,
   Link as LinkIcon,
@@ -24,6 +25,7 @@ import {
   Star,
   Trophy,
   User,
+  Vibrate,
 } from 'lucide-react-native';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -48,13 +50,35 @@ import {
   getBiometricSupport,
 } from '../../lib/lock';
 import { COLORS, SHADOWS } from '../../constants/theme';
+import { usePremiumStore } from '../../src/stores/premium';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
+import {
+  getConversationNotificationSettings,
+  getMatchAlertSettings,
+  getNotificationFrequency,
+  getNotificationSettings,
+  getStreakReminderSettings,
+} from '../../lib/notifications';
+import { getNotificationSummaryLabel } from '../../lib/notifications/routing';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { t } = useTranslation();
   const language = useSettingsStore((state) => state.language);
+  const locallyEntitled = usePremiumStore((state) => state.isPremium());
+  const premiumUnlocked = hasPremiumFeatureAccess(locallyEntitled);
   const biometricLockEnabled = useSettingsStore(
     (state) => state.biometricLockEnabled
+  );
+  const hapticsEnabled = useSettingsStore((state) => state.hapticsEnabled);
+  const setHapticsEnabled = useSettingsStore(
+    (state) => state.setHapticsEnabled
+  );
+  const discreteModeEnabled = useSettingsStore(
+    (state) => state.discreteModeEnabled
+  );
+  const setDiscreteModeEnabled = useSettingsStore(
+    (state) => state.setDiscreteModeEnabled
   );
   const setBiometricLockEnabled = useSettingsStore(
     (state) => state.setBiometricLockEnabled
@@ -69,6 +93,33 @@ export default function SettingsScreen() {
     }))
   );
   const [biometricPending, setBiometricPending] = useState(false);
+  const [notificationSummary, setNotificationSummary] = useState('Off');
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+      Promise.all([
+        getNotificationSettings(),
+        getNotificationFrequency(),
+        getConversationNotificationSettings(),
+        getMatchAlertSettings(),
+        getStreakReminderSettings(),
+      ]).then(([daily, frequency, conversation, match, streak]) => {
+        if (!active) return;
+        setNotificationSummary(
+          getNotificationSummaryLabel({
+            dailyEnabled: daily.enabled,
+            frequency,
+            otherEnabled:
+              conversation.enabled || match.enabled || streak.enabled,
+          })
+        );
+      });
+      return () => {
+        active = false;
+      };
+    }, [])
+  );
 
   const activeProfile = useMemo(
     () => profiles.find((profile) => profile.id === activeProfileId) ?? null,
@@ -152,17 +203,9 @@ export default function SettingsScreen() {
           <SectionRow
             icon={Star}
             label={t.settings.upgradeToPremium}
-            value={t.settings.unlockAll}
+            value={premiumUnlocked ? 'Unlocked' : 'Lifetime access'}
             gradientBadge
             onPress={() => router.push('/(unlock)')}
-          />
-          <SectionRow
-            icon={Gift}
-            label={t.settings.redeemGiftCode}
-            value={t.settings.redeem}
-            tint={COLORS.purple}
-            badgeBg="rgba(139,92,246,0.15)"
-            onPress={() => router.push('/(redeem)')}
             last
           />
         </SettingsSection>
@@ -205,10 +248,22 @@ export default function SettingsScreen() {
           <SectionRow
             icon={Bell}
             label={t.settings.notifications}
-            value={t.settings.daily}
+            value={notificationSummary}
             tint={COLORS.maybe}
             badgeBg="rgba(245,158,11,0.1)"
             onPress={() => router.push('/(settings)/notifications')}
+          />
+          <SectionRow
+            icon={Vibrate}
+            label="Haptic Feedback"
+            tint={COLORS.pink}
+            badgeBg="rgba(255,45,146,0.1)"
+            toggle={
+              <Toggle
+                value={hapticsEnabled}
+                onValueChange={setHapticsEnabled}
+              />
+            }
             last
           />
         </SettingsSection>
@@ -223,6 +278,19 @@ export default function SettingsScreen() {
               <Toggle
                 value={biometricLockEnabled}
                 onValueChange={handleBiometricToggle}
+              />
+            }
+          />
+          <SectionRow
+            icon={EyeOff}
+            label="Discrete Mode"
+            value="Hide app previews"
+            tint={COLORS.purpleLight}
+            badgeBg="rgba(167,139,250,0.12)"
+            toggle={
+              <Toggle
+                value={discreteModeEnabled}
+                onValueChange={setDiscreteModeEnabled}
               />
             }
           />
@@ -265,7 +333,10 @@ export default function SettingsScreen() {
             label={t.settings.insights}
             tint={COLORS.yes}
             badgeBg="rgba(34,197,94,0.15)"
-            onPress={() => router.push('/(insights)')}
+            value={premiumUnlocked ? undefined : 'Premium'}
+            onPress={() =>
+              router.push(premiumUnlocked ? '/(insights)' : '/(unlock)')
+            }
           />
           <SectionRow
             icon={Info}
@@ -274,15 +345,21 @@ export default function SettingsScreen() {
             badgeBg="rgba(255,255,255,0.06)"
             onPress={() => router.push('/(settings)/about')}
           />
+          {__DEV__ ? (
+            <SectionRow
+              icon={ShieldCheck}
+              label="Release Diagnostics"
+              value="QA"
+              tint={COLORS.pink}
+              badgeBg="rgba(255,47,146,0.12)"
+              onPress={() => router.push('/(settings)/release-diagnostics')}
+            />
+          ) : null}
           <SectionRow
-            icon={ShieldCheck}
-            label="Release Diagnostics"
-            value="QA"
-            tint={COLORS.pink}
-            badgeBg="rgba(255,47,146,0.12)"
-            onPress={() => router.push('/(settings)/release-diagnostics')}
+            label="App Version"
+            value={`v${Constants.expoConfig?.version ?? '1.0.0'}`}
+            last
           />
-          <SectionRow label="App Version" value="v1.0.0" last />
         </SettingsSection>
       </ScrollView>
 

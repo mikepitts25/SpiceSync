@@ -10,6 +10,7 @@ import { useKinks } from '../../lib/data';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { PremiumGate } from '../../components/PremiumGate';
 
 interface StatCardProps {
   title: string;
@@ -29,7 +30,7 @@ function StatCard({ title, value, emoji, subtitle }: StatCardProps) {
   );
 }
 
-export default function InsightsDashboard() {
+function InsightsDashboard() {
   const insets = useSafeAreaInsets();
   const language = useSettingsStore((state) => state.language);
   const activeProfileId = useProfilesStore((state) =>
@@ -245,6 +246,14 @@ export default function InsightsDashboard() {
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export default function PremiumInsightsDashboard() {
+  return (
+    <PremiumGate>
+      <InsightsDashboard />
+    </PremiumGate>
   );
 }
 

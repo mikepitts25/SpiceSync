@@ -25,6 +25,7 @@ import {
   type RoundResult,
 } from '../../lib/knowMeBetter';
 import type { KnowMeBetterQuestion } from '../../data/knowMeBetter';
+import { PremiumGate } from '../../components/PremiumGate';
 
 type Phase =
   | 'setup'
@@ -34,7 +35,7 @@ type Phase =
   | 'reveal'
   | 'summary';
 
-export default function KnowMeBetterScreen() {
+function KnowMeBetterScreen() {
   const router = useRouter();
   const { t, language } = useTranslation();
 
@@ -269,6 +270,14 @@ export default function KnowMeBetterScreen() {
         ) : null}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export default function PremiumKnowMeBetterScreen() {
+  return (
+    <PremiumGate>
+      <KnowMeBetterScreen />
+    </PremiumGate>
   );
 }
 

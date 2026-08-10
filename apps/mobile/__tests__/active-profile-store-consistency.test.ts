@@ -6,7 +6,6 @@ const appRoot = path.join(__dirname, '..', 'app');
 const PROFILE_DEPENDENT_SCREENS = [
   path.join(appRoot, '(suggestions)', 'index.tsx'),
   path.join(appRoot, '(insights)', 'index.tsx'),
-  path.join(appRoot, '(settings)', 'export.tsx'),
   path.join(appRoot, '(home)', 'activity', '[id].tsx'),
 ];
 

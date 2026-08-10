@@ -92,6 +92,7 @@ import {
 import { playGameSound, unloadGameSounds } from '../../lib/gameSounds';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { usePremiumStore } from '../../src/stores/premium';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
 import { COLORS, SHADOWS } from '../../constants/theme';
 
@@ -261,7 +262,7 @@ const CARD_LANGUAGE_COPY: Record<GameCardDisplayLanguage, CardLanguageCopy> = {
 export default function SpiceDeckScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const localUnlocked = useSettingsStore((state) => state.unlocked);
+  const localUnlocked = usePremiumStore((state) => state.isPremium());
   const unlocked = hasPremiumFeatureAccess(localUnlocked);
   const language = useSettingsStore((state) => state.language);
   const drinkingMode = useSettingsStore((state) => state.drinkingMode);

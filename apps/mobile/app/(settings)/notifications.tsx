@@ -132,7 +132,7 @@ export default function NotificationSettingsScreen() {
           />
           <SectionRow
             icon={Heart}
-            label="Partner Activity"
+            label="Conversation Starters"
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.15)"
             toggle={

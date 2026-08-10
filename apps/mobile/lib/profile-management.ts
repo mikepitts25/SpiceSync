@@ -16,6 +16,19 @@ type PinUpdateInput = {
 
 type PinValidationResult = { ok: true } | { ok: false; error: string };
 
+export function validatePinRemoval({
+  currentPin,
+  existingPin,
+}: {
+  currentPin: string;
+  existingPin?: string;
+}): PinValidationResult {
+  if (!existingPin || currentPin !== existingPin) {
+    return { ok: false, error: 'Incorrect current PIN' };
+  }
+  return { ok: true };
+}
+
 const PIN_PATTERN = /^[0-9]{4}$/;
 
 export function getProfileManageDestination(

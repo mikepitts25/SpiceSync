@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -28,6 +28,9 @@ import {
 } from '../../../lib/state/profiles';
 import { COLORS, GRADIENTS, SHADOWS } from '../../../constants/theme';
 import { getProfileCreatedDestination } from '../../../lib/welcome/routing';
+import { usePremiumStore } from '../../../src/stores/premium';
+import { hasPremiumFeatureAccess } from '../../../lib/purchases/access';
+import { canCreateProfile } from '../../../lib/purchases/premiumPolicy';
 
 const PIN_LENGTH = 4;
 
@@ -36,6 +39,11 @@ export default function NewProfileScreen() {
   const { from } = useLocalSearchParams<{ from?: string }>();
   const fromWelcome = from === 'welcome';
   const profileCount = useProfilesStore((state) => state.getProfiles().length);
+  const locallyEntitled = usePremiumStore((state) => state.isPremium());
+  const canAddProfile = canCreateProfile(
+    profileCount,
+    hasPremiumFeatureAccess(locallyEntitled)
+  );
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState<string>(EMOJI_CHOICES[0]);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -43,6 +51,10 @@ export default function NewProfileScreen() {
   const [confirmPin, setConfirmPin] = useState('');
   const [pinError, setPinError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (!fromWelcome && !canAddProfile) router.replace('/(unlock)');
+  }, [canAddProfile, fromWelcome, router]);
 
   const requiresPin = profileCount === 1;
   const [pinEnabled, setPinEnabled] = useState(requiresPin);
@@ -136,6 +148,8 @@ export default function NewProfileScreen() {
       setIsSaving(false);
     }
   };
+
+  if (!fromWelcome && !canAddProfile) return null;
 
   return (
     <KeyboardAvoidingView

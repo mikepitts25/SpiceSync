@@ -9,7 +9,7 @@ import {
   localizeMessage,
   pickMessageSequence,
 } from '../data/notification_messages';
-import { useSettings } from './state/useStore';
+import { useSettingsStore } from '../src/stores/settingsStore';
 import {
   NotificationFrequency,
   buildFireDates,
@@ -47,6 +47,12 @@ const STREAK_REMINDERS_TIME_KEY = '@spicesync_streak_reminders_time';
 const DEFAULT_HOUR = 20;
 const DEFAULT_MINUTE = 0;
 const DEFAULT_FREQUENCY: NotificationFrequency = 'daily';
+
+export async function resetAllLocalNotifications(): Promise<void> {
+  if (typeof Notifications.cancelAllScheduledNotificationsAsync === 'function') {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+  }
+}
 
 // Configure notification handler
 Notifications.setNotificationHandler({
@@ -100,7 +106,7 @@ export async function initializeNotifications(): Promise<boolean> {
 
 function getLanguage(): string {
   try {
-    return useSettings.getState().language ?? 'en';
+    return useSettingsStore.getState().language ?? 'en';
   } catch {
     return 'en';
   }
@@ -223,16 +229,16 @@ export async function updateNotificationFrequency(
   frequency: NotificationFrequency
 ): Promise<boolean> {
   try {
-    await AsyncStorage.setItem(NOTIFICATION_FREQUENCY_KEY, frequency);
-
     const settings = await getNotificationSettings();
     if (settings.enabled) {
-      await scheduleDailyNotification(
+      const identifier = await scheduleDailyNotification(
         settings.hour,
         settings.minute,
         frequency
       );
+      return identifier !== null;
     }
+    await AsyncStorage.setItem(NOTIFICATION_FREQUENCY_KEY, frequency);
     return true;
   } catch (error) {
     console.error('[Notifications] Error updating frequency:', error);
@@ -281,12 +287,14 @@ export async function scheduleMatchAlerts(
   }
 }
 
-export async function cancelMatchAlerts(): Promise<void> {
+export async function cancelMatchAlerts(): Promise<boolean> {
   try {
     await cancelScheduledByType('match_alert');
     await AsyncStorage.setItem(MATCH_ALERTS_ENABLED_KEY, 'false');
+    return true;
   } catch (error) {
     console.error('[Notifications] Match alert cancellation error:', error);
+    return false;
   }
 }
 
@@ -302,11 +310,10 @@ export async function toggleMatchAlerts(enabled: boolean): Promise<boolean> {
   try {
     const settings = await getMatchAlertSettings();
     if (enabled) {
-      await scheduleMatchAlerts(settings.hour, settings.minute);
+      return (await scheduleMatchAlerts(settings.hour, settings.minute)) !== null;
     } else {
-      await cancelMatchAlerts();
+      return await cancelMatchAlerts();
     }
-    return true;
   } catch (error) {
     console.error('[Notifications] Error toggling match alerts:', error);
     return false;
@@ -348,12 +355,14 @@ export async function scheduleStreakReminders(
   }
 }
 
-export async function cancelStreakReminders(): Promise<void> {
+export async function cancelStreakReminders(): Promise<boolean> {
   try {
     await cancelScheduledByType('streak_reminder');
     await AsyncStorage.setItem(STREAK_REMINDERS_ENABLED_KEY, 'false');
+    return true;
   } catch (error) {
     console.error('[Notifications] Streak reminder cancellation error:', error);
+    return false;
   }
 }
 
@@ -374,11 +383,12 @@ export async function toggleStreakReminders(
   try {
     const settings = await getStreakReminderSettings();
     if (enabled) {
-      await scheduleStreakReminders(settings.hour, settings.minute);
+      return (
+        (await scheduleStreakReminders(settings.hour, settings.minute)) !== null
+      );
     } else {
-      await cancelStreakReminders();
+      return await cancelStreakReminders();
     }
-    return true;
   } catch (error) {
     console.error('[Notifications] Error toggling streak reminders:', error);
     return false;
@@ -462,13 +472,15 @@ async function cancelScheduledByType(type: string): Promise<void> {
 }
 
 // Cancel the whole queue of daily notifications
-export async function cancelDailyNotification(): Promise<void> {
+export async function cancelDailyNotification(): Promise<boolean> {
   try {
     await cancelScheduledByType('daily_card');
     await AsyncStorage.setItem(NOTIFICATION_ENABLED_KEY, 'false');
     console.log('[Notifications] Daily notifications cancelled');
+    return true;
   } catch (error) {
     console.error('[Notifications] Cancellation error:', error);
+    return false;
   }
 }
 
@@ -510,11 +522,13 @@ export async function toggleNotifications(enabled: boolean): Promise<boolean> {
   try {
     if (enabled) {
       const settings = await getNotificationSettings();
-      await scheduleDailyNotification(settings.hour, settings.minute);
+      return (
+        (await scheduleDailyNotification(settings.hour, settings.minute)) !==
+        null
+      );
     } else {
-      await cancelDailyNotification();
+      return await cancelDailyNotification();
     }
-    return true;
   } catch (error) {
     console.error('[Notifications] Error toggling:', error);
     return false;
@@ -578,13 +592,15 @@ export async function scheduleDailyConversationNotification(
 }
 
 // Cancel the whole queue of conversation notifications
-export async function cancelDailyConversationNotification(): Promise<void> {
+export async function cancelDailyConversationNotification(): Promise<boolean> {
   try {
     await cancelScheduledByType('daily_conversation');
     await AsyncStorage.setItem(CONVERSATION_NOTIFICATION_ENABLED_KEY, 'false');
     console.log('[Notifications] Daily conversation notifications cancelled');
+    return true;
   } catch (error) {
     console.error('[Notifications] Conversation cancellation error:', error);
+    return false;
   }
 }
 
@@ -649,14 +665,15 @@ export async function toggleConversationNotifications(
   try {
     if (enabled) {
       const settings = await getConversationNotificationSettings();
-      await scheduleDailyConversationNotification(
-        settings.hour,
-        settings.minute
+      return (
+        (await scheduleDailyConversationNotification(
+          settings.hour,
+          settings.minute
+        )) !== null
       );
     } else {
-      await cancelDailyConversationNotification();
+      return await cancelDailyConversationNotification();
     }
-    return true;
   } catch (error) {
     console.error(
       '[Notifications] Error toggling conversation notifications:',
@@ -728,6 +745,10 @@ export function addNotificationResponseListener(
   callback: (response: Notifications.NotificationResponse) => void
 ) {
   return Notifications.addNotificationResponseReceivedListener(callback);
+}
+
+export function getLastNotificationResponse() {
+  return Notifications.getLastNotificationResponseAsync();
 }
 
 // Add notification received listener (foreground)

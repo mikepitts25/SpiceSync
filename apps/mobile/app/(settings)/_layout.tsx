@@ -23,8 +23,6 @@ export default function SettingsStackLayout() {
       <Stack.Screen name="privacy-safety" />
       <Stack.Screen name="terms-of-service" />
       <Stack.Screen name="my-votes" />
-      <Stack.Screen name="export" />
-      <Stack.Screen name="CustomActivitiesScreen" />
     </Stack>
   );
 }

@@ -13,6 +13,7 @@ import { SafeAreaView } from '../../components/SafeAreaView';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { usePremiumStore } from '../../src/stores/premium';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
 import {
   GameCard,
@@ -66,7 +67,7 @@ export default function CardDraw() {
     levels: string;
     drinkingMode: string;
   }>();
-  const localUnlocked = useSettingsStore((state) => state.unlocked);
+  const localUnlocked = usePremiumStore((state) => state.isPremium());
   const unlocked = hasPremiumFeatureAccess(localUnlocked);
   const language = useSettingsStore((state) => state.language);
   const drinkingModeStore = useSettingsStore((state) => state.drinkingMode);

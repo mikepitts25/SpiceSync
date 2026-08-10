@@ -9,10 +9,15 @@ import { GameHubCard } from '../../components/game/GameHubCard';
 import { COLORS, SPACING } from '../../constants/theme';
 import { useTranslation } from '../../lib/i18n';
 import { GAME_HUB_MODES } from '../../lib/gameHubModes';
+import { usePremiumStore } from '../../src/stores/premium';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
+import { isPremiumGameMode } from '../../lib/purchases/premiumPolicy';
 
 export default function GameHub() {
   const router = useRouter();
   const { t } = useTranslation();
+  const locallyEntitled = usePremiumStore((state) => state.isPremium());
+  const isPremium = hasPremiumFeatureAccess(locallyEntitled);
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
@@ -27,22 +32,21 @@ export default function GameHub() {
           <Text style={styles.subtitle}>{t.game.moreWaysToPlay}</Text>
         </View>
         <View style={styles.cards}>
-          {GAME_HUB_MODES.map((mode) => (
-            <GameHubCard
-              key={mode.id}
-              title={t.game[mode.titleKey]}
-              description={t.game[mode.descriptionKey]}
-              icon={mode.icon}
-              featured={mode.id === 'spice-deck'}
-              available={mode.available}
-              statusLabel={mode.available ? t.game.playNow : t.game.comingSoon}
-              onPress={
-                mode.available
-                  ? () => router.push(mode.route)
-                  : undefined
-              }
-            />
-          ))}
+          {GAME_HUB_MODES.map((mode) => {
+            const locked = isPremiumGameMode(mode.id) && !isPremium;
+            return (
+              <GameHubCard
+                key={mode.id}
+                title={t.game[mode.titleKey]}
+                description={t.game[mode.descriptionKey]}
+                icon={mode.icon}
+                featured={mode.id === 'spice-deck'}
+                available={mode.available}
+                statusLabel={locked ? 'Premium' : t.game.playNow}
+                onPress={() => router.push(locked ? '/(unlock)' : mode.route)}
+              />
+            );
+          })}
         </View>
       </ScrollView>
       <AppTabBar active="game" />

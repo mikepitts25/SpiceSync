@@ -13,8 +13,8 @@ import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useCustomGameCardsStore } from '../../src/stores/customGameCards';
+import { usePremiumStore } from '../../src/stores/premium';
 import { GameCardType } from '../../data/gameCards';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 
@@ -29,7 +29,7 @@ const CARD_TYPES: { id: GameCardType; name: string; emoji: string }[] = [
 export default function CustomDeckBuilder() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const localUnlocked = useSettingsStore((state) => state.unlocked);
+  const localUnlocked = usePremiumStore((state) => state.isPremium());
   const unlocked = hasPremiumFeatureAccess(localUnlocked);
 
   const [content, setContent] = useState('');

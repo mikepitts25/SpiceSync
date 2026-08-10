@@ -18,6 +18,9 @@ import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { voteValue } from '../../lib/votes/rolePreferences';
 import { useVotesStore } from '../../src/stores/votes';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
+import { usePremiumStore } from '../../src/stores/premium';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
+import { canCreateProfile } from '../../lib/purchases/premiumPolicy';
 
 const PROFILE_COLORS = [
   COLORS.pink,
@@ -35,6 +38,7 @@ const PARTNER_AVATAR_SIZE = 64;
 export default function ProfilesHubScreen() {
   const router = useRouter();
   const { t } = useTranslation();
+  const locallyEntitled = usePremiumStore((state) => state.isPremium());
 
   const { profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
@@ -46,6 +50,10 @@ export default function ProfilesHubScreen() {
   const activeProfile = useMemo(
     () => profiles.find((p) => p.id === activeProfileId) ?? null,
     [profiles, activeProfileId]
+  );
+  const canAddProfile = canCreateProfile(
+    profiles.length,
+    hasPremiumFeatureAccess(locallyEntitled)
   );
 
   const profileVotes = useVotesStore((state) =>
@@ -202,7 +210,11 @@ export default function ProfilesHubScreen() {
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={t.profiles.addProfile}
-              onPress={() => router.push('/(settings)/profiles/new')}
+              onPress={() =>
+                router.push(
+                  canAddProfile ? '/(settings)/profiles/new' : '/(unlock)'
+                )
+              }
               style={[styles.avatarCircle, styles.addCircle]}
             >
               <Plus size={24} color={COLORS.textMuted} strokeWidth={2.4} />

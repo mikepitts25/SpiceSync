@@ -24,6 +24,7 @@ import {
 import { useSettingsStore } from '../src/stores/settingsStore';
 import { COLORS, GRADIENTS, SHADOWS } from '../constants/theme';
 import { SpiceSyncLogo } from './app-chrome';
+import { shouldShowPrivacyCover } from '../lib/privacyCover';
 
 function useSettingsHydrated(): boolean {
   const [hydrated, setHydrated] = useState(() =>
@@ -48,10 +49,16 @@ export default function BiometricLockGate({ children }: PropsWithChildren) {
   const biometricLockEnabled = useSettingsStore(
     (state) => state.biometricLockEnabled
   );
+  const discreteModeEnabled = useSettingsStore(
+    (state) => state.discreteModeEnabled
+  );
   const settingsHydrated = useSettingsHydrated();
   const [locked, setLocked] = useState(true);
   const [authenticating, setAuthenticating] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [currentAppState, setCurrentAppState] = useState<AppStateStatus>(
+    AppState.currentState
+  );
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
   const lockedRef = useRef(true);
   const authenticatingRef = useRef(false);
@@ -122,6 +129,7 @@ export default function BiometricLockGate({ children }: PropsWithChildren) {
     const subscription = AppState.addEventListener('change', (nextState) => {
       const previousState = appStateRef.current;
       appStateRef.current = nextState;
+      setCurrentAppState(nextState);
 
       if (
         shouldLockForAppStateChange({
@@ -205,6 +213,12 @@ export default function BiometricLockGate({ children }: PropsWithChildren) {
           </View>
         </View>
       ) : null}
+      {shouldShowPrivacyCover(currentAppState, discreteModeEnabled) ? (
+        <View style={styles.privacyCover} testID="discrete-mode-cover">
+          <SpiceSyncLogo width={156} height={59} />
+          <Text style={styles.privacyCoverText}>Private by default</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -221,6 +235,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 24,
+  },
+  privacyCover: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 200,
+    elevation: 200,
+    backgroundColor: COLORS.bg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  privacyCoverText: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    fontWeight: '700',
   },
   logo: {
     marginBottom: 26,

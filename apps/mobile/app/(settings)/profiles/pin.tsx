@@ -19,6 +19,7 @@ import { BackHeader, CardAccentTop } from '../../../components/app-chrome';
 import { useProfilesStore } from '../../../lib/state/profiles';
 import {
   getProfilePinActionLabel,
+  validatePinRemoval,
   validatePinUpdate,
 } from '../../../lib/profile-management';
 import { COLORS, GRADIENTS, SHADOWS } from '../../../constants/theme';
@@ -34,6 +35,7 @@ export default function ProfilePinScreen() {
   const { profileId } = useLocalSearchParams<{ profileId?: string }>();
   const profiles = useProfilesStore((state) => state.profiles);
   const setPin = useProfilesStore((state) => state.setPin);
+  const clearPin = useProfilesStore((state) => state.clearPin);
   const [currentPin, setCurrentPin] = useState('');
   const [newPin, setNewPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -83,6 +85,19 @@ export default function ProfilePinScreen() {
     }
 
     setPin(profile.id, newPin);
+    router.back();
+  };
+
+  const removePin = () => {
+    const result = validatePinRemoval({
+      currentPin,
+      existingPin: profile.pin,
+    });
+    if (!result.ok) {
+      setPinError(result.error);
+      return;
+    }
+    clearPin(profile.id);
     router.back();
   };
 
@@ -204,6 +219,20 @@ export default function ProfilePinScreen() {
               <Text style={styles.primaryText}>Save PIN</Text>
             </LinearGradient>
           </Pressable>
+
+          {hasExistingPin ? (
+            <Pressable
+              accessibilityRole="button"
+              disabled={currentPin.length !== PIN_LENGTH}
+              onPress={removePin}
+              style={[
+                styles.removeButton,
+                currentPin.length !== PIN_LENGTH && styles.primaryDisabled,
+              ]}
+            >
+              <Text style={styles.removeText}>Remove PIN</Text>
+            </Pressable>
+          ) : null}
         </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>
@@ -300,6 +329,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   primaryText: { color: COLORS.textPrimary, fontWeight: '800', fontSize: 16 },
+  removeButton: {
+    minHeight: 50,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: 'rgba(239,68,68,0.38)',
+    backgroundColor: 'rgba(239,68,68,0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  removeText: { color: COLORS.no, fontWeight: '800', fontSize: 16 },
   missingState: {
     flex: 1,
     padding: 24,

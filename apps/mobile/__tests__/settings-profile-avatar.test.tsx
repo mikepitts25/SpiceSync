@@ -7,6 +7,7 @@ import { useProfilesStore } from '../lib/state/profiles';
 import { useSettingsStore } from '../src/stores/settingsStore';
 
 jest.mock('expo-router', () => ({
+  useFocusEffect: jest.fn(),
   useRouter: () => ({
     back: jest.fn(),
     push: jest.fn(),

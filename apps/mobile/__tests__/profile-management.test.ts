@@ -2,6 +2,7 @@ import {
   getActiveProfileCardDestination,
   getProfileManageDestination,
   getProfilePinActionLabel,
+  validatePinRemoval,
   validatePinUpdate,
 } from '../lib/profile-management';
 
@@ -74,6 +75,15 @@ describe('profile management helpers', () => {
         confirmPin: '1234',
         existingPin: '0000',
       })
+    ).toEqual({ ok: true });
+  });
+
+  it('requires the current PIN before removing protection', () => {
+    expect(
+      validatePinRemoval({ currentPin: '0000', existingPin: '1111' })
+    ).toEqual({ ok: false, error: 'Incorrect current PIN' });
+    expect(
+      validatePinRemoval({ currentPin: '1111', existingPin: '1111' })
     ).toEqual({ ok: true });
   });
 });

@@ -26,7 +26,7 @@ describe('expo router file layout', () => {
     );
 
     expect(gameIndex).toContain('GAME_HUB_MODES');
-    expect(gameIndex).toContain('router.push(mode.route)');
+    expect(gameIndex).toContain("locked ? '/(unlock)' : mode.route");
     expect(gameIndex).not.toContain('savePersistedGameSession');
   });
 
@@ -37,6 +37,19 @@ describe('expo router file layout', () => {
     expect(fs.existsSync(path.join(appRoot, 'welcome', 'routing.ts'))).toBe(
       false
     );
+  });
+
+  it('does not expose the superseded onboarding profile flow', () => {
+    const onboardingLayout = fs.readFileSync(
+      path.join(appRoot, '(onboarding)', '_layout.tsx'),
+      'utf8'
+    );
+
+    expect(fs.existsSync(path.join(appRoot, '(onboarding)', 'profile.tsx'))).toBe(
+      false
+    );
+    expect(onboardingLayout).not.toContain('name="profile"');
+    expect(onboardingLayout).toContain('name="partner-connect"');
   });
 
   it('does not register root stack route groups without layouts', () => {
@@ -170,7 +183,27 @@ describe('expo router file layout', () => {
 
     expect(unlockScreen).not.toContain('mock_receipt');
     expect(unlockScreen).not.toContain('upgrade(');
-    expect(unlockScreen).toContain('Join waitlist');
+    expect(unlockScreen).toContain('Restore Purchases');
+    expect(unlockScreen).toContain('purchase()');
+  });
+
+  it('does not ship unfinished export, gift-code, or custom-activity routes', () => {
+    const settingsLayout = fs.readFileSync(
+      path.join(appRoot, '(settings)', '_layout.tsx'),
+      'utf8'
+    );
+
+    expect(fs.existsSync(path.join(appRoot, '(settings)', 'export.tsx'))).toBe(
+      false
+    );
+    expect(
+      fs.existsSync(path.join(appRoot, '(settings)', 'CustomActivitiesScreen.tsx'))
+    ).toBe(false);
+    expect(fs.existsSync(path.join(appRoot, '(redeem)', 'index.tsx'))).toBe(
+      false
+    );
+    expect(settingsLayout).not.toContain('name="export"');
+    expect(settingsLayout).not.toContain('name="CustomActivitiesScreen"');
   });
 
   it('exposes release diagnostics from Settings', () => {

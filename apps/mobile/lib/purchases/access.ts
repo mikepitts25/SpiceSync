@@ -1,9 +1,9 @@
-import { isPurchaseProviderConfigured } from './purchaseService';
+import { isPurchaseProviderConfigured } from './config';
 
 export function isFreeBetaPremiumAccessEnabled(): boolean {
   return (
     !isPurchaseProviderConfigured() &&
-    process.env.EXPO_PUBLIC_FREE_BETA_ACCESS !== 'false'
+    process.env.EXPO_PUBLIC_FREE_BETA_ACCESS === 'true'
   );
 }
 
