@@ -153,7 +153,6 @@ function KnowMeBetterScreen() {
     body = (
       <KnowMeBetterSetup
         title={t.knowMeBetter.setupTitle}
-        subtitle={t.knowMeBetter.setupSubtitle}
         roundOptions={roundOptions}
         selectedRounds={roundCount}
         onSelectRounds={setRoundCount}

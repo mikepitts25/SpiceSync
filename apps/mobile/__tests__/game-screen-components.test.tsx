@@ -34,6 +34,7 @@ const {
   GameSurface,
 } = require('../components/game/GameControls');
 const { GameSetupPanel } = require('../components/game/GameSetupPanel');
+const { KnowMeBetterSetup } = require('../components/game/KnowMeBetterSetup');
 const {
   GamePlayerMatchup,
   GameSessionHeader,
@@ -44,7 +45,6 @@ const { useSettingsStore } = require('../src/stores/settingsStore');
 function setupProps() {
   return {
     gameNightLabel: 'GAME NIGHT',
-    introTitle: 'Your deck. Your pace.',
     mode: 'normal',
     modeOptions: [
       { value: 'normal', label: 'Normal' },
@@ -315,8 +315,8 @@ describe('game-screen presentation components', () => {
 
     expect(tree!.root.findAllByType(ScrollView)).toHaveLength(0);
     expect(
-      tree!.root.findByProps({ children: 'Your deck. Your pace.' })
-    ).toBeDefined();
+      tree!.root.findAllByProps({ children: 'Your deck. Your pace.' })
+    ).toHaveLength(0);
     expect(
       tree!.root.findAll(
         (node) => node.props.children === '120 cards ready for Normal mode.'
@@ -341,17 +341,71 @@ describe('game-screen presentation components', () => {
     ).toBeDefined();
   });
 
-  it('renders a structured game-table setup with a deck-specific primary action', () => {
+  it('uses a simple card stack without cockpit helper labels or player badges', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <GameSetupPanel {...setupProps()} playerCount={3} />
+      );
+    });
+
+    ['MODE', 'CARDS', 'LEVELS', 'CARD TYPES'].forEach((label) => {
+      expect(
+        tree!.root.findAll((node) => node.props.children === label)
+      ).toHaveLength(0);
+    });
+    expect(
+      tree!.root.findAllByProps({ testID: 'game-setup-player-index-1' })
+    ).toHaveLength(0);
+  });
+
+  it('uses a quiet single-choice setup for Know Me Better', () => {
+    const onSelectRounds = jest.fn();
+    const onStart = jest.fn();
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <KnowMeBetterSetup
+          title="How many rounds?"
+          roundOptions={[
+            { value: 1, label: '1 round' },
+            { value: 3, label: '3 rounds' },
+            { value: 5, label: '5 rounds' },
+            { value: 10, label: '10 rounds' },
+          ]}
+          selectedRounds={3}
+          onSelectRounds={onSelectRounds}
+          startLabel="Start"
+          onStart={onStart}
+        />
+      );
+    });
+
+    expect(
+      tree!.root.findAllByProps({
+        children: 'Take turns answering and guessing. Pick a length to start.',
+      })
+    ).toHaveLength(0);
+    expect(tree!.root.findByType(GameSurface).props.elevated).toBeFalsy();
+    const start = tree!.root.find(
+      (node) => node.props.accessibilityLabel === 'Start'
+    );
+    expect(flattenedPressableStyle(start).minHeight).toBeGreaterThanOrEqual(
+      GAME_CONTROL_MIN_SIZE
+    );
+  });
+
+  it('renders a simple card-stack setup with a deck-specific primary action', () => {
     let tree: TestRenderer.ReactTestRenderer;
     TestRenderer.act(() => {
       tree = TestRenderer.create(<GameSetupPanel {...setupProps()} />);
     });
 
     expect(
-      tree!.root.findByProps({ children: 'Your deck. Your pace.' })
-    ).toBeDefined();
+      tree!.root.findAllByProps({ children: 'Your deck. Your pace.' })
+    ).toHaveLength(0);
     expect(
-      tree!.root.findByProps({ testID: 'game-setup-settings-strip' })
+      tree!.root.findByProps({ testID: 'game-setup-primary-controls' })
     ).toBeDefined();
     expect(
       tree!.root.findByProps({ testID: 'game-setup-players' })
@@ -401,7 +455,6 @@ describe('game-screen presentation components', () => {
           <GameSetupPanel
             {...setupProps()}
             gameNightLabel="NOCHE DE JUEGO"
-            introTitle="Tu mazo. Tu ritmo."
             startLabel="Repartir la primera carta."
             playerCount={4}
             customCardsAvailable
@@ -441,10 +494,10 @@ describe('game-screen presentation components', () => {
         minHeight: GAME_CONTROL_MIN_SIZE,
       });
       expect(
-        tree!.root.findByProps({
+        tree!.root.findAllByProps({
           testID: `game-setup-player-index-${index + 1}`,
-        }).props.children
-      ).toBe(index + 1);
+        })
+      ).toHaveLength(0);
     });
 
     const actions = tree!.root.findByProps({ testID: 'game-setup-actions' });
@@ -502,11 +555,6 @@ describe('game-screen presentation components', () => {
     });
     expect(overflowScroll.type).toBe(ScrollView);
     expect(overflowScroll.props.keyboardShouldPersistTaps).toBe('handled');
-    expect(
-      StyleSheet.flatten(
-        tree!.root.findByProps({ testID: 'game-setup-level-row' }).props.style
-      )
-    ).toMatchObject({ flexDirection: 'column' });
     expect(
       StyleSheet.flatten(
         tree!.root.findByProps({ testID: 'game-setup-level-controls' }).props

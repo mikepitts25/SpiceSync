@@ -1030,7 +1030,6 @@ export default function SpiceDeckScreen() {
           >
             <GameSetupPanel
               gameNightLabel={t.game.gameNight.toUpperCase()}
-              introTitle={t.game.introTitle}
               mode={selectedMode}
               modeOptions={(['normal', 'intense'] as const).map((value) => ({
                 value,

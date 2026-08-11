@@ -25,7 +25,7 @@ describe('Spice Deck maximum-content layout', () => {
       .withTimeout(15000);
     await expect(element(by.id('game-setup-start-action'))).toBeVisible(100);
     await expect(element(by.id('game-setup-deck-mix'))).toExist();
-    await expect(element(by.id('game-setup-player-index-4'))).toBeVisible(100);
+    await expect(element(by.label('Nombre del jugador 4'))).toBeVisible(100);
 
     const stage = frameFrom(
       await element(by.id('game-layout-stage')).getAttributes()

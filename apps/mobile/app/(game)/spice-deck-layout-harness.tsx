@@ -47,7 +47,6 @@ function MaximumContentLayoutHarness() {
         >
           <GameSetupPanel
             gameNightLabel={t.game.gameNight.toUpperCase()}
-            introTitle={t.game.introTitle}
             mode="normal"
             modeOptions={[
               { value: 'normal', label: t.game.gameModes.normal },

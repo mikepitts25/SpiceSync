@@ -18,7 +18,6 @@ import type { GameCardDisplayLanguage } from '../../data/gameCardTranslations';
 import type { GameCardType } from '../../data/gameCards';
 import type { GameCustomDeckMode } from '../../lib/gameDeck';
 import type { GameIntensityLevel } from '../../lib/gameLevelFilter';
-import { CardAccentTop } from '../app-chrome';
 import {
   GameButton,
   GameSegmentedControl,
@@ -30,7 +29,6 @@ export type GameSetupMode = 'normal' | 'intense';
 
 export type GameSetupPanelProps = {
   gameNightLabel: string;
-  introTitle: string;
   mode: GameSetupMode;
   modeOptions: readonly GameSegmentOption<GameSetupMode>[];
   onModeChange: (mode: GameSetupMode) => void;
@@ -57,7 +55,6 @@ export type GameSetupPanelProps = {
 
 export function GameSetupPanel({
   gameNightLabel,
-  introTitle,
   mode,
   modeOptions,
   onModeChange,
@@ -119,89 +116,68 @@ export function GameSetupPanel({
           },
         ]}
       >
-        <GameSurface elevated style={styles.setupCard}>
-          <View pointerEvents="none" style={styles.accentWash} />
-          <CardAccentTop />
+        <GameSurface style={styles.setupCard}>
           <View testID="game-setup-inner" style={styles.setupInner}>
-            <Text style={styles.title}>{introTitle}</Text>
             <View
-              testID="game-setup-settings-strip"
-              style={styles.settingsStrip}
+              testID="game-setup-primary-controls"
+              style={styles.primaryControls}
             >
-              <View
-                testID="game-setup-primary-controls"
-                style={styles.primaryControls}
-              >
-                <View style={styles.settingColumn}>
-                  <Text style={styles.sectionLabel}>{t.game.modeLabel}</Text>
-                  <GameSegmentedControl
-                    accessibilityLabel={t.game.gameModeA11y}
-                    value={mode}
-                    options={modeOptions}
-                    onChange={onModeChange}
-                    compact
-                  />
-                </View>
-                <View style={styles.settingColumn}>
-                  <Text style={styles.sectionLabel}>{t.game.cardsLabel}</Text>
-                  <GameSegmentedControl
-                    accessibilityLabel={t.game.cardLanguage}
-                    value={cardLanguage}
-                    options={[
-                      {
-                        value: 'en',
-                        label: t.game.cardLanguageEnglish,
-                        accessibilityLabel: 'EN',
-                      },
-                      {
-                        value: 'es',
-                        label: t.game.cardLanguageSpanish,
-                        accessibilityLabel: 'ES',
-                      },
-                    ]}
-                    onChange={onCardLanguageChange}
-                    compact
-                  />
-                </View>
-              </View>
+              <GameSegmentedControl
+                accessibilityLabel={t.game.gameModeA11y}
+                value={mode}
+                options={modeOptions}
+                onChange={onModeChange}
+                compact
+              />
+              <GameSegmentedControl
+                accessibilityLabel={t.game.cardLanguage}
+                value={cardLanguage}
+                options={[
+                  {
+                    value: 'en',
+                    label: t.game.cardLanguageEnglish,
+                    accessibilityLabel: 'EN',
+                  },
+                  {
+                    value: 'es',
+                    label: t.game.cardLanguageSpanish,
+                    accessibilityLabel: 'ES',
+                  },
+                ]}
+                onChange={onCardLanguageChange}
+                compact
+              />
             </View>
 
             <View testID="game-setup-players" style={styles.zone}>
-              <View style={styles.compactDeckRow}>
-                <Text
-                  numberOfLines={2}
-                  style={[styles.sectionLabel, styles.rowSectionLabel]}
-                >
-                  {t.game.numberOfPlayers}
-                </Text>
-                <View style={styles.playerCountRow}>
-                  {[1, 2, 3, 4].map((count) => (
-                    <Pressable
-                      key={count}
-                      accessibilityRole="button"
-                      accessibilityLabel={
-                        count === 1
-                          ? t.game.soloPlayerA11y
-                          : interpolate(t.game.playersCountA11y, { count })
-                      }
-                      accessibilityState={{ selected: playerCount === count }}
-                      onPress={() => onPlayerCountChange(count)}
+              <Text style={styles.groupLabel}>{t.game.numberOfPlayers}</Text>
+              <View style={styles.playerCountRow}>
+                {[1, 2, 3, 4].map((count) => (
+                  <Pressable
+                    key={count}
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      count === 1
+                        ? t.game.soloPlayerA11y
+                        : interpolate(t.game.playersCountA11y, { count })
+                    }
+                    accessibilityState={{ selected: playerCount === count }}
+                    onPress={() => onPlayerCountChange(count)}
+                    style={[
+                      styles.playerCount,
+                      playerCount === count && styles.playerCountActive,
+                    ]}
+                  >
+                    <Text
                       style={[
-                        styles.playerCount,
-                        playerCount === count && styles.playerCountActive,
+                        styles.playerCountText,
+                        playerCount === count && styles.playerCountTextActive,
                       ]}
                     >
-                      <Text
-                        style={[
-                          styles.playerCountText,
-                          playerCount === count && styles.playerCountTextActive,
-                        ]}
-                      >
-                        {count}
-                      </Text>
-                    </Pressable>
-                  ))}
-                </View>
+                      {count}
+                    </Text>
+                  </Pressable>
+                ))}
               </View>
               <View
                 testID="game-setup-name-grid"
@@ -235,16 +211,6 @@ export function GameSetupPanel({
                         playerCount >= 3 && styles.nameInputDense,
                       ]}
                     />
-                    {playerCount >= 3 ? (
-                      <View pointerEvents="none" style={styles.playerIndex}>
-                        <Text
-                          testID={`game-setup-player-index-${index + 1}`}
-                          style={styles.playerIndexText}
-                        >
-                          {index + 1}
-                        </Text>
-                      </View>
-                    ) : null}
                   </View>
                 ))}
               </View>
@@ -271,18 +237,11 @@ export function GameSetupPanel({
                   />
                 </View>
               )}
-              <View
-                testID="game-setup-level-row"
-                style={[
-                  styles.compactDeckRow,
-                  usesLargeTextLayout && styles.compactDeckRowLargeText,
-                ]}
-              >
+              <View testID="game-setup-level-row" style={styles.choiceGroup}>
                 <Text
                   style={[
-                    styles.sectionLabel,
-                    styles.rowSectionLabel,
-                    usesLargeTextLayout && styles.rowSectionLabelLargeText,
+                    styles.groupLabel,
+                    usesLargeTextLayout && styles.groupLabelLargeText,
                   ]}
                 >
                   {t.game.levelsLabel}
@@ -322,8 +281,8 @@ export function GameSetupPanel({
                 </View>
               </View>
 
-              <View style={styles.languageRow}>
-                <Text style={styles.sectionLabel}>{t.game.cardTypesLabel}</Text>
+              <View style={styles.choiceGroup}>
+                <Text style={styles.groupLabel}>{t.game.cardTypesLabel}</Text>
                 <View style={styles.chipRow}>
                   {(
                     [
@@ -368,7 +327,7 @@ export function GameSetupPanel({
                     adjustsFontSizeToFit
                     minimumFontScale={0.8}
                     style={[
-                      styles.sectionLabel,
+                      styles.groupLabel,
                       styles.rowSectionLabel,
                       styles.deckMixLabel,
                     ]}
@@ -472,55 +431,29 @@ const styles = StyleSheet.create({
   },
   setupCard: {
     backgroundColor: COLORS.card,
-    overflow: 'hidden',
-  },
-  accentWash: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: 'rgba(201,11,90,0.045)',
   },
   setupInner: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    gap: 4,
-  },
-  title: {
-    color: COLORS.textPrimary,
-    fontSize: 22,
-    fontWeight: '800',
-    lineHeight: 28,
-    textAlign: 'center',
-  },
-  settingsStrip: {
-    paddingBottom: 2,
+    paddingVertical: 14,
+    gap: 12,
   },
   primaryControls: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-  },
-  settingColumn: {
-    alignItems: 'center',
-    gap: 2,
+    paddingBottom: 2,
   },
   zone: {
-    gap: 4,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.07)',
-    paddingTop: 4,
+    gap: 8,
   },
-  sectionLabel: {
+  groupLabel: {
     color: COLORS.textSub,
     fontSize: 16,
-    fontWeight: '900',
-    letterSpacing: 0.8,
+    fontWeight: '800',
+    letterSpacing: 0,
     lineHeight: 18,
-    textAlign: 'center',
-    textTransform: 'uppercase',
+    textAlign: 'left',
   },
   playerCountRow: {
     flexDirection: 'row',
@@ -597,25 +530,7 @@ const styles = StyleSheet.create({
   nameInputDense: {
     fontSize: 16,
     letterSpacing: -1.2,
-    paddingLeft: 4,
-    paddingRight: 22,
-  },
-  playerIndex: {
-    position: 'absolute',
-    top: 4,
-    right: 4,
-    minWidth: 18,
-    minHeight: 18,
-    borderRadius: 9,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: COLORS.card,
-  },
-  playerIndexText: {
-    color: COLORS.pink,
-    fontSize: 16,
-    fontWeight: '900',
-    lineHeight: 18,
+    paddingHorizontal: 8,
   },
   optionRow: {
     minHeight: 44,
@@ -634,8 +549,8 @@ const styles = StyleSheet.create({
     minWidth: 44,
     minHeight: 44,
   },
-  languageRow: {
-    gap: 4,
+  choiceGroup: {
+    gap: 6,
   },
   compactDeckRow: {
     minHeight: 44,
@@ -650,12 +565,8 @@ const styles = StyleSheet.create({
   },
   rowSectionLabel: {
     flex: 1,
-    textAlign: 'left',
   },
-  rowSectionLabelLargeText: {
-    flex: 0,
-    alignSelf: 'stretch',
-  },
+  groupLabelLargeText: { alignSelf: 'stretch' },
   levelChipRow: {
     flexWrap: 'nowrap',
     gap: 4,
