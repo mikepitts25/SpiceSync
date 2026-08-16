@@ -11,7 +11,7 @@ import {
 import { useEventQueueStore } from '../lib/sync/eventQueue';
 import { _resetCacheForTests, setIdentityDeps } from '../lib/sync/identity';
 import { usePartnerVotesStore } from '../lib/sync/partnerVotes';
-import { RelayClient } from '../lib/sync/relayClient';
+import { RelayTestClient } from '../test-support/relayTestClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
 import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import { flushPending, pullPartnerEvents } from '../lib/sync/syncLoop';
@@ -130,7 +130,7 @@ describe('sync loop', () => {
       });
     });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     const result = await flushPending();
@@ -217,7 +217,7 @@ describe('sync loop', () => {
       }),
     });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     const result = await pullPartnerEvents();
@@ -295,7 +295,7 @@ describe('sync loop', () => {
       }),
     });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     const result = await pullPartnerEvents();
@@ -364,7 +364,7 @@ describe('sync loop', () => {
       }),
     });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     const result = await pullPartnerEvents();
@@ -438,7 +438,7 @@ describe('sync loop', () => {
       }),
     });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     const result = await pullPartnerEvents();

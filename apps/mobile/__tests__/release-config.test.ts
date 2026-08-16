@@ -120,7 +120,7 @@ describe('release configuration', () => {
     expect(androidGradleProperties).toContain('newArchEnabled=true');
   });
 
-  it('defines EAS build profiles for development, preview, and production', () => {
+  it('defines EAS build profiles for development, preview, production, and TestFlight', () => {
     const easJson = readJson<{
       build?: Record<string, unknown>;
       submit?: Record<string, unknown>;
@@ -130,6 +130,7 @@ describe('release configuration', () => {
       'development',
       'preview',
       'production',
+      'testflight',
     ]);
     expect(easJson.submit).toHaveProperty('production');
   });

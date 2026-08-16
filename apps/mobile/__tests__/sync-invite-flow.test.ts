@@ -10,7 +10,7 @@ import {
   parseInviteUrl,
 } from '../lib/sync/inviteFlow';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
-import { RelayClient } from '../lib/sync/relayClient';
+import { RelayTestClient } from '../test-support/relayTestClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
 import { sha256Base64 } from '../lib/sync/crypto';
 
@@ -49,7 +49,7 @@ describe('invite flow', () => {
 
   it('parses a remote invite URL with fragment secret', () => {
     const parsed = parseInviteUrl(
-      'https://relay.spicesync.app/link/inv_abc#secret123'
+      'https://share.example.com/link/inv_abc#secret123'
     );
     expect(parsed).toEqual({ inviteId: 'inv_abc', inviteSecret: 'secret123' });
   });
@@ -81,7 +81,7 @@ describe('invite flow', () => {
       }),
     });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     const handle = await createInvite({
@@ -154,7 +154,7 @@ describe('invite flow', () => {
         });
       });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     const result = await acceptInvite(
@@ -226,7 +226,7 @@ describe('invite flow', () => {
       });
     });
     _resetRelayClientForTests(
-      new RelayClient('https://relay.test', fetchMock as any)
+      new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
     expect(await finalizePendingInvite('inv_2')).toBeNull();

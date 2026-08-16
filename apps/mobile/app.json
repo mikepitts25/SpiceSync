@@ -19,7 +19,8 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.spicesync.app",
       "infoPlist": {
-        "NSFaceIDUsageDescription": "Allow SpiceSync to use Face ID to keep your private content locked."
+        "NSFaceIDUsageDescription": "Allow SpiceSync to use Face ID to keep your private content locked.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {

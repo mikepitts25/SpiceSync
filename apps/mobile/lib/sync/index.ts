@@ -12,11 +12,7 @@ export {
 export type { InviteHandle, InviteLookup, ParsedInviteUrl } from './inviteFlow';
 export { usePartnerVotesStore } from './partnerVotes';
 export type { PartnerVoteRecord, PartnerVoteValue } from './partnerVotes';
-export {
-  getRelayBaseUrl,
-  getRelayClient,
-  setRelayBaseUrl,
-} from './relayConfig';
+export { getRelayClient } from './relayConfig';
 export {
   flushPending,
   pullPartnerEvents,

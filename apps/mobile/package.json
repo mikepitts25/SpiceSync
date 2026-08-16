@@ -3,6 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "main": "expo-router/entry",
+  "expo": {
+    "autolinking": {
+      "nativeModulesDir": "./modules"
+    }
+  },
   "engines": {
     "node": ">=20 <23"
   },

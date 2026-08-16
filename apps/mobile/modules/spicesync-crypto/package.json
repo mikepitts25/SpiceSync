@@ -1,0 +1,7 @@
+{
+  "name": "spicesync-crypto",
+  "version": "1.0.0",
+  "description": "SpiceSync iOS CryptoKit bridge",
+  "main": "index.ts",
+  "license": "UNLICENSED"
+}

@@ -1,8 +1,6 @@
-import { RelayClient } from '../lib/sync/relayClient';
 import {
   _resetRelayClientForTests,
   getRelayClient,
-  setRelayBaseUrl,
 } from '../lib/sync/relayConfig';
 import { isSupabaseRelayConfigured } from '../lib/sync/supabaseConfig';
 
@@ -21,7 +19,6 @@ jest.mock(
 describe('relay transport selection', () => {
   beforeEach(() => {
     _resetRelayClientForTests();
-    setRelayBaseUrl(null);
     jest.mocked(isSupabaseRelayConfigured).mockReset();
     const { getConfiguredSupabaseRelayClient } = jest.requireMock(
       '../lib/sync/supabaseClient'
@@ -29,15 +26,15 @@ describe('relay transport selection', () => {
     jest.mocked(getConfiguredSupabaseRelayClient).mockReset();
   });
 
-  it('uses the existing HTTP relay client when Supabase is not configured', () => {
+  it('fails closed when Supabase is not configured', () => {
     jest.mocked(isSupabaseRelayConfigured).mockReturnValue(false);
     const { getConfiguredSupabaseRelayClient } = jest.requireMock(
       '../lib/sync/supabaseClient'
     );
 
-    const client = getRelayClient();
-
-    expect(client).toBeInstanceOf(RelayClient);
+    expect(() => getRelayClient()).toThrow(
+      'Supabase partner sync is not configured'
+    );
     expect(getConfiguredSupabaseRelayClient).not.toHaveBeenCalled();
   });
 
