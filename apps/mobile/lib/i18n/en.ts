@@ -55,7 +55,7 @@ export const en = {
     tagline: 'Discover new experiences together',
     privacyTitle: 'Privacy First',
     privacyText:
-      'Your data stays on your device. No accounts, no tracking, no cloud storage.',
+      'Profiles and votes stay on-device by default. Remote partner sync uses limited encrypted relay data.',
     ageTitle: 'Age Verification',
     ageText: 'You must be 18 or older to use this app.',
     ageConfirm: 'I am 18 or older',
@@ -151,7 +151,7 @@ export const en = {
     achievements: 'Achievements',
     achievementsDesc: 'Track your progress and unlock badges',
     privacy: 'Privacy',
-    privacyDesc: 'All data stays local on your device.',
+    privacyDesc: 'Local by default; remote sync uses encrypted relay data.',
     about: 'About',
     version: 'Version 1.0.0',
   },
@@ -670,7 +670,8 @@ export const en = {
   onboardingScreens: {
     privacy: {
       title: 'Privacy First',
-      description: 'Your data never leaves your device.',
+      description:
+        'Profiles and votes stay local by default. Remote sync uses encrypted relay data.',
       button: 'Continue',
     },
     age: {

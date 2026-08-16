@@ -16,7 +16,7 @@
       "reactCompiler": true
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.spicesync.app",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Allow SpiceSync to use Face ID to keep your private content locked."

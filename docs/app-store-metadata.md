@@ -8,7 +8,8 @@ neutral, non-graphic language rule in `CONTRIBUTING.md`.
 
 ## Ratings and category
 
-- **iOS age rating:** 17+ (Frequent/Intense Mature/Suggestive Themes). Do not
+- **iOS age rating:** 18+ (Frequent Mature or Suggestive Themes and Sexual
+  Content or Nudity). Do not
   attempt a lower rating.
 - **Google Play:** Mature 17+ via the content questionnaire.
 - **Category:** Lifestyle (primary). Health & Fitness is a defensible
@@ -16,8 +17,8 @@ neutral, non-graphic language rule in `CONTRIBUTING.md`.
 
 ## Copy rules (description, subtitle, keywords, what's new)
 
-- Neutral and non-graphic everywhere. Talk about *communication*,
-  *compatibility*, *intimacy*, and *date nights* — never specific acts.
+- Neutral and non-graphic everywhere. Talk about _communication_,
+  _compatibility_, _intimacy_, and _date nights_ — never specific acts.
   Nothing in the listing should be more explicit than a mainstream
   relationship-advice column.
 - Never use words that read as explicit content signals in review:
@@ -33,8 +34,8 @@ neutral, non-graphic language rule in `CONTRIBUTING.md`.
 
 > SpiceSync helps couples talk about what they both want. Compare
 > preferences privately, discover what you match on, and keep date night
-> fun with conversation starters and party games — all stored only on your
-> devices, never on a server.
+> fun with conversation starters and party games. Profiles and votes stay
+> private by default, with encrypted relay sync available for linked partners.
 
 ### Suggested keyword themes (iOS keyword field)
 
@@ -50,7 +51,7 @@ partner quiz, conversation starters, marriage, spark
   the word "kink" visible, or the fantasy journal.
 - Turn discrete mode OFF for screenshots but choose innocuous seeded content.
 - No captions that promise explicit content; caption around connection and
-  privacy ("Find what you both want to try", "100% on-device").
+  privacy ("Find what you both want to try", "Private by default").
 
 ## App Review notes (paste into the review notes field)
 
@@ -61,9 +62,10 @@ partner quiz, conversation starters, marriage, spark
 > - All content is written in neutral, non-graphic language and is curated;
 >   there is no user-generated content shared between users, no community,
 >   and no messaging.
-> - All data is stored exclusively on-device. There is no server, no account,
->   and no data collection. Partner comparison works by exchanging an encoded
->   code (QR or text) directly between the two users' devices.
+> - No email address or password is required. Partner sync uses anonymous
+>   Supabase authentication, an invite link or QR code, limited connection
+>   metadata, and encrypted sync payloads. The service cannot read the
+>   plaintext contents of encrypted votes.
 > - A "discrete mode" hides app content from shoulder-surfing, and the app
 >   supports a biometric/PIN lock.
 > - Custom entries are validated against a blocked-terms safety filter
@@ -74,17 +76,22 @@ partner quiz, conversation starters, marriage, spark
 
 ## Privacy questionnaire ("nutrition label")
 
-- Data collected: **none**. No identifiers, no usage data, no diagnostics
-  (verify: no analytics SDK is linked before shipping).
-- All processing on-device; declare "Data Not Collected" across the board.
-- Purchases: IAP for premium packs (see `lib/pricing.ts`) — handled by the
-  store, no personal data touched by the app.
+- Declare data used for **App Functionality**, not tracking or advertising:
+  identifiers for anonymous Supabase authentication and linked devices, plus
+  user content for optional profile display metadata and encrypted partner-sync
+  changes retained by the relay.
+- The app has no third-party analytics or advertising SDK. Re-check linked/not
+  linked selections against App Store Connect's current definitions when the
+  questionnaire is completed.
+- Purchases are handled by the App Store. Revisit purchase-history disclosure
+  before enabling the IAP build profile.
 
 ## Pre-submission checklist
 
 - [ ] Listing copy contains no explicit terms, in any locale (check ES too).
 - [ ] Screenshots re-taken on current UI, soft-tier content only.
-- [ ] Age rating questionnaire answers match the 17+ rating.
+- [ ] Age rating questionnaire answers match the 18+ rating.
 - [ ] Review notes above pasted into App Review Information.
-- [ ] Privacy label says Data Not Collected and remains true (no analytics).
+- [ ] Privacy label includes relay identifiers and user content used for App
+      Functionality, with no tracking.
 - [ ] `CONTRIBUTING.md` language rule re-checked against any new store copy.

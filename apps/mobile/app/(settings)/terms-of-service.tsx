@@ -16,7 +16,7 @@ export default function TermsOfServiceScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.updated}>Last updated: May 2025</Text>
+        <Text style={styles.updated}>Last updated: August 2026</Text>
 
         <Section title="Acceptance of Terms">
           By downloading or using SpiceSync, you agree to these Terms of
@@ -43,10 +43,12 @@ export default function TermsOfServiceScreen() {
           the app complies with local laws and regulations.
         </Section>
 
-        <Section title="No Account Required">
-          SpiceSync does not require you to create an account. All data is
-          stored locally on your device. We do not have access to your data and
-          cannot recover it if lost.
+        <Section title="No Email Account Required">
+          SpiceSync does not require an email address or password. Most app data
+          is stored locally. If you enable remote partner sync, the app creates
+          an anonymous backend identity and sends limited connection metadata
+          and encrypted partner-sync data through the relay as described in the
+          Privacy Policy.
         </Section>
 
         <Section title="Disclaimer of Warranties">

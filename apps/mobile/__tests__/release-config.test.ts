@@ -90,10 +90,7 @@ describe('release configuration', () => {
     const localAuthPlugin = appJson.expo.plugins?.find((plugin) =>
       Array.isArray(plugin) ? plugin[0] === 'expo-local-authentication' : false
     ) as
-      | [
-          'expo-local-authentication',
-          { faceIDPermission?: string | false },
-        ]
+      | ['expo-local-authentication', { faceIDPermission?: string | false }]
       | undefined;
     const iosInfo = fs.readFileSync(
       path.join(mobileRoot, 'ios', 'SpiceSync', 'Info.plist'),
@@ -112,9 +109,7 @@ describe('release configuration', () => {
     const iosPodfileProperties = readJson<{
       newArchEnabled?: string;
       'ios.deploymentTarget'?: string;
-    }>(
-      path.join('ios', 'Podfile.properties.json')
-    );
+    }>(path.join('ios', 'Podfile.properties.json'));
     const androidGradleProperties = fs.readFileSync(
       path.join(mobileRoot, 'android', 'gradle.properties'),
       'utf8'
@@ -137,6 +132,28 @@ describe('release configuration', () => {
       'production',
     ]);
     expect(easJson.submit).toHaveProperty('production');
+  });
+
+  it('binds production builds to the production EAS environment', () => {
+    const easJson = readJson<{
+      build?: { production?: { environment?: string } };
+    }>('eas.json');
+
+    expect(easJson.build?.production?.environment).toBe('production');
+  });
+
+  it('ships the first iOS release as an iPhone app', () => {
+    const appJson = readJson<{
+      expo: { ios?: { supportsTablet?: boolean } };
+    }>('app.json');
+    const iosProject = fs.readFileSync(
+      path.join(mobileRoot, 'ios', 'SpiceSync.xcodeproj', 'project.pbxproj'),
+      'utf8'
+    );
+
+    expect(appJson.expo.ios?.supportsTablet).toBe(false);
+    expect(iosProject).toContain('TARGETED_DEVICE_FAMILY = 1;');
+    expect(iosProject).not.toContain('TARGETED_DEVICE_FAMILY = "1,2";');
   });
 
   it('links app config to a real EAS project id', () => {

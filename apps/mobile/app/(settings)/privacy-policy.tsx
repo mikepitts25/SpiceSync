@@ -16,7 +16,7 @@ export default function PrivacyPolicyScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.updated}>Last updated: June 2026</Text>
+        <Text style={styles.updated}>Last updated: August 2026</Text>
 
         <Section title="Overview">
           SpiceSync is designed with privacy as a core principle. All data you
@@ -27,9 +27,11 @@ export default function PrivacyPolicyScreen() {
         </Section>
 
         <Section title="Information We Collect">
-          SpiceSync does not require a profile account, email address, or
-          password. Remote partner sync uses an anonymous device identity so the
-          relay can deliver encrypted updates to the right linked devices.
+          SpiceSync does not require an email address or password. When you use
+          remote partner sync, SpiceSync creates an anonymous Supabase user ID
+          and sends device IDs, public encryption and signing keys, invite and
+          connection status, optional profile display metadata, and encrypted
+          sync payloads to the relay.
         </Section>
 
         <Section title="How Your Data Is Stored">
@@ -47,9 +49,9 @@ export default function PrivacyPolicyScreen() {
         </Section>
 
         <Section title="Third-Party Services">
-          SpiceSync does not integrate with any third-party analytics,
-          advertising, or tracking services. No SDKs that collect data are
-          included in the app.
+          Remote partner sync is provided through Supabase. SpiceSync does not
+          include third-party advertising or tracking SDKs and does not use
+          relay data for advertising.
         </Section>
 
         <Section title="Children">
@@ -59,9 +61,11 @@ export default function PrivacyPolicyScreen() {
         </Section>
 
         <Section title="Data Deletion">
-          Because all data is stored locally on your device, you can delete it
-          at any time by clearing the app's storage in your device settings or
-          by uninstalling the app.
+          You can remove local profiles, votes, and preferences with SpiceSync's
+          reset controls or by uninstalling the app. Unlinking a partner revokes
+          the connection, but clearing or uninstalling the app does not
+          automatically delete relay records. Contact us through the App Store
+          listing if you need help with relay data.
         </Section>
 
         <Section title="Changes to This Policy">

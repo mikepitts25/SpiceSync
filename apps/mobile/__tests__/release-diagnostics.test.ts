@@ -21,6 +21,7 @@ describe('release readiness diagnostics', () => {
       easProjectId: 'local',
       supabaseConfigured: false,
       purchasesConfigured: false,
+      freeBetaAccess: false,
       appOwnership: 'expo',
       legalRoutesPresent: true,
     });
@@ -49,6 +50,7 @@ describe('release readiness diagnostics', () => {
       easProjectId: '7a49fd20-7190-4a28-b368-3d1b4a13a930',
       supabaseConfigured: true,
       purchasesConfigured: true,
+      freeBetaAccess: false,
       appOwnership: 'standalone',
       legalRoutesPresent: true,
     });
@@ -65,5 +67,25 @@ describe('release readiness diagnostics', () => {
     expect(JSON.stringify(checks)).not.toContain('EXPO_PUBLIC');
     expect(JSON.stringify(checks)).not.toContain('anon');
     expect(summarizeReleaseDiagnostics(checks).overall).toBe('pass');
+  });
+
+  it('treats an intentional free-beta unlock as release ready', () => {
+    const checks = buildReleaseDiagnostics({
+      appName: 'SpiceSync',
+      version: '1.0.0',
+      iosBundleIdentifier: 'com.spicesync.app',
+      androidPackage: 'com.spicesync.app',
+      easProjectId: '7a49fd20-7190-4a28-b368-3d1b4a13a930',
+      supabaseConfigured: true,
+      purchasesConfigured: false,
+      freeBetaAccess: true,
+      appOwnership: 'standalone',
+      legalRoutesPresent: true,
+    });
+
+    expect(byId(checks, 'purchases')).toMatchObject({
+      status: 'pass',
+      value: 'Free beta access',
+    });
   });
 });

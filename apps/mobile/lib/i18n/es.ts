@@ -57,7 +57,7 @@ export const es: Translations = {
     tagline: 'Descubre nuevas experiencias juntos',
     privacyTitle: 'Privacidad Primero',
     privacyText:
-      'Tus datos se quedan en tu dispositivo. Sin cuentas, sin rastreo, sin almacenamiento en la nube.',
+      'Los perfiles y votos quedan en tu dispositivo por defecto. El sync remoto usa datos cifrados limitados en un relay.',
     ageTitle: 'Verificación de Edad',
     ageText: 'Debes tener 18 años o más para usar esta aplicación.',
     ageConfirm: 'Tengo 18 años o más',
@@ -154,7 +154,8 @@ export const es: Translations = {
     achievements: 'Logros',
     achievementsDesc: 'Rastrea tu progreso y desbloquea insignias',
     privacy: 'Privacidad',
-    privacyDesc: 'Todos los datos permanecen locales en tu dispositivo.',
+    privacyDesc:
+      'Local por defecto; el sync remoto usa datos cifrados en un relay.',
     about: 'Acerca de',
     version: 'Versión 1.0.0',
   },
@@ -678,7 +679,8 @@ export const es: Translations = {
   onboardingScreens: {
     privacy: {
       title: 'Privacidad Primero',
-      description: 'Tus datos nunca salen de tu dispositivo.',
+      description:
+        'Los perfiles y votos quedan locales por defecto. El sync remoto usa datos cifrados en un relay.',
       button: 'Continuar',
     },
     age: {

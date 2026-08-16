@@ -18,6 +18,7 @@ export type ReleaseDiagnosticsInput = {
   easProjectId?: string | null;
   supabaseConfigured: boolean;
   purchasesConfigured: boolean;
+  freeBetaAccess: boolean;
   appOwnership?: string | null;
   legalRoutesPresent: boolean;
 };
@@ -70,6 +71,7 @@ export function buildReleaseDiagnostics(
     isProductionIdentifier(androidPackage) &&
     !isPlaceholderIdentifier(iosBundleIdentifier) &&
     !isPlaceholderIdentifier(androidPackage);
+  const monetizationReady = input.purchasesConfigured || input.freeBetaAccess;
 
   return [
     makeCheck(
@@ -111,11 +113,17 @@ export function buildReleaseDiagnostics(
     makeCheck(
       'purchases',
       'Purchases',
-      input.purchasesConfigured ? 'pass' : 'warning',
-      input.purchasesConfigured ? 'Provider enabled' : 'Free mode',
+      monetizationReady ? 'pass' : 'warning',
+      input.purchasesConfigured
+        ? 'Provider enabled'
+        : input.freeBetaAccess
+          ? 'Free beta access'
+          : 'Free mode',
       input.purchasesConfigured
         ? 'The purchase provider flag is enabled for this build.'
-        : 'Purchases are disabled, so premium unlocks remain unavailable.'
+        : input.freeBetaAccess
+          ? 'Purchases are disabled and premium features are unlocked for beta testing.'
+          : 'Purchases are disabled, so premium unlocks remain unavailable.'
     ),
     makeCheck(
       'notifications',

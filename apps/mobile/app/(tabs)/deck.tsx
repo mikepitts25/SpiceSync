@@ -44,6 +44,7 @@ import {
 } from '../../components/app-chrome';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { ScreenTour } from '../../components/ScreenTour';
+import { IntensityFilterDisclosure } from '../../components/deck/IntensityFilterDisclosure';
 import { useKinks, type KinkItem } from '../../lib/data';
 import {
   filterKinksByTier,
@@ -934,15 +935,20 @@ export default function DeckScreen() {
   const partnerVoted = isRemotePartner
     ? !!remotePartnerVotes[current.id]
     : !!partnerVotes?.[current.id];
-  const totalInFilter = filteredKinks.length;
-  const positionInFilter = Math.min(
-    totalInFilter - queue.length + 1,
-    totalInFilter
-  );
-  const progressLabel = `${interpolateI18n(t.deck.progressLabel, {
-    current: positionInFilter,
-    total: totalInFilter,
-  })} · ${starterActive ? t.deck.starterBadge : getTierOptionLabel(selectedTier, t)}`;
+  const undoAction = canUndo ? (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={t.deck.undo}
+      onPress={handleUndo}
+      style={({ pressed }) => [
+        styles.undoButton,
+        pressed && styles.readinessActionPressed,
+      ]}
+    >
+      <Undo2 size={16} color={COLORS.textSub} strokeWidth={2.5} />
+      <Text style={styles.undoButtonText}>{t.deck.undo}</Text>
+    </Pressable>
+  ) : null;
 
   return (
     <SafeAreaView
@@ -968,90 +974,79 @@ export default function DeckScreen() {
         />
 
         <View style={styles.filterBlock}>
-          <View style={styles.filterHeader}>
-            <Text style={styles.filterTitle}>
-              {(starterActive
-                ? t.deck.starterBadge
-                : t.common.intensity
-              ).toUpperCase()}
-            </Text>
-            {canUndo ? (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t.deck.undo}
-                onPress={handleUndo}
-                style={({ pressed }) => [
-                  styles.undoButton,
-                  pressed && styles.readinessActionPressed,
-                ]}
-              >
-                <Undo2 size={16} color={COLORS.textSub} strokeWidth={2.5} />
-                <Text style={styles.undoButtonText}>{t.deck.undo}</Text>
-              </Pressable>
-            ) : null}
-          </View>
-
           {starterActive ? (
-            <View style={styles.starterRow}>
-              <Text style={styles.starterHint}>
-                {interpolateI18n(t.deck.starterHint, {
-                  count: STARTER_PACK_KINK_IDS.length,
-                })}
-              </Text>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t.deck.skip}
-                onPress={() => {
-                  if (activeProfileIdValue) {
-                    dismissStarterPack(activeProfileIdValue);
-                  }
-                }}
-                style={({ pressed }) => [
-                  styles.undoButton,
-                  styles.starterSkipButton,
-                  pressed && styles.readinessActionPressed,
-                ]}
-              >
-                <Text style={styles.undoButtonText}>{t.deck.skip}</Text>
-              </Pressable>
-            </View>
+            <>
+              <View style={styles.filterHeader}>
+                <Text style={styles.filterTitle}>
+                  {t.deck.starterBadge.toUpperCase()}
+                </Text>
+                {undoAction}
+              </View>
+              <View style={styles.starterRow}>
+                <Text style={styles.starterHint}>
+                  {interpolateI18n(t.deck.starterHint, {
+                    count: STARTER_PACK_KINK_IDS.length,
+                  })}
+                </Text>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={t.deck.skip}
+                  onPress={() => {
+                    if (activeProfileIdValue) {
+                      dismissStarterPack(activeProfileIdValue);
+                    }
+                  }}
+                  style={({ pressed }) => [
+                    styles.undoButton,
+                    styles.starterSkipButton,
+                    pressed && styles.readinessActionPressed,
+                  ]}
+                >
+                  <Text style={styles.undoButtonText}>{t.deck.skip}</Text>
+                </Pressable>
+              </View>
+            </>
           ) : (
-            <View style={styles.tierGrid}>
-              {TIER_FILTER_OPTIONS.map((option) => {
-                const active = selectedTier === option.value;
-                return (
-                  <Pressable
-                    key={option.label}
-                    accessibilityRole="button"
-                    accessibilityState={{ selected: active }}
-                    onPress={() => applyTierFilter(option.value)}
-                    style={styles.tierPress}
-                  >
-                    {active ? (
-                      <LinearGradient
-                        colors={GRADIENTS.primary}
-                        start={{ x: 0, y: 0.5 }}
-                        end={{ x: 1, y: 0.5 }}
-                        style={styles.tierActive}
-                      >
-                        <Text style={styles.tierActiveText}>
-                          {getTierOptionLabel(option.value, t)}
-                        </Text>
-                      </LinearGradient>
-                    ) : (
-                      <View style={styles.tierInactive}>
-                        <Text style={styles.tierInactiveText}>
-                          {getTierOptionLabel(option.value, t)}
-                        </Text>
-                      </View>
-                    )}
-                  </Pressable>
-                );
-              })}
-            </View>
+            <IntensityFilterDisclosure
+              title={t.common.intensity.toUpperCase()}
+              selectedLabel={getTierOptionLabel(selectedTier, t)}
+              trailingAction={undoAction}
+            >
+              <View style={styles.tierGrid}>
+                {TIER_FILTER_OPTIONS.map((option) => {
+                  const active = selectedTier === option.value;
+                  return (
+                    <Pressable
+                      key={option.label}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: active }}
+                      onPress={() => applyTierFilter(option.value)}
+                      style={styles.tierPress}
+                    >
+                      {active ? (
+                        <LinearGradient
+                          colors={GRADIENTS.primary}
+                          start={{ x: 0, y: 0.5 }}
+                          end={{ x: 1, y: 0.5 }}
+                          style={styles.tierActive}
+                        >
+                          <Text style={styles.tierActiveText}>
+                            {getTierOptionLabel(option.value, t)}
+                          </Text>
+                        </LinearGradient>
+                      ) : (
+                        <View style={styles.tierInactive}>
+                          <Text style={styles.tierInactiveText}>
+                            {getTierOptionLabel(option.value, t)}
+                          </Text>
+                        </View>
+                      )}
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </IntensityFilterDisclosure>
           )}
-
-          <Text style={styles.deckProgressLabel}>{progressLabel}</Text>
         </View>
 
         <View style={styles.deckArea}>
@@ -1207,7 +1202,7 @@ const styles = StyleSheet.create({
   filterBlock: {
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: 'rgba(255,45,146,0.2)',
+    borderColor: 'rgba(255,255,255,0.075)',
     backgroundColor: 'rgba(255,255,255,0.035)',
     padding: 12,
     gap: 10,
@@ -1219,8 +1214,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   undoButton: {
-    position: 'absolute',
-    right: 0,
     minHeight: 30,
     flexDirection: 'row',
     alignItems: 'center',
@@ -1234,12 +1227,12 @@ const styles = StyleSheet.create({
   undoButtonText: {
     color: COLORS.textSub,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '700',
   },
   filterTitle: {
     color: COLORS.pink,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '700',
     letterSpacing: 0,
     textAlign: 'center',
   },
@@ -1266,7 +1259,7 @@ const styles = StyleSheet.create({
   tierActiveText: {
     color: COLORS.textPrimary,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '700',
     letterSpacing: 0,
     textAlign: 'center',
   },
@@ -1283,14 +1276,8 @@ const styles = StyleSheet.create({
   tierInactiveText: {
     color: COLORS.textSub,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '600',
     letterSpacing: 0,
-    textAlign: 'center',
-  },
-  deckProgressLabel: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    fontWeight: '700',
     textAlign: 'center',
   },
   starterRow: {
@@ -1303,7 +1290,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     color: COLORS.textSub,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '500',
     textAlign: 'center',
   },
   starterSkipButton: {
@@ -1321,14 +1308,18 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 420,
     borderRadius: 24,
-    borderWidth: 2,
-    borderColor: 'rgba(255,45,146,0.34)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,45,146,0.18)',
     backgroundColor: COLORS.card,
     paddingHorizontal: 22,
     paddingVertical: 26,
     alignItems: 'center',
     gap: 12,
-    ...SHADOWS.card,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 18,
+    elevation: 6,
   },
   deckArea: {
     flex: 1,
@@ -1356,10 +1347,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: RADII.card,
     backgroundColor: COLORS.card,
-    borderWidth: 2,
-    borderColor: COLORS.border,
+    borderWidth: 1,
+    borderColor: 'rgba(255,45,146,0.2)',
     overflow: 'hidden',
-    ...SHADOWS.card,
   },
   progressRail: {
     height: 3,
@@ -1406,7 +1396,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: COLORS.borderFaint,
     backgroundColor: COLORS.cardAlt,
     padding: 4,
     gap: 4,
@@ -1426,7 +1416,7 @@ const styles = StyleSheet.create({
   roleOptionText: {
     color: COLORS.textSub,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '700',
   },
   roleOptionTextActive: {
     color: COLORS.textPrimary,
@@ -1473,14 +1463,14 @@ const styles = StyleSheet.create({
     width: '100%',
     color: COLORS.textPrimary,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '700',
     textAlign: 'center',
   },
   partnerStatus: {
     width: '100%',
     color: COLORS.textSub,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '500',
     marginTop: 2,
     textAlign: 'center',
   },
@@ -1521,7 +1511,7 @@ const styles = StyleSheet.create({
   readinessActionText: {
     color: COLORS.textPrimary,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '700',
     letterSpacing: 0,
     textAlign: 'center',
   },

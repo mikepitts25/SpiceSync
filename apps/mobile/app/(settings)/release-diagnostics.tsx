@@ -14,6 +14,7 @@ import {
   summarizeReleaseDiagnostics,
 } from '../../lib/diagnostics/releaseReadiness';
 import { isPurchaseProviderConfigured } from '../../lib/purchases/purchaseService';
+import { isFreeBetaPremiumAccessEnabled } from '../../lib/purchases/access';
 import { isSupabaseRelayConfigured } from '../../lib/sync/supabaseConfig';
 
 const STATUS_COPY: Record<
@@ -52,6 +53,7 @@ export default function ReleaseDiagnosticsScreen() {
       easProjectId: easExtra?.eas?.projectId,
       supabaseConfigured: isSupabaseRelayConfigured(),
       purchasesConfigured: isPurchaseProviderConfigured(),
+      freeBetaAccess: isFreeBetaPremiumAccessEnabled(),
       appOwnership: Constants.appOwnership,
       legalRoutesPresent: true,
     });
