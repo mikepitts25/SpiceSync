@@ -6,6 +6,12 @@ const path = require('path');
 
 const mobileRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(mobileRoot, '..', '..');
+const adminTestDir = path.join(repoRoot, 'admin', 'test');
+const adminTestFiles = fs
+  .readdirSync(adminTestDir)
+  .filter((fileName) => fileName.endsWith('.test.js'))
+  .sort()
+  .map((fileName) => path.join(adminTestDir, fileName));
 
 function run(label, command, args, cwd = mobileRoot) {
   console.log(`\n==> ${label}`);
@@ -88,7 +94,7 @@ function assertTestFlightConfig() {
 run(
   'Admin content QA tests',
   'node',
-  ['--test', 'admin/test/*.test.js'],
+  ['--test', ...adminTestFiles],
   repoRoot
 );
 run('Mobile Jest suite', 'npm', ['test', '--', '--runInBand']);
