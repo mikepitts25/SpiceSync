@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { execFileSync } from 'child_process';
 
 const mobileRoot = path.join(__dirname, '..');
 
@@ -7,6 +8,32 @@ function readJson<T>(relativePath: string): T {
   return JSON.parse(
     fs.readFileSync(path.join(mobileRoot, relativePath), 'utf8')
   ) as T;
+}
+
+function readIntrospectedConfig(googleIosClientId: string): {
+  ios?: {
+    infoPlist?: {
+      CFBundleURLTypes?: { CFBundleURLSchemes?: string[] }[];
+    };
+  };
+} {
+  const expo = path.join(mobileRoot, 'node_modules', '.bin', 'expo');
+  return JSON.parse(
+    execFileSync(expo, ['config', '--type', 'introspect', '--json'], {
+      cwd: mobileRoot,
+      env: {
+        ...process.env,
+        EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID: googleIosClientId,
+      },
+      encoding: 'utf8',
+    })
+  ) as {
+    ios?: {
+      infoPlist?: {
+        CFBundleURLTypes?: { CFBundleURLSchemes?: string[] }[];
+      };
+    };
+  };
 }
 
 describe('release configuration', () => {
@@ -117,6 +144,21 @@ describe('release configuration', () => {
     expect(appJson.expo.plugins).toContain('expo-apple-authentication');
     expect(appJson.expo.plugins).toContain(
       '@react-native-google-signin/google-signin'
+    );
+  });
+
+  it('resolves the Google iOS callback scheme from the public client ID', () => {
+    const clientId = '1234567890-testclient.apps.googleusercontent.com';
+    const config = readIntrospectedConfig(clientId);
+
+    expect(config.ios?.infoPlist?.CFBundleURLTypes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          CFBundleURLSchemes: expect.arrayContaining([
+            'com.googleusercontent.apps.1234567890-testclient',
+          ]),
+        }),
+      ])
     );
   });
 
