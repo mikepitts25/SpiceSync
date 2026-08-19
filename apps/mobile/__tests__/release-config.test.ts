@@ -105,6 +105,21 @@ describe('release configuration', () => {
     expect(iosInfo).toContain(`<string>${faceIdPermission}</string>`);
   });
 
+  it('enables Apple Sign In and configures both native account providers', () => {
+    const appJson = readJson<{
+      expo: {
+        ios?: { usesAppleSignIn?: boolean };
+        plugins?: unknown[];
+      };
+    }>('app.json');
+
+    expect(appJson.expo.ios?.usesAppleSignIn).toBe(true);
+    expect(appJson.expo.plugins).toContain('expo-apple-authentication');
+    expect(appJson.expo.plugins).toContain(
+      '@react-native-google-signin/google-signin'
+    );
+  });
+
   it('keeps iOS native settings compatible with Expo SDK 54 pods', () => {
     const iosPodfileProperties = readJson<{
       newArchEnabled?: string;

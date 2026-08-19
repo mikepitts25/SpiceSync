@@ -17,6 +17,7 @@
     },
     "ios": {
       "supportsTablet": false,
+      "usesAppleSignIn": true,
       "bundleIdentifier": "com.spicesync.app",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Allow SpiceSync to use Face ID to keep your private content locked.",
@@ -52,9 +53,11 @@
         }
       ],
       "expo-font",
+      "expo-apple-authentication",
       "@react-native-community/datetimepicker",
       "expo-sqlite",
-      "expo-iap"
+      "expo-iap",
+      "@react-native-google-signin/google-signin"
     ],
     "extra": {
       "router": {},
