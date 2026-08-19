@@ -450,9 +450,9 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontFamily: FONTS.regular,
-    fontSize: SIZES.body,
+    fontSize: SIZES.medium,
     color: COLORS.text,
-    lineHeight: 24,
+    lineHeight: 26,
     textAlign: 'center',
   },
   orText: {
