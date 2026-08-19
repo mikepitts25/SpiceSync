@@ -20,7 +20,10 @@ export default function GameHub() {
   const isPremium = hasPremiumFeatureAccess(locallyEntitled);
 
   return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+    <SafeAreaView
+      style={styles.screen}
+      edges={['top', 'left', 'right', 'bottom']}
+    >
       <StatusBar style="light" />
       <AppHeader />
       <ScrollView
