@@ -2,35 +2,29 @@ import {
   getStoreKitAppAccountToken,
   normalizeStoreKitAppAccountToken,
 } from '../lib/purchases/storeKitAccountToken';
-import { getConfiguredSupabaseRelayClient } from '../lib/sync/supabaseClient';
+import { getAccountService } from '../lib/auth/accountService';
 import { isSupabaseRelayConfigured } from '../lib/sync/supabaseConfig';
 
 jest.mock('../lib/sync/supabaseConfig', () => ({
   isSupabaseRelayConfigured: jest.fn(),
 }));
 
-jest.mock('../lib/sync/supabaseClient', () => ({
-  getConfiguredSupabaseRelayClient: jest.fn(),
+jest.mock('../lib/auth/accountService', () => ({
+  getAccountService: jest.fn(),
 }));
 
-const mockedIsSupabaseRelayConfigured = jest.mocked(
-  isSupabaseRelayConfigured
-);
-const mockedGetConfiguredSupabaseRelayClient = jest.mocked(
-  getConfiguredSupabaseRelayClient
-);
+const mockedIsSupabaseRelayConfigured = jest.mocked(isSupabaseRelayConfigured);
+const mockedGetAccountService = jest.mocked(getAccountService);
 
 describe('StoreKit account token', () => {
   beforeEach(() => {
     mockedIsSupabaseRelayConfigured.mockReset();
-    mockedGetConfiguredSupabaseRelayClient.mockReset();
+    mockedGetAccountService.mockReset();
   });
 
   it('normalizes canonical Supabase auth UUIDs for StoreKit', () => {
     expect(
-      normalizeStoreKitAppAccountToken(
-        ' F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6 '
-      )
+      normalizeStoreKitAppAccountToken(' F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6 ')
     ).toBe('f81d4fae-7dec-11d0-a765-00a0c91e6bf6');
     expect(normalizeStoreKitAppAccountToken('user-1')).toBeNull();
   });
@@ -39,16 +33,16 @@ describe('StoreKit account token', () => {
     mockedIsSupabaseRelayConfigured.mockReturnValue(false);
 
     await expect(getStoreKitAppAccountToken()).resolves.toBeNull();
-    expect(mockedGetConfiguredSupabaseRelayClient).not.toHaveBeenCalled();
+    expect(mockedGetAccountService).not.toHaveBeenCalled();
   });
 
-  it('uses the authenticated Supabase user id when Supabase is configured', async () => {
+  it('uses the account service user id when Supabase is configured', async () => {
     mockedIsSupabaseRelayConfigured.mockReturnValue(true);
-    mockedGetConfiguredSupabaseRelayClient.mockReturnValue({
-      getAuthenticatedUserId: jest
+    mockedGetAccountService.mockReturnValue({
+      ensureAnonymousUser: jest
         .fn()
         .mockResolvedValue('9B2F6D55-9B8A-4DBB-B9DD-5120F20FD533'),
-    } as unknown as ReturnType<typeof getConfiguredSupabaseRelayClient>);
+    } as unknown as ReturnType<typeof getAccountService>);
 
     await expect(getStoreKitAppAccountToken()).resolves.toBe(
       '9b2f6d55-9b8a-4dbb-b9dd-5120f20fd533'

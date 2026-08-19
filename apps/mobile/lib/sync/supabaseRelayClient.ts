@@ -21,33 +21,7 @@ type SupabaseRpcResult<T> = {
   error: SupabaseRpcError | null;
 };
 
-type SupabaseAuthUser = {
-  id?: string | null;
-};
-
-type SupabaseAuthSession = {
-  user?: SupabaseAuthUser | null;
-  [key: string]: unknown;
-};
-
-type SupabaseAnonymousSignInData = {
-  user?: SupabaseAuthUser | null;
-  session?: SupabaseAuthSession | null;
-};
-
-type SupabaseRelayAuth = {
-  getSession: () => Promise<{
-    data?: { session?: SupabaseAuthSession | null } | null;
-    error?: SupabaseRpcError | null;
-  }>;
-  signInAnonymously: () => Promise<{
-    data?: SupabaseAnonymousSignInData | null;
-    error?: SupabaseRpcError | null;
-  }>;
-};
-
 export type SupabaseRelayClientLike = {
-  auth: SupabaseRelayAuth;
   rpc: <T = unknown>(
     functionName: string,
     args?: Record<string, unknown>
@@ -60,31 +34,22 @@ type SupabaseRelayOptions = {
 
 export class SupabaseRelayClient {
   private readonly supabase: SupabaseRelayClientLike;
+  private readonly ensureSession: () => Promise<string>;
   private readonly publicBaseUrl: string;
 
   constructor(
     supabase: SupabaseRelayClientLike,
+    ensureSession: () => Promise<string>,
     options: SupabaseRelayOptions = {}
   ) {
     this.supabase = supabase;
+    this.ensureSession = ensureSession;
     this.publicBaseUrl = (options.publicBaseUrl ?? '').replace(/\/+$/, '');
   }
 
   async health(): Promise<{ ok: boolean }> {
-    await this.ensureAnonymousSession();
+    await this.ensureSession();
     return { ok: true };
-  }
-
-  async getAuthenticatedUserId(): Promise<string> {
-    const userId = await this.ensureAnonymousSession();
-    if (!userId) {
-      throw new RelayHttpError(
-        401,
-        'SUPABASE_AUTH_ERROR',
-        'Supabase auth user id is unavailable'
-      );
-    }
-    return userId;
   }
 
   async createInvite(body: CreateInviteRequest): Promise<CreateInviteResponse> {
@@ -196,7 +161,7 @@ export class SupabaseRelayClient {
     functionName: string,
     args: Record<string, unknown>
   ): Promise<T | null> {
-    await this.ensureAnonymousSession();
+    await this.ensureSession();
     const { data, error } = await this.supabase.rpc<T>(functionName, args);
     if (error) {
       throw new RelayHttpError(
@@ -206,35 +171,5 @@ export class SupabaseRelayClient {
       );
     }
     return data;
-  }
-
-  private async ensureAnonymousSession(): Promise<string | null> {
-    const sessionResult = await this.supabase.auth.getSession();
-    if (sessionResult.error) {
-      throw new RelayHttpError(
-        401,
-        sessionResult.error.code || 'SUPABASE_AUTH_ERROR',
-        sessionResult.error.message || 'Could not read Supabase session'
-      );
-    }
-
-    if (sessionResult.data?.session) {
-      return sessionResult.data.session.user?.id ?? null;
-    }
-
-    const signInResult = await this.supabase.auth.signInAnonymously();
-    if (signInResult.error) {
-      throw new RelayHttpError(
-        401,
-        signInResult.error.code || 'SUPABASE_AUTH_ERROR',
-        signInResult.error.message || 'Could not create anonymous session'
-      );
-    }
-
-    return (
-      signInResult.data?.user?.id ??
-      signInResult.data?.session?.user?.id ??
-      null
-    );
   }
 }

@@ -1,6 +1,7 @@
 import 'react-native-url-polyfill/auto';
 
 import { getSupabaseClient } from '../auth/supabase';
+import { getAccountService } from '../auth/accountService';
 import { readSupabaseRelayConfig } from './supabaseConfig';
 import {
   SupabaseRelayClient,
@@ -19,6 +20,7 @@ export function getConfiguredSupabaseRelayClient(): SupabaseRelayClient {
     const supabase = getSupabaseClient();
     cachedClient = new SupabaseRelayClient(
       supabase as unknown as SupabaseRelayClientLike,
+      () => getAccountService().ensureAnonymousUser(),
       {
         publicBaseUrl: config.url,
       }

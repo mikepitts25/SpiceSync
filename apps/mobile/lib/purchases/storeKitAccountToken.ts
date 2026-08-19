@@ -14,11 +14,9 @@ export function normalizeStoreKitAppAccountToken(
 export async function getStoreKitAppAccountToken(): Promise<string | null> {
   if (!isSupabaseRelayConfigured()) return null;
 
-  const { getConfiguredSupabaseRelayClient } = require(
-    '../sync/supabaseClient'
-  ) as typeof import('../sync/supabaseClient');
-  const userId =
-    await getConfiguredSupabaseRelayClient().getAuthenticatedUserId();
+  const { getAccountService } =
+    require('../auth/accountService') as typeof import('../auth/accountService');
+  const userId = await getAccountService().ensureAnonymousUser();
   const appAccountToken = normalizeStoreKitAppAccountToken(userId);
   if (!appAccountToken) {
     throw new Error(

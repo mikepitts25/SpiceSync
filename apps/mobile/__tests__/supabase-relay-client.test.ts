@@ -3,23 +3,14 @@ import { RelayHttpError } from '../lib/sync/relayClient';
 
 function makeSupabaseMock() {
   return {
-    auth: {
-      getSession: jest.fn().mockResolvedValue({
-        data: { session: null },
-        error: null,
-      }),
-      signInAnonymously: jest.fn().mockResolvedValue({
-        data: { user: { id: 'user-1' } },
-        error: null,
-      }),
-    },
     rpc: jest.fn(),
   };
 }
 
 describe('SupabaseRelayClient', () => {
-  it('signs in anonymously and maps createInvite RPC responses', async () => {
+  it('uses the injected session owner before mapping createInvite RPC responses', async () => {
     const supabase = makeSupabaseMock();
+    const ensureSession = jest.fn().mockResolvedValue('user-1');
     supabase.rpc.mockResolvedValueOnce({
       data: {
         inviteId: 'inv_1',
@@ -28,7 +19,7 @@ describe('SupabaseRelayClient', () => {
       error: null,
     });
 
-    const client = new SupabaseRelayClient(supabase, {
+    const client = new SupabaseRelayClient(supabase, ensureSession, {
       publicBaseUrl: 'https://project.supabase.co',
     });
 
@@ -48,8 +39,7 @@ describe('SupabaseRelayClient', () => {
       expiresAt: 1770000000,
     });
 
-    expect(supabase.auth.getSession).toHaveBeenCalledTimes(1);
-    expect(supabase.auth.signInAnonymously).toHaveBeenCalledTimes(1);
+    expect(ensureSession).toHaveBeenCalledTimes(1);
     expect(supabase.rpc).toHaveBeenCalledWith('spicesync_create_invite', {
       p_inviter_device_id: 'dev_a',
       p_inviter_public_key: 'pub_a',
@@ -60,12 +50,9 @@ describe('SupabaseRelayClient', () => {
     });
   });
 
-  it('does not sign in again when a Supabase session exists', async () => {
+  it('calls the injected session owner before every RPC', async () => {
     const supabase = makeSupabaseMock();
-    supabase.auth.getSession.mockResolvedValueOnce({
-      data: { session: { access_token: 'token' } },
-      error: null,
-    });
+    const ensureSession = jest.fn().mockResolvedValue('user-1');
     supabase.rpc.mockResolvedValueOnce({
       data: {
         inviteId: 'inv_2',
@@ -80,41 +67,13 @@ describe('SupabaseRelayClient', () => {
       error: null,
     });
 
-    const client = new SupabaseRelayClient(supabase);
+    const client = new SupabaseRelayClient(supabase, ensureSession);
     await client.getInvite('inv_2');
 
-    expect(supabase.auth.signInAnonymously).not.toHaveBeenCalled();
+    expect(ensureSession).toHaveBeenCalledTimes(1);
     expect(supabase.rpc).toHaveBeenCalledWith('spicesync_get_invite', {
       p_invite_id: 'inv_2',
     });
-  });
-
-  it('returns the authenticated Supabase user id for StoreKit account tokens', async () => {
-    const userId = 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6';
-    const supabase = makeSupabaseMock();
-    supabase.auth.getSession.mockResolvedValueOnce({
-      data: { session: { user: { id: userId } } },
-      error: null,
-    });
-
-    const client = new SupabaseRelayClient(supabase);
-
-    await expect(client.getAuthenticatedUserId()).resolves.toBe(userId);
-    expect(supabase.auth.signInAnonymously).not.toHaveBeenCalled();
-  });
-
-  it('returns the new anonymous Supabase user id when no session exists', async () => {
-    const userId = '9b2f6d55-9b8a-4dbb-b9dd-5120f20fd533';
-    const supabase = makeSupabaseMock();
-    supabase.auth.signInAnonymously.mockResolvedValueOnce({
-      data: { user: { id: userId } },
-      error: null,
-    });
-
-    const client = new SupabaseRelayClient(supabase);
-
-    await expect(client.getAuthenticatedUserId()).resolves.toBe(userId);
-    expect(supabase.auth.signInAnonymously).toHaveBeenCalledTimes(1);
   });
 
   it('maps acceptInvite signing keys through the Supabase RPC', async () => {
@@ -133,7 +92,10 @@ describe('SupabaseRelayClient', () => {
       error: null,
     });
 
-    const client = new SupabaseRelayClient(supabase);
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
 
     await expect(
       client.acceptInvite('inv_1', {
@@ -179,7 +141,10 @@ describe('SupabaseRelayClient', () => {
       })
       .mockResolvedValueOnce({ data: null, error: null });
 
-    const client = new SupabaseRelayClient(supabase);
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
 
     await expect(client.findCoupleForDevice('dev_a')).resolves.toMatchObject({
       coupleId: 'cpl_existing',
@@ -236,7 +201,10 @@ describe('SupabaseRelayClient', () => {
         error: null,
       });
 
-    const client = new SupabaseRelayClient(supabase);
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
 
     await expect(
       client.appendEvent('cpl_1', {
@@ -285,7 +253,10 @@ describe('SupabaseRelayClient', () => {
       error: { code: 'P0001', message: 'Invite expired' },
     });
 
-    const client = new SupabaseRelayClient(supabase);
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
 
     await expect(client.getInvite('inv_old')).rejects.toMatchObject({
       name: 'RelayHttpError',
