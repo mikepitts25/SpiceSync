@@ -32,3 +32,29 @@
 ## Concerns
 
 - Task 6 must attach same-device registration/recovery to `handleProtectionComplete`; this task deliberately does not call an unavailable recovery RPC.
+
+## Fix Round 1
+
+### Implementation
+
+- Provider operations now report pending state to the gate. **Not now** is disabled through credential acquisition, link/sign-in, permanence verification, and the deferred callback. The gate also invalidates its session before any cancel transition.
+- Apple `ERR_REQUEST_CANCELED` is normalized to `CANCELLED`; both Apple and Google cancellation invoke the same safe `onCancel` transition.
+- `PartnerConnect` now uses a synchronous ref latch before its permanent-account check, so double taps cannot start duplicate create or accept work. Deferred actions carry a session id, and stale completion after cancellation is ignored.
+
+### TDD evidence
+
+1. RED: `npm test -- --runInBand __tests__/partner-account-gate.test.tsx __tests__/auth-providers.test.ts` failed for Google/Apple cancellation, in-flight cancellation, and Apple cancellation normalization.
+2. GREEN: the same command passed after pending/session handling and native cancellation normalization.
+3. RED: `npm test -- --runInBand __tests__/partner-connect-account-gate.test.tsx` failed because duplicate create and accept taps each called `requirePermanentUser()` twice.
+4. GREEN: both controller paths now latch before checking the account; the controller, stale-cancel, gate, provider, recovery, and invite tests pass together.
+
+### Verification
+
+- `npx eslint app/'(onboarding)'/partner-connect.tsx components/auth/AccountProviderButtons.tsx components/auth/PartnerAccountGate.tsx lib/auth/providers/apple.ios.ts __tests__/partner-account-gate.test.tsx __tests__/partner-connect-account-gate.test.tsx __tests__/partner-connect-account-gate-cancel.test.tsx __tests__/auth-providers.test.ts` — passed with no warnings.
+- `npx tsc --noEmit` — passed.
+- `npm test -- --runInBand __tests__/partner-account-gate.test.tsx __tests__/partner-connect-account-gate.test.tsx __tests__/partner-connect-account-gate-cancel.test.tsx __tests__/auth-providers.test.ts __tests__/partner-connect-recovery.test.ts __tests__/sync-invite-flow.test.ts` — 6 suites, 31 tests passed.
+
+### Files and self-review
+
+- Changed `PartnerAccountGate`, provider buttons, Apple provider, and partner-connect controller; added interaction tests for the real controller and stale cancellation race.
+- Confirmed deferred creation/acceptance cannot run from a canceled session and no recovery RPC was introduced.

@@ -18,6 +18,7 @@ type AccountProviderButtonsProps = {
   disabled?: boolean;
   provider?: Provider;
   actionLabel?: string;
+  onPendingChange?: (pending: boolean) => void;
 };
 
 export function AccountProviderButtons({
@@ -26,6 +27,7 @@ export function AccountProviderButtons({
   disabled = false,
   provider,
   actionLabel,
+  onPendingChange,
 }: AccountProviderButtonsProps) {
   const [appleAvailable, setAppleAvailable] = useState(false);
   const [pendingProvider, setPendingProvider] = useState<Provider | null>(null);
@@ -50,11 +52,13 @@ export function AccountProviderButtons({
   ) => {
     try {
       setPendingProvider(selectedProvider);
+      onPendingChange?.(true);
       await onCredential(await getCredential());
     } catch (error) {
       onError(error);
     } finally {
       setPendingProvider(null);
+      onPendingChange?.(false);
     }
   };
 

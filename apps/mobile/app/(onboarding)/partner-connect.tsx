@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   Alert,
   Pressable,
@@ -53,7 +59,12 @@ type RecoveryError = {
   body: string;
 };
 
-type DeferredRemoteAction = () => Promise<void>;
+type RemoteAction = () => Promise<void>;
+
+type DeferredRemoteAction = {
+  action: RemoteAction;
+  sessionId: number;
+};
 
 function errorBody(error: unknown, fallback: string): string {
   return error instanceof Error && error.message ? error.message : fallback;
@@ -115,6 +126,8 @@ export default function PartnerConnect() {
   const [accountGateVisible, setAccountGateVisible] = useState(false);
   const [deferredRemoteAction, setDeferredRemoteAction] =
     useState<DeferredRemoteAction | null>(null);
+  const remoteActionInFlightRef = useRef(false);
+  const accountGateSessionRef = useRef(0);
 
   const handleLocalProfile = useCallback(() => {
     router.push('/(settings)/profiles/new?from=partner-connect');
@@ -184,7 +197,7 @@ export default function PartnerConnect() {
   useEffect(() => {
     if (mode !== 'remote-create' || !pendingInvite) return;
     const handle = setInterval(() => {
-      void completePendingInvite(pendingInvite.inviteId);
+      completePendingInvite(pendingInvite.inviteId);
     }, 4000);
     return () => clearInterval(handle);
   }, [mode, pendingInvite, completePendingInvite]);
@@ -192,25 +205,29 @@ export default function PartnerConnect() {
   const handleRetryPoll = useCallback(() => {
     if (!pendingInvite) return;
     setPollError(null);
-    void completePendingInvite(pendingInvite.inviteId);
+    completePendingInvite(pendingInvite.inviteId);
   }, [completePendingInvite, pendingInvite]);
 
-  const runAfterPermanentAccount = useCallback(
-    async (action: DeferredRemoteAction) => {
-      try {
-        await getAccountService().requirePermanentUser();
-        await action();
-      } catch (error) {
-        if (isAccountRequired(error)) {
-          setDeferredRemoteAction(() => action);
-          setAccountGateVisible(true);
-          return;
-        }
-        throw error;
+  const runAfterPermanentAccount = useCallback(async (action: RemoteAction) => {
+    if (remoteActionInFlightRef.current) return;
+    remoteActionInFlightRef.current = true;
+    setIsConnecting(true);
+    try {
+      await getAccountService().requirePermanentUser();
+      await action();
+    } catch (error) {
+      if (isAccountRequired(error)) {
+        const sessionId = ++accountGateSessionRef.current;
+        setDeferredRemoteAction({ action, sessionId });
+        setAccountGateVisible(true);
+        return;
       }
-    },
-    []
-  );
+      throw error;
+    } finally {
+      remoteActionInFlightRef.current = false;
+      setIsConnecting(false);
+    }
+  }, []);
 
   const createRemoteInvite = async () => {
     try {
@@ -305,13 +322,17 @@ export default function PartnerConnect() {
   };
 
   const handleAccountGateComplete = useCallback(async () => {
-    const action = deferredRemoteAction;
+    const deferred = deferredRemoteAction;
+    if (!deferred || deferred.sessionId !== accountGateSessionRef.current) {
+      return;
+    }
     setDeferredRemoteAction(null);
     setAccountGateVisible(false);
-    if (action) await runAfterPermanentAccount(action);
+    await runAfterPermanentAccount(deferred.action);
   }, [deferredRemoteAction, runAfterPermanentAccount]);
 
   const handleAccountGateCancel = useCallback(() => {
+    accountGateSessionRef.current += 1;
     setDeferredRemoteAction(null);
     setAccountGateVisible(false);
     setMode('menu');

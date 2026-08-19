@@ -10,13 +10,26 @@ export async function isAppleAvailable(): Promise<boolean> {
 
 export async function getAppleCredential(): Promise<ProviderCredential> {
   const rawNonce = createNonce();
-  const credential = await AppleAuthentication.signInAsync({
-    requestedScopes: [
-      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-      AppleAuthentication.AppleAuthenticationScope.EMAIL,
-    ],
-    nonce: sha256Hex(rawNonce),
-  });
+  let credential: AppleAuthentication.AppleAuthenticationCredential;
+  try {
+    credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+      nonce: sha256Hex(rawNonce),
+    });
+  } catch (error) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      error.code === 'ERR_REQUEST_CANCELED'
+    ) {
+      throw new AuthFlowError('CANCELLED', 'Apple sign-in was cancelled');
+    }
+    throw error;
+  }
 
   if (!credential.identityToken) {
     throw new AuthFlowError('MISSING_TOKEN', 'Apple identity token is missing');

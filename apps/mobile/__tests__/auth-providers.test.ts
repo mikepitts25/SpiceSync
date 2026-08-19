@@ -94,6 +94,16 @@ describe('native account providers', () => {
     await expect(isAppleAvailable()).resolves.toBe(true);
   });
 
+  it('normalizes Apple request cancellation for the partner account gate', async () => {
+    AppleAuthentication.signInAsync.mockRejectedValue({
+      code: 'ERR_REQUEST_CANCELED',
+    });
+
+    await expect(getAppleCredential()).rejects.toMatchObject({
+      code: 'CANCELLED',
+    });
+  });
+
   it('returns Google ID and access tokens for Supabase', async () => {
     expect(isGoogleConfigured()).toBe(true);
     GoogleSignin.signIn.mockResolvedValue({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { COLORS, FONTS } from '../../constants/theme';
@@ -38,8 +38,12 @@ export function PartnerAccountGate({
   >(null);
   const [error, setError] = useState<string | null>(null);
   const [isCompleting, setIsCompleting] = useState(false);
+  const [isProviderOperationPending, setIsProviderOperationPending] =
+    useState(false);
+  const sessionIdRef = useRef(0);
 
   const handleCredential = async (credential: ProviderCredential) => {
+    const sessionId = sessionIdRef.current;
     setError(null);
     const accountService = getAccountService();
 
@@ -58,6 +62,7 @@ export function PartnerAccountGate({
     }
 
     await accountService.requirePermanentUser();
+    if (sessionId !== sessionIdRef.current) return;
     setIsCompleting(true);
     try {
       await onComplete();
@@ -71,11 +76,25 @@ export function PartnerAccountGate({
       typeof providerError === 'object' &&
       providerError !== null &&
       'code' in providerError &&
-      providerError.code === 'CANCELLED'
+      (providerError.code === 'CANCELLED' ||
+        providerError.code === 'ERR_REQUEST_CANCELED')
     ) {
+      handleCancel();
       return;
     }
     setError(errorMessage(providerError));
+  };
+
+  const handleProviderPendingChange = (pending: boolean) => {
+    if (pending) {
+      sessionIdRef.current += 1;
+    }
+    setIsProviderOperationPending(pending);
+  };
+
+  const handleCancel = () => {
+    sessionIdRef.current += 1;
+    onCancel();
   };
 
   const signingIntoExistingAccount = existingProvider !== null;
@@ -104,15 +123,19 @@ export function PartnerAccountGate({
             ? ui('Sign into existing account')
             : undefined
         }
-        disabled={isCompleting}
+        disabled={isCompleting || isProviderOperationPending}
         onCredential={handleCredential}
         onError={handleError}
+        onPendingChange={handleProviderPendingChange}
       />
       <Pressable
         accessibilityRole="button"
-        disabled={isCompleting}
-        onPress={onCancel}
-        style={[styles.notNow, isCompleting && styles.disabled]}
+        disabled={isCompleting || isProviderOperationPending}
+        onPress={handleCancel}
+        style={[
+          styles.notNow,
+          (isCompleting || isProviderOperationPending) && styles.disabled,
+        ]}
       >
         <Text style={styles.notNowText}>{ui('Not now')}</Text>
       </Pressable>

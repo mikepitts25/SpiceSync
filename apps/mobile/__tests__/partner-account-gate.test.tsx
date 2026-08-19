@@ -100,6 +100,90 @@ describe('PartnerAccountGate', () => {
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
 
+  it('returns safely to partner setup when Google authentication is cancelled', async () => {
+    const onCancel = jest.fn();
+    mockGetGoogleCredential.mockRejectedValue({ code: 'CANCELLED' });
+    mockGetAccountService.mockReturnValue({
+      linkProvider: jest.fn(),
+      signIn: jest.fn(),
+      requirePermanentUser: jest.fn(),
+    });
+    const screen = render(
+      <PartnerAccountGate
+        intent="protect"
+        onComplete={jest.fn()}
+        onCancel={onCancel}
+      />
+    );
+
+    fireEvent.press(screen.getByText('Continue with Google'));
+
+    await waitFor(() => expect(onCancel).toHaveBeenCalledTimes(1));
+  });
+
+  it('shows Apple when available and returns safely when Apple authentication is cancelled', async () => {
+    const onCancel = jest.fn();
+    mockIsAppleAvailable.mockResolvedValue(true);
+    mockGetAppleCredential.mockRejectedValue({ code: 'ERR_REQUEST_CANCELED' });
+    mockGetAccountService.mockReturnValue({
+      linkProvider: jest.fn(),
+      signIn: jest.fn(),
+      requirePermanentUser: jest.fn(),
+    });
+    const screen = render(
+      <PartnerAccountGate
+        intent="protect"
+        onComplete={jest.fn()}
+        onCancel={onCancel}
+      />
+    );
+
+    const appleButton = await screen.findByText('Continue with Apple');
+    fireEvent.press(appleButton);
+
+    await waitFor(() => expect(onCancel).toHaveBeenCalledTimes(1));
+  });
+
+  it('disables cancellation while provider linking is in flight', async () => {
+    let resolveCredential:
+      | ((credential: typeof googleCredential) => void)
+      | undefined;
+    const onCancel = jest.fn();
+    mockGetGoogleCredential.mockImplementation(
+      () =>
+        new Promise<typeof googleCredential>((resolve) => {
+          resolveCredential = resolve;
+        })
+    );
+    mockGetAccountService.mockReturnValue({
+      linkProvider: jest.fn().mockResolvedValue(permanentAccount('user-1')),
+      signIn: jest.fn(),
+      requirePermanentUser: jest.fn().mockResolvedValue('user-1'),
+    });
+    const screen = render(
+      <PartnerAccountGate
+        intent="protect"
+        onComplete={jest.fn()}
+        onCancel={onCancel}
+      />
+    );
+
+    fireEvent.press(screen.getByText('Continue with Google'));
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole('button', { name: 'Not now' }).props.accessibilityState
+          .disabled
+      ).toBe(true)
+    );
+    fireEvent.press(screen.getByText('Not now'));
+    expect(onCancel).not.toHaveBeenCalled();
+
+    await act(async () => {
+      resolveCredential?.(googleCredential);
+    });
+  });
+
   it('requires explicit confirmation and a fresh credential before existing-account sign-in', async () => {
     const existingAccountError = Object.assign(new Error('already linked'), {
       code: 'ACCOUNT_EXISTS',
