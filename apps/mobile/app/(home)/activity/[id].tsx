@@ -10,6 +10,8 @@ import { useProfilesStore } from '../../../lib/state/profiles';
 import { useVotesStore } from '../../../src/stores/votes';
 import { voteValue } from '../../../lib/votes/rolePreferences';
 
+import { ui } from '../../../lib/i18n/uiLiteral';
+
 export default function ActivityDetail() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -32,9 +34,9 @@ export default function ActivityDetail() {
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
           <Text style={styles.errorEmoji}>😕</Text>
-          <Text style={styles.errorTitle}>Activity Not Found</Text>
+          <Text style={styles.errorTitle}>{ui('Activity Not Found')}</Text>
           <Pressable style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backButtonText}>Go Back</Text>
+            <Text style={styles.backButtonText}>{ui('Go Back')}</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -67,7 +69,7 @@ export default function ActivityDetail() {
         {/* Header */}
         <View style={styles.header}>
           <Pressable onPress={() => router.back()} style={styles.backButton}>
-            <Text style={styles.backText}>← Back</Text>
+            <Text style={styles.backText}>{ui('← Back')}</Text>
           </Pressable>
         </View>
 
@@ -90,7 +92,7 @@ export default function ActivityDetail() {
         {/* Meta Info */}
         <View style={styles.metaCard}>
           <View style={styles.metaRow}>
-            <Text style={styles.metaLabel}>Intensity</Text>
+            <Text style={styles.metaLabel}>{ui('Intensity')}</Text>
             <View style={styles.intensityDots}>
               {[1, 2, 3, 4, 5].map((dot) => (
                 <View
@@ -109,7 +111,7 @@ export default function ActivityDetail() {
         {/* Current Vote */}
         {currentVote && (
           <View style={styles.currentVoteCard}>
-            <Text style={styles.currentVoteLabel}>Your Vote:</Text>
+            <Text style={styles.currentVoteLabel}>{ui('Your Vote:')}</Text>
             <Text
               style={[
                 styles.currentVoteValue,
@@ -119,35 +121,35 @@ export default function ActivityDetail() {
               ]}
             >
               {currentVote === 'yes'
-                ? '✓ Yes'
+                ? ui('✓ Yes')
                 : currentVote === 'no'
-                  ? '✕ No'
-                  : '? Maybe'}
+                  ? ui('✕ No')
+                  : ui('? Maybe')}
             </Text>
           </View>
         )}
 
         {/* Vote Buttons */}
         <View style={styles.voteSection}>
-          <Text style={styles.voteTitle}>Vote on this activity</Text>
+          <Text style={styles.voteTitle}>{ui('Vote on this activity')}</Text>
           <View style={styles.voteButtons}>
             <Pressable
               style={[styles.voteButton, styles.yesButton]}
               onPress={() => handleVote('yes')}
             >
-              <Text style={styles.voteButtonText}>✓ Yes</Text>
+              <Text style={styles.voteButtonText}>{ui('✓ Yes')}</Text>
             </Pressable>
             <Pressable
               style={[styles.voteButton, styles.maybeButton]}
               onPress={() => handleVote('maybe')}
             >
-              <Text style={styles.voteButtonText}>? Maybe</Text>
+              <Text style={styles.voteButtonText}>{ui('? Maybe')}</Text>
             </Pressable>
             <Pressable
               style={[styles.voteButton, styles.noButton]}
               onPress={() => handleVote('no')}
             >
-              <Text style={styles.voteButtonText}>✕ No</Text>
+              <Text style={styles.voteButtonText}>{ui('✕ No')}</Text>
             </Pressable>
           </View>
         </View>

@@ -17,10 +17,14 @@ import { ChevronRight } from 'lucide-react-native';
 import { AppHeader, AppTabBar } from '../../components/app-chrome';
 import { ScreenTour } from '../../components/ScreenTour';
 import {
-  CONVERSATION_TOPIC_TILES,
+  getConversationTopicTiles,
   type ConversationTopicTile,
 } from '../../lib/conversationExperience';
-import { useTranslation } from '../../lib/i18n';
+import {
+  interpolate,
+  useConversationTranslation,
+  useTranslation,
+} from '../../lib/i18n';
 import { COLORS, SHADOWS } from '../../constants/theme';
 
 const GRID_PADDING = 16;
@@ -31,10 +35,16 @@ const NORMAL_LINE_HEIGHT = 23;
 type TopicTileProps = {
   item: ConversationTopicTile;
   tileSize: number;
+  accessibilityLabel: string;
   onPress: (topic: ConversationTopicTile) => void;
 };
 
-function TopicTile({ item, tileSize, onPress }: TopicTileProps) {
+function TopicTile({
+  item,
+  tileSize,
+  accessibilityLabel,
+  onPress,
+}: TopicTileProps) {
   const pressProgress = useRef(new Animated.Value(0)).current;
 
   const animatePress = useCallback(
@@ -77,7 +87,7 @@ function TopicTile({ item, tileSize, onPress }: TopicTileProps) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`Open ${item.label}`}
+      accessibilityLabel={accessibilityLabel}
       onPress={() => onPress(item)}
       onPressIn={() => animatePress(1)}
       onPressOut={() => animatePress(0)}
@@ -166,8 +176,10 @@ function TopicTile({ item, tileSize, onPress }: TopicTileProps) {
 export default function ConversationScreen() {
   const router = useRouter();
   const { t } = useTranslation();
+  const { ct, language } = useConversationTranslation();
   const { width } = useWindowDimensions();
   const tileSize = Math.floor((width - GRID_PADDING * 2 - GRID_GAP) / 2);
+  const topicTiles = getConversationTopicTiles(language);
 
   const openTopic = useCallback(
     (topic: ConversationTopicTile) => {
@@ -194,19 +206,26 @@ export default function ConversationScreen() {
 
       <View style={styles.content}>
         <View style={styles.headingBlock}>
-          <Text style={styles.eyebrow}>CONVO TOPICS</Text>
-          <Text style={styles.title}>Pick a conversation lane</Text>
+          <Text style={styles.eyebrow}>{ct.topicsEyebrow}</Text>
+          <Text style={styles.title}>{ct.pickConversationLane}</Text>
         </View>
 
         <FlatList
-          data={CONVERSATION_TOPIC_TILES}
+          data={topicTiles}
           keyExtractor={(item) => item.id}
           numColumns={2}
           columnWrapperStyle={styles.gridRow}
           contentContainerStyle={styles.gridContent}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <TopicTile item={item} tileSize={tileSize} onPress={openTopic} />
+            <TopicTile
+              item={item}
+              tileSize={tileSize}
+              accessibilityLabel={interpolate(ct.openTopic, {
+                topic: item.label,
+              })}
+              onPress={openTopic}
+            />
           )}
         />
       </View>

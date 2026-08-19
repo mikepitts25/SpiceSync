@@ -14,8 +14,11 @@ import {
   getLoveLanguageModuleCopy,
 } from '../../lib/conversationExperience';
 import { useProfilesStore } from '../../lib/state/profiles';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
+
+import { ui } from '../../lib/i18n/uiLiteral';
 
 const MAIN_TOPIC_FONT_SIZE = 24;
 const MAIN_TOPIC_LINE_HEIGHT = 31;
@@ -31,6 +34,7 @@ export default function LoveLanguagesHubScreen() {
     }))
   );
   const loveLanguageResults = useLoveLanguagesStore((state) => state.results);
+  const language = useSettingsStore((state) => state.language);
 
   const loveLanguageCopy = useMemo(
     () =>
@@ -41,9 +45,10 @@ export default function LoveLanguagesHubScreen() {
           .map((profile) => ({
             name: profile.displayName ?? profile.name,
             result: loveLanguageResults[profile.id],
-          }))
+          })),
+        language
       ),
-    [activeId, loveLanguageResults, profiles]
+    [activeId, language, loveLanguageResults, profiles]
   );
 
   const promptRoute = `/(conversation)/topic/${LOVE_LANGUAGE_PROMPT_CATEGORY}`;
@@ -55,11 +60,10 @@ export default function LoveLanguagesHubScreen() {
     >
       <StatusBar style="light" />
       <AppHeader />
-
       <View style={styles.headerRow}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Back to conversation topics"
+          accessibilityLabel={ui('Back to conversation topics')}
           onPress={() => router.back()}
           style={styles.backButton}
         >
@@ -68,10 +72,9 @@ export default function LoveLanguagesHubScreen() {
 
         <View style={styles.headerCopy}>
           <Text style={styles.eyebrow}>{loveLanguageCopy.eyebrow}</Text>
-          <Text style={styles.title}>Love Languages</Text>
+          <Text style={styles.title}>{ui('Love Languages')}</Text>
         </View>
       </View>
-
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
@@ -94,14 +97,14 @@ export default function LoveLanguagesHubScreen() {
             {loveLanguageCopy.activePrimary ? (
               <View style={styles.resultRow}>
                 <View style={styles.resultBlock}>
-                  <Text style={styles.resultLabel}>PRIMARY</Text>
+                  <Text style={styles.resultLabel}>{ui('PRIMARY')}</Text>
                   <Text style={styles.resultValue}>
                     {loveLanguageCopy.activePrimary}
                   </Text>
                 </View>
                 {loveLanguageCopy.activeSecondary ? (
                   <View style={styles.resultBlock}>
-                    <Text style={styles.resultLabel}>SECONDARY</Text>
+                    <Text style={styles.resultLabel}>{ui('SECONDARY')}</Text>
                     <Text style={styles.resultValue}>
                       {loveLanguageCopy.activeSecondary}
                     </Text>
@@ -121,17 +124,18 @@ export default function LoveLanguagesHubScreen() {
         <View style={styles.optionStack}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Use Love Languages prompts"
+            accessibilityLabel={ui('Use Love Languages prompts')}
             onPress={() => router.push(promptRoute as never)}
             style={styles.optionPress}
           >
             <View style={styles.optionCard}>
               <MessageCircle size={24} color={COLORS.pink} />
               <View style={styles.optionCopy}>
-                <Text style={styles.optionTitle}>Use prompts</Text>
+                <Text style={styles.optionTitle}>{ui('Use prompts')}</Text>
                 <Text style={styles.optionText}>
-                  Open guided questions for turning your results into a real
-                  conversation.
+                  {ui(
+                    ' Open guided questions for turning your results into a real conversation. '
+                  )}
                 </Text>
               </View>
             </View>
@@ -155,7 +159,7 @@ export default function LoveLanguagesHubScreen() {
                   {loveLanguageCopy.ctaLabel}
                 </Text>
                 <Text style={styles.quizText}>
-                  Complete the quiz or revisit your current result.
+                  {ui(' Complete the quiz or revisit your current result. ')}
                 </Text>
               </View>
             </LinearGradient>

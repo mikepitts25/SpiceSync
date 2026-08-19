@@ -32,6 +32,8 @@ import { usePremiumStore } from '../../../src/stores/premium';
 import { hasPremiumFeatureAccess } from '../../../lib/purchases/access';
 import { canCreateProfile } from '../../../lib/purchases/premiumPolicy';
 
+import { ui } from '../../../lib/i18n/uiLiteral';
+
 const PIN_LENGTH = 4;
 
 export default function NewProfileScreen() {
@@ -142,8 +144,8 @@ export default function NewProfileScreen() {
     } catch (error) {
       console.error('create profile failed', error);
       const message =
-        error instanceof Error ? error.message : 'Please try again.';
-      Alert.alert('Could not create profile', message);
+        error instanceof Error ? error.message : ui('Please try again.');
+      Alert.alert(ui('Could not create profile'), message);
     } finally {
       setIsSaving(false);
     }
@@ -165,7 +167,7 @@ export default function NewProfileScreen() {
             <SpiceSyncLogo width={220} height={82} />
           </View>
         ) : (
-          <BackHeader title="New Profile" />
+          <BackHeader title={ui('New Profile')} />
         )}
 
         <ScrollView
@@ -174,10 +176,12 @@ export default function NewProfileScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.heroCopy}>
-            <Text style={styles.eyebrow}>PRIVATE PROFILE</Text>
-            <Text style={styles.title}>Create your profile</Text>
+            <Text style={styles.eyebrow}>{ui('PRIVATE PROFILE')}</Text>
+            <Text style={styles.title}>{ui('Create your profile')}</Text>
             <Text style={styles.subtitle}>
-              Choose how you appear locally before you start answering cards.
+              {ui(
+                ' Choose how you appear locally before you start answering cards. '
+              )}
             </Text>
           </View>
 
@@ -185,30 +189,32 @@ export default function NewProfileScreen() {
             <CardAccentTop />
             <View style={styles.formInner}>
               <View style={styles.section}>
-                <Text style={styles.label}>Name</Text>
+                <Text style={styles.label}>{ui('Name')}</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Enter name"
+                  placeholder={ui('Enter name')}
                   placeholderTextColor={COLORS.textMuted}
                   value={name}
                   onChangeText={setName}
                   autoCapitalize="words"
                 />
-                <Text style={styles.hint}>Visible only inside this app.</Text>
+                <Text style={styles.hint}>
+                  {ui('Visible only inside this app.')}
+                </Text>
               </View>
 
               <View style={styles.section}>
-                <Text style={styles.label}>Avatar</Text>
+                <Text style={styles.label}>{ui('Avatar')}</Text>
                 <Pressable
                   style={styles.emojiSelector}
                   onPress={() => setMenuVisible(true)}
                   accessibilityRole="button"
-                  accessibilityLabel="Choose avatar"
+                  accessibilityLabel={ui('Choose avatar')}
                 >
                   <ProfileAvatarIcon avatar={emojiLabel} size={48} />
                   <View style={styles.emojiCopy}>
-                    <Text style={styles.emojiTitle}>Choose avatar</Text>
-                    <Text style={styles.emojiHint}>Tap to change</Text>
+                    <Text style={styles.emojiTitle}>{ui('Choose avatar')}</Text>
+                    <Text style={styles.emojiHint}>{ui('Tap to change')}</Text>
                   </View>
                 </Pressable>
               </View>
@@ -216,7 +222,7 @@ export default function NewProfileScreen() {
               <View style={styles.section}>
                 <View style={styles.pinHeader}>
                   <Text style={styles.label}>
-                    {requiresPin ? 'Set a 4-digit PIN' : 'PIN'}
+                    {requiresPin ? ui('Set a 4-digit PIN') : ui('PIN')}
                   </Text>
                   {!requiresPin ? (
                     <Pressable
@@ -225,7 +231,7 @@ export default function NewProfileScreen() {
                       accessibilityRole="button"
                     >
                       <Text style={styles.pinToggleText}>
-                        {pinEnabled ? 'Remove PIN' : 'Optional'}
+                        {pinEnabled ? ui('Remove PIN') : ui('Optional')}
                       </Text>
                     </Pressable>
                   ) : null}
@@ -255,7 +261,9 @@ export default function NewProfileScreen() {
                       placeholderTextColor={COLORS.textMuted}
                     />
                     <Text style={styles.hint}>
-                      Digits only. You need this PIN to switch profiles.
+                      {ui(
+                        ' Digits only. You need this PIN to switch profiles. '
+                      )}
                     </Text>
                     {pinError ? (
                       <Text style={styles.error}>{pinError}</Text>
@@ -263,7 +271,7 @@ export default function NewProfileScreen() {
                   </View>
                 ) : (
                   <Text style={styles.hint}>
-                    Keep this profile open, or add a PIN later.
+                    {ui(' Keep this profile open, or add a PIN later. ')}
                   </Text>
                 )}
               </View>
@@ -286,13 +294,14 @@ export default function NewProfileScreen() {
               style={styles.primaryButton}
             >
               <Text style={styles.primaryText}>
-                {requiresPin ? 'Create Profile & Set PIN' : 'Create Profile'}
+                {requiresPin
+                  ? ui('Create Profile & Set PIN')
+                  : ui('Create Profile')}
               </Text>
             </LinearGradient>
           </Pressable>
         </ScrollView>
       </SafeAreaView>
-
       <EmojiMenu
         visible={menuVisible}
         selected={emojiLabel}

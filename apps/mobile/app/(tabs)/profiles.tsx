@@ -22,6 +22,8 @@ import { usePremiumStore } from '../../src/stores/premium';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { canCreateProfile } from '../../lib/purchases/premiumPolicy';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const PROFILE_COLORS = [
   COLORS.pink,
   COLORS.purple,
@@ -83,7 +85,6 @@ export default function ProfilesHubScreen() {
     >
       <StatusBar style="light" />
       <AppHeader />
-
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
@@ -110,12 +111,13 @@ export default function ProfilesHubScreen() {
             <Text style={styles.profileName}>{myName}</Text>
             <View style={styles.activeNowRow}>
               <View style={styles.activeNowDot} />
-              <Text style={styles.activeNowText}>Active now</Text>
+              <Text style={styles.activeNowText}>{ui('Active now')}</Text>
             </View>
             {currentStreak > 0 && (
               <View style={styles.streakBadge}>
                 <Text style={styles.streakText}>
-                  🔥 {currentStreak} day streak
+                  🔥 {currentStreak}
+                  {ui(' day streak ')}
                 </Text>
               </View>
             )}
@@ -164,12 +166,12 @@ export default function ProfilesHubScreen() {
         {/* Profiles Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionLabel}>Profiles</Text>
+            <Text style={styles.sectionLabel}>{ui('Profiles')}</Text>
             <Pressable
               accessibilityRole="button"
               onPress={() => router.push('/(settings)/profiles')}
             >
-              <Text style={styles.sectionAction}>Manage</Text>
+              <Text style={styles.sectionAction}>{ui('Manage')}</Text>
             </Pressable>
           </View>
           <View style={styles.avatarRow}>
@@ -181,7 +183,7 @@ export default function ProfilesHubScreen() {
                 <Pressable
                   key={profile.id}
                   accessibilityRole="button"
-                  accessibilityLabel={`Switch to ${profile.displayName ?? profile.name}`}
+                  accessibilityLabel={`${ui('Switch to')} ${profile.displayName ?? profile.name}`}
                   onPress={() => router.push('/(settings)/profiles')}
                 >
                   {isActive ? (
@@ -230,7 +232,7 @@ export default function ProfilesHubScreen() {
                 firstAvatar={activeProfile?.emoji}
                 secondAvatar={partnerAvatar}
                 size={PARTNER_AVATAR_SIZE}
-                accessibilityLabel={`${myName} and ${partnerName}`}
+                accessibilityLabel={`${myName} ${ui('and')} ${partnerName}`}
                 testID="profiles-active-couple"
               />
 
@@ -243,12 +245,12 @@ export default function ProfilesHubScreen() {
               </View>
 
               <Text style={styles.partnerSubtext}>
-                Remote sync active · matches stay private
+                {ui(' Remote sync active · matches stay private ')}
               </Text>
 
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Open partner sync"
+                accessibilityLabel={ui('Open partner sync')}
                 onPress={() => router.push('/(settings)/partner-sync')}
                 style={styles.seeMatchesPress}
               >
@@ -263,7 +265,9 @@ export default function ProfilesHubScreen() {
                     color={COLORS.textPrimary}
                     fill={COLORS.textPrimary}
                   />
-                  <Text style={styles.seeMatchesText}>Partner sync</Text>
+                  <Text style={styles.seeMatchesText}>
+                    {ui('Partner sync')}
+                  </Text>
                 </LinearGradient>
               </Pressable>
             </View>
@@ -281,7 +285,6 @@ export default function ProfilesHubScreen() {
           )}
         </View>
       </ScrollView>
-
       <AppTabBar active="profiles" />
     </SafeAreaView>
   );

@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import type { Profile } from '../lib/state/profiles';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 type VerifyResult = { success: true } | { success: false; error?: string };
 
 type PinVerifyModalProps = {
@@ -92,11 +94,11 @@ export default function PinVerifyModal({
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         >
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Verify PIN</Text>
+            <Text style={styles.modalTitle}>{ui('Verify PIN')}</Text>
             {currentProfile ? (
               <>
                 <Text style={styles.modalSubtitle}>
-                  Enter the PIN for{' '}
+                  {ui(' Enter the PIN for')}{' '}
                   {currentProfile.displayName ?? currentProfile.name}
                 </Text>
                 <TextInput
@@ -116,26 +118,34 @@ export default function PinVerifyModal({
                     style={[styles.modalButton, styles.modalButtonSecondary]}
                     accessibilityRole="button"
                   >
-                    <Text style={styles.modalButtonSecondaryLabel}>Cancel</Text>
+                    <Text style={styles.modalButtonSecondaryLabel}>
+                      {ui('Cancel')}
+                    </Text>
                   </Pressable>
                   <Pressable
                     onPress={handleSubmit}
                     style={[styles.modalButton, styles.modalButtonPrimary]}
                     accessibilityRole="button"
                   >
-                    <Text style={styles.modalButtonPrimaryLabel}>Confirm</Text>
+                    <Text style={styles.modalButtonPrimaryLabel}>
+                      {ui('Confirm')}
+                    </Text>
                   </Pressable>
                 </View>
               </>
             ) : (
               <>
-                <Text style={styles.modalSubtitle}>No profile to verify.</Text>
+                <Text style={styles.modalSubtitle}>
+                  {ui('No profile to verify.')}
+                </Text>
                 <Pressable
                   onPress={onClose}
                   style={[styles.modalButton, styles.modalButtonPrimary]}
                   accessibilityRole="button"
                 >
-                  <Text style={styles.modalButtonPrimaryLabel}>Close</Text>
+                  <Text style={styles.modalButtonPrimaryLabel}>
+                    {ui('Close')}
+                  </Text>
                 </Pressable>
               </>
             )}

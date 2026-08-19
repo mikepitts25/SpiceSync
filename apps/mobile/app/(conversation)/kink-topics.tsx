@@ -29,6 +29,8 @@ import { getTopicsForKink } from '../../data/kink_conversation_topics';
 import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const { width } = Dimensions.get('window');
 
 type Approach = {
@@ -103,14 +105,15 @@ const ApproachCard = ({
           />
         </LinearGradient>
       </TouchableOpacity>
-
       {isExpanded && (
         <View style={styles.approachContent}>
           {/* Starter Question */}
           <View style={styles.starterContainer}>
             <View style={styles.starterHeader}>
               <MessageCircle size={18} color={COLORS.primary} />
-              <Text style={styles.starterLabel}>Conversation Starter</Text>
+              <Text style={styles.starterLabel}>
+                {ui('Conversation Starter')}
+              </Text>
             </View>
             <Text style={styles.starterText}>{approach.starter}</Text>
           </View>
@@ -119,7 +122,9 @@ const ApproachCard = ({
           <View style={styles.followUpsContainer}>
             <View style={styles.followUpsHeader}>
               <Sparkles size={18} color={COLORS.accent} />
-              <Text style={styles.followUpsLabel}>Follow-up Questions</Text>
+              <Text style={styles.followUpsLabel}>
+                {ui('Follow-up Questions')}
+              </Text>
             </View>
             {approach.followUps.map((followUp, idx) => (
               <View key={idx} style={styles.followUpItem}>
@@ -133,13 +138,12 @@ const ApproachCard = ({
           <View style={styles.tipsContainer}>
             <View style={styles.tipsHeader}>
               <Heart size={18} color="#EF4444" />
-              <Text style={styles.tipsLabel}>Tips for Success</Text>
+              <Text style={styles.tipsLabel}>{ui('Tips for Success')}</Text>
             </View>
             <Text style={styles.tipsText}>
-              Choose a relaxed, private moment. Start with curiosity, not
-              pressure. Listen more than you talk. Be open to your partner's
-              response, whether it's enthusiastic, hesitant, or a "not right
-              now."
+              {ui(
+                ' Choose a relaxed, private moment. Start with curiosity, not pressure. Listen more than you talk. Be open to your partner\'s response, whether it\'s enthusiastic, hesitant, or a "not right now." '
+              )}
             </Text>
           </View>
         </View>
@@ -187,19 +191,21 @@ export default function KinkTopicsScreen() {
           >
             <ChevronLeft size={28} color={COLORS.text} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Conversation Topics</Text>
+          <Text style={styles.headerTitle}>{ui('Conversation Topics')}</Text>
         </View>
         <View style={styles.emptyState}>
           <Shield size={64} color={COLORS.textSecondary} />
-          <Text style={styles.emptyTitle}>Kink Not Found</Text>
+          <Text style={styles.emptyTitle}>{ui('Kink Not Found')}</Text>
           <Text style={styles.emptyText}>
-            We couldn't load topics for this kink.
+            {ui(" We couldn't load topics for this kink. ")}
           </Text>
           <TouchableOpacity
             style={styles.backToMatchesButton}
             onPress={() => router.back()}
           >
-            <Text style={styles.backToMatchesText}>Back to Matches</Text>
+            <Text style={styles.backToMatchesText}>
+              {ui('Back to Matches')}
+            </Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -216,7 +222,6 @@ export default function KinkTopicsScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar style="light" />
-
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -226,13 +231,12 @@ export default function KinkTopicsScreen() {
           <ChevronLeft size={28} color={COLORS.text} />
         </TouchableOpacity>
         <View style={styles.headerText}>
-          <Text style={styles.headerTitle}>Let's Talk About</Text>
+          <Text style={styles.headerTitle}>{ui("Let's Talk About")}</Text>
           <Text style={styles.headerKinkName} numberOfLines={1}>
             {displayTitle}
           </Text>
         </View>
       </View>
-
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -269,7 +273,8 @@ export default function KinkTopicsScreen() {
 
         {/* Intro */}
         <Text style={styles.sectionIntro}>
-          {approaches.length} ways to start this conversation
+          {approaches.length}
+          {ui(' ways to start this conversation ')}
         </Text>
 
         {/* Approach cards */}
@@ -289,12 +294,12 @@ export default function KinkTopicsScreen() {
         <View style={styles.safetyCard}>
           <View style={styles.safetyHeader}>
             <Shield size={20} color="#22C55E" />
-            <Text style={styles.safetyTitle}>A Gentle Reminder</Text>
+            <Text style={styles.safetyTitle}>{ui('A Gentle Reminder')}</Text>
           </View>
           <Text style={styles.safetyText}>
-            These conversations work best when both partners feel safe to say
-            yes, no, or "I need more time." There's no wrong answer — curiosity
-            is the goal.
+            {ui(
+              ' These conversations work best when both partners feel safe to say yes, no, or "I need more time." There\'s no wrong answer — curiosity is the goal. '
+            )}
           </Text>
         </View>
 

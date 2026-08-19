@@ -40,6 +40,8 @@ import {
 import { useConversationTranslation } from '../../lib/i18n';
 import { useConversationStore } from '../../lib/state/conversationStore';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const { width, height } = Dimensions.get('window');
 
 // Background themes
@@ -274,7 +276,7 @@ const DateNightCard = ({
             onPress={() => setShowFollowUps(!showFollowUps)}
           >
             <Text style={styles.followUpsToggleText}>
-              {showFollowUps ? 'Hide follow-ups' : 'Show follow-ups'}
+              {showFollowUps ? ui('Hide follow-ups') : ui('Show follow-ups')}
             </Text>
             <ChevronRight
               size={20}
@@ -303,16 +305,15 @@ const DateNightCard = ({
         <View style={styles.swipeHint}>
           <View style={styles.swipeHintItem}>
             <ChevronLeft size={20} color={COLORS.textMuted} />
-            <Text style={styles.swipeHintText}>Swipe for next</Text>
+            <Text style={styles.swipeHintText}>{ui('Swipe for next')}</Text>
           </View>
           <View style={styles.swipeHintDivider} />
           <View style={styles.swipeHintItem}>
-            <Text style={styles.swipeHintText}>Swipe to save</Text>
+            <Text style={styles.swipeHintText}>{ui('Swipe to save')}</Text>
             <ChevronRight size={20} color={COLORS.textMuted} />
           </View>
         </View>
       </View>
-
       {/* Favorite button overlay */}
       <TouchableOpacity style={styles.favoriteOverlay} onPress={onFavorite}>
         <Heart
@@ -353,12 +354,12 @@ const SettingsModal = ({
     <View style={styles.modalOverlay}>
       <TouchableOpacity style={styles.modalBackdrop} onPress={onClose} />
       <View style={styles.modalContent}>
-        <Text style={styles.modalTitle}>Date Night Settings</Text>
+        <Text style={styles.modalTitle}>{ui('Date Night Settings')}</Text>
 
         {/* Timer Settings */}
         <View style={styles.settingSection}>
           <View style={styles.settingRow}>
-            <Text style={styles.settingLabel}>Enable Timer</Text>
+            <Text style={styles.settingLabel}>{ui('Enable Timer')}</Text>
             <TouchableOpacity
               style={[
                 styles.toggle,
@@ -377,7 +378,9 @@ const SettingsModal = ({
 
           {settings.timerEnabled && (
             <View style={styles.timerOptions}>
-              <Text style={styles.settingSublabel}>Minutes per topic</Text>
+              <Text style={styles.settingSublabel}>
+                {ui('Minutes per topic')}
+              </Text>
               <View style={styles.timerButtons}>
                 {timerOptions.map((mins) => (
                   <TouchableOpacity
@@ -409,9 +412,11 @@ const SettingsModal = ({
         <View style={styles.settingSection}>
           <View style={styles.settingRow}>
             <View>
-              <Text style={styles.settingLabel}>Include Intimate Topics</Text>
+              <Text style={styles.settingLabel}>
+                {ui('Include Intimate Topics')}
+              </Text>
               <Text style={styles.settingDescription}>
-                Adds spicy conversation starters
+                {ui(' Adds spicy conversation starters ')}
               </Text>
             </View>
             <TouchableOpacity
@@ -433,7 +438,7 @@ const SettingsModal = ({
 
         {/* Background Theme */}
         <View style={styles.settingSection}>
-          <Text style={styles.settingLabel}>Background Theme</Text>
+          <Text style={styles.settingLabel}>{ui('Background Theme')}</Text>
           <View style={styles.themeOptions}>
             {themeOptions.map((theme) => (
               <TouchableOpacity
@@ -464,7 +469,7 @@ const SettingsModal = ({
         </View>
 
         <TouchableOpacity style={styles.modalCloseButton} onPress={onClose}>
-          <Text style={styles.modalCloseText}>Done</Text>
+          <Text style={styles.modalCloseText}>{ui('Done')}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -542,7 +547,9 @@ export default function DateNightScreen() {
         <LinearGradient colors={backgroundColors} style={styles.background}>
           <View style={styles.loadingContainer}>
             <Sparkles size={48} color={COLORS.primary} />
-            <Text style={styles.loadingText}>Preparing your date night...</Text>
+            <Text style={styles.loadingText}>
+              {ui('Preparing your date night...')}
+            </Text>
           </View>
         </LinearGradient>
       </SafeAreaView>
@@ -564,7 +571,7 @@ export default function DateNightScreen() {
 
           <View style={styles.headerCenter}>
             <Moon size={20} color={COLORS.accent} />
-            <Text style={styles.headerTitle}>Date Night</Text>
+            <Text style={styles.headerTitle}>{ui('Date Night')}</Text>
           </View>
 
           <TouchableOpacity
@@ -628,7 +635,7 @@ export default function DateNightScreen() {
           </TouchableOpacity>
 
           <View style={styles.navCenter}>
-            <Text style={styles.navHint}>Swipe or tap arrows</Text>
+            <Text style={styles.navHint}>{ui('Swipe or tap arrows')}</Text>
           </View>
 
           <TouchableOpacity style={styles.navButton} onPress={handleNext}>

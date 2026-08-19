@@ -25,6 +25,8 @@ import {
 import { useHaptics } from '../../hooks/useHaptics';
 import { COLORS } from '../../constants/theme';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const FREQUENCY_LABELS: Record<NotificationFrequency, string> = {
   daily: 'Daily',
   every_other_day: 'Every other day',
@@ -112,13 +114,12 @@ export default function NotificationSettingsScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Notifications" />
-
+      <BackHeader title={ui('Notifications')} />
       <View style={styles.content}>
         <View style={styles.sectionCard}>
           <SectionRow
             icon={Sparkles}
-            label="Daily Reminder"
+            label={ui('Daily Reminder')}
             tint={COLORS.pink}
             badgeBg="rgba(194,24,91,0.15)"
             toggle={
@@ -132,7 +133,7 @@ export default function NotificationSettingsScreen() {
           />
           <SectionRow
             icon={Heart}
-            label="Conversation Starters"
+            label={ui('Conversation Starters')}
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.15)"
             toggle={
@@ -150,7 +151,7 @@ export default function NotificationSettingsScreen() {
           />
           <SectionRow
             icon={Bell}
-            label="Match Alerts"
+            label={ui('Match Alerts')}
             tint={COLORS.maybe}
             badgeBg="rgba(245,158,11,0.1)"
             toggle={
@@ -164,7 +165,7 @@ export default function NotificationSettingsScreen() {
           />
           <SectionRow
             icon={Trophy}
-            label="Streak Reminders"
+            label={ui('Streak Reminders')}
             tint={COLORS.yes}
             badgeBg="rgba(34,197,94,0.1)"
             toggle={
@@ -181,9 +182,11 @@ export default function NotificationSettingsScreen() {
 
         {dailyReminder ? (
           <View style={styles.frequencyCard}>
-            <Text style={styles.frequencyTitle}>Reminder Frequency</Text>
+            <Text style={styles.frequencyTitle}>
+              {ui('Reminder Frequency')}
+            </Text>
             <Text style={styles.frequencyHint}>
-              How often your daily reminder arrives.
+              {ui(' How often your daily reminder arrives. ')}
             </Text>
             <View style={styles.frequencyRow}>
               {FREQUENCY_OPTIONS.map((option) => {
@@ -216,7 +219,7 @@ export default function NotificationSettingsScreen() {
         ) : null}
 
         <Text style={styles.helperText}>
-          Notification preferences stay on this device.
+          {ui(' Notification preferences stay on this device. ')}
         </Text>
       </View>
     </SafeAreaView>

@@ -8,6 +8,8 @@ import type {
 } from '../../lib/match/experience';
 import { COLORS } from '../../constants/theme';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const VISIBILITY_FILTERS: { id: MatchVisibilityFilter; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'unseen', label: 'Unseen' },
@@ -58,8 +60,10 @@ export function MatchFilters({
   ].filter(Boolean).length;
   const filterSummary =
     activeFilterCount === 0
-      ? 'All filters'
-      : `${activeFilterCount} active filter${activeFilterCount === 1 ? '' : 's'}`;
+      ? ui('All filters')
+      : `${activeFilterCount} ${ui(
+          activeFilterCount === 1 ? 'active filter' : 'active filters'
+        )}`;
   const categoryOptions = categories.map((item) => ({
     id: item,
     label: item === 'all' ? 'All categories' : item,
@@ -69,7 +73,7 @@ export function MatchFilters({
     <View style={styles.filtersCard}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Filter matches"
+        accessibilityLabel={ui('Filter matches')}
         accessibilityState={{ expanded }}
         onPress={() => setExpanded((current) => !current)}
         style={styles.filtersToggle}
@@ -77,39 +81,38 @@ export function MatchFilters({
         <View style={styles.filtersToggleCopy}>
           <View style={styles.filtersTitleRow}>
             <Filter size={15} color={COLORS.pink} />
-            <Text style={styles.filtersTitle}>FILTER MATCHES</Text>
+            <Text style={styles.filtersTitle}>{ui('FILTER MATCHES')}</Text>
           </View>
           <Text style={styles.filtersSummary}>{filterSummary}</Text>
         </View>
         <View style={styles.filtersToggleAction}>
           <Text style={styles.filtersToggleActionText}>
-            {expanded ? 'Hide filters' : 'Show filters'}
+            {expanded ? ui('Hide filters') : ui('Show filters')}
           </Text>
         </View>
       </Pressable>
-
       {expanded ? (
         <View style={styles.filtersPanel}>
-          <Text style={styles.filterGroupLabel}>Result</Text>
+          <Text style={styles.filterGroupLabel}>{ui('Result')}</Text>
           <FilterRow
             options={VISIBILITY_FILTERS}
             selected={visibility}
             onSelect={onVisibilityChange}
           />
-          <Text style={styles.filterGroupLabel}>Category</Text>
+          <Text style={styles.filterGroupLabel}>{ui('Category')}</Text>
           <FilterChipGrid
             options={categoryOptions}
             selected={category}
             onSelect={onCategoryChange}
-            accessibilityLabel="Category filters"
+            accessibilityLabel={ui('Category filters')}
           />
-          <Text style={styles.filterGroupLabel}>Level</Text>
+          <Text style={styles.filterGroupLabel}>{ui('Level')}</Text>
           <FilterRow
             options={INTENSITY_FILTERS}
             selected={intensity}
             onSelect={onIntensityChange}
           />
-          <Text style={styles.filterGroupLabel}>Role</Text>
+          <Text style={styles.filterGroupLabel}>{ui('Role')}</Text>
           <FilterRow
             options={ROLE_FILTERS}
             selected={role}
@@ -149,7 +152,7 @@ function FilterChipGrid<T extends string>({
                 active && styles.filterChipTextActive,
               ]}
             >
-              {option.label}
+              {ui(option.label)}
             </Text>
           </Pressable>
         );
@@ -188,7 +191,7 @@ function FilterRow<T extends string>({
                 active && styles.filterChipTextActive,
               ]}
             >
-              {option.label}
+              {ui(option.label)}
             </Text>
           </Pressable>
         );

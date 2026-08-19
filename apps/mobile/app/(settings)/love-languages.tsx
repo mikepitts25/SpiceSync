@@ -29,6 +29,8 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 export default function LoveLanguagesQuizScreen() {
   const router = useRouter();
 
@@ -105,15 +107,17 @@ export default function LoveLanguagesQuizScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.noProfileContainer}>
           <Text style={styles.noProfileEmoji}>👤</Text>
-          <Text style={styles.noProfileTitle}>No Active Profile</Text>
+          <Text style={styles.noProfileTitle}>{ui('No Active Profile')}</Text>
           <Text style={styles.noProfileText}>
-            Please create a profile first to take the Love Languages quiz.
+            {ui(
+              ' Please create a profile first to take the Love Languages quiz. '
+            )}
           </Text>
           <Pressable
             style={styles.backButtonLarge}
             onPress={() => router.back()}
           >
-            <Text style={styles.backButtonText}>Go Back</Text>
+            <Text style={styles.backButtonText}>{ui('Go Back')}</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -134,7 +138,7 @@ export default function LoveLanguagesQuizScreen() {
           showsVerticalScrollIndicator={false}
         >
           <Animated.View entering={FadeInUp} style={styles.resultsContainer}>
-            <Text style={styles.resultsTitle}>Your Love Language</Text>
+            <Text style={styles.resultsTitle}>{ui('Your Love Language')}</Text>
             <View style={styles.profileLabel}>
               <ProfileAvatarIcon
                 avatar={activeProfile.emoji}
@@ -150,24 +154,24 @@ export default function LoveLanguagesQuizScreen() {
             <View style={styles.primaryCard}>
               <Text style={styles.primaryEmoji}>{primaryEmoji}</Text>
               <Text style={styles.primaryLabel}>
-                Your Primary Love Language
+                {ui(' Your Primary Love Language ')}
               </Text>
-              <Text style={styles.primaryName}>{primaryName}</Text>
-              <Text style={styles.primaryDesc}>{primaryDesc}</Text>
+              <Text style={styles.primaryName}>{ui(primaryName)}</Text>
+              <Text style={styles.primaryDesc}>{ui(primaryDesc)}</Text>
             </View>
 
             {/* Secondary Love Language */}
             <View style={styles.secondaryCard}>
               <Text style={styles.secondaryEmoji}>{secondaryEmoji}</Text>
               <Text style={styles.secondaryLabel}>
-                Your Secondary Love Language
+                {ui(' Your Secondary Love Language ')}
               </Text>
-              <Text style={styles.secondaryName}>{secondaryName}</Text>
+              <Text style={styles.secondaryName}>{ui(secondaryName)}</Text>
             </View>
 
             {/* Score Breakdown */}
             <View style={styles.scoresCard}>
-              <Text style={styles.scoresTitle}>Your Scores</Text>
+              <Text style={styles.scoresTitle}>{ui('Your Scores')}</Text>
               {Object.entries(result.scores)
                 .sort((a, b) => b[1] - a[1])
                 .map(([type, score]) => (
@@ -176,7 +180,7 @@ export default function LoveLanguagesQuizScreen() {
                       {LOVE_LANGUAGE_EMOJIS[type as LoveLanguage]}
                     </Text>
                     <Text style={styles.scoreName}>
-                      {LOVE_LANGUAGE_NAMES[type as LoveLanguage]}
+                      {ui(LOVE_LANGUAGE_NAMES[type as LoveLanguage])}
                     </Text>
                     <View style={styles.scoreBarContainer}>
                       <View
@@ -202,7 +206,9 @@ export default function LoveLanguagesQuizScreen() {
             {/* Partner Comparison */}
             {profiles.length > 1 && (
               <View style={styles.partnerCard}>
-                <Text style={styles.partnerTitle}>Compare with Partner</Text>
+                <Text style={styles.partnerTitle}>
+                  {ui('Compare with Partner')}
+                </Text>
                 {profiles
                   .filter((p) => p.id !== activeId)
                   .map((partner) => {
@@ -221,15 +227,15 @@ export default function LoveLanguagesQuizScreen() {
                                   partnerResult.result.primary as LoveLanguage
                                 ]
                               }{' '}
-                              {
+                              {ui(
                                 LOVE_LANGUAGE_NAMES[
                                   partnerResult.result.primary as LoveLanguage
                                 ]
-                              }
+                              )}
                             </Text>
                           ) : (
                             <Text style={styles.partnerNotTaken}>
-                              Not taken yet
+                              {ui(' Not taken yet ')}
                             </Text>
                           )}
                         </View>
@@ -243,13 +249,15 @@ export default function LoveLanguagesQuizScreen() {
             <View style={styles.actionButtons}>
               <Pressable style={styles.restartButton} onPress={handleRestart}>
                 <RotateCcw size={20} color={COLORS.primary} />
-                <Text style={styles.restartButtonText}>Retake Quiz</Text>
+                <Text style={styles.restartButtonText}>
+                  {ui('Retake Quiz')}
+                </Text>
               </Pressable>
               <Pressable
                 style={styles.doneButton}
                 onPress={() => router.back()}
               >
-                <Text style={styles.doneButtonText}>Done</Text>
+                <Text style={styles.doneButtonText}>{ui('Done')}</Text>
               </Pressable>
             </View>
           </Animated.View>
@@ -266,7 +274,7 @@ export default function LoveLanguagesQuizScreen() {
           <ChevronLeft size={24} color={COLORS.text} />
         </Pressable>
         <View style={styles.headerCenter}>
-          <Text style={styles.headerTitle}>Love Languages</Text>
+          <Text style={styles.headerTitle}>{ui('Love Languages')}</Text>
           <View style={styles.headerProfileRow}>
             <ProfileAvatarIcon
               avatar={activeProfile.emoji}
@@ -280,7 +288,6 @@ export default function LoveLanguagesQuizScreen() {
         </View>
         <View style={styles.headerSpacer} />
       </View>
-
       {/* Progress Bar */}
       <View style={styles.progressContainer}>
         <View style={styles.progressBar}>
@@ -290,7 +297,6 @@ export default function LoveLanguagesQuizScreen() {
           {currentQuestion + 1} / {QUIZ_QUESTIONS.length}
         </Text>
       </View>
-
       {/* Question */}
       <ScrollView
         contentContainerStyle={styles.questionScroll}
@@ -302,25 +308,28 @@ export default function LoveLanguagesQuizScreen() {
           style={styles.questionContainer}
         >
           <Text style={styles.questionNumber}>
-            Question {currentQuestion + 1}
+            {ui(' Question ')}
+            {currentQuestion + 1}
           </Text>
-          <Text style={styles.questionText}>Which would you prefer?</Text>
+          <Text style={styles.questionText}>
+            {ui('Which would you prefer?')}
+          </Text>
 
           <View style={styles.optionsContainer}>
             <Pressable
               style={styles.optionButton}
               onPress={() => handleAnswer(question.optionA.type)}
             >
-              <Text style={styles.optionText}>{question.optionA.text}</Text>
+              <Text style={styles.optionText}>{ui(question.optionA.text)}</Text>
             </Pressable>
 
-            <Text style={styles.orText}>OR</Text>
+            <Text style={styles.orText}>{ui('OR')}</Text>
 
             <Pressable
               style={styles.optionButton}
               onPress={() => handleAnswer(question.optionB.type)}
             >
-              <Text style={styles.optionText}>{question.optionB.text}</Text>
+              <Text style={styles.optionText}>{ui(question.optionB.text)}</Text>
             </Pressable>
           </View>
         </Animated.View>
@@ -333,7 +342,9 @@ export default function LoveLanguagesQuizScreen() {
               setShowResults(true);
             }}
           >
-            <Text style={styles.viewResultsText}>View Previous Results</Text>
+            <Text style={styles.viewResultsText}>
+              {ui('View Previous Results')}
+            </Text>
           </Pressable>
         )}
       </ScrollView>

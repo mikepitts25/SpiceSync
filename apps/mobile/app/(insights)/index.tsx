@@ -12,6 +12,8 @@ import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { PremiumGate } from '../../components/PremiumGate';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 interface StatCardProps {
   title: string;
   value: string | number;
@@ -104,9 +106,9 @@ function InsightsDashboard() {
   }, [votes, kinks]);
 
   const voteDistribution = [
-    { label: 'Yes', value: insights.yesVotes, color: COLORS.success },
-    { label: 'Maybe', value: insights.maybeVotes, color: COLORS.warning },
-    { label: 'No', value: insights.noVotes, color: COLORS.danger },
+    { label: ui('Yes'), value: insights.yesVotes, color: COLORS.success },
+    { label: ui('Maybe'), value: insights.maybeVotes, color: COLORS.warning },
+    { label: ui('No'), value: insights.noVotes, color: COLORS.danger },
   ];
 
   const maxVotes = Math.max(
@@ -124,8 +126,10 @@ function InsightsDashboard() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>Insights</Text>
-          <Text style={styles.subtitle}>Your compatibility at a glance</Text>
+          <Text style={styles.title}>{ui('Insights')}</Text>
+          <Text style={styles.subtitle}>
+            {ui('Your compatibility at a glance')}
+          </Text>
         </View>
 
         {/* Compatibility Score */}
@@ -138,31 +142,31 @@ function InsightsDashboard() {
             />
           </View>
           <Text style={styles.scoreValue}>{insights.compatibilityScore}%</Text>
-          <Text style={styles.scoreLabel}>Compatibility Score</Text>
+          <Text style={styles.scoreLabel}>{ui('Compatibility Score')}</Text>
           <Text style={styles.scoreDescription}>
-            Based on your mutual interests
+            {ui(' Based on your mutual interests ')}
           </Text>
         </View>
 
         {/* Stats Grid */}
         <View style={styles.statsGrid}>
           <StatCard
-            title="Total Votes"
+            title={ui('Total Votes')}
             value={insights.totalVotes}
             emoji="🗳️"
-            subtitle={`${insights.yesVotes} yes • ${insights.maybeVotes} maybe`}
+            subtitle={`${insights.yesVotes} ${ui('yes')} • ${insights.maybeVotes} ${ui('maybe')}`}
           />
           <StatCard
-            title="Yes Rate"
+            title={ui('Yes Rate')}
             value={`${insights.totalVotes > 0 ? Math.round((insights.yesVotes / insights.totalVotes) * 100) : 0}%`}
             emoji="👍"
-            subtitle="Activities you liked"
+            subtitle={ui('Activities you liked')}
           />
         </View>
 
         {/* Vote Distribution */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Vote Distribution</Text>
+          <Text style={styles.sectionTitle}>{ui('Vote Distribution')}</Text>
           <View style={styles.chartContainer}>
             {voteDistribution.map((item, index) => (
               <View key={index} style={styles.barRow}>
@@ -189,7 +193,7 @@ function InsightsDashboard() {
         {/* Top Categories */}
         {insights.topCategories.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Top Categories</Text>
+            <Text style={styles.sectionTitle}>{ui('Top Categories')}</Text>
             <View style={styles.categoriesList}>
               {insights.topCategories.map((cat, index) => (
                 <View key={cat.name} style={styles.categoryRow}>
@@ -199,7 +203,10 @@ function InsightsDashboard() {
                   <View style={styles.categoryInfo}>
                     <Text style={styles.categoryName}>{cat.name}</Text>
                     <Text style={styles.categoryStats}>
-                      {cat.yes} of {cat.total} liked
+                      {cat.yes}
+                      {ui(' of ')}
+                      {cat.total}
+                      {ui(' liked ')}
                     </Text>
                   </View>
                   <View style={styles.categoryBar}>
@@ -219,28 +226,28 @@ function InsightsDashboard() {
 
         {/* Intensity Preferences */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Intensity Preferences</Text>
+          <Text style={styles.sectionTitle}>{ui('Intensity Preferences')}</Text>
           <View style={styles.intensityGrid}>
             <View style={styles.intensityCard}>
               <Text style={styles.intensityEmoji}>🌱</Text>
               <Text style={styles.intensityValue}>
                 {insights.intensityStats.low}
               </Text>
-              <Text style={styles.intensityLabel}>Beginner</Text>
+              <Text style={styles.intensityLabel}>{ui('Beginner')}</Text>
             </View>
             <View style={styles.intensityCard}>
               <Text style={styles.intensityEmoji}>🔥</Text>
               <Text style={styles.intensityValue}>
                 {insights.intensityStats.medium}
               </Text>
-              <Text style={styles.intensityLabel}>Moderate</Text>
+              <Text style={styles.intensityLabel}>{ui('Moderate')}</Text>
             </View>
             <View style={styles.intensityCard}>
               <Text style={styles.intensityEmoji}>⚡</Text>
               <Text style={styles.intensityValue}>
                 {insights.intensityStats.high}
               </Text>
-              <Text style={styles.intensityLabel}>Advanced</Text>
+              <Text style={styles.intensityLabel}>{ui('Advanced')}</Text>
             </View>
           </View>
         </View>

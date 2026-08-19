@@ -31,7 +31,7 @@ import {
   getConversationCardQuestionTextStyle,
 } from '../../../lib/conversationCardText';
 import { useConversationStore } from '../../../lib/state/conversationStore';
-import { useConversationTranslation } from '../../../lib/i18n';
+import { interpolate, useConversationTranslation } from '../../../lib/i18n';
 import { COLORS, GRADIENTS, RADII, SHADOWS } from '../../../constants/theme';
 
 const MAIN_TOPIC_FONT_SIZE = 24;
@@ -42,11 +42,11 @@ const NORMAL_LINE_HEIGHT = 23;
 export default function ConversationTopicScreen() {
   const router = useRouter();
   const { category } = useLocalSearchParams<{ category?: string }>();
-  const topic = getConversationTopicTile(category);
+  const { ct, language } = useConversationTranslation();
+  const topic = getConversationTopicTile(category, language);
   const selectedCategory =
     topic?.id ?? ('date_night' as ConversationStarter['category']);
   const { favorites, toggleFavorite, addToHistory } = useConversationStore();
-  const { language } = useConversationTranslation();
   const [currentStarter, setCurrentStarter] = useState<ConversationStarter>(
     () =>
       getRandomStarterByLanguage(language, { category: selectedCategory }) ??
@@ -103,12 +103,14 @@ export default function ConversationTopicScreen() {
   const handleShare = useCallback(async () => {
     try {
       await Share.share({
-        message: `SpiceSync conversation starter: ${currentStarter.question}`,
+        message: interpolate(ct.shareMessage, {
+          question: currentStarter.question,
+        }),
       });
     } catch {
       // Native share cancellation does not need UI.
     }
-  }, [currentStarter.question]);
+  }, [ct.shareMessage, currentStarter.question]);
 
   const handleSave = useCallback(() => {
     toggleFavorite(currentStarter.id);
@@ -133,7 +135,7 @@ export default function ConversationTopicScreen() {
       <View style={styles.headerRow}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Back to conversation topics"
+          accessibilityLabel={ct.backToTopics}
           onPress={() => router.back()}
           style={styles.backButton}
         >
@@ -162,8 +164,13 @@ export default function ConversationTopicScreen() {
                 {topic.label.toUpperCase()}
               </Text>
               <Text style={styles.questionCount}>
-                QUESTION {Math.min(questionIndex + 1, categoryPool.length || 1)}{' '}
-                OF {categoryPool.length || 1}
+                {interpolate(ct.questionProgress, {
+                  current: Math.min(
+                    questionIndex + 1,
+                    categoryPool.length || 1
+                  ),
+                  total: categoryPool.length || 1,
+                })}
               </Text>
             </View>
             <AccentBar />
@@ -186,21 +193,20 @@ export default function ConversationTopicScreen() {
               numberOfLines={3}
               style={styles.tipText}
             >
-              {currentStarter.context ||
-                "Take turns sharing. Really listen to each other's answer."}
+              {currentStarter.context || ct.fallbackTip}
             </Text>
 
             {isFavorite ? (
               <View style={styles.savedBadge}>
                 <Heart size={14} color={COLORS.pink} fill={COLORS.pink} />
-                <Text style={styles.savedText}>Saved to favorites</Text>
+                <Text style={styles.savedText}>{ct.savedToFavorites}</Text>
               </View>
             ) : null}
 
             <View style={styles.navRow}>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Previous question"
+                accessibilityLabel={ct.previousQuestion}
                 onPress={() => showStarter(-1)}
                 style={styles.prevButton}
               >
@@ -221,7 +227,7 @@ export default function ConversationTopicScreen() {
 
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Next question"
+                accessibilityLabel={ct.nextQuestion}
                 onPress={() => showStarter(1)}
                 style={styles.nextButtonPress}
               >
@@ -240,13 +246,13 @@ export default function ConversationTopicScreen() {
 
         <View style={styles.actionRow}>
           <ActionCircle
-            label="SKIP"
+            label={ct.skip}
             icon={X}
             color={COLORS.no}
             onPress={pickRandom}
           />
           <ActionCircle
-            label="SAVE"
+            label={ct.save}
             icon={Heart}
             variant="gradient"
             color={COLORS.pink}
@@ -255,7 +261,7 @@ export default function ConversationTopicScreen() {
             onPress={handleSave}
           />
           <ActionCircle
-            label="SHARE"
+            label={ct.shareAction}
             icon={Share2}
             color={COLORS.maybe}
             onPress={handleShare}

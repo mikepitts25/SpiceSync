@@ -21,6 +21,8 @@ import {
   type MatchItem,
 } from './matchPresentation';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 export function MatchDetailPanel({
   item,
   explanation,
@@ -70,27 +72,25 @@ export function MatchDetailPanel({
         </View>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Close match details"
+          accessibilityLabel={ui('Close match details')}
           onPress={onClose}
           style={styles.detailClose}
         >
           <X size={18} color={COLORS.textMuted} />
         </Pressable>
       </View>
-
       <View style={styles.votePillRow}>
         <View style={styles.votePill}>
-          <Text style={styles.votePillLabel}>You</Text>
+          <Text style={styles.votePillLabel}>{ui('You')}</Text>
           <Text style={styles.votePillValue}>{voteLabel(item.myVote)}</Text>
         </View>
         <View style={styles.votePill}>
-          <Text style={styles.votePillLabel}>Partner</Text>
+          <Text style={styles.votePillLabel}>{ui('Partner')}</Text>
           <Text style={styles.votePillValue}>
             {voteLabel(item.partnerVote)}
           </Text>
         </View>
       </View>
-
       <View style={styles.explanationCard}>
         <Text style={styles.explanationLabel}>
           {t.matches.whyThisMatch.toUpperCase()}
@@ -100,16 +100,13 @@ export function MatchDetailPanel({
           {explanation.intensityRiskNote}
         </Text>
       </View>
-
       <View style={styles.roleCallout}>
         <Heart size={15} color={COLORS.pink} fill={COLORS.pink} />
         <Text style={styles.roleCalloutText}>{explanation.roleNote}</Text>
       </View>
-
       {item.description ? (
         <Text style={styles.detailDescription}>{item.description}</Text>
       ) : null}
-
       <View style={styles.starterCard}>
         <MessageCircle size={15} color={COLORS.accent} />
         <View style={styles.starterCopy}>
@@ -121,7 +118,6 @@ export function MatchDetailPanel({
           </Text>
         </View>
       </View>
-
       <ChecklistCard
         title={t.matches.prepChecklist}
         steps={explanation.prep}
@@ -129,7 +125,6 @@ export function MatchDetailPanel({
         completedSteps={completedSteps}
         onToggleStep={onToggleStep}
       />
-
       {explanation.safetyNotes.length ? (
         <View style={styles.safetyCard}>
           <Text style={styles.safetyTitle}>
@@ -142,7 +137,6 @@ export function MatchDetailPanel({
           ))}
         </View>
       ) : null}
-
       <ChecklistCard
         title={t.matches.aftercareChecklist}
         steps={explanation.aftercare}
@@ -150,7 +144,6 @@ export function MatchDetailPanel({
         completedSteps={completedSteps}
         onToggleStep={onToggleStep}
       />
-
       <View style={styles.planCard}>
         <Text style={styles.planTitle}>
           {t.matches.planActions.toUpperCase()}

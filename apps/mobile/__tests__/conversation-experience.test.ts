@@ -5,6 +5,7 @@ import {
   LOVE_LANGUAGE_PROMPT_CATEGORY,
   LOVE_LANGUAGE_QUIZ_ROUTE,
   getConversationTopicTile,
+  getConversationTopicTiles,
   getLoveLanguageModuleCopy,
 } from '../lib/conversationExperience';
 import type { ProfileLoveLanguage } from '../src/stores/loveLanguages';
@@ -90,6 +91,47 @@ describe('conversation experience metadata', () => {
     expect(getConversationTopicTile('missing-topic')).toBeUndefined();
   });
 
+  it('returns Spanish presentation copy for every conversation topic', () => {
+    expect(
+      getConversationTopicTiles('es').map(({ mark, label, subtitle }) => ({
+        mark,
+        label,
+        subtitle,
+      }))
+    ).toEqual([
+      {
+        mark: 'CITA',
+        label: 'Noche de cita',
+        subtitle: 'Preguntas divertidas para compartir',
+      },
+      {
+        mark: 'CONOCE',
+        label: 'Conocerse mejor',
+        subtitle: 'Nuevas perspectivas sobre historias conocidas',
+      },
+      {
+        mark: 'HABLEN',
+        label: 'Relación',
+        subtitle: 'Conecten sobre sus hábitos y necesidades',
+      },
+      {
+        mark: 'PASIÓN',
+        label: 'Picante',
+        subtitle: 'Aviven la curiosidad y el deseo',
+      },
+      {
+        mark: 'CARIÑO',
+        label: 'Lenguajes del amor',
+        subtitle: 'Usen preguntas o hagan el quiz',
+      },
+    ]);
+
+    expect(getConversationTopicTile('date_night', 'es')).toMatchObject({
+      label: 'Noche de cita',
+      mark: 'CITA',
+    });
+  });
+
   it('invites users without a quiz result to take the quiz', () => {
     expect(getLoveLanguageModuleCopy()).toMatchObject({
       eyebrow: 'LOVE LANGUAGES',
@@ -141,6 +183,22 @@ describe('conversation experience metadata', () => {
       activePrimary: '💬 Words of Affirmation',
       activeSecondary: '⏰ Quality Time',
       partnerSummary: 'Taylor: 🤝 Acts of Service',
+    });
+
+    expect(
+      getLoveLanguageModuleCopy(
+        activeResult,
+        [{ name: 'Taylor', result: partnerResult }],
+        'es'
+      )
+    ).toMatchObject({
+      eyebrow: 'LENGUAJES DEL AMOR',
+      title: 'Hablen de cómo reciben el amor',
+      ctaLabel: 'Ver resultados',
+      promptLabel: 'Usar preguntas',
+      activePrimary: '💬 Palabras de afirmación',
+      activeSecondary: '⏰ Tiempo de calidad',
+      partnerSummary: 'Taylor: 🤝 Actos de servicio',
     });
   });
 });

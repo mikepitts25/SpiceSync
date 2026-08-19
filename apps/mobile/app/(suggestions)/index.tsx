@@ -17,6 +17,8 @@ import { useKinks } from '../../lib/data';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { voteValue } from '../../lib/votes/rolePreferences';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 interface Suggestion {
   id: string;
   type: 'match' | 'trending' | 'milestone' | 'explore';
@@ -67,8 +69,10 @@ export default function SuggestionsHub() {
         suggestionList.push({
           id: 'revisit-maybe',
           type: 'explore',
-          title: 'Revisit This Maybe',
-          description: `You said "maybe" to "${activity.title}" - want to discuss it?`,
+          title: ui('Revisit This Maybe'),
+          description: `${ui('You said “maybe” to')} “${activity.title}” — ${ui(
+            'want to discuss it?'
+          )}`,
           activityId: activity.id,
           priority: 10,
         });
@@ -101,8 +105,13 @@ export default function SuggestionsHub() {
           suggestionList.push({
             id: 'category-explore',
             type: 'trending',
-            title: `More ${topCategory[0]} Activities`,
-            description: `Since you like ${topCategory[0]}, try "${suggestion.title}"`,
+            title:
+              language === 'es'
+                ? `${ui('More activities from')} ${topCategory[0]}`
+                : `${ui('More')} ${topCategory[0]} ${ui('Activities')}`,
+            description: `${ui('Since you like')} ${topCategory[0]}, ${ui(
+              'try'
+            )} “${suggestion.title}”`,
             activityId: suggestion.id,
             category: topCategory[0],
             priority: 8,
@@ -133,8 +142,8 @@ export default function SuggestionsHub() {
         suggestionList.push({
           id: 'intensity-up',
           type: 'explore',
-          title: 'Ready for More?',
-          description: `Try something more adventurous: "${suggestion.title}"`,
+          title: ui('Ready for More?'),
+          description: `${ui('Try something more adventurous:')} “${suggestion.title}”`,
           activityId: suggestion.id,
           priority: 7,
         });
@@ -146,9 +155,10 @@ export default function SuggestionsHub() {
       suggestionList.push({
         id: 'milestone',
         type: 'milestone',
-        title: `🎉 ${yesVotes.length} Matches!`,
-        description:
-          "You've found 10 things you both want to try. Time to pick one!",
+        title: `🎉 ${yesVotes.length} ${ui('Matches!')}`,
+        description: ui(
+          "You've found 10 things you both want to try. Time to pick one!"
+        ),
         priority: 9,
       });
     }
@@ -161,8 +171,8 @@ export default function SuggestionsHub() {
       suggestionList.push({
         id: 'daily-pick',
         type: 'trending',
-        title: "Today's Pick",
-        description: `Try something new: "${randomActivity.title}"`,
+        title: ui("Today's Pick"),
+        description: `${ui('Try something new:')} “${randomActivity.title}”`,
         activityId: randomActivity.id,
         priority: 5,
       });
@@ -170,7 +180,7 @@ export default function SuggestionsHub() {
 
     // Sort by priority
     return suggestionList.sort((a, b) => b.priority - a.priority);
-  }, [votes, kinks]);
+  }, [votes, kinks, language]);
 
   const handleSuggestionPress = (suggestion: Suggestion) => {
     if (suggestion.activityId) {
@@ -215,9 +225,9 @@ export default function SuggestionsHub() {
       <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>💡 Suggestions</Text>
+          <Text style={styles.title}>{ui('💡 Suggestions')}</Text>
           <Text style={styles.subtitle}>
-            Personalized recommendations for you both
+            {ui(' Personalized recommendations for you both ')}
           </Text>
         </View>
 
@@ -228,15 +238,15 @@ export default function SuggestionsHub() {
           {suggestions.length === 0 ? (
             <View style={styles.emptyState}>
               <Text style={styles.emptyEmoji}>🎲</Text>
-              <Text style={styles.emptyTitle}>Start Swiping!</Text>
+              <Text style={styles.emptyTitle}>{ui('Start Swiping!')}</Text>
               <Text style={styles.emptyText}>
-                Vote on activities to get personalized suggestions
+                {ui(' Vote on activities to get personalized suggestions ')}
               </Text>
               <Pressable
                 style={styles.emptyButton}
                 onPress={() => router.push('/(tabs)/deck')}
               >
-                <Text style={styles.emptyButtonText}>Go to Deck</Text>
+                <Text style={styles.emptyButtonText}>{ui('Go to Deck')}</Text>
               </Pressable>
             </View>
           ) : (
@@ -268,7 +278,7 @@ export default function SuggestionsHub() {
                           { color: getTypeColor(suggestion.type) },
                         ]}
                       >
-                        {suggestion.type.toUpperCase()}
+                        {ui(suggestion.type).toUpperCase()}
                       </Text>
                     </View>
                   </View>
@@ -283,28 +293,28 @@ export default function SuggestionsHub() {
 
           {/* Quick Actions */}
           <View style={styles.quickActions}>
-            <Text style={styles.quickActionsTitle}>Quick Actions</Text>
+            <Text style={styles.quickActionsTitle}>{ui('Quick Actions')}</Text>
             <View style={styles.actionGrid}>
               <Pressable
                 style={styles.actionButton}
                 onPress={() => router.push('/(tabs)/deck')}
               >
                 <Text style={styles.actionEmoji}>🎴</Text>
-                <Text style={styles.actionText}>Swipe More</Text>
+                <Text style={styles.actionText}>{ui('Swipe More')}</Text>
               </Pressable>
               <Pressable
                 style={styles.actionButton}
                 onPress={() => router.push('/(matches)')}
               >
                 <Text style={styles.actionEmoji}>💕</Text>
-                <Text style={styles.actionText}>See Matches</Text>
+                <Text style={styles.actionText}>{ui('See Matches')}</Text>
               </Pressable>
               <Pressable
                 style={styles.actionButton}
                 onPress={() => router.push('/(game)')}
               >
                 <Text style={styles.actionEmoji}>🎲</Text>
-                <Text style={styles.actionText}>Play Game</Text>
+                <Text style={styles.actionText}>{ui('Play Game')}</Text>
               </Pressable>
             </View>
           </View>

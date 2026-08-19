@@ -18,6 +18,8 @@ import { usePremiumStore } from '../../src/stores/premium';
 import { GameCardType } from '../../data/gameCards';
 import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const CARD_TYPES: { id: GameCardType; name: string; emoji: string }[] = [
   { id: 'truth', name: 'Truth', emoji: '💭' },
   { id: 'dare', name: 'Dare', emoji: '🔥' },
@@ -53,25 +55,27 @@ export default function CustomDeckBuilder() {
       <SafeAreaView style={styles.container}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Back to game menu"
+          accessibilityLabel={ui('Back to game menu')}
           hitSlop={8}
           style={[styles.exitButton, styles.lockedExitButton]}
           onPress={handleExitCustomDeck}
         >
           <ChevronLeft size={20} color={COLORS.textSecondary} />
-          <Text style={styles.exitButtonText}>Back</Text>
+          <Text style={styles.exitButtonText}>{ui('Back')}</Text>
         </Pressable>
         <View style={styles.lockedContainer}>
           <Text style={styles.lockedEmoji}>🔒</Text>
-          <Text style={styles.lockedTitle}>Premium Feature</Text>
+          <Text style={styles.lockedTitle}>{ui('Premium Feature')}</Text>
           <Text style={styles.lockedText}>
-            Create your own custom cards with SpiceSync Premium
+            {ui(' Create your own custom cards with SpiceSync Premium ')}
           </Text>
           <Pressable
             style={styles.upgradeButton}
             onPress={() => router.push('/(unlock)')}
           >
-            <Text style={styles.upgradeButtonText}>Upgrade to Premium</Text>
+            <Text style={styles.upgradeButtonText}>
+              {ui('Upgrade to Premium')}
+            </Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -80,7 +84,10 @@ export default function CustomDeckBuilder() {
 
   const handleAddCard = () => {
     if (!content.trim()) {
-      Alert.alert('Empty Card', 'Please enter some content for your card');
+      Alert.alert(
+        ui('Empty Card'),
+        ui('Please enter some content for your card')
+      );
       return;
     }
 
@@ -93,7 +100,10 @@ export default function CustomDeckBuilder() {
     });
 
     setContent('');
-    Alert.alert('Card Added!', 'Your custom card has been added to your deck');
+    Alert.alert(
+      ui('Card Added!'),
+      ui('Your custom card has been added to your deck')
+    );
   };
 
   const handleDeleteCard = (id: string) => {
@@ -110,23 +120,24 @@ export default function CustomDeckBuilder() {
         <View style={styles.header}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Back to game menu"
+            accessibilityLabel={ui('Back to game menu')}
             hitSlop={8}
             style={styles.exitButton}
             onPress={handleExitCustomDeck}
           >
             <ChevronLeft size={20} color={COLORS.textSecondary} />
-            <Text style={styles.exitButtonText}>Back</Text>
+            <Text style={styles.exitButtonText}>{ui('Back')}</Text>
           </Pressable>
-          <Text style={styles.title}>✨ Custom Deck</Text>
+          <Text style={styles.title}>{ui('✨ Custom Deck')}</Text>
           <Text style={styles.subtitle}>
-            {customCards.length} custom cards created
+            {customCards.length}
+            {ui(' custom cards created ')}
           </Text>
         </View>
 
         {/* Card Type Selector */}
         <View style={styles.section}>
-          <Text style={styles.label}>Card Type</Text>
+          <Text style={styles.label}>{ui('Card Type')}</Text>
           <View style={styles.typeGrid}>
             {CARD_TYPES.map((type) => (
               <Pressable
@@ -144,7 +155,7 @@ export default function CustomDeckBuilder() {
                     selectedType === type.id && styles.typeTextSelected,
                   ]}
                 >
-                  {type.name}
+                  {ui(type.name)}
                 </Text>
               </Pressable>
             ))}
@@ -153,7 +164,10 @@ export default function CustomDeckBuilder() {
 
         {/* Intensity Selector */}
         <View style={styles.section}>
-          <Text style={styles.label}>Intensity: {intensity}/5</Text>
+          <Text style={styles.label}>
+            {ui('Intensity: ')}
+            {intensity}/5
+          </Text>
           <View style={styles.intensityRow}>
             {[1, 2, 3, 4, 5].map((level) => (
               <Pressable
@@ -179,12 +193,12 @@ export default function CustomDeckBuilder() {
 
         {/* Content Input */}
         <View style={styles.section}>
-          <Text style={styles.label}>Card Content</Text>
+          <Text style={styles.label}>{ui('Card Content')}</Text>
           <TextInput
             style={styles.contentInput}
             value={content}
             onChangeText={setContent}
-            placeholder="Write your custom card..."
+            placeholder={ui('Write your custom card...')}
             placeholderTextColor={COLORS.textMuted}
             multiline
             numberOfLines={4}
@@ -195,13 +209,13 @@ export default function CustomDeckBuilder() {
 
         {/* Add Button */}
         <Pressable style={styles.addButton} onPress={handleAddCard}>
-          <Text style={styles.addButtonText}>+ Add to Deck</Text>
+          <Text style={styles.addButtonText}>{ui('+ Add to Deck')}</Text>
         </Pressable>
 
         {/* Custom Cards List */}
         {customCards.length > 0 && (
           <View style={styles.cardsSection}>
-            <Text style={styles.sectionTitle}>Your Custom Cards</Text>
+            <Text style={styles.sectionTitle}>{ui('Your Custom Cards')}</Text>
             {customCards.map((card) => (
               <View key={card.id} style={styles.cardItem}>
                 <View style={styles.cardHeader}>
@@ -221,7 +235,7 @@ export default function CustomDeckBuilder() {
                   style={styles.deleteButton}
                   onPress={() => handleDeleteCard(card.id)}
                 >
-                  <Text style={styles.deleteText}>🗑️ Delete</Text>
+                  <Text style={styles.deleteText}>{ui('🗑️ Delete')}</Text>
                 </Pressable>
               </View>
             ))}

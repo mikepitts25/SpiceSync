@@ -4,6 +4,8 @@ import { SafeAreaView } from '../../components/SafeAreaView';
 import { StatusBar } from 'expo-status-bar';
 import { BackHeader } from '../../components/app-chrome';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 export default function TermsOfServiceScreen() {
   return (
     <SafeAreaView
@@ -11,67 +13,65 @@ export default function TermsOfServiceScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="dark" />
-      <BackHeader title="Terms of Service" />
+      <BackHeader title={ui('Terms of Service')} />
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.updated}>Last updated: August 2026</Text>
+        <Text style={styles.updated}>{ui('Last updated: August 2026')}</Text>
 
-        <Section title="Acceptance of Terms">
-          By downloading or using SpiceSync, you agree to these Terms of
-          Service. If you do not agree, do not use the app.
+        <Section title={ui('Acceptance of Terms')}>
+          {ui(
+            ' By downloading or using SpiceSync, you agree to these Terms of Service. If you do not agree, do not use the app. '
+          )}
         </Section>
 
-        <Section title="Age Requirement">
-          SpiceSync is intended exclusively for adults aged 18 and older. By
-          using the app, you confirm that you are at least 18 years of age. If
-          you are under 18, you may not use this app.
+        <Section title={ui('Age Requirement')}>
+          {ui(
+            ' SpiceSync is intended exclusively for adults aged 18 and older. By using the app, you confirm that you are at least 18 years of age. If you are under 18, you may not use this app. '
+          )}
         </Section>
 
-        <Section title="Use of the App">
-          SpiceSync is a personal tool for consenting adults to explore and
-          share preferences with a partner. You agree to use the app only for
-          its intended purpose and in compliance with all applicable laws in
-          your jurisdiction.
+        <Section title={ui('Use of the App')}>
+          {ui(
+            ' SpiceSync is a personal tool for consenting adults to explore and share preferences with a partner. You agree to use the app only for its intended purpose and in compliance with all applicable laws in your jurisdiction. '
+          )}
         </Section>
 
-        <Section title="Content">
-          SpiceSync contains adult-oriented content. All content within the app
-          is provided for informational and entertainment purposes between
-          consenting adults. You are responsible for ensuring that your use of
-          the app complies with local laws and regulations.
+        <Section title={ui('Content')}>
+          {ui(
+            ' SpiceSync contains adult-oriented content. All content within the app is provided for informational and entertainment purposes between consenting adults. You are responsible for ensuring that your use of the app complies with local laws and regulations. '
+          )}
         </Section>
 
-        <Section title="No Email Account Required">
-          SpiceSync does not require an email address or password. Most app data
-          is stored locally. If you enable remote partner sync, the app creates
-          an anonymous backend identity and sends limited connection metadata
-          and encrypted partner-sync data through the relay as described in the
-          Privacy Policy.
+        <Section title={ui('No Email Account Required')}>
+          {ui(
+            ' SpiceSync does not require an email address or password. Most app data is stored locally. If you enable remote partner sync, the app creates an anonymous backend identity and sends limited connection metadata and encrypted partner-sync data through the relay as described in the Privacy Policy. '
+          )}
         </Section>
 
-        <Section title="Disclaimer of Warranties">
-          SpiceSync is provided "as is" without warranties of any kind, express
-          or implied. We do not warrant that the app will be error-free,
-          uninterrupted, or meet your specific requirements.
+        <Section title={ui('Disclaimer of Warranties')}>
+          {ui(
+            ' SpiceSync is provided "as is" without warranties of any kind, express or implied. We do not warrant that the app will be error-free, uninterrupted, or meet your specific requirements. '
+          )}
         </Section>
 
-        <Section title="Limitation of Liability">
-          To the maximum extent permitted by law, SpiceSync and its developers
-          shall not be liable for any indirect, incidental, special, or
-          consequential damages arising from your use of the app.
+        <Section title={ui('Limitation of Liability')}>
+          {ui(
+            ' To the maximum extent permitted by law, SpiceSync and its developers shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the app. '
+          )}
         </Section>
 
-        <Section title="Changes to These Terms">
-          We may update these Terms of Service from time to time. Continued use
-          of the app after changes are posted constitutes acceptance of the
-          updated terms.
+        <Section title={ui('Changes to These Terms')}>
+          {ui(
+            ' We may update these Terms of Service from time to time. Continued use of the app after changes are posted constitutes acceptance of the updated terms. '
+          )}
         </Section>
 
-        <Section title="Contact">
-          Questions about these terms can be directed to us through the App
-          Store listing for SpiceSync.
+        <Section title={ui('Contact')}>
+          {ui(
+            ' Questions about these terms can be directed to us through the App Store listing for SpiceSync. '
+          )}
         </Section>
       </ScrollView>
     </SafeAreaView>

@@ -35,6 +35,8 @@ import { getProfilePinActionLabel } from '../../../lib/profile-management';
 import { deleteProfileAndData } from '../../../lib/safety/localDataControls';
 import { COLORS, SHADOWS } from '../../../constants/theme';
 
+import { ui } from '../../../lib/i18n/uiLiteral';
+
 export default function ManageProfileScreen() {
   const router = useRouter();
   const { profileId } = useLocalSearchParams<{ profileId?: string }>();
@@ -52,9 +54,7 @@ export default function ManageProfileScreen() {
   );
   const isActive = !!profile && profile.id === activeProfileId;
 
-  const performAction = (
-    action: 'activate' | 'edit' | 'pin' | 'delete'
-  ) => {
+  const performAction = (action: 'activate' | 'edit' | 'pin' | 'delete') => {
     if (!profile) return;
 
     if (action === 'activate') {
@@ -77,12 +77,12 @@ export default function ManageProfileScreen() {
     }
 
     Alert.alert(
-      'Delete profile?',
-      `This permanently removes ${profile.displayName ?? profile.name} and their data.`,
+      ui('Delete profile?'),
+      `${ui('This permanently removes')} ${profile.displayName ?? profile.name} ${ui('and their data.')}`,
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: ui('Cancel'), style: 'cancel' },
         {
-          text: 'Delete',
+          text: ui('Delete'),
           style: 'destructive',
           onPress: () => {
             deleteProfileAndData(profile.id);
@@ -93,9 +93,7 @@ export default function ManageProfileScreen() {
     );
   };
 
-  const requestAction = (
-    action: 'activate' | 'edit' | 'pin' | 'delete'
-  ) => {
+  const requestAction = (action: 'activate' | 'edit' | 'pin' | 'delete') => {
     if (!profile) return;
     if (profile.pin) {
       setPendingAction(action);
@@ -112,18 +110,20 @@ export default function ManageProfileScreen() {
         edges={['top', 'left', 'right', 'bottom']}
       >
         <StatusBar style="light" />
-        <BackHeader title="Profile" />
+        <BackHeader title={ui('Profile')} />
         <View style={styles.missingState}>
-          <Text style={styles.missingTitle}>Profile not found</Text>
+          <Text style={styles.missingTitle}>{ui('Profile not found')}</Text>
           <Text style={styles.missingCopy}>
-            This profile may have already been deleted.
+            {ui(' This profile may have already been deleted. ')}
           </Text>
           <Pressable
             accessibilityRole="button"
             onPress={() => router.replace('/(settings)/profiles')}
             style={styles.secondaryButton}
           >
-            <Text style={styles.secondaryButtonText}>Back to Profiles</Text>
+            <Text style={styles.secondaryButtonText}>
+              {ui('Back to Profiles')}
+            </Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -138,8 +138,7 @@ export default function ManageProfileScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Profile Options" subtitle={displayName} />
-
+      <BackHeader title={ui('Profile Options')} subtitle={displayName} />
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
@@ -158,15 +157,19 @@ export default function ManageProfileScreen() {
                 {isActive ? (
                   <View style={styles.activePill}>
                     <Check size={11} color={COLORS.pink} />
-                    <Text style={styles.activePillText}>Active</Text>
+                    <Text style={styles.activePillText}>{ui('Active')}</Text>
                   </View>
                 ) : (
-                  <Text style={styles.profileMeta}>Available profile</Text>
+                  <Text style={styles.profileMeta}>
+                    {ui('Available profile')}
+                  </Text>
                 )}
                 {profile.pin ? (
                   <View style={styles.pinPill}>
                     <ShieldCheck size={11} color={COLORS.purpleLight} />
-                    <Text style={styles.pinPillText}>PIN protected</Text>
+                    <Text style={styles.pinPillText}>
+                      {ui('PIN protected')}
+                    </Text>
                   </View>
                 ) : null}
               </View>
@@ -175,20 +178,20 @@ export default function ManageProfileScreen() {
         </View>
 
         <View style={styles.sectionGroup}>
-          <Text style={styles.sectionTitle}>PROFILE</Text>
+          <Text style={styles.sectionTitle}>{ui('PROFILE')}</Text>
           <View style={styles.sectionCard}>
             <SectionRow
               icon={UserCheck}
-              label="Active Profile"
-              value={isActive ? 'Selected' : 'Select'}
+              label={ui('Active Profile')}
+              value={isActive ? ui('Selected') : ui('Select')}
               tint={COLORS.yes}
               badgeBg="rgba(34,197,94,0.12)"
               onPress={isActive ? undefined : () => requestAction('activate')}
             />
             <SectionRow
               icon={Pencil}
-              label="Edit Profile"
-              value="Name / avatar"
+              label={ui('Edit Profile')}
+              value={ui('Name / avatar')}
               tint={COLORS.pink}
               badgeBg="rgba(255,45,146,0.12)"
               onPress={() => requestAction('edit')}
@@ -196,15 +199,15 @@ export default function ManageProfileScreen() {
             <SectionRow
               icon={KeyRound}
               label={getProfilePinActionLabel(!!profile.pin)}
-              value={profile.pin ? 'Set' : 'Not set'}
+              value={profile.pin ? ui('Set') : ui('Not set')}
               tint={COLORS.purpleLight}
               badgeBg="rgba(167,139,250,0.12)"
               onPress={() => requestAction('pin')}
             />
             <SectionRow
               icon={Trash2}
-              label="Delete Profile"
-              value="Remove"
+              label={ui('Delete Profile')}
+              value={ui('Remove')}
               tint={COLORS.no}
               badgeBg="rgba(239,68,68,0.12)"
               onPress={() => requestAction('delete')}
@@ -213,7 +216,6 @@ export default function ManageProfileScreen() {
           </View>
         </View>
       </ScrollView>
-
       <PinVerifyModal
         open={pinPromptOpen}
         profiles={[profile as Profile]}

@@ -6,6 +6,8 @@ import { useKinks } from '../../lib/data';
 import { useFilters } from '../../lib/state/filters';
 import { useSettings } from '../../lib/state/useStore';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 export default function BrowseScreen() {
   const router = useRouter();
   const { language } = useSettings();
@@ -20,9 +22,9 @@ export default function BrowseScreen() {
   const goCategories = () => router.replace('/(tabs)/categories');
 
   return (
-    <View style={styles.screen} accessibilityLabel="Browse list screen">
+    <View style={styles.screen} accessibilityLabel={ui('Browse list screen')}>
       <View style={styles.topBar}>
-        <Text style={styles.h1}>Browse</Text>
+        <Text style={styles.h1}>{ui('Browse')}</Text>
         {selectedTier ? (
           <Text style={styles.tier}>• {selectedTier.toUpperCase()}</Text>
         ) : null}
@@ -31,21 +33,19 @@ export default function BrowseScreen() {
           onPress={goCategories}
           accessibilityRole="button"
         >
-          <Text style={styles.linkText}>Categories</Text>
+          <Text style={styles.linkText}>{ui('Categories')}</Text>
         </Pressable>
       </View>
-
       {selectedTier ? (
         <Pressable
           style={styles.chip}
           onPress={clearTier}
           accessibilityRole="button"
-          accessibilityLabel="Clear filter"
+          accessibilityLabel={ui('Clear filter')}
         >
-          <Text style={styles.chipText}>Clear filter</Text>
+          <Text style={styles.chipText}>{ui('Clear filter')}</Text>
         </Pressable>
       ) : null}
-
       <FlatList
         data={rows}
         keyExtractor={(item) => item.id}
@@ -58,14 +58,20 @@ export default function BrowseScreen() {
               <Text style={styles.desc}>{item.description}</Text>
             )}
             <View style={styles.metaRow}>
-              <Text style={styles.meta}>Tier: {item.tier?.toUpperCase()}</Text>
-              <Text style={styles.meta}>Intensity: {item.intensityScale}</Text>
+              <Text style={styles.meta}>
+                {ui('Tier: ')}
+                {item.tier?.toUpperCase()}
+              </Text>
+              <Text style={styles.meta}>
+                {ui('Intensity: ')}
+                {item.intensityScale}
+              </Text>
             </View>
           </View>
         )}
         ListEmptyComponent={
           <View style={{ padding: 16 }}>
-            <Text style={styles.empty}>No items to show.</Text>
+            <Text style={styles.empty}>{ui('No items to show.')}</Text>
           </View>
         }
       />

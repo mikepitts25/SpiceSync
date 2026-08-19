@@ -21,6 +21,8 @@ import {
 } from '../../../constants/theme';
 import { COMFORT_DECK_OPTIONS, useFilters } from '../../../lib/state/filters';
 
+import { ui } from '../../../lib/i18n/uiLiteral';
+
 type ComfortChoice = {
   id: string;
   title: string;
@@ -86,10 +88,12 @@ export default function ProfileComfortScreen() {
         </View>
 
         <View style={styles.heroCopy}>
-          <Text style={styles.eyebrow}>STARTING INTENSITY</Text>
-          <Text style={styles.title}>Pick your first deck</Text>
+          <Text style={styles.eyebrow}>{ui('STARTING INTENSITY')}</Text>
+          <Text style={styles.title}>{ui('Pick your first deck')}</Text>
           <Text style={styles.subtitle}>
-            Choose the intensity that should appear when you start swiping.
+            {ui(
+              ' Choose the intensity that should appear when you start swiping. '
+            )}
           </Text>
         </View>
 
@@ -150,7 +154,7 @@ export default function ProfileComfortScreen() {
             style={styles.primaryButton}
           >
             <Text style={styles.primaryText}>
-              {fromWelcome ? 'Start Swiping' : 'Save Preference'}
+              {fromWelcome ? ui('Start Swiping') : ui('Save Preference')}
             </Text>
           </LinearGradient>
         </Pressable>

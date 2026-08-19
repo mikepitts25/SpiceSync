@@ -26,6 +26,8 @@ import { COLORS, GRADIENTS, SHADOWS } from '../constants/theme';
 import { SpiceSyncLogo } from './app-chrome';
 import { shouldShowPrivacyCover } from '../lib/privacyCover';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 function useSettingsHydrated(): boolean {
   const [hydrated, setHydrated] = useState(() =>
     useSettingsStore.persist.hasHydrated()
@@ -206,7 +208,7 @@ export default function BiometricLockGate({ children }: PropsWithChildren) {
                   end={{ x: 1, y: 0.5 }}
                   style={styles.unlockButton}
                 >
-                  <Text style={styles.unlockText}>Unlock</Text>
+                  <Text style={styles.unlockText}>{ui('Unlock')}</Text>
                 </LinearGradient>
               </Pressable>
             )}
@@ -216,7 +218,9 @@ export default function BiometricLockGate({ children }: PropsWithChildren) {
       {shouldShowPrivacyCover(currentAppState, discreteModeEnabled) ? (
         <View style={styles.privacyCover} testID="discrete-mode-cover">
           <SpiceSyncLogo width={156} height={59} />
-          <Text style={styles.privacyCoverText}>Private by default</Text>
+          <Text style={styles.privacyCoverText}>
+            {ui('Private by default')}
+          </Text>
         </View>
       ) : null}
     </View>

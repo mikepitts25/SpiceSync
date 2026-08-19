@@ -7,7 +7,8 @@ export const conversationTranslations = {
     dailySubtitle: 'A fresh prompt every day to keep the conversation flowing',
     randomButton: 'Pick a Random Topic',
     dateNightMode: 'Date Night Mode',
-    dateNightSubtitle: 'Full-screen conversation experience with timer and beautiful backgrounds',
+    dateNightSubtitle:
+      'Full-screen conversation experience with timer and beautiful backgrounds',
     browseByCategory: 'Browse by Category',
     changeCategory: 'Change category',
     showing: 'Showing',
@@ -34,7 +35,8 @@ export const conversationTranslations = {
     spicyDesc: 'Desires, fantasies, and exploring together',
     loveLanguages: 'Love Languages',
     loveLanguagesSubtitle: '5 Languages',
-    loveLanguagesDesc: 'Discover how you and your partner give and receive love',
+    loveLanguagesDesc:
+      'Discover how you and your partner give and receive love',
     // Intensity labels
     light: 'Light',
     lightDesc: 'Easy, fun conversation starters',
@@ -54,15 +56,30 @@ export const conversationTranslations = {
     // Navigation
     back: 'Back',
     close: 'Close',
+    topicsEyebrow: 'CONVO TOPICS',
+    pickConversationLane: 'Pick a conversation lane',
+    openTopic: 'Open {{topic}}',
+    backToTopics: 'Back to conversation topics',
+    questionProgress: 'QUESTION {{current}} OF {{total}}',
+    previousQuestion: 'Previous question',
+    nextQuestion: 'Next question',
+    fallbackTip: "Take turns sharing. Really listen to each other's answer.",
+    savedToFavorites: 'Saved to favorites',
+    skip: 'SKIP',
+    save: 'SAVE',
+    shareAction: 'SHARE',
+    shareMessage: 'SpiceSync conversation starter: {{question}}',
   },
   es: {
     title: 'Conversaciones Profundas',
     subtitle: 'Más de 200 temas para conversaciones significativas',
     dailyTitle: 'Tema de Conversación de Hoy',
-    dailySubtitle: 'Un tema nuevo cada día para mantener la conversación fluida',
+    dailySubtitle:
+      'Un tema nuevo cada día para mantener la conversación fluida',
     randomButton: 'Elegir Tema Aleatorio',
     dateNightMode: 'Modo Cita Nocturna',
-    dateNightSubtitle: 'Experiencia de conversación en pantalla completa con temporizador y fondos hermosos',
+    dateNightSubtitle:
+      'Experiencia de conversación en pantalla completa con temporizador y fondos hermosos',
     browseByCategory: 'Explorar por Categoría',
     changeCategory: 'Cambiar categoría',
     showing: 'Mostrando',
@@ -77,7 +94,8 @@ export const conversationTranslations = {
     // Categories
     gettingToKnow: 'Conociéndonos',
     gettingToKnowSubtitle: 'Conversaciones Profundas',
-    gettingToKnowDesc: 'Memorias de la infancia, valores, sueños y descubrimientos',
+    gettingToKnowDesc:
+      'Memorias de la infancia, valores, sueños y descubrimientos',
     relationship: 'Nuestra Relación',
     relationshipSubtitle: 'Nosotros',
     relationshipDesc: 'Memorias, conflictos, visiones futuras y apreciación',
@@ -109,6 +127,20 @@ export const conversationTranslations = {
     // Navigation
     back: 'Atrás',
     close: 'Cerrar',
+    topicsEyebrow: 'TEMAS DE CHARLA',
+    pickConversationLane: 'Elige un tipo de conversación',
+    openTopic: 'Abrir {{topic}}',
+    backToTopics: 'Volver a los temas de conversación',
+    questionProgress: 'PREGUNTA {{current}} DE {{total}}',
+    previousQuestion: 'Pregunta anterior',
+    nextQuestion: 'Siguiente pregunta',
+    fallbackTip:
+      'Túrnense para compartir y escuchen de verdad la respuesta del otro.',
+    savedToFavorites: 'Guardado en favoritos',
+    skip: 'SALTAR',
+    save: 'GUARDAR',
+    shareAction: 'COMPARTIR',
+    shareMessage: 'Pregunta de conversación de SpiceSync: {{question}}',
   },
 };
 

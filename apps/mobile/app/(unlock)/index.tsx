@@ -16,6 +16,8 @@ import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 import { usePurchases } from '../../lib/purchases/purchaseService';
 import { usePremiumStore } from '../../src/stores/premium';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const PREMIUM_FEATURES = [
   'The full Spice Deck library, including every themed pack',
   'Match Missions, Know Me Better, and Couple Dice',
@@ -38,17 +40,17 @@ export default function UnlockScreen() {
   const buyPremium = async () => {
     const result = await purchase();
     if (!result.success && result.error) {
-      Alert.alert('Purchase unavailable', result.error);
+      Alert.alert(ui('Purchase unavailable'), result.error);
     }
   };
 
   const restorePremium = async () => {
     const restored = await restore();
     Alert.alert(
-      restored ? 'Premium restored' : 'Nothing to restore',
+      restored ? ui('Premium restored') : ui('Nothing to restore'),
       restored
-        ? 'Your lifetime Premium access is active on this device.'
-        : 'No lifetime Premium purchase was found for this store account.'
+        ? ui('Your lifetime Premium access is active on this device.')
+        : ui('No lifetime Premium purchase was found for this store account.')
     );
   };
 
@@ -56,30 +58,30 @@ export default function UnlockScreen() {
     <SafeAreaView style={styles.screen}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Close"
+        accessibilityLabel={ui('Close')}
         onPress={() => router.back()}
         style={styles.close}
       >
         <X color={COLORS.textPrimary} size={24} />
       </Pressable>
-
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.heroIcon}>
           <Crown color={COLORS.pink} size={38} />
         </View>
-        <Text style={styles.eyebrow}>ONE-TIME PURCHASE</Text>
-        <Text style={styles.title}>Unlock SpiceSync Premium</Text>
+        <Text style={styles.eyebrow}>{ui('ONE-TIME PURCHASE')}</Text>
+        <Text style={styles.title}>{ui('Unlock SpiceSync Premium')}</Text>
         <Text style={styles.subtitle}>
-          More ways to play and explore together. Core matching, privacy, and
-          partner features always stay free.
+          {ui(
+            ' More ways to play and explore together. Core matching, privacy, and partner features always stay free. '
+          )}
         </Text>
 
         <View style={styles.priceCard}>
           <Text style={styles.price}>
-            {product?.displayPrice ?? 'One-time purchase'}
+            {product?.displayPrice ?? ui('One-time purchase')}
           </Text>
           <Text style={styles.priceNote}>
-            Lifetime access · no subscription
+            {ui(' Lifetime access · no subscription ')}
           </Text>
         </View>
 
@@ -89,7 +91,7 @@ export default function UnlockScreen() {
               <View style={styles.checkCircle}>
                 <Check color={COLORS.textPrimary} size={14} strokeWidth={3} />
               </View>
-              <Text style={styles.featureText}>{feature}</Text>
+              <Text style={styles.featureText}>{ui(feature)}</Text>
             </View>
           ))}
         </View>
@@ -97,7 +99,7 @@ export default function UnlockScreen() {
         {isPremium ? (
           <View style={styles.ownedBanner}>
             <Check color={COLORS.yes} size={20} strokeWidth={3} />
-            <Text style={styles.ownedText}>Premium is unlocked</Text>
+            <Text style={styles.ownedText}>{ui('Premium is unlocked')}</Text>
           </View>
         ) : (
           <Pressable
@@ -114,8 +116,8 @@ export default function UnlockScreen() {
             ) : (
               <Text style={styles.buyText}>
                 {product
-                  ? `Unlock for ${product.displayPrice}`
-                  : 'Store product unavailable'}
+                  ? `${ui('Unlock for')} ${product.displayPrice}`
+                  : ui('Store product unavailable')}
               </Text>
             )}
           </Pressable>
@@ -129,24 +131,24 @@ export default function UnlockScreen() {
           onPress={restorePremium}
           style={styles.restoreButton}
         >
-          <Text style={styles.restoreText}>Restore Purchases</Text>
+          <Text style={styles.restoreText}>{ui('Restore Purchases')}</Text>
         </Pressable>
 
         <View style={styles.legalRow}>
           <Pressable onPress={() => router.push('/(settings)/privacy-policy')}>
-            <Text style={styles.legalLink}>Privacy Policy</Text>
+            <Text style={styles.legalLink}>{ui('Privacy Policy')}</Text>
           </Pressable>
           <Text style={styles.legalDot}>·</Text>
           <Pressable
             onPress={() => router.push('/(settings)/terms-of-service')}
           >
-            <Text style={styles.legalLink}>Terms of Service</Text>
+            <Text style={styles.legalLink}>{ui('Terms of Service')}</Text>
           </Pressable>
         </View>
         <Text style={styles.legalCopy}>
-          Payment is charged to your App Store or Google Play account. This is a
-          non-consumable purchase and can be restored on devices using the same
-          store account.
+          {ui(
+            ' Payment is charged to your App Store or Google Play account. This is a non-consumable purchase and can be restored on devices using the same store account. '
+          )}
         </Text>
       </ScrollView>
     </SafeAreaView>

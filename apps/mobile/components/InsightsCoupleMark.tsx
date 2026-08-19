@@ -3,6 +3,8 @@ import React from 'react';
 import CoupleAvatarPair from './CoupleAvatarPair';
 import MatchCoupleIcon from './MatchCoupleIcon';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 type InsightsCoupleMarkProps = {
   linked: boolean;
   activeAvatar?: string | null;
@@ -20,7 +22,7 @@ export default function InsightsCoupleMark({
     return (
       <MatchCoupleIcon
         size={size}
-        accessibilityLabel="Couple match"
+        accessibilityLabel={ui('Couple match')}
         testID="insights-couple-artwork"
       />
     );
@@ -31,7 +33,7 @@ export default function InsightsCoupleMark({
       firstAvatar={activeAvatar}
       secondAvatar={partnerAvatar}
       size={size}
-      accessibilityLabel="Active couple"
+      accessibilityLabel={ui('Active couple')}
       testID="insights-couple-pair"
     />
   );

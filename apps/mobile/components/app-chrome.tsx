@@ -54,6 +54,7 @@ import {
 } from '../constants/theme';
 import { useTranslation } from '../lib/i18n';
 import { useReadyNowCount } from '../lib/match/useReadyNowCount';
+import { ui } from '../lib/i18n/uiLiteral';
 
 const MAIN_TOPIC_FONT_SIZE = 24;
 const NORMAL_FONT_SIZE = 16;
@@ -228,7 +229,7 @@ export function AppTabBar({ active }: { active?: TabKey }) {
               {showBadge ? (
                 <View
                   style={styles.tabBadge}
-                  accessibilityLabel={`${readyNowCount} matches ready now`}
+                  accessibilityLabel={`${readyNowCount} ${ui('matches ready now')}`}
                 >
                   <Text style={styles.tabBadgeText}>
                     {readyNowCount > 99 ? '99+' : readyNowCount}

@@ -8,6 +8,8 @@ import { useRouter } from 'expo-router';
 import { BackHeader, SpiceSyncLogo } from '../../components/app-chrome';
 import { COLORS } from '../../constants/theme';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const ROWS: { label: string; route: string }[] = [
   { label: 'Privacy Policy', route: '/(settings)/privacy-policy' },
   { label: 'Terms of Service', route: '/(settings)/terms-of-service' },
@@ -22,13 +24,12 @@ export default function AboutScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="About" />
-
+      <BackHeader title={ui('About')} />
       <View style={styles.content}>
         <View style={styles.logoBlock}>
           <SpiceSyncLogo width={258} height={96} />
           <View style={styles.versionPill}>
-            <Text style={styles.versionText}>Version 1.0.0</Text>
+            <Text style={styles.versionText}>{ui('Version 1.0.0')}</Text>
           </View>
         </View>
 
@@ -43,13 +44,15 @@ export default function AboutScreen() {
                 index !== ROWS.length - 1 && styles.infoRowBorder,
               ]}
             >
-              <Text style={styles.infoText}>{label}</Text>
+              <Text style={styles.infoText}>{ui(label)}</Text>
               <ChevronRight size={18} color={COLORS.textMuted} />
             </Pressable>
           ))}
         </View>
 
-        <Text style={styles.madeWith}>Made with 🌶️ for curious couples</Text>
+        <Text style={styles.madeWith}>
+          {ui('Made with 🌶️ for curious couples')}
+        </Text>
       </View>
     </SafeAreaView>
   );

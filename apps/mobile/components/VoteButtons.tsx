@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 type VoteValue = 'yes' | 'maybe' | 'no';
 
 type Props = {
@@ -31,19 +33,19 @@ export default function VoteButtons({
       >
         <View style={styles.row}>
           <VoteButton
-            label="No"
+            label={ui('No')}
             tone="no"
             disabled={isDisabled}
             onPress={() => handlePress('no')}
           />
           <VoteButton
-            label="Maybe"
+            label={ui('Maybe')}
             tone="maybe"
             disabled={isDisabled}
             onPress={() => handlePress('maybe')}
           />
           <VoteButton
-            label="Yes"
+            label={ui('Yes')}
             tone="yes"
             disabled={isDisabled}
             onPress={() => handlePress('yes')}

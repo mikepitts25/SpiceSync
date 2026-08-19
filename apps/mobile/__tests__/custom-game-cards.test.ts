@@ -84,6 +84,8 @@ describe('custom game cards', () => {
     expect(customDeckScreen).toContain('router.canGoBack()');
     expect(customDeckScreen).toContain('router.back()');
     expect(customDeckScreen).toContain("router.replace('/(game)')");
-    expect(customDeckScreen).toContain('accessibilityLabel="Back to game menu"');
+    expect(customDeckScreen).toContain(
+      "accessibilityLabel={ui('Back to game menu')}"
+    );
   });
 });

@@ -1,16 +1,12 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Animated,
-} from 'react-native';
+import { View, Text, StyleSheet, Pressable, Animated } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+
+import { ui } from '../../lib/i18n/uiLiteral';
 
 export default function GameComplete() {
   const insets = useSafeAreaInsets();
@@ -30,31 +26,38 @@ export default function GameComplete() {
     <SafeAreaView style={styles.container}>
       <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
         <Text style={styles.emoji}>🎉</Text>
-        <Text style={styles.title}>Card Completed!</Text>
+        <Text style={styles.title}>{ui('Card Completed!')}</Text>
         <Text style={styles.subtitle}>
-          Great job completing the challenge
+          {ui(' Great job completing the challenge ')}
         </Text>
 
         <View style={styles.actions}>
-          <Pressable 
+          <Pressable
             style={styles.button}
-            onPress={() => router.push({ pathname: '/(game)/draw', params: { drinkingMode: drinkingMode.toString() } })}
+            onPress={() =>
+              router.push({
+                pathname: '/(game)/draw',
+                params: { drinkingMode: drinkingMode.toString() },
+              })
+            }
           >
-            <Text style={styles.buttonText}>Draw Another Card</Text>
+            <Text style={styles.buttonText}>{ui('Draw Another Card')}</Text>
           </Pressable>
-          
-          <Pressable 
+
+          <Pressable
             style={styles.secondaryButton}
             onPress={() => router.push('/(game)')}
           >
-            <Text style={styles.secondaryButtonText}>Back to Game Hub</Text>
+            <Text style={styles.secondaryButtonText}>
+              {ui('Back to Game Hub')}
+            </Text>
           </Pressable>
-          
-          <Pressable 
+
+          <Pressable
             style={styles.secondaryButton}
             onPress={() => router.push('/(tabs)/categories')}
           >
-            <Text style={styles.secondaryButtonText}>Back to Home</Text>
+            <Text style={styles.secondaryButtonText}>{ui('Back to Home')}</Text>
           </Pressable>
         </View>
       </Animated.View>

@@ -42,6 +42,8 @@ import {
 import { startSyncLoop } from '../../lib/sync/syncLoop';
 import { startVoteSync, useVoteSyncStore } from '../../lib/sync/voteSync';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 type Mode = 'menu' | 'remote-create' | 'remote-paste' | 'remote-accept';
 type RecoveryError = {
   title: string;
@@ -138,7 +140,9 @@ export default function PartnerConnect() {
       .catch((err) => {
         if (alive) {
           setRemoteInvite(null);
-          setLookupError(errorBody(err, 'Check your connection and try again.'));
+          setLookupError(
+            errorBody(err, ui('Check your connection and try again.'))
+          );
         }
       });
     return () => {
@@ -159,7 +163,7 @@ export default function PartnerConnect() {
           router.replace('/(tabs)/deck');
         }
       } catch (err) {
-        setPollError(errorBody(err, 'Could not check invite'));
+        setPollError(errorBody(err, ui('Could not check invite')));
       }
     },
     [activeProfileId, router]
@@ -192,8 +196,8 @@ export default function PartnerConnect() {
       setMode('remote-create');
     } catch (err) {
       setCreateError({
-        title: 'Could not create invite',
-        body: errorBody(err, 'Check your connection and try again.'),
+        title: ui('Could not create invite'),
+        body: errorBody(err, ui('Check your connection and try again.')),
       });
       setMode('menu');
     } finally {
@@ -206,7 +210,7 @@ export default function PartnerConnect() {
     const inviteUrl = buildRuntimeInviteLink(pendingInvite);
     try {
       await Share.share({
-        message: `Join me on SpiceSync\n${inviteUrl}`,
+        message: `${ui('Join me on SpiceSync')}\n${inviteUrl}`,
         url: inviteUrl,
       });
     } catch {}
@@ -215,13 +219,13 @@ export default function PartnerConnect() {
   const handleCopyInvite = async () => {
     if (!pendingInvite) return;
     await Clipboard.setStringAsync(buildRuntimeInviteLink(pendingInvite));
-    Alert.alert('Copied', 'Invite link copied to the clipboard.');
+    Alert.alert(ui('Copied'), ui('Invite link copied to the clipboard.'));
   };
 
   const handlePasteInviteLink = () => {
     const parsed = parseInviteUrl(inviteLinkInput);
     if (!parsed) {
-      setPasteError('Paste the full invite link your partner created.');
+      setPasteError(ui('Paste the full invite link your partner created.'));
       return;
     }
     setPasteError(null);
@@ -244,14 +248,20 @@ export default function PartnerConnect() {
       useVoteSyncStore.getState().setLocalProfileId(activeProfileId ?? null);
       startVoteSync();
       startSyncLoop();
-      Alert.alert('Connected', 'You are now linked with your partner.', [
-        {
-          text: 'Start Exploring',
-          onPress: () => router.replace('/(tabs)/deck'),
-        },
-      ]);
+      Alert.alert(
+        ui('Connected'),
+        ui('You are now linked with your partner.'),
+        [
+          {
+            text: ui('Start Exploring'),
+            onPress: () => router.replace('/(tabs)/deck'),
+          },
+        ]
+      );
     } catch (err) {
-      setAcceptError(errorBody(err, 'Check your connection and try again.'));
+      setAcceptError(
+        errorBody(err, ui('Check your connection and try again.'))
+      );
     } finally {
       setIsConnecting(false);
     }
@@ -262,7 +272,7 @@ export default function PartnerConnect() {
       style={styles.screen}
       edges={['top', 'left', 'right', 'bottom']}
     >
-      <BackHeader title="Partner setup" />
+      <BackHeader title={ui('Partner setup')} />
       <ScrollView
         contentContainerStyle={[
           styles.content,
@@ -329,7 +339,7 @@ export default function PartnerConnect() {
 function ScreenIntro({ title, body }: { title: string; body: string }) {
   return (
     <View style={styles.intro}>
-      <Text style={styles.kicker}>Partner Sync</Text>
+      <Text style={styles.kicker}>{ui('Partner Sync')}</Text>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{body}</Text>
     </View>
@@ -356,46 +366,54 @@ function MenuContent({
   return (
     <>
       <ScreenIntro
-        title="How do you want to compare?"
-        body="Use two profiles on this device, or link a partner on another device with encrypted sync."
+        title={ui('How do you want to compare?')}
+        body={ui(
+          'Use two profiles on this device, or link a partner on another device with encrypted sync.'
+        )}
       />
-
       <View style={styles.identityRow}>
         <ProfileAvatarIcon avatar={myProfileAvatar} size={38} selected />
         <View style={styles.identityCopy}>
-          <Text style={styles.identityLabel}>You appear as</Text>
+          <Text style={styles.identityLabel}>{ui('You appear as')}</Text>
           <Text style={styles.identityName}>{myProfileName}</Text>
         </View>
       </View>
-
       <ChoiceCard
         icon={Users}
-        title="Two profiles on this device"
-        body="Add a second local profile when you share one phone or tablet. No network sync is needed."
-        actionLabel="Add local profile"
+        title={ui('Two profiles on this device')}
+        body={ui(
+          'Add a second local profile when you share one phone or tablet. No network sync is needed.'
+        )}
+        actionLabel={ui('Add local profile')}
         onPress={onLocalProfile}
       />
       <ChoiceCard
         icon={Radio}
-        title="Remote partner"
-        body="Create an encrypted invite link for a partner using their own device. Your selected avatar is shared with them."
-        actionLabel={isConnecting ? 'Creating...' : 'Create invite link'}
+        title={ui('Remote partner')}
+        body={ui(
+          'Create an encrypted invite link for a partner using their own device. Your selected avatar is shared with them.'
+        )}
+        actionLabel={
+          isConnecting ? ui('Creating...') : ui('Create invite link')
+        }
         onPress={onRemoteInvite}
         disabled={isConnecting}
         primary
       />
       <ChoiceCard
         icon={ClipboardPaste}
-        title="Paste invite link"
-        body="Use a link from another device when Messages, AirDrop, or the share sheet is not available."
-        actionLabel="Paste link"
+        title={ui('Paste invite link')}
+        body={ui(
+          'Use a link from another device when Messages, AirDrop, or the share sheet is not available.'
+        )}
+        actionLabel={ui('Paste link')}
         onPress={onPasteInvite}
       />
       {createError ? (
         <RecoveryCard
           title={createError.title}
           body={createError.body}
-          primaryLabel="Try again"
+          primaryLabel={ui('Try again')}
           onPrimary={onRemoteInvite}
           onLocalProfile={onLocalProfile}
         />
@@ -472,19 +490,22 @@ function RemoteCreateContent({
   return (
     <>
       <ScreenIntro
-        title="Send a private invite"
-        body="Your partner will see your selected avatar, then both devices sync encrypted vote updates."
+        title={ui('Send a private invite')}
+        body={ui(
+          'Your partner will see your selected avatar, then both devices sync encrypted vote updates.'
+        )}
       />
       <View style={styles.identityRow}>
         <ProfileAvatarIcon avatar={myProfileAvatar} size={38} selected />
         <View style={styles.identityCopy}>
-          <Text style={styles.identityLabel}>Shared with your partner</Text>
+          <Text style={styles.identityLabel}>
+            {ui('Shared with your partner')}
+          </Text>
           <Text style={styles.identityName}>{myProfileName}</Text>
         </View>
       </View>
-
       <View style={styles.panel}>
-        <Text style={styles.label}>Invite link</Text>
+        <Text style={styles.label}>{ui('Invite link')}</Text>
         {inviteUrl ? (
           <View style={styles.qrWrap}>
             <QRCode
@@ -496,7 +517,7 @@ function RemoteCreateContent({
           </View>
         ) : null}
         <Text selectable style={styles.linkBox}>
-          {inviteUrl ?? 'Creating invite...'}
+          {inviteUrl ?? ui('Creating invite...')}
         </Text>
         <View style={styles.buttonRow}>
           <Pressable
@@ -508,7 +529,7 @@ function RemoteCreateContent({
             ]}
             onPress={onCopy}
           >
-            <Text style={styles.secondaryButtonText}>Copy link</Text>
+            <Text style={styles.secondaryButtonText}>{ui('Copy link')}</Text>
           </Pressable>
           <Pressable
             accessibilityRole="button"
@@ -520,19 +541,19 @@ function RemoteCreateContent({
             ]}
             onPress={onShare}
           >
-            <Text style={styles.primaryButtonText}>Share link</Text>
+            <Text style={styles.primaryButtonText}>{ui('Share link')}</Text>
           </Pressable>
         </View>
         <Text style={styles.helperText}>
-          Scan the QR code with another device, copy the link, or use the share
-          sheet. Leave this screen open so we can detect when your partner
-          accepts.
+          {ui(
+            ' Scan the QR code with another device, copy the link, or use the share sheet. Leave this screen open so we can detect when your partner accepts. '
+          )}
         </Text>
         {pollError ? (
           <RecoveryCard
-            title="Could not check invite"
+            title={ui('Could not check invite')}
             body={pollError}
-            primaryLabel="Check again"
+            primaryLabel={ui('Check again')}
             onPrimary={onRetryPoll}
             onLocalProfile={onLocalProfile}
           />
@@ -559,21 +580,25 @@ function PasteInviteContent({
   return (
     <>
       <ScreenIntro
-        title="Paste invite link"
-        body="Paste the full private invite link from your partner's device."
+        title={ui('Paste invite link')}
+        body={ui(
+          "Paste the full private invite link from your partner's device."
+        )}
       />
       <View style={styles.panel}>
         <View style={styles.securityRow}>
           <LinkIcon size={22} color={COLORS.primary} />
           <Text style={styles.securityText}>
-            The link includes a temporary secret that proves you were invited.
+            {ui(
+              ' The link includes a temporary secret that proves you were invited. '
+            )}
           </Text>
         </View>
         <TextInput
           style={styles.linkInput}
           value={value}
           onChangeText={onChange}
-          placeholder="Paste invite link"
+          placeholder={ui('Paste invite link')}
           placeholderTextColor={COLORS.textMuted}
           autoCapitalize="none"
           autoCorrect={false}
@@ -586,7 +611,7 @@ function PasteInviteContent({
           style={[styles.primaryButton, !value.trim() && styles.disabled]}
           onPress={onContinue}
         >
-          <Text style={styles.primaryButtonText}>Continue</Text>
+          <Text style={styles.primaryButtonText}>{ui('Continue')}</Text>
         </Pressable>
       </View>
       <BackToMenu onPress={onBack} />
@@ -615,8 +640,8 @@ function RemoteAcceptContent({
 }) {
   const inviterName =
     remoteInvite?.kind === 'pending'
-      ? remoteInvite.inviterProfileName || 'Your partner'
-      : 'Your partner';
+      ? remoteInvite.inviterProfileName || ui('Your partner')
+      : ui('Your partner');
   const inviterAvatar =
     remoteInvite?.kind === 'pending' ? remoteInvite.inviterProfileAvatar : null;
   const inviteIsPending = remoteInvite?.kind === 'pending';
@@ -624,45 +649,49 @@ function RemoteAcceptContent({
   return (
     <>
       <ScreenIntro
-        title="Accept remote invite"
-        body="This links two devices. The relay only stores encrypted updates."
+        title={ui('Accept remote invite')}
+        body={ui(
+          'This links two devices. The relay only stores encrypted updates.'
+        )}
       />
       <View style={styles.identityRow}>
         <ProfileAvatarIcon avatar={inviterAvatar ?? null} size={38} />
         <View style={styles.identityCopy}>
-          <Text style={styles.identityLabel}>Invite from</Text>
+          <Text style={styles.identityLabel}>{ui('Invite from')}</Text>
           <Text style={styles.identityName}>{inviterName}</Text>
         </View>
       </View>
-
       <View style={styles.panel}>
         <View style={styles.securityRow}>
           <ShieldCheck size={22} color={COLORS.primary} />
           <Text style={styles.securityText}>
-            Your votes stay encrypted end-to-end and matches are computed on
-            your device.
+            {ui(
+              ' Your votes stay encrypted end-to-end and matches are computed on your device. '
+            )}
           </Text>
         </View>
 
         {lookupError ? (
           <RecoveryCard
-            title="Could not load invite"
+            title={ui('Could not load invite')}
             body={lookupError}
-            primaryLabel="Try again"
+            primaryLabel={ui('Try again')}
             onPrimary={onRetryLookup}
             onLocalProfile={onLocalProfile}
           />
         ) : null}
 
         {!lookupError && remoteInvite === null ? (
-          <Text style={styles.helperText}>Checking invite...</Text>
+          <Text style={styles.helperText}>{ui('Checking invite...')}</Text>
         ) : null}
 
         {!lookupError && remoteInvite?.kind === 'expired' ? (
           <RecoveryCard
-            title="Invite expired"
-            body="Ask your partner to create a new invite, or use this device instead."
-            primaryLabel="Back to setup"
+            title={ui('Invite expired')}
+            body={ui(
+              'Ask your partner to create a new invite, or use this device instead.'
+            )}
+            primaryLabel={ui('Back to setup')}
             onPrimary={onBack}
             onLocalProfile={onLocalProfile}
           />
@@ -670,9 +699,11 @@ function RemoteAcceptContent({
 
         {!lookupError && remoteInvite?.kind === 'accepted' ? (
           <RecoveryCard
-            title="Invite already used"
-            body="Ask your partner to create a new invite, or use this device instead."
-            primaryLabel="Back to setup"
+            title={ui('Invite already used')}
+            body={ui(
+              'Ask your partner to create a new invite, or use this device instead.'
+            )}
+            primaryLabel={ui('Back to setup')}
             onPrimary={onBack}
             onLocalProfile={onLocalProfile}
           />
@@ -680,9 +711,9 @@ function RemoteAcceptContent({
 
         {acceptError ? (
           <RecoveryCard
-            title="Could not link"
+            title={ui('Could not link')}
             body={acceptError}
-            primaryLabel="Try again"
+            primaryLabel={ui('Try again')}
             onPrimary={onAccept}
             onLocalProfile={onLocalProfile}
           />
@@ -696,7 +727,7 @@ function RemoteAcceptContent({
             onPress={onAccept}
           >
             <Text style={styles.primaryButtonText}>
-              {isConnecting ? 'Linking...' : 'Accept invite'}
+              {isConnecting ? ui('Linking...') : ui('Accept invite')}
             </Text>
           </Pressable>
         ) : null}
@@ -738,7 +769,7 @@ function RecoveryCard({
             onPress={onLocalProfile}
           >
             <Text style={styles.secondaryButtonText}>
-              Use this device instead
+              {ui(' Use this device instead ')}
             </Text>
           </Pressable>
         ) : null}
@@ -754,7 +785,7 @@ function BackToMenu({ onPress }: { onPress: () => void }) {
       onPress={onPress}
       style={styles.backToMenu}
     >
-      <Text style={styles.backToMenuText}>Back to partner setup</Text>
+      <Text style={styles.backToMenuText}>{ui('Back to partner setup')}</Text>
     </Pressable>
   );
 }

@@ -24,6 +24,8 @@ import {
 } from '../../../lib/profile-management';
 import { COLORS, GRADIENTS, SHADOWS } from '../../../constants/theme';
 
+import { ui } from '../../../lib/i18n/uiLiteral';
+
 const PIN_LENGTH = 4;
 
 function toPinDigits(value: string): string {
@@ -53,11 +55,11 @@ export default function ProfilePinScreen() {
         edges={['top', 'left', 'right', 'bottom']}
       >
         <StatusBar style="light" />
-        <BackHeader title="Profile PIN" />
+        <BackHeader title={ui('Profile PIN')} />
         <View style={styles.missingState}>
-          <Text style={styles.missingTitle}>Profile not found</Text>
+          <Text style={styles.missingTitle}>{ui('Profile not found')}</Text>
           <Text style={styles.missingCopy}>
-            This profile may have already been deleted.
+            {ui(' This profile may have already been deleted. ')}
           </Text>
         </View>
       </SafeAreaView>
@@ -141,15 +143,19 @@ export default function ProfilePinScreen() {
                   <Text style={styles.title}>{title}</Text>
                   <Text style={styles.subtitle}>
                     {hasExistingPin
-                      ? 'Enter the current PIN, then choose a new 4-digit PIN.'
-                      : 'Choose a 4-digit PIN for switching to this profile.'}
+                      ? ui(
+                          'Enter the current PIN, then choose a new 4-digit PIN.'
+                        )
+                      : ui(
+                          'Choose a 4-digit PIN for switching to this profile.'
+                        )}
                   </Text>
                 </View>
               </View>
 
               {hasExistingPin ? (
                 <View style={styles.section}>
-                  <Text style={styles.label}>Current PIN</Text>
+                  <Text style={styles.label}>{ui('Current PIN')}</Text>
                   <TextInput
                     style={styles.pinInput}
                     value={currentPin}
@@ -167,7 +173,7 @@ export default function ProfilePinScreen() {
               ) : null}
 
               <View style={styles.section}>
-                <Text style={styles.label}>New PIN</Text>
+                <Text style={styles.label}>{ui('New PIN')}</Text>
                 <TextInput
                   style={styles.pinInput}
                   value={newPin}
@@ -184,7 +190,7 @@ export default function ProfilePinScreen() {
               </View>
 
               <View style={styles.section}>
-                <Text style={styles.label}>Confirm PIN</Text>
+                <Text style={styles.label}>{ui('Confirm PIN')}</Text>
                 <TextInput
                   style={styles.pinInput}
                   value={confirmPin}
@@ -216,7 +222,7 @@ export default function ProfilePinScreen() {
               end={{ x: 1, y: 0.5 }}
               style={styles.primaryButton}
             >
-              <Text style={styles.primaryText}>Save PIN</Text>
+              <Text style={styles.primaryText}>{ui('Save PIN')}</Text>
             </LinearGradient>
           </Pressable>
 
@@ -230,7 +236,7 @@ export default function ProfilePinScreen() {
                 currentPin.length !== PIN_LENGTH && styles.primaryDisabled,
               ]}
             >
-              <Text style={styles.removeText}>Remove PIN</Text>
+              <Text style={styles.removeText}>{ui('Remove PIN')}</Text>
             </Pressable>
           ) : null}
         </ScrollView>

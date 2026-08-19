@@ -7,6 +7,8 @@ import type { VoteValue } from '../src/stores/votes';
 import { COLORS } from '../constants/theme';
 import ProfileAvatarIcon from './ProfileAvatarIcon';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 type VoteVal = VoteValue | undefined;
 
 type ChipProps = {
@@ -100,7 +102,9 @@ const MatchRow: React.FC<Props> = ({
           activeOpacity={0.8}
         >
           <MessageCircle size={16} color={COLORS.primary} />
-          <Text style={styles.conversationButtonText}>💬 Talk About This</Text>
+          <Text style={styles.conversationButtonText}>
+            {ui('💬 Talk About This')}
+          </Text>
         </TouchableOpacity>
       )}
     </View>

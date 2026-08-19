@@ -22,6 +22,8 @@ import { EMOJI_CHOICES } from '../../../src/constants/emojis';
 import { useProfilesStore } from '../../../lib/state/profiles';
 import { COLORS, GRADIENTS, SHADOWS } from '../../../constants/theme';
 
+import { ui } from '../../../lib/i18n/uiLiteral';
+
 export default function EditProfileScreen() {
   const router = useRouter();
   const { profileId } = useLocalSearchParams<{ profileId?: string }>();
@@ -56,8 +58,8 @@ export default function EditProfileScreen() {
       router.back();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Please try again.';
-      Alert.alert('Could not update profile', message);
+        error instanceof Error ? error.message : ui('Please try again.');
+      Alert.alert(ui('Could not update profile'), message);
     }
   };
 
@@ -68,11 +70,11 @@ export default function EditProfileScreen() {
         edges={['top', 'left', 'right', 'bottom']}
       >
         <StatusBar style="light" />
-        <BackHeader title="Edit Profile" />
+        <BackHeader title={ui('Edit Profile')} />
         <View style={styles.missingState}>
-          <Text style={styles.missingTitle}>Profile not found</Text>
+          <Text style={styles.missingTitle}>{ui('Profile not found')}</Text>
           <Text style={styles.missingCopy}>
-            This profile may have already been deleted.
+            {ui(' This profile may have already been deleted. ')}
           </Text>
         </View>
       </SafeAreaView>
@@ -90,7 +92,7 @@ export default function EditProfileScreen() {
       >
         <StatusBar style="light" />
         <BackHeader
-          title="Edit Profile"
+          title={ui('Edit Profile')}
           subtitle={profile.displayName ?? profile.name}
         />
 
@@ -103,10 +105,10 @@ export default function EditProfileScreen() {
             <CardAccentTop />
             <View style={styles.formInner}>
               <View style={styles.section}>
-                <Text style={styles.label}>Name</Text>
+                <Text style={styles.label}>{ui('Name')}</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Enter name"
+                  placeholder={ui('Enter name')}
                   placeholderTextColor={COLORS.textMuted}
                   value={name}
                   onChangeText={setName}
@@ -115,17 +117,17 @@ export default function EditProfileScreen() {
               </View>
 
               <View style={styles.section}>
-                <Text style={styles.label}>Avatar</Text>
+                <Text style={styles.label}>{ui('Avatar')}</Text>
                 <Pressable
                   style={styles.emojiSelector}
                   onPress={() => setMenuVisible(true)}
                   accessibilityRole="button"
-                  accessibilityLabel="Choose avatar"
+                  accessibilityLabel={ui('Choose avatar')}
                 >
                   <ProfileAvatarIcon avatar={emoji} size={48} />
                   <View style={styles.emojiCopy}>
-                    <Text style={styles.emojiTitle}>Choose avatar</Text>
-                    <Text style={styles.emojiHint}>Tap to change</Text>
+                    <Text style={styles.emojiTitle}>{ui('Choose avatar')}</Text>
+                    <Text style={styles.emojiHint}>{ui('Tap to change')}</Text>
                   </View>
                 </Pressable>
               </View>
@@ -144,12 +146,11 @@ export default function EditProfileScreen() {
               end={{ x: 1, y: 0.5 }}
               style={styles.primaryButton}
             >
-              <Text style={styles.primaryText}>Save Profile</Text>
+              <Text style={styles.primaryText}>{ui('Save Profile')}</Text>
             </LinearGradient>
           </Pressable>
         </ScrollView>
       </SafeAreaView>
-
       <EmojiMenu
         visible={menuVisible}
         selected={emoji}

@@ -30,6 +30,8 @@ import { usePremiumStore } from '../../../src/stores/premium';
 import { hasPremiumFeatureAccess } from '../../../lib/purchases/access';
 import { canCreateProfile } from '../../../lib/purchases/premiumPolicy';
 
+import { ui } from '../../../lib/i18n/uiLiteral';
+
 const DOT_COLORS = [
   COLORS.pink,
   COLORS.purple,
@@ -46,8 +48,7 @@ type PinPrompt = {
 export default function ProfilesScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const { profiles, activeProfileId, verifyPin } =
-    useProfilesStore();
+  const { profiles, activeProfileId, verifyPin } = useProfilesStore();
   const locallyEntitled = usePremiumStore((state) => state.isPremium());
   const canAddProfile = canCreateProfile(
     profiles.length,
@@ -123,8 +124,7 @@ export default function ProfilesScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Profiles" />
-
+      <BackHeader title={ui('Profiles')} />
       <FlatList
         data={profiles}
         keyExtractor={(item) => item.id}
@@ -147,7 +147,6 @@ export default function ProfilesScreen() {
                 size={44}
                 selected={active}
               />
-
               <View style={styles.profileCopy}>
                 <View style={styles.nameRow}>
                   <Text style={styles.profileName}>
@@ -164,17 +163,18 @@ export default function ProfilesScreen() {
                   {active ? (
                     <View style={styles.activePill}>
                       <Check size={11} color={COLORS.pink} />
-                      <Text style={styles.activePillText}>Active</Text>
+                      <Text style={styles.activePillText}>{ui('Active')}</Text>
                     </View>
                   ) : (
-                    <Text style={styles.profileHint}>Tap to switch</Text>
+                    <Text style={styles.profileHint}>
+                      {ui('Tap to switch')}
+                    </Text>
                   )}
                 </View>
               </View>
-
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={`Manage ${item.displayName ?? item.name}`}
+                accessibilityLabel={`${ui('Manage')} ${item.displayName ?? item.name}`}
                 hitSlop={10}
                 onPress={(event) => {
                   event.stopPropagation();
@@ -199,7 +199,9 @@ export default function ProfilesScreen() {
           >
             <Plus size={18} color={COLORS.pink} />
             <Text style={styles.addButtonText}>
-              {canAddProfile ? 'Add Profile' : 'Unlock Unlimited Profiles'}
+              {canAddProfile
+                ? ui('Add Profile')
+                : ui('Unlock Unlimited Profiles')}
             </Text>
           </Pressable>
         }
@@ -210,7 +212,6 @@ export default function ProfilesScreen() {
           </View>
         }
       />
-
       <Modal
         visible={!!pinPrompt}
         transparent
@@ -255,7 +256,7 @@ export default function ProfilesScreen() {
                   end={{ x: 1, y: 0.5 }}
                   style={styles.modalConfirm}
                 >
-                  <Text style={styles.modalConfirmText}>Unlock</Text>
+                  <Text style={styles.modalConfirmText}>{ui('Unlock')}</Text>
                 </LinearGradient>
               </Pressable>
             </View>

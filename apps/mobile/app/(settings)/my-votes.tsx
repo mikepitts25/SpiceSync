@@ -24,6 +24,8 @@ import { useSettingsStore } from '../../src/stores/settingsStore';
 import { normalizeVoteRecord } from '../../lib/votes/rolePreferences';
 import { COLORS } from '../../constants/theme';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 type Filter = 'all' | VoteValue;
 
 const FILTERS: { key: Filter; label: string; color: string }[] = [
@@ -138,8 +140,7 @@ export default function MyVotesScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="My Votes" />
-
+      <BackHeader title={ui('My Votes')} />
       {/* Filter chips */}
       <View style={styles.filterRow}>
         {FILTERS.map(({ key, label, color }) => {
@@ -165,7 +166,7 @@ export default function MyVotesScreen() {
                   { color: isSelected ? color : COLORS.textMuted },
                 ]}
               >
-                {label}
+                {ui(label)}
               </Text>
               <Text
                 style={[
@@ -179,11 +180,9 @@ export default function MyVotesScreen() {
           );
         })}
       </View>
-
       <Text style={styles.hint}>
-        Tap any card to review or change your vote
+        {ui(' Tap any card to review or change your vote ')}
       </Text>
-
       <FlatList
         data={filtered}
         keyExtractor={({ kink }) => kink.id}
@@ -200,16 +199,15 @@ export default function MyVotesScreen() {
         )}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={styles.emptyTitle}>No votes yet</Text>
+            <Text style={styles.emptyTitle}>{ui('No votes yet')}</Text>
             <Text style={styles.emptySub}>
               {filter === 'all'
-                ? 'Start swiping to vote on activities.'
-                : `No ${filter} votes yet.`}
+                ? ui('Start swiping to vote on activities.')
+                : `${ui('No votes yet for filter:')} ${ui(filter)}.`}
             </Text>
           </View>
         }
       />
-
       {/* Vote change modal */}
       <Modal
         visible={!!selected}
@@ -222,7 +220,7 @@ export default function MyVotesScreen() {
             {selected && (
               <>
                 <Text style={styles.sheetCategory}>
-                  {selected.kink.category?.toUpperCase() ?? 'GENERAL'}
+                  {selected.kink.category?.toUpperCase() ?? ui('GENERAL')}
                 </Text>
                 <Text style={styles.sheetTitle}>{selected.kink.title}</Text>
                 {selected.kink.description ? (
@@ -231,7 +229,9 @@ export default function MyVotesScreen() {
                   </Text>
                 ) : null}
 
-                <Text style={styles.sheetPrompt}>Change your answer</Text>
+                <Text style={styles.sheetPrompt}>
+                  {ui('Change your answer')}
+                </Text>
 
                 <View style={styles.readinessList}>
                   {READINESS_OPTIONS.map(({ value, label, hint, color }) => {
@@ -264,9 +264,9 @@ export default function MyVotesScreen() {
                             { color: isActive ? color : COLORS.textPrimary },
                           ]}
                         >
-                          {label}
+                          {ui(label)}
                         </Text>
-                        <Text style={styles.readinessBtnHint}>{hint}</Text>
+                        <Text style={styles.readinessBtnHint}>{ui(hint)}</Text>
                       </Pressable>
                     );
                   })}
@@ -276,7 +276,7 @@ export default function MyVotesScreen() {
                   onPress={() => setSelected(null)}
                   style={styles.cancelBtn}
                 >
-                  <Text style={styles.cancelText}>Cancel</Text>
+                  <Text style={styles.cancelText}>{ui('Cancel')}</Text>
                 </Pressable>
               </>
             )}
@@ -301,13 +301,13 @@ function VoteRow({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${kink.title}, voted ${vote}. Tap to change.`}
+      accessibilityLabel={`${kink.title}, ${ui('voted')} ${ui(vote)}. ${ui('Tap to change.')}`}
       onPress={onPress}
       style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
     >
       <View style={styles.rowLeft}>
         <Text style={styles.rowCategory}>
-          {kink.category?.toUpperCase() ?? 'GENERAL'}
+          {kink.category?.toUpperCase() ?? ui('GENERAL')}
         </Text>
         <Text style={styles.rowTitle} numberOfLines={1}>
           {kink.title}
@@ -339,7 +339,7 @@ function VoteBadge({
           { backgroundColor: color + '1F', borderColor: color + '4D' },
         ]}
       >
-        <Text style={[styles.badgeText, { color }]}>{label}</Text>
+        <Text style={[styles.badgeText, { color }]}>{ui(label)}</Text>
       </View>
     );
   }
@@ -347,7 +347,9 @@ function VoteBadge({
     return (
       <View style={[styles.badge, styles.badgeYes]}>
         <Check size={12} color={COLORS.yes} strokeWidth={3} />
-        <Text style={[styles.badgeText, { color: COLORS.yes }]}>YES</Text>
+        <Text style={[styles.badgeText, { color: COLORS.yes }]}>
+          {ui('YES')}
+        </Text>
       </View>
     );
   }
@@ -355,14 +357,16 @@ function VoteBadge({
     return (
       <View style={[styles.badge, styles.badgeMaybe]}>
         <Minus size={12} color={COLORS.maybe} strokeWidth={3} />
-        <Text style={[styles.badgeText, { color: COLORS.maybe }]}>MAYBE</Text>
+        <Text style={[styles.badgeText, { color: COLORS.maybe }]}>
+          {ui('MAYBE')}
+        </Text>
       </View>
     );
   }
   return (
     <View style={[styles.badge, styles.badgeNo]}>
       <X size={12} color={COLORS.no} strokeWidth={3} />
-      <Text style={[styles.badgeText, { color: COLORS.no }]}>NO</Text>
+      <Text style={[styles.badgeText, { color: COLORS.no }]}>{ui('NO')}</Text>
     </View>
   );
 }

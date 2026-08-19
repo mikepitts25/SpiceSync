@@ -12,6 +12,8 @@ import {
 } from '../../lib/achievements';
 import { COLORS, GRADIENTS } from '../../constants/theme';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 export default function AchievementsScreen() {
   const { daysActive, unlockedAchievements, getProgress } = useStreakStore();
 
@@ -21,8 +23,7 @@ export default function AchievementsScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Achievements" subtitle="ACHIEVEMENTS" />
-
+      <BackHeader title={ui('Achievements')} subtitle={ui('ACHIEVEMENTS')} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
@@ -43,7 +44,8 @@ export default function AchievementsScreen() {
         </View>
 
         <Text style={styles.footerText}>
-          {daysActive.length} active days tracked locally
+          {daysActive.length}
+          {ui(' active days tracked locally ')}
         </Text>
       </ScrollView>
     </SafeAreaView>
@@ -68,11 +70,10 @@ function AchievementCard({
       <Text style={styles.badgeDescription} numberOfLines={3}>
         {achievement.description}
       </Text>
-
       {!unlocked ? (
         <>
           <View style={styles.lockedOverlay}>
-            <Text style={styles.lockedText}>Locked</Text>
+            <Text style={styles.lockedText}>{ui('Locked')}</Text>
           </View>
 
           <View style={styles.progressTrack}>

@@ -10,10 +10,22 @@ import {
 } from 'react-native';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../constants/theme';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
 // Confetti piece component
-const ConfettiPiece = ({ color, delay, x, rotation }: { color: string; delay: number; x: number; rotation: number }) => {
+const ConfettiPiece = ({
+  color,
+  delay,
+  x,
+  rotation,
+}: {
+  color: string;
+  delay: number;
+  x: number;
+  rotation: number;
+}) => {
   const translateY = useRef(new Animated.Value(-50)).current;
   const translateX = useRef(new Animated.Value(x)).current;
   const rotate = useRef(new Animated.Value(0)).current;
@@ -60,7 +72,12 @@ const ConfettiPiece = ({ color, delay, x, rotation }: { color: string; delay: nu
           transform: [
             { translateY },
             { translateX },
-            { rotate: rotate.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) },
+            {
+              rotate: rotate.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '360deg'],
+              }),
+            },
           ],
           opacity,
         },
@@ -71,7 +88,13 @@ const ConfettiPiece = ({ color, delay, x, rotation }: { color: string; delay: nu
 
 // Generate confetti
 const generateConfetti = (count: number) => {
-  const colors = [COLORS.primary, COLORS.secondary, '#FFD700', '#FF6B9D', '#4ECDC4'];
+  const colors = [
+    COLORS.primary,
+    COLORS.secondary,
+    '#FFD700',
+    '#FF6B9D',
+    '#4ECDC4',
+  ];
   return Array.from({ length: count }, (_, i) => ({
     id: i,
     color: colors[i % colors.length],
@@ -138,15 +161,16 @@ export default function MatchCelebration({
     >
       <Animated.View style={[styles.overlay, { opacity: opacityAnim }]}>
         {/* Confetti */}
-        {visible && confetti.map((piece) => (
-          <ConfettiPiece
-            key={piece.id}
-            color={piece.color}
-            delay={piece.delay}
-            x={piece.x}
-            rotation={piece.rotation}
-          />
-        ))}
+        {visible &&
+          confetti.map((piece) => (
+            <ConfettiPiece
+              key={piece.id}
+              color={piece.color}
+              delay={piece.delay}
+              x={piece.x}
+              rotation={piece.rotation}
+            />
+          ))}
 
         {/* Content */}
         <Animated.View
@@ -164,10 +188,10 @@ export default function MatchCelebration({
           </View>
 
           {/* Title */}
-          <Text style={styles.title}>It's a Match!</Text>
+          <Text style={styles.title}>{ui("It's a Match!")}</Text>
 
           {/* Subtitle */}
-          <Text style={styles.subtitle}>You both want to try this</Text>
+          <Text style={styles.subtitle}>{ui('You both want to try this')}</Text>
 
           {/* Activity Card */}
           <View style={styles.activityCard}>
@@ -188,7 +212,7 @@ export default function MatchCelebration({
                 accessibilityRole="button"
               >
                 <Text style={styles.buttonIcon}>⭐</Text>
-                <Text style={styles.buttonText}>Add to Favorites</Text>
+                <Text style={styles.buttonText}>{ui('Add to Favorites')}</Text>
               </Pressable>
             )}
 
@@ -199,7 +223,7 @@ export default function MatchCelebration({
                 accessibilityRole="button"
               >
                 <Text style={styles.buttonIcon}>💬</Text>
-                <Text style={styles.buttonText}>Discuss</Text>
+                <Text style={styles.buttonText}>{ui('Discuss')}</Text>
               </Pressable>
             )}
 
@@ -209,7 +233,9 @@ export default function MatchCelebration({
                 onPress={onContinue}
                 accessibilityRole="button"
               >
-                <Text style={styles.continueButtonText}>Continue Exploring</Text>
+                <Text style={styles.continueButtonText}>
+                  {ui('Continue Exploring')}
+                </Text>
               </Pressable>
             )}
 
@@ -218,7 +244,7 @@ export default function MatchCelebration({
               onPress={onClose}
               accessibilityRole="button"
             >
-              <Text style={styles.closeButtonText}>Close</Text>
+              <Text style={styles.closeButtonText}>{ui('Close')}</Text>
             </Pressable>
           </View>
         </Animated.View>

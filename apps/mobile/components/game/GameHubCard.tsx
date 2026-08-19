@@ -5,6 +5,7 @@ import { Dices, HeartHandshake, Layers, Target } from 'lucide-react-native';
 import { CardAccentTop } from '../app-chrome';
 import { COLORS, RADII, SHADOWS } from '../../constants/theme';
 import { GameSurface } from './GameControls';
+import { ui } from '../../lib/i18n/uiLiteral';
 
 type GameHubIcon = 'layers' | 'target' | 'heart-handshake' | 'dices';
 
@@ -87,7 +88,7 @@ export function GameHubCard({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`Play ${title}`}
+      accessibilityLabel={`${ui('Play')} ${title}`}
       onPress={onPress}
       style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
     >

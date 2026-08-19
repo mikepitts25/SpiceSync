@@ -37,10 +37,7 @@ import {
   Toggle,
 } from '../../components/app-chrome';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
-import {
-  getActiveProfileCardDestination,
-  getProfilePinActionLabel,
-} from '../../lib/profile-management';
+import { getActiveProfileCardDestination } from '../../lib/profile-management';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useSettingsStore } from '../../src/stores/settingsStore';
@@ -60,6 +57,8 @@ import {
   getStreakReminderSettings,
 } from '../../lib/notifications';
 import { getNotificationSummaryLabel } from '../../lib/notifications/routing';
+
+import { ui } from '../../lib/i18n/uiLiteral';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -93,7 +92,9 @@ export default function SettingsScreen() {
     }))
   );
   const [biometricPending, setBiometricPending] = useState(false);
-  const [notificationSummary, setNotificationSummary] = useState('Off');
+  const [notificationSummary, setNotificationSummary] = useState(() =>
+    ui('Off')
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -107,12 +108,14 @@ export default function SettingsScreen() {
       ]).then(([daily, frequency, conversation, match, streak]) => {
         if (!active) return;
         setNotificationSummary(
-          getNotificationSummaryLabel({
-            dailyEnabled: daily.enabled,
-            frequency,
-            otherEnabled:
-              conversation.enabled || match.enabled || streak.enabled,
-          })
+          ui(
+            getNotificationSummaryLabel({
+              dailyEnabled: daily.enabled,
+              frequency,
+              otherEnabled:
+                conversation.enabled || match.enabled || streak.enabled,
+            })
+          )
         );
       });
       return () => {
@@ -165,7 +168,6 @@ export default function SettingsScreen() {
     >
       <StatusBar style="light" />
       <AppHeader onRightPress={() => router.back()} />
-
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
@@ -174,7 +176,7 @@ export default function SettingsScreen() {
           accessibilityRole="button"
           accessibilityLabel={
             activeProfile
-              ? `Manage ${activeProfileName}`
+              ? `${ui('Manage')} ${activeProfileName}`
               : t.profiles.chooseProfile
           }
           onPress={() =>
@@ -203,7 +205,9 @@ export default function SettingsScreen() {
           <SectionRow
             icon={Star}
             label={t.settings.upgradeToPremium}
-            value={premiumUnlocked ? 'Unlocked' : 'Lifetime access'}
+            value={
+              premiumUnlocked ? t.settings.unlocked : t.settings.lifetimeAccess
+            }
             gradientBadge
             onPress={() => router.push('/(unlock)')}
             last
@@ -222,7 +226,9 @@ export default function SettingsScreen() {
           <SectionRow
             icon={LinkIcon}
             label={t.settings.partnerCode}
-            value={remotePartnerActive ? 'Connected' : t.settings.qrCode}
+            value={
+              remotePartnerActive ? t.settings.connected : t.settings.qrCode
+            }
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.15)"
             onPress={() =>
@@ -255,7 +261,7 @@ export default function SettingsScreen() {
           />
           <SectionRow
             icon={Vibrate}
-            label="Haptic Feedback"
+            label={t.settings.hapticFeedback}
             tint={COLORS.pink}
             badgeBg="rgba(255,45,146,0.1)"
             toggle={
@@ -283,8 +289,8 @@ export default function SettingsScreen() {
           />
           <SectionRow
             icon={EyeOff}
-            label="Discrete Mode"
-            value="Hide app previews"
+            label={t.settings.discreteMode}
+            value={t.settings.discreteModeDesc}
             tint={COLORS.purpleLight}
             badgeBg="rgba(167,139,250,0.12)"
             toggle={
@@ -296,15 +302,17 @@ export default function SettingsScreen() {
           />
           <SectionRow
             icon={ShieldCheck}
-            label="Privacy & Safety"
-            value="Data controls"
+            label={t.settings.privacySafety}
+            value={t.settings.dataControls}
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.14)"
             onPress={() => router.push('/(settings)/privacy-safety')}
           />
           <SectionRow
             icon={Lock}
-            label={getProfilePinActionLabel(!!activeProfile?.pin)}
+            label={
+              activeProfile?.pin ? t.settings.changePin : t.settings.setPin
+            }
             value={activeProfile?.pin ? t.settings.set : t.settings.notSet}
             tint={COLORS.crimson}
             badgeBg="rgba(194,24,91,0.1)"
@@ -333,7 +341,7 @@ export default function SettingsScreen() {
             label={t.settings.insights}
             tint={COLORS.yes}
             badgeBg="rgba(34,197,94,0.15)"
-            value={premiumUnlocked ? undefined : 'Premium'}
+            value={premiumUnlocked ? undefined : ui('Premium')}
             onPress={() =>
               router.push(premiumUnlocked ? '/(insights)' : '/(unlock)')
             }
@@ -348,7 +356,7 @@ export default function SettingsScreen() {
           {__DEV__ ? (
             <SectionRow
               icon={ShieldCheck}
-              label="Release Diagnostics"
+              label={t.settings.releaseDiagnostics}
               value="QA"
               tint={COLORS.pink}
               badgeBg="rgba(255,47,146,0.12)"
@@ -356,13 +364,12 @@ export default function SettingsScreen() {
             />
           ) : null}
           <SectionRow
-            label="App Version"
-            value={`v${Constants.expoConfig?.version ?? '1.0.0'}`}
+            label={t.settings.appVersion}
+            value={`${ui('v')}${Constants.expoConfig?.version ?? '1.0.0'}`}
             last
           />
         </SettingsSection>
       </ScrollView>
-
       <AppTabBar />
     </SafeAreaView>
   );

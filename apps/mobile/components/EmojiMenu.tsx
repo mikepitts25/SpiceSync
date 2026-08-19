@@ -12,6 +12,8 @@ import {
 import ProfileAvatarIcon from './ProfileAvatarIcon';
 import { PROFILE_AVATAR_OPTIONS } from '../src/constants/emojis';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 type EmojiMenuProps = {
   visible: boolean;
   selected?: string;
@@ -36,7 +38,7 @@ export default function EmojiMenu({
     >
       <Pressable style={styles.backdrop} onPress={onClose}>
         <Pressable style={styles.sheet}>
-          <Text style={styles.title}>Choose Avatar</Text>
+          <Text style={styles.title}>{ui('Choose Avatar')}</Text>
           <FlatList
             data={PROFILE_AVATAR_OPTIONS}
             keyExtractor={(item) => item.id}
@@ -48,7 +50,7 @@ export default function EmojiMenu({
                 <Pressable
                   key={item.id}
                   accessibilityRole="button"
-                  accessibilityLabel={`${item.label} avatar`}
+                  accessibilityLabel={`${item.label} ${ui('avatar')}`}
                   accessibilityState={{ selected: isSelected }}
                   onPress={() => onSelect(item.id)}
                   style={[
@@ -67,7 +69,7 @@ export default function EmojiMenu({
             ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
           />
           <Pressable onPress={onClose} style={styles.closeButton}>
-            <Text style={styles.closeText}>Close</Text>
+            <Text style={styles.closeText}>{ui('Close')}</Text>
           </Pressable>
         </Pressable>
       </Pressable>

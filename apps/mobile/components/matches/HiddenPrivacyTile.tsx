@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { EyeOff } from 'lucide-react-native';
 
 import { COLORS } from '../../constants/theme';
+import { ui } from '../../lib/i18n/uiLiteral';
 
 export function HiddenPrivacyTile({
   count,
@@ -18,7 +19,7 @@ export function HiddenPrivacyTile({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${title}, ${count} items stay private`}
+      accessibilityLabel={`${title}, ${count} ${ui('items stay private')}`}
       onPress={onPress}
       style={styles.hiddenTile}
     >

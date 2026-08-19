@@ -41,6 +41,72 @@ export type ConversationTopicTile = {
   };
 };
 
+type ConversationLanguage = 'en' | 'es';
+type ConversationTopicCopy = Pick<
+  ConversationTopicTile,
+  'label' | 'subtitle' | 'mark'
+>;
+
+const CONVERSATION_TOPIC_COPY: Record<
+  ConversationLanguage,
+  Record<ConversationStarter['category'], ConversationTopicCopy>
+> = {
+  en: {
+    date_night: {
+      label: 'Date Night',
+      subtitle: 'Playful prompts for time together',
+      mark: 'DATE',
+    },
+    getting_to_know: {
+      label: 'Getting to Know',
+      subtitle: 'Fresh angles on familiar stories',
+      mark: 'KNOW',
+    },
+    relationship: {
+      label: 'Relationship',
+      subtitle: 'Check in on patterns and needs',
+      mark: 'TALK',
+    },
+    spicy: {
+      label: 'Spicy',
+      subtitle: 'Warm up curiosity and desire',
+      mark: 'HEAT',
+    },
+    love_languages: {
+      label: 'Love Languages',
+      subtitle: 'Use prompts or take the quiz',
+      mark: 'CARE',
+    },
+  },
+  es: {
+    date_night: {
+      label: 'Noche de cita',
+      subtitle: 'Preguntas divertidas para compartir',
+      mark: 'CITA',
+    },
+    getting_to_know: {
+      label: 'Conocerse mejor',
+      subtitle: 'Nuevas perspectivas sobre historias conocidas',
+      mark: 'CONOCE',
+    },
+    relationship: {
+      label: 'Relación',
+      subtitle: 'Conecten sobre sus hábitos y necesidades',
+      mark: 'HABLEN',
+    },
+    spicy: {
+      label: 'Picante',
+      subtitle: 'Aviven la curiosidad y el deseo',
+      mark: 'PASIÓN',
+    },
+    love_languages: {
+      label: 'Lenguajes del amor',
+      subtitle: 'Usen preguntas o hagan el quiz',
+      mark: 'CARIÑO',
+    },
+  },
+};
+
 function getPromptTopicRoute(
   category: ConversationStarter['category']
 ): string {
@@ -135,11 +201,33 @@ export const CONVERSATION_TOPIC_TILES: ConversationTopicTile[] = [
   },
 ];
 
+const conversationTopicTilesByLanguage: Partial<
+  Record<ConversationLanguage, ConversationTopicTile[]>
+> = { en: CONVERSATION_TOPIC_TILES };
+
+export function getConversationTopicTiles(
+  language: ConversationLanguage = 'en'
+): ConversationTopicTile[] {
+  const cached = conversationTopicTilesByLanguage[language];
+  if (cached) return cached;
+
+  const copy = CONVERSATION_TOPIC_COPY[language] ?? CONVERSATION_TOPIC_COPY.en;
+  const localized = CONVERSATION_TOPIC_TILES.map((topic) => ({
+    ...topic,
+    ...copy[topic.id],
+  }));
+  conversationTopicTilesByLanguage[language] = localized;
+  return localized;
+}
+
 export function getConversationTopicTile(
-  category?: string | string[]
+  category?: string | string[],
+  language: ConversationLanguage = 'en'
 ): ConversationTopicTile | undefined {
   const categoryId = Array.isArray(category) ? category[0] : category;
-  return CONVERSATION_TOPIC_TILES.find((topic) => topic.id === categoryId);
+  return getConversationTopicTiles(language).find(
+    (topic) => topic.id === categoryId
+  );
 }
 
 type PartnerLoveLanguageResult = {
@@ -158,15 +246,65 @@ export type LoveLanguageModuleCopy = {
   partnerSummary?: string;
 };
 
-function formatLoveLanguage(language: LoveLanguage): string {
-  return `${LOVE_LANGUAGE_EMOJIS[language]} ${LOVE_LANGUAGE_NAMES[language]}`;
+const LOVE_LANGUAGE_NAMES_ES: Record<LoveLanguage, string> = {
+  words: 'Palabras de afirmación',
+  time: 'Tiempo de calidad',
+  gifts: 'Recibir regalos',
+  acts: 'Actos de servicio',
+  touch: 'Contacto físico',
+};
+
+function formatLoveLanguage(
+  loveLanguage: LoveLanguage,
+  language: ConversationLanguage
+): string {
+  const names =
+    language === 'es' ? LOVE_LANGUAGE_NAMES_ES : LOVE_LANGUAGE_NAMES;
+  return `${LOVE_LANGUAGE_EMOJIS[loveLanguage]} ${names[loveLanguage]}`;
 }
 
 export function getLoveLanguageModuleCopy(
   activeResult?: ProfileLoveLanguage,
-  partnerResults: PartnerLoveLanguageResult[] = []
+  partnerResults: PartnerLoveLanguageResult[] = [],
+  language: ConversationLanguage = 'en'
 ): LoveLanguageModuleCopy {
   const partnerWithResult = partnerResults.find((partner) => partner.result);
+
+  if (language === 'es') {
+    if (!activeResult) {
+      return {
+        eyebrow: 'LENGUAJES DEL AMOR',
+        title: 'Entiendan mejor cómo se cuidan',
+        description:
+          'Hagan un quiz breve y usen preguntas guiadas para convertir el resultado en una conversación real.',
+        ctaLabel: 'Hacer el quiz',
+        promptLabel: 'Usar preguntas',
+        partnerSummary: partnerWithResult
+          ? `${partnerWithResult.name} ya tiene un resultado`
+          : undefined,
+      };
+    }
+
+    return {
+      eyebrow: 'LENGUAJES DEL AMOR',
+      title: 'Hablen de cómo reciben el amor',
+      description:
+        'Usen sus resultados para expresar con más claridad el aprecio, la reconciliación y el cuidado cotidiano.',
+      ctaLabel: 'Ver resultados',
+      promptLabel: 'Usar preguntas',
+      activePrimary: formatLoveLanguage(activeResult.result.primary, language),
+      activeSecondary: formatLoveLanguage(
+        activeResult.result.secondary,
+        language
+      ),
+      partnerSummary: partnerWithResult?.result
+        ? `${partnerWithResult.name}: ${formatLoveLanguage(
+            partnerWithResult.result.result.primary,
+            language
+          )}`
+        : undefined,
+    };
+  }
 
   if (!activeResult) {
     return {
@@ -189,11 +327,15 @@ export function getLoveLanguageModuleCopy(
       'Use your results as a shortcut into clearer appreciation, repair, and everyday care.',
     ctaLabel: 'View results',
     promptLabel: 'Use prompts',
-    activePrimary: formatLoveLanguage(activeResult.result.primary),
-    activeSecondary: formatLoveLanguage(activeResult.result.secondary),
+    activePrimary: formatLoveLanguage(activeResult.result.primary, language),
+    activeSecondary: formatLoveLanguage(
+      activeResult.result.secondary,
+      language
+    ),
     partnerSummary: partnerWithResult?.result
       ? `${partnerWithResult.name}: ${formatLoveLanguage(
-          partnerWithResult.result.result.primary
+          partnerWithResult.result.result.primary,
+          language
         )}`
       : undefined,
   };

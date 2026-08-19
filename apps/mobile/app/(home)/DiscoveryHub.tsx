@@ -15,6 +15,8 @@ import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const CATEGORIES = [
   { id: 'all', name: 'All', emoji: '✨' },
   { id: 'adventure', name: 'Adventure', emoji: '🏔️' },
@@ -100,9 +102,10 @@ export default function DiscoveryHub() {
       <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>Discover</Text>
+          <Text style={styles.title}>{ui('Discover')}</Text>
           <Text style={styles.subtitle}>
-            {filteredActivities.length} activities to explore
+            {filteredActivities.length}
+            {ui(' activities to explore ')}
           </Text>
         </View>
 
@@ -117,7 +120,7 @@ export default function DiscoveryHub() {
               style={styles.searchInput}
               value={searchQuery}
               onChangeText={setSearchQuery}
-              placeholder="Search activities..."
+              placeholder={ui('Search activities...')}
               placeholderTextColor={COLORS.textMuted}
             />
             {searchQuery.length > 0 && (
@@ -129,7 +132,7 @@ export default function DiscoveryHub() {
 
           {/* Categories */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Categories</Text>
+            <Text style={styles.sectionTitle}>{ui('Categories')}</Text>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -152,7 +155,7 @@ export default function DiscoveryHub() {
                         styles.categoryTextSelected,
                     ]}
                   >
-                    {cat.name}
+                    {ui(cat.name)}
                   </Text>
                 </Pressable>
               ))}
@@ -161,7 +164,7 @@ export default function DiscoveryHub() {
 
           {/* Moods */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Mood</Text>
+            <Text style={styles.sectionTitle}>{ui('Mood')}</Text>
             <View style={styles.moodGrid}>
               {MOODS.map((mood) => (
                 <Pressable
@@ -180,7 +183,7 @@ export default function DiscoveryHub() {
                         styles.moodTextSelected,
                     ]}
                   >
-                    {mood.name}
+                    {ui(mood.name)}
                   </Text>
                 </Pressable>
               ))}
@@ -190,7 +193,8 @@ export default function DiscoveryHub() {
           {/* Intensity */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>
-              Intensity: {intensityRange[0]} - {intensityRange[1]}
+              {ui(' Intensity: ')}
+              {intensityRange[0]} - {intensityRange[1]}
             </Text>
             <View style={styles.intensityRow}>
               {[1, 2, 3, 4, 5].map((level) => (
@@ -223,14 +227,14 @@ export default function DiscoveryHub() {
           <View style={styles.statsCard}>
             <View style={styles.stat}>
               <Text style={styles.statNumber}>{filteredActivities.length}</Text>
-              <Text style={styles.statLabel}>Activities</Text>
+              <Text style={styles.statLabel}>{ui('Activities')}</Text>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.stat}>
               <Text style={styles.statNumber}>
                 {new Set(filteredActivities.map((a) => a.category)).size}
               </Text>
-              <Text style={styles.statLabel}>Categories</Text>
+              <Text style={styles.statLabel}>{ui('Categories')}</Text>
             </View>
           </View>
         </ScrollView>
@@ -239,7 +243,8 @@ export default function DiscoveryHub() {
         <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
           <Pressable style={styles.ctaButton} onPress={startSwiping}>
             <Text style={styles.ctaText}>
-              Start Swiping ({filteredActivities.length})
+              {ui(' Start Swiping (')}
+              {filteredActivities.length})
             </Text>
           </Pressable>
         </View>

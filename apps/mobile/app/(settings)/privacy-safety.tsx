@@ -20,26 +20,30 @@ import {
 } from '../../lib/safety/localDataControls';
 import { COLORS, SHADOWS } from '../../constants/theme';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 export default function PrivacySafetyScreen() {
   const router = useRouter();
   const [resetting, setResetting] = useState(false);
 
   const confirmClearVotes = useCallback(() => {
     Alert.alert(
-      'Clear your votes?',
-      'This removes selections for the active profile on this device. Partner data and profiles stay in place.',
+      ui('Clear your votes?'),
+      ui(
+        'This removes selections for the active profile on this device. Partner data and profiles stay in place.'
+      ),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: ui('Cancel'), style: 'cancel' },
         {
-          text: 'Clear votes',
+          text: ui('Clear votes'),
           style: 'destructive',
           onPress: () => {
             const cleared = clearActiveProfileVotes();
             Alert.alert(
-              cleared ? 'Votes cleared' : 'No active profile',
+              cleared ? ui('Votes cleared') : ui('No active profile'),
               cleared
-                ? 'Your active profile selections were removed.'
-                : 'Choose or create a profile before clearing votes.'
+                ? ui('Your active profile selections were removed.')
+                : ui('Choose or create a profile before clearing votes.')
             );
           },
         },
@@ -49,18 +53,20 @@ export default function PrivacySafetyScreen() {
 
   const confirmDisconnect = useCallback(() => {
     Alert.alert(
-      'Disconnect remote partner?',
-      'This clears the remote partner link, partner votes, reveal consent, and pending sync events from this device.',
+      ui('Disconnect remote partner?'),
+      ui(
+        'This clears the remote partner link, partner votes, reveal consent, and pending sync events from this device.'
+      ),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: ui('Cancel'), style: 'cancel' },
         {
-          text: 'Disconnect',
+          text: ui('Disconnect'),
           style: 'destructive',
           onPress: () => {
             disconnectRemotePartnerLocal();
             Alert.alert(
-              'Partner disconnected',
-              'Remote sync data was cleared.'
+              ui('Partner disconnected'),
+              ui('Remote sync data was cleared.')
             );
           },
         },
@@ -71,12 +77,14 @@ export default function PrivacySafetyScreen() {
   const confirmResetApp = useCallback(() => {
     if (resetting) return;
     Alert.alert(
-      'Reset app on this device?',
-      'This removes profiles, votes, partner sync state, pending sync events, and age verification from this device. This cannot be undone.',
+      ui('Reset app on this device?'),
+      ui(
+        'This removes profiles, votes, partner sync state, pending sync events, and age verification from this device. This cannot be undone.'
+      ),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: ui('Cancel'), style: 'cancel' },
         {
-          text: 'Reset device',
+          text: ui('Reset device'),
           style: 'destructive',
           onPress: async () => {
             setResetting(true);
@@ -87,8 +95,8 @@ export default function PrivacySafetyScreen() {
               const message =
                 error instanceof Error
                   ? error.message
-                  : 'Could not reset this device.';
-              Alert.alert('Reset failed', message);
+                  : ui('Could not reset this device.');
+              Alert.alert(ui('Reset failed'), message);
             } finally {
               setResetting(false);
             }
@@ -104,8 +112,10 @@ export default function PrivacySafetyScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Privacy & Safety" subtitle="Local data controls" />
-
+      <BackHeader
+        title={ui('Privacy & Safety')}
+        subtitle={ui('Local data controls')}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
@@ -115,28 +125,30 @@ export default function PrivacySafetyScreen() {
             <ShieldCheck size={26} color={COLORS.pink} strokeWidth={2.4} />
           </View>
           <View style={styles.summaryCopy}>
-            <Text style={styles.summaryTitle}>Adults only. Consent first.</Text>
+            <Text style={styles.summaryTitle}>
+              {ui('Adults only. Consent first.')}
+            </Text>
             <Text style={styles.summaryText}>
-              SpiceSync is for adults exploring privately with mutual respect.
-              Your local profiles and votes stay on this device unless you link
-              a remote partner.
+              {ui(
+                ' SpiceSync is for adults exploring privately with mutual respect. Your local profiles and votes stay on this device unless you link a remote partner. '
+              )}
             </Text>
           </View>
         </View>
 
-        <SettingsSection title="POLICIES">
+        <SettingsSection title={ui('POLICIES')}>
           <SectionRow
             icon={FileText}
-            label="Privacy Policy"
-            value="Read"
+            label={ui('Privacy Policy')}
+            value={ui('Read')}
             tint={COLORS.yes}
             badgeBg="rgba(34,197,94,0.12)"
             onPress={() => router.push('/(settings)/privacy-policy')}
           />
           <SectionRow
             icon={HeartHandshake}
-            label="Terms of Service"
-            value="Read"
+            label={ui('Terms of Service')}
+            value={ui('Read')}
             tint={COLORS.purple}
             badgeBg="rgba(139,92,246,0.14)"
             onPress={() => router.push('/(settings)/terms-of-service')}
@@ -144,27 +156,29 @@ export default function PrivacySafetyScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title="DATA CONTROLS">
+        <SettingsSection title={ui('DATA CONTROLS')}>
           <SectionRow
             icon={Trash2}
-            label="Clear my votes"
-            value="Active profile"
+            label={ui('Clear my votes')}
+            value={ui('Active profile')}
             tint={COLORS.no}
             badgeBg="rgba(239,68,68,0.12)"
             onPress={confirmClearVotes}
           />
           <SectionRow
             icon={Link2Off}
-            label="Disconnect remote partner"
-            value="Local only"
+            label={ui('Disconnect remote partner')}
+            value={ui('Local only')}
             tint={COLORS.no}
             badgeBg="rgba(239,68,68,0.12)"
             onPress={confirmDisconnect}
           />
           <SectionRow
             icon={RotateCcw}
-            label={resetting ? 'Resetting...' : 'Reset app on this device'}
-            value="All local data"
+            label={
+              resetting ? ui('Resetting...') : ui('Reset app on this device')
+            }
+            value={ui('All local data')}
             tint={COLORS.no}
             badgeBg="rgba(239,68,68,0.12)"
             onPress={resetting ? undefined : confirmResetApp}

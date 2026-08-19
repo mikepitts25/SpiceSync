@@ -17,6 +17,8 @@ import { isPurchaseProviderConfigured } from '../../lib/purchases/purchaseServic
 import { isFreeBetaPremiumAccessEnabled } from '../../lib/purchases/access';
 import { isSupabaseRelayConfigured } from '../../lib/sync/supabaseConfig';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const STATUS_COPY: Record<
   ReleaseDiagnosticStatus,
   { label: string; color: string; backgroundColor: string }
@@ -67,8 +69,10 @@ export default function ReleaseDiagnosticsScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Release Diagnostics" subtitle="Pre-launch checks" />
-
+      <BackHeader
+        title={ui('Release Diagnostics')}
+        subtitle={ui('Pre-launch checks')}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
@@ -83,17 +87,20 @@ export default function ReleaseDiagnosticsScreen() {
             <StatusIcon status={summary.overall} size={28} />
           </View>
           <View style={styles.summaryCopy}>
-            <Text style={styles.kicker}>CURRENT BUILD</Text>
-            <Text style={styles.summaryTitle}>{overall.label}</Text>
+            <Text style={styles.kicker}>{ui('CURRENT BUILD')}</Text>
+            <Text style={styles.summaryTitle}>{ui(overall.label)}</Text>
             <Text style={styles.summaryText}>
-              {summary.pass} passing, {summary.warning} to review,{' '}
-              {summary.fail} blocking.
+              {summary.pass}
+              {ui(' passing, ')}
+              {summary.warning}
+              {ui(' to review,')} {summary.fail}
+              {ui(' blocking. ')}
             </Text>
           </View>
         </View>
 
         <View style={styles.sectionGroup}>
-          <Text style={styles.sectionLabel}>CHECKS</Text>
+          <Text style={styles.sectionLabel}>{ui('CHECKS')}</Text>
           <View style={styles.sectionCard}>
             {checks.map((check, index) => (
               <DiagnosticRow
@@ -106,8 +113,9 @@ export default function ReleaseDiagnosticsScreen() {
         </View>
 
         <Text style={styles.footer}>
-          These checks only show release posture and never display Supabase
-          keys, receipts, or other secrets.
+          {ui(
+            ' These checks only show release posture and never display Supabase keys, receipts, or other secrets. '
+          )}
         </Text>
       </ScrollView>
     </SafeAreaView>
@@ -132,15 +140,15 @@ function DiagnosticRow({
       </View>
       <View style={styles.rowCopy}>
         <View style={styles.rowHeader}>
-          <Text style={styles.rowLabel}>{check.label}</Text>
+          <Text style={styles.rowLabel}>{ui(check.label)}</Text>
           <View style={[styles.statusPill, { borderColor: status.color }]}>
             <Text style={[styles.statusText, { color: status.color }]}>
-              {status.label}
+              {ui(status.label)}
             </Text>
           </View>
         </View>
-        <Text style={styles.rowValue}>{check.value}</Text>
-        <Text style={styles.rowDetail}>{check.detail}</Text>
+        <Text style={styles.rowValue}>{ui(check.value)}</Text>
+        <Text style={styles.rowDetail}>{ui(check.detail)}</Text>
       </View>
     </View>
   );

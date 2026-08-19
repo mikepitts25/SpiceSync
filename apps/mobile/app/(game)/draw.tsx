@@ -34,6 +34,8 @@ import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 import { appendCustomGameCards } from '../../lib/gameDeck';
 import { playGameSound, unloadGameSounds } from '../../lib/gameSounds';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 const { width: SCREEN_W } = Dimensions.get('window');
 
 const TYPE_COLORS: Record<GameCardType | 'all', string> = {
@@ -300,10 +302,12 @@ export default function CardDraw() {
         <Pressable onPress={() => router.back()}>
           <Text style={styles.backButton}>✕</Text>
         </Pressable>
-        <Text style={styles.headerTitle}>🔥 Level {card.intensity}</Text>
+        <Text style={styles.headerTitle}>
+          {ui('🔥 Level ')}
+          {card.intensity}
+        </Text>
         <View style={{ width: 40 }} />
       </View>
-
       {/* Card */}
       <Animated.View
         style={[
@@ -322,7 +326,7 @@ export default function CardDraw() {
           {/* Drinking Mode Badge */}
           {isDrinkingMode && (
             <View style={styles.drinkingBadge}>
-              <Text style={styles.drinkingText}>🍺 DRINKING MODE</Text>
+              <Text style={styles.drinkingText}>{ui('🍺 DRINKING MODE')}</Text>
             </View>
           )}
 
@@ -330,8 +334,10 @@ export default function CardDraw() {
           {isLocked && (
             <View style={styles.lockOverlay}>
               <Text style={styles.lockEmoji}>🔒</Text>
-              <Text style={styles.lockText}>Premium Card</Text>
-              <Text style={styles.lockSubtext}>Unlock to see this card</Text>
+              <Text style={styles.lockText}>{ui('Premium Card')}</Text>
+              <Text style={styles.lockSubtext}>
+                {ui('Unlock to see this card')}
+              </Text>
             </View>
           )}
 
@@ -344,7 +350,7 @@ export default function CardDraw() {
             <Text style={styles.cardText}>{card.content}</Text>
             {isDrinkingMode && (
               <Text style={styles.drinkingTextContent}>
-                🍺 Or take a drink!
+                {ui(' 🍺 Or take a drink! ')}
               </Text>
             )}
 
@@ -437,12 +443,11 @@ export default function CardDraw() {
           </View>
         </View>
       </Animated.View>
-
       {/* Actions */}
       <View style={[styles.actions, { paddingBottom: insets.bottom + 20 }]}>
         <Pressable style={styles.skipButton} onPress={handleSkip}>
           <Text style={styles.skipText}>
-            {isDrinkingMode ? '🍺 Take Drink' : '🔄 Skip'}
+            {isDrinkingMode ? ui('🍺 Take Drink') : ui('🔄 Skip')}
           </Text>
         </Pressable>
 
@@ -455,10 +460,10 @@ export default function CardDraw() {
         >
           <Text style={styles.acceptText}>
             {isLocked
-              ? '🔓 Unlock'
+              ? ui('🔓 Unlock')
               : isDrinkingMode
-                ? '🍺 Did It / Drink'
-                : '✅ Accept'}
+                ? ui('🍺 Did It / Drink')
+                : ui('✅ Accept')}
           </Text>
         </Pressable>
       </View>

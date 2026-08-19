@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
 import SettingsScreen from '../app/(settings)';
@@ -39,6 +40,15 @@ jest.mock('../lib/lock', () => ({
 }));
 
 describe('settings profile avatar', () => {
+  let tree: TestRenderer.ReactTestRenderer | undefined;
+
+  afterEach(() => {
+    if (tree) {
+      TestRenderer.act(() => tree?.unmount());
+      tree = undefined;
+    }
+  });
+
   beforeEach(() => {
     useSettingsStore.setState({
       language: 'en',
@@ -63,7 +73,6 @@ describe('settings profile avatar', () => {
   });
 
   it('renders the active profile avatar as an image-backed profile icon', () => {
-    let tree: TestRenderer.ReactTestRenderer;
     TestRenderer.act(() => {
       tree = TestRenderer.create(<SettingsScreen />);
     });
@@ -72,5 +81,41 @@ describe('settings profile avatar', () => {
 
     expect(profileAvatars).toHaveLength(1);
     expect(profileAvatars[0].props.avatar).toBe('chastity-cage');
+  });
+
+  it('renders every settings row in Spanish when Spanish is active', () => {
+    TestRenderer.act(() => {
+      useSettingsStore.setState({ language: 'es' });
+    });
+
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<SettingsScreen />);
+    });
+
+    const visibleCopy = tree!.root
+      .findAllByType(Text)
+      .flatMap((node) => node.props.children)
+      .filter((child): child is string => typeof child === 'string');
+
+    for (const expected of [
+      'Comentarios hápticos',
+      'Desactivadas',
+      'Modo discreto',
+      'Privacidad y seguridad',
+      'Controles de datos',
+      'Configurar PIN',
+      'Versión de la app',
+    ]) {
+      expect(visibleCopy).toContain(expected);
+    }
+    expect(visibleCopy).not.toEqual(
+      expect.arrayContaining([
+        'Haptic Feedback',
+        'Discrete Mode',
+        'Privacy & Safety',
+        'Set PIN',
+        'App Version',
+      ])
+    );
   });
 });

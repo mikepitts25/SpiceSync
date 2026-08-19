@@ -8,6 +8,8 @@ import { useProfilesStore } from '../lib/state/profiles';
 import { getAppEntryDestination } from '../lib/welcome/routing';
 import MatchCoupleIcon from '../components/MatchCoupleIcon';
 
+import { ui } from '../lib/i18n/uiLiteral';
+
 export default function EntryGate() {
   const router = useRouter();
   const nav = useRootNavigationState();
@@ -46,10 +48,10 @@ export default function EntryGate() {
       <View style={styles.coupleIcon}>
         <MatchCoupleIcon
           size={64}
-          accessibilityLabel="SpiceSync couple match"
+          accessibilityLabel={ui('SpiceSync couple match')}
         />
       </View>
-      <Text style={styles.text}>Loading...</Text>
+      <Text style={styles.text}>{ui('Loading...')}</Text>
     </View>
   );
 }

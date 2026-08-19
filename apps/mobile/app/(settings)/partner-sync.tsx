@@ -24,6 +24,8 @@ import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
 import { getPartnerDashboardStats } from '../../lib/sync/partnerDashboard';
 import { useVoteSyncStore } from '../../lib/sync/voteSync';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 export default function PartnerSyncScreen() {
   const router = useRouter();
   const link = useCoupleLinkStore((state) => state.link);
@@ -54,17 +56,19 @@ export default function PartnerSyncScreen() {
     ]
   );
 
-  const partnerName = activeLink?.partnerProfileName ?? 'Remote partner';
+  const partnerName = activeLink?.partnerProfileName ?? ui('Remote partner');
   const partnerAvatar = activeLink?.partnerProfileAvatar ?? null;
 
   const handleDisconnect = useCallback(() => {
     Alert.alert(
-      'Disconnect remote partner?',
-      "This clears the partner link, partner votes, reveal consent, and pending sync events from this device. It does not delete anything from your partner's device.",
+      ui('Disconnect remote partner?'),
+      ui(
+        "This clears the partner link, partner votes, reveal consent, and pending sync events from this device. It does not delete anything from your partner's device."
+      ),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: ui('Cancel'), style: 'cancel' },
         {
-          text: 'Disconnect',
+          text: ui('Disconnect'),
           style: 'destructive',
           onPress: () => {
             disconnectRemotePartnerLocal();
@@ -81,8 +85,10 @@ export default function PartnerSyncScreen() {
       edges={['top', 'left', 'right', 'bottom']}
     >
       <StatusBar style="light" />
-      <BackHeader title="Partner Sync" subtitle="Connection status" />
-
+      <BackHeader
+        title={ui('Partner Sync')}
+        subtitle={ui('Connection status')}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
@@ -106,7 +112,9 @@ export default function PartnerSyncScreen() {
                 <Text style={styles.partnerName}>{partnerName}</Text>
                 <View style={styles.statusPill}>
                   <Radio size={13} color={COLORS.yes} />
-                  <Text style={styles.statusText}>Remote sync active</Text>
+                  <Text style={styles.statusText}>
+                    {ui('Remote sync active')}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -126,19 +134,23 @@ export default function PartnerSyncScreen() {
                 onPress={() => router.push('/(tabs)/matches')}
               >
                 <ShieldCheck size={18} color={COLORS.textPrimary} />
-                <Text style={styles.primaryActionText}>View matches</Text>
+                <Text style={styles.primaryActionText}>
+                  {ui('View matches')}
+                </Text>
               </Pressable>
               <Pressable
                 style={styles.secondaryAction}
                 onPress={() => router.push('/(onboarding)/partner-connect')}
               >
                 <RefreshCcw size={18} color={COLORS.pink} />
-                <Text style={styles.secondaryActionText}>Partner setup</Text>
+                <Text style={styles.secondaryActionText}>
+                  {ui('Partner setup')}
+                </Text>
               </Pressable>
               <Pressable style={styles.dangerAction} onPress={handleDisconnect}>
                 <Link2Off size={18} color={COLORS.no} />
                 <Text style={styles.dangerActionText}>
-                  Disconnect remote partner
+                  {ui(' Disconnect remote partner ')}
                 </Text>
               </Pressable>
             </View>
@@ -148,16 +160,21 @@ export default function PartnerSyncScreen() {
             <View style={styles.emptyIcon}>
               <Radio size={28} color={COLORS.pink} />
             </View>
-            <Text style={styles.emptyTitle}>No remote partner connected</Text>
+            <Text style={styles.emptyTitle}>
+              {ui('No remote partner connected')}
+            </Text>
             <Text style={styles.emptyCopy}>
-              Create or accept a private invite link to sync encrypted vote
-              updates with a partner on another device.
+              {ui(
+                ' Create or accept a private invite link to sync encrypted vote updates with a partner on another device. '
+              )}
             </Text>
             <Pressable
               style={styles.primaryAction}
               onPress={() => router.push('/(onboarding)/partner-connect')}
             >
-              <Text style={styles.primaryActionText}>Open partner setup</Text>
+              <Text style={styles.primaryActionText}>
+                {ui('Open partner setup')}
+              </Text>
             </Pressable>
           </View>
         )}

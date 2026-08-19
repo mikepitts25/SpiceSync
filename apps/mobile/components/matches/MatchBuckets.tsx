@@ -20,6 +20,8 @@ import {
   type MatchItem,
 } from './matchPresentation';
 
+import { ui } from '../../lib/i18n/uiLiteral';
+
 function MatchVoteBadge({ label, value }: { label: string; value?: string }) {
   const color = voteBadgeColor(value);
   return (
@@ -48,11 +50,11 @@ function MatchRow({
       style={styles.resultRow}
       onPress={() => onSelect?.(item)}
       accessibilityRole="button"
-      accessibilityLabel={`Open ${item.title} match details`}
+      accessibilityLabel={`${ui('Open')} ${item.title} ${ui('match details')}`}
     >
       <View
         style={styles.resultSummary}
-        accessibilityLabel="Compact match summary"
+        accessibilityLabel={ui('Compact match summary')}
       >
         <View style={styles.resultPrimaryRow}>
           <Text style={styles.resultTitle} numberOfLines={1}>
@@ -69,12 +71,12 @@ function MatchRow({
           {item.intensityScale ? (
             <View style={styles.resultLevelBadge}>
               <Text style={styles.resultLevelText}>
-                {`L${item.intensityScale}`}
+                {`${ui('L')}${item.intensityScale}`}
               </Text>
             </View>
           ) : null}
-          <MatchVoteBadge label="You" value={item.myVote} />
-          <MatchVoteBadge label="Partner" value={item.partnerVote} />
+          <MatchVoteBadge label={ui('You')} value={item.myVote} />
+          <MatchVoteBadge label={ui('Partner')} value={item.partnerVote} />
         </View>
         {item.pairMode ? (
           <Text style={styles.resultRole} numberOfLines={1}>
@@ -132,13 +134,12 @@ export function MatchSection({
           </View>
         </View>
       )}
-
       <View style={styles.rowList}>
         {locked && rows.length ? (
           <>
             <View style={styles.resultRow}>
               <Text style={styles.resultTitle}>
-                {lockTitle ?? 'Locked matches'}
+                {lockTitle ?? ui('Locked matches')}
               </Text>
               <Text style={styles.resultCategory}>
                 {`${rows.length} ${rows.length === 1 ? 'ITEM' : 'ITEMS'}`}
@@ -195,7 +196,7 @@ function BucketCard({
     <Pressable
       onPress={() => onSelect(bucket.id)}
       accessibilityRole="button"
-      accessibilityLabel={`${bucket.title}, ${bucket.total} matches`}
+      accessibilityLabel={`${bucket.title}, ${bucket.total} ${ui('matches')}`}
       style={[
         isHero ? styles.bucketHero : styles.bucketTile,
         { backgroundColor: bg, borderColor: border },
