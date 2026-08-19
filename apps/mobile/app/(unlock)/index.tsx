@@ -22,6 +22,7 @@ const PREMIUM_FEATURES = [
   'The full Spice Deck library, including every themed pack',
   'Match Missions, Know Me Better, and Couple Dice',
   'Create your own game cards',
+  'Love Languages quiz',
   'Advanced Insights',
   'Unlimited local profiles',
   'Future premium content updates',

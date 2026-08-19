@@ -28,10 +28,11 @@ import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
+import { PremiumGate } from '../../components/PremiumGate';
 
 import { ui } from '../../lib/i18n/uiLiteral';
 
-export default function LoveLanguagesQuizScreen() {
+export function LoveLanguagesQuizScreen() {
   const router = useRouter();
 
   const { activeId, profiles } = useProfilesStore(
@@ -349,6 +350,14 @@ export default function LoveLanguagesQuizScreen() {
         )}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export default function PremiumLoveLanguagesQuizScreen() {
+  return (
+    <PremiumGate>
+      <LoveLanguagesQuizScreen />
+    </PremiumGate>
   );
 }
 

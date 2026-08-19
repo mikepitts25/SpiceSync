@@ -562,6 +562,7 @@ const supplementalSpanish: Record<string, string> = {
     'Misiones de coincidencia, Conóceme mejor y Dados de pareja',
   'Create your own game cards': 'Crea tus propias cartas de juego',
   'Advanced Insights': 'Estadísticas avanzadas',
+  'Love Languages quiz': 'Cuestionario de lenguajes del amor',
   'Unlimited local profiles': 'Perfiles locales ilimitados',
   'Future premium content updates':
     'Futuras actualizaciones de contenido Premium',

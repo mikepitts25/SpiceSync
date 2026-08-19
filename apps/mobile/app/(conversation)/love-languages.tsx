@@ -16,7 +16,9 @@ import {
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useLoveLanguagesStore } from '../../src/stores/loveLanguages';
+import { usePremiumStore } from '../../src/stores/premium';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
+import { hasPremiumFeatureAccess } from '../../lib/purchases/access';
 
 import { ui } from '../../lib/i18n/uiLiteral';
 
@@ -34,6 +36,8 @@ export default function LoveLanguagesHubScreen() {
     }))
   );
   const loveLanguageResults = useLoveLanguagesStore((state) => state.results);
+  const locallyEntitled = usePremiumStore((state) => state.isPremium());
+  const hasQuizAccess = hasPremiumFeatureAccess(locallyEntitled);
   const language = useSettingsStore((state) => state.language);
 
   const loveLanguageCopy = useMemo(
@@ -144,7 +148,13 @@ export default function LoveLanguagesHubScreen() {
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={loveLanguageCopy.ctaLabel}
-            onPress={() => router.push(LOVE_LANGUAGE_QUIZ_ROUTE as never)}
+            onPress={() =>
+              router.push(
+                (hasQuizAccess
+                  ? LOVE_LANGUAGE_QUIZ_ROUTE
+                  : '/(unlock)') as never
+              )
+            }
             style={styles.optionPress}
           >
             <LinearGradient

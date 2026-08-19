@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import TestRenderer from 'react-test-renderer';
 
-import LoveLanguagesQuizScreen from '../app/(settings)/love-languages';
+import { LoveLanguagesQuizScreen } from '../app/(settings)/love-languages';
 import { useProfilesStore } from '../lib/state/profiles';
 import { useLoveLanguagesStore } from '../src/stores/loveLanguages';
 
