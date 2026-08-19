@@ -29,7 +29,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
       "¿Preferirías afirmaciones privadas?",
       "¿Cuál es la mejor manera de celebrar tus logros?"
     ],
-    context: "Las afirmaciones públicas vs. privadas pueden sentirse muy diferentes según la personalidad.",
+    context: "Las afirmaciones públicas y privadas pueden sentirse muy diferentes según la personalidad.",
     tags: ['love-languages', 'words-of-affirmation', 'public-vs-private']
   },
   {
@@ -80,7 +80,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     question: "¿Qué actos de servicio diarios te harían sentir más amado?",
     followUps: [
       "¿Qué tareas del hogar aprecias más cuando las hago?",
-      "¿Es por la tarea en sí o por el pensamiento detrás?",
+      "¿Es por la tarea en sí o por la intención que hay detrás?",
       "¿Qué pequeños gestos harían tu día más fácil?"
     ],
     context: "Las acciones hablan más que las palabras. Para algunos, hacer algo útil es la forma más pura de amor.",
@@ -120,7 +120,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     followUps: [
       "¿Qué tareas te causan más estrés?",
       "¿Cómo puedo anticipar mejor lo que necesitas?",
-      "¿Qué se sentiría como una carga vs. un regalo?"
+      "¿Qué percibirías como una carga y qué como un regalo?"
     ],
     context: "Aliviar el estrés de tu pareja a través de la acción es una forma profunda de mostrar amor.",
     tags: ['love-languages', 'acts-of-service', 'stress-relief']
@@ -211,7 +211,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     id: 'conv-ll-016',
     category: 'love_languages',
     intensity: 2,
-    question: "¿Cómo se ve el tiempo de calidad para ti?",
+    question: "¿Qué significa para ti pasar tiempo de calidad?",
     followUps: [
       "¿Prefieres citas planificadas o momentos espontáneos?",
       "¿Qué actividades te hacen sentir más conectado conmigo?",
@@ -253,7 +253,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     question: "¿Cómo te sientes cuando dejo mi teléfono y te doy toda mi atención?",
     followUps: [
       "¿Qué significa la atención indivisa para ti?",
-      "¿Con qué frecuencia necesitas este tipo de tiempo enfocado?",
+      "¿Con qué frecuencia necesitas este tipo de atención plena?",
       "¿Cómo sería nuestro tiempo de calidad ideal?"
     ],
     context: "En un mundo distraído, la atención plena es un regalo precioso.",
@@ -267,7 +267,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     followUps: [
       "¿Qué hizo ese tiempo tan especial?",
       "¿Cómo podemos crear más momentos así?",
-      "¿Qué elementos lo hicieron sentir como tiempo de calidad?"
+      "¿Qué elementos hicieron que se sintiera como tiempo de calidad?"
     ],
     context: "Entender lo que hizo especiales los momentos pasados nos ayuda a recrearlos.",
     tags: ['love-languages', 'quality-time', 'memories']
@@ -278,7 +278,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     id: 'conv-ll-021',
     category: 'love_languages',
     intensity: 2,
-    question: "¿Qué tipo de toque físico te hace sentir más amado?",
+    question: "¿Qué tipo de contacto físico te hace sentir más amado?",
     followUps: [
       "¿Prefieres muestras de afecto en público o en privado?",
       "¿Qué tipos de toque te ayudan a sentirte conectado?",
@@ -294,7 +294,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     question: "¿Cómo te sientes cuando tomo tu mano o te toco casualmente?",
     followUps: [
       "¿Qué toques casuales significan más para ti?",
-      "¿Necesitas más o menos toque casual?",
+      "¿Necesitas más o menos contacto físico espontáneo?",
       "¿Qué te comunica la conexión física?"
     ],
     context: "Los pequeños toques casuales a lo largo del día pueden mantener la conexión.",
@@ -306,11 +306,11 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     intensity: 3,
     question: "¿Qué te sucede emocionalmente cuando no tenemos contacto físico por un tiempo?",
     followUps: [
-      "¿Cuánto tiempo es 'demasiado' sin toque?",
-      "¿Qué sentimientos surgen cuando falta el toque?",
+      "¿Cuánto tiempo es 'demasiado' sin contacto físico?",
+      "¿Qué sentimientos surgen cuando falta el contacto físico?",
       "¿Cómo podemos mantener la conexión física aunque estemos ocupados?"
     ],
-    context: "Para quienes necesitan el toque físico, la ausencia puede sentirse como distancia emocional.",
+    context: "Para quienes necesitan contacto físico, su ausencia puede sentirse como distancia emocional.",
     tags: ['love-languages', 'physical-touch', 'needs']
   },
   {
@@ -323,7 +323,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
       "¿Hay toques que son puramente reconfortantes?",
       "¿Cómo puedo iniciar afecto de maneras que se sientan bien para ti?"
     ],
-    context: "El toque físico no es solo sobre la intimidad — se trata de conexión, confort y seguridad.",
+    context: "El contacto físico no se limita a la intimidad: también aporta conexión, consuelo y seguridad.",
     tags: ['love-languages', 'physical-touch', 'comfort']
   },
   {
@@ -334,7 +334,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     followUps: [
       "¿Qué comunica el toque que las palabras no pueden?",
       "¿Con qué rapidez mejora tu estado de ánimo con el afecto?",
-      "¿Qué haría más toque regular por nuestra relación?"
+      "¿Cómo beneficiaría a nuestra relación tener contacto físico con más frecuencia?"
     ],
     context: "Entender el impacto emocional del toque nos ayuda a priorizarlo.",
     tags: ['love-languages', 'physical-touch', 'emotional-impact']
@@ -371,7 +371,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     id: 'conv-ll-028',
     category: 'love_languages',
     intensity: 3,
-    question: "¿Cuál lenguaje del amor te resulta más difícil recibir o dar?",
+    question: "¿Qué lenguaje del amor te resulta más difícil recibir o expresar?",
     followUps: [
       "¿Por qué ese lenguaje es un desafío para ti?",
       "¿Es por comodidad, experiencias pasadas u otra cosa?",
@@ -384,7 +384,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     id: 'conv-ll-029',
     category: 'love_languages',
     intensity: 3,
-    question: "¿Cómo puedo hablar mejor tu lenguaje del amor, incluso si no es natural para mí?",
+    question: "¿Cómo puedo expresar mejor tu lenguaje del amor, aunque no me resulte natural?",
     followUps: [
       "¿Qué acciones específicas significarían más?",
       "¿Cómo puedes ayudarme a aprender tu lenguaje?",
@@ -397,7 +397,7 @@ export const loveLanguagesStartersES: ConversationStarter[] = [
     id: 'conv-ll-030',
     category: 'love_languages',
     intensity: 3,
-    question: "¿Cómo sería si ambos nos sintiéramos completamente amados en nuestros propios lenguajes?",
+    question: "¿Cómo sería nuestra relación si ambos nos sintiéramos plenamente amados en nuestros propios lenguajes?",
     followUps: [
       "¿Cómo se sentiría diferente nuestra relación?",
       "¿Qué hábitos diarios tendríamos?",

@@ -98,7 +98,7 @@ describe('settings profile avatar', () => {
       .filter((child): child is string => typeof child === 'string');
 
     for (const expected of [
-      'Comentarios hápticos',
+      'Respuesta háptica',
       'Desactivadas',
       'Modo discreto',
       'Privacidad y seguridad',

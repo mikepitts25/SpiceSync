@@ -27,4 +27,33 @@ describe('conversation card text fitting', () => {
       expect(style.lineHeight).toBe(31);
     }
   });
+
+  it('avoids known literal-English calques in Spanish conversation copy', () => {
+    const spanishCopy = JSON.stringify(getPoolByLanguage('es'));
+
+    for (const calque of [
+      ' vs. ',
+      'como parejas',
+      'falta el toque',
+      'no es solo sobre',
+      'pueden durar con atención',
+      'El después es',
+      'el logrador',
+      'causa social eres más apasionado',
+      'experiencias de vida que nos humillan',
+      'ser tu animador/a',
+      'el pensamiento detrás',
+      'tiempo enfocado',
+      'toque casual',
+      'más toque regular',
+      '¿Cuál lenguaje',
+      'hablar mejor tu lenguaje',
+      '¿Cómo sería si ambos',
+      'entender cómo crea más de ello',
+      'antes eras incómodo',
+      'no-por-ahora',
+    ]) {
+      expect(spanishCopy).not.toContain(calque);
+    }
+  });
 });

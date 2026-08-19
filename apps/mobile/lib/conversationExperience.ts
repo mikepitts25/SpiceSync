@@ -101,7 +101,7 @@ const CONVERSATION_TOPIC_COPY: Record<
     },
     love_languages: {
       label: 'Lenguajes del amor',
-      subtitle: 'Usen preguntas o hagan el quiz',
+      subtitle: 'Usen preguntas o hagan el cuestionario',
       mark: 'CARIÑO',
     },
   },
@@ -276,8 +276,8 @@ export function getLoveLanguageModuleCopy(
         eyebrow: 'LENGUAJES DEL AMOR',
         title: 'Entiendan mejor cómo se cuidan',
         description:
-          'Hagan un quiz breve y usen preguntas guiadas para convertir el resultado en una conversación real.',
-        ctaLabel: 'Hacer el quiz',
+          'Hagan un cuestionario breve y usen preguntas guiadas para convertir el resultado en una conversación real.',
+        ctaLabel: 'Hacer el cuestionario',
         promptLabel: 'Usar preguntas',
         partnerSummary: partnerWithResult
           ? `${partnerWithResult.name} ya tiene un resultado`

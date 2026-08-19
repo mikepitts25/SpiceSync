@@ -477,7 +477,7 @@ export const relationshipStartersES: ConversationStarter[] = [
       "¿Qué tipo de pareja aspiras a ser?",
       "¿Cómo puedo apoyar tu crecimiento?"
     ],
-    context: "El compromiso de crecer como parejas mantiene la relación en evolución.",
+    context: "El compromiso de crecer como pareja mantiene la relación en evolución.",
     tags: ['deep', 'growth', 'commitment', 'future']
   },
   {

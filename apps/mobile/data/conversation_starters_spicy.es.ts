@@ -16,7 +16,7 @@ export const spicyStartersES: ConversationStarter[] = [
       "¿Cuándo lo sientes con más fuerza?",
       "¿Cómo puedo hacerte sentir así con más frecuencia?"
     ],
-    context: "Sentirse deseado es fundamental para la intimidad — entender cómo crea más de ello.",
+    context: "Sentirse deseado es fundamental para la intimidad: entender cómo ocurre ayuda a cultivarlo.",
     tags: ['intimacy', 'desire', 'emotional', 'connection']
   },
   {
@@ -38,7 +38,7 @@ export const spicyStartersES: ConversationStarter[] = [
     intensity: 3,
     question: "¿Qué tipo de toque te hace sentir más conectado conmigo?",
     followUps: [
-      "¿Es diferente en momentos íntimos vs. cotidianos?",
+      "¿Es diferente en momentos íntimos y cotidianos?",
       "¿Qué hace que se sienta tan conectante?",
       "¿Cuándo lo necesitas más?"
     ],
@@ -343,7 +343,7 @@ export const spicyStartersES: ConversationStarter[] = [
     followUps: [
       "¿Te gusta no saber lo que viene?",
       "¿O prefieres algunas pistas?",
-      "¿Qué hace una sorpresa buena vs. inquietante?"
+      "¿Qué hace que una sorpresa sea agradable en lugar de inquietante?"
     ],
     context: "Las preferencias de sorpresa varían — conocerlas previene pasos en falso.",
     tags: ['surprises', 'spontaneity', 'preferences', 'communication']
@@ -475,7 +475,7 @@ export const spicyStartersES: ConversationStarter[] = [
     followUps: [
       "¿De inmediato o después?",
       "¿Directo o gentil?",
-      "¿Qué hace que la retroalimentación se sienta constructiva vs. crítica?"
+      "¿Qué hace que los comentarios se sientan constructivos en lugar de críticos?"
     ],
     context: "Los ciclos de retroalimentación nos ayudan a mejorar nuestra conexión íntima con el tiempo.",
     tags: ['feedback', 'communication', 'growth', 'improvement']
@@ -590,7 +590,7 @@ export const spicyStartersES: ConversationStarter[] = [
     id: 'conv-spicy-045',
     category: 'spicy',
     intensity: 4,
-    question: "¿Hay algo con lo que antes eras incómodo y que ahora disfrutas?",
+    question: "¿Hay algo que antes te incomodaba y que ahora disfrutas?",
     followUps: [
       "¿Qué cambió para ti?",
       "¿Cómo llegamos allí?",
@@ -618,7 +618,7 @@ export const spicyStartersES: ConversationStarter[] = [
     intensity: 4,
     question: "¿Qué es algo que definitivamente no quieres intentar, y por qué?",
     followUps: [
-      "¿Es un no definitivo o un no-por-ahora?",
+      "¿Es un no definitivo o un no por ahora?",
       "¿Qué informa ese límite?",
       "¿Cómo te gusta que se respeten esos límites?"
     ],
@@ -648,7 +648,7 @@ export const spicyStartersES: ConversationStarter[] = [
       "¿Usualmente te sientes así?",
       "¿Qué ayudaría a crear ese sentimiento?"
     ],
-    context: "El después es tan importante como la experiencia — conocer los deseos ayuda.",
+    context: "Lo que ocurre después es tan importante como la experiencia: conocer sus deseos ayuda.",
     tags: ['aftercare', 'feelings', 'connection', 'satisfaction']
   },
   {

@@ -61,7 +61,7 @@ export const gettingToKnowStartersES: ConversationStarter[] = [
     id: 'conv-get-005',
     category: 'getting_to_know',
     intensity: 2,
-    question: "¿Cuál era tu rol en tu familia cuando crecías? (El pacificador, el rebelde, el logrador...)",
+    question: "¿Cuál era tu rol en tu familia cuando crecías? (La persona conciliadora, la rebelde, la triunfadora...)",
     followUps: [
       "¿Sigues desempeñando ese rol hoy?",
       "¿Cómo te sirvió o limitó ese rol?",
@@ -312,7 +312,7 @@ export const gettingToKnowStartersES: ConversationStarter[] = [
     id: 'conv-get-024',
     category: 'getting_to_know',
     intensity: 2,
-    question: "¿Sobre qué causa social eres más apasionado/a y por qué?",
+    question: "¿Qué causa social te apasiona más y por qué?",
     followUps: [
       "¿Qué experiencia personal te conecta con ella?",
       "¿Qué desearías que más personas entendieran?",
@@ -396,7 +396,7 @@ export const gettingToKnowStartersES: ConversationStarter[] = [
       "¿Has experimentado algo similar?",
       "¿Cómo te ha hecho más compasivo/a?"
     ],
-    context: "La empatía creciente a menudo viene de experiencias de vida que nos humillan.",
+    context: "La empatía suele crecer gracias a experiencias que nos hacen más humildes.",
     tags: ['growth', 'empathy', 'perspective']
   },
 
@@ -487,7 +487,7 @@ export const gettingToKnowStartersES: ConversationStarter[] = [
     followUps: [
       "¿Qué te ha impedido empezarlo?",
       "¿Qué se necesitaría para comenzar?",
-      "¿Cómo puedo ser tu animador/a en esto?"
+      "¿Cómo puedo ser tu mayor apoyo en esto?"
     ],
     context: "Nuestras ideas latentes a menudo representan partes de nosotros mismos que esperan ser expresadas.",
     tags: ['creativity', 'ambition', 'dreams']

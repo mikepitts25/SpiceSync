@@ -39,9 +39,9 @@ const supplementalSpanish: Record<string, string> = {
   'Use Love Languages prompts': 'Usar preguntas sobre lenguajes del amor',
   'Use prompts': 'Usar preguntas',
   'Open guided questions for turning your results into a real conversation.':
-    'Abre preguntas guiadas para convertir sus resultados en una conversación real.',
+    'Abre preguntas guiadas para convertir tus resultados en una conversación real.',
   'Complete the quiz or revisit your current result.':
-    'Completa el quiz o revisa tu resultado actual.',
+    'Completa el cuestionario o revisa tu resultado actual.',
   'Card Completed!': '¡Carta completada!',
   'Great job completing the challenge': 'Buen trabajo al completar el reto',
   'Draw Another Card': 'Sacar otra carta',
@@ -124,7 +124,7 @@ const supplementalSpanish: Record<string, string> = {
   Locked: 'Bloqueado',
   'No Active Profile': 'No hay un perfil activo',
   'Please create a profile first to take the Love Languages quiz.':
-    'Crea un perfil antes de hacer el quiz de lenguajes del amor.',
+    'Crea un perfil antes de hacer el cuestionario de lenguajes del amor.',
   'Your Love Language': 'Tu lenguaje del amor',
   'Your Primary Love Language': 'Tu lenguaje del amor principal',
   'Your Secondary Love Language': 'Tu lenguaje del amor secundario',
@@ -222,7 +222,7 @@ const supplementalSpanish: Record<string, string> = {
   'Last updated: August 2026': 'Última actualización: agosto de 2026',
   Overview: 'Resumen',
   'SpiceSync is designed with privacy as a core principle. All data you create — profiles, votes, preferences, and matches — is stored on your device by default. If you connect a remote partner, SpiceSync uses a relay service only to pass encrypted sync updates between your devices.':
-    'SpiceSync está diseñado con la privacidad como principio fundamental. Todos los datos que creas —perfiles, votos, preferencias y coincidencias— se almacenan en tu dispositivo de forma predeterminada. Si conectas una pareja remota, SpiceSync usa un servicio de retransmisión únicamente para transferir actualizaciones cifradas entre sus dispositivos.',
+    'SpiceSync está diseñado con la privacidad como principio fundamental. Todos los datos que creas —perfiles, votos, preferencias y coincidencias— se almacenan en tu dispositivo de forma predeterminada. Si conectas una pareja remota, SpiceSync usa un servicio de retransmisión únicamente para transferir actualizaciones cifradas entre ambos dispositivos.',
   'Information We Collect': 'Información que recopilamos',
   'SpiceSync does not require an email address or password. When you use remote partner sync, SpiceSync creates an anonymous Supabase user ID and sends device IDs, public encryption and signing keys, invite and connection status, optional profile display metadata, and encrypted sync payloads to the relay.':
     'SpiceSync no requiere una dirección de correo ni una contraseña. Cuando usas la sincronización remota, SpiceSync crea un identificador anónimo de Supabase y envía al servicio de retransmisión identificadores de dispositivo, claves públicas de cifrado y firma, el estado de invitación y conexión, metadatos opcionales del perfil y cargas de sincronización cifradas.',
@@ -445,7 +445,7 @@ const supplementalSpanish: Record<string, string> = {
   ALL: 'TODOS',
   CURIOUS: 'CURIOSO',
   'NOT NOW': 'AHORA NO',
-  'HARD NO': 'NO ROTUNDO',
+  'HARD NO': 'NO',
   'Ready for this': 'Listo para esto',
   'Open to exploring': 'Abierto a explorar',
   'Maybe later — shared as a talk topic':
@@ -474,10 +474,10 @@ const supplementalSpanish: Record<string, string> = {
     'Las compilaciones pueden usar un proyecto EAS.',
   'Set a real EAS project id before relying on hosted builds.':
     'Configura un identificador EAS real antes de usar compilaciones alojadas.',
-  'Supabase relay': 'Relay de Supabase',
+  'Supabase relay': 'Servicio de retransmisión de Supabase',
   'Not configured': 'No configurado',
   'Remote partner sync can reach the relay.':
-    'La sincronización remota puede acceder al relay.',
+    'La sincronización remota puede acceder al servicio de retransmisión.',
   'Remote partner sync needs Supabase URL and anon key in release builds.':
     'La sincronización remota necesita la URL y la clave anónima de Supabase en producción.',
   Purchases: 'Compras',
@@ -534,7 +534,7 @@ const supplementalSpanish: Record<string, string> = {
   "Paste the full private invite link from your partner's device.":
     'Pega el enlace de invitación privado completo del dispositivo de tu pareja.',
   'This links two devices. The relay only stores encrypted updates.':
-    'Esto vincula dos dispositivos. El relay solo almacena actualizaciones cifradas.',
+    'Esto vincula dos dispositivos. El servicio de retransmisión solo almacena actualizaciones cifradas.',
   'Ask your partner to create a new invite, or use this device instead.':
     'Pide a tu pareja que cree una invitación nueva o usa este dispositivo.',
   GENERAL: 'GENERAL',
@@ -584,7 +584,7 @@ const supplementalSpanish: Record<string, string> = {
   'You feel loved when your partner gives you their undivided attention and spends meaningful time with you.':
     'Te sientes querido cuando tu pareja te presta toda su atención y comparte tiempo significativo contigo.',
   'You feel loved when your partner gives you thoughtful presents, big or small, that show they were thinking of you.':
-    'Te sientes querido cuando tu pareja te da regalos considerados, grandes o pequeños, que demuestran que pensaba en ti.',
+    'Te sientes querido cuando tu pareja te da regalos elegidos con cariño, grandes o pequeños, que demuestran que pensaba en ti.',
   'You feel loved when your partner does things to help you, like chores, errands, or tasks that make your life easier.':
     'Te sientes querido cuando tu pareja hace cosas para ayudarte, como tareas del hogar, recados o actividades que facilitan tu vida.',
   'You feel loved through physical connection—hugs, kisses, holding hands, and other forms of affectionate touch.':
@@ -607,7 +607,7 @@ const supplementalSpanish: Record<string, string> = {
   'I like to spend uninterrupted leisure time with my partner':
     'Me gusta pasar tiempo libre sin interrupciones con mi pareja',
   'I like when my partner gives me thoughtful surprises':
-    'Me gusta que mi pareja me dé sorpresas consideradas',
+    'Me gusta que mi pareja me dé sorpresas especiales',
   'I feel loved when my partner compliments my appearance':
     'Me siento querido cuando mi pareja elogia mi apariencia',
   'I feel loved when my partner helps me with a project':
@@ -624,7 +624,7 @@ const supplementalSpanish: Record<string, string> = {
   'I like to hold hands with my partner':
     'Me gusta tomarme de la mano con mi pareja',
   'I feel loved when my partner gives me a thoughtful gift':
-    'Me siento querido cuando mi pareja me da un regalo considerado',
+    'Me siento querido cuando mi pareja me da un regalo elegido con cariño',
   'I feel loved when my partner helps me around the house':
     'Me siento querido cuando mi pareja me ayuda en casa',
   'I like to hear encouraging words from my partner':
@@ -660,7 +660,7 @@ const supplementalSpanish: Record<string, string> = {
   'I feel loved when my partner plans activities for us to do together':
     'Me siento querido cuando mi pareja planea actividades para hacer juntos',
   'I like to hear "I love you" from my partner':
-    'Me gusta escuchar «te quiero» de mi pareja',
+    'Me gusta que mi pareja me diga «te quiero»',
   'I like when my partner puts their arm around me':
     'Me gusta que mi pareja me rodee con el brazo',
   'I feel loved when my partner gives me a handmade gift':

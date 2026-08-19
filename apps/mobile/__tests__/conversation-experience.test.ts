@@ -122,7 +122,7 @@ describe('conversation experience metadata', () => {
       {
         mark: 'CARIÑO',
         label: 'Lenguajes del amor',
-        subtitle: 'Usen preguntas o hagan el quiz',
+        subtitle: 'Usen preguntas o hagan el cuestionario',
       },
     ]);
 

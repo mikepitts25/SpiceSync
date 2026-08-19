@@ -29,7 +29,7 @@ export const dateNightStartersES: ConversationStarter[] = [
       "¿Sabes que lo hago?",
       "¿Puedo hacerlo ahora mismo?"
     ],
-    context: "Las mariposas no son solo para relaciones nuevas — pueden durar con atención.",
+    context: "Las mariposas no son solo para las relaciones nuevas: pueden perdurar si se cuidan.",
     tags: ['flirty', 'attraction', 'butterflies']
   },
   {
@@ -412,7 +412,7 @@ export const dateNightStartersES: ConversationStarter[] = [
       "¿Qué hace que las noches de cita regulares sean valiosas?",
       "¿Podemos comprometernos y hacer ambas?"
     ],
-    context: "Esto revela preferencias de frecuencia vs. intensidad del tiempo de calidad.",
+    context: "Esto revela si prefieren la frecuencia o la intensidad del tiempo de calidad.",
     tags: ['would-you-rather', 'preferences', 'time']
   },
   {
@@ -596,7 +596,7 @@ export const dateNightStartersES: ConversationStarter[] = [
       "¿Cuál es tu pedido favorito?",
       "¿Qué hace especial a cada uno?"
     ],
-    context: "Esto revela preferencias de actividad vs. relajación en las noches de cita.",
+    context: "Esto revela si prefieren la actividad o la relajación en las noches de cita.",
     tags: ['fun', 'food', 'date-night']
   },
   {
@@ -648,7 +648,7 @@ export const dateNightStartersES: ConversationStarter[] = [
       "¿Qué hace perfecta una noche de salida?",
       "¿Cómo decidimos cuando no estamos de acuerdo?"
     ],
-    context: "Las preferencias de homebody vs. aventurero dan forma a nuestro tiempo de ocio.",
+    context: "Preferir quedarse en casa o salir de aventura da forma a nuestro tiempo de ocio.",
     tags: ['fun', 'preferences', 'lifestyle']
   },
   {
