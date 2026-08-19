@@ -2,7 +2,10 @@ import { encodeBase64Url } from './base64';
 import { useCoupleLinkStore } from './coupleLink';
 import { randomBytes, sha256Base64 } from './crypto';
 import { getOrCreateIdentity } from './identity';
+import { parseInviteUrl, type ParsedInviteUrl } from './inviteUrl';
 import { getRelayClient } from './relayConfig';
+
+export { parseInviteUrl, type ParsedInviteUrl } from './inviteUrl';
 
 const INVITE_SECRET_BYTES = 32;
 
@@ -19,42 +22,25 @@ export type InviteProfile = {
   profileAvatar?: string | null;
 };
 
-export type ParsedInviteUrl = {
-  inviteId: string;
-  inviteSecret: string;
+export type InviteShareContent = {
+  message: string;
 };
 
 function buildAppLink(inviteId: string, inviteSecret: string): string {
   return `spicesync://link/${encodeURIComponent(inviteId)}#${encodeURIComponent(inviteSecret)}`;
 }
 
-export function parseInviteUrl(input: string): ParsedInviteUrl | null {
-  const trimmed = input.trim();
-  if (!trimmed) return null;
-  const hashIndex = trimmed.indexOf('#');
-  if (hashIndex === -1) return null;
-  const fragment = trimmed.slice(hashIndex + 1);
-  const base = trimmed.slice(0, hashIndex);
-  if (!fragment) return null;
+export function buildInviteShareUrl(invite: InviteHandle): string {
+  const baseUrl = invite.inviteUrl.split('#', 1)[0];
+  return `${baseUrl}#${encodeURIComponent(invite.inviteSecret)}`;
+}
 
-  let pathPart: string;
-  try {
-    const url = new URL(base);
-    pathPart = (url.host ? '/' + url.host : '') + url.pathname;
-  } catch {
-    pathPart = base;
-  }
-
-  const match = pathPart.match(/\/link\/([^/?#]+)/);
-  if (!match) return null;
-  try {
-    return {
-      inviteId: decodeURIComponent(match[1]),
-      inviteSecret: decodeURIComponent(fragment),
-    };
-  } catch {
-    return null;
-  }
+export function buildInviteShareContent(
+  invite: InviteHandle
+): InviteShareContent {
+  return {
+    message: `Join me on SpiceSync\n${buildInviteShareUrl(invite)}`,
+  };
 }
 
 export async function createInvite(
@@ -72,6 +58,9 @@ export async function createInvite(
     inviterProfileName: profile.profileName ?? null,
     inviterProfileAvatar: profile.profileAvatar ?? null,
   });
+  useCoupleLinkStore
+    .getState()
+    .setPendingInvite(response.inviteId, response.expiresAt);
   return {
     inviteId: response.inviteId,
     inviteSecret,
@@ -164,11 +153,18 @@ export async function acceptInvite(
 }
 
 export async function finalizePendingInvite(
-  inviteId: string
+  inviteId?: string
 ): Promise<AcceptInviteResult | null> {
+  const resolvedInviteId =
+    inviteId ?? useCoupleLinkStore.getState().pendingInviteId;
+  if (!resolvedInviteId) return null;
   const { identity } = await getOrCreateIdentity();
   const client = getRelayClient();
-  const lookup = await client.getInvite(inviteId);
+  const lookup = await client.getInvite(resolvedInviteId);
+  if (lookup.status === 'expired') {
+    useCoupleLinkStore.getState().clearPendingInvite();
+    return null;
+  }
   if (lookup.status !== 'accepted' || !lookup.coupleId) return null;
   const couple = await client.getCouple(lookup.coupleId);
   const isMemberA = couple.memberADeviceId === identity.deviceId;
@@ -188,6 +184,53 @@ export async function finalizePendingInvite(
   const partnerProfileAvatar = isMemberA
     ? couple.memberBProfileAvatar
     : couple.memberAProfileAvatar;
+  useCoupleLinkStore.getState().setLink({
+    coupleId: couple.coupleId,
+    myDeviceId: identity.deviceId,
+    partnerDeviceId,
+    partnerSigningPublicKey,
+    partnerEncryptionPublicKey,
+    partnerProfileName: partnerProfileName ?? null,
+    partnerProfileAvatar: partnerProfileAvatar ?? null,
+    linkedAt: couple.createdAt * 1000,
+    lastPulledServerSequence: 0,
+    lastSyncedAt: null,
+    status: 'active',
+  });
+  useCoupleLinkStore.getState().clearPendingInvite();
+  return { coupleId: couple.coupleId };
+}
+
+export async function recoverExistingCouple(): Promise<AcceptInviteResult | null> {
+  const linkState = useCoupleLinkStore.getState();
+  if (!linkState.coupleRecoveryEnabled) return null;
+  const current = linkState.link;
+  if (current?.status === 'active') {
+    return { coupleId: current.coupleId };
+  }
+
+  const { identity } = await getOrCreateIdentity();
+  const couple = await getRelayClient().findCoupleForDevice(identity.deviceId);
+  if (!couple) return null;
+
+  const isMemberA = couple.memberADeviceId === identity.deviceId;
+  if (!isMemberA && couple.memberBDeviceId !== identity.deviceId) return null;
+  const partnerDeviceId = isMemberA
+    ? couple.memberBDeviceId
+    : couple.memberADeviceId;
+  const partnerEncryptionPublicKey = isMemberA
+    ? couple.memberBPublicKey
+    : couple.memberAPublicKey;
+  const partnerSigningPublicKey = isMemberA
+    ? couple.memberBSigningPublicKey
+    : couple.memberASigningPublicKey;
+  const partnerProfileName = isMemberA
+    ? couple.memberBProfileName
+    : couple.memberAProfileName;
+  const partnerProfileAvatar = isMemberA
+    ? couple.memberBProfileAvatar
+    : couple.memberAProfileAvatar;
+
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
     myDeviceId: identity.deviceId,

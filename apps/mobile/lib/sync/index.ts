@@ -8,6 +8,7 @@ export {
   finalizePendingInvite,
   lookupInvite,
   parseInviteUrl,
+  recoverExistingCouple,
 } from './inviteFlow';
 export type { InviteHandle, InviteLookup, ParsedInviteUrl } from './inviteFlow';
 export { usePartnerVotesStore } from './partnerVotes';

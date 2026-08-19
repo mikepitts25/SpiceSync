@@ -20,13 +20,18 @@ import { collectBackfillSources } from '../lib/achievementBackfill';
 import { useCoupleDiceStore } from '../lib/state/coupleDice';
 import { useMatchMissionsStore } from '../lib/state/matchMissions';
 import { useMatchPlansStore } from '../lib/state/matchPlans';
+import { useProfilesStore } from '../lib/state/profiles';
+import { useVotesStore } from '../src/stores/votes';
 import BiometricLockGate from '../components/BiometricLockGate';
-import { useDeepLinks } from '../lib/deepLinks';
 import { STACK_SCREEN_OPTIONS } from '../lib/navigation/transitions';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
+import {
+  finalizePendingInvite,
+  recoverExistingCouple,
+} from '../lib/sync/inviteFlow';
 import { cleanupLegacyPartnerCodes } from '../lib/sync/legacyPartnerCleanup';
 import { startSyncLoop, stopSyncLoop, syncOnce } from '../lib/sync/syncLoop';
-import { startVoteSync } from '../lib/sync/voteSync';
+import { startVoteSync, useVoteSyncStore } from '../lib/sync/voteSync';
 import { shouldInitializeNotificationsOnLaunch } from '../lib/notifications/environment';
 import {
   isPurchaseProviderConfigured,
@@ -35,8 +40,6 @@ import {
 import { getNotificationDestination } from '../lib/notifications/routing';
 
 export default function RootLayout() {
-  useDeepLinks();
-
   useEffect(() => {
     let responseSubscription: { remove: () => void } | null = null;
     let cancelledResponseSetup = false;
@@ -141,27 +144,78 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    startVoteSync();
-    const link = useCoupleLinkStore.getState().link;
-    if (link && link.status === 'active') startSyncLoop();
+    let cancelled = false;
+    let recoveryInFlight = false;
+
+    const recoverPartnerLink = async (discoverExisting: boolean = false) => {
+      if (cancelled || recoveryInFlight) return;
+      const linkState = useCoupleLinkStore.getState();
+      if (linkState.link?.status === 'active') return;
+      if (!linkState.pendingInviteId && !discoverExisting) return;
+      recoveryInFlight = true;
+      try {
+        const result = linkState.pendingInviteId
+          ? await finalizePendingInvite()
+          : await recoverExistingCouple();
+        if (!result || cancelled) return;
+        await useProfilesStore.getState().hydrate();
+        const activeProfileId =
+          useProfilesStore.getState().getActiveProfileId() ?? null;
+        await startVoteSync(activeProfileId);
+        startSyncLoop();
+      } catch {
+        // The interval retries transient auth/network failures while the invite
+        // remains pending. The partner setup screen shows actionable errors.
+      } finally {
+        recoveryInFlight = false;
+      }
+    };
+
+    Promise.all([
+      useCoupleLinkStore.persist.rehydrate(),
+      useVoteSyncStore.persist.rehydrate(),
+      useVotesStore.persist.rehydrate(),
+      useProfilesStore.getState().hydrate(),
+    ])
+      .then(async () => {
+        if (cancelled) return;
+        const activeProfileId =
+          useProfilesStore.getState().getActiveProfileId() ?? null;
+        await startVoteSync(activeProfileId);
+        const link = useCoupleLinkStore.getState().link;
+        if (link?.status === 'active') startSyncLoop();
+        return recoverPartnerLink(true);
+      })
+      .catch(() => undefined);
+
+    const recoveryHandle = setInterval(() => {
+      recoverPartnerLink().catch(() => undefined);
+    }, 4000);
 
     const unsubLink = useCoupleLinkStore.subscribe((state) => {
-      if (state.link?.status === 'active') startSyncLoop();
+      if (state.link?.status === 'active' && !recoveryInFlight) startSyncLoop();
       else stopSyncLoop();
     });
 
     const appStateSub = AppState.addEventListener('change', (next) => {
       if (next === 'active') {
+        recoverPartnerLink(true).catch(() => undefined);
         const current = useCoupleLinkStore.getState().link;
         if (current?.status === 'active') {
-          syncOnce().catch(() => undefined);
+          const activeProfileId =
+            useProfilesStore.getState().getActiveProfileId() ?? null;
+          startVoteSync(activeProfileId)
+            .then(() => syncOnce())
+            .catch(() => undefined);
         }
       }
     });
 
     return () => {
+      cancelled = true;
       unsubLink();
       appStateSub.remove();
+      clearInterval(recoveryHandle);
       stopSyncLoop();
     };
   }, []);

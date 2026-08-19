@@ -63,16 +63,14 @@ describe('expo router file layout', () => {
     expect(rootLayout).not.toContain('<Stack.Screen name="(conversation)"');
   });
 
-  it('mounts the deep-link handler from the root layout', () => {
+  it('lets native intent own deep-link routing without a competing root listener', () => {
     const rootLayout = fs.readFileSync(
       path.join(appRoot, '_layout.tsx'),
       'utf8'
     );
 
-    expect(rootLayout).toContain(
-      "import { useDeepLinks } from '../lib/deepLinks'"
-    );
-    expect(rootLayout).toContain('useDeepLinks();');
+    expect(fs.existsSync(path.join(appRoot, '+native-intent.tsx'))).toBe(true);
+    expect(rootLayout).not.toContain('useDeepLinks');
   });
 
   it('routes partner connection entry points to the partner-connect screen', () => {
@@ -116,10 +114,6 @@ describe('expo router file layout', () => {
       path.join(appRoot, '(onboarding)', 'partner-connect.tsx'),
       'utf8'
     );
-    const deepLinks = fs.readFileSync(
-      path.join(appRoot, '..', 'lib', 'deepLinks.ts'),
-      'utf8'
-    );
     const profilesTab = fs.readFileSync(
       path.join(appRoot, '(tabs)', 'profiles.tsx'),
       'utf8'
@@ -128,8 +122,6 @@ describe('expo router file layout', () => {
     expect(partnerConnect).not.toContain('short-code');
     expect(partnerConnect).not.toContain('legacy short code');
     expect(partnerConnect).not.toContain('usePartnerStore');
-    expect(deepLinks).not.toContain('parseInviteCode');
-    expect(deepLinks).not.toContain('usePartnerStore');
     expect(profilesTab).not.toContain('usePartnerStore');
   });
 

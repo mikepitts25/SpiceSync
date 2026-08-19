@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Animated,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -22,7 +23,10 @@ import {
   X,
 } from 'lucide-react-native';
 import { useShallow } from 'zustand/react/shallow';
-import { useSettings } from '../../lib/state/useStore';
+import {
+  useSettings,
+  waitForSettingsPersistence,
+} from '../../lib/state/useStore';
 import { useProfilesStore } from '../../lib/state/profiles';
 import {
   COLORS,
@@ -46,7 +50,10 @@ import {
   type WelcomeReadinessRequirementId,
   type WelcomeReadinessState,
 } from '../../lib/welcome/readiness';
-import { getWelcomeCompletionDestination } from '../../lib/welcome/routing';
+import {
+  completeAgeGateAcceptance,
+  getWelcomeCompletionDestination,
+} from '../../lib/welcome/routing';
 
 export default function WelcomeFlow() {
   const router = useRouter();
@@ -82,8 +89,15 @@ export default function WelcomeFlow() {
   };
 
   const handleAgeGateAccept = () => {
-    setAgeConfirmed(true);
-    router.replace(getWelcomeCompletionDestination(hydrated, hasActiveProfile));
+    const destination = getWelcomeCompletionDestination(
+      hydrated,
+      hasActiveProfile
+    );
+    completeAgeGateAcceptance({
+      confirmAge: () => setAgeConfirmed(true),
+      waitForPersistence: waitForSettingsPersistence,
+      navigate: () => router.replace(destination),
+    }).catch(() => undefined);
   };
 
   // Progress dots
@@ -135,6 +149,14 @@ export default function WelcomeFlow() {
             copy={t.welcome}
             onAccept={handleAgeGateAccept}
             onBack={() => transitionTo('overlap')}
+            progress={
+              <WelcomeProgress
+                currentIndex={currentIndex}
+                screens={screens}
+                progressTemplate={t.common.progressOf}
+                inline
+              />
+            }
           />
         );
       default:
@@ -150,33 +172,55 @@ export default function WelcomeFlow() {
         {renderScreen()}
       </Animated.View>
 
-      {/* Progress Indicator */}
-      <View
-        style={[
-          styles.progressContainer,
-          { paddingBottom: insets.bottom + 20 },
-        ]}
-      >
-        <View style={styles.dots}>
-          {screens.map((screen, index) => (
-            <View
-              key={screen}
-              style={[
-                styles.dot,
-                index === currentIndex && styles.dotActive,
-                index < currentIndex && styles.dotCompleted,
-              ]}
-            />
-          ))}
-        </View>
-        <Text style={styles.progressText}>
-          {interpolate(t.common.progressOf, {
-            current: currentIndex + 1,
-            total: screens.length,
-          })}
-        </Text>
-      </View>
+      {currentScreen !== 'agegate' ? (
+        <WelcomeProgress
+          currentIndex={currentIndex}
+          screens={screens}
+          progressTemplate={t.common.progressOf}
+        />
+      ) : null}
     </SafeAreaView>
+  );
+}
+
+function WelcomeProgress({
+  currentIndex,
+  screens,
+  progressTemplate,
+  inline = false,
+}: {
+  currentIndex: number;
+  screens: readonly WelcomeScreenId[];
+  progressTemplate: string;
+  inline?: boolean;
+}) {
+  return (
+    <View
+      testID="welcome-progress"
+      style={[
+        styles.progressContainer,
+        inline && styles.progressContainerInline,
+      ]}
+    >
+      <View style={styles.dots}>
+        {screens.map((screen, index) => (
+          <View
+            key={screen}
+            style={[
+              styles.dot,
+              index === currentIndex && styles.dotActive,
+              index < currentIndex && styles.dotCompleted,
+            ]}
+          />
+        ))}
+      </View>
+      <Text style={styles.progressText}>
+        {interpolate(progressTemplate, {
+          current: currentIndex + 1,
+          total: screens.length,
+        })}
+      </Text>
+    </View>
   );
 }
 
@@ -433,10 +477,12 @@ function AgeGateScreen({
   copy,
   onAccept,
   onBack,
+  progress,
 }: {
   copy: ReturnType<typeof useTranslation>['t']['welcome'];
   onAccept: () => void;
   onBack: () => void;
+  progress: React.ReactNode;
 }) {
   const router = useRouter();
   const [checked, setChecked] = useState<WelcomeReadinessState>({});
@@ -447,7 +493,12 @@ function AgeGateScreen({
   };
 
   return (
-    <View style={styles.screenContainer}>
+    <ScrollView
+      testID="age-gate-scroll"
+      style={styles.ageGateScroll}
+      contentContainerStyle={styles.ageGateScrollContent}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.ageGateContainer}>
         <LinearGradient
           colors={['rgba(255,45,146,0.18)', 'rgba(139,92,246,0.12)']}
@@ -519,7 +570,7 @@ function AgeGateScreen({
         </View>
       </View>
 
-      <View style={styles.buttonGroup}>
+      <View testID="age-gate-buttons" style={styles.buttonGroup}>
         <Pressable
           style={styles.secondaryButton}
           onPress={onBack}
@@ -539,7 +590,8 @@ function AgeGateScreen({
           <Text style={styles.ageGateButtonText}>{copy.ageConfirm}</Text>
         </Pressable>
       </View>
-    </View>
+      {progress}
+    </ScrollView>
   );
 }
 
@@ -866,6 +918,16 @@ const styles = StyleSheet.create({
   },
 
   // Age Gate Screen
+  ageGateScroll: {
+    flex: 1,
+    width: '100%',
+  },
+  ageGateScrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: SIZES.padding,
+  },
   ageGateContainer: {
     alignItems: 'center',
     marginBottom: SIZES.padding * 2,
@@ -1048,6 +1110,10 @@ const styles = StyleSheet.create({
   progressContainer: {
     alignItems: 'center',
     paddingHorizontal: SIZES.padding * 2,
+    paddingBottom: 20,
+  },
+  progressContainerInline: {
+    marginTop: SIZES.padding * 1.5,
   },
   dots: {
     flexDirection: 'row',

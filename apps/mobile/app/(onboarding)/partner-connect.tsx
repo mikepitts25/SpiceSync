@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
-import * as Linking from 'expo-linking';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -31,6 +30,8 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import {
   acceptInvite,
+  buildInviteShareContent,
+  buildInviteShareUrl,
   createInvite,
   finalizePendingInvite,
   lookupInvite,
@@ -52,11 +53,6 @@ type RecoveryError = {
 
 function errorBody(error: unknown, fallback: string): string {
   return error instanceof Error && error.message ? error.message : fallback;
-}
-
-function buildRuntimeInviteLink(invite: InviteHandle): string {
-  const path = `/link/${encodeURIComponent(invite.inviteId)}`;
-  return `${Linking.createURL(path)}#${encodeURIComponent(invite.inviteSecret)}`;
 }
 
 export default function PartnerConnect() {
@@ -141,7 +137,7 @@ export default function PartnerConnect() {
         if (alive) {
           setRemoteInvite(null);
           setLookupError(
-            errorBody(err, ui('Check your connection and try again.'))
+            errorBody(err, 'Check your connection and try again.')
           );
         }
       });
@@ -158,12 +154,12 @@ export default function PartnerConnect() {
           useVoteSyncStore
             .getState()
             .setLocalProfileId(activeProfileId ?? null);
-          startVoteSync();
+          await startVoteSync();
           startSyncLoop();
           router.replace('/(tabs)/deck');
         }
       } catch (err) {
-        setPollError(errorBody(err, ui('Could not check invite')));
+        setPollError(errorBody(err, 'Could not check invite'));
       }
     },
     [activeProfileId, router]
@@ -207,18 +203,18 @@ export default function PartnerConnect() {
 
   const handleShareInvite = async () => {
     if (!pendingInvite) return;
-    const inviteUrl = buildRuntimeInviteLink(pendingInvite);
     try {
+      const inviteUrl = buildInviteShareUrl(pendingInvite);
       await Share.share({
+        ...buildInviteShareContent(pendingInvite),
         message: `${ui('Join me on SpiceSync')}\n${inviteUrl}`,
-        url: inviteUrl,
       });
     } catch {}
   };
 
   const handleCopyInvite = async () => {
     if (!pendingInvite) return;
-    await Clipboard.setStringAsync(buildRuntimeInviteLink(pendingInvite));
+    await Clipboard.setStringAsync(buildInviteShareUrl(pendingInvite));
     Alert.alert(ui('Copied'), ui('Invite link copied to the clipboard.'));
   };
 
@@ -246,7 +242,7 @@ export default function PartnerConnect() {
         profileAvatar: myProfileAvatar,
       });
       useVoteSyncStore.getState().setLocalProfileId(activeProfileId ?? null);
-      startVoteSync();
+      await startVoteSync();
       startSyncLoop();
       Alert.alert(
         ui('Connected'),
@@ -485,7 +481,7 @@ function RemoteCreateContent({
   onLocalProfile: () => void;
   onBack: () => void;
 }) {
-  const inviteUrl = invite ? buildRuntimeInviteLink(invite) : null;
+  const inviteUrl = invite ? buildInviteShareUrl(invite) : null;
 
   return (
     <>

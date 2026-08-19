@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useRouter, useRootNavigationState } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
-import { useSettings } from '../lib/state/useStore';
+import { useSettings, useSettingsHydrated } from '../lib/state/useStore';
 import { useProfilesStore } from '../lib/state/profiles';
 import { getAppEntryDestination } from '../lib/welcome/routing';
 import MatchCoupleIcon from '../components/MatchCoupleIcon';
@@ -16,6 +16,7 @@ export default function EntryGate() {
   const [ready, setReady] = useState(false);
 
   const ageConfirmed = useSettings((state) => state.ageConfirmed);
+  const settingsHydrated = useSettingsHydrated();
   const { hydrated, hasActiveProfile } = useProfilesStore(
     useShallow((state) => ({
       hydrated: state.isHydrated(),
@@ -32,6 +33,7 @@ export default function EntryGate() {
     if (!ready) return;
 
     const destination = getAppEntryDestination(
+      settingsHydrated,
       ageConfirmed,
       hydrated,
       hasActiveProfile
@@ -40,7 +42,14 @@ export default function EntryGate() {
     if (destination) {
       router.replace(destination as never);
     }
-  }, [ready, ageConfirmed, hydrated, hasActiveProfile, router]);
+  }, [
+    ready,
+    settingsHydrated,
+    ageConfirmed,
+    hydrated,
+    hasActiveProfile,
+    router,
+  ]);
 
   // Loading state
   return (

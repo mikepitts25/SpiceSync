@@ -43,7 +43,8 @@ describe('SupabaseRelayClient', () => {
       })
     ).resolves.toEqual({
       inviteId: 'inv_1',
-      inviteUrl: 'https://project.supabase.co/link/inv_1',
+      inviteUrl:
+        'https://project.supabase.co/functions/v1/spicesync-invite-link/link/inv_1',
       expiresAt: 1770000000,
     });
 
@@ -159,6 +160,39 @@ describe('SupabaseRelayClient', () => {
     });
   });
 
+  it('finds an existing couple for a device and allows no match', async () => {
+    const supabase = makeSupabaseMock();
+    supabase.rpc
+      .mockResolvedValueOnce({
+        data: {
+          coupleId: 'cpl_existing',
+          memberADeviceId: 'dev_a',
+          memberBDeviceId: 'dev_b',
+          memberAPublicKey: 'pub_a',
+          memberBPublicKey: 'pub_b',
+          memberASigningPublicKey: 'sign_a',
+          memberBSigningPublicKey: 'sign_b',
+          createdAt: 1770000000,
+          revokedAt: null,
+        },
+        error: null,
+      })
+      .mockResolvedValueOnce({ data: null, error: null });
+
+    const client = new SupabaseRelayClient(supabase);
+
+    await expect(client.findCoupleForDevice('dev_a')).resolves.toMatchObject({
+      coupleId: 'cpl_existing',
+      memberBDeviceId: 'dev_b',
+    });
+    await expect(client.findCoupleForDevice('dev_missing')).resolves.toBeNull();
+    expect(supabase.rpc).toHaveBeenNthCalledWith(
+      1,
+      'spicesync_find_couple_for_device',
+      { p_device_id: 'dev_a' }
+    );
+  });
+
   it('maps append/list/revoke RPC calls to the existing relay API shape', async () => {
     const supabase = makeSupabaseMock();
     supabase.rpc
@@ -225,19 +259,15 @@ describe('SupabaseRelayClient', () => {
       revokedAt: 1770000003,
     });
 
-    expect(supabase.rpc).toHaveBeenNthCalledWith(
-      1,
-      'spicesync_append_event',
-      {
-        p_couple_id: 'cpl_1',
-        p_event_id: 'evt_1',
-        p_author_device_id: 'dev_a',
-        p_client_sequence: 3,
-        p_encrypted_payload: 'ciphertext',
-        p_payload_hash: 'hash',
-        p_signature: 'sig',
-      }
-    );
+    expect(supabase.rpc).toHaveBeenNthCalledWith(1, 'spicesync_append_event', {
+      p_couple_id: 'cpl_1',
+      p_event_id: 'evt_1',
+      p_author_device_id: 'dev_a',
+      p_client_sequence: 3,
+      p_encrypted_payload: 'ciphertext',
+      p_payload_hash: 'hash',
+      p_signature: 'sig',
+    });
     expect(supabase.rpc).toHaveBeenNthCalledWith(2, 'spicesync_list_events', {
       p_couple_id: 'cpl_1',
       p_after_server_sequence: 12,

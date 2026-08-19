@@ -5,9 +5,12 @@ import {
 } from '../lib/sync/identity';
 import {
   acceptInvite,
+  buildInviteShareContent,
+  buildInviteShareUrl,
   createInvite,
   finalizePendingInvite,
   parseInviteUrl,
+  recoverExistingCouple,
 } from '../lib/sync/inviteFlow';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
 import { RelayTestClient } from '../test-support/relayTestClient';
@@ -43,7 +46,12 @@ function memoryDeps() {
 describe('invite flow', () => {
   beforeEach(() => {
     _resetCacheForTests();
-    useCoupleLinkStore.setState({ link: null });
+    useCoupleLinkStore.setState({
+      link: null,
+      pendingInviteId: null,
+      pendingInviteExpiresAt: null,
+      coupleRecoveryEnabled: true,
+    });
     setIdentityDeps(memoryDeps());
   });
 
@@ -61,9 +69,59 @@ describe('invite flow', () => {
   });
 
   it('parses an Expo Go invite URL', () => {
-    const parsed = parseInviteUrl('exp://192.168.1.10:8081/--/link/inv_exp#topsecret');
+    const parsed = parseInviteUrl(
+      'exp://192.168.1.10:8081/--/link/inv_exp#topsecret'
+    );
     expect(parsed?.inviteId).toBe('inv_exp');
     expect(parsed?.inviteSecret).toBe('topsecret');
+  });
+
+  it('extracts the first valid invite when a whole duplicated share message is pasted', () => {
+    const inviteUrl =
+      'https://project.supabase.co/functions/v1/spicesync-invite-link/link/inv_c224a744#7xbjlVlS7Xo_ADLoDAp8B-bkna63i1plW-V0bhMvfp8s';
+    const parsed = parseInviteUrl(
+      `Join me on SpiceSync\n${inviteUrl} ${inviteUrl}`
+    );
+
+    expect(parsed).toEqual({
+      inviteId: 'inv_c224a744',
+      inviteSecret: '7xbjlVlS7Xo_ADLoDAp8B-bkna63i1plW-V0bhMvfp8s',
+    });
+  });
+
+  it('builds one HTTPS invite in the native share payload', () => {
+    const invite = {
+      inviteId: 'inv_1',
+      inviteSecret: 'secret123',
+      inviteUrl:
+        'https://project.supabase.co/functions/v1/spicesync-invite-link/link/inv_1',
+      appUrl: 'spicesync://link/inv_1#secret123',
+    };
+
+    expect(buildInviteShareUrl(invite)).toBe(
+      'https://project.supabase.co/functions/v1/spicesync-invite-link/link/inv_1#secret123'
+    );
+    expect(buildInviteShareContent(invite)).toEqual({
+      message:
+        'Join me on SpiceSync\nhttps://project.supabase.co/functions/v1/spicesync-invite-link/link/inv_1#secret123',
+    });
+  });
+
+  it('never duplicates the invite or exposes the custom scheme in shared text', () => {
+    const invite = {
+      inviteId: 'inv_1',
+      inviteSecret: 'secret123',
+      inviteUrl:
+        'https://project.supabase.co/functions/v1/spicesync-invite-link/link/inv_1',
+      appUrl: 'spicesync://link/inv_1#secret123',
+    };
+
+    const content = buildInviteShareContent(invite);
+    const sharedUrl = buildInviteShareUrl(invite);
+
+    expect(content.message.split(sharedUrl)).toHaveLength(2);
+    expect(content.message).not.toContain('spicesync:///');
+    expect(content).not.toHaveProperty('url');
   });
 
   it('returns null for non-invite URLs', () => {
@@ -99,6 +157,7 @@ describe('invite flow', () => {
     expect(body.inviterSigningPublicKey).toEqual(expect.any(String));
     expect(body.inviterProfileName).toBe('Alex');
     expect(body.inviterProfileAvatar).toBe('fire');
+    expect(useCoupleLinkStore.getState().pendingInviteId).toBe('inv_1');
   });
 
   it('acceptInvite saves a couple link with the partner public key', async () => {
@@ -156,6 +215,7 @@ describe('invite flow', () => {
     _resetRelayClientForTests(
       new RelayTestClient('https://relay.test', fetchMock as any)
     );
+    useCoupleLinkStore.getState().setPendingInvite('inv_stale', 9999);
 
     const result = await acceptInvite(
       {
@@ -176,6 +236,7 @@ describe('invite flow', () => {
     expect(link.partnerDeviceId).toBe('dev_a');
     expect(link.partnerProfileName).toBe('Sam');
     expect(link.partnerProfileAvatar).toBe('cherries');
+    expect(useCoupleLinkStore.getState().pendingInviteId).toBeNull();
   });
 
   it('finalizePendingInvite returns null until accepted, then saves link', async () => {
@@ -229,9 +290,11 @@ describe('invite flow', () => {
       new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
-    expect(await finalizePendingInvite('inv_2')).toBeNull();
+    useCoupleLinkStore.setState({ pendingInviteId: 'inv_2' });
+
+    expect(await finalizePendingInvite()).toBeNull();
     status = 'accepted';
-    const result = await finalizePendingInvite('inv_2');
+    const result = await finalizePendingInvite();
     expect(result?.coupleId).toBe('cpl_2');
     expect(useCoupleLinkStore.getState().link?.partnerEncryptionPublicKey).toBe(
       'partner_pub'
@@ -239,5 +302,60 @@ describe('invite flow', () => {
     expect(useCoupleLinkStore.getState().link?.partnerSigningPublicKey).toBe(
       'partner_sign_pub'
     );
+    expect(useCoupleLinkStore.getState().pendingInviteId).toBeNull();
+  });
+
+  it('recovers a server-side couple when the old client lost its invite id', async () => {
+    const { identity } = await getOrCreateIdentity();
+    const fetchMock = jest.fn().mockImplementation((url: string) => {
+      if (url.includes('/couples/by-device/')) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            coupleId: 'cpl_recovered',
+            memberADeviceId: identity.deviceId,
+            memberBDeviceId: 'dev_partner',
+            memberAPublicKey: identity.encryptionPublicKey,
+            memberBPublicKey: 'partner_pub',
+            memberASigningPublicKey: identity.signingPublicKey,
+            memberBSigningPublicKey: 'partner_sign_pub',
+            memberAProfileName: 'Me',
+            memberBProfileName: 'Partner',
+            memberAProfileAvatar: 'fire',
+            memberBProfileAvatar: 'cherries',
+            createdAt: 1700,
+            revokedAt: null,
+          }),
+        });
+      }
+      return Promise.resolve({
+        ok: false,
+        status: 404,
+        json: async () => null,
+      });
+    });
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock as any)
+    );
+
+    await expect(recoverExistingCouple()).resolves.toEqual({
+      coupleId: 'cpl_recovered',
+    });
+    expect(useCoupleLinkStore.getState().link).toMatchObject({
+      coupleId: 'cpl_recovered',
+      partnerDeviceId: 'dev_partner',
+      partnerProfileName: 'Partner',
+    });
+  });
+
+  it('does not rediscover a couple after an intentional local disconnect', async () => {
+    const fetchMock = jest.fn();
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock as any)
+    );
+    useCoupleLinkStore.getState().clear();
+
+    await expect(recoverExistingCouple()).resolves.toBeNull();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

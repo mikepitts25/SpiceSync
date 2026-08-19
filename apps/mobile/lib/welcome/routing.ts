@@ -15,16 +15,31 @@ export type AppEntryDestination =
   | WelcomeCompletionDestination
   | null;
 
+export async function completeAgeGateAcceptance(input: {
+  confirmAge: () => void;
+  waitForPersistence: () => Promise<void>;
+  navigate: () => void;
+}): Promise<void> {
+  input.confirmAge();
+  await input.waitForPersistence();
+  input.navigate();
+}
+
 export function getAppEntryDestination(
+  settingsHydrated: boolean,
   ageConfirmed: boolean,
-  hydrated: boolean,
+  profilesHydrated: boolean,
   hasActiveProfile: boolean
 ): AppEntryDestination {
+  if (!settingsHydrated) {
+    return null;
+  }
+
   if (!ageConfirmed) {
     return '/welcome';
   }
 
-  if (!hydrated) {
+  if (!profilesHydrated) {
     return null;
   }
 
@@ -32,7 +47,7 @@ export function getAppEntryDestination(
     return '/welcome';
   }
 
-  return getWelcomeCompletionDestination(hydrated, hasActiveProfile);
+  return getWelcomeCompletionDestination(profilesHydrated, hasActiveProfile);
 }
 
 export function getWelcomeCompletionDestination(

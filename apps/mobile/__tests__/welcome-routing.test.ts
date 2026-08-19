@@ -17,19 +17,52 @@ describe('welcome onboarding routing', () => {
   });
 
   it('routes unverified users to the welcome flow', () => {
-    expect(getAppEntryDestination(false, true, false)).toBe('/welcome');
+    expect(getAppEntryDestination(true, false, true, false)).toBe('/welcome');
+  });
+
+  it('waits for persisted age consent before making a launch decision', () => {
+    expect(getAppEntryDestination(false, false, true, true)).toBeNull();
   });
 
   it('waits for profiles to hydrate before routing verified users', () => {
-    expect(getAppEntryDestination(true, false, false)).toBeNull();
+    expect(getAppEntryDestination(true, true, false, false)).toBeNull();
   });
 
   it('routes verified users without an active profile back to welcome', () => {
-    expect(getAppEntryDestination(true, true, false)).toBe('/welcome');
+    expect(getAppEntryDestination(true, true, true, false)).toBe('/welcome');
   });
 
   it('routes verified users with an active profile to the deck', () => {
-    expect(getAppEntryDestination(true, true, true)).toBe('/(tabs)/deck');
+    expect(getAppEntryDestination(true, true, true, true)).toBe('/(tabs)/deck');
+  });
+
+  it('waits for durable age-consent persistence before leaving welcome', async () => {
+    const routing = require('../lib/welcome/routing') as {
+      completeAgeGateAcceptance?: (input: {
+        confirmAge: () => void;
+        waitForPersistence: () => Promise<void>;
+        navigate: () => void;
+      }) => Promise<void>;
+    };
+    const calls: string[] = [];
+    let finishPersistence: (() => void) | undefined;
+    const persistence = new Promise<void>((resolve) => {
+      finishPersistence = resolve;
+    });
+
+    expect(routing.completeAgeGateAcceptance).toEqual(expect.any(Function));
+    const completion = routing.completeAgeGateAcceptance!({
+      confirmAge: () => calls.push('confirmed'),
+      waitForPersistence: () => persistence,
+      navigate: () => calls.push('navigated'),
+    });
+    await Promise.resolve();
+
+    expect(calls).toEqual(['confirmed']);
+
+    finishPersistence?.();
+    await completion;
+    expect(calls).toEqual(['confirmed', 'navigated']);
   });
 
   it('routes a welcome-created profile to the comfort picker before the deck', () => {

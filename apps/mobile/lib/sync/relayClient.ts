@@ -19,6 +19,7 @@ export type RelayTransport = {
     body: AcceptInviteRequest
   ): Promise<AcceptInviteResponse>;
   getCouple(coupleId: string): Promise<CoupleResponse>;
+  findCoupleForDevice(deviceId: string): Promise<CoupleResponse | null>;
   appendEvent(
     coupleId: string,
     body: AppendEventRequest

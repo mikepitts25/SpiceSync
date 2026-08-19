@@ -87,9 +87,7 @@ export class SupabaseRelayClient {
     return userId;
   }
 
-  async createInvite(
-    body: CreateInviteRequest
-  ): Promise<CreateInviteResponse> {
+  async createInvite(body: CreateInviteRequest): Promise<CreateInviteResponse> {
     const data = await this.callRpc<{
       inviteId: string;
       inviteUrl?: string;
@@ -106,7 +104,8 @@ export class SupabaseRelayClient {
     return {
       inviteId: data.inviteId,
       inviteUrl:
-        data.inviteUrl ?? `${this.publicBaseUrl}/link/${data.inviteId}`,
+        data.inviteUrl ??
+        `${this.publicBaseUrl}/functions/v1/spicesync-invite-link/link/${encodeURIComponent(data.inviteId)}`,
       expiresAt: data.expiresAt,
     };
   }
@@ -135,6 +134,12 @@ export class SupabaseRelayClient {
   getCouple(coupleId: string): Promise<CoupleResponse> {
     return this.callRpc('spicesync_get_couple', {
       p_couple_id: coupleId,
+    });
+  }
+
+  findCoupleForDevice(deviceId: string): Promise<CoupleResponse | null> {
+    return this.callOptionalRpc('spicesync_find_couple_for_device', {
+      p_device_id: deviceId,
     });
   }
 
@@ -176,6 +181,21 @@ export class SupabaseRelayClient {
     functionName: string,
     args: Record<string, unknown>
   ): Promise<T> {
+    const data = await this.callOptionalRpc<T>(functionName, args);
+    if (data === null) {
+      throw new RelayHttpError(
+        404,
+        'NOT_FOUND',
+        'Supabase relay returned no data'
+      );
+    }
+    return data;
+  }
+
+  private async callOptionalRpc<T>(
+    functionName: string,
+    args: Record<string, unknown>
+  ): Promise<T | null> {
     await this.ensureAnonymousSession();
     const { data, error } = await this.supabase.rpc<T>(functionName, args);
     if (error) {
@@ -183,13 +203,6 @@ export class SupabaseRelayClient {
         400,
         error.code || 'SUPABASE_RPC_ERROR',
         error.message || 'Supabase relay request failed'
-      );
-    }
-    if (data === null) {
-      throw new RelayHttpError(
-        404,
-        'NOT_FOUND',
-        'Supabase relay returned no data'
       );
     }
     return data;

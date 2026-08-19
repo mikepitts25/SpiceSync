@@ -49,6 +49,12 @@ export class RelayTestClient implements RelayTransport {
     });
   }
 
+  findCoupleForDevice(deviceId: string): Promise<CoupleResponse | null> {
+    return this.request(`/couples/by-device/${encodeURIComponent(deviceId)}`, {
+      method: 'GET',
+    });
+  }
+
   appendEvent(
     coupleId: string,
     body: AppendEventRequest
