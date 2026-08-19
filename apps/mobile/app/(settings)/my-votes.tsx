@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Check, Minus, X } from 'lucide-react-native';
 
 import { BackHeader } from '../../components/app-chrome';
+import { MyVotesControls } from '../../components/votes/MyVotesControls';
 import { useProfilesStore } from '../../lib/state/profiles';
 import {
   useVotesStore,
@@ -22,18 +23,14 @@ import {
 import { useKinks, type KinkItem } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { normalizeVoteRecord } from '../../lib/votes/rolePreferences';
+import {
+  buildMyVotesView,
+  type MyVotesFilter,
+  type MyVotesSort,
+} from '../../lib/votes/myVotesView';
 import { COLORS } from '../../constants/theme';
 
 import { ui } from '../../lib/i18n/uiLiteral';
-
-type Filter = 'all' | VoteValue;
-
-const FILTERS: { key: Filter; label: string; color: string }[] = [
-  { key: 'all', label: 'ALL', color: COLORS.textPrimary },
-  { key: 'yes', label: 'YES', color: COLORS.yes },
-  { key: 'maybe', label: 'MAYBE', color: COLORS.maybe },
-  { key: 'no', label: 'NO', color: COLORS.no },
-];
 
 // Refined readiness options. "Not now" is shared with your partner as a
 // talk-later topic; "Hard no" always stays private.
@@ -79,7 +76,8 @@ type SelectedItem = {
 };
 
 export default function MyVotesScreen() {
-  const [filter, setFilter] = useState<Filter>('all');
+  const [filter, setFilter] = useState<MyVotesFilter>('all');
+  const [sort, setSort] = useState<MyVotesSort>('default');
   const [selected, setSelected] = useState<SelectedItem | null>(null);
 
   const language = useSettingsStore((state) => state.language);
@@ -94,9 +92,8 @@ export default function MyVotesScreen() {
   );
   const setReadiness = useVotesStore((state) => state.setReadiness);
 
-  const { votedKinks, counts } = useMemo(() => {
+  const votedKinks = useMemo(() => {
     const voted: SelectedItem[] = [];
-    const counts = { all: 0, yes: 0, maybe: 0, no: 0 };
 
     for (const kink of kinks) {
       const vote = normalizeVoteRecord(profileVotes[kink.id]);
@@ -107,20 +104,15 @@ export default function MyVotesScreen() {
           readiness: vote.readiness,
           pairPreference: vote.pairPreference,
         });
-        counts.all++;
-        counts[vote.value]++;
       }
     }
 
-    return { votedKinks: voted, counts };
+    return voted;
   }, [kinks, profileVotes]);
 
-  const filtered = useMemo(
-    () =>
-      filter === 'all'
-        ? votedKinks
-        : votedKinks.filter(({ vote }) => vote === filter),
-    [votedKinks, filter]
+  const votesView = useMemo(
+    () => buildMyVotesView(votedKinks, filter, sort),
+    [filter, sort, votedKinks]
   );
 
   const handleChangeReadiness = (readiness: Readiness) => {
@@ -141,50 +133,19 @@ export default function MyVotesScreen() {
     >
       <StatusBar style="light" />
       <BackHeader title={ui('My Votes')} />
-      {/* Filter chips */}
-      <View style={styles.filterRow}>
-        {FILTERS.map(({ key, label, color }) => {
-          const isSelected = filter === key;
-          const count = counts[key];
-          return (
-            <Pressable
-              key={key}
-              accessibilityRole="button"
-              accessibilityState={{ selected: isSelected }}
-              onPress={() => setFilter(key)}
-              style={[
-                styles.chip,
-                isSelected && {
-                  borderColor: color,
-                  backgroundColor: color + '1A',
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  { color: isSelected ? color : COLORS.textMuted },
-                ]}
-              >
-                {ui(label)}
-              </Text>
-              <Text
-                style={[
-                  styles.chipCount,
-                  { color: isSelected ? color : COLORS.textMuted },
-                ]}
-              >
-                {count}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
+      <MyVotesControls
+        filter={filter}
+        sort={sort}
+        counts={votesView.counts}
+        resultCount={votesView.items.length}
+        onFilterChange={setFilter}
+        onSortChange={setSort}
+      />
       <Text style={styles.hint}>
         {ui(' Tap any card to review or change your vote ')}
       </Text>
       <FlatList
-        data={filtered}
+        data={votesView.items}
         keyExtractor={({ kink }) => kink.id}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContent}
@@ -203,7 +164,7 @@ export default function MyVotesScreen() {
             <Text style={styles.emptySub}>
               {filter === 'all'
                 ? ui('Start swiping to vote on activities.')
-                : `${ui('No votes yet for filter:')} ${ui(filter)}.`}
+                : ui('No votes match this filter.')}
             </Text>
           </View>
         }
@@ -377,35 +338,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
 
-  // Filters
-  filterRow: {
-    flexDirection: 'row',
-    gap: 8,
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 4,
-  },
-  chip: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    height: 34,
-    borderRadius: 17,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-  },
-  chipText: {
-    fontSize: 16,
-    fontWeight: '800',
-    letterSpacing: 0.6,
-  },
-  chipCount: {
-    fontSize: 16,
-    fontWeight: '700',
-  },
   hint: {
     color: COLORS.textMuted,
     fontSize: 16,
