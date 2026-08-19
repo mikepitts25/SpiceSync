@@ -11,6 +11,6 @@ module.exports = {
     '\\.(mp3|m4a|wav|aac)$': '<rootDir>/__mocks__/audio-asset.js',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(@react-native|react-native|react-native-mmkv|react-native-reanimated|@noble|expo|expo-iap|expo-notifications)/)',
+    'node_modules/(?!(@react-native|react-native|react-native-mmkv|react-native-reanimated|react-native-url-polyfill|@noble|expo|expo-iap|expo-notifications)/)',
   ],
 };

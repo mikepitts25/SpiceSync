@@ -2,12 +2,24 @@ import 'react-native-url-polyfill/auto';
 
 import { processLock } from '@supabase/auth-js';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { AppState } from 'react-native';
+import { AppState, type AppStateStatus } from 'react-native';
 
 import { readSupabaseRelayConfig } from '../sync/supabaseConfig';
 import { secureSessionStorage } from './secureSessionStorage';
 
 let cachedClient: SupabaseClient | null = null;
+let appStateSubscription: { remove(): void } | null = null;
+
+function syncAutoRefresh(
+  supabase: SupabaseClient,
+  state: AppStateStatus
+): void {
+  if (state === 'active') {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+}
 
 export function getSupabaseClient(): SupabaseClient {
   if (cachedClient) return cachedClient;
@@ -27,18 +39,18 @@ export function getSupabaseClient(): SupabaseClient {
     },
   });
 
-  AppState.addEventListener('change', (state) => {
-    if (state === 'active') {
-      supabase.auth.startAutoRefresh();
-    } else {
-      supabase.auth.stopAutoRefresh();
-    }
+  appStateSubscription = AppState.addEventListener('change', (state) => {
+    syncAutoRefresh(supabase, state);
   });
+  syncAutoRefresh(supabase, AppState.currentState);
 
   cachedClient = supabase;
   return cachedClient;
 }
 
 export function _resetSupabaseClientForTests(): void {
+  cachedClient?.auth.stopAutoRefresh();
+  appStateSubscription?.remove();
+  appStateSubscription = null;
   cachedClient = null;
 }
