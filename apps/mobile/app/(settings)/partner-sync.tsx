@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -14,8 +14,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Link2Off, Radio, RefreshCcw, ShieldCheck } from 'lucide-react-native';
 
 import { BackHeader } from '../../components/app-chrome';
+import { PartnerAccountGate } from '../../components/auth/PartnerAccountGate';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
+import { getAccountService } from '../../lib/auth/accountService';
+import type { AccountStatus } from '../../lib/auth/types';
 import { disconnectRemotePartnerLocal } from '../../lib/safety/localDataControls';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
@@ -35,6 +38,23 @@ export default function PartnerSyncScreen() {
   const pendingEvents = useEventQueueStore((state) => state.pending);
   const localProfileId = useVoteSyncStore((state) => state.localProfileId);
   const profiles = useProfilesStore((state) => state.getProfiles());
+  const [accountStatus, setAccountStatus] = useState<AccountStatus | null>(
+    null
+  );
+  const [accountGateVisible, setAccountGateVisible] = useState(false);
+
+  const refreshAccountStatus = useCallback(async () => {
+    try {
+      const snapshot = await getAccountService().getSnapshot();
+      setAccountStatus(snapshot.status);
+    } catch {
+      setAccountStatus(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshAccountStatus();
+  }, [refreshAccountStatus]);
 
   const stats = useMemo(
     () =>
@@ -78,6 +98,12 @@ export default function PartnerSyncScreen() {
       ]
     );
   }, [router]);
+
+  // Task 6 will register this already-linked device after the account upgrade.
+  const handleProtectionComplete = useCallback(async () => {
+    await refreshAccountStatus();
+    setAccountGateVisible(false);
+  }, [refreshAccountStatus]);
 
   return (
     <SafeAreaView
@@ -127,6 +153,37 @@ export default function PartnerSyncScreen() {
                 </View>
               ))}
             </View>
+
+            {accountStatus === 'anonymous' ? (
+              <View style={styles.protectionCard}>
+                <Text style={styles.protectionTitle}>
+                  {ui('Protect your connection')}
+                </Text>
+                <Text style={styles.protectionCopy}>
+                  {ui(
+                    'Add a sign-in method so this encrypted partner connection stays available on this device.'
+                  )}
+                </Text>
+                <Pressable
+                  accessibilityRole="button"
+                  style={styles.secondaryAction}
+                  onPress={() => setAccountGateVisible(true)}
+                >
+                  <ShieldCheck size={18} color={COLORS.pink} />
+                  <Text style={styles.secondaryActionText}>
+                    {ui('Protect your connection')}
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
+
+            {accountGateVisible ? (
+              <PartnerAccountGate
+                intent="protect"
+                onComplete={handleProtectionComplete}
+                onCancel={() => setAccountGateVisible(false)}
+              />
+            ) : null}
 
             <View style={styles.actions}>
               <Pressable
@@ -242,6 +299,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
+  },
+  protectionCard: {
+    gap: 10,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.card,
+    padding: 16,
+    ...SHADOWS.card,
+  },
+  protectionTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 19,
+    fontWeight: '800',
+  },
+  protectionCopy: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    lineHeight: 23,
   },
   statCard: {
     flexGrow: 1,

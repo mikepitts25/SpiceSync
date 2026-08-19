@@ -126,6 +126,9 @@ export const es: Translations = {
     chooseInProfiles: 'Elegir en Perfiles',
     account: 'Cuenta',
     partnerCode: 'Sincronización de pareja',
+    protectConnection: 'Protege tu conexión',
+    protectConnectionDesc:
+      'Añade un método de inicio de sesión para mantener disponible en este dispositivo tu conexión de pareja cifrada.',
     qrCode: 'Enlace de invitación',
     preferences: 'Preferencias',
     daily: 'Diario',

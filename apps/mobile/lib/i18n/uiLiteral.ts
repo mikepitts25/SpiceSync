@@ -90,6 +90,20 @@ const supplementalSpanish: Record<string, string> = {
   Moderate: 'Moderado',
   Advanced: 'Avanzado',
   'Partner setup': 'Configuración de pareja',
+  'Protect your connection': 'Protege tu conexión',
+  'Add a sign-in method to keep your encrypted partner connection available on this device.':
+    'Añade un método de inicio de sesión para mantener disponible en este dispositivo tu conexión de pareja cifrada.',
+  'Add a sign-in method so this encrypted partner connection stays available on this device.':
+    'Añade un método de inicio de sesión para que esta conexión de pareja cifrada siga disponible en este dispositivo.',
+  'Continue with Google': 'Continuar con Google',
+  'Continue with Apple': 'Continuar con Apple',
+  'Continuing...': 'Continuando...',
+  'Not now': 'Ahora no',
+  'Your existing account': 'Tu cuenta existente',
+  'Sign into existing account': 'Iniciar sesión en una cuenta existente',
+  'This sign-in uses a new credential and switches to the account that already uses this provider.':
+    'Este inicio de sesión usa una credencial nueva y cambia a la cuenta que ya usa este proveedor.',
+  'Could not protect your connection.': 'No se pudo proteger tu conexión.',
   'How do you want to compare?': '¿Cómo quieren comparar?',
   'You appear as': 'Apareces como',
   'Two profiles on this device': 'Dos perfiles en este dispositivo',

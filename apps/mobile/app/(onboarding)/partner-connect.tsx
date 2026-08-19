@@ -23,8 +23,10 @@ import {
 } from 'lucide-react-native';
 
 import { BackHeader } from '../../components/app-chrome';
+import { PartnerAccountGate } from '../../components/auth/PartnerAccountGate';
 import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { COLORS, FONTS } from '../../constants/theme';
+import { getAccountService } from '../../lib/auth/accountService';
 import { useShallow } from 'zustand/react/shallow';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
@@ -51,8 +53,19 @@ type RecoveryError = {
   body: string;
 };
 
+type DeferredRemoteAction = () => Promise<void>;
+
 function errorBody(error: unknown, fallback: string): string {
   return error instanceof Error && error.message ? error.message : fallback;
+}
+
+function isAccountRequired(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    error.code === 'ACCOUNT_REQUIRED'
+  );
 }
 
 export default function PartnerConnect() {
@@ -99,6 +112,9 @@ export default function PartnerConnect() {
   const [lookupError, setLookupError] = useState<string | null>(null);
   const [acceptError, setAcceptError] = useState<string | null>(null);
   const [lookupRetryKey, setLookupRetryKey] = useState(0);
+  const [accountGateVisible, setAccountGateVisible] = useState(false);
+  const [deferredRemoteAction, setDeferredRemoteAction] =
+    useState<DeferredRemoteAction | null>(null);
 
   const handleLocalProfile = useCallback(() => {
     router.push('/(settings)/profiles/new?from=partner-connect');
@@ -179,7 +195,24 @@ export default function PartnerConnect() {
     void completePendingInvite(pendingInvite.inviteId);
   }, [completePendingInvite, pendingInvite]);
 
-  const handleCreateRemoteInvite = async () => {
+  const runAfterPermanentAccount = useCallback(
+    async (action: DeferredRemoteAction) => {
+      try {
+        await getAccountService().requirePermanentUser();
+        await action();
+      } catch (error) {
+        if (isAccountRequired(error)) {
+          setDeferredRemoteAction(() => action);
+          setAccountGateVisible(true);
+          return;
+        }
+        throw error;
+      }
+    },
+    []
+  );
+
+  const createRemoteInvite = async () => {
     try {
       setIsConnecting(true);
       setCreateError(null);
@@ -199,6 +232,10 @@ export default function PartnerConnect() {
     } finally {
       setIsConnecting(false);
     }
+  };
+
+  const handleCreateRemoteInvite = async () => {
+    await runAfterPermanentAccount(createRemoteInvite);
   };
 
   const handleShareInvite = async () => {
@@ -232,7 +269,7 @@ export default function PartnerConnect() {
     setMode('remote-accept');
   };
 
-  const handleAcceptRemote = async () => {
+  const acceptRemoteInvite = async () => {
     if (!activeRemoteInvite) return;
     try {
       setIsConnecting(true);
@@ -263,6 +300,23 @@ export default function PartnerConnect() {
     }
   };
 
+  const handleAcceptRemote = async () => {
+    await runAfterPermanentAccount(acceptRemoteInvite);
+  };
+
+  const handleAccountGateComplete = useCallback(async () => {
+    const action = deferredRemoteAction;
+    setDeferredRemoteAction(null);
+    setAccountGateVisible(false);
+    if (action) await runAfterPermanentAccount(action);
+  }, [deferredRemoteAction, runAfterPermanentAccount]);
+
+  const handleAccountGateCancel = useCallback(() => {
+    setDeferredRemoteAction(null);
+    setAccountGateVisible(false);
+    setMode('menu');
+  }, []);
+
   return (
     <SafeAreaView
       style={styles.screen}
@@ -275,7 +329,15 @@ export default function PartnerConnect() {
           { paddingBottom: insets.bottom + 28 },
         ]}
       >
-        {mode === 'menu' ? (
+        {accountGateVisible ? (
+          <PartnerAccountGate
+            intent="protect"
+            onComplete={handleAccountGateComplete}
+            onCancel={handleAccountGateCancel}
+          />
+        ) : null}
+
+        {!accountGateVisible && mode === 'menu' ? (
           <MenuContent
             myProfileName={myProfileName}
             myProfileAvatar={myProfileAvatar}
@@ -287,7 +349,7 @@ export default function PartnerConnect() {
           />
         ) : null}
 
-        {mode === 'remote-create' ? (
+        {!accountGateVisible && mode === 'remote-create' ? (
           <RemoteCreateContent
             invite={pendingInvite}
             myProfileName={myProfileName}
@@ -302,7 +364,7 @@ export default function PartnerConnect() {
           />
         ) : null}
 
-        {mode === 'remote-paste' ? (
+        {!accountGateVisible && mode === 'remote-paste' ? (
           <PasteInviteContent
             value={inviteLinkInput}
             pasteError={pasteError}
@@ -315,7 +377,7 @@ export default function PartnerConnect() {
           />
         ) : null}
 
-        {mode === 'remote-accept' ? (
+        {!accountGateVisible && mode === 'remote-accept' ? (
           <RemoteAcceptContent
             remoteInvite={remoteInvite}
             lookupError={lookupError}

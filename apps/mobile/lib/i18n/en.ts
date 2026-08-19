@@ -124,6 +124,9 @@ export const en = {
     chooseInProfiles: 'Choose in Profiles',
     account: 'Account',
     partnerCode: 'Partner Sync',
+    protectConnection: 'Protect your connection',
+    protectConnectionDesc:
+      'Add a sign-in method to keep your encrypted partner connection available on this device.',
     qrCode: 'Invite Link',
     preferences: 'Preferences',
     daily: 'Daily',
