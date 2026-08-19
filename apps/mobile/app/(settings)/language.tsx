@@ -13,15 +13,11 @@ import { COLORS, GRADIENTS } from '../../constants/theme';
 const OPTIONS = [
   {
     code: 'en' as const,
-    flag: '🇺🇸',
     nameKey: 'english' as const,
-    native: 'English',
   },
   {
     code: 'es' as const,
-    flag: '🇪🇸',
-    nameKey: 'spanishName' as const,
-    native: 'Español',
+    nameKey: 'spanish' as const,
   },
 ];
 
@@ -50,12 +46,10 @@ export default function LanguageScreen() {
               style={[styles.optionCard, active && styles.optionCardActive]}
             >
               {active ? <AccentBar style={styles.leftAccent} /> : null}
-              <Text style={styles.flag}>{option.flag}</Text>
               <View style={styles.optionCopy}>
                 <Text style={styles.optionName}>
                   {t.settings[option.nameKey]}
                 </Text>
-                <Text style={styles.optionNative}>{option.native}</Text>
               </View>
               {active ? (
                 <LinearGradient
@@ -110,9 +104,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 0,
   },
-  flag: {
-    fontSize: 28,
-  },
   optionCopy: {
     flex: 1,
   },
@@ -120,11 +111,6 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     fontSize: 16,
     fontWeight: '700',
-  },
-  optionNative: {
-    color: COLORS.textSub,
-    fontSize: 16,
-    marginTop: 3,
   },
   checkBadge: {
     width: 32,
