@@ -1,8 +1,6 @@
 import 'react-native-url-polyfill/auto';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createClient } from '@supabase/supabase-js';
-
+import { getSupabaseClient } from '../auth/supabase';
 import { readSupabaseRelayConfig } from './supabaseConfig';
 import {
   SupabaseRelayClient,
@@ -18,14 +16,7 @@ export function getConfiguredSupabaseRelayClient(): SupabaseRelayClient {
   }
 
   if (!cachedClient) {
-    const supabase = createClient(config.url, config.anonKey, {
-      auth: {
-        storage: AsyncStorage,
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: false,
-      },
-    });
+    const supabase = getSupabaseClient();
     cachedClient = new SupabaseRelayClient(
       supabase as unknown as SupabaseRelayClientLike,
       {
