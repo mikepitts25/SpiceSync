@@ -35,12 +35,32 @@ export default function ConfirmProfileScreen() {
     setError(null);
     setIsConfirming(true);
     try {
+      const confirmationStarted = useCoupleLinkStore
+        .getState()
+        .beginProfileConfirmation(profileId);
+      if (!confirmationStarted) {
+        throw new Error(ui('Could not confirm this profile.'));
+      }
       useVoteSyncStore.getState().setLocalProfileId(profileId);
-      useCoupleLinkStore.getState().confirmLocalProfile(profileId);
-      await startVoteSync(profileId);
+      const bootstrapped = await startVoteSync(profileId, {
+        allowPendingProfileConfirmation: true,
+      });
+      if (!bootstrapped) {
+        throw new Error(ui('Could not confirm this profile.'));
+      }
+      // Clearing the persisted pause is deliberately after the bootstrap.
+      // RootLayout suppresses the resulting link transition, so this screen
+      // still owns the next operation: starting the remote sync loop.
+      const confirmed = useCoupleLinkStore
+        .getState()
+        .confirmLocalProfile(profileId);
+      if (!confirmed) {
+        throw new Error(ui('Could not confirm this profile.'));
+      }
       startSyncLoop();
       router.replace('/(tabs)/deck');
     } catch (confirmError) {
+      useCoupleLinkStore.getState().cancelProfileConfirmation(profileId);
       setError(
         confirmError instanceof Error && confirmError.message
           ? confirmError.message

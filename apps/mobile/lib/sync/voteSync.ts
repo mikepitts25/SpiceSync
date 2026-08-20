@@ -30,6 +30,15 @@ type VoteSyncState = {
   reset: () => void;
 };
 
+type VoteSyncStartOptions = {
+  /**
+   * Only the recovery confirmation screen may bootstrap while the persisted
+   * recovery pause is still set. The store's runtime handoff token makes this
+   * opt-in path impossible for regular sync subscribers to use accidentally.
+   */
+  allowPendingProfileConfirmation?: boolean;
+};
+
 export const useVoteSyncStore = create<VoteSyncState>()(
   persist(
     (set) => ({
@@ -96,19 +105,28 @@ async function enqueueVoteChanges(
     pairPreference?: PairPreference;
     readiness?: Readiness;
   }[],
-  answeredCount?: number
+  answeredCount?: number,
+  options?: VoteSyncStartOptions
 ): Promise<boolean> {
   if (changes.length === 0 && answeredCount === undefined) return false;
   const link = useCoupleLinkStore.getState().link;
-  if (
-    !link ||
-    link.status !== 'active' ||
-    link.requiresProfileConfirmation === true
-  ) {
+  const profileId = useVoteSyncStore.getState().localProfileId;
+  if (!canEnqueueVotes(link, profileId, options)) {
     return false;
   }
   const id = await getIdentityIfExists();
   if (!id) return false;
+  // The recovery state can change while identity material is loading. Check
+  // it again before mutating the durable event queue.
+  if (
+    !canEnqueueVotes(
+      useCoupleLinkStore.getState().link,
+      useVoteSyncStore.getState().localProfileId,
+      options
+    )
+  ) {
+    return false;
+  }
   const queue = useEventQueueStore.getState();
   const updatedAt = Date.now();
   for (const change of changes) {
@@ -135,47 +153,68 @@ async function enqueueVoteChanges(
   return true;
 }
 
+function canEnqueueVotes(
+  link: ReturnType<typeof useCoupleLinkStore.getState>['link'],
+  profileId: string | null,
+  options?: VoteSyncStartOptions
+): boolean {
+  if (!link || link.status !== 'active') return false;
+  if (link.requiresProfileConfirmation !== true) return true;
+  return (
+    options?.allowPendingProfileConfirmation === true &&
+    !!profileId &&
+    useCoupleLinkStore.getState().profileConfirmationInProgress === profileId
+  );
+}
+
 let unsubscribe: (() => void) | null = null;
 let lastSnapshot: VotesByProfile = {};
 
-export async function bootstrapCurrentVotes(): Promise<boolean> {
+export async function bootstrapCurrentVotes(
+  options?: VoteSyncStartOptions
+): Promise<boolean> {
   const link = useCoupleLinkStore.getState().link;
   const syncState = useVoteSyncStore.getState();
+  const profileId = syncState.localProfileId;
   if (
     !link ||
-    link.status !== 'active' ||
-    link.requiresProfileConfirmation === true ||
-    !syncState.localProfileId ||
+    !profileId ||
+    !canEnqueueVotes(link, profileId, options) ||
     (syncState.bootstrappedCoupleId === link.coupleId &&
-      syncState.bootstrappedProfileId === syncState.localProfileId &&
+      syncState.bootstrappedProfileId === profileId &&
       syncState.bootstrapVersion === CURRENT_BOOTSTRAP_VERSION)
   ) {
     return false;
   }
 
-  const votes =
-    useVotesStore.getState().votesByProfile[syncState.localProfileId] ?? {};
+  const votes = useVotesStore.getState().votesByProfile[profileId] ?? {};
   if (Object.keys(votes).length === 0) {
+    // Profiles hydrate independently. Do not persist a bootstrap marker for
+    // an empty snapshot, or a later hydration would permanently skip votes.
     return false;
   }
   const queued = await enqueueVoteChanges(
     diffVotes(undefined, votes),
-    Object.keys(votes).length
+    Object.keys(votes).length,
+    options
   );
   if (queued) {
-    useVoteSyncStore
-      .getState()
-      .markBootstrapped(link.coupleId, syncState.localProfileId);
+    useVoteSyncStore.getState().markBootstrapped(link.coupleId, profileId);
   }
   return queued;
 }
 
-export function startVoteSync(
-  localProfileId?: string | null
+export async function startVoteSync(
+  localProfileId?: string | null,
+  options?: VoteSyncStartOptions
 ): Promise<boolean> {
   const link = useCoupleLinkStore.getState().link;
-  if (link?.status === 'active' && link.requiresProfileConfirmation === true) {
-    return Promise.resolve(false);
+  const profileId =
+    localProfileId === undefined
+      ? useVoteSyncStore.getState().localProfileId
+      : localProfileId;
+  if (!canEnqueueVotes(link, profileId, options)) {
+    return false;
   }
 
   if (localProfileId !== undefined) {
@@ -195,11 +234,28 @@ export function startVoteSync(
       if (previous === next) return;
       const changes = diffVotes(previous, next);
       if (changes.length > 0) {
-        void enqueueVoteChanges(changes, Object.keys(next ?? {}).length);
+        enqueueVoteChanges(changes, Object.keys(next ?? {}).length).catch(
+          () => undefined
+        );
       }
     });
   }
-  return bootstrapCurrentVotes();
+  const bootstrapped = await bootstrapCurrentVotes(options);
+  if (bootstrapped) return true;
+
+  if (options?.allowPendingProfileConfirmation !== true) return false;
+
+  // An empty local snapshot is a valid confirmation bootstrap, but it must
+  // remain unmarked so a subsequently hydrated profile still uploads votes.
+  // Conversely, a non-empty snapshot that could not enqueue is a failure and
+  // keeps the persisted recovery pause in place.
+  const currentProfileId = useVoteSyncStore.getState().localProfileId;
+  const currentLink = useCoupleLinkStore.getState().link;
+  const hasNoVotes =
+    !!currentProfileId &&
+    Object.keys(useVotesStore.getState().votesByProfile[currentProfileId] ?? {})
+      .length === 0;
+  return hasNoVotes && canEnqueueVotes(currentLink, currentProfileId, options);
 }
 
 export function stopVoteSync(): void {

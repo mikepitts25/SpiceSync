@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -20,19 +20,47 @@ function getErrorMessage(error: unknown): string {
     : ui('Could not restore your account.');
 }
 
+function isProviderCancellation(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    (error.code === 'CANCELLED' || error.code === 'ERR_REQUEST_CANCELED')
+  );
+}
+
 export default function RestoreAccountScreen() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isRestoring, setIsRestoring] = useState(false);
+  const [isProviderOperationPending, setIsProviderOperationPending] =
+    useState(false);
+  const sessionIdRef = useRef(0);
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      sessionIdRef.current += 1;
+    };
+  }, []);
+
+  const isCurrentSession = (sessionId: number) =>
+    mountedRef.current && sessionId === sessionIdRef.current;
 
   const restore = async (credential: ProviderCredential) => {
+    const sessionId = sessionIdRef.current;
+    if (!isCurrentSession(sessionId)) return;
     setError(null);
     setIsRestoring(true);
     try {
       await getAccountService().signIn(credential);
+      if (!isCurrentSession(sessionId)) return;
       const result = await recoverPermanentAccount({
         requireProfileConfirmation: true,
       });
+      if (!isCurrentSession(sessionId)) return;
 
       if (result.kind === 'no-couple') {
         router.replace('/(onboarding)/partner-connect');
@@ -40,6 +68,7 @@ export default function RestoreAccountScreen() {
       }
 
       await useProfilesStore.getState().hydrate();
+      if (!isCurrentSession(sessionId)) return;
       const link = useCoupleLinkStore.getState().link;
       const destination = getRecoveryDestination({
         profileCount: useProfilesStore.getState().getProfiles().length,
@@ -47,18 +76,45 @@ export default function RestoreAccountScreen() {
       });
       router.replace(destination as never);
     } catch (restoreError) {
-      setError(getErrorMessage(restoreError));
+      if (isCurrentSession(sessionId)) {
+        setError(getErrorMessage(restoreError));
+      }
     } finally {
-      setIsRestoring(false);
+      if (isCurrentSession(sessionId)) {
+        setIsRestoring(false);
+      }
     }
   };
+
+  const handleProviderPendingChange = (pending: boolean) => {
+    if (!mountedRef.current) return;
+    if (pending) {
+      // Credentials obtained after a cancelled/backed-out provider operation
+      // must not resurrect this route or navigate it later.
+      sessionIdRef.current += 1;
+    }
+    setIsProviderOperationPending(pending);
+  };
+
+  const handleBack = () => {
+    if (isRestoring || isProviderOperationPending) return;
+    sessionIdRef.current += 1;
+    router.back();
+  };
+
+  const handleProviderError = (providerError: unknown) => {
+    if (!mountedRef.current || isProviderCancellation(providerError)) return;
+    setError(getErrorMessage(providerError));
+  };
+
+  const isBusy = isRestoring || isProviderOperationPending;
 
   return (
     <SafeAreaView
       style={styles.screen}
       edges={['top', 'left', 'right', 'bottom']}
     >
-      <BackHeader title={ui('Restore existing account')} />
+      <BackHeader title={ui('Restore existing account')} onBack={handleBack} />
       <View style={styles.content}>
         <Text style={styles.title}>{ui('Welcome back')}</Text>
         <Text style={styles.body}>
@@ -68,15 +124,16 @@ export default function RestoreAccountScreen() {
         </Text>
         {error ? <Text style={styles.error}>{error}</Text> : null}
         <AccountProviderButtons
-          disabled={isRestoring}
+          disabled={isBusy}
           onCredential={restore}
-          onError={(providerError) => setError(getErrorMessage(providerError))}
+          onError={handleProviderError}
+          onPendingChange={handleProviderPendingChange}
         />
         <Pressable
           accessibilityRole="button"
-          disabled={isRestoring}
-          onPress={() => router.back()}
-          style={[styles.back, isRestoring && styles.disabled]}
+          disabled={isBusy}
+          onPress={handleBack}
+          style={[styles.back, isBusy && styles.disabled]}
         >
           <Text style={styles.backText}>{ui('Back')}</Text>
         </Pressable>

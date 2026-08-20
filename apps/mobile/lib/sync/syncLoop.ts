@@ -1,5 +1,11 @@
 import { decodeBase64, encodeBase64 } from './base64';
-import { refreshCoupleMetadata, useCoupleLinkStore } from './coupleLink';
+import {
+  isCurrentSyncableCouple,
+  isCoupleLinkSyncable,
+  isCurrentSyncableCoupleLink,
+  refreshCoupleMetadata,
+  useCoupleLinkStore,
+} from './coupleLink';
 import {
   decryptFromPartner,
   encryptForPartner,
@@ -98,11 +104,11 @@ function eventClaimsMatchEnvelope(
   );
 }
 
-async function uploadPending(pending: PendingEvent): Promise<void> {
+async function uploadPending(pending: PendingEvent): Promise<boolean> {
   const link = useCoupleLinkStore.getState().link;
-  if (!link || link.status !== 'active') return;
+  if (!isCoupleLinkSyncable(link)) return false;
   const id = await getIdentityIfExists();
-  if (!id) return;
+  if (!id || !isCurrentSyncableCoupleLink(link)) return false;
   const recipientDeviceId =
     pending.recipientDeviceId === null ||
     pending.recipientDeviceId === undefined
@@ -125,6 +131,9 @@ async function uploadPending(pending: PendingEvent): Promise<void> {
       )
     )
   );
+  // A recovery result can pause the link while key material is loading. Do
+  // not make the relay request with a stale pre-recovery snapshot.
+  if (!isCurrentSyncableCoupleLink(link)) return false;
   await getRelayClient().appendEvent(link.coupleId, {
     eventId: pending.eventId,
     authorDeviceId: id.identity.deviceId,
@@ -134,6 +143,7 @@ async function uploadPending(pending: PendingEvent): Promise<void> {
     payloadHash,
     signature: encodeBase64(signature),
   });
+  return true;
 }
 
 function isRecipientKeyChanged(error: unknown): error is RelayHttpError {
@@ -144,9 +154,9 @@ function isRecipientKeyChanged(error: unknown): error is RelayHttpError {
 
 async function uploadPendingWithRecipientRefresh(
   pending: PendingEvent
-): Promise<void> {
+): Promise<boolean> {
   try {
-    await uploadPending(pending);
+    return await uploadPending(pending);
   } catch (error) {
     if (
       !isRecipientKeyChanged(error) ||
@@ -160,7 +170,7 @@ async function uploadPendingWithRecipientRefresh(
     // ciphertext and signature from that immutable payload after refreshing
     // the recipient's current public material; it never calls this helper.
     await refreshCoupleMetadata();
-    await uploadPending(pending);
+    return uploadPending(pending);
   }
 }
 
@@ -169,7 +179,7 @@ export async function flushPending(
   metadataWasRefreshed: boolean = false
 ): Promise<{ uploaded: number; failed: number }> {
   const link = useCoupleLinkStore.getState().link;
-  if (!link || link.status !== 'active') return { uploaded: 0, failed: 0 };
+  if (!isCoupleLinkSyncable(link)) return { uploaded: 0, failed: 0 };
   const queue = useEventQueueStore.getState();
   const due = queue.dueEvents(now);
   if (due.length > 0 && !metadataWasRefreshed) {
@@ -177,14 +187,23 @@ export async function flushPending(
     // scheduling semantics. The append path still has its one safe retry.
     await refreshCoupleMetadata().catch(() => undefined);
   }
+  if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
+    return { uploaded: 0, failed: 0 };
+  }
   let uploaded = 0;
   let failed = 0;
   for (const pending of due) {
+    const pendingLink = useCoupleLinkStore.getState().link;
+    if (!isCoupleLinkSyncable(pendingLink)) break;
     try {
-      await uploadPendingWithRecipientRefresh(pending);
+      const uploadedPending = await uploadPendingWithRecipientRefresh(pending);
+      if (!uploadedPending || !isCurrentSyncableCouple(pendingLink)) {
+        break;
+      }
       queue.markAttempted(pending.eventId, true);
       uploaded += 1;
     } catch (err) {
+      if (!isCurrentSyncableCouple(pendingLink)) break;
       const message = err instanceof Error ? err.message : 'upload failed';
       if (err instanceof RelayHttpError && err.code === 'CONFLICT') {
         queue.markAttempted(pending.eventId, true);
@@ -228,20 +247,26 @@ function applyDecryptedEvent(event: PlainSyncEvent, receivedAt: number): void {
 
 async function applyServerEvents(
   events: SyncEventResponse[],
-  myDeviceId: string
+  myDeviceId: string,
+  linkSnapshot: NonNullable<
+    ReturnType<typeof useCoupleLinkStore.getState>['link']
+  >
 ): Promise<{ applied: number; lastSequence: number }> {
   const link = useCoupleLinkStore.getState().link;
-  if (!link) {
+  if (!link || !isCurrentSyncableCoupleLink(linkSnapshot)) {
     return { applied: 0, lastSequence: 0 };
   }
   const id = await getIdentityIfExists();
-  if (!id) {
+  if (!id || !isCurrentSyncableCoupleLink(linkSnapshot)) {
     return { applied: 0, lastSequence: link.lastPulledServerSequence };
   }
   const partnerEncryptionPublic = decodeBase64(link.partnerEncryptionPublicKey);
   let lastSequence = link.lastPulledServerSequence;
   let applied = 0;
   for (const event of events) {
+    if (!isCurrentSyncableCoupleLink(linkSnapshot)) {
+      return { applied: 0, lastSequence: link.lastPulledServerSequence };
+    }
     if (event.serverSequence > lastSequence)
       lastSequence = event.serverSequence;
     if (event.authorDeviceId === myDeviceId) continue;
@@ -275,18 +300,21 @@ async function applyServerEvents(
 
 export async function pullPartnerEvents(): Promise<{ applied: number }> {
   const link = useCoupleLinkStore.getState().link;
-  if (!link || link.status !== 'active') return { applied: 0 };
+  if (!isCoupleLinkSyncable(link)) return { applied: 0 };
   const id = await getIdentityIfExists();
-  if (!id) return { applied: 0 };
+  if (!id || !isCurrentSyncableCoupleLink(link)) return { applied: 0 };
   const response = await getRelayClient().listEvents(
     link.coupleId,
     link.lastPulledServerSequence
   );
+  if (!isCurrentSyncableCoupleLink(link)) return { applied: 0 };
   if (response.events.length === 0) return { applied: 0 };
   const { applied, lastSequence } = await applyServerEvents(
     response.events,
-    id.identity.deviceId
+    id.identity.deviceId,
+    link
   );
+  if (!isCurrentSyncableCoupleLink(link)) return { applied: 0 };
   useCoupleLinkStore.getState().updateCursor(lastSequence);
   useCoupleLinkStore.getState().markSynced(Date.now());
   return { applied };
@@ -297,10 +325,19 @@ export async function syncOnce(): Promise<{
   failed: number;
   applied: number;
 }> {
+  if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
+    return { uploaded: 0, failed: 0, applied: 0 };
+  }
   // syncOnce is also called by the foreground lifecycle, so refresh even
   // when the queue is empty. Preserve flush-before-pull ordering afterward.
   await refreshCoupleMetadata().catch(() => undefined);
+  if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
+    return { uploaded: 0, failed: 0, applied: 0 };
+  }
   const flushResult = await flushPending(Date.now(), true);
+  if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
+    return { uploaded: 0, failed: 0, applied: 0 };
+  }
   const pullResult = await pullPartnerEvents();
   return { ...flushResult, applied: pullResult.applied };
 }
@@ -312,7 +349,13 @@ let scheduledSync: Promise<unknown> | null = null;
 let loopGeneration = 0;
 
 function runScheduledSync(generation: number): void {
-  if (generation !== loopGeneration || scheduledSync) return;
+  if (
+    generation !== loopGeneration ||
+    scheduledSync ||
+    !isCoupleLinkSyncable(useCoupleLinkStore.getState().link)
+  ) {
+    return;
+  }
 
   const run = syncOnce().catch(() => undefined);
   scheduledSync = run;
@@ -327,6 +370,7 @@ function runScheduledSync(generation: number): void {
 
 export function startSyncLoop(intervalMs: number = 45000): void {
   stopSyncLoop();
+  if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) return;
   const generation = loopGeneration;
   runScheduledSync(generation);
   intervalHandle = setInterval(() => {

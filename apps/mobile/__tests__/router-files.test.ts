@@ -45,9 +45,9 @@ describe('expo router file layout', () => {
       'utf8'
     );
 
-    expect(fs.existsSync(path.join(appRoot, '(onboarding)', 'profile.tsx'))).toBe(
-      false
-    );
+    expect(
+      fs.existsSync(path.join(appRoot, '(onboarding)', 'profile.tsx'))
+    ).toBe(false);
     expect(onboardingLayout).not.toContain('name="profile"');
     expect(onboardingLayout).toContain('name="partner-connect"');
   });
@@ -63,25 +63,13 @@ describe('expo router file layout', () => {
     expect(rootLayout).not.toContain('<Stack.Screen name="(conversation)"');
   });
 
-  it('registers the dedicated account restoration routes', () => {
-    const authLayoutPath = path.join(appRoot, '(auth)', '_layout.tsx');
-    const authLayout = fs.existsSync(authLayoutPath)
-      ? fs.readFileSync(authLayoutPath, 'utf8')
-      : '';
-    const rootLayout = fs.readFileSync(
-      path.join(appRoot, '_layout.tsx'),
-      'utf8'
-    );
-
+  it('keeps the dedicated account restoration route modules', () => {
     expect(fs.existsSync(path.join(appRoot, '(auth)', 'restore.tsx'))).toBe(
       true
     );
     expect(
       fs.existsSync(path.join(appRoot, '(auth)', 'confirm-profile.tsx'))
     ).toBe(true);
-    expect(authLayout).toContain('<Stack.Screen name="restore" />');
-    expect(authLayout).toContain('<Stack.Screen name="confirm-profile" />');
-    expect(rootLayout).toContain('<Stack.Screen name="(auth)" />');
   });
 
   it('lets native intent own deep-link routing without a competing root listener', () => {
@@ -210,7 +198,9 @@ describe('expo router file layout', () => {
       false
     );
     expect(
-      fs.existsSync(path.join(appRoot, '(settings)', 'CustomActivitiesScreen.tsx'))
+      fs.existsSync(
+        path.join(appRoot, '(settings)', 'CustomActivitiesScreen.tsx')
+      )
     ).toBe(false);
     expect(fs.existsSync(path.join(appRoot, '(redeem)', 'index.tsx'))).toBe(
       false

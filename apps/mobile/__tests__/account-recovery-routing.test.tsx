@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 
 import { useProfilesStore } from '../lib/state/profiles';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
@@ -16,6 +16,19 @@ const mockGetGoogleCredential = jest.fn();
 const mockGetAppleCredential = jest.fn();
 const mockIsAppleAvailable = jest.fn();
 const mockStartSyncLoop = jest.fn();
+
+type Deferred<T> = {
+  promise: Promise<T>;
+  resolve: (value: T) => void;
+};
+
+function deferred<T>(): Deferred<T> {
+  let resolve: (value: T) => void = () => undefined;
+  const promise = new Promise<T>((complete) => {
+    resolve = complete;
+  });
+  return { promise, resolve };
+}
 
 jest.mock('expo-router', () => ({
   useRouter: () => mockRouter,
@@ -205,6 +218,87 @@ describe('account recovery routing', () => {
       )
     );
     expect(useCoupleLinkStore.getState().link).toBeNull();
+  });
+
+  it('treats native provider cancellation as a safe non-error outcome', async () => {
+    mockGetGoogleCredential.mockRejectedValue({ code: 'CANCELLED' });
+
+    const screen = render(<RestoreScreen />);
+    fireEvent.press(screen.getByText('Continue with Google'));
+
+    await waitFor(() => expect(mockGetGoogleCredential).toHaveBeenCalled());
+    expect(mockSignIn).not.toHaveBeenCalled();
+    expect(screen.queryByText('Could not restore your account.')).toBeNull();
+    expect(mockRouter.replace).not.toHaveBeenCalled();
+  });
+
+  it('disables Back while a provider credential is in flight', async () => {
+    const credential = deferred<typeof googleCredential>();
+    mockGetGoogleCredential.mockReturnValue(credential.promise);
+
+    const screen = render(<RestoreScreen />);
+    fireEvent.press(screen.getByText('Continue with Google'));
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole('button', { name: 'Back' }).props.accessibilityState
+          .disabled
+      ).toBe(true)
+    );
+    fireEvent.press(screen.getByText('Back'));
+    expect(mockRouter.back).not.toHaveBeenCalled();
+
+    await act(async () => {
+      credential.resolve(googleCredential);
+      await Promise.resolve();
+    });
+  });
+
+  it('ignores a credential that resolves after the restore screen unmounts', async () => {
+    const credential = deferred<typeof googleCredential>();
+    mockGetGoogleCredential.mockReturnValue(credential.promise);
+
+    const screen = render(<RestoreScreen />);
+    fireEvent.press(screen.getByText('Continue with Google'));
+    await waitFor(() => expect(mockGetGoogleCredential).toHaveBeenCalled());
+    screen.unmount();
+
+    credential.resolve(googleCredential);
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(mockSignIn).not.toHaveBeenCalled();
+    expect(mockRecoverPermanentAccount).not.toHaveBeenCalled();
+    expect(mockRouter.replace).not.toHaveBeenCalled();
+  });
+
+  it('ignores recovery completion after the restore screen unmounts', async () => {
+    const signingIn = deferred<{
+      status: string;
+      userId: string;
+      providers: string[];
+      error: null;
+    }>();
+    mockSignIn.mockReturnValue(signingIn.promise);
+
+    const screen = render(<RestoreScreen />);
+    fireEvent.press(screen.getByText('Continue with Google'));
+    await waitFor(() =>
+      expect(mockSignIn).toHaveBeenCalledWith(googleCredential)
+    );
+    screen.unmount();
+
+    signingIn.resolve({
+      status: 'permanent',
+      userId: 'account-1',
+      providers: ['google'],
+      error: null,
+    });
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(mockRecoverPermanentAccount).not.toHaveBeenCalled();
+    expect(mockRouter.replace).not.toHaveBeenCalled();
   });
 
   it('routes profile confirmation through creation when the device has no local profile', async () => {

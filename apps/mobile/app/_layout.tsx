@@ -24,7 +24,11 @@ import { useProfilesStore } from '../lib/state/profiles';
 import { useVotesStore } from '../src/stores/votes';
 import BiometricLockGate from '../components/BiometricLockGate';
 import { STACK_SCREEN_OPTIONS } from '../lib/navigation/transitions';
-import { type CoupleLink, useCoupleLinkStore } from '../lib/sync/coupleLink';
+import {
+  isCoupleLinkSyncable,
+  shouldStartRemoteSyncForLinkTransition,
+  useCoupleLinkStore,
+} from '../lib/sync/coupleLink';
 import {
   finalizePendingInvite,
   recoverExistingCouple,
@@ -38,10 +42,6 @@ import {
   purchaseService,
 } from '../lib/purchases/purchaseService';
 import { getNotificationDestination } from '../lib/notifications/routing';
-
-function canStartRemoteSync(link: CoupleLink | null): boolean {
-  return link?.status === 'active' && !link.requiresProfileConfirmation;
-}
 
 export default function RootLayout() {
   useEffect(() => {
@@ -166,7 +166,7 @@ export default function RootLayout() {
         const activeProfileId =
           useProfilesStore.getState().getActiveProfileId() ?? null;
         await startVoteSync(activeProfileId);
-        if (canStartRemoteSync(useCoupleLinkStore.getState().link)) {
+        if (isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
           startSyncLoop();
         }
       } catch {
@@ -189,7 +189,7 @@ export default function RootLayout() {
           useProfilesStore.getState().getActiveProfileId() ?? null;
         await startVoteSync(activeProfileId);
         const link = useCoupleLinkStore.getState().link;
-        if (canStartRemoteSync(link)) startSyncLoop();
+        if (isCoupleLinkSyncable(link)) startSyncLoop();
         return recoverPartnerLink(true);
       })
       .catch(() => undefined);
@@ -198,8 +198,11 @@ export default function RootLayout() {
       recoverPartnerLink().catch(() => undefined);
     }, 4000);
 
-    const unsubLink = useCoupleLinkStore.subscribe((state) => {
-      if (canStartRemoteSync(state.link) && !recoveryInFlight) {
+    const unsubLink = useCoupleLinkStore.subscribe((state, previousState) => {
+      if (
+        !recoveryInFlight &&
+        shouldStartRemoteSyncForLinkTransition(previousState.link, state.link)
+      ) {
         startSyncLoop();
       } else {
         stopSyncLoop();
@@ -210,7 +213,7 @@ export default function RootLayout() {
       if (next === 'active') {
         recoverPartnerLink(true).catch(() => undefined);
         const current = useCoupleLinkStore.getState().link;
-        if (canStartRemoteSync(current)) {
+        if (isCoupleLinkSyncable(current)) {
           const activeProfileId =
             useProfilesStore.getState().getActiveProfileId() ?? null;
           startVoteSync(activeProfileId)

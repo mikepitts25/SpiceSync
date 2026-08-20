@@ -17,8 +17,10 @@ import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import {
   flushPending,
   pullPartnerEvents,
+  refreshCoupleMetadata,
   startSyncLoop,
   stopSyncLoop,
+  syncOnce,
 } from '../lib/sync/syncLoop';
 
 type Deferred<T> = {
@@ -145,6 +147,168 @@ describe('sync loop', () => {
   afterEach(() => {
     stopSyncLoop();
     jest.useRealTimers();
+  });
+
+  it('does not call the relay or mutate sync state while profile confirmation is required', async () => {
+    jest.useFakeTimers();
+    const fetchMock = jest.fn();
+    _resetRelayClientForTests(
+      new RelayTestClient(
+        'https://relay.test',
+        fetchMock as unknown as (
+          input: string,
+          init?: RequestInit
+        ) => Promise<Response>
+      )
+    );
+    useCoupleLinkStore.getState().setLink({
+      ...activeLink('partner-encryption-key'),
+      requiresProfileConfirmation: true,
+    });
+    const queued = useEventQueueStore.getState().enqueue({
+      schemaVersion: 1,
+      eventType: 'vote.upsert',
+      authorDeviceId: 'dev_me',
+      cardId: 'card-paused',
+      vote: 'yes',
+      updatedAt: 1,
+    });
+
+    await expect(flushPending()).resolves.toEqual({ uploaded: 0, failed: 0 });
+    await expect(pullPartnerEvents()).resolves.toEqual({ applied: 0 });
+    await expect(syncOnce()).resolves.toEqual({
+      uploaded: 0,
+      failed: 0,
+      applied: 0,
+    });
+    await expect(refreshCoupleMetadata()).resolves.toBe('unchanged');
+    startSyncLoop(25);
+    jest.advanceTimersByTime(50);
+    await settleAsyncWork();
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(useEventQueueStore.getState().pending).toEqual([
+      expect.objectContaining({ eventId: queued.eventId, attempts: 0 }),
+    ]);
+    expect(useCoupleLinkStore.getState().link).toMatchObject({
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      requiresProfileConfirmation: true,
+    });
+  });
+
+  it('does not apply an in-flight metadata response after recovery pauses sync', async () => {
+    const originalPartner = generateEncryptionKeypair();
+    const replacementPartner = generateEncryptionKeypair();
+    const response = deferred<{
+      ok: boolean;
+      json: () => Promise<Record<string, unknown>>;
+    }>();
+    const fetchMock = jest.fn().mockReturnValue(response.promise);
+    _resetRelayClientForTests(
+      new RelayTestClient(
+        'https://relay.test',
+        fetchMock as unknown as (
+          input: string,
+          init?: RequestInit
+        ) => Promise<Response>
+      )
+    );
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(originalPartner.publicKey)));
+
+    const refresh = syncOnce();
+    await settleAsyncWork();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    useCoupleLinkStore.setState({
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: true,
+      },
+    });
+    response.resolve({
+      ok: true,
+      json: async () =>
+        refreshedCouple(encodeBase64(replacementPartner.publicKey)),
+    });
+
+    await expect(refresh).resolves.toEqual({
+      uploaded: 0,
+      failed: 0,
+      applied: 0,
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(useCoupleLinkStore.getState().link).toMatchObject({
+      partnerEncryptionPublicKey: encodeBase64(originalPartner.publicKey),
+      requiresProfileConfirmation: true,
+    });
+  });
+
+  it('does not apply an in-flight partner pull after recovery pauses sync', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+    useCoupleLinkStore.getState().setLink({
+      ...activeLink(encodeBase64(partnerEncryption.publicKey)),
+      myDeviceId: 'dev_me',
+    });
+    const response = deferred<{
+      ok: boolean;
+      json: () => Promise<Record<string, unknown>>;
+    }>();
+    const fetchMock = jest.fn().mockReturnValue(response.promise);
+    _resetRelayClientForTests(
+      new RelayTestClient(
+        'https://relay.test',
+        fetchMock as unknown as (
+          input: string,
+          init?: RequestInit
+        ) => Promise<Response>
+      )
+    );
+
+    const pulling = pullPartnerEvents();
+    await settleAsyncWork();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    useCoupleLinkStore.setState({
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: true,
+      },
+    });
+    response.resolve({
+      ok: true,
+      json: async () => ({
+        events: [
+          {
+            serverSequence: 9,
+            eventId: 'evt_late_partner',
+            coupleId: 'couple-1',
+            authorDeviceId: 'dev_partner',
+            clientSequence: 1,
+            encryptedPayload: 'late-payload',
+            payloadHash: 'late-hash',
+            signature: '',
+            createdAt: 1,
+            expiresAt: null,
+          },
+        ],
+        cursor: 9,
+      }),
+    });
+
+    await expect(pulling).resolves.toEqual({ applied: 0 });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(useCoupleLinkStore.getState().link).toMatchObject({
+      requiresProfileConfirmation: true,
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+    });
+    expect(usePartnerVotesStore.getState().byCardId).toEqual({});
   });
 
   it('encrypts, signs, and uploads a recipient-bound pending event', async () => {
