@@ -48,7 +48,15 @@ export function PartnerAccountGate({
     const accountService = getAccountService();
 
     if (existingProvider) {
-      await accountService.signIn(credential);
+      const result = await accountService.signIn(credential);
+      if (result.accountChanged) {
+        setError(
+          ui(
+            'Account switched. Restore that account before continuing partner setup.'
+          )
+        );
+        return;
+      }
     } else {
       try {
         await accountService.linkProvider(credential);

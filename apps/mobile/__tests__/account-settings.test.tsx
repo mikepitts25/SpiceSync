@@ -239,6 +239,7 @@ describe('account settings', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: 'device-1',
         partnerDeviceId: 'device-2',
         partnerSigningPublicKey: 'partner-signing',
@@ -285,6 +286,7 @@ describe('account settings', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: 'device-1',
         partnerDeviceId: 'device-2',
         partnerSigningPublicKey: 'partner-signing',

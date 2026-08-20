@@ -36,6 +36,12 @@ export default function PartnerSyncScreen() {
   const { t } = useTranslation();
   const link = useCoupleLinkStore((state) => state.link);
   const securityNotice = useCoupleLinkStore((state) => state.securityNotice);
+  const remoteStateNotice = useCoupleLinkStore(
+    (state) => state.remoteStateNotice
+  );
+  const remoteSyncPauseReason = useCoupleLinkStore(
+    (state) => state.remoteSyncPauseReason
+  );
   const acknowledgeSecurityNotice = useCoupleLinkStore(
     (state) => state.acknowledgeSecurityNotice
   );
@@ -146,7 +152,9 @@ export default function PartnerSyncScreen() {
                 <View style={styles.statusPill}>
                   <Radio size={13} color={COLORS.yes} />
                   <Text style={styles.statusText}>
-                    {ui('Remote sync active')}
+                    {remoteSyncPauseReason === null
+                      ? ui('Remote sync active')
+                      : ui('Remote sync paused — sign in or recover to resume')}
                   </Text>
                 </View>
               </View>
@@ -248,9 +256,13 @@ export default function PartnerSyncScreen() {
               {ui('No remote partner connected')}
             </Text>
             <Text style={styles.emptyCopy}>
-              {ui(
-                ' Create or accept a private invite link to sync encrypted vote updates with a partner on another device. '
-              )}
+              {remoteStateNotice
+                ? ui(
+                    'The previous remote connection was cleared safely. Pending updates were not sent to another account or partner. Restore the intended account or start partner setup.'
+                  )
+                : ui(
+                    ' Create or accept a private invite link to sync encrypted vote updates with a partner on another device. '
+                  )}
             </Text>
             <Pressable
               style={styles.primaryAction}

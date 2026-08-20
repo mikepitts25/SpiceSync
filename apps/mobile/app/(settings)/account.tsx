@@ -171,6 +171,9 @@ export default function AccountSettingsScreen() {
     try {
       const service = getAccountService();
       provider = await service.getDeletionProvider();
+      // Google classic native sign-in has no nonce parameter. Bind it to the
+      // original session with a short-lived one-time server challenge first.
+      const deletionProof = await service.prepareAccountDeletion(provider);
       const credential =
         provider === 'apple'
           ? await getAppleCredential()
@@ -181,7 +184,7 @@ export default function AccountSettingsScreen() {
       if (!mountedRef.current) return;
 
       setError(null);
-      await service.deleteAccount(credential);
+      await service.deleteAccount(credential, deletionProof);
 
       try {
         // The service resolves only after the Edge Function has returned 204.

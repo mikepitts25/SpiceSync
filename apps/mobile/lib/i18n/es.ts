@@ -168,10 +168,10 @@ export const es: Translations = {
       'No se puede encontrar este dispositivo. Sigues con la sesión iniciada. Inténtalo de nuevo.',
     deleteAccount: 'Eliminar cuenta',
     deleteAccountCopy:
-      'Elimina permanentemente tu cuenta y los datos de SpiceSync de este dispositivo.',
+      'Elimina tu cuenta del servidor y borra los datos de SpiceSync de este dispositivo. Las copias locales de otros dispositivos permanecen hasta que se borren allí.',
     deleteAccountConfirmTitle: '¿Eliminar cuenta?',
     deleteAccountConfirmBody:
-      'Esto elimina permanentemente tu cuenta y borra los datos de SpiceSync de este dispositivo. No se puede deshacer.',
+      'Tras verificar de nuevo el proveedor, la eliminación del servidor borra tu cuenta, correo o identificador del proveedor, metadatos de dispositivos y pareja, invitaciones y eventos cifrados. Después se borra este dispositivo; otros dispositivos conservan sus copias locales hasta restablecer o desinstalar la app. Reinstalar no restaura perfiles, votos ni historial local. Las solicitudes verificadas se completan de inmediato en la app o, si son manuales, en un plazo de 30 días. La eliminación de la cuenta y la cancelación de una suscripción de la tienda son procesos separados; SpiceSync ofrece actualmente acceso de por vida, no una suscripción. Esto no se puede deshacer.',
     deletingAccount: 'Eliminando cuenta...',
     deleteAccountFailed: 'No se pudo eliminar tu cuenta. Inténtalo de nuevo.',
     deleteAccountAppleIosRequired:

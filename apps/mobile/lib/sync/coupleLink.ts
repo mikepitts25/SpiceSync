@@ -7,6 +7,7 @@ import type { CoupleResponse } from './relayTypes';
 
 export type CoupleLink = {
   coupleId: string;
+  ownerUserId: string;
   myDeviceId: string;
   myKeyVersion?: number;
   partnerDeviceId: string;
@@ -29,6 +30,14 @@ export type SecurityNotice = {
   partnerName: string | null;
 };
 
+export type RemoteSyncPauseReason = 'signed-out' | 'auth-required' | null;
+
+export type RemoteStateNotice = {
+  kind: 'account-switched' | 'no-couple' | 'couple-changed';
+  discardedPendingCount: number;
+  occurredAt: number;
+};
+
 type CoupleLinkInput = Omit<
   CoupleLink,
   'myKeyVersion' | 'partnerKeyVersion' | 'requiresProfileConfirmation'
@@ -42,6 +51,11 @@ type CoupleLinkInput = Omit<
 
 type CoupleLinkState = {
   link: CoupleLink | null;
+  /** The current Supabase user is runtime-only and must be revalidated. */
+  authenticatedUserId: string | null;
+  remoteSyncPauseReason: RemoteSyncPauseReason;
+  pendingProfileConfirmationOwnerUserId: string | null;
+  remoteStateNotice: RemoteStateNotice | null;
   /**
    * A runtime-only handoff used by the recovery confirmation screen. The
    * persisted link remains paused until that screen has successfully
@@ -53,6 +67,13 @@ type CoupleLinkState = {
   pendingInviteExpiresAt: number | null;
   coupleRecoveryEnabled: boolean;
   setLink: (link: CoupleLinkInput) => void;
+  setAuthenticatedUser: (userId: string | null) => void;
+  setRemoteSyncPause: (reason: RemoteSyncPauseReason) => void;
+  requireProfileConfirmationForOwner: (ownerUserId: string) => void;
+  clearRemoteState: (
+    notice: RemoteStateNotice,
+    nextOwnerUserId?: string | null
+  ) => void;
   beginProfileConfirmation: (profileId: string) => boolean;
   cancelProfileConfirmation: (profileId?: string) => void;
   confirmLocalProfile: (profileId: string) => boolean;
@@ -73,12 +94,46 @@ type PersistedCoupleLinkState = Pick<
   | 'pendingInviteId'
   | 'pendingInviteExpiresAt'
   | 'coupleRecoveryEnabled'
+  | 'remoteSyncPauseReason'
+  | 'pendingProfileConfirmationOwnerUserId'
+  | 'remoteStateNotice'
 >;
 
 export function isCoupleLinkSyncable(
   link: CoupleLink | null | undefined
 ): link is CoupleLink {
-  return link?.status === 'active' && link.requiresProfileConfirmation !== true;
+  if (
+    link?.status !== 'active' ||
+    !link.ownerUserId ||
+    link.requiresProfileConfirmation === true
+  ) {
+    return false;
+  }
+  const state = useCoupleLinkStore.getState();
+  return (
+    state.remoteSyncPauseReason === null &&
+    state.pendingProfileConfirmationOwnerUserId === null &&
+    state.authenticatedUserId === link.ownerUserId
+  );
+}
+
+export type ActiveRemoteSyncOwnership = {
+  ownerUserId: string;
+  coupleId: string;
+  authorDeviceId: string;
+  recipientDeviceId: string;
+};
+
+export function getActiveRemoteSyncOwnership(): ActiveRemoteSyncOwnership | null {
+  const state = useCoupleLinkStore.getState();
+  const link = state.link;
+  if (!isCoupleLinkSyncable(link)) return null;
+  return {
+    ownerUserId: link.ownerUserId,
+    coupleId: link.coupleId,
+    authorDeviceId: link.myDeviceId,
+    recipientDeviceId: link.partnerDeviceId,
+  };
 }
 
 /**
@@ -138,6 +193,7 @@ function mergePersistedCoupleLinkState(
     // This value is deliberately never persisted. A process restart must
     // resume in the conservative, persisted-paused state.
     profileConfirmationInProgress: _profileConfirmationInProgress,
+    authenticatedUserId: _authenticatedUserId,
     ...persisted
   } = (persistedState ?? {}) as Partial<CoupleLinkState>;
   const savedLink = persisted.link;
@@ -158,6 +214,11 @@ function mergePersistedCoupleLinkState(
     ...currentState,
     ...persisted,
     link,
+    authenticatedUserId: null,
+    remoteSyncPauseReason:
+      link && !link.ownerUserId
+        ? 'auth-required'
+        : (persisted.remoteSyncPauseReason ?? currentState.remoteSyncPauseReason),
     profileConfirmationInProgress: null,
   };
 }
@@ -166,6 +227,10 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
   persist(
     (set, get) => ({
       link: null,
+      authenticatedUserId: null,
+      remoteSyncPauseReason: null,
+      pendingProfileConfirmationOwnerUserId: null,
+      remoteStateNotice: null,
       profileConfirmationInProgress: null,
       securityNotice: null,
       pendingInviteId: null,
@@ -180,6 +245,40 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
             requiresProfileConfirmation:
               link.requiresProfileConfirmation ?? false,
           },
+          authenticatedUserId: link.ownerUserId,
+          remoteSyncPauseReason:
+            link.requiresProfileConfirmation === true ? 'auth-required' : null,
+          pendingProfileConfirmationOwnerUserId:
+            link.requiresProfileConfirmation === true ? link.ownerUserId : null,
+          remoteStateNotice: null,
+          pendingInviteId: null,
+          pendingInviteExpiresAt: null,
+          coupleRecoveryEnabled: true,
+          profileConfirmationInProgress: null,
+        }),
+      setAuthenticatedUser: (authenticatedUserId) =>
+        set({ authenticatedUserId }),
+      setRemoteSyncPause: (remoteSyncPauseReason) =>
+        set({ remoteSyncPauseReason }),
+      requireProfileConfirmationForOwner: (ownerUserId) => {
+        const current = get().link;
+        set({
+          link:
+            current && current.ownerUserId === ownerUserId
+              ? { ...current, requiresProfileConfirmation: true }
+              : current,
+          pendingProfileConfirmationOwnerUserId: ownerUserId,
+          remoteSyncPauseReason: 'auth-required',
+        });
+      },
+      clearRemoteState: (remoteStateNotice, nextOwnerUserId = null) =>
+        set({
+          link: null,
+          authenticatedUserId: nextOwnerUserId,
+          remoteSyncPauseReason: 'auth-required',
+          pendingProfileConfirmationOwnerUserId: nextOwnerUserId,
+          remoteStateNotice,
+          securityNotice: null,
           pendingInviteId: null,
           pendingInviteExpiresAt: null,
           coupleRecoveryEnabled: true,
@@ -221,6 +320,8 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
         set({
           link: { ...current, requiresProfileConfirmation: false },
           profileConfirmationInProgress: null,
+          pendingProfileConfirmationOwnerUserId: null,
+          remoteSyncPauseReason: null,
         });
         return true;
       },
@@ -239,6 +340,7 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
           link: { ...current, status: 'unlinked' },
           coupleRecoveryEnabled: false,
           profileConfirmationInProgress: null,
+          remoteSyncPauseReason: 'auth-required',
         });
       },
       clear: () =>
@@ -249,6 +351,9 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
           pendingInviteExpiresAt: null,
           coupleRecoveryEnabled: false,
           profileConfirmationInProgress: null,
+          remoteSyncPauseReason: null,
+          pendingProfileConfirmationOwnerUserId: null,
+          remoteStateNotice: null,
         }),
       updateCursor: (serverSequence) => {
         const current = get().link;
@@ -277,6 +382,10 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
         pendingInviteId: state.pendingInviteId,
         pendingInviteExpiresAt: state.pendingInviteExpiresAt,
         coupleRecoveryEnabled: state.coupleRecoveryEnabled,
+        remoteSyncPauseReason: state.remoteSyncPauseReason,
+        pendingProfileConfirmationOwnerUserId:
+          state.pendingProfileConfirmationOwnerUserId,
+        remoteStateNotice: state.remoteStateNotice,
       }),
       // Legacy links predate recovery metadata. Normalize only a saved link,
       // leaving a persisted null link and all other persisted fields intact.

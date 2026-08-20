@@ -184,7 +184,7 @@ describe('PartnerAccountGate', () => {
     });
   });
 
-  it('requires explicit confirmation and a fresh credential before existing-account sign-in', async () => {
+  it('does not run the old deferred partner action after explicit existing-account sign-in', async () => {
     const existingAccountError = Object.assign(new Error('already linked'), {
       code: 'ACCOUNT_EXISTS',
     });
@@ -193,7 +193,10 @@ describe('PartnerAccountGate', () => {
     const linkProvider = jest.fn().mockRejectedValue(existingAccountError);
     const signIn = jest
       .fn()
-      .mockResolvedValue(permanentAccount('existing-user'));
+      .mockResolvedValue({
+        ...permanentAccount('existing-user'),
+        accountChanged: true,
+      });
     const onComplete = jest.fn();
     mockGetGoogleCredential
       .mockResolvedValueOnce(firstCredential)
@@ -221,7 +224,14 @@ describe('PartnerAccountGate', () => {
     fireEvent.press(screen.getByText('Sign into existing account'));
 
     await waitFor(() => expect(signIn).toHaveBeenCalledWith(freshCredential));
-    await waitFor(() => expect(onComplete).toHaveBeenCalledTimes(1));
+    expect(onComplete).not.toHaveBeenCalled();
+    await waitFor(() =>
+      expect(
+        screen.getByText(
+          'Account switched. Restore that account before continuing partner setup.'
+        )
+      ).toBeTruthy()
+    );
   });
 
   it('does not complete a deferred partner action until the account is permanent', async () => {

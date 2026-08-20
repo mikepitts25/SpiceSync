@@ -21,6 +21,7 @@ describe('partner dashboard stats', () => {
       now,
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: 'dev-a',
         partnerDeviceId: 'dev-b',
         partnerSigningPublicKey: 'sign',

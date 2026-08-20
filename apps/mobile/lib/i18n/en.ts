@@ -166,10 +166,10 @@ export const en = {
       'This device cannot be found. You are still signed in. Try again.',
     deleteAccount: 'Delete account',
     deleteAccountCopy:
-      'Permanently delete your account and this device’s SpiceSync data.',
+      'Delete your server account and clear SpiceSync data from this device. Local copies on other devices remain until cleared there.',
     deleteAccountConfirmTitle: 'Delete account?',
     deleteAccountConfirmBody:
-      'This permanently deletes your account and clears SpiceSync data from this device. This cannot be undone.',
+      'After fresh provider verification, server deletion removes your account, provider email or identifier, device/couple metadata, invitations, and encrypted relay events. This device is then cleared; other devices keep their local copies until reset or uninstall. Reinstalling does not restore local profiles, votes, or history. Verified requests are completed immediately in-app or, for manual requests, within 30 days. Account deletion and store subscription cancellation are separate; SpiceSync currently offers lifetime access, not a subscription. This cannot be undone.',
     deletingAccount: 'Deleting account...',
     deleteAccountFailed: 'Could not delete your account. Try again.',
     deleteAccountAppleIosRequired:

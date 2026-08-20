@@ -1,6 +1,7 @@
 import { encodeBase64Url } from './base64';
 import { getAccountService } from '../auth/accountService';
 import { useCoupleLinkStore } from './coupleLink';
+import { clearRemoteOwnedState } from './remoteOwnership';
 import { randomBytes, sha256Base64 } from './crypto';
 import { getOrCreateIdentity } from './identity';
 import type { ParsedInviteUrl } from './inviteUrl';
@@ -49,6 +50,7 @@ export function buildInviteShareContent(
 export async function createInvite(
   profile: InviteProfile = {}
 ): Promise<InviteHandle> {
+  await getAccountService().ensureAnonymousUser();
   const { identity } = await getOrCreateIdentity();
   const inviteSecret = encodeBase64Url(randomBytes(INVITE_SECRET_BYTES));
   const inviteSecretHash = sha256Base64(inviteSecret);
@@ -117,6 +119,7 @@ export async function acceptInvite(
   parsed: ParsedInviteUrl,
   profile: InviteProfile = {}
 ): Promise<AcceptInviteResult> {
+  const ownerUserId = await getAccountService().ensureAnonymousUser();
   const { identity } = await getOrCreateIdentity();
   const client = getRelayClient();
   const lookup = await client.getInvite(parsed.inviteId);
@@ -149,6 +152,7 @@ export async function acceptInvite(
     : result.memberAProfileAvatar;
   useCoupleLinkStore.getState().setLink({
     coupleId: result.coupleId,
+    ownerUserId,
     myDeviceId: identity.deviceId,
     myKeyVersion: isMemberA
       ? (result.memberAKeyVersion ?? 1)
@@ -176,6 +180,7 @@ export async function finalizePendingInvite(
   const resolvedInviteId =
     inviteId ?? useCoupleLinkStore.getState().pendingInviteId;
   if (!resolvedInviteId) return null;
+  const ownerUserId = await getAccountService().ensureAnonymousUser();
   const { identity } = await getOrCreateIdentity();
   const client = getRelayClient();
   const lookup = await client.getInvite(resolvedInviteId);
@@ -204,6 +209,7 @@ export async function finalizePendingInvite(
     : couple.memberAProfileAvatar;
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
+    ownerUserId,
     myDeviceId: identity.deviceId,
     myKeyVersion: isMemberA
       ? (couple.memberAKeyVersion ?? 1)
@@ -230,10 +236,11 @@ export async function recoverGrandfatheredCouple(): Promise<AcceptInviteResult |
   const linkState = useCoupleLinkStore.getState();
   if (!linkState.coupleRecoveryEnabled) return null;
   const current = linkState.link;
-  if (current?.status === 'active') {
+  if (current?.status === 'active' && current.ownerUserId) {
     return { coupleId: current.coupleId };
   }
 
+  const ownerUserId = await getAccountService().ensureAnonymousUser();
   const { identity } = await getOrCreateIdentity();
   const couple = await getRelayClient().findCoupleForDevice(identity.deviceId);
   if (!couple) return null;
@@ -258,6 +265,7 @@ export async function recoverGrandfatheredCouple(): Promise<AcceptInviteResult |
 
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
+    ownerUserId,
     myDeviceId: identity.deviceId,
     myKeyVersion: isMemberA
       ? (couple.memberAKeyVersion ?? 1)
@@ -285,6 +293,7 @@ export const recoverExistingCouple = recoverGrandfatheredCouple;
 
 function restoreCoupleLink(
   response: DeviceRecoveryResponse,
+  ownerUserId: string,
   requireProfileConfirmation: boolean
 ): AcceptInviteResult {
   const couple = response.couple;
@@ -315,6 +324,7 @@ function restoreCoupleLink(
 
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
+    ownerUserId,
     myDeviceId: response.myDeviceId,
     myKeyVersion: response.myKeyVersion,
     partnerDeviceId,
@@ -335,7 +345,8 @@ function restoreCoupleLink(
 export async function recoverPermanentAccount(
   options: PermanentAccountRecoveryOptions = {}
 ): Promise<PermanentAccountRecoveryResult> {
-  await getAccountService().requirePermanentUser();
+  const ownerUserId = await getAccountService().requirePermanentUser();
+  useCoupleLinkStore.getState().setAuthenticatedUser(ownerUserId);
   const { identity } = await getOrCreateIdentity();
   const response = await getRelayClient().recoverDevice({
     deviceId: identity.deviceId,
@@ -343,14 +354,33 @@ export async function recoverPermanentAccount(
     signingPublicKey: identity.signingPublicKey,
   });
 
-  if (!response.couple) return { kind: 'no-couple' };
+  if (!response.couple) {
+    clearRemoteOwnedState('no-couple', ownerUserId);
+    return { kind: 'no-couple' };
+  }
   if (response.myDeviceId !== identity.deviceId) {
     throw new Error('Recovered device does not match this installation');
   }
 
+  const previous = useCoupleLinkStore.getState();
+  const sameOwnedRelationship =
+    previous.link?.ownerUserId === ownerUserId &&
+    previous.link.coupleId === response.couple.coupleId &&
+    previous.link.myDeviceId === response.myDeviceId;
+  const relationshipChanged = !!previous.link && !sameOwnedRelationship;
+  const accountSwitchNeedsConfirmation =
+    previous.pendingProfileConfirmationOwnerUserId === ownerUserId;
+  if (relationshipChanged) {
+    clearRemoteOwnedState('couple-changed', ownerUserId);
+  }
   const result = restoreCoupleLink(
     response,
-    options.requireProfileConfirmation ?? false
+    ownerUserId,
+    sameOwnedRelationship
+      ? false
+      : relationshipChanged ||
+          accountSwitchNeedsConfirmation ||
+          (options.requireProfileConfirmation ?? false)
   );
   return { kind: 'recovered', ...result };
 }

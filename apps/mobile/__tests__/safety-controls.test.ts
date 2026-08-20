@@ -127,6 +127,7 @@ describe('local safety data controls', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: 'dev-a',
         partnerDeviceId: 'dev-b',
         partnerSigningPublicKey: 'sign',
@@ -217,6 +218,7 @@ describe('local safety data controls', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: 'dev-a',
         partnerDeviceId: 'dev-b',
         partnerSigningPublicKey: 'sign',
@@ -394,6 +396,7 @@ describe('local safety data controls', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: 'dev-a',
         partnerDeviceId: 'dev-b',
         partnerSigningPublicKey: 'sign',

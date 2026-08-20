@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
+import { useEventQueueStore } from '../lib/sync/eventQueue';
+import { usePartnerVotesStore } from '../lib/sync/partnerVotes';
+import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import { recoverPermanentAccount } from '../lib/sync/inviteFlow';
 
 const COUPLE_LINK_STORAGE_KEY = 'spicesync-couple-link';
@@ -59,11 +62,22 @@ describe('durable account recovery', () => {
     await AsyncStorage.removeItem(COUPLE_LINK_STORAGE_KEY);
     useCoupleLinkStore.setState({
       link: null,
+      authenticatedUserId: null,
+      remoteSyncPauseReason: null,
+      pendingProfileConfirmationOwnerUserId: null,
+      remoteStateNotice: null,
       securityNotice: null,
       pendingInviteId: null,
       pendingInviteExpiresAt: null,
       coupleRecoveryEnabled: true,
-    });
+    } as never);
+    useEventQueueStore.setState({
+      pending: [],
+      quarantined: [],
+      nextClientSequence: 1,
+    } as never);
+    usePartnerVotesStore.setState({ byCardId: {}, answeredCount: 0 });
+    useRevealConsentStore.setState({ local: {}, partner: {} });
     mockRequirePermanentUser.mockResolvedValue('user-a');
     mockGetOrCreateIdentity.mockResolvedValue({
       identity: {
@@ -79,7 +93,7 @@ describe('durable account recovery', () => {
     await AsyncStorage.removeItem(COUPLE_LINK_STORAGE_KEY);
   });
 
-  it('hydrates a legacy link with recovery defaults without losing its security notice', async () => {
+  it('hydrates an unbound legacy link paused until current auth and device ownership are proven', async () => {
     await AsyncStorage.setItem(
       COUPLE_LINK_STORAGE_KEY,
       JSON.stringify({
@@ -130,6 +144,8 @@ describe('durable account recovery', () => {
         requiresProfileConfirmation: false,
         status: 'active',
       },
+      authenticatedUserId: null,
+      remoteSyncPauseReason: 'auth-required',
       securityNotice: {
         kind: 'partner-device-restored',
         occurredAt: 1900,
@@ -182,6 +198,7 @@ describe('durable account recovery', () => {
     expect(mockRelay.findCoupleForDevice).not.toHaveBeenCalled();
     expect(useCoupleLinkStore.getState().link).toMatchObject({
       coupleId: 'cpl_1',
+      ownerUserId: 'user-a',
       myDeviceId: 'dev_new',
       partnerDeviceId: 'dev_partner',
       myKeyVersion: 2,
@@ -192,6 +209,48 @@ describe('durable account recovery', () => {
   });
 
   it('does not manufacture a couple link when device registration has no couple', async () => {
+    useCoupleLinkStore.setState({
+      link: {
+        coupleId: 'cpl_old',
+        ownerUserId: 'user-a',
+        myDeviceId: 'dev_new',
+        partnerDeviceId: 'dev_old_partner',
+        partnerSigningPublicKey: 'sign_old_partner',
+        partnerEncryptionPublicKey: 'enc_old_partner',
+        linkedAt: 1,
+        lastPulledServerSequence: 9,
+        lastSyncedAt: 10,
+        requiresProfileConfirmation: false,
+        status: 'active',
+      },
+      authenticatedUserId: 'user-a',
+    } as never);
+    useEventQueueStore.setState({
+      pending: [
+        {
+          eventId: 'evt_old_plaintext',
+          ownerUserId: 'user-a',
+          coupleId: 'cpl_old',
+          authorDeviceId: 'dev_new',
+          recipientDeviceId: 'dev_old_partner',
+          envelopeVersion: 2,
+          clientSequence: 1,
+          payload: {
+            schemaVersion: 1,
+            eventType: 'progress.snapshot',
+            eventId: 'evt_old_plaintext',
+            authorDeviceId: 'dev_new',
+            answeredCount: 3,
+            updatedAt: 1,
+          },
+          createdAt: 1,
+          attempts: 0,
+          nextAttemptAt: 1,
+        },
+      ],
+      quarantined: [],
+      nextClientSequence: 2,
+    } as never);
     mockRelay.recoverDevice.mockResolvedValue(
       recoveryResponse({
         couple: null,
@@ -205,5 +264,171 @@ describe('durable account recovery', () => {
     });
 
     expect(useCoupleLinkStore.getState().link).toBeNull();
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+    expect(useEventQueueStore.getState().quarantined).toEqual([
+      expect.objectContaining({
+        eventId: 'evt_old_plaintext',
+        reason: 'no-couple',
+      }),
+    ]);
+    expect(useCoupleLinkStore.getState().remoteStateNotice).toMatchObject({
+      kind: 'no-couple',
+      discardedPendingCount: 1,
+    });
+  });
+
+  it('preserves a same-owner same-device relationship and queue during explicit recovery', async () => {
+    useCoupleLinkStore.setState({
+      link: {
+        coupleId: 'cpl_1',
+        ownerUserId: 'user-a',
+        myDeviceId: 'dev_new',
+        partnerDeviceId: 'dev_partner',
+        partnerSigningPublicKey: 'sign_partner',
+        partnerEncryptionPublicKey: 'enc_partner',
+        linkedAt: 1,
+        lastPulledServerSequence: 11,
+        lastSyncedAt: 12,
+        requiresProfileConfirmation: false,
+        status: 'active',
+      },
+      authenticatedUserId: 'user-a',
+      remoteSyncPauseReason: 'signed-out',
+    } as never);
+    useEventQueueStore.setState({
+      pending: [
+        {
+          eventId: 'evt_same_owner',
+          ownerUserId: 'user-a',
+          coupleId: 'cpl_1',
+          authorDeviceId: 'dev_new',
+          recipientDeviceId: 'dev_partner',
+          envelopeVersion: 2,
+          clientSequence: 1,
+          payload: {
+            schemaVersion: 1,
+            eventType: 'progress.snapshot',
+            eventId: 'evt_same_owner',
+            authorDeviceId: 'dev_new',
+            answeredCount: 1,
+            updatedAt: 1,
+          },
+          createdAt: 1,
+          attempts: 0,
+          nextAttemptAt: 1,
+        },
+      ],
+      quarantined: [],
+      nextClientSequence: 2,
+    } as never);
+    mockRelay.recoverDevice.mockResolvedValue(recoveryResponse());
+
+    await recoverPermanentAccount({ requireProfileConfirmation: true });
+
+    expect(useCoupleLinkStore.getState()).toMatchObject({
+      link: {
+        ownerUserId: 'user-a',
+        coupleId: 'cpl_1',
+        myDeviceId: 'dev_new',
+        requiresProfileConfirmation: false,
+      },
+      authenticatedUserId: 'user-a',
+      remoteSyncPauseReason: null,
+    });
+    expect(useEventQueueStore.getState().pending).toHaveLength(1);
+    expect(useEventQueueStore.getState().quarantined).toEqual([]);
+  });
+
+  it('quarantines old plaintext before recovering the same account into a different couple', async () => {
+    useCoupleLinkStore.setState({
+      link: {
+        coupleId: 'cpl_old',
+        ownerUserId: 'user-a',
+        myDeviceId: 'dev_new',
+        partnerDeviceId: 'dev_old_partner',
+        partnerSigningPublicKey: 'sign_old_partner',
+        partnerEncryptionPublicKey: 'enc_old_partner',
+        linkedAt: 1,
+        lastPulledServerSequence: 2,
+        lastSyncedAt: 3,
+        requiresProfileConfirmation: false,
+        status: 'active',
+      },
+      authenticatedUserId: 'user-a',
+    } as never);
+    useEventQueueStore.setState({
+      pending: [
+        {
+          eventId: 'evt_old_couple',
+          ownerUserId: 'user-a',
+          coupleId: 'cpl_old',
+          authorDeviceId: 'dev_new',
+          recipientDeviceId: 'dev_old_partner',
+          envelopeVersion: 2,
+          clientSequence: 1,
+          payload: {
+            schemaVersion: 1,
+            eventType: 'progress.snapshot',
+            eventId: 'evt_old_couple',
+            authorDeviceId: 'dev_new',
+            answeredCount: 7,
+            updatedAt: 1,
+          },
+          createdAt: 1,
+          attempts: 0,
+          nextAttemptAt: 1,
+        },
+      ],
+      quarantined: [],
+      nextClientSequence: 2,
+    } as never);
+    mockRelay.recoverDevice.mockResolvedValue(recoveryResponse());
+
+    await recoverPermanentAccount({ requireProfileConfirmation: false });
+
+    expect(useCoupleLinkStore.getState().link).toMatchObject({
+      ownerUserId: 'user-a',
+      coupleId: 'cpl_1',
+      requiresProfileConfirmation: true,
+    });
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+    expect(useEventQueueStore.getState().quarantined).toEqual([
+      expect.objectContaining({
+        eventId: 'evt_old_couple',
+        reason: 'couple-changed',
+      }),
+    ]);
+  });
+
+  it('maps member B ownership and partner material during recovery', async () => {
+    mockRelay.recoverDevice.mockResolvedValue(
+      recoveryResponse({
+        couple: {
+          ...recoveryResponse().couple,
+          memberADeviceId: 'dev_partner',
+          memberBDeviceId: 'dev_new',
+          memberAPublicKey: 'enc_partner',
+          memberBPublicKey: 'enc_new',
+          memberASigningPublicKey: 'sign_partner',
+          memberBSigningPublicKey: 'sign_new',
+          memberAKeyVersion: 3,
+          memberBKeyVersion: 4,
+        },
+        myKeyVersion: 4,
+        partnerKeyVersion: 3,
+      })
+    );
+
+    await recoverPermanentAccount();
+
+    expect(useCoupleLinkStore.getState().link).toMatchObject({
+      ownerUserId: 'user-a',
+      myDeviceId: 'dev_new',
+      myKeyVersion: 4,
+      partnerDeviceId: 'dev_partner',
+      partnerKeyVersion: 3,
+      partnerEncryptionPublicKey: 'enc_partner',
+      partnerSigningPublicKey: 'sign_partner',
+    });
   });
 });

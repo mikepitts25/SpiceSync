@@ -1,4 +1,7 @@
-import { useEventQueueStore } from '../lib/sync/eventQueue';
+import {
+  bindLegacyPendingToPersistedLink,
+  useEventQueueStore,
+} from '../lib/sync/eventQueue';
 import {
   _resetCacheForTests,
   getOrCreateIdentity,
@@ -39,8 +42,28 @@ function memoryIdentityDeps() {
 }
 
 beforeEach(() => {
-  useEventQueueStore.setState({ pending: [], nextClientSequence: 1 });
-  useCoupleLinkStore.setState({ link: null });
+  useEventQueueStore.setState({
+    pending: [],
+    quarantined: [],
+    nextClientSequence: 1,
+  } as never);
+  useCoupleLinkStore.setState({
+    link: {
+      coupleId: 'couple-1',
+      ownerUserId: 'user-a',
+      myDeviceId: 'dev_a',
+      partnerDeviceId: 'dev_partner',
+      partnerSigningPublicKey: 'sign',
+      partnerEncryptionPublicKey: 'enc',
+      linkedAt: 1,
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      requiresProfileConfirmation: false,
+      status: 'active',
+    },
+    authenticatedUserId: 'user-a',
+    remoteSyncPauseReason: null,
+  } as never);
   useVotesStore.setState({ votesByProfile: {} });
   _resetForTests();
   setIdentityDeps(memoryIdentityDeps());
@@ -70,9 +93,88 @@ describe('event queue', () => {
       vote: 'no',
       updatedAt: 2,
     });
-    expect(a.clientSequence).toBe(1);
-    expect(b.clientSequence).toBe(2);
+    expect(a!.clientSequence).toBe(1);
+    expect(b!.clientSequence).toBe(2);
+    expect(a).toMatchObject({
+      ownerUserId: 'user-a',
+      coupleId: 'couple-1',
+      authorDeviceId: 'dev_a',
+      recipientDeviceId: 'dev_partner',
+      envelopeVersion: 2,
+    });
     expect(useEventQueueStore.getState().pending).toHaveLength(2);
+  });
+
+  it('centrally rejects every enqueue while signed out or awaiting profile confirmation', () => {
+    const input = {
+      schemaVersion: 1 as const,
+      eventType: 'progress.snapshot' as const,
+      authorDeviceId: 'dev_a',
+      answeredCount: 1,
+      updatedAt: 1,
+    };
+    useCoupleLinkStore.setState({ remoteSyncPauseReason: 'signed-out' } as never);
+    expect(useEventQueueStore.getState().enqueue(input)).toBeNull();
+
+    useCoupleLinkStore.setState({
+      remoteSyncPauseReason: null,
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: true,
+      },
+    } as never);
+    expect(useEventQueueStore.getState().enqueue(input)).toBeNull();
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+  });
+
+  it('rejects an enqueue whose payload author does not match the authenticated link device', () => {
+    const queued = useEventQueueStore.getState().enqueue({
+      schemaVersion: 1,
+      eventType: 'progress.snapshot',
+      authorDeviceId: 'another-device',
+      answeredCount: 1,
+      updatedAt: 1,
+    });
+
+    expect(queued).toBeNull();
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+  });
+
+  it('quarantines unbound legacy plaintext when no persisted link proves its couple', () => {
+    useCoupleLinkStore.setState({ link: null } as never);
+    useEventQueueStore.setState({
+      pending: [
+        {
+          eventId: 'legacy-without-link',
+          clientSequence: 1,
+          payload: {
+            schemaVersion: 1,
+            eventType: 'progress.snapshot',
+            eventId: 'legacy-without-link',
+            authorDeviceId: 'dev_a',
+            answeredCount: 4,
+            updatedAt: 1,
+          },
+          createdAt: 1,
+          attempts: 0,
+          nextAttemptAt: 1,
+        },
+      ],
+      quarantined: [],
+      nextClientSequence: 2,
+    } as never);
+
+    expect(bindLegacyPendingToPersistedLink()).toEqual({
+      bound: 0,
+      quarantined: 1,
+    });
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+    expect(useEventQueueStore.getState().quarantined).toEqual([
+      expect.objectContaining({
+        eventId: 'legacy-without-link',
+        reason: 'legacy-unproven',
+      }),
+    ]);
   });
 
   it('keeps paired role preference on vote events', () => {
@@ -87,7 +189,7 @@ describe('event queue', () => {
       updatedAt: 1,
     });
 
-    expect(pending.payload).toMatchObject({
+    expect(pending!.payload).toMatchObject({
       eventType: 'vote.upsert',
       cardId: 'pair:oral-pleasure',
       vote: 'yes',
@@ -100,6 +202,7 @@ describe('event queue', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-a',
         myDeviceId: identity.deviceId,
         partnerDeviceId: 'dev_partner',
         partnerSigningPublicKey: 'sign',
@@ -109,7 +212,9 @@ describe('event queue', () => {
         lastSyncedAt: null,
         status: 'active',
       },
-    });
+      authenticatedUserId: 'user-a',
+      remoteSyncPauseReason: null,
+    } as never);
     useVoteSyncStore.getState().setLocalProfileId('profile-a');
     startVoteSync();
 
@@ -138,7 +243,7 @@ describe('event queue', () => {
       vote: 'yes',
       updatedAt: 1,
     });
-    queue.markAttempted(a.eventId, true);
+    queue.markAttempted(a!.eventId, true);
     expect(useEventQueueStore.getState().pending).toHaveLength(0);
   });
 
@@ -153,13 +258,13 @@ describe('event queue', () => {
       updatedAt: 1,
     });
     const before = Date.now();
-    queue.markAttempted(a.eventId, false, 'network');
+    queue.markAttempted(a!.eventId, false, 'network');
     const after = useEventQueueStore.getState().pending[0];
     expect(after.attempts).toBe(1);
     expect(after.nextAttemptAt).toBeGreaterThanOrEqual(before);
     expect(after.lastError).toBe('network');
 
-    queue.markAttempted(a.eventId, false, 'network');
+    queue.markAttempted(a!.eventId, false, 'network');
     const afterTwo = useEventQueueStore.getState().pending[0];
     expect(afterTwo.attempts).toBe(2);
     expect(afterTwo.nextAttemptAt).toBeGreaterThan(after.nextAttemptAt);

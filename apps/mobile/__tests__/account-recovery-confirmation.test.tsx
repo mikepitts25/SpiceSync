@@ -54,6 +54,7 @@ const ConfirmProfileScreen = require('../app/(auth)/confirm-profile')
 function recoveryLink() {
   return {
     coupleId: 'couple-1',
+    ownerUserId: 'user-1',
     myDeviceId: 'device-1',
     partnerDeviceId: 'device-2',
     partnerSigningPublicKey: 'partner-signing-key',
@@ -84,10 +85,15 @@ describe('recovered profile confirmation', () => {
       currentUserId: 'profile-1',
       hydrated: true,
     });
-    useCoupleLinkStore.setState({ link: recoveryLink() });
+    useCoupleLinkStore.setState({
+      link: recoveryLink(),
+      authenticatedUserId: 'user-1',
+      remoteSyncPauseReason: 'auth-required',
+      pendingProfileConfirmationOwnerUserId: 'user-1',
+    });
   });
 
-  it('waits for vote bootstrap before releasing the persisted pause and starting remote sync', async () => {
+  it('releases the persisted pause before starting vote bootstrap and remote sync', async () => {
     const bootstrap = deferred<boolean>();
     mockStartVoteSync.mockReturnValue(bootstrap.promise);
 
@@ -95,15 +101,12 @@ describe('recovered profile confirmation', () => {
     fireEvent.press(screen.getByText('Alex'));
 
     await waitFor(() =>
-      expect(mockStartVoteSync).toHaveBeenCalledWith('profile-1', {
-        allowPendingProfileConfirmation: true,
-        revalidateRecoveredBootstrap: true,
-      })
+      expect(mockStartVoteSync).toHaveBeenCalledWith('profile-1')
     );
     expect(mockSetLocalProfileId).toHaveBeenCalledWith('profile-1');
     expect(
       useCoupleLinkStore.getState().link?.requiresProfileConfirmation
-    ).toBe(true);
+    ).toBe(false);
     expect(mockStartSyncLoop).not.toHaveBeenCalled();
     expect(mockRouter.replace).not.toHaveBeenCalled();
 
@@ -121,14 +124,14 @@ describe('recovered profile confirmation', () => {
     );
   });
 
-  it('keeps the recovery pause in place when vote bootstrap cannot start', async () => {
-    mockStartVoteSync.mockResolvedValue(false);
+  it('restores the recovery pause when vote bootstrap throws', async () => {
+    mockStartVoteSync.mockRejectedValue(new Error('bootstrap failed'));
 
     const screen = render(<ConfirmProfileScreen />);
     fireEvent.press(screen.getByText('Alex'));
 
     await waitFor(() =>
-      expect(screen.getByText('Could not confirm this profile.')).toBeTruthy()
+      expect(screen.getByText('bootstrap failed')).toBeTruthy()
     );
     expect(
       useCoupleLinkStore.getState().link?.requiresProfileConfirmation

@@ -14,7 +14,10 @@ import {
   type PairPreference,
   type Readiness,
 } from '../votes/rolePreferences';
-import { useCoupleLinkStore } from './coupleLink';
+import {
+  getActiveRemoteSyncOwnership,
+  useCoupleLinkStore,
+} from './coupleLink';
 import { useEventQueueStore } from './eventQueue';
 import { getIdentityIfExists } from './identity';
 
@@ -31,17 +34,9 @@ type VoteSyncState = {
 };
 
 type VoteSyncStartOptions = {
-  /**
-   * Only the recovery confirmation screen may bootstrap while the persisted
-   * recovery pause is still set. The store's runtime handoff token makes this
-   * opt-in path impossible for regular sync subscribers to use accidentally.
-   */
+  /** @deprecated Confirmation must be completed before any enqueue. */
   allowPendingProfileConfirmation?: boolean;
-  /**
-   * Recovery may need to resend a locally retained profile after a local
-   * disconnect cleared its link and queue, but left its persisted marker.
-   * This is valid only while the matching confirmation handoff is active.
-   */
+  /** @deprecated Confirmation must be completed before any enqueue. */
   revalidateRecoveredBootstrap?: boolean;
 };
 
@@ -162,30 +157,10 @@ async function enqueueVoteChanges(
 function canEnqueueVotes(
   link: ReturnType<typeof useCoupleLinkStore.getState>['link'],
   profileId: string | null,
-  options?: VoteSyncStartOptions
+  _options?: VoteSyncStartOptions
 ): boolean {
-  if (!link || link.status !== 'active') return false;
-  if (link.requiresProfileConfirmation !== true) return true;
-  return (
-    options?.allowPendingProfileConfirmation === true &&
-    !!profileId &&
-    useCoupleLinkStore.getState().profileConfirmationInProgress === profileId
-  );
-}
-
-function canRevalidateRecoveredBootstrap(
-  link: ReturnType<typeof useCoupleLinkStore.getState>['link'],
-  profileId: string | null,
-  options?: VoteSyncStartOptions
-): boolean {
-  return (
-    link?.status === 'active' &&
-    link.requiresProfileConfirmation === true &&
-    options?.allowPendingProfileConfirmation === true &&
-    options.revalidateRecoveredBootstrap === true &&
-    !!profileId &&
-    useCoupleLinkStore.getState().profileConfirmationInProgress === profileId
-  );
+  if (!link || !profileId) return false;
+  return getActiveRemoteSyncOwnership() !== null;
 }
 
 let unsubscribe: (() => void) | null = null;
@@ -205,8 +180,7 @@ export async function bootstrapCurrentVotes(
     !link ||
     !profileId ||
     !canEnqueueVotes(link, profileId, options) ||
-    (hasCurrentBootstrapMarker &&
-      !canRevalidateRecoveredBootstrap(link, profileId, options))
+    hasCurrentBootstrapMarker
   ) {
     return false;
   }
@@ -267,19 +241,7 @@ export async function startVoteSync(
   const bootstrapped = await bootstrapCurrentVotes(options);
   if (bootstrapped) return true;
 
-  if (options?.allowPendingProfileConfirmation !== true) return false;
-
-  // An empty local snapshot is a valid confirmation bootstrap, but it must
-  // remain unmarked so a subsequently hydrated profile still uploads votes.
-  // Conversely, a non-empty snapshot that could not enqueue is a failure and
-  // keeps the persisted recovery pause in place.
-  const currentProfileId = useVoteSyncStore.getState().localProfileId;
-  const currentLink = useCoupleLinkStore.getState().link;
-  const hasNoVotes =
-    !!currentProfileId &&
-    Object.keys(useVotesStore.getState().votesByProfile[currentProfileId] ?? {})
-      .length === 0;
-  return hasNoVotes && canEnqueueVotes(currentLink, currentProfileId, options);
+  return false;
 }
 
 export function stopVoteSync(): void {

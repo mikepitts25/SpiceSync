@@ -73,6 +73,7 @@ describe('Profiles hub avatar sizing', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: 'device-a',
         partnerDeviceId: 'device-b',
         partnerSigningPublicKey: 'signing-key',

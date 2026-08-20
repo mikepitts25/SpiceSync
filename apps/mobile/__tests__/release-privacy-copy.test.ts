@@ -19,6 +19,11 @@ describe('release privacy copy', () => {
     expect(policy).toMatch(/account deletion/i);
     expect(policy).toContain('device public keys');
     expect(policy).toContain('does not restore local history');
+    expect(policy).toContain('within 30 days');
+    expect(policy).toContain('provider email or identifier');
+    expect(policy).toContain('encrypted relay events');
+    expect(policy).toContain('local copies on other devices remain');
+    expect(policy).toContain('subscription cancellation are separate');
     expect(policy).toMatch(/does not\s+automatically delete relay records/);
     expect(policy).not.toContain('Because all data is stored locally');
   });
@@ -31,6 +36,22 @@ describe('release privacy copy', () => {
     expect(literals).toContain('eliminación de la cuenta');
     expect(literals).toContain('claves públicas del dispositivo');
     expect(literals).toContain('historial local');
+    expect(literals).toContain('en un plazo de 30 días');
+    expect(literals).toContain('correo o identificador del proveedor');
+    expect(literals).toContain('otros dispositivos permanecen');
+    expect(literals).toContain('cancelación de una suscripción');
+  });
+
+  it('states the deletion boundary in both localized confirmations', () => {
+    const english = read('apps/mobile/lib/i18n/en.ts');
+    const spanish = read('apps/mobile/lib/i18n/es.ts');
+
+    for (const copy of [english, spanish]) {
+      expect(copy).toMatch(/30 días|30 days/);
+      expect(copy).toMatch(/other devices|otros dispositivos/);
+      expect(copy).toMatch(/reinstall|reinstalar/i);
+      expect(copy).toMatch(/subscription|suscripción/);
+    }
   });
 
   it('does not promise that all data always remains on-device', () => {

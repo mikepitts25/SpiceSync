@@ -41,27 +41,24 @@ export default function ConfirmProfileScreen() {
       if (!confirmationStarted) {
         throw new Error(ui('Could not confirm this profile.'));
       }
-      useVoteSyncStore.getState().setLocalProfileId(profileId);
-      const bootstrapped = await startVoteSync(profileId, {
-        allowPendingProfileConfirmation: true,
-        revalidateRecoveredBootstrap: true,
-      });
-      if (!bootstrapped) {
-        throw new Error(ui('Could not confirm this profile.'));
-      }
-      // Clearing the persisted pause is deliberately after the bootstrap.
-      // RootLayout suppresses the resulting link transition, so this screen
-      // still owns the next operation: starting the remote sync loop.
+      // Release the durable ownership pause before any producer can enqueue.
+      // The central queue guard still verifies account, couple, and device.
       const confirmed = useCoupleLinkStore
         .getState()
         .confirmLocalProfile(profileId);
       if (!confirmed) {
         throw new Error(ui('Could not confirm this profile.'));
       }
+      useVoteSyncStore.getState().setLocalProfileId(profileId);
+      await startVoteSync(profileId);
       startSyncLoop();
       router.replace('/(tabs)/deck');
     } catch (confirmError) {
-      useCoupleLinkStore.getState().cancelProfileConfirmation(profileId);
+      const state = useCoupleLinkStore.getState();
+      state.cancelProfileConfirmation(profileId);
+      if (state.link?.ownerUserId) {
+        state.requireProfileConfirmationForOwner(state.link.ownerUserId);
+      }
       setError(
         confirmError instanceof Error && confirmError.message
           ? confirmError.message

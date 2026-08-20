@@ -17,6 +17,14 @@ import { RelayTestClient } from '../test-support/relayTestClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
 import { sha256Base64 } from '../lib/sync/crypto';
 
+const mockEnsureAnonymousUser = jest.fn();
+
+jest.mock('../lib/auth/accountService', () => ({
+  getAccountService: () => ({
+    ensureAnonymousUser: mockEnsureAnonymousUser,
+  }),
+}));
+
 function memoryDeps() {
   const secure = new Map<string, string>();
   const async = new Map<string, string>();
@@ -45,6 +53,8 @@ function memoryDeps() {
 
 describe('invite flow', () => {
   beforeEach(() => {
+    mockEnsureAnonymousUser.mockReset();
+    mockEnsureAnonymousUser.mockResolvedValue('user-owner');
     _resetCacheForTests();
     useCoupleLinkStore.setState({
       link: null,
@@ -230,6 +240,7 @@ describe('invite flow', () => {
     expect(result.coupleId).toBe('cpl_1');
     const link = useCoupleLinkStore.getState().link!;
     expect(link.status).toBe('active');
+    expect(link.ownerUserId).toBe('user-owner');
     expect(link.partnerEncryptionPublicKey).toBe('partner_enc_pub');
     expect(link.partnerSigningPublicKey).toBe('partner_sign_pub');
     expect(link.myDeviceId).toMatch(/^dev_/);

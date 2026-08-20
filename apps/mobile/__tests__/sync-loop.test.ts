@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { decodeBase64, encodeBase64 } from '../lib/sync/base64';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
 import {
@@ -8,10 +10,14 @@ import {
   signEd25519,
   verifyEd25519,
 } from '../lib/sync/crypto';
-import { useEventQueueStore } from '../lib/sync/eventQueue';
+import {
+  bindLegacyPendingToPersistedLink,
+  useEventQueueStore,
+} from '../lib/sync/eventQueue';
 import { _resetCacheForTests, setIdentityDeps } from '../lib/sync/identity';
 import { usePartnerVotesStore } from '../lib/sync/partnerVotes';
 import { RelayTestClient } from '../test-support/relayTestClient';
+import { RelayHttpError, type RelayTransport } from '../lib/sync/relayClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
 import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import {
@@ -45,6 +51,7 @@ async function settleAsyncWork(): Promise<void> {
 function activeLink(partnerEncryptionPublicKey: string) {
   return {
     coupleId: 'couple-1',
+    ownerUserId: 'user-me',
     myDeviceId: 'dev_me',
     partnerDeviceId: 'dev_partner',
     partnerSigningPublicKey: 'partner-signing-key',
@@ -136,8 +143,17 @@ function buildIdentityDeps(
 
 describe('sync loop', () => {
   beforeEach(() => {
-    useEventQueueStore.setState({ pending: [], nextClientSequence: 1 });
-    useCoupleLinkStore.setState({ link: null });
+    useEventQueueStore.setState({
+      pending: [],
+      quarantined: [],
+      nextClientSequence: 1,
+    });
+    useCoupleLinkStore.setState({
+      link: null,
+      authenticatedUserId: null,
+      remoteSyncPauseReason: null,
+      pendingProfileConfirmationOwnerUserId: null,
+    });
     usePartnerVotesStore.setState({ byCardId: {}, answeredCount: 0 });
     useRevealConsentStore.setState({ local: {}, partner: {} });
     _resetCacheForTests();
@@ -187,9 +203,8 @@ describe('sync loop', () => {
     await settleAsyncWork();
 
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(useEventQueueStore.getState().pending).toEqual([
-      expect.objectContaining({ eventId: queued.eventId, attempts: 0 }),
-    ]);
+    expect(queued).toBeNull();
+    expect(useEventQueueStore.getState().pending).toEqual([]);
     expect(useCoupleLinkStore.getState().link).toMatchObject({
       lastPulledServerSequence: 0,
       lastSyncedAt: null,
@@ -320,6 +335,7 @@ describe('sync loop', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-me',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: '',
@@ -382,6 +398,146 @@ describe('sync loop', () => {
     ).toBe(true);
   });
 
+  it('binds a persisted unbound v1 event to the same restarted link and retries CLIENT_UPGRADE_REQUIRED only once', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(partnerEncryption.publicKey)));
+    await AsyncStorage.setItem(
+      'spicesync-sync-queue',
+      JSON.stringify({
+        state: {
+          pending: [
+            {
+              eventId: 'evt_legacy_restart',
+              recipientDeviceId: null,
+              clientSequence: 1,
+              payload: {
+                schemaVersion: 1,
+                eventType: 'progress.snapshot',
+                eventId: 'evt_legacy_restart',
+                authorDeviceId: 'dev_me',
+                answeredCount: 3,
+                updatedAt: 1,
+              },
+              createdAt: 1,
+              attempts: 0,
+              nextAttemptAt: 1,
+            },
+          ],
+          nextClientSequence: 2,
+        },
+        version: 0,
+      })
+    );
+    await useEventQueueStore.persist.rehydrate();
+    expect(bindLegacyPendingToPersistedLink()).toEqual({
+      bound: 1,
+      quarantined: 0,
+    });
+
+    const appendEvent = jest
+      .fn()
+      .mockRejectedValueOnce(
+        new RelayHttpError(409, 'CLIENT_UPGRADE_REQUIRED', 'upgrade')
+      )
+      .mockResolvedValue({ serverSequence: 1 });
+    _resetRelayClientForTests({
+      appendEvent,
+      getCouple: jest.fn().mockResolvedValue(
+        refreshedCouple(encodeBase64(partnerEncryption.publicKey))
+      ),
+    } as unknown as RelayTransport);
+
+    await expect(flushPending()).resolves.toEqual({ uploaded: 1, failed: 0 });
+    expect(appendEvent).toHaveBeenCalledTimes(2);
+    expect(appendEvent.mock.calls[0][1]).toMatchObject({
+      authorDeviceId: 'dev_me',
+      recipientDeviceId: 'dev_partner',
+    });
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+  });
+
+  it('backs off after one safe CLIENT_UPGRADE_REQUIRED retry', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(partnerEncryption.publicKey)));
+    const queued = useEventQueueStore.getState().enqueue({
+      schemaVersion: 1,
+      eventType: 'progress.snapshot',
+      authorDeviceId: 'dev_me',
+      answeredCount: 1,
+      updatedAt: 1,
+    })!;
+    const appendEvent = jest.fn().mockRejectedValue(
+      new RelayHttpError(409, 'CLIENT_UPGRADE_REQUIRED', 'upgrade')
+    );
+    _resetRelayClientForTests({
+      appendEvent,
+      getCouple: jest.fn().mockResolvedValue(
+        refreshedCouple(encodeBase64(partnerEncryption.publicKey))
+      ),
+    } as unknown as RelayTransport);
+
+    await expect(flushPending()).resolves.toEqual({ uploaded: 0, failed: 1 });
+    expect(appendEvent).toHaveBeenCalledTimes(2);
+    expect(useEventQueueStore.getState().pending).toEqual([
+      expect.objectContaining({ eventId: queued.eventId, attempts: 1 }),
+    ]);
+  });
+
+  it('quarantines cross-owner plaintext without uploading it', async () => {
+    const partnerEncryption = generateEncryptionKeypair();
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(partnerEncryption.publicKey)));
+    useEventQueueStore.setState({
+      pending: [
+        {
+          eventId: 'evt_other_owner',
+          ownerUserId: 'other-user',
+          coupleId: 'couple-1',
+          authorDeviceId: 'dev_me',
+          recipientDeviceId: 'dev_partner',
+          envelopeVersion: 2,
+          clientSequence: 1,
+          payload: {
+            schemaVersion: 1,
+            eventType: 'progress.snapshot',
+            eventId: 'evt_other_owner',
+            authorDeviceId: 'dev_me',
+            answeredCount: 7,
+            updatedAt: 1,
+          },
+          createdAt: 1,
+          attempts: 0,
+          nextAttemptAt: 1,
+        },
+      ],
+      quarantined: [],
+      nextClientSequence: 2,
+    });
+    const appendEvent = jest.fn();
+    _resetRelayClientForTests({ appendEvent } as unknown as RelayTransport);
+
+    await expect(flushPending()).resolves.toEqual({ uploaded: 0, failed: 0 });
+    expect(appendEvent).not.toHaveBeenCalled();
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+    expect(useEventQueueStore.getState().quarantined).toEqual([
+      expect.objectContaining({
+        eventId: 'evt_other_owner',
+        reason: 'ownership-mismatch',
+      }),
+    ]);
+  });
+
   it('accepts a v2 partner event addressed to this device with a v2 signature', async () => {
     const mySigning = generateSigningKeypair();
     const myEncryption = generateEncryptionKeypair();
@@ -391,6 +547,7 @@ describe('sync loop', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-me',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
@@ -465,6 +622,7 @@ describe('sync loop', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-me',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
@@ -629,6 +787,7 @@ describe('sync loop', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-me',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
@@ -710,6 +869,7 @@ describe('sync loop', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-me',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
@@ -779,6 +939,7 @@ describe('sync loop', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-me',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
@@ -853,6 +1014,7 @@ describe('sync loop', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-me',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),

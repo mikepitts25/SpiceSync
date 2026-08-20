@@ -58,7 +58,7 @@ export default function PrivacyPolicyScreen() {
 
         <Section title={ui('Data Deletion')}>
           {ui(
-            " You can remove local profiles, votes, and preferences with SpiceSync's reset controls or by uninstalling the app. Account deletion removes your permanent account and revokes its account-associated device and couple metadata. Unlinking a partner revokes the connection, but clearing or uninstalling the app does not automatically delete relay records. Contact us through the App Store listing if you need help with relay data. "
+            " Account deletion removes your SpiceSync authentication account, the provider email or identifier stored with it, account-associated device and couple metadata, invitations, and encrypted relay events. In-app deletion is immediate after fresh provider verification; manually verified requests are completed within 30 days. A manual request record retains the submitted provider, contact, status, and timestamps to process and document the request. Only the current device is cleared after in-app deletion; local copies on other devices remain until you reset or uninstall SpiceSync there. Reinstalling does not restore local profiles, votes, or history after deletion. Account deletion and store subscription cancellation are separate; SpiceSync currently offers lifetime access, not a subscription. Unlinking a partner revokes the connection, but clearing or uninstalling the app does not automatically delete relay records. "
           )}
         </Section>
 

@@ -1,5 +1,6 @@
 import { decodeBase64, encodeBase64 } from './base64';
 import {
+  getActiveRemoteSyncOwnership,
   isCurrentSyncableCouple,
   isCoupleLinkSyncable,
   isCurrentSyncableCoupleLink,
@@ -109,11 +110,7 @@ async function uploadPending(pending: PendingEvent): Promise<boolean> {
   if (!isCoupleLinkSyncable(link)) return false;
   const id = await getIdentityIfExists();
   if (!id || !isCurrentSyncableCoupleLink(link)) return false;
-  const recipientDeviceId =
-    pending.recipientDeviceId === null ||
-    pending.recipientDeviceId === undefined
-      ? undefined
-      : link.partnerDeviceId;
+  const recipientDeviceId = link.partnerDeviceId;
   const partnerEncryptionPublic = decodeBase64(link.partnerEncryptionPublicKey);
   const { encryptedPayload, payloadHash } = encryptForPartner(
     id.encryptionPrivateKey,
@@ -152,6 +149,55 @@ function isRecipientKeyChanged(error: unknown): error is RelayHttpError {
   );
 }
 
+function isClientUpgradeRequired(error: unknown): error is RelayHttpError {
+  return (
+    error instanceof RelayHttpError && error.code === 'CLIENT_UPGRADE_REQUIRED'
+  );
+}
+
+function claimPendingForCurrentOwnership(
+  pending: PendingEvent
+): PendingEvent | null {
+  const ownership = getActiveRemoteSyncOwnership();
+  if (!ownership) return null;
+  if (
+    !pending.coupleId ||
+    !pending.authorDeviceId ||
+    (pending.envelopeVersion === 2 && !pending.ownerUserId)
+  ) {
+    useEventQueueStore
+      .getState()
+      .quarantineEvent(pending.eventId, 'legacy-unproven');
+    return null;
+  }
+  const hasMismatch =
+    (pending.ownerUserId !== undefined &&
+      pending.ownerUserId !== ownership.ownerUserId) ||
+    pending.coupleId !== ownership.coupleId ||
+    pending.authorDeviceId !== ownership.authorDeviceId ||
+    pending.payload.authorDeviceId !== ownership.authorDeviceId ||
+    (pending.envelopeVersion === 2 &&
+      pending.recipientDeviceId !== undefined &&
+      pending.recipientDeviceId !== ownership.recipientDeviceId);
+  if (hasMismatch) {
+    useEventQueueStore
+      .getState()
+      .quarantineEvent(pending.eventId, 'ownership-mismatch');
+    return null;
+  }
+
+  const claimed: PendingEvent = {
+    ...pending,
+    ownerUserId: ownership.ownerUserId,
+    coupleId: ownership.coupleId,
+    authorDeviceId: ownership.authorDeviceId,
+    recipientDeviceId: ownership.recipientDeviceId,
+    envelopeVersion: 2,
+  };
+  useEventQueueStore.getState().replaceEvent(pending.eventId, claimed);
+  return claimed;
+}
+
 async function uploadPendingWithRecipientRefresh(
   pending: PendingEvent
 ): Promise<boolean> {
@@ -171,6 +217,21 @@ async function uploadPendingWithRecipientRefresh(
     // the recipient's current public material; it never calls this helper.
     await refreshCoupleMetadata();
     return uploadPending(pending);
+  }
+}
+
+async function uploadPendingWithSafeUpgradeRetry(
+  pending: PendingEvent
+): Promise<boolean> {
+  try {
+    return await uploadPendingWithRecipientRefresh(pending);
+  } catch (error) {
+    if (!isClientUpgradeRequired(error)) throw error;
+    const claimed = claimPendingForCurrentOwnership(pending);
+    if (!claimed) return false;
+    // This is deliberately the only retry for CLIENT_UPGRADE_REQUIRED. Any
+    // repeated response is handled by the ordinary queue backoff path.
+    return uploadPendingWithRecipientRefresh(claimed);
   }
 }
 
@@ -195,8 +256,10 @@ export async function flushPending(
   for (const pending of due) {
     const pendingLink = useCoupleLinkStore.getState().link;
     if (!isCoupleLinkSyncable(pendingLink)) break;
+    const claimed = claimPendingForCurrentOwnership(pending);
+    if (!claimed) continue;
     try {
-      const uploadedPending = await uploadPendingWithRecipientRefresh(pending);
+      const uploadedPending = await uploadPendingWithSafeUpgradeRetry(claimed);
       if (!uploadedPending || !isCurrentSyncableCouple(pendingLink)) {
         break;
       }

@@ -197,7 +197,10 @@ function formResponse(request: Request): Response {
     `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Delete your SpiceSync account</title><style>body{font-family:system-ui,sans-serif;max-width:42rem;margin:3rem auto;padding:0 1rem;color:#2c1a12}label{display:block;margin-top:1rem}input,select,button{font:inherit;padding:.5rem;width:100%;box-sizing:border-box}button{margin-top:1.5rem;background:#a34b24;color:white;border:0;border-radius:.4rem}</style></head>
-<body><main><h1>SpiceSync account deletion</h1><p>Submit a request and we will manually verify it before deleting your account.</p>
+<body><main><h1>SpiceSync account deletion</h1><p>Submit a request and we will manually verify it. We aim to complete verified requests within 30 days.</p>
+<p>Deletion removes your SpiceSync authentication account, its provider email or identifier, account-associated device and couple metadata, invitations, and encrypted relay events. We retain the provider, contact, request status, and timestamps as the manual request record needed to process and document the request.</p>
+<p>Only local SpiceSync data on the device where in-app deletion finishes is cleared. Local copies on other devices remain until you reset or uninstall SpiceSync there. Reinstalling does not restore local profiles, votes, or history after deletion.</p>
+<p>Account deletion and store subscription cancellation are separate. SpiceSync currently offers lifetime access rather than a subscription.</p>
 <form method="post" action=""><label>Sign-in provider<select name="provider" required><option value="apple">Apple</option><option value="google">Google</option></select></label>
 <label>Contact email<input name="contact" type="text" maxlength="320" required></label><button type="submit">Request deletion</button></form></main></body></html>`,
   );
@@ -215,7 +218,7 @@ function confirmationResponse(
       escapeHtml(contact)
     }.</p><p>Your request reference is <code>${
       escapeHtml(requestId)
-    }</code>.</p><p>We will complete manual verification before deleting your account.</p></main></body></html>`,
+    }</code>.</p><p>We will complete manual verification and aim to finish verified requests within 30 days. The provider, contact, request status, and timestamps remain as the manual request record. Account deletion does not clear local copies on other devices or cancel a separate store subscription.</p></main></body></html>`,
   );
 }
 

@@ -31,6 +31,12 @@ Deno.test("serves a branded no-store deletion request form with security headers
 
   assertEquals(response.status, 200);
   assertStringIncludes(body, "SpiceSync");
+  assertStringIncludes(body, "within 30 days");
+  assertStringIncludes(body, "encrypted relay events");
+  assertStringIncludes(body, "other devices remain");
+  assertStringIncludes(body, "does not restore local profiles");
+  assertStringIncludes(body, "provider email or identifier");
+  assertStringIncludes(body, "subscription cancellation are separate");
   assertEquals(response.headers.get("cache-control"), "no-store");
   assertEquals(response.headers.get("x-content-type-options"), "nosniff");
   assertEquals(response.headers.get("referrer-policy"), "no-referrer");
@@ -55,6 +61,8 @@ Deno.test("accepts a validated deletion request and escapes submitted values", a
   assertEquals(body.includes("<script>"), false);
   assertStringIncludes(body, "req_Gf7iZ2OkiQ");
   assertStringIncludes(body, "manual verification");
+  assertStringIncludes(body, "within 30 days");
+  assertStringIncludes(body, "manual request record");
 });
 
 Deno.test("rejects malformed methods, content types, and form fields", async () => {

@@ -5,9 +5,21 @@ import {
 import { isAuthSessionMissingError } from '@supabase/supabase-js';
 import { clearForgottenDeviceState } from '../safety/localDataControls';
 import { clearIdentity, getIdentityIfExists } from '../sync/identity';
+import {
+  isCoupleLinkSyncable,
+  useCoupleLinkStore,
+} from '../sync/coupleLink';
+import { clearRemoteOwnedState } from '../sync/remoteOwnership';
+import { startSyncLoop, stopSyncLoop } from '../sync/syncLoop';
+import {
+  startVoteSync,
+  stopVoteSync,
+  useVoteSyncStore,
+} from '../sync/voteSync';
 import { getRelayClient } from '../sync/relayConfig';
 import type {
   AccountServiceLike,
+  AccountDeletionProof,
   AccountSnapshot,
   ProviderCredential,
 } from './types';
@@ -56,8 +68,13 @@ type AccountAuthClient = {
     invoke: (
       name: string,
       input: {
-        body: { appleAuthorizationCode?: string };
-        headers: { Authorization: string };
+        body: {
+          action?: 'create_google_challenge';
+          appleAuthorizationCode?: string;
+          googleChallengeId?: string;
+          googleIdToken?: string;
+        };
+        headers?: { Authorization: string };
       }
     ) => Promise<{
       data: unknown;
@@ -188,13 +205,19 @@ export class AccountService implements AccountServiceLike {
     // AuthSessionMissingError }`, not `{ user: null, error: null }`. Treat only
     // that SDK-classified error as an intentional local-only state; transport,
     // validation, and server errors remain actionable.
-    if (error) return LOCAL_ONLY_SNAPSHOT;
+    if (error) {
+      this.reconcileAuthenticatedUser(null);
+      return LOCAL_ONLY_SNAPSHOT;
+    }
 
     const user = data.user;
-    if (!user) return LOCAL_ONLY_SNAPSHOT;
+    if (!user) {
+      this.reconcileAuthenticatedUser(null);
+      return LOCAL_ONLY_SNAPSHOT;
+    }
 
     const providers = toProviders(user.identities);
-    return {
+    const snapshot: AccountSnapshot = {
       status:
         user.is_anonymous === false && providers.length > 0
           ? 'permanent'
@@ -203,6 +226,37 @@ export class AccountService implements AccountServiceLike {
       providers,
       error: null,
     };
+    this.reconcileAuthenticatedUser(user.id);
+    return snapshot;
+  }
+
+  private reconcileAuthenticatedUser(userId: string | null): void {
+    const state = useCoupleLinkStore.getState();
+    if (
+      userId &&
+      state.link?.ownerUserId &&
+      state.link.ownerUserId !== userId
+    ) {
+      clearRemoteOwnedState('account-switched', userId);
+      return;
+    }
+    state.setAuthenticatedUser(userId);
+    if (!userId && state.link?.status === 'active') {
+      state.setRemoteSyncPause(
+        state.remoteSyncPauseReason === 'signed-out'
+          ? 'signed-out'
+          : 'auth-required'
+      );
+      return;
+    }
+    if (
+      userId &&
+      state.link?.ownerUserId === userId &&
+      state.link.requiresProfileConfirmation !== true &&
+      state.pendingProfileConfirmationOwnerUserId === null
+    ) {
+      state.setRemoteSyncPause(null);
+    }
   }
 
   async ensureAnonymousUser(): Promise<string> {
@@ -214,6 +268,12 @@ export class AccountService implements AccountServiceLike {
         snapshot.error.message
       );
     }
+    if (useCoupleLinkStore.getState().link?.status === 'active') {
+      throw new AccountServiceError(
+        'ACCOUNT_REQUIRED',
+        'Sign in to resume this protected partner relationship'
+      );
+    }
 
     const { data, error } = await this.client.auth.signInAnonymously();
     if (error) throwForAuthError(error, 'SUPABASE_AUTH_ERROR');
@@ -223,6 +283,7 @@ export class AccountService implements AccountServiceLike {
         'Supabase auth user id is unavailable'
       );
     }
+    useCoupleLinkStore.getState().setAuthenticatedUser(data.user.id);
     return data.user.id;
   }
 
@@ -254,8 +315,47 @@ export class AccountService implements AccountServiceLike {
     );
   }
 
+  async prepareAccountDeletion(
+    provider: ProviderCredential['provider']
+  ): Promise<AccountDeletionProof> {
+    const snapshot = await this.getPermanentSnapshot();
+    const expectedProvider = snapshot.providers.includes('apple')
+      ? 'apple'
+      : snapshot.providers.includes('google')
+        ? 'google'
+        : null;
+    if (provider !== expectedProvider) {
+      throw new AccountServiceError(
+        'ACCOUNT_DELETION_REAUTH_REQUIRED',
+        'Use the preferred linked provider to delete this account'
+      );
+    }
+    if (provider === 'apple') return {};
+
+    const result = await this.client.functions.invoke(
+      'spicesync-delete-account',
+      { body: { action: 'create_google_challenge' } }
+    );
+    const data = result.data;
+    if (
+      result.error ||
+      result.response?.status !== 201 ||
+      !data ||
+      typeof data !== 'object' ||
+      !('challengeId' in data) ||
+      typeof data.challengeId !== 'string' ||
+      data.challengeId.length === 0
+    ) {
+      throw new AccountServiceError(
+        'GOOGLE_CHALLENGE_FAILED',
+        'Could not start Google account deletion verification'
+      );
+    }
+    return { googleChallengeId: data.challengeId };
+  }
+
   async linkProvider(input: ProviderCredential): Promise<AccountSnapshot> {
-    await this.ensureAnonymousUser();
+    const previousUserId = await this.ensureAnonymousUser();
     const { error } = await this.client.auth.linkIdentity(
       credentialPayload(input)
     );
@@ -268,10 +368,17 @@ export class AccountService implements AccountServiceLike {
         'Provider identity was not linked to this account'
       );
     }
+    if (snapshot.userId !== previousUserId) {
+      clearRemoteOwnedState('account-switched', snapshot.userId);
+      return { ...snapshot, accountChanged: true };
+    }
     return snapshot;
   }
 
   async signIn(input: ProviderCredential): Promise<AccountSnapshot> {
+    const previous = await this.getSnapshot();
+    const previousOwnerUserId =
+      useCoupleLinkStore.getState().link?.ownerUserId ?? previous.userId;
     const { error } = await this.client.auth.signInWithIdToken(
       credentialPayload(input)
     );
@@ -284,10 +391,34 @@ export class AccountService implements AccountServiceLike {
         'Provider sign-in did not return a permanent account'
       );
     }
-    return snapshot;
+    const state = useCoupleLinkStore.getState();
+    const accountChanged =
+      !!previousOwnerUserId && previousOwnerUserId !== snapshot.userId;
+    if (accountChanged) {
+      if (
+        state.remoteStateNotice?.kind !== 'account-switched' ||
+        state.authenticatedUserId !== snapshot.userId
+      ) {
+        clearRemoteOwnedState('account-switched', snapshot.userId);
+      }
+      return { ...snapshot, accountChanged: true };
+    }
+
+    state.setAuthenticatedUser(snapshot.userId);
+    if (
+      state.link?.ownerUserId === snapshot.userId &&
+      state.link.requiresProfileConfirmation !== true &&
+      state.pendingProfileConfirmationOwnerUserId === null
+    ) {
+      state.setRemoteSyncPause(null);
+    }
+    return { ...snapshot, accountChanged: false };
   }
 
-  async deleteAccount(credential: ProviderCredential): Promise<void> {
+  async deleteAccount(
+    credential: ProviderCredential,
+    proof: AccountDeletionProof = {}
+  ): Promise<void> {
     const originalAccount = await this.getPermanentSnapshot();
     const expectedProvider = originalAccount.providers.includes('apple')
       ? 'apple'
@@ -314,6 +445,11 @@ export class AccountService implements AccountServiceLike {
           'Apple deletion requires a fresh authorization code'
         );
       }
+    } else if (!proof.googleChallengeId) {
+      throw new AccountServiceError(
+        'GOOGLE_CHALLENGE_REQUIRED',
+        'Google deletion requires a fresh server challenge'
+      );
     }
 
     const reauthenticationClient = this.createDeletionReauthenticationClient();
@@ -351,7 +487,10 @@ export class AccountService implements AccountServiceLike {
           body:
             credential.provider === 'apple'
               ? { appleAuthorizationCode: credential.authorizationCode }
-              : {},
+              : {
+                  googleChallengeId: proof.googleChallengeId,
+                  googleIdToken: credential.token,
+                },
           headers: { Authorization: `Bearer ${bearer}` },
         }
       );
@@ -364,8 +503,26 @@ export class AccountService implements AccountServiceLike {
   }
 
   async signOut(): Promise<void> {
-    const { error } = await this.client.auth.signOut();
-    if (error) throwForAuthError(error, 'ACCOUNT_SIGN_OUT_FAILED');
+    const state = useCoupleLinkStore.getState();
+    const previousUserId = state.authenticatedUserId;
+    const previousPause = state.remoteSyncPauseReason;
+    state.setRemoteSyncPause('signed-out');
+    stopSyncLoop();
+    stopVoteSync();
+    try {
+      const { error } = await this.client.auth.signOut();
+      if (error) throwForAuthError(error, 'ACCOUNT_SIGN_OUT_FAILED');
+      useCoupleLinkStore.getState().setAuthenticatedUser(null);
+    } catch (error) {
+      const latest = useCoupleLinkStore.getState();
+      latest.setAuthenticatedUser(previousUserId);
+      latest.setRemoteSyncPause(previousPause);
+      if (isCoupleLinkSyncable(latest.link)) {
+        await startVoteSync(useVoteSyncStore.getState().localProfileId);
+        startSyncLoop();
+      }
+      throw error;
+    }
   }
 
   async forgetCurrentDevice(): Promise<void> {

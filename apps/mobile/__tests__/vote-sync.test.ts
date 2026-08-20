@@ -52,6 +52,7 @@ describe('vote sync', () => {
     useCoupleLinkStore.setState({
       link: {
         coupleId: 'couple-1',
+        ownerUserId: 'user-1',
         myDeviceId: identity.deviceId,
         partnerDeviceId: 'dev_partner',
         partnerSigningPublicKey: 'partner_signing_key',
@@ -61,6 +62,9 @@ describe('vote sync', () => {
         lastSyncedAt: null,
         status: 'active',
       },
+      authenticatedUserId: 'user-1',
+      remoteSyncPauseReason: null,
+      pendingProfileConfirmationOwnerUserId: null,
       profileConfirmationInProgress: null,
     });
     useVoteSyncStore.getState().setLocalProfileId('profile-1');
@@ -109,7 +113,7 @@ describe('vote sync', () => {
     expect(useEventQueueStore.getState().pending).toHaveLength(queuedCount);
   });
 
-  it('revalidates matching persisted votes only during the authorized recovery handoff', async () => {
+  it('never revalidates matching persisted votes during a paused recovery handoff', async () => {
     useVotesStore.setState({
       votesByProfile: {
         'profile-1': { 'card-recovered': 'yes' },
@@ -143,25 +147,9 @@ describe('vote sync', () => {
         allowPendingProfileConfirmation: true,
         revalidateRecoveredBootstrap: true,
       })
-    ).resolves.toBe(true);
+    ).resolves.toBe(false);
 
-    expect(useEventQueueStore.getState().pending).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          payload: expect.objectContaining({
-            eventType: 'vote.upsert',
-            cardId: 'card-recovered',
-            vote: 'yes',
-          }),
-        }),
-        expect.objectContaining({
-          payload: expect.objectContaining({
-            eventType: 'progress.snapshot',
-            answeredCount: 1,
-          }),
-        }),
-      ])
-    );
+    expect(useEventQueueStore.getState().pending).toEqual([]);
     expect(
       useCoupleLinkStore.getState().link?.requiresProfileConfirmation
     ).toBe(true);

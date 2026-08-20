@@ -120,6 +120,7 @@ describe('partner key refresh', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-1',
       myDeviceId: 'dev_me',
       myKeyVersion: 1,
       partnerDeviceId: 'dev_partner_old',
@@ -192,6 +193,7 @@ describe('partner key refresh', () => {
 
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-1',
       myDeviceId: 'dev_me',
       partnerDeviceId: 'dev_partner_old',
       partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
@@ -228,7 +230,7 @@ describe('partner key refresh', () => {
     expect(mockRelay.appendEvent).toHaveBeenCalledTimes(2);
     expect(useEventQueueStore.getState().pending).toEqual([
       expect.objectContaining({
-        eventId: pending.eventId,
+        eventId: pending!.eventId,
         attempts: 1,
         lastError: 'changed again',
       }),
@@ -240,6 +242,7 @@ describe('partner key refresh', () => {
     const partnerSigning = generateSigningKeypair();
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-1',
       myDeviceId: 'dev_me',
       myKeyVersion: 1,
       partnerDeviceId: 'dev_partner_old',
@@ -281,6 +284,7 @@ describe('partner key refresh', () => {
   it('discards an older metadata response after a newer key rotation wins', async () => {
     useCoupleLinkStore.getState().setLink({
       coupleId: 'couple-1',
+      ownerUserId: 'user-1',
       myDeviceId: 'dev_me',
       myKeyVersion: 1,
       partnerDeviceId: 'dev_partner_old',

@@ -1,5 +1,6 @@
 import { bytesToHex, utf8ToBytes } from '@noble/hashes/utils';
 import { sha256 } from '@noble/hashes/sha256';
+import { Platform } from 'react-native';
 
 jest.mock('expo-apple-authentication');
 jest.mock('@react-native-google-signin/google-signin');
@@ -41,6 +42,7 @@ function mockGoogleCancelled(): void {
 
 describe('native account providers', () => {
   const originalEnv = process.env;
+  const originalPlatform = Platform.OS;
 
   beforeEach(() => {
     process.env = {
@@ -65,6 +67,10 @@ describe('native account providers', () => {
 
   afterAll(() => {
     process.env = originalEnv;
+    Object.defineProperty(Platform, 'OS', {
+      configurable: true,
+      value: originalPlatform,
+    });
   });
 
   it('returns the raw nonce alongside the Apple identity token', async () => {
@@ -121,6 +127,15 @@ describe('native account providers', () => {
       iosClientId: 'ios-client-id',
       offlineAccess: false,
     });
+  });
+
+  it('requires the iOS client ID only on iOS', () => {
+    const config = {
+      googleWebClientId: 'web-client-id',
+      googleIosClientId: null,
+    };
+    expect(isGoogleConfigured('ios', config)).toBe(false);
+    expect(isGoogleConfigured('android', config)).toBe(true);
   });
 
   it('maps Google cancellation without treating it as an auth failure', async () => {

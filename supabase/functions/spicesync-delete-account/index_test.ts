@@ -35,6 +35,12 @@ function dependencies(
     }),
     verifyAppleIdentityToken: async () => ({ subject: APPLE_SUBJECT }),
     revokeAppleToken: async () => undefined,
+    createGoogleChallenge: async () => ({
+      challengeId: "35e2df10-8167-4b9d-bb36-59c72d768b33",
+      expiresAt: "2026-08-21T12:05:00.000Z",
+    }),
+    verifyGoogleIdentityToken: async () => ({ subject: "google-sub" }),
+    consumeGoogleChallenge: async () => true,
     cleanupUserData: async () => undefined,
     deleteUser: async () => undefined,
     logError: () => undefined,
@@ -284,7 +290,7 @@ Deno.test("blocks deletion if Apple exchange or verification fails", async () =>
   assertEquals(cleanupCalled, false);
 });
 
-Deno.test("deletes Google-only accounts without an Apple authorization code", async () => {
+Deno.test("direct bearer-only Google deletion fails before cleanup", async () => {
   const calls: string[] = [];
   const response = await handleDeleteAccount(
     authenticatedRequest({}),
@@ -302,8 +308,130 @@ Deno.test("deletes Google-only accounts without an Apple authorization code", as
     }),
   );
 
-  assertEquals(response.status, 204);
-  assertEquals(calls, ["cleanup", "user"]);
+  assertEquals(response.status, 422);
+  assertEquals(calls, []);
+});
+
+Deno.test("issues an authenticated one-time challenge for the original Google user", async () => {
+  const calls: string[] = [];
+  const response = await handleDeleteAccount(
+    authenticatedRequest({ action: "create_google_challenge" }),
+    dependencies({
+      getUser: async () =>
+        user({ identities: [{ provider: "google", subject: "google-sub" }] }),
+      createGoogleChallenge: async (userId) => {
+        calls.push(userId);
+        return {
+          challengeId: "35e2df10-8167-4b9d-bb36-59c72d768b33",
+          expiresAt: "2026-08-21T12:05:00.000Z",
+        };
+      },
+    }),
+  );
+
+  assertEquals(response.status, 201);
+  assertEquals(calls, [USER_ID]);
+  assertEquals(await response.json(), {
+    challengeId: "35e2df10-8167-4b9d-bb36-59c72d768b33",
+    expiresAt: "2026-08-21T12:05:00.000Z",
+  });
+});
+
+Deno.test("requires Google subject match and atomic challenge consumption", async () => {
+  const deletionBody = {
+    googleChallengeId: "35e2df10-8167-4b9d-bb36-59c72d768b33",
+    googleIdToken: "fresh-google-id-token",
+  };
+  for (
+    const overrides of [
+      {
+        verifyGoogleIdentityToken: async () => ({ subject: "other-sub" }),
+      },
+      {
+        verifyGoogleIdentityToken: async () => {
+          throw new Error("stale token");
+        },
+      },
+      { consumeGoogleChallenge: async () => false },
+    ]
+  ) {
+    const calls: string[] = [];
+    const response = await handleDeleteAccount(
+      authenticatedRequest(deletionBody),
+      dependencies({
+        getUser: async () =>
+          user({ identities: [{ provider: "google", subject: "google-sub" }] }),
+        cleanupUserData: () => record(calls, "cleanup"),
+        deleteUser: () => record(calls, "delete"),
+        ...overrides,
+      }),
+    );
+    assertEquals(response.status, 403);
+    assertEquals(calls, []);
+  }
+});
+
+Deno.test("consumes a Google challenge once before cleanup and rejects replay", async () => {
+  let available = true;
+  const calls: string[] = [];
+  const deps = dependencies({
+    getUser: async () =>
+      user({ identities: [{ provider: "google", subject: "google-sub" }] }),
+    consumeGoogleChallenge: async (challengeId, userId) => {
+      calls.push(`consume:${challengeId}:${userId}`);
+      if (!available) return false;
+      available = false;
+      return true;
+    },
+    cleanupUserData: () => record(calls, "cleanup"),
+    deleteUser: () => record(calls, "delete"),
+  });
+  const body = {
+    googleChallengeId: "35e2df10-8167-4b9d-bb36-59c72d768b33",
+    googleIdToken: "fresh-google-id-token",
+  };
+
+  const first = await handleDeleteAccount(authenticatedRequest(body), deps);
+  const replay = await handleDeleteAccount(authenticatedRequest(body), deps);
+
+  assertEquals(first.status, 204);
+  assertEquals(replay.status, 403);
+  assertEquals(calls, [
+    `consume:${body.googleChallengeId}:${USER_ID}`,
+    "cleanup",
+    "delete",
+    `consume:${body.googleChallengeId}:${USER_ID}`,
+  ]);
+});
+
+Deno.test("allows only one deletion path to win a concurrent challenge race", async () => {
+  let available = true;
+  let cleanupCount = 0;
+  const deps = dependencies({
+    getUser: async () =>
+      user({ identities: [{ provider: "google", subject: "google-sub" }] }),
+    consumeGoogleChallenge: async () => {
+      await Promise.resolve();
+      if (!available) return false;
+      available = false;
+      return true;
+    },
+    cleanupUserData: async () => {
+      cleanupCount += 1;
+    },
+  });
+  const body = {
+    googleChallengeId: "35e2df10-8167-4b9d-bb36-59c72d768b33",
+    googleIdToken: "fresh-google-id-token",
+  };
+
+  const responses = await Promise.all([
+    handleDeleteAccount(authenticatedRequest(body), deps),
+    handleDeleteAccount(authenticatedRequest(body), deps),
+  ]);
+
+  assertEquals(responses.map((response) => response.status).sort(), [204, 403]);
+  assertEquals(cleanupCount, 1);
 });
 
 Deno.test("does not return success when cleanup or Auth deletion fails", async () => {

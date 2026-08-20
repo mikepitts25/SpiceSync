@@ -122,6 +122,7 @@ function profile(id: string, name: string) {
 function activeRecoveryLink() {
   return {
     coupleId: 'couple-1',
+    ownerUserId: 'user-1',
     myDeviceId: 'device-1',
     partnerDeviceId: 'device-2',
     partnerSigningPublicKey: 'partner-signing-key',

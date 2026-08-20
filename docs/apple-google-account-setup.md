@@ -97,7 +97,7 @@ compiled into the app:
 
 Never add any of these server-only values to EAS or an `EXPO_PUBLIC_*` name:
 `SUPABASE_SERVICE_ROLE_KEY`, `APPLE_TEAM_ID`, `APPLE_CLIENT_ID`,
-`APPLE_KEY_ID`, or `APPLE_PRIVATE_KEY`.
+`APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`, or `GOOGLE_WEB_CLIENT_ID`.
 
 ## Supabase Auth dashboard
 
@@ -193,8 +193,15 @@ sufficient. Re-run the `keytool` checks after key rotation and update the
 Google Android client before shipping.
 
 Google cancellation is also a no-op for protect/link/restore. Google-only
-account deletion performs fresh Google sign-in and then deletes the SpiceSync
-account; it deliberately does not revoke Google locally before the server has
+account deletion first obtains a short-lived, one-time server challenge for
+the original authenticated user, then performs fresh native Google sign-in.
+The server cryptographically verifies the returned ID token against Google's
+JWKS, both supported Google issuers, the exact `GOOGLE_WEB_CLIENT_ID` audience,
+fresh `exp`/`nbf`/`iat` claims, and the linked Google subject before atomically
+consuming that user's challenge. The classic native Google API used here does
+not accept a nonce; the explicit security boundary is therefore the one-time
+server challenge plus a strictly recent token `iat`, not nonce binding. The
+client deliberately does not revoke Google locally before the server has
 confirmed deletion, so a transient failure cannot strand a still-existing
 account. Manage Google-account consent separately in the Google account if
 provider access must be revoked.
@@ -210,7 +217,13 @@ APPLE_TEAM_ID=
 APPLE_CLIENT_ID=
 APPLE_KEY_ID=
 APPLE_PRIVATE_KEY=
+GOOGLE_WEB_CLIENT_ID=
 ```
+
+`GOOGLE_WEB_CLIENT_ID` is server configuration rather than a secret, but it is
+kept in the Edge Function environment so deletion accepts only the reviewed
+web-client audience. It must equal `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`; never
+substitute the iOS client ID.
 
 Never manually set hosted `SUPABASE_URL` or `SUPABASE_SERVICE_ROLE_KEY` with
 `supabase secrets set`. Hosted Supabase injects its default project URL and
@@ -230,7 +243,7 @@ so replace the project-ref only in a trusted operator session:
 ```sh
 supabase link --project-ref <production-project-ref>
 supabase db push --linked
-supabase secrets set --project-ref <production-project-ref> --env-file <untracked-apple-secrets-file>
+supabase secrets set --project-ref <production-project-ref> --env-file <untracked-function-config-file>
 supabase functions deploy spicesync-delete-account spicesync-account-deletion \
   --project-ref <production-project-ref>
 ```

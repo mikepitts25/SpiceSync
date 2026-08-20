@@ -5,6 +5,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 const mockRouter = { back: jest.fn(), replace: jest.fn() };
 const mockGetSnapshot = jest.fn();
 const mockGetDeletionProvider = jest.fn();
+const mockPrepareAccountDeletion = jest.fn();
 const mockDeleteAccount = jest.fn();
 const mockGetIdentityIfExists = jest.fn();
 const mockResetAppOnDevice = jest.fn();
@@ -38,6 +39,7 @@ jest.mock('../lib/auth/accountService', () => ({
   getAccountService: () => ({
     getSnapshot: mockGetSnapshot,
     getDeletionProvider: mockGetDeletionProvider,
+    prepareAccountDeletion: mockPrepareAccountDeletion,
     deleteAccount: mockDeleteAccount,
     linkProvider: jest.fn(),
     signOut: jest.fn(),
@@ -126,6 +128,9 @@ describe('account deletion', () => {
     jest.spyOn(Alert, 'alert').mockImplementation(jest.fn());
     mockGetSnapshot.mockResolvedValue(permanentSnapshot());
     mockGetDeletionProvider.mockResolvedValue('google');
+    mockPrepareAccountDeletion.mockImplementation(async (provider) =>
+      provider === 'google' ? { googleChallengeId: 'challenge-1' } : {}
+    );
     mockDeleteAccount.mockResolvedValue(undefined);
     mockGetIdentityIfExists.mockResolvedValue(null);
     mockResetAppOnDevice.mockResolvedValue(undefined);
@@ -166,6 +171,10 @@ describe('account deletion', () => {
     await confirmDelete();
 
     await waitFor(() => expect(mockResetAppOnDevice).toHaveBeenCalledTimes(1));
+    expect(mockPrepareAccountDeletion).toHaveBeenCalledWith('google');
+    expect(mockPrepareAccountDeletion.mock.invocationCallOrder[0]).toBeLessThan(
+      mockGetGoogleCredential.mock.invocationCallOrder[0]
+    );
     expect(mockDeleteAccount.mock.invocationCallOrder[0]).toBeLessThan(
       mockResetAppOnDevice.mock.invocationCallOrder[0]
     );
@@ -185,12 +194,15 @@ describe('account deletion', () => {
     await waitFor(() => expect(mockDeleteAccount).toHaveBeenCalledTimes(1));
     expect(mockGetAppleCredential).toHaveBeenCalledTimes(1);
     expect(mockGetGoogleCredential).not.toHaveBeenCalled();
-    expect(mockDeleteAccount).toHaveBeenCalledWith({
-      provider: 'apple',
-      token: 'fresh-apple-id-token',
-      nonce: 'fresh-raw-nonce',
-      authorizationCode: 'one-time-apple-code',
-    });
+    expect(mockDeleteAccount).toHaveBeenCalledWith(
+      {
+        provider: 'apple',
+        token: 'fresh-apple-id-token',
+        nonce: 'fresh-raw-nonce',
+        authorizationCode: 'one-time-apple-code',
+      },
+      {}
+    );
   });
 
   it('uses Google reauthentication for a Google-only account without local revocation', async () => {

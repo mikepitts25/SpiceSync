@@ -22,6 +22,7 @@ import { useMatchMissionsStore } from '../lib/state/matchMissions';
 import { useMatchPlansStore } from '../lib/state/matchPlans';
 import { useProfilesStore } from '../lib/state/profiles';
 import { useVotesStore } from '../src/stores/votes';
+import { bootstrapAccountState } from '../lib/auth/accountStore';
 import BiometricLockGate from '../components/BiometricLockGate';
 import { STACK_SCREEN_OPTIONS } from '../lib/navigation/transitions';
 import {
@@ -36,6 +37,10 @@ import {
 import { cleanupLegacyPartnerCodes } from '../lib/sync/legacyPartnerCleanup';
 import { startSyncLoop, stopSyncLoop, syncOnce } from '../lib/sync/syncLoop';
 import { startVoteSync, useVoteSyncStore } from '../lib/sync/voteSync';
+import {
+  bindLegacyPendingToPersistedLink,
+  useEventQueueStore,
+} from '../lib/sync/eventQueue';
 import { shouldInitializeNotificationsOnLaunch } from '../lib/notifications/environment';
 import {
   isPurchaseProviderConfigured,
@@ -154,7 +159,12 @@ export default function RootLayout() {
     const recoverPartnerLink = async (discoverExisting: boolean = false) => {
       if (cancelled || recoveryInFlight) return;
       const linkState = useCoupleLinkStore.getState();
-      if (linkState.link?.status === 'active') return;
+      if (
+        linkState.link?.status === 'active' &&
+        !!linkState.link.ownerUserId
+      ) {
+        return;
+      }
       if (!linkState.pendingInviteId && !discoverExisting) return;
       recoveryInFlight = true;
       try {
@@ -179,11 +189,15 @@ export default function RootLayout() {
 
     Promise.all([
       useCoupleLinkStore.persist.rehydrate(),
+      useEventQueueStore.persist.rehydrate(),
       useVoteSyncStore.persist.rehydrate(),
       useVotesStore.persist.rehydrate(),
       useProfilesStore.getState().hydrate(),
     ])
       .then(async () => {
+        if (cancelled) return;
+        bindLegacyPendingToPersistedLink();
+        await bootstrapAccountState();
         if (cancelled) return;
         const activeProfileId =
           useProfilesStore.getState().getActiveProfileId() ?? null;

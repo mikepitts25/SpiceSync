@@ -1,15 +1,25 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Platform } from 'react-native';
 
 import { AuthFlowError, readAuthConfig } from '../authConfig';
 import type { ProviderCredential } from '../types';
 
-export function isGoogleConfigured(): boolean {
-  return readAuthConfig().googleWebClientId !== null;
+export function isGoogleConfigured(
+  platform: typeof Platform.OS = Platform.OS,
+  config = readAuthConfig()
+): boolean {
+  return (
+    config.googleWebClientId !== null &&
+    (platform !== 'ios' || config.googleIosClientId !== null)
+  );
 }
 
 export async function getGoogleCredential(): Promise<ProviderCredential> {
   const config = readAuthConfig();
-  if (!config.googleWebClientId) {
+  if (
+    !config.googleWebClientId ||
+    (Platform.OS === 'ios' && !config.googleIosClientId)
+  ) {
     throw new AuthFlowError(
       'PROVIDER_NOT_CONFIGURED',
       'Google web client ID is not configured'

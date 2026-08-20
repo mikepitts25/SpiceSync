@@ -96,7 +96,7 @@ begin
 end;
 $$;
 
-select plan(48);
+select plan(56);
 
 select tests.create_supabase_user('anonymous-user', is_anonymous := true);
 select tests.create_supabase_user('permanent-a', is_anonymous := false);
@@ -595,6 +595,87 @@ select throws_ok($$ select public.spicesync_append_event_v2('cpl_stale_deleted',
 select throws_ok($$ select public.spicesync_list_events('cpl_stale_deleted',0,10) $$, '28000', 'Authentication required', 'a stale JWT cannot pull events');
 select throws_ok($$ select public.spicesync_revoke_couple('cpl_stale_deleted') $$, '28000', 'Authentication required', 'a stale JWT cannot revoke a couple');
 select throws_ok($$ select public.spicesync_find_couple_for_device('dev_stale_deleted') $$, '28000', 'Authentication required', 'a stale JWT cannot find a couple by device');
+
+select tests.create_supabase_user('google-challenge-owner', is_anonymous := false);
+
+select has_table(
+  'private',
+  'spicesync_google_deletion_challenges',
+  'Google deletion challenges live outside the public API schema'
+);
+select is(
+  pg_catalog.has_table_privilege(
+    'authenticated',
+    'private.spicesync_google_deletion_challenges',
+    'select'
+  ),
+  false,
+  'authenticated clients cannot read deletion challenges'
+);
+select is(
+  pg_catalog.has_function_privilege(
+    'authenticated',
+    'public.spicesync_issue_google_deletion_challenge(uuid)',
+    'execute'
+  ),
+  false,
+  'authenticated clients cannot call the internal challenge issuer directly'
+);
+select is(
+  pg_catalog.has_function_privilege(
+    'service_role',
+    'public.spicesync_issue_google_deletion_challenge(uuid)',
+    'execute'
+  ),
+  true,
+  'the Edge Function service role can issue deletion challenges'
+);
+select lives_ok(
+  pg_catalog.format(
+    'select public.spicesync_issue_google_deletion_challenge(%L::uuid)',
+    tests.get_supabase_uid('google-challenge-owner')
+  ),
+  'the server can issue a short-lived challenge for a verified user'
+);
+select is(
+  (
+    select pg_catalog.count(*)
+    from private.spicesync_google_deletion_challenges
+    where user_id = tests.get_supabase_uid('google-challenge-owner')
+      and expires_at <= created_at + interval '5 minutes'
+      and consumed_at is null
+  ),
+  1::bigint,
+  'the issued challenge is private, short-lived, and initially unused'
+);
+select is(
+  public.spicesync_consume_google_deletion_challenge(
+    (
+      select challenge_id
+      from private.spicesync_google_deletion_challenges
+      where user_id = tests.get_supabase_uid('google-challenge-owner')
+      order by created_at desc
+      limit 1
+    ),
+    tests.get_supabase_uid('google-challenge-owner')
+  ),
+  true,
+  'the matching verified owner atomically consumes the challenge once'
+);
+select is(
+  public.spicesync_consume_google_deletion_challenge(
+    (
+      select challenge_id
+      from private.spicesync_google_deletion_challenges
+      where user_id = tests.get_supabase_uid('google-challenge-owner')
+      order by created_at desc
+      limit 1
+    ),
+    tests.get_supabase_uid('google-challenge-owner')
+  ),
+  false,
+  'a consumed challenge cannot be replayed'
+);
 
 select * from finish();
 rollback;

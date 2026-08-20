@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-import { useCoupleLinkStore } from './coupleLink';
+import { getActiveRemoteSyncOwnership } from './coupleLink';
 import { useEventQueueStore } from './eventQueue';
 import { getIdentityIfExists } from './identity';
 
@@ -61,8 +61,7 @@ export async function requestRevealUnlock(
   const updatedAt = Date.now();
   useRevealConsentStore.getState().grantLocal(bucket, updatedAt);
 
-  const link = useCoupleLinkStore.getState().link;
-  if (!link || link.status !== 'active') return;
+  if (!getActiveRemoteSyncOwnership()) return;
 
   const id = await getIdentityIfExists();
   if (!id) return;

@@ -8,9 +8,11 @@ import {
   verifyAppleIdentityToken,
 } from "../_shared/apple.ts";
 import { isAllowedCorsOrigin, responseHeaders } from "../_shared/cors.ts";
+import { verifyGoogleIdentityToken } from "../_shared/google.ts";
 
 const FUNCTION_METHODS = "POST, OPTIONS";
 const MAX_APPLE_AUTHORIZATION_CODE_LENGTH = 4096;
+const MAX_GOOGLE_ID_TOKEN_LENGTH = 16384;
 
 export interface VerifiedIdentity {
   provider: string;
@@ -33,6 +35,14 @@ export interface DeleteAccountDependencies {
   exchangeAppleAuthorizationCode(code: string): Promise<AppleExchangeResult>;
   verifyAppleIdentityToken(identityToken: string): Promise<{ subject: string }>;
   revokeAppleToken(token: string): Promise<void>;
+  createGoogleChallenge(userId: string): Promise<{
+    challengeId: string;
+    expiresAt: string;
+  }>;
+  verifyGoogleIdentityToken(
+    identityToken: string,
+  ): Promise<{ subject: string }>;
+  consumeGoogleChallenge(challengeId: string, userId: string): Promise<boolean>;
   cleanupUserData(userId: string): Promise<void>;
   deleteUser(userId: string): Promise<void>;
   logError(event: Record<string, unknown>): void;
@@ -67,6 +77,19 @@ export async function handleDeleteAccount(
   const body = await parseDeleteRequest(request);
   if (body === null) return jsonError(request, 400, "invalid_request");
 
+  if (body.action === "create_google_challenge") {
+    const googleSubjects = linkedSubjects(user, "google");
+    if (googleSubjects.length === 0) {
+      return jsonError(request, 422, "google_identity_verification_failed");
+    }
+    try {
+      const challenge = await dependencies.createGoogleChallenge(user.id);
+      return jsonResponse(request, 201, challenge);
+    } catch {
+      return jsonError(request, 500, "google_challenge_failed");
+    }
+  }
+
   const appleSubjects = linkedAppleSubjects(user);
   if (appleSubjects !== null) {
     if (appleSubjects.length === 0) {
@@ -100,6 +123,39 @@ export async function handleDeleteAccount(
         error: error instanceof Error ? error.name : "unknown",
         userId: user.id,
       });
+    }
+  } else {
+    const googleSubjects = linkedSubjects(user, "google");
+    if (googleSubjects.length === 0) {
+      return jsonError(request, 422, "google_identity_verification_failed");
+    }
+    if (
+      body.googleChallengeId === undefined || body.googleIdToken === undefined
+    ) {
+      return jsonError(request, 422, "google_reauthentication_required");
+    }
+    let identity: { subject: string };
+    try {
+      identity = await dependencies.verifyGoogleIdentityToken(
+        body.googleIdToken,
+      );
+    } catch {
+      return jsonError(request, 403, "google_identity_verification_failed");
+    }
+    if (!googleSubjects.includes(identity.subject)) {
+      return jsonError(request, 403, "google_identity_mismatch");
+    }
+    let consumed = false;
+    try {
+      consumed = await dependencies.consumeGoogleChallenge(
+        body.googleChallengeId,
+        user.id,
+      );
+    } catch {
+      consumed = false;
+    }
+    if (!consumed) {
+      return jsonError(request, 403, "google_challenge_invalid");
     }
   }
 
@@ -139,6 +195,32 @@ export function createDeleteAccountDependencies(): DeleteAccountDependencies {
     verifyAppleIdentityToken: (identityToken) =>
       verifyAppleIdentityToken(identityToken, credentials().clientId),
     revokeAppleToken: (token) => revokeAppleToken(token, credentials()),
+    async createGoogleChallenge(userId) {
+      const { data, error } = await client.rpc(
+        "spicesync_issue_google_deletion_challenge",
+        { p_user_id: userId },
+      ).single();
+      if (error !== null || !isRecord(data)) {
+        throw error ?? new Error("challenge");
+      }
+      return {
+        challengeId: String(data.challenge_id),
+        expiresAt: String(data.expires_at),
+      };
+    },
+    verifyGoogleIdentityToken: (identityToken) =>
+      verifyGoogleIdentityToken(
+        identityToken,
+        requiredEnvironment("GOOGLE_WEB_CLIENT_ID"),
+      ),
+    async consumeGoogleChallenge(challengeId, userId) {
+      const { data, error } = await client.rpc(
+        "spicesync_consume_google_deletion_challenge",
+        { p_challenge_id: challengeId, p_user_id: userId },
+      );
+      if (error !== null) throw error;
+      return data === true;
+    },
     async cleanupUserData(userId) {
       const revokedAt = new Date().toISOString();
       const couples = await client.from("spicesync_couples")
@@ -177,7 +259,14 @@ export function mapVerifiedAuthUser(user: {
 
 async function parseDeleteRequest(
   request: Request,
-): Promise<{ appleAuthorizationCode?: string } | null> {
+): Promise<
+  {
+    action?: "create_google_challenge";
+    appleAuthorizationCode?: string;
+    googleChallengeId?: string;
+    googleIdToken?: string;
+  } | null
+> {
   if (
     !request.headers.get("content-type")?.toLowerCase().startsWith(
       "application/json",
@@ -193,15 +282,46 @@ async function parseDeleteRequest(
   }
   if (!isRecord(parsed)) return null;
   const keys = Object.keys(parsed);
-  if (keys.some((key) => key !== "appleAuthorizationCode")) return null;
+  const allowed = new Set([
+    "action",
+    "appleAuthorizationCode",
+    "googleChallengeId",
+    "googleIdToken",
+  ]);
+  if (keys.some((key) => !allowed.has(key))) return null;
+  if (parsed.action !== undefined) {
+    return parsed.action === "create_google_challenge" && keys.length === 1
+      ? { action: parsed.action }
+      : null;
+  }
   const code = parsed.appleAuthorizationCode;
-  if (code === undefined) return {};
+  const challengeId = parsed.googleChallengeId;
+  const googleIdToken = parsed.googleIdToken;
   if (
-    typeof code !== "string" || code.length === 0 ||
-    code.length > MAX_APPLE_AUTHORIZATION_CODE_LENGTH ||
-    !/^[A-Za-z0-9._~-]+$/.test(code)
+    code === undefined && challengeId === undefined &&
+    googleIdToken === undefined
+  ) {
+    return {};
+  }
+  if (code !== undefined) {
+    if (challengeId !== undefined || googleIdToken !== undefined) return null;
+    if (
+      typeof code !== "string" || code.length === 0 ||
+      code.length > MAX_APPLE_AUTHORIZATION_CODE_LENGTH ||
+      !/^[A-Za-z0-9._~-]+$/.test(code)
+    ) return null;
+    return { appleAuthorizationCode: code };
+  }
+  if (
+    typeof challengeId !== "string" ||
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+      .test(
+        challengeId,
+      ) ||
+    typeof googleIdToken !== "string" || googleIdToken.length === 0 ||
+    googleIdToken.length > MAX_GOOGLE_ID_TOKEN_LENGTH
   ) return null;
-  return { appleAuthorizationCode: code };
+  return { googleChallengeId: challengeId, googleIdToken };
 }
 
 function linkedAppleSubjects(user: VerifiedUser): string[] | null {
@@ -211,6 +331,14 @@ function linkedAppleSubjects(user: VerifiedUser): string[] | null {
   if (appleIdentities.length === 0) return null;
   return appleIdentities.flatMap((identity) =>
     identity.subject === null ? [] : [identity.subject]
+  );
+}
+
+function linkedSubjects(user: VerifiedUser, provider: string): string[] {
+  return user.identities.flatMap((identity) =>
+    identity.provider === provider && identity.subject !== null
+      ? [identity.subject]
+      : []
   );
 }
 
@@ -264,6 +392,21 @@ function requiredEnvironment(name: string): string {
 
 function jsonError(request: Request, status: number, error: string): Response {
   return new Response(JSON.stringify({ error }), {
+    status,
+    headers: responseHeaders(
+      request,
+      "application/json; charset=utf-8",
+      FUNCTION_METHODS,
+    ),
+  });
+}
+
+function jsonResponse(
+  request: Request,
+  status: number,
+  value: Record<string, unknown>,
+): Response {
+  return new Response(JSON.stringify(value), {
     status,
     headers: responseHeaders(
       request,
