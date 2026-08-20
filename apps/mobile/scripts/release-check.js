@@ -17,6 +17,8 @@ const adminTestFiles = fs
   .filter((fileName) => fileName.endsWith('.test.js'))
   .sort()
   .map((fileName) => path.join(adminTestDir, fileName));
+const EAS_ENVIRONMENTS = new Set(['development', 'preview', 'production']);
+const TEST_EAS_CONFIG_PATH_ENV = 'RELEASE_CHECK_EAS_JSON_PATH';
 
 function run(label, command, args, cwd = mobileRoot) {
   console.log(`\n==> ${label}`);
@@ -103,13 +105,34 @@ function readResolvedExpoConfig() {
   return configFactory();
 }
 
-function readEasBuildProfiles() {
-  const easJson = JSON.parse(
-    fs.readFileSync(path.join(mobileRoot, 'eas.json'))
-  );
+function readEasBuildProfiles(environment) {
+  const testEasConfigPath = environment[TEST_EAS_CONFIG_PATH_ENV]?.trim();
+  if (
+    testEasConfigPath &&
+    (environment.RELEASE_CHECK_TEST_CHILD !== '1' ||
+      environment.NODE_ENV !== 'test')
+  ) {
+    throw new Error(
+      `${TEST_EAS_CONFIG_PATH_ENV} is only supported by test subprocesses. Refusing to skip social-recovery preflight.`
+    );
+  }
+
+  const easConfigPath = testEasConfigPath || path.join(mobileRoot, 'eas.json');
+  let easJson;
+  try {
+    easJson = JSON.parse(fs.readFileSync(easConfigPath, 'utf8'));
+  } catch {
+    throw new Error(
+      `Unable to read EAS build profiles from ${easConfigPath}. Refusing to skip social-recovery preflight.`
+    );
+  }
   const buildProfiles = easJson.build;
 
-  if (!buildProfiles || typeof buildProfiles !== 'object') {
+  if (
+    !buildProfiles ||
+    typeof buildProfiles !== 'object' ||
+    Array.isArray(buildProfiles)
+  ) {
     throw new Error(
       'eas.json must define build profiles. Refusing to skip social-recovery preflight.'
     );
@@ -118,8 +141,30 @@ function readEasBuildProfiles() {
   return buildProfiles;
 }
 
-function resolveEasBuildProfile(profileName) {
-  const buildProfiles = readEasBuildProfiles();
+function assertValidEasEnvironment(profileName, easEnvironment) {
+  if (
+    typeof easEnvironment !== 'string' ||
+    !EAS_ENVIRONMENTS.has(easEnvironment)
+  ) {
+    throw new Error(
+      `EAS build profile "${profileName}" environment must be one of development, preview, or production. Refusing to skip social-recovery preflight.`
+    );
+  }
+}
+
+function resolveEasEnvironment(resolvedProfile) {
+  if (resolvedProfile.environment !== undefined) {
+    assertValidEasEnvironment('resolved', resolvedProfile.environment);
+    return resolvedProfile.environment;
+  }
+
+  if (resolvedProfile.distribution === 'store') return 'production';
+  if (resolvedProfile.developmentClient === true) return 'development';
+  return 'preview';
+}
+
+function resolveEasBuildProfile(profileName, environment) {
+  const buildProfiles = readEasBuildProfiles(environment);
   const profileChain = [];
   const visitedProfiles = new Set();
   let currentProfileName = profileName;
@@ -143,6 +188,9 @@ function resolveEasBuildProfile(profileName) {
     }
     profileChain.push(currentProfileName);
 
+    if (profile.environment !== undefined) {
+      assertValidEasEnvironment(currentProfileName, profile.environment);
+    }
     if (
       profile.extends !== undefined &&
       (typeof profile.extends !== 'string' || !profile.extends.trim())
@@ -154,16 +202,26 @@ function resolveEasBuildProfile(profileName) {
     currentProfileName = profile.extends?.trim() || '';
   }
 
-  return profileChain.reverse().reduce((resolvedProfile, currentName) => {
-    return { ...resolvedProfile, ...buildProfiles[currentName] };
-  }, {});
+  const resolvedProfile = profileChain
+    .reverse()
+    .reduce((resolvedProfile, currentName) => {
+      return { ...resolvedProfile, ...buildProfiles[currentName] };
+    }, {});
+
+  return {
+    ...resolvedProfile,
+    environment: resolveEasEnvironment(resolvedProfile),
+  };
 }
 
 function isEasProductionEnvironmentProfile(environment) {
   const profileName = environment.EAS_BUILD_PROFILE?.trim();
   if (!profileName) return false;
 
-  return resolveEasBuildProfile(profileName).environment === 'production';
+  return (
+    resolveEasBuildProfile(profileName, environment).environment ===
+    'production'
+  );
 }
 
 function readCommandOptions() {
@@ -181,11 +239,15 @@ function readCommandOptions() {
     );
   }
 
+  const easProfileRequiresSocialRecovery = isEasProductionEnvironmentProfile(
+    process.env
+  );
+
   return {
     configOnly: process.argv.includes('--config-only'),
     requireSocialRecovery:
       process.argv.includes('--require-social-recovery') ||
-      isEasProductionEnvironmentProfile(process.env),
+      easProfileRequiresSocialRecovery,
   };
 }
 

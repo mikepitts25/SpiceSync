@@ -1,4 +1,5 @@
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { spawnSync } from 'child_process';
 
@@ -13,6 +14,7 @@ const socialRecoveryEnvironmentNames = [
   'EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID',
   'SPICESYNC_ACCOUNT_DELETION_URL',
   'SPICESYNC_DELETION_RATE_LIMIT_VERIFIED',
+  'RELEASE_CHECK_EAS_JSON_PATH',
 ];
 
 type ExpoReleaseConfig = {
@@ -23,6 +25,7 @@ type ExpoReleaseConfig = {
 };
 
 type ReleaseEnvironment = Record<string, string | undefined>;
+type EASBuildProfiles = Record<string, unknown>;
 
 type ReleaseCheckConfig = {
   collectProductionSocialRecoveryErrors(input: {
@@ -68,9 +71,10 @@ function productionExpoConfig(): ExpoReleaseConfig {
 function runReleaseCheckExecutable(
   args: string[],
   environment: ReleaseEnvironment
-): { output: string; status: number | null } {
+): { error: Error | undefined; output: string; status: number | null } {
   const isolatedEnvironment: NodeJS.ProcessEnv = {
     ...process.env,
+    NODE_ENV: 'test',
     RELEASE_CHECK_TEST_CHILD: '1',
   };
   for (const name of socialRecoveryEnvironmentNames) {
@@ -82,11 +86,33 @@ function runReleaseCheckExecutable(
     cwd: mobileRoot,
     encoding: 'utf8',
     env: isolatedEnvironment,
+    timeout: 2000,
   });
   return {
+    error: result.error,
     output: `${result.stdout ?? ''}${result.stderr ?? ''}`,
     status: result.status,
   };
+}
+
+function runReleaseCheckWithEasFixture(
+  profileName: string,
+  buildProfiles: EASBuildProfiles
+) {
+  const temporaryDirectory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'spicesync-release-check-')
+  );
+  const easConfigPath = path.join(temporaryDirectory, 'eas.json');
+  fs.writeFileSync(easConfigPath, JSON.stringify({ build: buildProfiles }));
+
+  try {
+    return runReleaseCheckExecutable(['--config-only'], {
+      EAS_BUILD_PROFILE: profileName,
+      RELEASE_CHECK_EAS_JSON_PATH: easConfigPath,
+    });
+  } finally {
+    fs.rmSync(temporaryDirectory, { force: true, recursive: true });
+  }
 }
 
 function productionSocialRecoveryEnvironment(): ReleaseEnvironment {
@@ -216,6 +242,81 @@ executableDescribe('release check executable preflight', () => {
     expect(result.output).toContain(
       'Refusing to skip social-recovery preflight'
     );
+  });
+
+  it('fails closed on an unknown resolved EAS environment value', () => {
+    const result = runReleaseCheckWithEasFixture('invalid-environment', {
+      'invalid-environment': { environment: 'staging' },
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('environment must be one of');
+    expect(result.output).toContain(
+      'Refusing to skip social-recovery preflight'
+    );
+  });
+
+  it('fails closed on a non-string resolved EAS environment', () => {
+    const result = runReleaseCheckWithEasFixture('invalid-environment-type', {
+      'invalid-environment-type': { environment: true },
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('environment must be one of');
+    expect(result.output).toContain(
+      'Refusing to skip social-recovery preflight'
+    );
+  });
+
+  it('fails closed on a non-string EAS extends value', () => {
+    const result = runReleaseCheckWithEasFixture('invalid-extends', {
+      'invalid-extends': { extends: 42 },
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('invalid extends value');
+    expect(result.output).toContain(
+      'Refusing to skip social-recovery preflight'
+    );
+  });
+
+  it('fails closed when an EAS profile parent is missing', () => {
+    const result = runReleaseCheckWithEasFixture('missing-parent', {
+      'missing-parent': { extends: 'absent-parent' },
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('absent-parent');
+    expect(result.output).toContain(
+      'Refusing to skip social-recovery preflight'
+    );
+  });
+
+  it('fails closed on a two-node EAS inheritance cycle', () => {
+    const result = runReleaseCheckWithEasFixture('cycle-a', {
+      'cycle-a': { extends: 'cycle-b' },
+      'cycle-b': { extends: 'cycle-a' },
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('cycle-a -> cycle-b -> cycle-a');
+    expect(result.output).toContain(
+      'Refusing to skip social-recovery preflight'
+    );
+  });
+
+  it('keeps config-only baseline checks offline for the development profile', () => {
+    const result = runReleaseCheckExecutable(['--config-only'], {
+      EAS_BUILD_PROFILE: 'development',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.output).toContain('Not required: both public Supabase relay');
   });
 
   it('rejects a raw Supabase deletion function URL in required mode', () => {

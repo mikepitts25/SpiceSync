@@ -71,6 +71,11 @@ required mode automatically whenever the selected `EAS_BUILD_PROFILE` resolves
 through `eas.json` inheritance to `environment: production`—including the
 checked-in `testflight` profile that extends `production`. Missing, invalid, or
 cyclic supplied profiles fail closed rather than falling back to baseline mode.
+When a valid resolved profile omits `environment`, the check follows Expo's
+current documented build defaults: `distribution: "store"` is production,
+`developmentClient: true` is development, and all other valid profiles are
+preview. This preserves the checked-in `preview`/`development` baseline modes
+without treating an invalid environment value as preview.
 Without either signal, the baseline `npm run release:check` remains valid
 offline and reports social recovery as not required only when both relay
 variables are absent. Blank, placeholder, malformed, and incomplete values do
