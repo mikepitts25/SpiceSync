@@ -76,6 +76,16 @@ describe('welcome onboarding routing', () => {
     expect(getProfileCreatedDestination(false, 'profile-123')).toBeNull();
   });
 
+  it('returns an account-recovery-created profile to explicit confirmation', () => {
+    const routing = require('../lib/welcome/routing') as {
+      getAccountRecoveryProfileDestination?: (from?: string) => unknown;
+    };
+
+    expect(
+      routing.getAccountRecoveryProfileDestination?.('account-recovery')
+    ).toBe('/(auth)/confirm-profile');
+  });
+
   it('links the welcome readiness gate to legal screens before confirmation', () => {
     const fs = require('fs');
     const path = require('path');

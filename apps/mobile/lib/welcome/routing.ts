@@ -77,3 +77,9 @@ export function getProfileCreatedDestination(
     params: { from: 'welcome', profileId },
   };
 }
+
+export function getAccountRecoveryProfileDestination(
+  from?: string
+): '/(auth)/confirm-profile' | null {
+  return from === 'account-recovery' ? '/(auth)/confirm-profile' : null;
+}

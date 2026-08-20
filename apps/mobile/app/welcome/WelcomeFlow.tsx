@@ -37,6 +37,7 @@ import {
 } from '../../constants/theme';
 import { SpiceSyncLogo } from '../../components/app-chrome';
 import { interpolate, useTranslation } from '../../lib/i18n';
+import { ui } from '../../lib/i18n/uiLiteral';
 import {
   WELCOME_SCREEN_ORDER,
   WELCOME_VALUE_SCREEN_BY_ID,
@@ -110,6 +111,7 @@ export default function WelcomeFlow() {
         return (
           <BrandScreen
             onContinue={() => transitionTo('explore')}
+            onRestore={() => router.push('/(auth)/restore')}
             copy={t.welcome}
           />
         );
@@ -227,9 +229,11 @@ function WelcomeProgress({
 // Screen 1: Brand Moment
 function BrandScreen({
   onContinue,
+  onRestore,
   copy,
 }: {
   onContinue: () => void;
+  onRestore: () => void;
   copy: ReturnType<typeof useTranslation>['t']['welcome'];
 }) {
   const [scaleAnim] = useState(new Animated.Value(0.8));
@@ -264,13 +268,24 @@ function BrandScreen({
         <Text style={styles.brandSubtitle}>{copy.brandSubtitle}</Text>
       </Animated.View>
 
-      <Pressable
-        style={[styles.primaryButton, styles.standalonePrimaryButton]}
-        onPress={onContinue}
-        accessibilityRole="button"
-      >
-        <Text style={styles.primaryButtonText}>{copy.getStarted}</Text>
-      </Pressable>
+      <View style={styles.brandActions}>
+        <Pressable
+          style={[styles.primaryButton, styles.standalonePrimaryButton]}
+          onPress={onContinue}
+          accessibilityRole="button"
+        >
+          <Text style={styles.primaryButtonText}>{copy.getStarted}</Text>
+        </Pressable>
+        <Pressable
+          style={styles.secondaryButton}
+          onPress={onRestore}
+          accessibilityRole="button"
+        >
+          <Text style={styles.secondaryButtonText}>
+            {ui('Restore existing account')}
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -627,6 +642,10 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body,
     color: COLORS.textSecondary,
     textAlign: 'center',
+  },
+  brandActions: {
+    gap: SIZES.padding,
+    width: '100%',
   },
 
   // Value Prop Screen

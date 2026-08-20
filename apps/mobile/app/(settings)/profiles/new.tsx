@@ -27,7 +27,10 @@ import {
   useProfilesStore,
 } from '../../../lib/state/profiles';
 import { COLORS, GRADIENTS, SHADOWS } from '../../../constants/theme';
-import { getProfileCreatedDestination } from '../../../lib/welcome/routing';
+import {
+  getAccountRecoveryProfileDestination,
+  getProfileCreatedDestination,
+} from '../../../lib/welcome/routing';
 import { usePremiumStore } from '../../../src/stores/premium';
 import { hasPremiumFeatureAccess } from '../../../lib/purchases/access';
 import { canCreateProfile } from '../../../lib/purchases/premiumPolicy';
@@ -40,6 +43,7 @@ export default function NewProfileScreen() {
   const router = useRouter();
   const { from } = useLocalSearchParams<{ from?: string }>();
   const fromWelcome = from === 'welcome';
+  const fromAccountRecovery = from === 'account-recovery';
   const profileCount = useProfilesStore((state) => state.getProfiles().length);
   const locallyEntitled = usePremiumStore((state) => state.isPremium());
   const canAddProfile = canCreateProfile(
@@ -55,8 +59,10 @@ export default function NewProfileScreen() {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (!fromWelcome && !canAddProfile) router.replace('/(unlock)');
-  }, [canAddProfile, fromWelcome, router]);
+    if (!fromWelcome && !fromAccountRecovery && !canAddProfile) {
+      router.replace('/(unlock)');
+    }
+  }, [canAddProfile, fromAccountRecovery, fromWelcome, router]);
 
   const requiresPin = profileCount === 1;
   const [pinEnabled, setPinEnabled] = useState(requiresPin);
@@ -138,6 +144,10 @@ export default function NewProfileScreen() {
           profile.id
         );
         router.replace(destination ?? '/(tabs)/deck');
+      } else if (fromAccountRecovery) {
+        router.replace(
+          getAccountRecoveryProfileDestination(from) ?? '/(tabs)/deck'
+        );
       } else {
         router.back();
       }
@@ -151,7 +161,7 @@ export default function NewProfileScreen() {
     }
   };
 
-  if (!fromWelcome && !canAddProfile) return null;
+  if (!fromWelcome && !fromAccountRecovery && !canAddProfile) return null;
 
   return (
     <KeyboardAvoidingView

@@ -100,7 +100,13 @@ async function enqueueVoteChanges(
 ): Promise<boolean> {
   if (changes.length === 0 && answeredCount === undefined) return false;
   const link = useCoupleLinkStore.getState().link;
-  if (!link || link.status !== 'active') return false;
+  if (
+    !link ||
+    link.status !== 'active' ||
+    link.requiresProfileConfirmation === true
+  ) {
+    return false;
+  }
   const id = await getIdentityIfExists();
   if (!id) return false;
   const queue = useEventQueueStore.getState();
@@ -138,6 +144,7 @@ export async function bootstrapCurrentVotes(): Promise<boolean> {
   if (
     !link ||
     link.status !== 'active' ||
+    link.requiresProfileConfirmation === true ||
     !syncState.localProfileId ||
     (syncState.bootstrappedCoupleId === link.coupleId &&
       syncState.bootstrappedProfileId === syncState.localProfileId &&
@@ -166,6 +173,11 @@ export async function bootstrapCurrentVotes(): Promise<boolean> {
 export function startVoteSync(
   localProfileId?: string | null
 ): Promise<boolean> {
+  const link = useCoupleLinkStore.getState().link;
+  if (link?.status === 'active' && link.requiresProfileConfirmation === true) {
+    return Promise.resolve(false);
+  }
+
   if (localProfileId !== undefined) {
     useVoteSyncStore.getState().setLocalProfileId(localProfileId);
   }

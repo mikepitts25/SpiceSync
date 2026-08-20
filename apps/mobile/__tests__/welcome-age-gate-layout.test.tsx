@@ -4,11 +4,10 @@ import { Text } from 'react-native';
 
 import WelcomeFlow from '../app/welcome/WelcomeFlow';
 
+const mockRouter = { push: jest.fn(), replace: jest.fn() };
+
 jest.mock('expo-router', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    replace: jest.fn(),
-  }),
+  useRouter: () => mockRouter,
 }));
 
 jest.mock('expo-blur', () => ({
@@ -31,6 +30,7 @@ jest.mock('react-native-safe-area-context', () => ({
 
 describe('welcome age gate layout', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     jest.useFakeTimers();
   });
 
@@ -83,5 +83,28 @@ describe('welcome age gate layout', () => {
     expect(footerOrder.indexOf('welcome-progress')).toBeGreaterThan(
       footerOrder.lastIndexOf('age-gate-buttons')
     );
+  });
+
+  it('opens account restoration from the welcome brand screen', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<WelcomeFlow />);
+    });
+    const restoreButton = tree!.root
+      .findAll((candidate) => candidate.props.accessibilityRole === 'button')
+      .find((candidate) =>
+        candidate
+          .findAllByType(Text)
+          .some((text) => text.props.children === 'Restore existing account')
+      );
+
+    if (!restoreButton) {
+      throw new Error('Could not find account restoration button');
+    }
+    TestRenderer.act(() => {
+      restoreButton.props.onPress();
+    });
+
+    expect(mockRouter.push).toHaveBeenCalledWith('/(auth)/restore');
   });
 });

@@ -47,6 +47,7 @@ type CoupleLinkState = {
   pendingInviteExpiresAt: number | null;
   coupleRecoveryEnabled: boolean;
   setLink: (link: CoupleLinkInput) => void;
+  confirmLocalProfile: (profileId: string) => void;
   setPendingInvite: (inviteId: string, expiresAt?: number) => void;
   clearPendingInvite: () => void;
   unlink: () => void;
@@ -100,6 +101,13 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
           pendingInviteExpiresAt: null,
           coupleRecoveryEnabled: true,
         }),
+      confirmLocalProfile: (profileId) => {
+        const current = get().link;
+        if (!profileId || !current || current.status !== 'active') return;
+        set({
+          link: { ...current, requiresProfileConfirmation: false },
+        });
+      },
       setPendingInvite: (inviteId, expiresAt) =>
         set({
           pendingInviteId: inviteId,

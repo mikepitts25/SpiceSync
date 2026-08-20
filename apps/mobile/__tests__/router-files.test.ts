@@ -63,6 +63,27 @@ describe('expo router file layout', () => {
     expect(rootLayout).not.toContain('<Stack.Screen name="(conversation)"');
   });
 
+  it('registers the dedicated account restoration routes', () => {
+    const authLayoutPath = path.join(appRoot, '(auth)', '_layout.tsx');
+    const authLayout = fs.existsSync(authLayoutPath)
+      ? fs.readFileSync(authLayoutPath, 'utf8')
+      : '';
+    const rootLayout = fs.readFileSync(
+      path.join(appRoot, '_layout.tsx'),
+      'utf8'
+    );
+
+    expect(fs.existsSync(path.join(appRoot, '(auth)', 'restore.tsx'))).toBe(
+      true
+    );
+    expect(
+      fs.existsSync(path.join(appRoot, '(auth)', 'confirm-profile.tsx'))
+    ).toBe(true);
+    expect(authLayout).toContain('<Stack.Screen name="restore" />');
+    expect(authLayout).toContain('<Stack.Screen name="confirm-profile" />');
+    expect(rootLayout).toContain('<Stack.Screen name="(auth)" />');
+  });
+
   it('lets native intent own deep-link routing without a competing root listener', () => {
     const rootLayout = fs.readFileSync(
       path.join(appRoot, '_layout.tsx'),

@@ -203,4 +203,32 @@ describe('vote sync', () => {
     expect(useVoteSyncStore.getState().localProfileId).toBe('profile-1');
     expect(useEventQueueStore.getState().pending).toHaveLength(2);
   });
+
+  it('does not enqueue or start vote sync before profile confirmation', async () => {
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': { 'card-yes': 'yes' },
+      },
+    });
+    useCoupleLinkStore.setState({
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: true,
+      },
+    });
+
+    await expect(startVoteSync('profile-1')).resolves.toBe(false);
+    expect(useEventQueueStore.getState().pending).toHaveLength(0);
+
+    useCoupleLinkStore.setState({
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: false,
+      },
+    });
+    useVotesStore.getState().setVote('profile-1', 'card-later', 'maybe');
+    await settleAsyncWork();
+
+    expect(useEventQueueStore.getState().pending).toHaveLength(0);
+  });
 });

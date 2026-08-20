@@ -104,6 +104,17 @@ const supplementalSpanish: Record<string, string> = {
   'This sign-in uses a new credential and switches to the account that already uses this provider.':
     'Este inicio de sesión usa una credencial nueva y cambia a la cuenta que ya usa este proveedor.',
   'Could not protect your connection.': 'No se pudo proteger tu conexión.',
+  'Could not restore your account.': 'No se pudo restaurar tu cuenta.',
+  'Restore existing account': 'Restaurar cuenta existente',
+  'Welcome back': 'Te damos la bienvenida de nuevo',
+  'Sign in with the account you used before to restore your partner connection.':
+    'Inicia sesión con la cuenta que usaste antes para restaurar tu conexión de pareja.',
+  'Confirm local profile': 'Confirma el perfil local',
+  'Which profile is yours?': '¿Qué perfil es el tuyo?',
+  'Choose the profile on this device before restoring encrypted partner sync.':
+    'Elige el perfil de este dispositivo antes de restaurar la sincronización cifrada con tu pareja.',
+  'Could not confirm this profile.': 'No se pudo confirmar este perfil.',
+  'Use this profile': 'Usar este perfil',
   'How do you want to compare?': '¿Cómo quieren comparar?',
   'You appear as': 'Apareces como',
   'Two profiles on this device': 'Dos perfiles en este dispositivo',

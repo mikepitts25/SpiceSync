@@ -24,7 +24,7 @@ import { useProfilesStore } from '../lib/state/profiles';
 import { useVotesStore } from '../src/stores/votes';
 import BiometricLockGate from '../components/BiometricLockGate';
 import { STACK_SCREEN_OPTIONS } from '../lib/navigation/transitions';
-import { useCoupleLinkStore } from '../lib/sync/coupleLink';
+import { type CoupleLink, useCoupleLinkStore } from '../lib/sync/coupleLink';
 import {
   finalizePendingInvite,
   recoverExistingCouple,
@@ -38,6 +38,10 @@ import {
   purchaseService,
 } from '../lib/purchases/purchaseService';
 import { getNotificationDestination } from '../lib/notifications/routing';
+
+function canStartRemoteSync(link: CoupleLink | null): boolean {
+  return link?.status === 'active' && !link.requiresProfileConfirmation;
+}
 
 export default function RootLayout() {
   useEffect(() => {
@@ -162,7 +166,9 @@ export default function RootLayout() {
         const activeProfileId =
           useProfilesStore.getState().getActiveProfileId() ?? null;
         await startVoteSync(activeProfileId);
-        startSyncLoop();
+        if (canStartRemoteSync(useCoupleLinkStore.getState().link)) {
+          startSyncLoop();
+        }
       } catch {
         // The interval retries transient auth/network failures while the invite
         // remains pending. The partner setup screen shows actionable errors.
@@ -183,7 +189,7 @@ export default function RootLayout() {
           useProfilesStore.getState().getActiveProfileId() ?? null;
         await startVoteSync(activeProfileId);
         const link = useCoupleLinkStore.getState().link;
-        if (link?.status === 'active') startSyncLoop();
+        if (canStartRemoteSync(link)) startSyncLoop();
         return recoverPartnerLink(true);
       })
       .catch(() => undefined);
@@ -193,15 +199,18 @@ export default function RootLayout() {
     }, 4000);
 
     const unsubLink = useCoupleLinkStore.subscribe((state) => {
-      if (state.link?.status === 'active' && !recoveryInFlight) startSyncLoop();
-      else stopSyncLoop();
+      if (canStartRemoteSync(state.link) && !recoveryInFlight) {
+        startSyncLoop();
+      } else {
+        stopSyncLoop();
+      }
     });
 
     const appStateSub = AppState.addEventListener('change', (next) => {
       if (next === 'active') {
         recoverPartnerLink(true).catch(() => undefined);
         const current = useCoupleLinkStore.getState().link;
-        if (current?.status === 'active') {
+        if (canStartRemoteSync(current)) {
           const activeProfileId =
             useProfilesStore.getState().getActiveProfileId() ?? null;
           startVoteSync(activeProfileId)
@@ -227,6 +236,7 @@ export default function RootLayout() {
         <BiometricLockGate>
           <View style={styles.background}>
             <Stack screenOptions={STACK_SCREEN_OPTIONS}>
+              <Stack.Screen name="(auth)" />
               <Stack.Screen name="(onboarding)" />
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="(settings)" />
