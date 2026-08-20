@@ -67,10 +67,12 @@ eas env:exec production 'npm run release:check -- --require-social-recovery' --n
 `--require-social-recovery` requires every relay variable, both Google client
 IDs, the Apple capability/plugin, `spicesync` and generated Google iOS callback
 schemes, and the fixed production iOS/Android IDs. The check enables that same
-required mode automatically when `EAS_BUILD_PROFILE=production`, so an intended
-EAS production build cannot silently pass because the relay variables are
-absent. Without either signal, the baseline `npm run release:check` remains
-valid offline and reports social recovery as not required only when both relay
+required mode automatically whenever the selected `EAS_BUILD_PROFILE` resolves
+through `eas.json` inheritance to `environment: production`—including the
+checked-in `testflight` profile that extends `production`. Missing, invalid, or
+cyclic supplied profiles fail closed rather than falling back to baseline mode.
+Without either signal, the baseline `npm run release:check` remains valid
+offline and reports social recovery as not required only when both relay
 variables are absent. Blank, placeholder, malformed, and incomplete values do
 not pass either mode.
 

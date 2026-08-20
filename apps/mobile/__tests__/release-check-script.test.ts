@@ -187,6 +187,37 @@ executableDescribe('release check executable preflight', () => {
     expect(result.output).toContain('SPICESYNC_ACCOUNT_DELETION_URL');
   });
 
+  it('requires social recovery when TestFlight inherits the production environment', () => {
+    const result = runReleaseCheckExecutable(['--config-only'], {
+      EAS_BUILD_PROFILE: 'testflight',
+    });
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('EXPO_PUBLIC_SUPABASE_URL');
+    expect(result.output).toContain('SPICESYNC_ACCOUNT_DELETION_URL');
+  });
+
+  it('keeps config-only baseline checks offline for a non-production EAS profile', () => {
+    const result = runReleaseCheckExecutable(['--config-only'], {
+      EAS_BUILD_PROFILE: 'preview',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.output).toContain('Not required: both public Supabase relay');
+  });
+
+  it('fails closed when a supplied EAS build profile cannot be resolved', () => {
+    const result = runReleaseCheckExecutable(['--config-only'], {
+      EAS_BUILD_PROFILE: 'missing-profile',
+    });
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('missing-profile');
+    expect(result.output).toContain(
+      'Refusing to skip social-recovery preflight'
+    );
+  });
+
   it('rejects a raw Supabase deletion function URL in required mode', () => {
     const result = runReleaseCheckExecutable(
       ['--require-social-recovery', '--config-only'],
@@ -202,11 +233,11 @@ executableDescribe('release check executable preflight', () => {
     expect(result.output).toContain('not a raw *.supabase.co/functions/v1 URL');
   });
 
-  it('passes the real config-only executable with a complete production-shaped environment', () => {
-    const result = runReleaseCheckExecutable(
-      ['--require-social-recovery', '--config-only'],
-      productionSocialRecoveryEnvironment()
-    );
+  it('passes a production-shaped fixture through the inherited TestFlight profile', () => {
+    const result = runReleaseCheckExecutable(['--config-only'], {
+      ...productionSocialRecoveryEnvironment(),
+      EAS_BUILD_PROFILE: 'testflight',
+    });
 
     expect(result.status).toBe(0);
     expect(result.output).toContain(

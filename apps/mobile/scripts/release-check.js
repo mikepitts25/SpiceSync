@@ -6,7 +6,6 @@ const path = require('path');
 
 const {
   collectProductionSocialRecoveryErrors,
-  isEasProductionBuild,
   isPartnerSyncEnabled,
 } = require('./release-check-config');
 
@@ -104,6 +103,69 @@ function readResolvedExpoConfig() {
   return configFactory();
 }
 
+function readEasBuildProfiles() {
+  const easJson = JSON.parse(
+    fs.readFileSync(path.join(mobileRoot, 'eas.json'))
+  );
+  const buildProfiles = easJson.build;
+
+  if (!buildProfiles || typeof buildProfiles !== 'object') {
+    throw new Error(
+      'eas.json must define build profiles. Refusing to skip social-recovery preflight.'
+    );
+  }
+
+  return buildProfiles;
+}
+
+function resolveEasBuildProfile(profileName) {
+  const buildProfiles = readEasBuildProfiles();
+  const profileChain = [];
+  const visitedProfiles = new Set();
+  let currentProfileName = profileName;
+
+  while (currentProfileName) {
+    if (visitedProfiles.has(currentProfileName)) {
+      throw new Error(
+        `EAS build profile inheritance cycle: ${[
+          ...profileChain,
+          currentProfileName,
+        ].join(' -> ')}. Refusing to skip social-recovery preflight.`
+      );
+    }
+    visitedProfiles.add(currentProfileName);
+
+    const profile = buildProfiles[currentProfileName];
+    if (!profile || typeof profile !== 'object' || Array.isArray(profile)) {
+      throw new Error(
+        `EAS build profile "${currentProfileName}" is missing. Refusing to skip social-recovery preflight.`
+      );
+    }
+    profileChain.push(currentProfileName);
+
+    if (
+      profile.extends !== undefined &&
+      (typeof profile.extends !== 'string' || !profile.extends.trim())
+    ) {
+      throw new Error(
+        `EAS build profile "${currentProfileName}" has an invalid extends value. Refusing to skip social-recovery preflight.`
+      );
+    }
+    currentProfileName = profile.extends?.trim() || '';
+  }
+
+  return profileChain.reverse().reduce((resolvedProfile, currentName) => {
+    return { ...resolvedProfile, ...buildProfiles[currentName] };
+  }, {});
+}
+
+function isEasProductionEnvironmentProfile(environment) {
+  const profileName = environment.EAS_BUILD_PROFILE?.trim();
+  if (!profileName) return false;
+
+  return resolveEasBuildProfile(profileName).environment === 'production';
+}
+
 function readCommandOptions() {
   const supportedFlags = new Set([
     '--config-only',
@@ -123,7 +185,7 @@ function readCommandOptions() {
     configOnly: process.argv.includes('--config-only'),
     requireSocialRecovery:
       process.argv.includes('--require-social-recovery') ||
-      isEasProductionBuild(process.env),
+      isEasProductionEnvironmentProfile(process.env),
   };
 }
 
@@ -138,7 +200,7 @@ function assertSocialRecoveryConfig({ requireSocialRecovery }) {
 
   if (requireSocialRecovery) {
     console.log(
-      'Required: explicit social-recovery preflight or EAS_BUILD_PROFILE=production.'
+      'Required: explicit social-recovery preflight or an EAS profile resolved to environment=production.'
     );
   }
 
