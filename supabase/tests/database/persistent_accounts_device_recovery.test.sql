@@ -96,7 +96,7 @@ begin
 end;
 $$;
 
-select plan(38);
+select plan(48);
 
 select tests.create_supabase_user('anonymous-user', is_anonymous := true);
 select tests.create_supabase_user('permanent-a', is_anonymous := false);
@@ -260,6 +260,149 @@ select is(
   ),
   '{"couple":null,"recoveryCursor":0}'::jsonb,
   'a permanent user without a couple receives a zero recovery cursor'
+);
+
+select tests.create_supabase_user('legacy-anonymous-a', is_anonymous := true);
+select tests.create_supabase_user('legacy-anonymous-b', is_anonymous := true);
+select tests.create_supabase_user('legacy-intruder', is_anonymous := true);
+
+insert into public.spicesync_couples (
+  couple_id,
+  member_a_user_id,
+  member_b_user_id,
+  member_a_device_id,
+  member_b_device_id,
+  member_a_public_key,
+  member_b_public_key,
+  member_a_signing_public_key,
+  member_b_signing_public_key,
+  created_at
+) values (
+  'cpl_legacy_zero_registry',
+  tests.get_supabase_uid('legacy-anonymous-a'),
+  tests.get_supabase_uid('legacy-anonymous-b'),
+  'dev_legacy_a',
+  'dev_legacy_b',
+  'enc_legacy_a',
+  'enc_legacy_b',
+  'sign_legacy_a',
+  'sign_legacy_b',
+  '2026-08-18 12:00:00+00'::timestamptz
+);
+
+select is(
+  (
+    select pg_catalog.count(*)
+    from public.spicesync_devices
+    where user_id in (
+      tests.get_supabase_uid('legacy-anonymous-a'),
+      tests.get_supabase_uid('legacy-anonymous-b')
+    )
+  ),
+  0::bigint,
+  'the upgrade fixture starts as a live legacy couple with no device registry rows'
+);
+
+select tests.authenticate_as('legacy-anonymous-a');
+select lives_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_zero_v2','dev_legacy_a','dev_legacy_b',1,'legacy-zero-payload',encode(extensions.digest('legacy-zero-payload','sha256'),'base64'),'legacy-zero-signature') $$,
+  'a grandfathered anonymous side can append v2 with its exact version-one couple material'
+);
+select is(
+  (
+    select pg_catalog.count(*)
+    from public.spicesync_events
+    where couple_id = 'cpl_legacy_zero_registry'
+      and event_id = 'evt_legacy_zero_v2'
+      and author_device_id = 'dev_legacy_a'
+      and recipient_device_id = 'dev_legacy_b'
+  ),
+  1::bigint,
+  'the grandfathered v2 event is available for normal sync'
+);
+select throws_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_wrong_recipient','dev_legacy_a','dev_other',2,'wrong-recipient',encode(extensions.digest('wrong-recipient','sha256'),'base64'),'sig') $$,
+  'P0001', 'RECIPIENT_KEY_CHANGED',
+  'grandfathered compatibility cannot address a mismatched recipient device'
+);
+select throws_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_wrong_author','dev_other','dev_legacy_b',2,'wrong-author',encode(extensions.digest('wrong-author','sha256'),'base64'),'sig') $$,
+  '28000', 'Author device is not active',
+  'grandfathered compatibility cannot substitute a mismatched author device'
+);
+
+select tests.authenticate_as('legacy-intruder');
+select throws_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_intruder','dev_legacy_a','dev_legacy_b',2,'intruder',encode(extensions.digest('intruder','sha256'),'base64'),'sig') $$,
+  'P0002', 'Couple not found',
+  'a non-member cannot escalate through the grandfathered path'
+);
+
+insert into public.spicesync_devices (
+  device_id,
+  user_id,
+  signing_public_key,
+  encryption_public_key,
+  status
+) values (
+  'dev_legacy_a_replacement',
+  tests.get_supabase_uid('legacy-anonymous-a'),
+  'sign_legacy_a_replacement',
+  'enc_legacy_a_replacement',
+  'active'
+);
+select tests.authenticate_as('legacy-anonymous-a');
+select throws_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_replaced','dev_legacy_a','dev_legacy_b',2,'replaced',encode(extensions.digest('replaced','sha256'),'base64'),'sig') $$,
+  '28000', 'Author device is not active',
+  'a user with a replacement registry device cannot fall back to legacy material'
+);
+
+insert into public.spicesync_devices (
+  device_id,
+  user_id,
+  signing_public_key,
+  encryption_public_key,
+  status,
+  revoked_at
+) values (
+  'dev_legacy_b',
+  tests.get_supabase_uid('legacy-anonymous-b'),
+  'sign_legacy_b',
+  'enc_legacy_b',
+  'revoked',
+  pg_catalog.now()
+);
+select tests.authenticate_as('legacy-anonymous-b');
+select throws_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_revoked','dev_legacy_b','dev_legacy_a',1,'revoked',encode(extensions.digest('revoked','sha256'),'base64'),'sig') $$,
+  '28000', 'Author device is not active',
+  'a revoked exact device cannot fall back to grandfathered compatibility'
+);
+
+delete from public.spicesync_devices
+where user_id = tests.get_supabase_uid('legacy-anonymous-a');
+update auth.users
+set is_anonymous = false
+where id = tests.get_supabase_uid('legacy-anonymous-a');
+select tests.authenticate_as('legacy-anonymous-a');
+select throws_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_permanent','dev_legacy_a','dev_legacy_b',2,'permanent',encode(extensions.digest('permanent','sha256'),'base64'),'sig') $$,
+  '28000', 'Author device is not active',
+  'a permanent account without a registry row cannot use anonymous compatibility'
+);
+
+update auth.users
+set is_anonymous = true
+where id = tests.get_supabase_uid('legacy-anonymous-a');
+update public.spicesync_couples
+set member_a_key_version = 2
+where couple_id = 'cpl_legacy_zero_registry';
+select tests.authenticate_as('legacy-anonymous-a');
+select throws_ok(
+  $$ select public.spicesync_append_event_v2('cpl_legacy_zero_registry','evt_legacy_rotated','dev_legacy_a','dev_legacy_b',2,'rotated',encode(extensions.digest('rotated','sha256'),'base64'),'sig') $$,
+  '28000', 'Author device is not active',
+  'a rotated version-two side cannot use the version-one compatibility path'
 );
 
 select tests.create_supabase_user('anonymous-couple-a', is_anonymous := true);
