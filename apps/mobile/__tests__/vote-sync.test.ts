@@ -61,6 +61,7 @@ describe('vote sync', () => {
         lastSyncedAt: null,
         status: 'active',
       },
+      profileConfirmationInProgress: null,
     });
     useVoteSyncStore.getState().setLocalProfileId('profile-1');
   });
@@ -79,7 +80,7 @@ describe('vote sync', () => {
       },
     });
 
-    await startVoteSync();
+    await expect(startVoteSync()).resolves.toBe(true);
 
     const payloads = useEventQueueStore
       .getState()
@@ -104,8 +105,106 @@ describe('vote sync', () => {
     );
 
     const queuedCount = payloads.length;
-    await startVoteSync();
+    await expect(startVoteSync()).resolves.toBe(false);
     expect(useEventQueueStore.getState().pending).toHaveLength(queuedCount);
+  });
+
+  it('revalidates matching persisted votes only during the authorized recovery handoff', async () => {
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': { 'card-recovered': 'yes' },
+      },
+    });
+    useVoteSyncStore.setState({
+      localProfileId: 'profile-1',
+      bootstrappedCoupleId: 'couple-1',
+      bootstrappedProfileId: 'profile-1',
+      bootstrapVersion: 2,
+    });
+    useCoupleLinkStore.setState({
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: true,
+      },
+    });
+    await expect(
+      startVoteSync('profile-1', {
+        allowPendingProfileConfirmation: true,
+        revalidateRecoveredBootstrap: true,
+      })
+    ).resolves.toBe(false);
+    expect(useEventQueueStore.getState().pending).toHaveLength(0);
+    expect(
+      useCoupleLinkStore.getState().beginProfileConfirmation('profile-1')
+    ).toBe(true);
+
+    await expect(
+      startVoteSync('profile-1', {
+        allowPendingProfileConfirmation: true,
+        revalidateRecoveredBootstrap: true,
+      })
+    ).resolves.toBe(true);
+
+    expect(useEventQueueStore.getState().pending).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          payload: expect.objectContaining({
+            eventType: 'vote.upsert',
+            cardId: 'card-recovered',
+            vote: 'yes',
+          }),
+        }),
+        expect.objectContaining({
+          payload: expect.objectContaining({
+            eventType: 'progress.snapshot',
+            answeredCount: 1,
+          }),
+        }),
+      ])
+    );
+    expect(
+      useCoupleLinkStore.getState().link?.requiresProfileConfirmation
+    ).toBe(true);
+  });
+
+  it('keeps the recovery pause and marker when revalidation cannot enqueue', async () => {
+    _resetCacheForTests();
+    setIdentityDeps(memoryDeps());
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': { 'card-retry': 'maybe' },
+      },
+    });
+    useVoteSyncStore.setState({
+      localProfileId: 'profile-1',
+      bootstrappedCoupleId: 'couple-1',
+      bootstrappedProfileId: 'profile-1',
+      bootstrapVersion: 2,
+    });
+    useCoupleLinkStore.setState({
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: true,
+      },
+    });
+    useCoupleLinkStore.getState().beginProfileConfirmation('profile-1');
+
+    await expect(
+      startVoteSync('profile-1', {
+        allowPendingProfileConfirmation: true,
+        revalidateRecoveredBootstrap: true,
+      })
+    ).resolves.toBe(false);
+
+    expect(useEventQueueStore.getState().pending).toHaveLength(0);
+    expect(
+      useCoupleLinkStore.getState().link?.requiresProfileConfirmation
+    ).toBe(true);
+    expect(useVoteSyncStore.getState()).toMatchObject({
+      bootstrappedCoupleId: 'couple-1',
+      bootstrappedProfileId: 'profile-1',
+      bootstrapVersion: 2,
+    });
   });
 
   it('queues updated progress whenever a linked profile casts a vote', async () => {

@@ -44,6 +44,7 @@ export default function ConfirmProfileScreen() {
       useVoteSyncStore.getState().setLocalProfileId(profileId);
       const bootstrapped = await startVoteSync(profileId, {
         allowPendingProfileConfirmation: true,
+        revalidateRecoveredBootstrap: true,
       });
       if (!bootstrapped) {
         throw new Error(ui('Could not confirm this profile.'));

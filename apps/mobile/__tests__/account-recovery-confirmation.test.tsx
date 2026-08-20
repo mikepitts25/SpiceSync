@@ -97,6 +97,7 @@ describe('recovered profile confirmation', () => {
     await waitFor(() =>
       expect(mockStartVoteSync).toHaveBeenCalledWith('profile-1', {
         allowPendingProfileConfirmation: true,
+        revalidateRecoveredBootstrap: true,
       })
     );
     expect(mockSetLocalProfileId).toHaveBeenCalledWith('profile-1');

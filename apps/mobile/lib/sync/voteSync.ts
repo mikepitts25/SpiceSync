@@ -37,6 +37,12 @@ type VoteSyncStartOptions = {
    * opt-in path impossible for regular sync subscribers to use accidentally.
    */
   allowPendingProfileConfirmation?: boolean;
+  /**
+   * Recovery may need to resend a locally retained profile after a local
+   * disconnect cleared its link and queue, but left its persisted marker.
+   * This is valid only while the matching confirmation handoff is active.
+   */
+  revalidateRecoveredBootstrap?: boolean;
 };
 
 export const useVoteSyncStore = create<VoteSyncState>()(
@@ -167,6 +173,21 @@ function canEnqueueVotes(
   );
 }
 
+function canRevalidateRecoveredBootstrap(
+  link: ReturnType<typeof useCoupleLinkStore.getState>['link'],
+  profileId: string | null,
+  options?: VoteSyncStartOptions
+): boolean {
+  return (
+    link?.status === 'active' &&
+    link.requiresProfileConfirmation === true &&
+    options?.allowPendingProfileConfirmation === true &&
+    options.revalidateRecoveredBootstrap === true &&
+    !!profileId &&
+    useCoupleLinkStore.getState().profileConfirmationInProgress === profileId
+  );
+}
+
 let unsubscribe: (() => void) | null = null;
 let lastSnapshot: VotesByProfile = {};
 
@@ -176,13 +197,16 @@ export async function bootstrapCurrentVotes(
   const link = useCoupleLinkStore.getState().link;
   const syncState = useVoteSyncStore.getState();
   const profileId = syncState.localProfileId;
+  const hasCurrentBootstrapMarker =
+    syncState.bootstrappedCoupleId === link?.coupleId &&
+    syncState.bootstrappedProfileId === profileId &&
+    syncState.bootstrapVersion === CURRENT_BOOTSTRAP_VERSION;
   if (
     !link ||
     !profileId ||
     !canEnqueueVotes(link, profileId, options) ||
-    (syncState.bootstrappedCoupleId === link.coupleId &&
-      syncState.bootstrappedProfileId === profileId &&
-      syncState.bootstrapVersion === CURRENT_BOOTSTRAP_VERSION)
+    (hasCurrentBootstrapMarker &&
+      !canRevalidateRecoveredBootstrap(link, profileId, options))
   ) {
     return false;
   }
