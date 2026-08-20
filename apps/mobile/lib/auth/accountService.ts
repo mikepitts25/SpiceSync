@@ -41,8 +41,25 @@ type AccountAuthClient = {
       token: string;
       access_token?: string;
       nonce?: string;
-    }) => Promise<AuthResult<unknown>>;
+    }) => Promise<
+      AuthResult<{
+        session?: { access_token?: string } | null;
+      }>
+    >;
     signOut: () => Promise<AuthResult<unknown>>;
+  };
+  functions: {
+    invoke: (
+      name: string,
+      input: {
+        body: { appleAuthorizationCode?: string };
+        headers: { Authorization: string };
+      }
+    ) => Promise<{
+      data: unknown;
+      error: unknown;
+      response?: { status: number };
+    }>;
   };
 };
 
@@ -98,6 +115,27 @@ function credentialPayload(input: ProviderCredential) {
     token: input.token,
     access_token: input.accessToken ?? input.authorizationCode,
     nonce: input.nonce,
+  };
+}
+
+function reauthenticationPayload(input: ProviderCredential): {
+  provider: ProviderCredential['provider'];
+  token: string;
+  access_token?: string;
+  nonce?: string;
+} {
+  if (input.provider === 'apple') {
+    return {
+      provider: 'apple',
+      token: input.token,
+      nonce: input.nonce,
+    };
+  }
+
+  return {
+    provider: 'google',
+    token: input.token,
+    access_token: input.accessToken,
   };
 }
 
@@ -167,6 +205,13 @@ export class AccountService implements AccountServiceLike {
   }
 
   async requirePermanentUser(): Promise<string> {
+    const snapshot = await this.getPermanentSnapshot();
+    return snapshot.userId;
+  }
+
+  private async getPermanentSnapshot(): Promise<
+    AccountSnapshot & { userId: string }
+  > {
     const snapshot = await this.getSnapshot();
     if (snapshot.status !== 'permanent' || !snapshot.userId) {
       throw new AccountServiceError(
@@ -174,7 +219,17 @@ export class AccountService implements AccountServiceLike {
         'A permanent account is required for this action'
       );
     }
-    return snapshot.userId;
+    return snapshot as AccountSnapshot & { userId: string };
+  }
+
+  async getDeletionProvider(): Promise<ProviderCredential['provider']> {
+    const snapshot = await this.getPermanentSnapshot();
+    if (snapshot.providers.includes('apple')) return 'apple';
+    if (snapshot.providers.includes('google')) return 'google';
+    throw new AccountServiceError(
+      'ACCOUNT_REQUIRED',
+      'A permanent account needs a linked provider before deletion'
+    );
   }
 
   async linkProvider(input: ProviderCredential): Promise<AccountSnapshot> {
@@ -208,6 +263,78 @@ export class AccountService implements AccountServiceLike {
       );
     }
     return snapshot;
+  }
+
+  async deleteAccount(credential: ProviderCredential): Promise<void> {
+    const originalAccount = await this.getPermanentSnapshot();
+    const expectedProvider = originalAccount.providers.includes('apple')
+      ? 'apple'
+      : originalAccount.providers.includes('google')
+        ? 'google'
+        : null;
+
+    if (!expectedProvider || credential.provider !== expectedProvider) {
+      throw new AccountServiceError(
+        'ACCOUNT_DELETION_REAUTH_REQUIRED',
+        'Use a credential from a linked account provider to delete this account'
+      );
+    }
+    if (credential.provider === 'apple') {
+      if (!credential.nonce) {
+        throw new AccountServiceError(
+          'APPLE_NONCE_REQUIRED',
+          'Apple deletion requires a fresh nonce'
+        );
+      }
+      if (!credential.authorizationCode) {
+        throw new AccountServiceError(
+          'APPLE_AUTHORIZATION_CODE_REQUIRED',
+          'Apple deletion requires a fresh authorization code'
+        );
+      }
+    }
+
+    const { data, error } = await this.client.auth.signInWithIdToken(
+      reauthenticationPayload(credential)
+    );
+    if (error) throwForAuthError(error, 'ACCOUNT_REAUTHENTICATION_FAILED');
+
+    const reauthenticated = await this.client.auth.getUser();
+    if (reauthenticated.error || !reauthenticated.data.user) {
+      throw new AccountServiceError(
+        'ACCOUNT_REAUTHENTICATION_FAILED',
+        'Could not verify the reauthenticated account'
+      );
+    }
+    if (reauthenticated.data.user.id !== originalAccount.userId) {
+      throw new AccountServiceError(
+        'ACCOUNT_MISMATCH',
+        'The reauthenticated account does not match the account being deleted'
+      );
+    }
+
+    const bearer = data.session?.access_token;
+    if (!bearer) {
+      throw new AccountServiceError(
+        'REFRESHED_BEARER_UNAVAILABLE',
+        'A refreshed account session is required for deletion'
+      );
+    }
+
+    const { error: functionError, response } =
+      await this.client.functions.invoke('spicesync-delete-account', {
+        body:
+          credential.provider === 'apple'
+            ? { appleAuthorizationCode: credential.authorizationCode }
+            : {},
+        headers: { Authorization: `Bearer ${bearer}` },
+      });
+    if (functionError || response?.status !== 204) {
+      throw new AccountServiceError(
+        'ACCOUNT_DELETION_FAILED',
+        'The account deletion service did not confirm deletion'
+      );
+    }
   }
 
   async signOut(): Promise<void> {

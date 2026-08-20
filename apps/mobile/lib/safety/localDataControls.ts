@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useStreakStore } from '../achievements';
+import { clearSupabaseSessionOnDevice } from '../auth/supabase';
 import { useViewedMatchesStore } from '../match/viewedMatches';
 import { resetAllLocalNotifications } from '../notifications';
 import { useConversationStore } from '../state/conversationStore';
@@ -162,6 +163,7 @@ export async function resetAppOnDevice(): Promise<void> {
   });
   useAchievementsStore.setState({ achievements: [], totalUnlocked: 0 });
   await clearIdentity();
+  await clearSupabaseSessionOnDevice();
   await resetAllLocalNotifications();
   const storedKeys = await AsyncStorage.getAllKeys();
   await AsyncStorage.multiRemove(

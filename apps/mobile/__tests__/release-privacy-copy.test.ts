@@ -14,8 +14,23 @@ describe('release privacy copy', () => {
 
     expect(policy).toContain('anonymous Supabase user ID');
     expect(policy).toContain('encrypted sync payloads');
+    expect(policy).toContain('Apple');
+    expect(policy).toContain('Google');
+    expect(policy).toMatch(/account deletion/i);
+    expect(policy).toContain('device public keys');
+    expect(policy).toContain('does not restore local history');
     expect(policy).toMatch(/does not\s+automatically delete relay records/);
     expect(policy).not.toContain('Because all data is stored locally');
+  });
+
+  it('keeps the expanded recovery and deletion disclosure translatable in Spanish', () => {
+    const literals = read('apps/mobile/lib/i18n/uiLiteral.ts');
+
+    expect(literals).toContain('Apple');
+    expect(literals).toContain('Google');
+    expect(literals).toContain('eliminación de la cuenta');
+    expect(literals).toContain('claves públicas del dispositivo');
+    expect(literals).toContain('historial local');
   });
 
   it('does not promise that all data always remains on-device', () => {

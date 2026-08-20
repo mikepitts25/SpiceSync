@@ -168,7 +168,14 @@ export const es: Translations = {
       'No se puede encontrar este dispositivo. Sigues con la sesión iniciada. Inténtalo de nuevo.',
     deleteAccount: 'Eliminar cuenta',
     deleteAccountCopy:
-      'La eliminación de la cuenta estará disponible aquí en una próxima actualización.',
+      'Elimina permanentemente tu cuenta y los datos de SpiceSync de este dispositivo.',
+    deleteAccountConfirmTitle: '¿Eliminar cuenta?',
+    deleteAccountConfirmBody:
+      'Esto elimina permanentemente tu cuenta y borra los datos de SpiceSync de este dispositivo. No se puede deshacer.',
+    deletingAccount: 'Eliminando cuenta...',
+    deleteAccountFailed: 'No se pudo eliminar tu cuenta. Inténtalo de nuevo.',
+    deleteAccountCleanupFailed:
+      'Tu cuenta se eliminó, pero este dispositivo no pudo terminar de borrar sus datos. Restablece la app en este dispositivo para terminar.',
     partnerSecurityUpdate: 'Actualización de seguridad de la pareja',
     partnerSecurityUpdateCopy:
       'Las claves de seguridad del dispositivo de tu pareja cambiaron. Confirma este cambio con ella antes de continuar.',

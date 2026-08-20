@@ -166,7 +166,14 @@ export const en = {
       'This device cannot be found. You are still signed in. Try again.',
     deleteAccount: 'Delete account',
     deleteAccountCopy:
-      'Account deletion will be available here in a future update.',
+      'Permanently delete your account and this device’s SpiceSync data.',
+    deleteAccountConfirmTitle: 'Delete account?',
+    deleteAccountConfirmBody:
+      'This permanently deletes your account and clears SpiceSync data from this device. This cannot be undone.',
+    deletingAccount: 'Deleting account...',
+    deleteAccountFailed: 'Could not delete your account. Try again.',
+    deleteAccountCleanupFailed:
+      'Your account was deleted, but this device could not finish clearing its data. Reset the app on this device to finish.',
     partnerSecurityUpdate: 'Partner security update',
     partnerSecurityUpdateCopy:
       'Your partner’s device security keys changed. Confirm this change with them before continuing.',

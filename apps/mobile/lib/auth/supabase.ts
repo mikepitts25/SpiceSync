@@ -54,3 +54,11 @@ export function _resetSupabaseClientForTests(): void {
   appStateSubscription = null;
   cachedClient = null;
 }
+
+/** Removes the persisted session without making a network sign-out request. */
+export async function clearSupabaseSessionOnDevice(): Promise<void> {
+  if (!cachedClient) return;
+
+  const { error } = await cachedClient.auth.signOut({ scope: 'local' });
+  if (error) throw error;
+}

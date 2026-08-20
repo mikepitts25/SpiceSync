@@ -29,6 +29,7 @@ function makeSupabaseClient() {
     auth: {
       startAutoRefresh: jest.fn(),
       stopAutoRefresh: jest.fn(),
+      signOut: jest.fn().mockResolvedValue({ error: null }),
     },
   };
 }
@@ -57,7 +58,9 @@ describe('shared Supabase client', () => {
   });
 
   it('reuses one client with secure persistent auth configuration', () => {
-    const { secureSessionStorage } = require('../lib/auth/secureSessionStorage');
+    const {
+      secureSessionStorage,
+    } = require('../lib/auth/secureSessionStorage');
     const { getSupabaseClient } = require('../lib/auth/supabase');
 
     const first = getSupabaseClient();
@@ -99,9 +102,10 @@ describe('shared Supabase client', () => {
   });
 
   it('stops refresh and removes the AppState subscription on reset', () => {
-    const { _resetSupabaseClientForTests, getSupabaseClient } = require(
-      '../lib/auth/supabase'
-    );
+    const {
+      _resetSupabaseClientForTests,
+      getSupabaseClient,
+    } = require('../lib/auth/supabase');
     const first = getSupabaseClient();
 
     _resetSupabaseClientForTests();
@@ -112,5 +116,17 @@ describe('shared Supabase client', () => {
     const second = getSupabaseClient();
     expect(second).not.toBe(first);
     expect(mockAppState.addEventListener).toHaveBeenCalledTimes(2);
+  });
+
+  it('clears a cached session locally without making a network sign-out request', async () => {
+    const {
+      clearSupabaseSessionOnDevice,
+      getSupabaseClient,
+    } = require('../lib/auth/supabase');
+    const client = getSupabaseClient();
+
+    await clearSupabaseSessionOnDevice();
+
+    expect(client.auth.signOut).toHaveBeenCalledWith({ scope: 'local' });
   });
 });

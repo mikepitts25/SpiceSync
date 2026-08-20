@@ -28,7 +28,7 @@ export default function PrivacyPolicyScreen() {
 
         <Section title={ui('Information We Collect')}>
           {ui(
-            ' SpiceSync does not require an email address or password. When you use remote partner sync, SpiceSync creates an anonymous Supabase user ID and sends device IDs, public encryption and signing keys, invite and connection status, optional profile display metadata, and encrypted sync payloads to the relay. '
+            ' SpiceSync does not require an email address or password. If you choose Apple or Google to protect an account, SpiceSync uses the provider identifier needed to link and recover that account; we do not receive your provider password. When you use remote partner sync, SpiceSync creates an anonymous Supabase user ID and sends device IDs, device public keys for encryption and signing, invite and connection status, optional profile display metadata, and encrypted sync payloads to the relay. '
           )}
         </Section>
 
@@ -58,7 +58,13 @@ export default function PrivacyPolicyScreen() {
 
         <Section title={ui('Data Deletion')}>
           {ui(
-            " You can remove local profiles, votes, and preferences with SpiceSync's reset controls or by uninstalling the app. Unlinking a partner revokes the connection, but clearing or uninstalling the app does not automatically delete relay records. Contact us through the App Store listing if you need help with relay data. "
+            " You can remove local profiles, votes, and preferences with SpiceSync's reset controls or by uninstalling the app. Account deletion removes your permanent account and revokes its account-associated device and couple metadata. Unlinking a partner revokes the connection, but clearing or uninstalling the app does not automatically delete relay records. Contact us through the App Store listing if you need help with relay data. "
+          )}
+        </Section>
+
+        <Section title={ui('Reinstall Recovery')}>
+          {ui(
+            ' Reinstall recovery for a still-existing account restores account and couple metadata, including device public keys, but does not restore local history, intimate profile data, or vote data. '
           )}
         </Section>
 

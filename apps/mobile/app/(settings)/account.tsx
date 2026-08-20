@@ -17,8 +17,13 @@ import { AccountStatusCard } from '../../components/auth/AccountStatusCard';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, SHADOWS } from '../../constants/theme';
 import { getAccountService } from '../../lib/auth/accountService';
+import {
+  getAppleCredential,
+  getGoogleCredential,
+} from '../../lib/auth/providers';
 import type { AccountSnapshot, ProviderCredential } from '../../lib/auth/types';
 import { useTranslation } from '../../lib/i18n';
+import { resetAppOnDevice } from '../../lib/safety/localDataControls';
 import { getIdentityIfExists } from '../../lib/sync/identity';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 
@@ -54,9 +59,10 @@ export default function AccountSettingsScreen() {
   );
   const [error, setError] = useState<string | null>(null);
   const [pendingAction, setPendingAction] = useState<
-    'link' | 'sign-out' | 'forget' | null
+    'link' | 'sign-out' | 'forget' | 'delete' | null
   >(null);
   const mountedRef = useRef(true);
+  const deletionInFlightRef = useRef(false);
 
   const refresh = useCallback(async () => {
     const [nextSnapshot, identity] = await Promise.all([
@@ -145,12 +151,60 @@ export default function AccountSettingsScreen() {
     t.settings.forgetDeviceNotFound,
   ]);
 
+  const deleteCurrentAccount = useCallback(async () => {
+    if (!mountedRef.current || deletionInFlightRef.current) return;
+
+    deletionInFlightRef.current = true;
+    setPendingAction('delete');
+    try {
+      const service = getAccountService();
+      const provider = await service.getDeletionProvider();
+      const credential =
+        provider === 'apple'
+          ? await getAppleCredential()
+          : await getGoogleCredential();
+
+      // A confirmation callback can outlive this screen. Do not begin a
+      // destructive server operation after its owning screen has gone away.
+      if (!mountedRef.current) return;
+
+      setError(null);
+      await service.deleteAccount(credential);
+
+      try {
+        // The service resolves only after the Edge Function has returned 204.
+        // A reset failure is therefore not a deletion failure: the account is
+        // already gone and the user needs an honest local-cleanup message.
+        await resetAppOnDevice();
+      } catch {
+        if (mountedRef.current) {
+          setError(t.settings.deleteAccountCleanupFailed);
+        }
+        return;
+      }
+
+      if (mountedRef.current) router.replace('/welcome');
+    } catch (deleteError) {
+      if (!isProviderCancellation(deleteError) && mountedRef.current) {
+        setError(t.settings.deleteAccountFailed);
+      }
+    } finally {
+      deletionInFlightRef.current = false;
+      if (mountedRef.current) setPendingAction(null);
+    }
+  }, [
+    router,
+    t.settings.deleteAccountCleanupFailed,
+    t.settings.deleteAccountFailed,
+  ]);
+
   const providers = snapshot?.providers ?? [];
   const isAppleOnly =
     providers.includes('apple') && !providers.includes('google');
   const availableProviders: Provider[] =
     Platform.OS === 'ios' ? ['google', 'apple'] : ['google'];
   const actionPending = pendingAction !== null;
+  const deletionUnavailable = snapshot?.status !== 'permanent';
 
   return (
     <SafeAreaView
@@ -274,12 +328,34 @@ export default function AccountSettingsScreen() {
           <Text style={styles.cardCopy}>{t.settings.deleteAccountCopy}</Text>
           <Pressable
             accessibilityRole="button"
-            accessibilityState={{ disabled: true }}
-            disabled
-            style={[styles.dangerAction, styles.disabled]}
+            accessibilityLabel={t.settings.deleteAccount}
+            accessibilityState={{
+              disabled: actionPending || deletionUnavailable,
+            }}
+            disabled={actionPending || deletionUnavailable}
+            onPress={() =>
+              Alert.alert(
+                t.settings.deleteAccountConfirmTitle,
+                t.settings.deleteAccountConfirmBody,
+                [
+                  { text: t.common.cancel, style: 'cancel' },
+                  {
+                    text: t.settings.deleteAccount,
+                    style: 'destructive',
+                    onPress: deleteCurrentAccount,
+                  },
+                ]
+              )
+            }
+            style={[
+              styles.dangerAction,
+              (actionPending || deletionUnavailable) && styles.disabled,
+            ]}
           >
             <Text style={styles.dangerActionText}>
-              {t.settings.deleteAccount}
+              {pendingAction === 'delete'
+                ? t.settings.deletingAccount
+                : t.settings.deleteAccount}
             </Text>
           </Pressable>
         </View>

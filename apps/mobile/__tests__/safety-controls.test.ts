@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { useProfilesStore } from '../lib/state/profiles';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
 import { useEventQueueStore } from '../lib/sync/eventQueue';
@@ -23,6 +25,13 @@ import { useCustomGameCardsStore } from '../src/stores/customGameCards';
 import { useLevelingStore } from '../src/stores/leveling';
 import { useNudgesStore } from '../src/stores/nudges';
 import { PREMIUM_STORAGE_KEY, usePremiumStore } from '../src/stores/premium';
+
+const mockClearSupabaseSessionOnDevice = jest.fn();
+
+jest.mock('../lib/auth/supabase', () => ({
+  clearSupabaseSessionOnDevice: (...args: unknown[]) =>
+    mockClearSupabaseSessionOnDevice(...args),
+}));
 
 function memoryIdentityDeps() {
   const secure = new Map<string, string>();
@@ -79,6 +88,7 @@ beforeEach(() => {
   });
   useNudgesStore.setState({ nudges: [], unreadCount: 0 });
   usePremiumStore.getState().clearStoreEntitlement();
+  mockClearSupabaseSessionOnDevice.mockResolvedValue(undefined);
   setIdentityDeps(memoryIdentityDeps());
   _resetCacheForTests();
 });
@@ -448,6 +458,6 @@ describe('local safety data controls', () => {
     expect(usePremiumStore.getState().isPremium()).toBe(true);
     expect(await AsyncStorage.getItem(PREMIUM_STORAGE_KEY)).not.toBeNull();
     expect(await AsyncStorage.getItem('temporary-private-data')).toBeNull();
+    expect(mockClearSupabaseSessionOnDevice).toHaveBeenCalledTimes(1);
   });
 });
-import AsyncStorage from '@react-native-async-storage/async-storage';
