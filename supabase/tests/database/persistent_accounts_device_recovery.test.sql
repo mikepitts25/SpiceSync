@@ -96,7 +96,7 @@ begin
 end;
 $$;
 
-select plan(28);
+select plan(38);
 
 select tests.create_supabase_user('anonymous-user', is_anonymous := true);
 select tests.create_supabase_user('permanent-a', is_anonymous := false);
@@ -260,6 +260,106 @@ select is(
   ),
   '{"couple":null,"recoveryCursor":0}'::jsonb,
   'a permanent user without a couple receives a zero recovery cursor'
+);
+
+select tests.create_supabase_user('anonymous-couple-a', is_anonymous := true);
+select tests.create_supabase_user('anonymous-couple-b', is_anonymous := true);
+
+insert into public.spicesync_devices (
+  device_id,
+  user_id,
+  signing_public_key,
+  encryption_public_key,
+  status
+) values
+  ('dev_anon_a', tests.get_supabase_uid('anonymous-couple-a'), 'sign_anon_a', 'enc_anon_a', 'active'),
+  ('dev_anon_b', tests.get_supabase_uid('anonymous-couple-b'), 'sign_anon_b', 'enc_anon_b', 'active');
+
+insert into public.spicesync_couples (
+  couple_id,
+  member_a_user_id,
+  member_b_user_id,
+  member_a_device_id,
+  member_b_device_id,
+  member_a_public_key,
+  member_b_public_key,
+  member_a_signing_public_key,
+  member_b_signing_public_key,
+  created_at
+) values (
+  'cpl_anon',
+  tests.get_supabase_uid('anonymous-couple-a'),
+  tests.get_supabase_uid('anonymous-couple-b'),
+  'dev_anon_a',
+  'dev_anon_b',
+  'enc_anon_a',
+  'enc_anon_b',
+  'sign_anon_a',
+  'sign_anon_b',
+  pg_catalog.now()
+);
+
+insert into public.spicesync_invites (
+  invite_id,
+  inviter_user_id,
+  inviter_device_id,
+  inviter_public_key,
+  inviter_signing_public_key,
+  invite_secret_hash,
+  expires_at
+) values (
+  'inv_anon_partner',
+  tests.get_supabase_uid('anonymous-couple-b'),
+  'dev_anon_b',
+  'enc_anon_b',
+  'sign_anon_b',
+  'anon-proof',
+  pg_catalog.now() + interval '1 day'
+);
+
+select tests.authenticate_as('anonymous-couple-a');
+select throws_ok(
+  $$ select public.spicesync_create_invite('dev_anon_a','enc_anon_a','sign_anon_a','anon-hash') $$,
+  '28000', 'Permanent account required',
+  'a live anonymous user cannot create a new partner invite'
+);
+select throws_ok(
+  $$ select public.spicesync_accept_invite('inv_anon_partner','dev_anon_new','enc_anon_new','sign_anon_new','anon-proof') $$,
+  '28000', 'Permanent account required',
+  'a live anonymous user cannot accept a new partner invite'
+);
+select throws_ok(
+  $$ select public.spicesync_revoke_device('dev_anon_a') $$,
+  '28000', 'Permanent account required',
+  'a live anonymous user cannot revoke a device registry row'
+);
+select lives_ok(
+  $$ select public.spicesync_get_invite('inv_anon_partner') $$,
+  'a live anonymous user retains compatible invite read access'
+);
+select lives_ok(
+  $$ select public.spicesync_get_couple('cpl_anon') $$,
+  'a live anonymous couple member can read their couple'
+);
+select lives_ok(
+  $$ select public.spicesync_append_event('cpl_anon','evt_anon_v1','dev_anon_a',1,'anon-v1-payload',encode(extensions.digest('anon-v1-payload','sha256'),'base64'),'anon-v1-signature') $$,
+  'a live anonymous couple member can append a compatible v1 event'
+);
+select lives_ok(
+  $$ select public.spicesync_append_event_v2('cpl_anon','evt_anon_v2','dev_anon_a','dev_anon_b',2,'anon-v2-payload',encode(extensions.digest('anon-v2-payload','sha256'),'base64'),'anon-v2-signature') $$,
+  'a live anonymous couple member can append a current v2 event'
+);
+select lives_ok(
+  $$ select public.spicesync_list_events('cpl_anon',0,100) $$,
+  'a live anonymous couple member can list their events'
+);
+select lives_ok(
+  $$ select public.spicesync_find_couple_for_device('dev_anon_a') $$,
+  'a live anonymous couple member can find their couple by owned device'
+);
+select lives_ok(
+  $$ select public.spicesync_revoke_couple('cpl_anon') $$,
+  'a live anonymous couple member can revoke their couple'
 );
 
 select tests.create_supabase_user('stale-deleted-user', is_anonymous := false);
