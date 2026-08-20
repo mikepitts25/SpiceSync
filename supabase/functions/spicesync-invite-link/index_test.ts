@@ -1,6 +1,4 @@
-import {
-  assertEquals,
-} from "jsr:@std/assert@1";
+import { assertEquals } from "jsr:@std/assert@1";
 
 import { createInviteLinkResponse } from "./index.ts";
 
@@ -17,7 +15,10 @@ Deno.test("redirects a valid invite id without consuming its client-side fragmen
     response.headers.get("location"),
     "spicesync://link/inv_abc123",
   );
-  assertEquals(response.headers.get("location")?.includes("client-secret"), false);
+  assertEquals(
+    response.headers.get("location")?.includes("client-secret"),
+    false,
+  );
 });
 
 Deno.test("rejects malformed invite ids without embedding them in HTML", async () => {

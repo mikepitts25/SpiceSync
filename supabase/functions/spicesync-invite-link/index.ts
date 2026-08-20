@@ -16,7 +16,9 @@ export function createInviteLinkResponse(request: Request): Response {
   const markerIndex = url.pathname.indexOf(FUNCTION_PATH);
   if (markerIndex === -1) return notFound();
 
-  const encodedInviteId = url.pathname.slice(markerIndex + FUNCTION_PATH.length);
+  const encodedInviteId = url.pathname.slice(
+    markerIndex + FUNCTION_PATH.length,
+  );
   let inviteId: string;
   try {
     inviteId = decodeURIComponent(encodedInviteId);
