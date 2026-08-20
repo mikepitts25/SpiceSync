@@ -1,7 +1,19 @@
 import fs from 'fs';
 import path from 'path';
+import { spawnSync } from 'child_process';
 
 const mobileRoot = path.join(__dirname, '..');
+const releaseCheckPath = path.join(mobileRoot, 'scripts', 'release-check.js');
+
+const socialRecoveryEnvironmentNames = [
+  'EAS_BUILD_PROFILE',
+  'EXPO_PUBLIC_SUPABASE_URL',
+  'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+  'EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID',
+  'EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID',
+  'SPICESYNC_ACCOUNT_DELETION_URL',
+  'SPICESYNC_DELETION_RATE_LIMIT_VERIFIED',
+];
 
 type ExpoReleaseConfig = {
   scheme?: string;
@@ -50,6 +62,45 @@ function productionExpoConfig(): ExpoReleaseConfig {
         { iosUrlScheme: 'com.googleusercontent.apps.123456789012-iosclient' },
       ],
     ],
+  };
+}
+
+function runReleaseCheckExecutable(
+  args: string[],
+  environment: ReleaseEnvironment
+): { output: string; status: number | null } {
+  const isolatedEnvironment: NodeJS.ProcessEnv = {
+    ...process.env,
+    RELEASE_CHECK_TEST_CHILD: '1',
+  };
+  for (const name of socialRecoveryEnvironmentNames) {
+    delete isolatedEnvironment[name];
+  }
+  Object.assign(isolatedEnvironment, environment);
+
+  const result = spawnSync(process.execPath, [releaseCheckPath, ...args], {
+    cwd: mobileRoot,
+    encoding: 'utf8',
+    env: isolatedEnvironment,
+  });
+  return {
+    output: `${result.stdout ?? ''}${result.stderr ?? ''}`,
+    status: result.status,
+  };
+}
+
+function productionSocialRecoveryEnvironment(): ReleaseEnvironment {
+  return {
+    EXPO_PUBLIC_SUPABASE_URL: 'https://release-validation-87654321.supabase.co',
+    EXPO_PUBLIC_SUPABASE_ANON_KEY:
+      'sb_publishable_release_validation_fixture_not_a_secret',
+    EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID:
+      '123456789012-webclient.apps.googleusercontent.com',
+    EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID:
+      '123456789012-iosclient.apps.googleusercontent.com',
+    SPICESYNC_ACCOUNT_DELETION_URL:
+      'https://delete.spicesync.app/account-deletion',
+    SPICESYNC_DELETION_RATE_LIMIT_VERIFIED: 'true',
   };
 }
 
@@ -109,5 +160,58 @@ describe('release check command', () => {
     );
 
     expect(result.stderr).toBe('');
+  });
+});
+
+const executableDescribe =
+  process.env.RELEASE_CHECK_TEST_CHILD === '1' ? describe.skip : describe;
+
+executableDescribe('release check executable preflight', () => {
+  it('fails required social recovery mode when every required input is absent', () => {
+    const result = runReleaseCheckExecutable(['--require-social-recovery'], {});
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('EXPO_PUBLIC_SUPABASE_URL');
+    expect(result.output).toContain('EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID');
+    expect(result.output).toContain('SPICESYNC_ACCOUNT_DELETION_URL');
+    expect(result.output).toContain('SPICESYNC_DELETION_RATE_LIMIT_VERIFIED');
+  });
+
+  it('automatically requires social recovery on an EAS production build signal', () => {
+    const result = runReleaseCheckExecutable([], {
+      EAS_BUILD_PROFILE: 'production',
+    });
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('EXPO_PUBLIC_SUPABASE_ANON_KEY');
+    expect(result.output).toContain('SPICESYNC_ACCOUNT_DELETION_URL');
+  });
+
+  it('rejects a raw Supabase deletion function URL in required mode', () => {
+    const result = runReleaseCheckExecutable(
+      ['--require-social-recovery', '--config-only'],
+      {
+        ...productionSocialRecoveryEnvironment(),
+        SPICESYNC_ACCOUNT_DELETION_URL:
+          'https://release-validation-87654321.supabase.co/functions/v1/spicesync-account-deletion',
+      }
+    );
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('SPICESYNC_ACCOUNT_DELETION_URL');
+    expect(result.output).toContain('not a raw *.supabase.co/functions/v1 URL');
+  });
+
+  it('passes the real config-only executable with a complete production-shaped environment', () => {
+    const result = runReleaseCheckExecutable(
+      ['--require-social-recovery', '--config-only'],
+      productionSocialRecoveryEnvironment()
+    );
+
+    expect(result.status).toBe(0);
+    expect(result.output).toContain(
+      'Social recovery public mobile configuration OK.'
+    );
+    expect(result.output).toContain('Release configuration preflight passed.');
   });
 });

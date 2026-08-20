@@ -55,21 +55,34 @@ Repeat for the other three names. EAS environments are separate per
 development/preview/production, and the checked-in `eas.json` production
 profile selects `production`; see the [EAS environment-variable guide](https://docs.expo.dev/eas/environment-variables/).
 
-The release check is intentionally meaningful only with the real production
-environment. Run the normal command locally for all non-provider checks, then
-run this exact production preflight before a social-recovery release:
+The offline command remains useful for baseline checks, but it cannot prove a
+social-recovery production release. Before every social-recovery release, run
+this exact mandatory preflight with the real EAS production environment:
 
 ```sh
 cd apps/mobile
-eas env:exec production 'npm run release:check' --non-interactive
+eas env:exec production 'npm run release:check -- --require-social-recovery' --non-interactive
 ```
 
-If both public Supabase variables are absent, partner sync is not enabled and
-the check reports that the social-recovery validation is inactive. If either is
-present, it fails on blank, placeholder, malformed, or incomplete public
-configuration; it also verifies the Apple capability/plugin, `spicesync`
-scheme, generated Google iOS callback scheme, and fixed iOS/Android IDs. It
-does not accept dummy values as a production check.
+`--require-social-recovery` requires every relay variable, both Google client
+IDs, the Apple capability/plugin, `spicesync` and generated Google iOS callback
+schemes, and the fixed production iOS/Android IDs. The check enables that same
+required mode automatically when `EAS_BUILD_PROFILE=production`, so an intended
+EAS production build cannot silently pass because the relay variables are
+absent. Without either signal, the baseline `npm run release:check` remains
+valid offline and reports social recovery as not required only when both relay
+variables are absent. Blank, placeholder, malformed, and incomplete values do
+not pass either mode.
+
+Keep the following release-control inputs in the protected EAS/CI production
+environment used for the mandatory preflight. They are deliberately **not** in
+`.env.example`, are not mobile `EXPO_PUBLIC_*` configuration, and must never be
+compiled into the app:
+
+| Variable | Required value in required mode |
+| --- | --- |
+| `SPICESYNC_ACCOUNT_DELETION_URL` | Stable public `https://` managed proxy/gateway URL for the account-deletion page; a raw `*.supabase.co/functions/v1/...` URL is rejected. |
+| `SPICESYNC_DELETION_RATE_LIMIT_VERIFIED` | Exactly `true`, only after the managed endpoint and origin-bypass controls below have been independently verified. |
 
 Never add any of these server-only values to EAS or an `EXPO_PUBLIC_*` name:
 `SUPABASE_SERVICE_ROLE_KEY`, `APPLE_TEAM_ID`, `APPLE_CLIENT_ID`,
@@ -182,20 +195,22 @@ contain the following **names**, with production values supplied only at
 deployment time:
 
 ```dotenv
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
 APPLE_TEAM_ID=
 APPLE_CLIENT_ID=
 APPLE_KEY_ID=
 APPLE_PRIVATE_KEY=
 ```
 
-`SUPABASE_URL` and legacy `SUPABASE_SERVICE_ROLE_KEY` are provided to hosted
-Edge Functions by Supabase, but the deletion code requires them; verify their
-presence in the target project rather than placing them in the app. The private
-key may use literal `\\n` line breaks. All six values are Edge Function-only;
-the service-role key bypasses RLS and the Apple private key can sign revocation
-credentials.
+Never manually set hosted `SUPABASE_URL` or `SUPABASE_SERVICE_ROLE_KEY` with
+`supabase secrets set`. Hosted Supabase injects its default project URL and
+service-role key for Edge Functions; setting them yourself can override those
+platform-managed defaults. Verify their availability and the deletion
+function's hosted behavior through a controlled deployment/health test in the
+target project. For local `supabase functions serve`, use the local stack's
+defaults (or an untracked, local-only test environment when exercising an
+external dependency); do not copy that local convenience into hosted secrets.
+The Apple private key may use literal `\\n` line breaks. These four Apple values
+are Edge Function-only; the private key can sign revocation credentials.
 
 After a reviewer has confirmed the hosted Auth settings, deploy in this order
 from the repository root. These commands mutate the named production project,
@@ -204,7 +219,7 @@ so replace the project-ref only in a trusted operator session:
 ```sh
 supabase link --project-ref <production-project-ref>
 supabase db push --linked
-supabase secrets set --project-ref <production-project-ref> --env-file <untracked-secrets-file>
+supabase secrets set --project-ref <production-project-ref> --env-file <untracked-apple-secrets-file>
 supabase functions deploy spicesync-delete-account spicesync-account-deletion \
   --project-ref <production-project-ref>
 ```
@@ -214,25 +229,49 @@ Do not use `--no-verify-jwt` for `spicesync-delete-account`. The committed
 `spicesync-account-deletion` request page JWT-free; the authenticated deletion
 function retains gateway JWT verification and rechecks the bearer token.
 
-The Google Play **Data deletion** URL must be the deployed public request page:
+The raw JWT-free Supabase Function URL is an **origin/test endpoint only**:
 
 ```text
 https://<project-ref>.supabase.co/functions/v1/spicesync-account-deletion
 ```
 
-Submit that exact functional, public URL in Play Console's Data safety/account
-deletion form. It must identify SpiceSync and accept a deletion request without
-requiring app reinstallation. The in-app Account settings delete path and this
-external URL are both required for an app that offers account creation; see
-[Google Play's current policy guidance](https://support.google.com/googleplay/android-developer/answer/13327111).
+Never submit that raw URL to Google Play merely because it has fixed CORS.
+CORS does not rate-limit public browser requests. The final Google Play **Data
+deletion** URL must instead be a stable HTTPS URL at an approved managed
+proxy/gateway, for example `https://<managed-deletion-host>/account-deletion`.
+It must identify SpiceSync and accept a deletion request without requiring app
+reinstallation.
+
+Production deployment, release, and Google Play publication are blocked until
+that managed point is actually deployed and a reviewer has verified all of the
+following against the final submitted URL:
+
+1. Enforced per-IP and per-request rate limiting, with an approved external
+   WAF/abuse-control policy and abuse monitoring/alerting.
+2. Correct pass-through/preservation of the deletion response's security
+   headers, including its browser/CORS and `no-store` behavior.
+3. A successful GET and a successful valid POST through the managed URL.
+4. The published raw Supabase function origin is not bypassable by the public
+   client. If the origin cannot be restricted so that the proxy is the effective
+   public control point, the release remains blocked.
+
+Only after those checks may a trusted release operator set
+`SPICESYNC_ACCOUNT_DELETION_URL` to the managed URL and
+`SPICESYNC_DELETION_RATE_LIMIT_VERIFIED=true` for the required preflight. Do
+not invent either value and do not claim the proxy exists before that evidence
+is available. The in-app Account settings delete path and this external URL are
+both required for an app that offers account creation; see [Google Play's
+current policy guidance](https://support.google.com/googleplay/android-developer/answer/13327111).
 
 ## Operational security settings
 
 - CORS is intentionally fixed to `https://spicesync.app` in
   `supabase/functions/_shared/cors.ts`; it never reflects arbitrary origins.
   A new web origin requires a reviewed code change, test, and deployment.
-- Place an external rate limit/WAF in front of the public deletion URL. Do not
-  replace this with an unreviewed per-instance in-memory limiter.
+- The managed deletion proxy/gateway is a release prerequisite, not a future
+  hardening item. Its verified external rate limit/WAF must front the submitted
+  URL and the raw origin must not remain a public bypass. Do not replace this
+  with an unreviewed per-instance in-memory limiter.
 - Set a short hosted Supabase Auth JWT lifetime appropriate to the app's risk
   profile (at most one hour; usually 15–60 minutes). Do not go below five
   minutes without a measured reason. Access JWTs are stateless until expiry,
@@ -257,7 +296,7 @@ and local data unchanged.
 | Google on Android | Physical Android: protect/link Google, exercise cancellation, uninstall/reinstall/restore, confirm a profile, then delete. | Android package and the installed signing SHA are accepted; no local reset on cancel or deletion error. |
 | Key rotation notice | Two partnered physical devices: replace/recover one device after reinstall, then foreground the other. | The other device sees the key-change notice, refreshes partner metadata, and sends one newly encrypted event addressed to the new recipient device/key. |
 | Old-installation denial | Keep the replaced old installation offline until after replacement, then reconnect and attempt an append. | It receives an authorization/device-revoked failure and cannot append or silently re-authorize. |
-| External deletion | From a browser with no app installed, open the Google Play deletion URL and submit valid Apple and Google requests. | The page is branded, no-store, accepts the request, returns a reference, and explains manual verification. |
+| External deletion | From a browser with no app installed, use the final managed Google Play deletion URL for valid Apple and Google requests; test both GET and POST and confirm the raw origin cannot bypass the proxy controls. | The page is branded, no-store, accepts the request, returns a reference, explains manual verification, and remains protected by the verified managed rate controls. |
 
 Recovery restores only account/couple metadata and encrypted partner-sync
 position after the user explicitly selects a local profile. It **does not
@@ -267,10 +306,12 @@ form.
 
 ## Final release evidence
 
-Attach to the release ticket: EAS production preflight output; a screenshot or
-four-eyes record of the Apple/Google/Supabase dashboard values (without
-secrets); migration/function deployment output; the Google Play deletion URL;
-the completed matrix; and the key/certificate rotation dates. If console
-credentials, release signing, or physical devices are unavailable, mark the
-corresponding rows **NOT RUN/BLOCKED**. Automated tests do not prove native
-provider configuration or physical sign-in readiness.
+Attach to the release ticket: EAS required-mode production-preflight output; a
+screenshot or four-eyes record of the Apple/Google/Supabase dashboard values
+(without secrets); migration/function deployment output; the final managed
+Google Play deletion URL plus the rate-limit/origin-bypass/GET-and-POST
+evidence; the completed matrix; and the key/certificate rotation dates. If
+console credentials, release signing, the approved managed proxy, or physical
+devices are unavailable, mark the corresponding rows **NOT RUN/BLOCKED**.
+Automated tests do not prove native provider configuration or physical sign-in
+readiness.

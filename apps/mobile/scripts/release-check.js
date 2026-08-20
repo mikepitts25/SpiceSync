@@ -6,6 +6,7 @@ const path = require('path');
 
 const {
   collectProductionSocialRecoveryErrors,
+  isEasProductionBuild,
   isPartnerSyncEnabled,
 } = require('./release-check-config');
 
@@ -103,18 +104,48 @@ function readResolvedExpoConfig() {
   return configFactory();
 }
 
-function assertSocialRecoveryConfig() {
+function readCommandOptions() {
+  const supportedFlags = new Set([
+    '--config-only',
+    '--require-social-recovery',
+  ]);
+  const unsupportedFlags = process.argv
+    .slice(2)
+    .filter((argument) => !supportedFlags.has(argument));
+
+  if (unsupportedFlags.length > 0) {
+    throw new Error(
+      `Unsupported release-check option(s): ${unsupportedFlags.join(', ')}`
+    );
+  }
+
+  return {
+    configOnly: process.argv.includes('--config-only'),
+    requireSocialRecovery:
+      process.argv.includes('--require-social-recovery') ||
+      isEasProductionBuild(process.env),
+  };
+}
+
+function assertSocialRecoveryConfig({ requireSocialRecovery }) {
   console.log('\n==> Social recovery production configuration');
-  if (!isPartnerSyncEnabled(process.env)) {
+  if (!requireSocialRecovery && !isPartnerSyncEnabled(process.env)) {
     console.log(
-      'Not enabled: both public Supabase relay variables are absent. Validate a social-recovery release with the EAS production environment.'
+      'Not required: both public Supabase relay variables are absent. Validate a social-recovery release with the EAS production environment and --require-social-recovery.'
     );
     return;
+  }
+
+  if (requireSocialRecovery) {
+    console.log(
+      'Required: explicit social-recovery preflight or EAS_BUILD_PROFILE=production.'
+    );
   }
 
   const errors = collectProductionSocialRecoveryErrors({
     environment: process.env,
     expoConfig: readResolvedExpoConfig(),
+    requireSocialRecovery,
   });
   if (errors.length > 0) {
     throw new Error(
@@ -127,7 +158,17 @@ function assertSocialRecoveryConfig() {
   console.log('Social recovery public mobile configuration OK.');
 }
 
-assertSocialRecoveryConfig();
+const options = readCommandOptions();
+
+if (options.configOnly) {
+  assertExpoConfig();
+  assertTestFlightConfig();
+  assertSocialRecoveryConfig(options);
+  console.log('\nRelease configuration preflight passed.');
+  process.exit(0);
+}
+
+assertSocialRecoveryConfig(options);
 run('Admin content QA tests', 'node', ['--test', ...adminTestFiles], repoRoot);
 run('Mobile Jest suite', 'npm', ['test', '--', '--runInBand']);
 run('TypeScript check', 'npx', ['tsc', '-p', 'tsconfig.json', '--noEmit']);

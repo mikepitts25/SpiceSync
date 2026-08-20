@@ -75,8 +75,39 @@ function isPartnerSyncEnabled(environment) {
   );
 }
 
-function collectProductionSocialRecoveryErrors({ environment, expoConfig }) {
-  if (!isPartnerSyncEnabled(environment)) return [];
+function isManagedDeletionUrl(value) {
+  const deletionUrl = clean(value);
+  if (looksLikePlaceholder(deletionUrl)) return false;
+
+  try {
+    const url = new URL(deletionUrl);
+    const isRawSupabaseFunctionOrigin =
+      /(^|\.)supabase\.co$/i.test(url.hostname) &&
+      url.pathname.startsWith('/functions/v1/');
+
+    return (
+      url.protocol === 'https:' &&
+      !url.username &&
+      !url.password &&
+      !isRawSupabaseFunctionOrigin
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isEasProductionBuild(environment) {
+  return clean(environment.EAS_BUILD_PROFILE).toLowerCase() === 'production';
+}
+
+function collectProductionSocialRecoveryErrors({
+  environment,
+  expoConfig,
+  requireSocialRecovery = false,
+}) {
+  const socialRecoveryRequired =
+    requireSocialRecovery || isEasProductionBuild(environment);
+  if (!socialRecoveryRequired && !isPartnerSyncEnabled(environment)) return [];
 
   const errors = [];
   const supabaseUrl = environment.EXPO_PUBLIC_SUPABASE_URL;
@@ -137,10 +168,24 @@ function collectProductionSocialRecoveryErrors({ environment, expoConfig }) {
     );
   }
 
+  if (socialRecoveryRequired) {
+    if (!isManagedDeletionUrl(environment.SPICESYNC_ACCOUNT_DELETION_URL)) {
+      errors.push(
+        'SPICESYNC_ACCOUNT_DELETION_URL must be a stable managed HTTPS proxy/gateway URL, not a raw *.supabase.co/functions/v1 URL.'
+      );
+    }
+    if (clean(environment.SPICESYNC_DELETION_RATE_LIMIT_VERIFIED) !== 'true') {
+      errors.push(
+        'SPICESYNC_DELETION_RATE_LIMIT_VERIFIED must be exactly true after managed rate-limit, monitoring, pass-through-header, GET/POST, and origin-bypass verification.'
+      );
+    }
+  }
+
   return errors;
 }
 
 module.exports = {
   collectProductionSocialRecoveryErrors,
+  isEasProductionBuild,
   isPartnerSyncEnabled,
 };
