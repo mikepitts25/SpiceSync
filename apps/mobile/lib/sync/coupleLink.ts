@@ -54,6 +54,28 @@ type CoupleLinkState = {
   acknowledgeSecurityNotice: () => void;
 };
 
+function mergePersistedCoupleLinkState(
+  persistedState: unknown,
+  currentState: CoupleLinkState
+): CoupleLinkState {
+  const persisted = (persistedState ?? {}) as Partial<CoupleLinkState>;
+  const savedLink = persisted.link;
+  const link =
+    savedLink === null
+      ? null
+      : savedLink
+        ? {
+            ...savedLink,
+            myKeyVersion: savedLink.myKeyVersion ?? 1,
+            partnerKeyVersion: savedLink.partnerKeyVersion ?? 1,
+            requiresProfileConfirmation:
+              savedLink.requiresProfileConfirmation ?? false,
+          }
+        : currentState.link;
+
+  return { ...currentState, ...persisted, link };
+}
+
 export const useCoupleLinkStore = create<CoupleLinkState>()(
   persist(
     (set, get) => ({
@@ -120,6 +142,9 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
     {
       name: 'spicesync-couple-link',
       storage: createJSONStorage(() => AsyncStorage),
+      // Legacy links predate recovery metadata. Normalize only a saved link,
+      // leaving a persisted null link and all other persisted fields intact.
+      merge: mergePersistedCoupleLinkState,
     }
   )
 );
