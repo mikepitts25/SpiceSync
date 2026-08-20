@@ -4,6 +4,11 @@ const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+const {
+  collectProductionSocialRecoveryErrors,
+  isPartnerSyncEnabled,
+} = require('./release-check-config');
+
 const mobileRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(mobileRoot, '..', '..');
 const adminTestDir = path.join(repoRoot, 'admin', 'test');
@@ -77,7 +82,9 @@ function assertTestFlightConfig() {
   }
 
   if (profile?.environment !== 'production') {
-    throw new Error('The TestFlight profile must use the production environment.');
+    throw new Error(
+      'The TestFlight profile must use the production environment.'
+    );
   }
 
   if (profile?.env?.EXPO_PUBLIC_PURCHASES_ENABLED !== 'false') {
@@ -91,12 +98,37 @@ function assertTestFlightConfig() {
   console.log('TestFlight profile OK: all premium features unlocked.');
 }
 
-run(
-  'Admin content QA tests',
-  'node',
-  ['--test', ...adminTestFiles],
-  repoRoot
-);
+function readResolvedExpoConfig() {
+  const configFactory = require(path.join(mobileRoot, 'app.config.js'));
+  return configFactory();
+}
+
+function assertSocialRecoveryConfig() {
+  console.log('\n==> Social recovery production configuration');
+  if (!isPartnerSyncEnabled(process.env)) {
+    console.log(
+      'Not enabled: both public Supabase relay variables are absent. Validate a social-recovery release with the EAS production environment.'
+    );
+    return;
+  }
+
+  const errors = collectProductionSocialRecoveryErrors({
+    environment: process.env,
+    expoConfig: readResolvedExpoConfig(),
+  });
+  if (errors.length > 0) {
+    throw new Error(
+      `Social recovery release configuration failed:\n${errors
+        .map((error) => `- ${error}`)
+        .join('\n')}`
+    );
+  }
+
+  console.log('Social recovery public mobile configuration OK.');
+}
+
+assertSocialRecoveryConfig();
+run('Admin content QA tests', 'node', ['--test', ...adminTestFiles], repoRoot);
 run('Mobile Jest suite', 'npm', ['test', '--', '--runInBand']);
 run('TypeScript check', 'npx', ['tsc', '-p', 'tsconfig.json', '--noEmit']);
 assertExpoConfig();
