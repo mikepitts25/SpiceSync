@@ -96,11 +96,12 @@ begin
 end;
 $$;
 
-select plan(9);
+select plan(13);
 
 select tests.create_supabase_user('anonymous-user', is_anonymous := true);
 select tests.create_supabase_user('permanent-a', is_anonymous := false);
 select tests.create_supabase_user('permanent-b', is_anonymous := false);
+select tests.create_supabase_user('permanent-solo', is_anonymous := false);
 
 insert into public.spicesync_devices (
   device_id,
@@ -136,6 +137,18 @@ insert into public.spicesync_couples (
   pg_catalog.now()
 );
 
+select tests.authenticate_as('permanent-a');
+create temporary table stale_invite_fixture on commit drop as
+select response->>'inviteId' as invite_id
+from (
+  select public.spicesync_create_invite(
+    'dev_a1',
+    'enc_a1',
+    'sign_a1',
+    'stale_invite_secret'
+  ) as response
+) as created_invite;
+
 select tests.authenticate_as('anonymous-user');
 select throws_ok(
   $$ select public.spicesync_register_or_recover_device('dev_x','enc_x','sign_x') $$,
@@ -169,7 +182,40 @@ select is(
   'the recovering member key version increments'
 );
 
+select lives_ok(
+  $$ select public.spicesync_revoke_device('dev_a1') $$,
+  'repeated revocation of an owned replaced device is idempotent'
+);
+
+select is(
+  (
+    with registration as materialized (
+      select public.spicesync_register_or_recover_device(
+        'dev_a2',
+        'enc_a2',
+        'sign_a2'
+      )
+    )
+    select couple.member_a_key_version
+    from public.spicesync_couples as couple
+    cross join registration
+    where couple.couple_id = 'cpl_test'
+  ),
+  2,
+  'same-device registration does not rotate the key version'
+);
+
 select tests.authenticate_as('permanent-b');
+select throws_ok(
+  pg_catalog.format(
+    'select public.spicesync_accept_invite(%L,''dev_b'',''enc_b'',''sign_b'',''stale_invite_secret'')',
+    (select invite_id from stale_invite_fixture)
+  ),
+  'P0001',
+  'INVITE_DEVICE_CHANGED',
+  'a stale invite cannot bind a revoked inviter device'
+);
+
 select throws_ok(
   $$ select public.spicesync_append_event_v2('cpl_test','evt_stale','dev_b','dev_a1',1,'cipher','hash','sig') $$,
   'P0001', 'RECIPIENT_KEY_CHANGED'
@@ -195,6 +241,25 @@ select is(
   ),
   0::bigint,
   'explicit revocation leaves no active device'
+);
+
+select tests.authenticate_as('permanent-solo');
+select is(
+  (
+    select pg_catalog.jsonb_build_object(
+      'couple', recovery.response->'couple',
+      'recoveryCursor', recovery.response->'recoveryCursor'
+    )
+    from (
+      select public.spicesync_register_or_recover_device(
+        'dev_solo',
+        'enc_solo',
+        'sign_solo'
+      ) as response
+    ) as recovery
+  ),
+  '{"couple":null,"recoveryCursor":0}'::jsonb,
+  'a permanent user without a couple receives a zero recovery cursor'
 );
 
 select * from finish();

@@ -230,7 +230,10 @@ declare
   v_encryption_public_key text := trim(coalesce(p_accepter_public_key, ''));
   v_signing_public_key text := trim(coalesce(p_accepter_signing_public_key, ''));
   v_active_device public.spicesync_devices%rowtype;
+  v_inviter_device public.spicesync_devices%rowtype;
   v_registered_user_id uuid;
+  v_inviter_user_id uuid;
+  v_locked_user_count integer;
   v_invite public.spicesync_invites%rowtype;
   v_couple_id text;
   v_now timestamptz := now();
@@ -247,13 +250,84 @@ begin
     raise exception 'Invalid accepter input' using errcode = '22023';
   end if;
 
-  perform 1
+  select invite.inviter_user_id
+  into v_inviter_user_id
+  from public.spicesync_invites as invite
+  where invite.invite_id = p_invite_id;
+
+  if not found then
+    raise exception 'Invite not found' using errcode = 'P0002';
+  end if;
+  if v_inviter_user_id = v_user_id then
+    raise exception 'Cannot accept your own invite' using errcode = '22023';
+  end if;
+
+  -- Lock both participants in UUID order. Recovery locks its caller's user
+  -- row first, so acceptance either observes a completed rotation or commits
+  -- before a later rotation can begin.
+  perform users.id
   from auth.users as users
-  where users.id = v_user_id
+  where users.id in (v_user_id, v_inviter_user_id)
+  order by users.id
+  for update;
+  get diagnostics v_locked_user_count = row_count;
+
+  if v_locked_user_count <> 2 then
+    perform 1
+    from auth.users as users
+    where users.id = v_user_id;
+
+    if not found then
+      raise exception 'Authentication required' using errcode = '28000';
+    end if;
+
+    raise exception 'Invite not found' using errcode = 'P0002';
+  end if;
+
+  select invite.*
+  into v_invite
+  from public.spicesync_invites as invite
+  where invite.invite_id = p_invite_id
   for update;
 
   if not found then
-    raise exception 'Authentication required' using errcode = '28000';
+    raise exception 'Invite not found' using errcode = 'P0002';
+  end if;
+  if v_invite.inviter_user_id is distinct from v_inviter_user_id then
+    raise exception 'INVITE_DEVICE_CHANGED' using errcode = 'P0001';
+  end if;
+  if v_invite.accepted_at is not null then
+    raise exception 'Invite already accepted' using errcode = '23505';
+  end if;
+  if v_invite.expires_at <= v_now then
+    raise exception 'Invite expired' using errcode = '22023';
+  end if;
+  if p_invite_proof <> v_invite.invite_secret_hash then
+    raise exception 'Invite proof did not match' using errcode = '28000';
+  end if;
+
+  -- User-row locks prevent registration/recovery from adding or replacing an
+  -- active row while both active devices are locked in deterministic order.
+  perform active_device.device_id
+  from public.spicesync_devices as active_device
+  where active_device.user_id in (v_user_id, v_inviter_user_id)
+    and active_device.status = 'active'
+  order by active_device.user_id, active_device.device_id
+  for update;
+
+  select inviter_device.*
+  into v_inviter_device
+  from public.spicesync_devices as inviter_device
+  where inviter_device.user_id = v_inviter_user_id
+    and inviter_device.status = 'active';
+
+  if not found then
+    raise exception 'INVITE_DEVICE_CHANGED' using errcode = 'P0001';
+  end if;
+  if v_inviter_device.device_id is distinct from v_invite.inviter_device_id
+    or v_inviter_device.encryption_public_key is distinct from v_invite.inviter_public_key
+    or v_inviter_device.signing_public_key is distinct from v_invite.inviter_signing_public_key then
+    raise exception 'INVITE_DEVICE_CHANGED' using errcode = 'P0001';
   end if;
 
   perform 1
@@ -269,8 +343,7 @@ begin
   into v_active_device
   from public.spicesync_devices as active_device
   where active_device.user_id = v_user_id
-    and active_device.status = 'active'
-  for update;
+    and active_device.status = 'active';
 
   if found and (
     v_active_device.device_id is distinct from v_device_id
@@ -308,28 +381,6 @@ begin
 
   if v_registered_user_id is null then
     raise exception 'Device id already registered' using errcode = '23505';
-  end if;
-
-  select invite.*
-  into v_invite
-  from public.spicesync_invites as invite
-  where invite.invite_id = p_invite_id
-  for update;
-
-  if not found then
-    raise exception 'Invite not found' using errcode = 'P0002';
-  end if;
-  if v_invite.accepted_at is not null then
-    raise exception 'Invite already accepted' using errcode = '23505';
-  end if;
-  if v_invite.expires_at <= v_now then
-    raise exception 'Invite expired' using errcode = '22023';
-  end if;
-  if v_invite.inviter_user_id = v_user_id then
-    raise exception 'Cannot accept your own invite' using errcode = '22023';
-  end if;
-  if p_invite_proof <> v_invite.invite_secret_hash then
-    raise exception 'Invite proof did not match' using errcode = '28000';
   end if;
 
   v_couple_id := 'cpl_' || replace(extensions.gen_random_uuid()::text, '-', '');
@@ -686,16 +737,6 @@ begin
   end if;
 
   if v_device.status = 'revoked' then
-    perform 1
-    from public.spicesync_devices as active_device
-    where active_device.user_id = v_user_id
-      and active_device.status = 'active'
-      and active_device.device_id <> v_device_id;
-
-    if found then
-      raise exception 'Device is not active' using errcode = '28000';
-    end if;
-
     return;
   end if;
 
