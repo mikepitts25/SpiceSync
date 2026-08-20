@@ -2,6 +2,7 @@ import {
   createIsolatedSupabaseClientForDeletion,
   getSupabaseClient,
 } from './supabase';
+import { isAuthSessionMissingError } from '@supabase/supabase-js';
 import { clearForgottenDeviceState } from '../safety/localDataControls';
 import { clearIdentity, getIdentityIfExists } from '../sync/identity';
 import { getRelayClient } from '../sync/relayConfig';
@@ -172,7 +173,7 @@ export class AccountService implements AccountServiceLike {
 
   async getSnapshot(): Promise<AccountSnapshot> {
     const { data, error } = await this.client.auth.getUser();
-    if (error) {
+    if (error && !isAuthSessionMissingError(error)) {
       return {
         ...LOCAL_ONLY_SNAPSHOT,
         status: 'error',
@@ -182,6 +183,12 @@ export class AccountService implements AccountServiceLike {
         },
       };
     }
+
+    // Supabase's real empty-storage contract is `{ user: null,
+    // AuthSessionMissingError }`, not `{ user: null, error: null }`. Treat only
+    // that SDK-classified error as an intentional local-only state; transport,
+    // validation, and server errors remain actionable.
+    if (error) return LOCAL_ONLY_SNAPSHOT;
 
     const user = data.user;
     if (!user) return LOCAL_ONLY_SNAPSHOT;

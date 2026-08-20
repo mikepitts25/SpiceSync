@@ -1,5 +1,6 @@
 import type { AccountService as AccountServiceInstance } from '../lib/auth/accountService';
 import type { ProviderCredential } from '../lib/auth/types';
+import { AuthSessionMissingError } from '@supabase/supabase-js';
 
 const mockClient = {
   auth: {
@@ -188,6 +189,39 @@ describe('AccountService', () => {
     });
 
     await expect(service.ensureAnonymousUser()).resolves.toBe('anonymous-user');
+  });
+
+  it('treats the installed Supabase missing-session result as local-only and bootstraps anonymous auth', async () => {
+    mockClient.auth.getUser.mockResolvedValue({
+      data: { user: null },
+      error: new AuthSessionMissingError(),
+    });
+    mockClient.auth.signInAnonymously.mockResolvedValue({
+      data: { user: { id: 'fresh-anonymous-user' } },
+      error: null,
+    });
+
+    await expect(service.ensureAnonymousUser()).resolves.toBe(
+      'fresh-anonymous-user'
+    );
+    expect(mockClient.auth.signInAnonymously).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not mistake network or validation failures for a missing session', async () => {
+    for (const error of [
+      { name: 'AuthRetryableFetchError', code: 'network_error', message: 'offline' },
+      { name: 'AuthApiError', code: 'validation_failed', message: 'invalid' },
+    ]) {
+      mockClient.auth.getUser.mockResolvedValueOnce({
+        data: { user: null },
+        error,
+      });
+
+      await expect(service.ensureAnonymousUser()).rejects.toMatchObject({
+        code: error.code,
+      });
+    }
+    expect(mockClient.auth.signInAnonymously).not.toHaveBeenCalled();
   });
 
   it('requires a permanent provider-backed user for protected actions', async () => {
