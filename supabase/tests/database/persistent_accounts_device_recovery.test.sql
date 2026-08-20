@@ -96,7 +96,7 @@ begin
 end;
 $$;
 
-select plan(13);
+select plan(28);
 
 select tests.create_supabase_user('anonymous-user', is_anonymous := true);
 select tests.create_supabase_user('permanent-a', is_anonymous := false);
@@ -261,6 +261,97 @@ select is(
   '{"couple":null,"recoveryCursor":0}'::jsonb,
   'a permanent user without a couple receives a zero recovery cursor'
 );
+
+select tests.create_supabase_user('stale-deleted-user', is_anonymous := false);
+select tests.create_supabase_user('stale-surviving-user', is_anonymous := false);
+
+insert into public.spicesync_devices (
+  device_id,
+  user_id,
+  signing_public_key,
+  encryption_public_key,
+  status
+) values
+  ('dev_stale_deleted', tests.get_supabase_uid('stale-deleted-user'), 'sign_stale_deleted', 'enc_stale_deleted', 'active'),
+  ('dev_stale_surviving', tests.get_supabase_uid('stale-surviving-user'), 'sign_stale_surviving', 'enc_stale_surviving', 'active');
+
+insert into public.spicesync_couples (
+  couple_id,
+  member_a_user_id,
+  member_b_user_id,
+  member_a_device_id,
+  member_b_device_id,
+  member_a_public_key,
+  member_b_public_key,
+  member_a_signing_public_key,
+  member_b_signing_public_key,
+  created_at
+) values (
+  'cpl_stale_deleted',
+  tests.get_supabase_uid('stale-deleted-user'),
+  tests.get_supabase_uid('stale-surviving-user'),
+  'dev_stale_deleted',
+  'dev_stale_surviving',
+  'enc_stale_deleted',
+  'enc_stale_surviving',
+  'sign_stale_deleted',
+  'sign_stale_surviving',
+  pg_catalog.now()
+);
+
+insert into public.spicesync_invites (
+  invite_id,
+  inviter_user_id,
+  inviter_device_id,
+  inviter_public_key,
+  inviter_signing_public_key,
+  invite_secret_hash,
+  expires_at
+) values (
+  'inv_stale_survives',
+  tests.get_supabase_uid('stale-surviving-user'),
+  'dev_stale_surviving',
+  'enc_stale_surviving',
+  'sign_stale_surviving',
+  'stale-proof',
+  pg_catalog.now() + interval '1 day'
+);
+
+select tests.authenticate_as('stale-deleted-user');
+delete from auth.users where id = tests.get_supabase_uid('stale-deleted-user');
+
+select is(
+  (select pg_catalog.count(*) from auth.users where id = tests.get_supabase_uid('stale-deleted-user')),
+  0::bigint,
+  'the stale JWT subject no longer has an auth.users row'
+);
+select is(
+  (select pg_catalog.count(*) from public.spicesync_devices where user_id = tests.get_supabase_uid('stale-deleted-user')),
+  0::bigint,
+  'auth deletion cascades the stale subject device registry rows'
+);
+select is(
+  (select pg_catalog.count(*) from public.spicesync_couples where couple_id = 'cpl_stale_deleted'),
+  0::bigint,
+  'auth deletion cascades the stale subject couple rows'
+);
+select is(
+  (select pg_catalog.count(*) from public.spicesync_events where couple_id = 'cpl_stale_deleted'),
+  0::bigint,
+  'auth deletion cascades the stale subject event rows'
+);
+
+select throws_ok($$ select public.spicesync_create_invite('dev_stale_new','enc_stale_new','sign_stale_new','hash_stale') $$, '28000', 'Authentication required', 'a stale JWT cannot create an invite or register a device');
+select throws_ok($$ select public.spicesync_get_invite('inv_stale_survives') $$, '28000', 'Authentication required', 'a stale JWT cannot access another account invite');
+select throws_ok($$ select public.spicesync_accept_invite('inv_stale_survives','dev_stale_new','enc_stale_new','sign_stale_new','stale-proof') $$, '28000', 'Authentication required', 'a stale JWT cannot accept an invite');
+select throws_ok($$ select public.spicesync_get_couple('cpl_stale_deleted') $$, '28000', 'Authentication required', 'a stale JWT cannot access a deleted couple');
+select throws_ok($$ select public.spicesync_register_or_recover_device('dev_stale_new','enc_stale_new','sign_stale_new') $$, '28000', 'Authentication required', 'a stale JWT cannot register or recover a device');
+select throws_ok($$ select public.spicesync_revoke_device('dev_stale_deleted') $$, '28000', 'Authentication required', 'a stale JWT cannot revoke a device');
+select throws_ok($$ select public.spicesync_append_event('cpl_stale_deleted','evt_stale_deleted','dev_stale_deleted',1,'cipher','hash','sig') $$, '28000', 'Authentication required', 'a stale JWT cannot append legacy events');
+select throws_ok($$ select public.spicesync_append_event_v2('cpl_stale_deleted','evt_stale_deleted_v2','dev_stale_deleted','dev_stale_surviving',1,'cipher','hash','sig') $$, '28000', 'Authentication required', 'a stale JWT cannot append current events');
+select throws_ok($$ select public.spicesync_list_events('cpl_stale_deleted',0,10) $$, '28000', 'Authentication required', 'a stale JWT cannot pull events');
+select throws_ok($$ select public.spicesync_revoke_couple('cpl_stale_deleted') $$, '28000', 'Authentication required', 'a stale JWT cannot revoke a couple');
+select throws_ok($$ select public.spicesync_find_couple_for_device('dev_stale_deleted') $$, '28000', 'Authentication required', 'a stale JWT cannot find a couple by device');
 
 select * from finish();
 rollback;

@@ -1,8 +1,13 @@
 import { assert, assertEquals } from "jsr:@std/assert@1";
 
 import {
+  AppleRevocationError,
+  AppleTransientRevocationError,
+} from "../_shared/apple.ts";
+import {
   type DeleteAccountDependencies,
   handleDeleteAccount,
+  mapVerifiedAuthUser,
   type VerifiedUser,
 } from "./index.ts";
 
@@ -161,25 +166,92 @@ Deno.test("revokes Apple before cleaning up and deleting the Supabase user", asy
   assertEquals(calls, ["apple", "cleanup", "user"]);
 });
 
-Deno.test("logs Apple revocation failure but still deletes the Supabase user", async () => {
-  const calls: string[] = [];
-  const logs: unknown[] = [];
-  const response = await handleDeleteAccount(
-    authenticatedRequest(),
-    dependencies({
-      revokeAppleToken: async () => {
-        await record(calls, "apple");
-        throw new Error("temporarily unavailable");
-      },
-      cleanupUserData: () => record(calls, "cleanup"),
-      deleteUser: () => record(calls, "user"),
-      logError: (event: unknown) => logs.push(event),
-    }),
-  );
+Deno.test("continues only explicit transient Apple revocation failures", async () => {
+  for (
+    const failure of [
+      new AppleTransientRevocationError("network"),
+      new AppleTransientRevocationError("server_5xx"),
+    ]
+  ) {
+    const calls: string[] = [];
+    const logs: unknown[] = [];
+    const response = await handleDeleteAccount(
+      authenticatedRequest(),
+      dependencies({
+        revokeAppleToken: async () => {
+          await record(calls, "apple");
+          throw failure;
+        },
+        cleanupUserData: () => record(calls, "cleanup"),
+        deleteUser: () => record(calls, "user"),
+        logError: (event: unknown) => logs.push(event),
+      }),
+    );
 
-  assertEquals(response.status, 204);
-  assertEquals(calls, ["apple", "cleanup", "user"]);
-  assertEquals(logs.length, 1);
+    assertEquals(response.status, 204);
+    assertEquals(calls, ["apple", "cleanup", "user"]);
+    assertEquals(logs.length, 1);
+  }
+});
+
+Deno.test("blocks 4xx, local, and unknown Apple revocation failures before cleanup", async () => {
+  for (
+    const failure of [
+      new AppleRevocationError("client_4xx"),
+      new Error("local_crypto_failure"),
+      new Error("unknown_failure"),
+    ]
+  ) {
+    const calls: string[] = [];
+    const logs: unknown[] = [];
+    const response = await handleDeleteAccount(
+      authenticatedRequest(),
+      dependencies({
+        revokeAppleToken: async () => {
+          await record(calls, "apple");
+          throw failure;
+        },
+        cleanupUserData: () => record(calls, "cleanup"),
+        deleteUser: () => record(calls, "user"),
+        logError: (event: unknown) => logs.push(event),
+      }),
+    );
+
+    assertEquals(response.status, 502);
+    assertEquals(calls, ["apple"]);
+    assertEquals(logs.length, 0);
+  }
+});
+
+Deno.test("maps linked Apple identity_data.sub and rejects malformed subjects", () => {
+  const mapped = mapVerifiedAuthUser({
+    id: USER_ID,
+    is_anonymous: false,
+    identities: [{ provider: "apple", identity_data: { sub: APPLE_SUBJECT } }],
+  });
+  const missingSubject = mapVerifiedAuthUser({
+    id: USER_ID,
+    is_anonymous: false,
+    identities: [{ provider: "apple", identity_data: {} }],
+  });
+  const malformedSubject = mapVerifiedAuthUser({
+    id: USER_ID,
+    is_anonymous: false,
+    identities: [{ provider: "apple", identity_data: { sub: 42 } }],
+  });
+
+  assertEquals(mapped.identities, [{
+    provider: "apple",
+    subject: APPLE_SUBJECT,
+  }]);
+  assertEquals(missingSubject.identities, [{
+    provider: "apple",
+    subject: null,
+  }]);
+  assertEquals(malformedSubject.identities, [{
+    provider: "apple",
+    subject: null,
+  }]);
 });
 
 Deno.test("blocks deletion if Apple exchange or verification fails", async () => {

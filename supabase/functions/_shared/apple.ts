@@ -3,6 +3,16 @@ const APPLE_KEYS_URL = `${APPLE_ISSUER}/auth/keys`;
 const APPLE_TOKEN_URL = `${APPLE_ISSUER}/auth/token`;
 const APPLE_REVOKE_URL = `${APPLE_ISSUER}/auth/revoke`;
 
+export type AppleFetch = (
+  input: string | URL | Request,
+  init?: RequestInit,
+) => Promise<Response>;
+
+export interface AppleRuntime {
+  fetch?: AppleFetch;
+  now?: () => number;
+}
+
 export interface AppleCredentials {
   clientId: string;
   keyId: string;
@@ -19,51 +29,74 @@ export interface VerifiedAppleIdentity {
   subject: string;
 }
 
+/** A revocation response Apple explicitly rejected and that must block deletion. */
 export class AppleRevocationError extends Error {
-  constructor(readonly transient: boolean) {
-    super("Apple token revocation failed");
+  constructor(readonly reason: "client_4xx") {
+    super("Apple token revocation was rejected");
     this.name = "AppleRevocationError";
+  }
+}
+
+/** Only transport errors and Apple 5xx responses may be retried after deletion. */
+export class AppleTransientRevocationError extends Error {
+  constructor(readonly reason: "network" | "server_5xx") {
+    super("Apple token revocation is temporarily unavailable");
+    this.name = "AppleTransientRevocationError";
+  }
+}
+
+export class AppleTokenExchangeError extends Error {
+  constructor() {
+    super("Apple authorization code exchange failed");
+    this.name = "AppleTokenExchangeError";
   }
 }
 
 export async function exchangeAppleAuthorizationCode(
   code: string,
   credentials: AppleCredentials,
+  runtime: AppleRuntime = {},
 ): Promise<AppleTokenExchange> {
-  const response = await fetch(APPLE_TOKEN_URL, {
-    method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      client_id: credentials.clientId,
-      client_secret: await createAppleClientSecret(credentials),
-      code,
-      grant_type: "authorization_code",
-    }),
-  });
-  if (!response.ok) throw new Error("Apple authorization code exchange failed");
+  // Keep key import/signing outside the transport catch: bad local credentials
+  // are not transient Apple endpoint failures and must never be misclassified.
+  const clientSecret = await createAppleClientSecret(credentials, runtime.now);
+  let response: Response;
+  try {
+    response = await appleFetch(runtime)(APPLE_TOKEN_URL, {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        client_id: credentials.clientId,
+        client_secret: clientSecret,
+        code,
+        grant_type: "authorization_code",
+      }),
+    });
+  } catch {
+    throw new AppleTokenExchangeError();
+  }
+  if (!response.ok) throw new AppleTokenExchangeError();
 
-  const body = await response.json();
-  if (!isRecord(body) || typeof body.id_token !== "string") {
-    throw new Error(
-      "Apple authorization code exchange returned no identity token",
-    );
+  let body: unknown;
+  try {
+    body = await response.json();
+  } catch {
+    throw new AppleTokenExchangeError();
   }
-  const tokenToRevoke = typeof body.refresh_token === "string"
-    ? body.refresh_token
-    : typeof body.access_token === "string"
-    ? body.access_token
-    : null;
-  if (tokenToRevoke === null) {
-    throw new Error(
-      "Apple authorization code exchange returned no revocable token",
-    );
+  if (
+    !isRecord(body) || typeof body.id_token !== "string" ||
+    body.id_token.length === 0 || typeof body.refresh_token !== "string" ||
+    body.refresh_token.length === 0
+  ) {
+    throw new AppleTokenExchangeError();
   }
-  return { idToken: body.id_token, tokenToRevoke };
+  return { idToken: body.id_token, tokenToRevoke: body.refresh_token };
 }
 
 export async function verifyAppleIdentityToken(
   identityToken: string,
   clientId: string,
+  runtime: AppleRuntime = {},
 ): Promise<VerifiedAppleIdentity> {
   const parts = identityToken.split(".");
   if (parts.length !== 3) throw new Error("Apple identity token is malformed");
@@ -77,11 +110,16 @@ export async function verifyAppleIdentityToken(
     throw new Error("Apple identity token uses an unsupported signature");
   }
 
-  const response = await fetch(APPLE_KEYS_URL, {
+  const response = await appleFetch(runtime)(APPLE_KEYS_URL, {
     headers: { accept: "application/json" },
   });
   if (!response.ok) throw new Error("Apple signing keys are unavailable");
-  const keySet = await response.json();
+  let keySet: unknown;
+  try {
+    keySet = await response.json();
+  } catch {
+    throw new Error("Apple signing keys are malformed");
+  }
   if (!isRecord(keySet) || !Array.isArray(keySet.keys)) {
     throw new Error("Apple signing keys are malformed");
   }
@@ -112,7 +150,7 @@ export async function verifyAppleIdentityToken(
   );
   if (!valid) throw new Error("Apple identity token signature is invalid");
 
-  const now = Math.floor(Date.now() / 1000);
+  const now = currentUnixTime(runtime.now);
   const audienceMatches = claims.aud === clientId ||
     (Array.isArray(claims.aud) && claims.aud.includes(clientId));
   if (
@@ -129,29 +167,37 @@ export async function verifyAppleIdentityToken(
 export async function revokeAppleToken(
   token: string,
   credentials: AppleCredentials,
+  runtime: AppleRuntime = {},
 ): Promise<void> {
+  // It is deliberate that this happens before the catch. Private-key parsing,
+  // signing, and configuration faults must block rather than continue cleanup.
+  const clientSecret = await createAppleClientSecret(credentials, runtime.now);
   let response: Response;
   try {
-    response = await fetch(APPLE_REVOKE_URL, {
+    response = await appleFetch(runtime)(APPLE_REVOKE_URL, {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
         client_id: credentials.clientId,
-        client_secret: await createAppleClientSecret(credentials),
+        client_secret: clientSecret,
         token,
         token_type_hint: "refresh_token",
       }),
     });
   } catch {
-    throw new AppleRevocationError(true);
+    throw new AppleTransientRevocationError("network");
   }
-  if (!response.ok) throw new AppleRevocationError(response.status >= 500);
+  if (response.status >= 500) {
+    throw new AppleTransientRevocationError("server_5xx");
+  }
+  if (!response.ok) throw new AppleRevocationError("client_4xx");
 }
 
-async function createAppleClientSecret(
+export async function createAppleClientSecret(
   credentials: AppleCredentials,
+  nowSource?: () => number,
 ): Promise<string> {
-  const now = Math.floor(Date.now() / 1000);
+  const now = currentUnixTime(nowSource);
   const header = base64UrlJson({
     alg: "ES256",
     kid: credentials.keyId,
@@ -175,13 +221,26 @@ async function createAppleClientSecret(
     await crypto.subtle.sign(
       { name: "ECDSA", hash: "SHA-256" },
       privateKey,
-      new TextEncoder().encode(`${header}.${payload}`),
+      toArrayBuffer(new TextEncoder().encode(`${header}.${payload}`)),
     ),
   );
   if (signature.byteLength !== 64) {
     throw new Error("Apple client secret signature has an invalid format");
   }
   return `${header}.${payload}.${base64UrlEncode(signature)}`;
+}
+
+function appleFetch(runtime: AppleRuntime): AppleFetch {
+  return runtime.fetch ?? ((input, init) => {
+    if (input instanceof Request) return fetch(input);
+    return fetch(input, init);
+  });
+}
+
+function currentUnixTime(nowSource?: () => number): number {
+  return nowSource === undefined
+    ? Math.floor(Date.now() / 1000)
+    : Math.floor(nowSource());
 }
 
 function parseJsonPart(value: string): Record<string, unknown> {

@@ -2,7 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.112.3";
 
 import {
   type AppleCredentials,
-  AppleRevocationError,
+  AppleTransientRevocationError,
   exchangeAppleAuthorizationCode,
   revokeAppleToken,
   verifyAppleIdentityToken,
@@ -92,7 +92,7 @@ export async function handleDeleteAccount(
     try {
       await dependencies.revokeAppleToken(exchange.tokenToRevoke);
     } catch (error) {
-      if (!isTransientAppleRevocationFailure(error)) {
+      if (!(error instanceof AppleTransientRevocationError)) {
         return jsonError(request, 502, "apple_token_revocation_failed");
       }
       dependencies.logError({
@@ -132,14 +132,7 @@ export function createDeleteAccountDependencies(): DeleteAccountDependencies {
     async getUser(token) {
       const { data, error } = await client.auth.getUser(token);
       if (error !== null || data.user === null) return null;
-      return {
-        id: data.user.id,
-        isAnonymous: data.user.is_anonymous === true,
-        identities: (data.user.identities ?? []).map((identity) => ({
-          provider: identity.provider,
-          subject: readIdentitySubject(identity.identity_data),
-        })),
-      };
+      return mapVerifiedAuthUser(data.user);
     },
     exchangeAppleAuthorizationCode: (code) =>
       exchangeAppleAuthorizationCode(code, credentials()),
@@ -164,6 +157,21 @@ export function createDeleteAccountDependencies(): DeleteAccountDependencies {
     logError(event) {
       console.error(JSON.stringify(event));
     },
+  };
+}
+
+export function mapVerifiedAuthUser(user: {
+  id: string;
+  is_anonymous?: boolean;
+  identities?: Array<{ provider: string; identity_data?: unknown }> | null;
+}): VerifiedUser {
+  return {
+    id: user.id,
+    isAnonymous: user.is_anonymous === true,
+    identities: (user.identities ?? []).map((identity) => ({
+      provider: identity.provider,
+      subject: readIdentitySubject(identity.identity_data),
+    })),
   };
 }
 
@@ -221,10 +229,6 @@ function readIdentitySubject(value: unknown): string | null {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function isTransientAppleRevocationFailure(error: unknown): boolean {
-  return !(error instanceof AppleRevocationError) || error.transient;
 }
 
 function serviceClient() {

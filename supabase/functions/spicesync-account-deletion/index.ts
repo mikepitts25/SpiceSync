@@ -5,7 +5,10 @@ import { isAllowedCorsOrigin, responseHeaders } from "../_shared/cors.ts";
 const FUNCTION_METHODS = "GET, POST, OPTIONS";
 const ALLOWED_PROVIDERS = new Set(["apple", "google"]);
 const MAX_CONTACT_LENGTH = 320;
+const MAX_FORM_BODY_BYTES = 2048;
 const REQUEST_REFERENCE_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
+const UNSAFE_CONTACT_CHARACTER =
+  /[\u0000-\u001F\u007F-\u009F\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/u;
 
 export interface DeletionRequest {
   contact: string;
@@ -40,10 +43,20 @@ export async function handleDeletionPage(
     return textResponse(request, 415, "Unsupported Media Type");
   }
 
-  const deletionRequest = await parseDeletionRequest(request);
-  if (deletionRequest === null) {
+  const parsedRequest = await parseDeletionRequest(request);
+  if (parsedRequest === "too_large") {
+    return textResponse(request, 413, "Deletion request is too large");
+  }
+  if (parsedRequest === null) {
     return textResponse(request, 400, "Invalid deletion request");
   }
+  if (UNSAFE_CONTACT_CHARACTER.test(parsedRequest.contact)) {
+    return textResponse(request, 422, "Invalid deletion request");
+  }
+  const deletionRequest = {
+    ...parsedRequest,
+    contact: parsedRequest.contact.trim(),
+  };
   if (
     !ALLOWED_PROVIDERS.has(deletionRequest.provider) ||
     deletionRequest.contact.length < 3 ||
@@ -106,13 +119,10 @@ export function createDeletionPageDependencies(): DeletionPageDependencies {
 
 async function parseDeletionRequest(
   request: Request,
-): Promise<DeletionRequest | null> {
-  let form: FormData;
-  try {
-    form = await request.formData();
-  } catch {
-    return null;
-  }
+): Promise<DeletionRequest | "too_large" | null> {
+  const body = await readBoundedFormBody(request);
+  if (body === "too_large" || body === null) return body;
+  const form = new URLSearchParams(body);
   const entries = [...form.entries()];
   if (
     entries.length !== 2 ||
@@ -127,9 +137,57 @@ async function parseDeletionRequest(
   const contact = contactValues[0];
   if (typeof provider !== "string" || typeof contact !== "string") return null;
   return {
-    provider: provider.trim() as DeletionRequest["provider"],
-    contact: contact.trim(),
+    provider: provider as DeletionRequest["provider"],
+    contact,
   };
+}
+
+async function readBoundedFormBody(
+  request: Request,
+): Promise<string | "too_large" | null> {
+  const contentLength = request.headers.get("content-length");
+  if (contentLength !== null) {
+    if (!/^\d+$/.test(contentLength)) return null;
+    if (Number(contentLength) > MAX_FORM_BODY_BYTES) return "too_large";
+  }
+
+  const reader = request.body?.getReader();
+  if (reader === undefined) return "";
+  const chunks: Uint8Array[] = [];
+  let length = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      length += value.byteLength;
+      if (length > MAX_FORM_BODY_BYTES) {
+        try {
+          await reader.cancel();
+        } catch {
+          // The oversize boundary is already established; cancellation is
+          // best-effort and must not turn it into a malformed-body response.
+        }
+        return "too_large";
+      }
+      chunks.push(value);
+    }
+  } catch {
+    return null;
+  } finally {
+    reader.releaseLock();
+  }
+
+  const bytes = new Uint8Array(length);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    return null;
+  }
 }
 
 function formResponse(request: Request): Response {

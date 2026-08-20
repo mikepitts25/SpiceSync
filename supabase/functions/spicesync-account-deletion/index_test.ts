@@ -115,6 +115,50 @@ Deno.test("validates strict provider and contact length bounds before storage", 
   assertEquals(inserted, false);
 });
 
+Deno.test("rejects oversized form bodies before materializing them", async () => {
+  const response = await handleDeletionPage(
+    new Request(URL, {
+      method: "POST",
+      headers: {
+        "content-length": "2049",
+        "content-type": "application/x-www-form-urlencoded",
+      },
+      body: "provider=apple&contact=person@example.test",
+    }),
+    dependencies(),
+  );
+
+  assertEquals(response.status, 413);
+});
+
+Deno.test("rejects streamed oversized bodies and invisible contact controls", async () => {
+  const oversized = await handleDeletionPage(
+    new Request(URL, {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode("x".repeat(2049)));
+          controller.close();
+        },
+      }),
+    }),
+    dependencies(),
+  );
+  const control = await handleDeletionPage(
+    formRequest({ provider: "apple", contact: "person\u0001@example.test" }),
+    dependencies(),
+  );
+  const bidi = await handleDeletionPage(
+    formRequest({ provider: "google", contact: "person\u202E@example.test" }),
+    dependencies(),
+  );
+
+  assertEquals(oversized.status, 413);
+  assertEquals(control.status, 422);
+  assertEquals(bidi.status, 422);
+});
+
 Deno.test("returns a safe failure when deletion-request storage fails", async () => {
   const secret = "service-role-secret-should-not-leak";
   const response = await handleDeletionPage(
