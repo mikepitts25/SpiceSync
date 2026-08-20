@@ -172,6 +172,8 @@ export const en = {
       'This permanently deletes your account and clears SpiceSync data from this device. This cannot be undone.',
     deletingAccount: 'Deleting account...',
     deleteAccountFailed: 'Could not delete your account. Try again.',
+    deleteAccountAppleIosRequired:
+      'This account is linked to Apple. To delete it, sign in with Apple on an iPhone or iPad, then try again.',
     deleteAccountCleanupFailed:
       'Your account was deleted, but this device could not finish clearing its data. Reset the app on this device to finish.',
     partnerSecurityUpdate: 'Partner security update',

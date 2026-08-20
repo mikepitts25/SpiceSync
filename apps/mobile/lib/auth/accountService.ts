@@ -1,4 +1,7 @@
-import { getSupabaseClient } from './supabase';
+import {
+  createIsolatedSupabaseClientForDeletion,
+  getSupabaseClient,
+} from './supabase';
 import { clearForgottenDeviceState } from '../safety/localDataControls';
 import { clearIdentity, getIdentityIfExists } from '../sync/identity';
 import { getRelayClient } from '../sync/relayConfig';
@@ -62,6 +65,17 @@ type AccountAuthClient = {
     }>;
   };
 };
+
+type DeletionReauthenticationClient = Pick<AccountAuthClient, 'functions'> & {
+  auth: Pick<AccountAuthClient['auth'], 'getUser' | 'signInWithIdToken'>;
+};
+
+type DeletionReauthenticationClientFactory =
+  () => DeletionReauthenticationClient;
+
+function createIsolatedDeletionReauthenticationClient(): DeletionReauthenticationClient {
+  return createIsolatedSupabaseClientForDeletion() as unknown as DeletionReauthenticationClient;
+}
 
 type DeviceRemovalDependencies = {
   getCurrentDevice: () => Promise<{ deviceId: string } | null>;
@@ -152,7 +166,8 @@ function throwForAuthError(error: AuthError, fallbackCode: string): never {
 export class AccountService implements AccountServiceLike {
   constructor(
     private readonly client: AccountAuthClient,
-    private readonly deviceRemovalDependencies: DeviceRemovalDependencies = defaultDeviceRemovalDependencies
+    private readonly deviceRemovalDependencies: DeviceRemovalDependencies = defaultDeviceRemovalDependencies,
+    private readonly createDeletionReauthenticationClient: DeletionReauthenticationClientFactory = createIsolatedDeletionReauthenticationClient
   ) {}
 
   async getSnapshot(): Promise<AccountSnapshot> {
@@ -294,12 +309,13 @@ export class AccountService implements AccountServiceLike {
       }
     }
 
-    const { data, error } = await this.client.auth.signInWithIdToken(
+    const reauthenticationClient = this.createDeletionReauthenticationClient();
+    const { data, error } = await reauthenticationClient.auth.signInWithIdToken(
       reauthenticationPayload(credential)
     );
     if (error) throwForAuthError(error, 'ACCOUNT_REAUTHENTICATION_FAILED');
 
-    const reauthenticated = await this.client.auth.getUser();
+    const reauthenticated = await reauthenticationClient.auth.getUser();
     if (reauthenticated.error || !reauthenticated.data.user) {
       throw new AccountServiceError(
         'ACCOUNT_REAUTHENTICATION_FAILED',
@@ -322,13 +338,16 @@ export class AccountService implements AccountServiceLike {
     }
 
     const { error: functionError, response } =
-      await this.client.functions.invoke('spicesync-delete-account', {
-        body:
-          credential.provider === 'apple'
-            ? { appleAuthorizationCode: credential.authorizationCode }
-            : {},
-        headers: { Authorization: `Bearer ${bearer}` },
-      });
+      await reauthenticationClient.functions.invoke(
+        'spicesync-delete-account',
+        {
+          body:
+            credential.provider === 'apple'
+              ? { appleAuthorizationCode: credential.authorizationCode }
+              : {},
+          headers: { Authorization: `Bearer ${bearer}` },
+        }
+      );
     if (functionError || response?.status !== 204) {
       throw new AccountServiceError(
         'ACCOUNT_DELETION_FAILED',

@@ -38,6 +38,15 @@ function isProviderCancellation(error: unknown): boolean {
   );
 }
 
+function isProviderUnavailable(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    error.code === 'PROVIDER_UNAVAILABLE'
+  );
+}
+
 function localOnlySnapshot(): AccountSnapshot {
   return {
     status: 'local-only',
@@ -61,6 +70,8 @@ export default function AccountSettingsScreen() {
   const [pendingAction, setPendingAction] = useState<
     'link' | 'sign-out' | 'forget' | 'delete' | null
   >(null);
+  const [deletionProviderUnavailable, setDeletionProviderUnavailable] =
+    useState(false);
   const mountedRef = useRef(true);
   const deletionInFlightRef = useRef(false);
 
@@ -156,9 +167,10 @@ export default function AccountSettingsScreen() {
 
     deletionInFlightRef.current = true;
     setPendingAction('delete');
+    let provider: Provider | null = null;
     try {
       const service = getAccountService();
-      const provider = await service.getDeletionProvider();
+      provider = await service.getDeletionProvider();
       const credential =
         provider === 'apple'
           ? await getAppleCredential()
@@ -186,7 +198,12 @@ export default function AccountSettingsScreen() {
       if (mountedRef.current) router.replace('/welcome');
     } catch (deleteError) {
       if (!isProviderCancellation(deleteError) && mountedRef.current) {
-        setError(t.settings.deleteAccountFailed);
+        if (provider === 'apple' && isProviderUnavailable(deleteError)) {
+          setDeletionProviderUnavailable(true);
+          setError(t.settings.deleteAccountAppleIosRequired);
+        } else {
+          setError(t.settings.deleteAccountFailed);
+        }
       }
     } finally {
       deletionInFlightRef.current = false;
@@ -194,6 +211,7 @@ export default function AccountSettingsScreen() {
     }
   }, [
     router,
+    t.settings.deleteAccountAppleIosRequired,
     t.settings.deleteAccountCleanupFailed,
     t.settings.deleteAccountFailed,
   ]);
@@ -204,7 +222,8 @@ export default function AccountSettingsScreen() {
   const availableProviders: Provider[] =
     Platform.OS === 'ios' ? ['google', 'apple'] : ['google'];
   const actionPending = pendingAction !== null;
-  const deletionUnavailable = snapshot?.status !== 'permanent';
+  const deletionUnavailable =
+    snapshot?.status !== 'permanent' || deletionProviderUnavailable;
 
   return (
     <SafeAreaView

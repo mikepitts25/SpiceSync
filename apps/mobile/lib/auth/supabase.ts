@@ -48,6 +48,25 @@ export function getSupabaseClient(): SupabaseClient {
   return cachedClient;
 }
 
+/**
+ * Creates a short-lived client for destructive reauthentication. It must not
+ * share the app's persisted session or AppState-driven refresh lifecycle.
+ */
+export function createIsolatedSupabaseClientForDeletion(): SupabaseClient {
+  const config = readSupabaseRelayConfig();
+  if (!config) {
+    throw new Error('Supabase relay is not configured');
+  }
+
+  return createClient(config.url, config.anonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  });
+}
+
 export function _resetSupabaseClientForTests(): void {
   cachedClient?.auth.stopAutoRefresh();
   appStateSubscription?.remove();

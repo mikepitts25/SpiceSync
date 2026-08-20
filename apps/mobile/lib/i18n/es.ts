@@ -174,6 +174,8 @@ export const es: Translations = {
       'Esto elimina permanentemente tu cuenta y borra los datos de SpiceSync de este dispositivo. No se puede deshacer.',
     deletingAccount: 'Eliminando cuenta...',
     deleteAccountFailed: 'No se pudo eliminar tu cuenta. Inténtalo de nuevo.',
+    deleteAccountAppleIosRequired:
+      'Esta cuenta está vinculada a Apple. Para eliminarla, inicia sesión con Apple en un iPhone o iPad y vuelve a intentarlo.',
     deleteAccountCleanupFailed:
       'Tu cuenta se eliminó, pero este dispositivo no pudo terminar de borrar sus datos. Restablece la app en este dispositivo para terminar.',
     partnerSecurityUpdate: 'Actualización de seguridad de la pareja',

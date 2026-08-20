@@ -85,6 +85,29 @@ describe('shared Supabase client', () => {
     expect(first.auth.startAutoRefresh).toHaveBeenCalledTimes(1);
   });
 
+  it('creates a separate non-persistent client for deletion reauthentication without app lifecycle refresh', () => {
+    const {
+      createIsolatedSupabaseClientForDeletion,
+    } = require('../lib/auth/supabase');
+
+    const isolated = createIsolatedSupabaseClientForDeletion();
+
+    expect(mockCreateClient).toHaveBeenCalledWith(
+      'https://project.supabase.co',
+      'anon-key',
+      {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+          detectSessionInUrl: false,
+        },
+      }
+    );
+    expect(mockAppState.addEventListener).not.toHaveBeenCalled();
+    expect(isolated.auth.startAutoRefresh).not.toHaveBeenCalled();
+    expect(isolated.auth.stopAutoRefresh).not.toHaveBeenCalled();
+  });
+
   it('applies the current AppState and refreshes only while active', () => {
     mockAppState.currentState = 'inactive';
     const { getSupabaseClient } = require('../lib/auth/supabase');

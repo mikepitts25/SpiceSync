@@ -223,6 +223,36 @@ describe('account deletion', () => {
     ).toBeNull();
   });
 
+  it('tells Android users with an Apple-linked account that deletion requires Apple sign-in on iOS without falling back to Google', async () => {
+    Object.defineProperty(Platform, 'OS', {
+      configurable: true,
+      value: 'android',
+    });
+    mockGetSnapshot.mockResolvedValue(permanentSnapshot(['apple', 'google']));
+    mockGetDeletionProvider.mockResolvedValue('apple');
+    mockGetAppleCredential.mockRejectedValue({ code: 'PROVIDER_UNAVAILABLE' });
+    const screen = render(<AccountSettingsScreen />);
+
+    await pressDelete(screen);
+    await confirmDelete();
+
+    await waitFor(() =>
+      expect(
+        screen.getByText(
+          'This account is linked to Apple. To delete it, sign in with Apple on an iPhone or iPad, then try again.'
+        )
+      ).toBeTruthy()
+    );
+    expect(mockGetAppleCredential).toHaveBeenCalledTimes(1);
+    expect(mockGetGoogleCredential).not.toHaveBeenCalled();
+    expect(mockDeleteAccount).not.toHaveBeenCalled();
+    expect(mockResetAppOnDevice).not.toHaveBeenCalled();
+    expect(mockRouter.replace).not.toHaveBeenCalled();
+    expect(
+      screen.getByLabelText('Delete account').props.accessibilityState?.disabled
+    ).toBe(true);
+  });
+
   it('keeps local state and navigation unchanged when server deletion fails', async () => {
     mockDeleteAccount.mockRejectedValue(new Error('offline'));
     const screen = render(<AccountSettingsScreen />);
@@ -302,6 +332,42 @@ describe('account deletion', () => {
     });
 
     await waitFor(() => expect(mockResetAppOnDevice).toHaveBeenCalledTimes(1));
+    expect(mockRouter.replace).not.toHaveBeenCalled();
+  });
+
+  it('does not start deletion when the screen unmounts while a native credential is pending', async () => {
+    const credential = deferred<{
+      provider: 'google';
+      token: string;
+      accessToken: string;
+    }>();
+    mockGetGoogleCredential.mockReturnValue(credential.promise);
+    const screen = render(<AccountSettingsScreen />);
+
+    await pressDelete(screen);
+    const buttons = jest.mocked(Alert.alert).mock.calls.at(-1)?.[2] ?? [];
+    const button = buttons.find(
+      (candidate) => candidate.text === 'Delete account'
+    );
+    await act(async () => {
+      button?.onPress?.();
+    });
+    await waitFor(() =>
+      expect(mockGetGoogleCredential).toHaveBeenCalledTimes(1)
+    );
+    screen.unmount();
+
+    await act(async () => {
+      credential.resolve({
+        provider: 'google',
+        token: 'late-google-id-token',
+        accessToken: 'late-google-access-token',
+      });
+      await credential.promise;
+    });
+
+    expect(mockDeleteAccount).not.toHaveBeenCalled();
+    expect(mockResetAppOnDevice).not.toHaveBeenCalled();
     expect(mockRouter.replace).not.toHaveBeenCalled();
   });
 });

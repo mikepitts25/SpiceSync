@@ -14,12 +14,29 @@ const mockClient = {
   },
 };
 
+const mockDeletionReauthClient = {
+  auth: {
+    getUser: jest.fn(),
+    signInWithIdToken: jest.fn(),
+  },
+  functions: {
+    invoke: jest.fn(),
+  },
+};
+const mockCreateDeletionReauthClient = jest.fn();
+
 jest.mock('../lib/auth/supabase', () => ({
   getSupabaseClient: () => mockClient,
 }));
 
 const { AccountService } =
   require('../lib/auth/accountService') as typeof import('../lib/auth/accountService');
+
+type AccountServiceWithDeletionReauthFactory = new (
+  client: typeof mockClient,
+  deviceDependencies: undefined,
+  createDeletionReauthClient: () => typeof mockDeletionReauthClient
+) => AccountServiceInstance;
 
 function anonymousUser(id: string) {
   return { id, is_anonymous: true, identities: [] };
@@ -57,7 +74,14 @@ describe('AccountService', () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    service = new AccountService(mockClient);
+    mockCreateDeletionReauthClient.mockReturnValue(mockDeletionReauthClient);
+    const AccountServiceForDeletion =
+      AccountService as unknown as AccountServiceWithDeletionReauthFactory;
+    service = new AccountServiceForDeletion(
+      mockClient,
+      undefined,
+      mockCreateDeletionReauthClient
+    );
   });
 
   it('classifies no Supabase user as local-only', async () => {
@@ -282,11 +306,15 @@ describe('AccountService', () => {
       },
       error: null,
     });
-    mockClient.auth.signInWithIdToken.mockResolvedValue({
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'apple') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
       data: { session: { access_token: 'fresh-bearer' } },
       error: null,
     });
-    mockClient.functions.invoke.mockResolvedValue({
+    mockDeletionReauthClient.functions.invoke.mockResolvedValue({
       data: '',
       error: null,
       response: { status: 204 },
@@ -300,15 +328,17 @@ describe('AccountService', () => {
       authorizationCode: 'one-time-apple-code',
     });
 
-    expect(mockClient.auth.signInWithIdToken).toHaveBeenCalledWith({
+    expect(
+      mockDeletionReauthClient.auth.signInWithIdToken
+    ).toHaveBeenCalledWith({
       provider: 'apple',
       token: 'fresh-apple-id-token',
       nonce: 'fresh-raw-nonce',
     });
     expect(
-      mockClient.auth.signInWithIdToken.mock.calls[0][0]
+      mockDeletionReauthClient.auth.signInWithIdToken.mock.calls[0][0]
     ).not.toHaveProperty('access_token');
-    expect(mockClient.functions.invoke).toHaveBeenCalledWith(
+    expect(mockDeletionReauthClient.functions.invoke).toHaveBeenCalledWith(
       'spicesync-delete-account',
       {
         body: { appleAuthorizationCode: 'one-time-apple-code' },
@@ -316,8 +346,13 @@ describe('AccountService', () => {
       }
     );
     expect(
-      mockClient.auth.signInWithIdToken.mock.invocationCallOrder[0]
-    ).toBeLessThan(mockClient.functions.invoke.mock.invocationCallOrder[0]);
+      mockDeletionReauthClient.auth.signInWithIdToken.mock
+        .invocationCallOrder[0]
+    ).toBeLessThan(
+      mockDeletionReauthClient.functions.invoke.mock.invocationCallOrder[0]
+    );
+    expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
+    expect(mockClient.functions.invoke).not.toHaveBeenCalled();
   });
 
   it('uses a fresh Google credential for a Google-only account without signing out before server confirmation', async () => {
@@ -325,11 +360,15 @@ describe('AccountService', () => {
       data: { user: permanentUser('user-1', 'google') },
       error: null,
     });
-    mockClient.auth.signInWithIdToken.mockResolvedValue({
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
       data: { session: { access_token: 'fresh-bearer' } },
       error: null,
     });
-    mockClient.functions.invoke.mockResolvedValue({
+    mockDeletionReauthClient.functions.invoke.mockResolvedValue({
       data: '',
       error: null,
       response: { status: 204 },
@@ -338,12 +377,14 @@ describe('AccountService', () => {
     await expect(service.getDeletionProvider()).resolves.toBe('google');
     await service.deleteAccount(googleCredential());
 
-    expect(mockClient.auth.signInWithIdToken).toHaveBeenCalledWith({
+    expect(
+      mockDeletionReauthClient.auth.signInWithIdToken
+    ).toHaveBeenCalledWith({
       provider: 'google',
       token: 'id-token',
       access_token: 'native-access-token',
     });
-    expect(mockClient.functions.invoke).toHaveBeenCalledWith(
+    expect(mockDeletionReauthClient.functions.invoke).toHaveBeenCalledWith(
       'spicesync-delete-account',
       {
         body: {},
@@ -351,6 +392,7 @@ describe('AccountService', () => {
       }
     );
     expect(mockClient.auth.signOut).not.toHaveBeenCalled();
+    expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
   });
 
   it('rejects an Apple deletion attempt before reauthentication when the one-time code is missing', async () => {
@@ -367,21 +409,22 @@ describe('AccountService', () => {
       })
     ).rejects.toMatchObject({ code: 'APPLE_AUTHORIZATION_CODE_REQUIRED' });
 
-    expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
+    expect(
+      mockDeletionReauthClient.auth.signInWithIdToken
+    ).not.toHaveBeenCalled();
     expect(mockClient.functions.invoke).not.toHaveBeenCalled();
   });
 
   it('does not invoke deletion after a reauthenticated credential belongs to another user', async () => {
-    mockClient.auth.getUser
-      .mockResolvedValueOnce({
-        data: { user: permanentUser('user-1', 'google') },
-        error: null,
-      })
-      .mockResolvedValueOnce({
-        data: { user: permanentUser('other-user', 'google') },
-        error: null,
-      });
-    mockClient.auth.signInWithIdToken.mockResolvedValue({
+    mockClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('other-user', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
       data: { session: { access_token: 'fresh-bearer' } },
       error: null,
     });
@@ -390,7 +433,43 @@ describe('AccountService', () => {
       service.deleteAccount(googleCredential())
     ).rejects.toMatchObject({ code: 'ACCOUNT_MISMATCH' });
 
+    expect(mockDeletionReauthClient.functions.invoke).not.toHaveBeenCalled();
+    expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
+  });
+
+  it('keeps the shared persisted session byte-for-byte unchanged when reauthentication is for another account', async () => {
+    const sharedSession = {
+      access_token: 'persisted-access-token',
+      refresh_token: 'persisted-refresh-token',
+      user: permanentUser('user-1', 'google'),
+    };
+    const secureStore = new Map([
+      ['supabase.auth.token', JSON.stringify(sharedSession)],
+    ]);
+    const persistedSnapshot = secureStore.get('supabase.auth.token');
+
+    mockClient.auth.getUser.mockImplementation(async () => ({
+      data: { user: sharedSession.user },
+      error: null,
+    }));
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('other-user', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
+      data: { session: { access_token: 'ephemeral-bearer' } },
+      error: null,
+    });
+
+    await expect(
+      service.deleteAccount(googleCredential())
+    ).rejects.toMatchObject({ code: 'ACCOUNT_MISMATCH' });
+
+    expect(secureStore.get('supabase.auth.token')).toBe(persistedSnapshot);
+    expect(sharedSession.user.id).toBe('user-1');
+    expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
     expect(mockClient.functions.invoke).not.toHaveBeenCalled();
+    expect(mockDeletionReauthClient.functions.invoke).not.toHaveBeenCalled();
   });
 
   it('fails closed before deletion when the reauthenticated bearer is unavailable', async () => {
@@ -398,7 +477,11 @@ describe('AccountService', () => {
       data: { user: permanentUser('user-1', 'google') },
       error: null,
     });
-    mockClient.auth.signInWithIdToken.mockResolvedValue({
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
       data: { session: null },
       error: null,
     });
@@ -407,7 +490,7 @@ describe('AccountService', () => {
       service.deleteAccount(googleCredential())
     ).rejects.toMatchObject({ code: 'REFRESHED_BEARER_UNAVAILABLE' });
 
-    expect(mockClient.functions.invoke).not.toHaveBeenCalled();
+    expect(mockDeletionReauthClient.functions.invoke).not.toHaveBeenCalled();
   });
 
   it('fails closed when the deletion function does not positively return 204', async () => {
@@ -415,11 +498,15 @@ describe('AccountService', () => {
       data: { user: permanentUser('user-1', 'google') },
       error: null,
     });
-    mockClient.auth.signInWithIdToken.mockResolvedValue({
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
       data: { session: { access_token: 'fresh-bearer' } },
       error: null,
     });
-    mockClient.functions.invoke.mockResolvedValue({
+    mockDeletionReauthClient.functions.invoke.mockResolvedValue({
       data: '',
       error: null,
       response: { status: 202 },
@@ -430,16 +517,65 @@ describe('AccountService', () => {
     ).rejects.toMatchObject({ code: 'ACCOUNT_DELETION_FAILED' });
   });
 
+  it('keeps the shared persisted session byte-for-byte unchanged when deletion confirmation fails', async () => {
+    const sharedSession = {
+      access_token: 'persisted-access-token',
+      refresh_token: 'persisted-refresh-token',
+      user: permanentUser('user-1', 'google'),
+    };
+    const secureStore = new Map([
+      ['supabase.auth.token', JSON.stringify(sharedSession)],
+    ]);
+    const persistedSnapshot = secureStore.get('supabase.auth.token');
+
+    mockClient.auth.getUser.mockImplementation(async () => ({
+      data: { user: sharedSession.user },
+      error: null,
+    }));
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
+      data: { session: { access_token: 'ephemeral-bearer' } },
+      error: null,
+    });
+    mockDeletionReauthClient.functions.invoke.mockResolvedValue({
+      data: null,
+      error: new Error('offline'),
+      response: { status: 500 },
+    });
+
+    await expect(
+      service.deleteAccount(googleCredential())
+    ).rejects.toMatchObject({ code: 'ACCOUNT_DELETION_FAILED' });
+
+    expect(secureStore.get('supabase.auth.token')).toBe(persistedSnapshot);
+    expect(sharedSession.user.id).toBe('user-1');
+    expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
+    expect(mockClient.functions.invoke).not.toHaveBeenCalled();
+    expect(mockDeletionReauthClient.functions.invoke).toHaveBeenCalledWith(
+      'spicesync-delete-account',
+      expect.objectContaining({
+        headers: { Authorization: 'Bearer ephemeral-bearer' },
+      })
+    );
+  });
+
   it('does not confirm deletion when the function reports an error or the network rejects', async () => {
     mockClient.auth.getUser.mockResolvedValue({
       data: { user: permanentUser('user-1', 'google') },
       error: null,
     });
-    mockClient.auth.signInWithIdToken.mockResolvedValue({
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
       data: { session: { access_token: 'fresh-bearer' } },
       error: null,
     });
-    mockClient.functions.invoke
+    mockDeletionReauthClient.functions.invoke
       .mockResolvedValueOnce({
         data: null,
         error: new Error('function failure'),
