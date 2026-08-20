@@ -10,6 +10,7 @@ const mockGetSnapshot = jest.fn();
 const mockLinkProvider = jest.fn();
 const mockSignOut = jest.fn();
 const mockForgetCurrentDevice = jest.fn();
+const mockGetIdentityIfExists = jest.fn();
 const mockGetGoogleCredential = jest.fn();
 const mockGetAppleCredential = jest.fn();
 const mockIsAppleAvailable = jest.fn();
@@ -50,6 +51,10 @@ jest.mock('../lib/auth/providers', () => ({
   getGoogleCredential: (...args: unknown[]) => mockGetGoogleCredential(...args),
   getAppleCredential: (...args: unknown[]) => mockGetAppleCredential(...args),
   isAppleAvailable: (...args: unknown[]) => mockIsAppleAvailable(...args),
+}));
+
+jest.mock('../lib/sync/identity', () => ({
+  getIdentityIfExists: (...args: unknown[]) => mockGetIdentityIfExists(...args),
 }));
 
 function loadAccountSettingsScreen(): React.ComponentType {
@@ -124,6 +129,7 @@ describe('account settings', () => {
     );
     mockSignOut.mockResolvedValue(undefined);
     mockForgetCurrentDevice.mockResolvedValue(undefined);
+    mockGetIdentityIfExists.mockResolvedValue(null);
     mockGetGoogleCredential.mockResolvedValue({
       provider: 'google',
       token: 'google-token',
@@ -202,6 +208,77 @@ describe('account settings', () => {
 
     await waitFor(() => expect(mockSignOut).toHaveBeenCalledTimes(1));
     expect(mockForgetCurrentDevice).not.toHaveBeenCalled();
+  });
+
+  it('keeps the protected session visible when this device cannot be found for revocation', async () => {
+    mockForgetCurrentDevice.mockRejectedValue(
+      Object.assign(new Error('missing device'), { code: 'DEVICE_NOT_FOUND' })
+    );
+    const screen = render(<AccountSettingsScreen />);
+
+    await screen.findByText('Protected account');
+    fireEvent.press(screen.getByText('Forget this device'));
+    await confirmLatestAlert('Forget this device');
+
+    await waitFor(() =>
+      expect(
+        screen.getByText(
+          'This device cannot be found. You are still signed in. Try again.'
+        )
+      ).toBeTruthy()
+    );
+    expect(mockSignOut).not.toHaveBeenCalled();
+    expect(screen.getByText('Protected account')).toBeTruthy();
+    expect(
+      screen.getByRole('button', { name: 'Forget this device' }).props
+        .accessibilityState?.disabled
+    ).not.toBe(true);
+  });
+
+  it('labels the latest sync as local activity instead of server last seen', async () => {
+    useCoupleLinkStore.setState({
+      link: {
+        coupleId: 'couple-1',
+        myDeviceId: 'device-1',
+        partnerDeviceId: 'device-2',
+        partnerSigningPublicKey: 'partner-signing',
+        partnerEncryptionPublicKey: 'partner-encryption',
+        linkedAt: 1,
+        lastPulledServerSequence: 0,
+        lastSyncedAt: 1_700_000_000_000,
+        status: 'active',
+      },
+    });
+    const screen = render(<AccountSettingsScreen />);
+
+    expect(await screen.findByText('Last local sync')).toBeTruthy();
+    expect(screen.queryByText('Last seen')).toBeNull();
+  });
+
+  it('labels the identity timestamp as when the device was added', async () => {
+    mockGetIdentityIfExists.mockResolvedValue({
+      identity: { createdAt: 1_700_000_000_000 },
+    });
+    const screen = render(<AccountSettingsScreen />);
+
+    expect(await screen.findByText('Device added')).toBeTruthy();
+    expect(screen.queryByText('Last seen')).toBeNull();
+  });
+
+  it('does not claim server activity when no local activity is available', async () => {
+    const screen = render(<AccountSettingsScreen />);
+
+    expect(await screen.findByText('Server activity')).toBeTruthy();
+    expect(screen.getByText('Unavailable')).toBeTruthy();
+    expect(screen.queryByText('Last seen')).toBeNull();
+  });
+
+  it('localizes unavailable server activity in Spanish', async () => {
+    useSettingsStore.setState({ language: 'es' });
+    const screen = render(<AccountSettingsScreen />);
+
+    expect(await screen.findByText('Actividad del servidor')).toBeTruthy();
+    expect(screen.getByText('No disponible')).toBeTruthy();
   });
 
   it('renders and acknowledges a partner device-key security notice', async () => {

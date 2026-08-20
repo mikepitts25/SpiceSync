@@ -218,7 +218,12 @@ export class AccountService implements AccountServiceLike {
   async forgetCurrentDevice(): Promise<void> {
     const currentDevice =
       await this.deviceRemovalDependencies.getCurrentDevice();
-    if (!currentDevice) return;
+    if (!currentDevice) {
+      throw new AccountServiceError(
+        'DEVICE_NOT_FOUND',
+        'The current device identity is unavailable'
+      );
+    }
 
     // The authenticated relay call is the point of no return. Do not end the
     // session or clear local keys/state until it has completed successfully.

@@ -134,8 +134,10 @@ export const es: Translations = {
     accountUnavailable: 'Estado de cuenta no disponible',
     activeDevice: 'Dispositivo activo',
     thisDevice: 'Este dispositivo',
-    lastSeen: 'Visto por última vez',
-    lastSeenUnavailable: 'Aún no está activo',
+    lastLocalSync: 'Última sincronización local',
+    deviceAdded: 'Dispositivo añadido',
+    serverActivity: 'Actividad del servidor',
+    serverActivityUnavailable: 'No disponible',
     linkedProviders: 'Métodos de inicio de sesión vinculados',
     linkedProvidersCopy:
       'Añade un proveedor para recuperar tu conexión de pareja cifrada.',
@@ -162,6 +164,8 @@ export const es: Translations = {
       'Esto revoca este dispositivo de tu cuenta, cierra sesión y borra solo su conexión de pareja cifrada y sus claves. Los perfiles, votos y ajustes locales permanecen aquí.',
     forgetDeviceFailed:
       'No se pudo revocar este dispositivo. Tu sesión y datos locales no cambiaron.',
+    forgetDeviceNotFound:
+      'No se puede encontrar este dispositivo. Sigues con la sesión iniciada. Inténtalo de nuevo.',
     deleteAccount: 'Eliminar cuenta',
     deleteAccountCopy:
       'La eliminación de la cuenta estará disponible aquí en una próxima actualización.',

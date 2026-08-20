@@ -229,4 +229,32 @@ describe('AccountService', () => {
     expect(clearIdentity).not.toHaveBeenCalled();
     expect(clearForgottenDeviceState).not.toHaveBeenCalled();
   });
+
+  it('rejects a missing current device without signing out or clearing local state', async () => {
+    const revokeDevice = jest.fn();
+    const clearIdentity = jest.fn();
+    const clearForgottenDeviceState = jest.fn();
+    mockClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockClient.auth.signOut.mockResolvedValue({ data: {}, error: null });
+    const serviceWithMissingDevice = new AccountService(mockClient, {
+      getCurrentDevice: async () => null,
+      revokeDevice,
+      clearIdentity,
+      clearForgottenDeviceState,
+    });
+
+    await expect(
+      serviceWithMissingDevice.forgetCurrentDevice()
+    ).rejects.toMatchObject({
+      code: 'DEVICE_NOT_FOUND',
+    });
+
+    expect(revokeDevice).not.toHaveBeenCalled();
+    expect(mockClient.auth.signOut).not.toHaveBeenCalled();
+    expect(clearIdentity).not.toHaveBeenCalled();
+    expect(clearForgottenDeviceState).not.toHaveBeenCalled();
+  });
 });

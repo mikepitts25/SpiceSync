@@ -132,8 +132,10 @@ export const en = {
     accountUnavailable: 'Account status unavailable',
     activeDevice: 'Active device',
     thisDevice: 'This device',
-    lastSeen: 'Last seen',
-    lastSeenUnavailable: 'Not yet active',
+    lastLocalSync: 'Last local sync',
+    deviceAdded: 'Device added',
+    serverActivity: 'Server activity',
+    serverActivityUnavailable: 'Unavailable',
     linkedProviders: 'Linked sign-in methods',
     linkedProvidersCopy:
       'Add a provider so you can recover your encrypted partner connection.',
@@ -160,6 +162,8 @@ export const en = {
       'This revokes this device from your account, signs out, and clears only its encrypted partner connection and device keys. Local profiles, votes, and settings stay here.',
     forgetDeviceFailed:
       'Could not revoke this device. Your session and local data are unchanged.',
+    forgetDeviceNotFound:
+      'This device cannot be found. You are still signed in. Try again.',
     deleteAccount: 'Delete account',
     deleteAccountCopy:
       'Account deletion will be available here in a future update.',

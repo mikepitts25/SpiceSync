@@ -45,7 +45,9 @@ function localOnlySnapshot(): AccountSnapshot {
 export default function AccountSettingsScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const latestSyncAt = useCoupleLinkStore((state) => state.link?.lastSyncedAt);
+  const latestSyncAt = useCoupleLinkStore(
+    (state) => state.link?.lastSyncedAt ?? null
+  );
   const [snapshot, setSnapshot] = useState<AccountSnapshot | null>(null);
   const [identityCreatedAt, setIdentityCreatedAt] = useState<number | null>(
     null
@@ -124,19 +126,30 @@ export default function AccountSettingsScreen() {
         setSnapshot(localOnlySnapshot());
         setIdentityCreatedAt(null);
       }
-    } catch {
-      if (mountedRef.current) setError(t.settings.forgetDeviceFailed);
+    } catch (forgetError) {
+      if (mountedRef.current) {
+        setError(
+          forgetError instanceof Error &&
+            'code' in forgetError &&
+            forgetError.code === 'DEVICE_NOT_FOUND'
+            ? t.settings.forgetDeviceNotFound
+            : t.settings.forgetDeviceFailed
+        );
+      }
     } finally {
       if (mountedRef.current) setPendingAction(null);
     }
-  }, [pendingAction, t.settings.forgetDeviceFailed]);
+  }, [
+    pendingAction,
+    t.settings.forgetDeviceFailed,
+    t.settings.forgetDeviceNotFound,
+  ]);
 
   const providers = snapshot?.providers ?? [];
   const isAppleOnly =
     providers.includes('apple') && !providers.includes('google');
   const availableProviders: Provider[] =
     Platform.OS === 'ios' ? ['google', 'apple'] : ['google'];
-  const deviceLastSeenAt = latestSyncAt ?? identityCreatedAt;
   const actionPending = pendingAction !== null;
 
   return (
@@ -156,7 +169,8 @@ export default function AccountSettingsScreen() {
       >
         <AccountStatusCard
           snapshot={snapshot}
-          deviceLastSeenAt={deviceLastSeenAt}
+          lastLocalSyncAt={latestSyncAt}
+          deviceAddedAt={identityCreatedAt}
         />
 
         <View style={styles.card}>

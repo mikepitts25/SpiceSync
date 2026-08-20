@@ -7,7 +7,8 @@ import { useTranslation } from '../../lib/i18n';
 
 type AccountStatusCardProps = {
   snapshot: AccountSnapshot | null;
-  deviceLastSeenAt: number | null;
+  lastLocalSyncAt: number | null;
+  deviceAddedAt: number | null;
 };
 
 function accountProtectionLabel(
@@ -21,23 +22,49 @@ function accountProtectionLabel(
   return labels.accountLocalOnly;
 }
 
-function formatLastSeen(
-  value: number | null,
-  language: 'en' | 'es',
-  labels: ReturnType<typeof useTranslation>['t']['settings']
-): string {
-  if (!value) return labels.lastSeenUnavailable;
+function formatTimestamp(value: number, language: 'en' | 'es'): string {
   return new Intl.DateTimeFormat(language === 'es' ? 'es-ES' : 'en-US', {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(value));
 }
 
+function getDeviceActivity(
+  lastLocalSyncAt: number | null,
+  deviceAddedAt: number | null,
+  language: 'en' | 'es',
+  labels: ReturnType<typeof useTranslation>['t']['settings']
+) {
+  if (lastLocalSyncAt !== null) {
+    return {
+      label: labels.lastLocalSync,
+      value: formatTimestamp(lastLocalSyncAt, language),
+    };
+  }
+  if (deviceAddedAt !== null) {
+    return {
+      label: labels.deviceAdded,
+      value: formatTimestamp(deviceAddedAt, language),
+    };
+  }
+  return {
+    label: labels.serverActivity,
+    value: labels.serverActivityUnavailable,
+  };
+}
+
 export function AccountStatusCard({
   snapshot,
-  deviceLastSeenAt,
+  lastLocalSyncAt,
+  deviceAddedAt,
 }: AccountStatusCardProps) {
   const { t, language } = useTranslation();
+  const deviceActivity = getDeviceActivity(
+    lastLocalSyncAt,
+    deviceAddedAt,
+    language,
+    t.settings
+  );
 
   return (
     <View style={styles.card}>
@@ -52,10 +79,8 @@ export function AccountStatusCard({
           <Text style={styles.deviceName}>{t.settings.thisDevice}</Text>
         </View>
         <View style={styles.lastSeenCopy}>
-          <Text style={styles.lastSeenLabel}>{t.settings.lastSeen}</Text>
-          <Text style={styles.lastSeenValue}>
-            {formatLastSeen(deviceLastSeenAt, language, t.settings)}
-          </Text>
+          <Text style={styles.lastSeenLabel}>{deviceActivity.label}</Text>
+          <Text style={styles.lastSeenValue}>{deviceActivity.value}</Text>
         </View>
       </View>
     </View>
