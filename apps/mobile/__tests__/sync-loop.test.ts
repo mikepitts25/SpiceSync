@@ -20,13 +20,14 @@ function signEnvelope(
   signing: { privateKey: Uint8Array },
   eventId: string,
   clientSequence: number,
-  payloadHash: string
+  payloadHash: string,
+  recipientDeviceId?: string
 ): string {
+  const payload = recipientDeviceId
+    ? `${eventId}:${clientSequence}:${payloadHash}:${recipientDeviceId}`
+    : `${eventId}:${clientSequence}:${payloadHash}`;
   return encodeBase64(
-    signEd25519(
-      signing.privateKey,
-      new TextEncoder().encode(`${eventId}:${clientSequence}:${payloadHash}`)
-    )
+    signEd25519(signing.privateKey, new TextEncoder().encode(payload))
   );
 }
 
@@ -87,7 +88,7 @@ describe('sync loop', () => {
     _resetRelayClientForTests();
   });
 
-  it('encrypts and uploads a pending event', async () => {
+  it('encrypts, signs, and uploads a recipient-bound pending event', async () => {
     const mySigning = generateSigningKeypair();
     const myEncryption = generateEncryptionKeypair();
     const partnerEncryption = generateEncryptionKeypair();
@@ -137,9 +138,14 @@ describe('sync loop', () => {
     expect(result.uploaded).toBe(1);
     expect(useEventQueueStore.getState().pending).toHaveLength(0);
     expect(fetchMock).toHaveBeenCalled();
-    const [, init] = fetchMock.mock.calls[0];
+    const eventCall = fetchMock.mock.calls.find(
+      ([, init]) => (init as RequestInit | undefined)?.method === 'POST'
+    );
+    expect(eventCall).toBeDefined();
+    const [, init] = eventCall!;
     const body = JSON.parse((init as any).body);
     expect(body.coupleId).toBeUndefined();
+    expect(body.recipientDeviceId).toBe('dev_partner');
     expect(body.encryptedPayload.length).toBeGreaterThan(20);
     expect(body.payloadHash).toBe(sha256Base64(body.encryptedPayload));
     expect(
@@ -147,10 +153,156 @@ describe('sync loop', () => {
         mySigning.publicKey,
         decodeBase64(body.signature),
         new TextEncoder().encode(
-          `${body.eventId}:${body.clientSequence}:${body.payloadHash}`
+          `${body.eventId}:${body.clientSequence}:${body.payloadHash}:dev_partner`
         )
       )
     ).toBe(true);
+  });
+
+  it('accepts a v2 partner event addressed to this device with a v2 signature', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+
+    useCoupleLinkStore.getState().setLink({
+      coupleId: 'couple-1',
+      myDeviceId: 'dev_me',
+      partnerDeviceId: 'dev_partner',
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
+      partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
+      linkedAt: Date.now(),
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      status: 'active',
+    });
+
+    const plainEvent = {
+      schemaVersion: 1 as const,
+      eventType: 'vote.upsert' as const,
+      eventId: 'evt_v2_partner_1',
+      authorDeviceId: 'dev_partner',
+      cardId: 'pair:v2-event',
+      vote: 'yes' as const,
+      updatedAt: 1700,
+    };
+    const { encryptedPayload, payloadHash } = encryptForPartner(
+      partnerEncryption.privateKey,
+      myEncryption.publicKey,
+      JSON.stringify(plainEvent)
+    );
+
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        events: [
+          {
+            serverSequence: 8,
+            eventId: plainEvent.eventId,
+            coupleId: 'couple-1',
+            authorDeviceId: 'dev_partner',
+            recipientDeviceId: 'dev_me',
+            clientSequence: 1,
+            encryptedPayload,
+            payloadHash,
+            signature: signEnvelope(
+              partnerSigning,
+              plainEvent.eventId,
+              1,
+              payloadHash,
+              'dev_me'
+            ),
+            createdAt: 1700,
+            expiresAt: null,
+          },
+        ],
+        cursor: 8,
+      }),
+    });
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock as any)
+    );
+
+    await expect(pullPartnerEvents()).resolves.toEqual({ applied: 1 });
+    expect(
+      usePartnerVotesStore.getState().byCardId['pair:v2-event']
+    ).toMatchObject({
+      vote: 'yes',
+      updatedAt: 1700,
+    });
+  });
+
+  it('rejects a v2 event addressed to another device before applying it', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+
+    useCoupleLinkStore.getState().setLink({
+      coupleId: 'couple-1',
+      myDeviceId: 'dev_me',
+      partnerDeviceId: 'dev_partner',
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
+      partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
+      linkedAt: Date.now(),
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      status: 'active',
+    });
+
+    const plainEvent = {
+      schemaVersion: 1 as const,
+      eventType: 'vote.upsert' as const,
+      eventId: 'evt_wrong_recipient',
+      authorDeviceId: 'dev_partner',
+      cardId: 'pair:wrong-recipient',
+      vote: 'yes' as const,
+      updatedAt: 1700,
+    };
+    const { encryptedPayload, payloadHash } = encryptForPartner(
+      partnerEncryption.privateKey,
+      myEncryption.publicKey,
+      JSON.stringify(plainEvent)
+    );
+
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        events: [
+          {
+            serverSequence: 9,
+            eventId: plainEvent.eventId,
+            coupleId: 'couple-1',
+            authorDeviceId: 'dev_partner',
+            recipientDeviceId: 'dev_other',
+            clientSequence: 1,
+            encryptedPayload,
+            payloadHash,
+            // A legacy-shaped signature proves the recipient check is a
+            // required gate rather than an accidental signature failure.
+            signature: signEnvelope(
+              partnerSigning,
+              plainEvent.eventId,
+              1,
+              payloadHash
+            ),
+            createdAt: 1700,
+            expiresAt: null,
+          },
+        ],
+        cursor: 9,
+      }),
+    });
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock as any)
+    );
+
+    await expect(pullPartnerEvents()).resolves.toEqual({ applied: 0 });
+    expect(
+      usePartnerVotesStore.getState().byCardId['pair:wrong-recipient']
+    ).toBeUndefined();
   });
 
   it('pulls partner events, decrypts them, and applies', async () => {

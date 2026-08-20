@@ -1,5 +1,5 @@
 import { decodeBase64, encodeBase64 } from './base64';
-import { useCoupleLinkStore } from './coupleLink';
+import { refreshCoupleMetadata, useCoupleLinkStore } from './coupleLink';
 import {
   decryptFromPartner,
   encryptForPartner,
@@ -19,9 +19,12 @@ import { isReadiness, readinessToVote } from '../votes/rolePreferences';
 function signaturePayload(
   eventId: string,
   clientSequence: number,
-  payloadHash: string
+  payloadHash: string,
+  recipientDeviceId?: string
 ): string {
-  return `${eventId}:${clientSequence}:${payloadHash}`;
+  return recipientDeviceId
+    ? `${eventId}:${clientSequence}:${payloadHash}:${recipientDeviceId}`
+    : `${eventId}:${clientSequence}:${payloadHash}`;
 }
 
 function verifyEventSignature(
@@ -30,11 +33,20 @@ function verifyEventSignature(
 ): boolean {
   if (!partnerSigningPublicKey || !event.signature) return false;
   try {
+    const recipientDeviceId =
+      event.recipientDeviceId === null || event.recipientDeviceId === undefined
+        ? undefined
+        : event.recipientDeviceId;
     return verifyEd25519(
       decodeBase64(partnerSigningPublicKey),
       decodeBase64(event.signature),
       new TextEncoder().encode(
-        signaturePayload(event.eventId, event.clientSequence, event.payloadHash)
+        signaturePayload(
+          event.eventId,
+          event.clientSequence,
+          event.payloadHash,
+          recipientDeviceId
+        )
       )
     );
   } catch {
@@ -91,6 +103,11 @@ async function uploadPending(pending: PendingEvent): Promise<void> {
   if (!link || link.status !== 'active') return;
   const id = await getIdentityIfExists();
   if (!id) return;
+  const recipientDeviceId =
+    pending.recipientDeviceId === null ||
+    pending.recipientDeviceId === undefined
+      ? undefined
+      : link.partnerDeviceId;
   const partnerEncryptionPublic = decodeBase64(link.partnerEncryptionPublicKey);
   const { encryptedPayload, payloadHash } = encryptForPartner(
     id.encryptionPrivateKey,
@@ -100,12 +117,18 @@ async function uploadPending(pending: PendingEvent): Promise<void> {
   const signature = signEd25519(
     id.signingPrivateKey,
     new TextEncoder().encode(
-      signaturePayload(pending.eventId, pending.clientSequence, payloadHash)
+      signaturePayload(
+        pending.eventId,
+        pending.clientSequence,
+        payloadHash,
+        recipientDeviceId
+      )
     )
   );
   await getRelayClient().appendEvent(link.coupleId, {
     eventId: pending.eventId,
     authorDeviceId: id.identity.deviceId,
+    recipientDeviceId,
     clientSequence: pending.clientSequence,
     encryptedPayload,
     payloadHash,
@@ -113,18 +136,52 @@ async function uploadPending(pending: PendingEvent): Promise<void> {
   });
 }
 
+function isRecipientKeyChanged(error: unknown): error is RelayHttpError {
+  return (
+    error instanceof RelayHttpError && error.code === 'RECIPIENT_KEY_CHANGED'
+  );
+}
+
+async function uploadPendingWithRecipientRefresh(
+  pending: PendingEvent
+): Promise<void> {
+  try {
+    await uploadPending(pending);
+  } catch (error) {
+    if (
+      !isRecipientKeyChanged(error) ||
+      pending.recipientDeviceId === null ||
+      pending.recipientDeviceId === undefined
+    ) {
+      throw error;
+    }
+
+    // Queue entries contain only plaintext. A single retry reconstructs the
+    // ciphertext and signature from that immutable payload after refreshing
+    // the recipient's current public material; it never calls this helper.
+    await refreshCoupleMetadata();
+    await uploadPending(pending);
+  }
+}
+
 export async function flushPending(
-  now: number = Date.now()
+  now: number = Date.now(),
+  metadataWasRefreshed: boolean = false
 ): Promise<{ uploaded: number; failed: number }> {
   const link = useCoupleLinkStore.getState().link;
   if (!link || link.status !== 'active') return { uploaded: 0, failed: 0 };
   const queue = useEventQueueStore.getState();
   const due = queue.dueEvents(now);
+  if (due.length > 0 && !metadataWasRefreshed) {
+    // An unavailable metadata endpoint must not alter the established queue
+    // scheduling semantics. The append path still has its one safe retry.
+    await refreshCoupleMetadata().catch(() => undefined);
+  }
   let uploaded = 0;
   let failed = 0;
   for (const pending of due) {
     try {
-      await uploadPending(pending);
+      await uploadPendingWithRecipientRefresh(pending);
       queue.markAttempted(pending.eventId, true);
       uploaded += 1;
     } catch (err) {
@@ -233,10 +290,15 @@ export async function syncOnce(): Promise<{
   failed: number;
   applied: number;
 }> {
-  const flushResult = await flushPending();
+  // syncOnce is also called by the foreground lifecycle, so refresh even
+  // when the queue is empty. Preserve flush-before-pull ordering afterward.
+  await refreshCoupleMetadata().catch(() => undefined);
+  const flushResult = await flushPending(Date.now(), true);
   const pullResult = await pullPartnerEvents();
   return { ...flushResult, applied: pullResult.applied };
 }
+
+export { refreshCoupleMetadata } from './coupleLink';
 
 let intervalHandle: ReturnType<typeof setInterval> | null = null;
 

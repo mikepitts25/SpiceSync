@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { encodeBase64 } from './base64';
+import { useCoupleLinkStore } from './coupleLink';
 import { randomBytes } from './crypto';
 import type { PairPreference, Readiness } from '../votes/rolePreferences';
 
@@ -50,6 +51,9 @@ export type PlainSyncEvent =
 
 export type PendingEvent = {
   eventId: string;
+  // Missing recipient metadata identifies a legacy v1 queued event. New
+  // events record the active partner so they always use the v2 envelope.
+  recipientDeviceId?: string | null;
   clientSequence: number;
   payload: PlainSyncEvent;
   createdAt: number;
@@ -99,9 +103,12 @@ export const useEventQueueStore = create<EventQueueState>()(
         const eventId = payload.eventId || newEventId();
         const sequence = get().nextClientSequence;
         const now = Date.now();
+        const link = useCoupleLinkStore.getState().link;
         const fullPayload = { ...payload, eventId } as PlainSyncEvent;
         const pending: PendingEvent = {
           eventId,
+          recipientDeviceId:
+            link?.status === 'active' ? link.partnerDeviceId : undefined,
           clientSequence: sequence,
           payload: fullPayload,
           createdAt: now,

@@ -2,6 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+import { getRelayClient } from './relayConfig';
+import type { CoupleResponse } from './relayTypes';
+
 export type CoupleLink = {
   coupleId: string;
   myDeviceId: string;
@@ -148,3 +151,109 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
     }
   )
 );
+
+function isValidCoupleResponse(
+  value: CoupleResponse,
+  current: CoupleLink
+): boolean {
+  return (
+    value.coupleId === current.coupleId &&
+    typeof value.memberADeviceId === 'string' &&
+    typeof value.memberBDeviceId === 'string' &&
+    typeof value.memberAPublicKey === 'string' &&
+    typeof value.memberBPublicKey === 'string' &&
+    typeof value.memberASigningPublicKey === 'string' &&
+    typeof value.memberBSigningPublicKey === 'string'
+  );
+}
+
+/**
+ * Refreshes the public material used to address and verify the active partner.
+ * A missing/foreign response is deliberately ignored: it must never rewrite a
+ * locally established link with data for a different device or couple.
+ */
+export async function refreshCoupleMetadata(): Promise<
+  'unchanged' | 'partner-key-changed'
+> {
+  const current = useCoupleLinkStore.getState().link;
+  if (!current || current.status !== 'active') return 'unchanged';
+
+  const couple = await getRelayClient().getCouple(current.coupleId);
+  if (!isValidCoupleResponse(couple, current)) return 'unchanged';
+
+  const isMemberA = couple.memberADeviceId === current.myDeviceId;
+  if (!isMemberA && couple.memberBDeviceId !== current.myDeviceId) {
+    return 'unchanged';
+  }
+
+  const partnerDeviceId = isMemberA
+    ? couple.memberBDeviceId
+    : couple.memberADeviceId;
+  const partnerEncryptionPublicKey = isMemberA
+    ? couple.memberBPublicKey
+    : couple.memberAPublicKey;
+  const partnerSigningPublicKey = isMemberA
+    ? couple.memberBSigningPublicKey
+    : couple.memberASigningPublicKey;
+  const partnerKeyVersion = isMemberA
+    ? (couple.memberBKeyVersion ?? 1)
+    : (couple.memberAKeyVersion ?? 1);
+  const myKeyVersion = isMemberA
+    ? (couple.memberAKeyVersion ?? 1)
+    : (couple.memberBKeyVersion ?? 1);
+  const partnerProfileName = isMemberA
+    ? couple.memberBProfileName
+    : couple.memberAProfileName;
+  const partnerProfileAvatar = isMemberA
+    ? couple.memberBProfileAvatar
+    : couple.memberAProfileAvatar;
+  const partnerMetadataChanged =
+    current.partnerDeviceId !== partnerDeviceId ||
+    current.partnerEncryptionPublicKey !== partnerEncryptionPublicKey ||
+    current.partnerSigningPublicKey !== partnerSigningPublicKey ||
+    (current.partnerKeyVersion ?? 1) !== partnerKeyVersion;
+  const partnerVersionChanged =
+    (current.partnerKeyVersion ?? 1) !== partnerKeyVersion;
+
+  useCoupleLinkStore.setState((state) => {
+    const latest = state.link;
+    if (
+      !latest ||
+      latest.status !== 'active' ||
+      latest.coupleId !== current.coupleId ||
+      latest.myDeviceId !== current.myDeviceId
+    ) {
+      return {};
+    }
+
+    const latestPartnerVersion = latest.partnerKeyVersion ?? 1;
+    const nextLink: CoupleLink = {
+      ...latest,
+      myKeyVersion,
+      partnerDeviceId,
+      partnerKeyVersion,
+      partnerEncryptionPublicKey,
+      partnerSigningPublicKey,
+      partnerProfileName:
+        partnerProfileName ?? latest.partnerProfileName ?? null,
+      partnerProfileAvatar:
+        partnerProfileAvatar ?? latest.partnerProfileAvatar ?? null,
+    };
+    return {
+      link: nextLink,
+      securityNotice:
+        latestPartnerVersion !== partnerKeyVersion
+          ? {
+              kind: 'partner-device-restored',
+              occurredAt: Date.now(),
+              acknowledged: false,
+              partnerName: nextLink.partnerProfileName ?? null,
+            }
+          : state.securityNotice,
+    };
+  });
+
+  return partnerMetadataChanged || partnerVersionChanged
+    ? 'partner-key-changed'
+    : 'unchanged';
+}

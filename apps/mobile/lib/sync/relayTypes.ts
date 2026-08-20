@@ -89,8 +89,8 @@ export type DeviceRecoveryResponse = {
 export type AppendEventRequest = {
   eventId: string;
   authorDeviceId: string;
-  // Undefined preserves the pre-recovery v1 envelope until the sender can
-  // address ciphertext to an active recipient device.
+  // Null or undefined is the legacy v1 envelope. New events always set this
+  // and bind both their ciphertext signature and relay recipient to a device.
   recipientDeviceId?: string | null;
   clientSequence: number;
   encryptedPayload: string;
@@ -103,6 +103,7 @@ export type SyncEventResponse = {
   eventId: string;
   coupleId: string;
   authorDeviceId: string;
+  // Null or undefined is a stored v1 row; a string identifies a v2 envelope.
   recipientDeviceId?: string | null;
   clientSequence: number;
   encryptedPayload: string;
