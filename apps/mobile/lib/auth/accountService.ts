@@ -1,4 +1,7 @@
 import { getSupabaseClient } from './supabase';
+import { clearForgottenDeviceState } from '../safety/localDataControls';
+import { clearIdentity, getIdentityIfExists } from '../sync/identity';
+import { getRelayClient } from '../sync/relayConfig';
 import type {
   AccountServiceLike,
   AccountSnapshot,
@@ -13,7 +16,7 @@ type AuthError = {
 type AuthUser = {
   id: string;
   is_anonymous?: boolean;
-  identities?: Array<{ provider?: string }> | null;
+  identities?: { provider?: string }[] | null;
 };
 
 type AuthResult<T> = {
@@ -43,6 +46,23 @@ type AccountAuthClient = {
   };
 };
 
+type DeviceRemovalDependencies = {
+  getCurrentDevice: () => Promise<{ deviceId: string } | null>;
+  revokeDevice: (deviceId: string) => Promise<void>;
+  clearIdentity: () => Promise<void>;
+  clearForgottenDeviceState: () => void;
+};
+
+const defaultDeviceRemovalDependencies: DeviceRemovalDependencies = {
+  async getCurrentDevice() {
+    const current = await getIdentityIfExists();
+    return current ? { deviceId: current.identity.deviceId } : null;
+  },
+  revokeDevice: (deviceId) => getRelayClient().revokeDevice(deviceId),
+  clearIdentity,
+  clearForgottenDeviceState,
+};
+
 export class AccountServiceError extends Error {
   readonly code: string;
 
@@ -62,7 +82,7 @@ const LOCAL_ONLY_SNAPSHOT: AccountSnapshot = {
 
 function toProviders(
   identities: AuthUser['identities']
-): Array<'apple' | 'google'> {
+): ('apple' | 'google')[] {
   const providers = new Set<'apple' | 'google'>();
   for (const identity of identities ?? []) {
     if (identity.provider === 'apple' || identity.provider === 'google') {
@@ -92,7 +112,10 @@ function throwForAuthError(error: AuthError, fallbackCode: string): never {
 }
 
 export class AccountService implements AccountServiceLike {
-  constructor(private readonly client: AccountAuthClient) {}
+  constructor(
+    private readonly client: AccountAuthClient,
+    private readonly deviceRemovalDependencies: DeviceRemovalDependencies = defaultDeviceRemovalDependencies
+  ) {}
 
   async getSnapshot(): Promise<AccountSnapshot> {
     const { data, error } = await this.client.auth.getUser();
@@ -190,6 +213,20 @@ export class AccountService implements AccountServiceLike {
   async signOut(): Promise<void> {
     const { error } = await this.client.auth.signOut();
     if (error) throwForAuthError(error, 'ACCOUNT_SIGN_OUT_FAILED');
+  }
+
+  async forgetCurrentDevice(): Promise<void> {
+    const currentDevice =
+      await this.deviceRemovalDependencies.getCurrentDevice();
+    if (!currentDevice) return;
+
+    // The authenticated relay call is the point of no return. Do not end the
+    // session or clear local keys/state until it has completed successfully.
+    await this.requirePermanentUser();
+    await this.deviceRemovalDependencies.revokeDevice(currentDevice.deviceId);
+    await this.signOut();
+    await this.deviceRemovalDependencies.clearIdentity();
+    this.deviceRemovalDependencies.clearForgottenDeviceState();
   }
 }
 

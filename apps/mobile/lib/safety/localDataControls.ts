@@ -42,6 +42,15 @@ export function disconnectRemotePartnerLocal(): void {
   useEventQueueStore.getState().reset();
 }
 
+/**
+ * Forgetting a device intentionally removes only remote identity and sync
+ * state. Local profiles, votes, and settings remain available on this device.
+ */
+export function clearForgottenDeviceState(): void {
+  disconnectRemotePartnerLocal();
+  useVoteSyncStore.getState().reset();
+}
+
 function withoutKey<T>(
   record: Record<string, T>,
   key: string

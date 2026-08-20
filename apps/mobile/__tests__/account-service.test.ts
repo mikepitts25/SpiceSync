@@ -159,4 +159,74 @@ describe('AccountService', () => {
       code: 'ACCOUNT_REQUIRED',
     });
   });
+
+  it('revokes the active device before signing out or clearing device state', async () => {
+    const calls: string[] = [];
+    mockClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockClient.auth.signOut.mockImplementation(async () => {
+      calls.push('sign-out');
+      return { data: {}, error: null };
+    });
+    const serviceWithDevice = new AccountService(mockClient, {
+      getCurrentDevice: async () => ({ deviceId: 'device-1' }),
+      revokeDevice: async (deviceId) => {
+        expect(deviceId).toBe('device-1');
+        calls.push('revoke-device');
+      },
+      clearIdentity: async () => {
+        calls.push('clear-identity');
+      },
+      clearForgottenDeviceState: () => {
+        calls.push('clear-remote-state');
+      },
+    });
+
+    const forget = (
+      serviceWithDevice as AccountService & {
+        forgetCurrentDevice?: () => Promise<void>;
+      }
+    ).forgetCurrentDevice;
+    expect(forget).toEqual(expect.any(Function));
+
+    await forget?.call(serviceWithDevice);
+
+    expect(calls).toEqual([
+      'revoke-device',
+      'sign-out',
+      'clear-identity',
+      'clear-remote-state',
+    ]);
+  });
+
+  it('preserves the authenticated session and local state when revocation fails', async () => {
+    const clearIdentity = jest.fn();
+    const clearForgottenDeviceState = jest.fn();
+    mockClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'google') },
+      error: null,
+    });
+    mockClient.auth.signOut.mockResolvedValue({ data: {}, error: null });
+    const serviceWithDevice = new AccountService(mockClient, {
+      getCurrentDevice: async () => ({ deviceId: 'device-1' }),
+      revokeDevice: async () => {
+        throw new Error('offline');
+      },
+      clearIdentity,
+      clearForgottenDeviceState,
+    });
+    const forget = (
+      serviceWithDevice as AccountService & {
+        forgetCurrentDevice?: () => Promise<void>;
+      }
+    ).forgetCurrentDevice;
+
+    await expect(forget?.call(serviceWithDevice)).rejects.toThrow('offline');
+
+    expect(mockClient.auth.signOut).not.toHaveBeenCalled();
+    expect(clearIdentity).not.toHaveBeenCalled();
+    expect(clearForgottenDeviceState).not.toHaveBeenCalled();
+  });
 });

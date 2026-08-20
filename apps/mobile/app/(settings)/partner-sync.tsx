@@ -19,6 +19,7 @@ import ProfileAvatarIcon from '../../components/ProfileAvatarIcon';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 import { getAccountService } from '../../lib/auth/accountService';
 import type { AccountStatus } from '../../lib/auth/types';
+import { useTranslation } from '../../lib/i18n';
 import { disconnectRemotePartnerLocal } from '../../lib/safety/localDataControls';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
@@ -32,7 +33,12 @@ import { ui } from '../../lib/i18n/uiLiteral';
 
 export default function PartnerSyncScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const link = useCoupleLinkStore((state) => state.link);
+  const securityNotice = useCoupleLinkStore((state) => state.securityNotice);
+  const acknowledgeSecurityNotice = useCoupleLinkStore(
+    (state) => state.acknowledgeSecurityNotice
+  );
   const activeLink = link?.status === 'active' ? link : null;
   const partnerVotes = usePartnerVotesStore((state) => state.byCardId);
   const answeredCount = usePartnerVotesStore((state) => state.answeredCount);
@@ -154,6 +160,26 @@ export default function PartnerSyncScreen() {
                 </View>
               ))}
             </View>
+
+            {securityNotice && !securityNotice.acknowledged ? (
+              <View style={styles.securityNotice}>
+                <Text style={styles.securityNoticeTitle}>
+                  {t.settings.partnerSecurityUpdate}
+                </Text>
+                <Text style={styles.securityNoticeCopy}>
+                  {t.settings.partnerSecurityUpdateCopy}
+                </Text>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={acknowledgeSecurityNotice}
+                  style={styles.securityNoticeAction}
+                >
+                  <Text style={styles.securityNoticeActionText}>
+                    {t.settings.acknowledgeSecurityUpdate}
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
 
             {accountStatus === 'anonymous' ? (
               <View style={styles.protectionCard}>
@@ -309,6 +335,36 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card,
     padding: 16,
     ...SHADOWS.card,
+  },
+  securityNotice: {
+    gap: 10,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(245,158,11,0.55)',
+    backgroundColor: 'rgba(245,158,11,0.1)',
+    padding: 16,
+  },
+  securityNoticeTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  securityNoticeCopy: {
+    color: COLORS.textSub,
+    fontSize: 16,
+    lineHeight: 23,
+  },
+  securityNoticeAction: {
+    minHeight: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 14,
+    backgroundColor: COLORS.maybe,
+  },
+  securityNoticeActionText: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '800',
   },
   protectionTitle: {
     color: COLORS.textPrimary,

@@ -118,6 +118,23 @@ describe('expo router file layout', () => {
     expect(profilesTab).toContain("router.push('/(settings)/partner-sync')");
   });
 
+  it('registers the account and device settings route', () => {
+    const settingsLayout = fs.readFileSync(
+      path.join(appRoot, '(settings)', '_layout.tsx'),
+      'utf8'
+    );
+    const settingsScreen = fs.readFileSync(
+      path.join(appRoot, '(settings)', 'index.tsx'),
+      'utf8'
+    );
+
+    expect(fs.existsSync(path.join(appRoot, '(settings)', 'account.tsx'))).toBe(
+      true
+    );
+    expect(settingsLayout).toContain('<Stack.Screen name="account" />');
+    expect(settingsScreen).toContain("'/(settings)/account'");
+  });
+
   it('removes legacy partner short-code routes and entry points', () => {
     const partnerConnect = fs.readFileSync(
       path.join(appRoot, '(onboarding)', 'partner-connect.tsx'),

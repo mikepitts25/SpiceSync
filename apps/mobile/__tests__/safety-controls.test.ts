@@ -9,6 +9,7 @@ import {
   clearActiveProfileVotes,
   deleteProfileAndData,
   disconnectRemotePartnerLocal,
+  clearForgottenDeviceState,
   resetAppOnDevice,
 } from '../lib/safety/localDataControls';
 import { useSettings } from '../lib/state/useStore';
@@ -175,6 +176,106 @@ describe('local safety data controls', () => {
     expect(useEventQueueStore.getState()).toMatchObject({
       pending: [],
       nextClientSequence: 1,
+    });
+  });
+
+  it('clears forgotten-device remote state while preserving profiles, votes, and settings', () => {
+    useProfilesStore.setState({
+      profiles: [
+        {
+          id: 'profile-a',
+          name: 'A',
+          displayName: 'A',
+          emoji: '🌶️',
+          createdAt: 1,
+          updatedAt: 1,
+        },
+      ],
+      activeProfileId: 'profile-a',
+      currentUserId: 'profile-a',
+      hydrated: true,
+    });
+    useVotesStore.setState({
+      votesByProfile: { 'profile-a': { 'card-1': 'yes' } },
+    });
+    useSettingsStore.setState({
+      language: 'es',
+      biometricLockEnabled: true,
+      hapticsEnabled: false,
+      discreteModeEnabled: false,
+    });
+    useCoupleLinkStore.setState({
+      link: {
+        coupleId: 'couple-1',
+        myDeviceId: 'dev-a',
+        partnerDeviceId: 'dev-b',
+        partnerSigningPublicKey: 'sign',
+        partnerEncryptionPublicKey: 'enc',
+        linkedAt: 1,
+        lastPulledServerSequence: 0,
+        lastSyncedAt: null,
+        status: 'active',
+      },
+    });
+    usePartnerVotesStore.setState({
+      byCardId: {
+        'card-1': {
+          cardId: 'card-1',
+          vote: 'yes',
+          updatedAt: 2,
+          receivedAt: 3,
+        },
+      },
+      answeredCount: 1,
+    });
+    useRevealConsentStore.setState({ local: { mutualMaybe: 1 } });
+    useEventQueueStore.setState({
+      pending: [
+        {
+          eventId: 'evt-1',
+          clientSequence: 1,
+          payload: {
+            schemaVersion: 1,
+            eventType: 'couple.unlink',
+            eventId: 'evt-1',
+            authorDeviceId: 'dev-a',
+            updatedAt: 1,
+          },
+          createdAt: 1,
+          attempts: 0,
+          nextAttemptAt: 1,
+        },
+      ],
+      nextClientSequence: 2,
+    });
+    useVoteSyncStore.setState({
+      localProfileId: 'profile-a',
+      bootstrappedCoupleId: 'couple-1',
+      bootstrappedProfileId: 'profile-a',
+      bootstrapVersion: 2,
+    });
+
+    clearForgottenDeviceState();
+
+    expect(useProfilesStore.getState().profiles).toHaveLength(1);
+    expect(useVotesStore.getState().votesByProfile).toEqual({
+      'profile-a': { 'card-1': 'yes' },
+    });
+    expect(useSettingsStore.getState()).toMatchObject({
+      language: 'es',
+      biometricLockEnabled: true,
+      hapticsEnabled: false,
+      discreteModeEnabled: false,
+    });
+    expect(useCoupleLinkStore.getState().link).toBeNull();
+    expect(usePartnerVotesStore.getState().byCardId).toEqual({});
+    expect(useRevealConsentStore.getState().local).toEqual({});
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+    expect(useVoteSyncStore.getState()).toMatchObject({
+      localProfileId: null,
+      bootstrappedCoupleId: null,
+      bootstrappedProfileId: null,
+      bootstrapVersion: 0,
     });
   });
 

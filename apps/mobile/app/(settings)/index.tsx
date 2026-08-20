@@ -238,6 +238,14 @@ export default function SettingsScreen() {
                   : '/(onboarding)/partner-connect'
               )
             }
+          />
+          <SectionRow
+            icon={ShieldCheck}
+            label={t.settings.accountAndDevices}
+            value={t.settings.accountProtection}
+            tint={COLORS.yes}
+            badgeBg="rgba(34,197,94,0.12)"
+            onPress={() => router.push('/(settings)/account')}
             last
           />
         </SettingsSection>
