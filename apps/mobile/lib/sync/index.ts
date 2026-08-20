@@ -8,9 +8,17 @@ export {
   finalizePendingInvite,
   lookupInvite,
   parseInviteUrl,
+  recoverGrandfatheredCouple,
   recoverExistingCouple,
+  recoverPermanentAccount,
 } from './inviteFlow';
-export type { InviteHandle, InviteLookup, ParsedInviteUrl } from './inviteFlow';
+export type {
+  InviteHandle,
+  InviteLookup,
+  ParsedInviteUrl,
+  PermanentAccountRecoveryOptions,
+  PermanentAccountRecoveryResult,
+} from './inviteFlow';
 export { usePartnerVotesStore } from './partnerVotes';
 export type { PartnerVoteRecord, PartnerVoteValue } from './partnerVotes';
 export { getRelayClient } from './relayConfig';

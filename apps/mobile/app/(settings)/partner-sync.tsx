@@ -25,6 +25,7 @@ import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useEventQueueStore } from '../../lib/sync/eventQueue';
 import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
 import { getPartnerDashboardStats } from '../../lib/sync/partnerDashboard';
+import { recoverPermanentAccount } from '../../lib/sync/inviteFlow';
 import { useVoteSyncStore } from '../../lib/sync/voteSync';
 
 import { ui } from '../../lib/i18n/uiLiteral';
@@ -99,8 +100,8 @@ export default function PartnerSyncScreen() {
     );
   }, [router]);
 
-  // Task 6 will register this already-linked device after the account upgrade.
   const handleProtectionComplete = useCallback(async () => {
+    await recoverPermanentAccount({ requireProfileConfirmation: false });
     await refreshAccountStatus();
     setAccountGateVisible(false);
   }, [refreshAccountStatus]);

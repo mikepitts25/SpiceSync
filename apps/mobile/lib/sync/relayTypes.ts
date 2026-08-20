@@ -45,6 +45,8 @@ export type AcceptInviteResponse = {
   memberBPublicKey: string;
   memberASigningPublicKey: string;
   memberBSigningPublicKey: string;
+  memberAKeyVersion?: number;
+  memberBKeyVersion?: number;
   memberAProfileName?: string | null;
   memberBProfileName?: string | null;
   memberAProfileAvatar?: string | null;
@@ -60,6 +62,8 @@ export type CoupleResponse = {
   memberBPublicKey: string;
   memberASigningPublicKey: string;
   memberBSigningPublicKey: string;
+  memberAKeyVersion?: number;
+  memberBKeyVersion?: number;
   memberAProfileName?: string | null;
   memberBProfileName?: string | null;
   memberAProfileAvatar?: string | null;
@@ -68,9 +72,26 @@ export type CoupleResponse = {
   revokedAt: number | null;
 };
 
+export type DeviceRecoveryRequest = {
+  deviceId: string;
+  encryptionPublicKey: string;
+  signingPublicKey: string;
+};
+
+export type DeviceRecoveryResponse = {
+  couple: CoupleResponse | null;
+  recoveryCursor: number;
+  myDeviceId: string;
+  myKeyVersion: number;
+  partnerKeyVersion: number | null;
+};
+
 export type AppendEventRequest = {
   eventId: string;
   authorDeviceId: string;
+  // Undefined preserves the pre-recovery v1 envelope until the sender can
+  // address ciphertext to an active recipient device.
+  recipientDeviceId?: string | null;
   clientSequence: number;
   encryptedPayload: string;
   payloadHash: string;
@@ -82,6 +103,7 @@ export type SyncEventResponse = {
   eventId: string;
   coupleId: string;
   authorDeviceId: string;
+  recipientDeviceId?: string | null;
   clientSequence: number;
   encryptedPayload: string;
   payloadHash: string;

@@ -1,11 +1,14 @@
 import { encodeBase64Url } from './base64';
+import { getAccountService } from '../auth/accountService';
 import { useCoupleLinkStore } from './coupleLink';
 import { randomBytes, sha256Base64 } from './crypto';
 import { getOrCreateIdentity } from './identity';
-import { parseInviteUrl, type ParsedInviteUrl } from './inviteUrl';
+import type { ParsedInviteUrl } from './inviteUrl';
 import { getRelayClient } from './relayConfig';
+import type { DeviceRecoveryResponse } from './relayTypes';
 
-export { parseInviteUrl, type ParsedInviteUrl } from './inviteUrl';
+export { parseInviteUrl } from './inviteUrl';
+export type { ParsedInviteUrl } from './inviteUrl';
 
 const INVITE_SECRET_BYTES = 32;
 
@@ -102,6 +105,14 @@ export type AcceptInviteResult = {
   coupleId: string;
 };
 
+export type PermanentAccountRecoveryResult =
+  | { kind: 'recovered'; coupleId: string }
+  | { kind: 'no-couple' };
+
+export type PermanentAccountRecoveryOptions = {
+  requireProfileConfirmation?: boolean;
+};
+
 export async function acceptInvite(
   parsed: ParsedInviteUrl,
   profile: InviteProfile = {}
@@ -139,7 +150,13 @@ export async function acceptInvite(
   useCoupleLinkStore.getState().setLink({
     coupleId: result.coupleId,
     myDeviceId: identity.deviceId,
+    myKeyVersion: isMemberA
+      ? (result.memberAKeyVersion ?? 1)
+      : (result.memberBKeyVersion ?? 1),
     partnerDeviceId,
+    partnerKeyVersion: isMemberA
+      ? (result.memberBKeyVersion ?? 1)
+      : (result.memberAKeyVersion ?? 1),
     partnerSigningPublicKey,
     partnerEncryptionPublicKey,
     partnerProfileName: partnerProfileName ?? null,
@@ -147,6 +164,7 @@ export async function acceptInvite(
     linkedAt: result.createdAt * 1000,
     lastPulledServerSequence: 0,
     lastSyncedAt: null,
+    requiresProfileConfirmation: false,
     status: 'active',
   });
   return { coupleId: result.coupleId };
@@ -187,7 +205,13 @@ export async function finalizePendingInvite(
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
     myDeviceId: identity.deviceId,
+    myKeyVersion: isMemberA
+      ? (couple.memberAKeyVersion ?? 1)
+      : (couple.memberBKeyVersion ?? 1),
     partnerDeviceId,
+    partnerKeyVersion: isMemberA
+      ? (couple.memberBKeyVersion ?? 1)
+      : (couple.memberAKeyVersion ?? 1),
     partnerSigningPublicKey,
     partnerEncryptionPublicKey,
     partnerProfileName: partnerProfileName ?? null,
@@ -195,13 +219,14 @@ export async function finalizePendingInvite(
     linkedAt: couple.createdAt * 1000,
     lastPulledServerSequence: 0,
     lastSyncedAt: null,
+    requiresProfileConfirmation: false,
     status: 'active',
   });
   useCoupleLinkStore.getState().clearPendingInvite();
   return { coupleId: couple.coupleId };
 }
 
-export async function recoverExistingCouple(): Promise<AcceptInviteResult | null> {
+export async function recoverGrandfatheredCouple(): Promise<AcceptInviteResult | null> {
   const linkState = useCoupleLinkStore.getState();
   if (!linkState.coupleRecoveryEnabled) return null;
   const current = linkState.link;
@@ -234,7 +259,13 @@ export async function recoverExistingCouple(): Promise<AcceptInviteResult | null
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
     myDeviceId: identity.deviceId,
+    myKeyVersion: isMemberA
+      ? (couple.memberAKeyVersion ?? 1)
+      : (couple.memberBKeyVersion ?? 1),
     partnerDeviceId,
+    partnerKeyVersion: isMemberA
+      ? (couple.memberBKeyVersion ?? 1)
+      : (couple.memberAKeyVersion ?? 1),
     partnerSigningPublicKey,
     partnerEncryptionPublicKey,
     partnerProfileName: partnerProfileName ?? null,
@@ -242,7 +273,84 @@ export async function recoverExistingCouple(): Promise<AcceptInviteResult | null
     linkedAt: couple.createdAt * 1000,
     lastPulledServerSequence: 0,
     lastSyncedAt: null,
+    requiresProfileConfirmation: false,
     status: 'active',
   });
   return { coupleId: couple.coupleId };
+}
+
+// Keep the existing export for current startup callers while making the
+// anonymous, device-ID-only repair path explicit beside durable recovery.
+export const recoverExistingCouple = recoverGrandfatheredCouple;
+
+function restoreCoupleLink(
+  response: DeviceRecoveryResponse,
+  requireProfileConfirmation: boolean
+): AcceptInviteResult {
+  const couple = response.couple;
+  if (!couple) {
+    throw new Error('Cannot restore a missing couple');
+  }
+
+  const isMemberA = couple.memberADeviceId === response.myDeviceId;
+  if (!isMemberA && couple.memberBDeviceId !== response.myDeviceId) {
+    throw new Error('Recovered device is not a member of this couple');
+  }
+
+  const partnerDeviceId = isMemberA
+    ? couple.memberBDeviceId
+    : couple.memberADeviceId;
+  const partnerEncryptionPublicKey = isMemberA
+    ? couple.memberBPublicKey
+    : couple.memberAPublicKey;
+  const partnerSigningPublicKey = isMemberA
+    ? couple.memberBSigningPublicKey
+    : couple.memberASigningPublicKey;
+  const partnerProfileName = isMemberA
+    ? couple.memberBProfileName
+    : couple.memberAProfileName;
+  const partnerProfileAvatar = isMemberA
+    ? couple.memberBProfileAvatar
+    : couple.memberAProfileAvatar;
+
+  useCoupleLinkStore.getState().setLink({
+    coupleId: couple.coupleId,
+    myDeviceId: response.myDeviceId,
+    myKeyVersion: response.myKeyVersion,
+    partnerDeviceId,
+    partnerKeyVersion: response.partnerKeyVersion ?? 1,
+    partnerSigningPublicKey,
+    partnerEncryptionPublicKey,
+    partnerProfileName: partnerProfileName ?? null,
+    partnerProfileAvatar: partnerProfileAvatar ?? null,
+    linkedAt: couple.createdAt * 1000,
+    lastPulledServerSequence: response.recoveryCursor,
+    lastSyncedAt: null,
+    requiresProfileConfirmation: requireProfileConfirmation,
+    status: 'active',
+  });
+  return { coupleId: couple.coupleId };
+}
+
+export async function recoverPermanentAccount(
+  options: PermanentAccountRecoveryOptions = {}
+): Promise<PermanentAccountRecoveryResult> {
+  await getAccountService().requirePermanentUser();
+  const { identity } = await getOrCreateIdentity();
+  const response = await getRelayClient().recoverDevice({
+    deviceId: identity.deviceId,
+    encryptionPublicKey: identity.encryptionPublicKey,
+    signingPublicKey: identity.signingPublicKey,
+  });
+
+  if (!response.couple) return { kind: 'no-couple' };
+  if (response.myDeviceId !== identity.deviceId) {
+    throw new Error('Recovered device does not match this installation');
+  }
+
+  const result = restoreCoupleLink(
+    response,
+    options.requireProfileConfirmation ?? false
+  );
+  return { kind: 'recovered', ...result };
 }

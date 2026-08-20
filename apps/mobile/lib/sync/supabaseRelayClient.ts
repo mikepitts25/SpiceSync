@@ -5,6 +5,8 @@ import type {
   CoupleResponse,
   CreateInviteRequest,
   CreateInviteResponse,
+  DeviceRecoveryRequest,
+  DeviceRecoveryResponse,
   InviteResponse,
   ListEventsResponse,
   SyncEventResponse,
@@ -108,10 +110,39 @@ export class SupabaseRelayClient {
     });
   }
 
+  recoverDevice(body: DeviceRecoveryRequest): Promise<DeviceRecoveryResponse> {
+    return this.callRpc('spicesync_register_or_recover_device', {
+      p_device_id: body.deviceId,
+      p_encryption_public_key: body.encryptionPublicKey,
+      p_signing_public_key: body.signingPublicKey,
+    });
+  }
+
+  async revokeDevice(deviceId: string): Promise<void> {
+    await this.callOptionalRpc<void>('spicesync_revoke_device', {
+      p_device_id: deviceId,
+    });
+  }
+
   appendEvent(
     coupleId: string,
     body: AppendEventRequest
   ): Promise<SyncEventResponse> {
+    if (
+      body.recipientDeviceId !== null &&
+      body.recipientDeviceId !== undefined
+    ) {
+      return this.callRpc('spicesync_append_event_v2', {
+        p_couple_id: coupleId,
+        p_event_id: body.eventId,
+        p_author_device_id: body.authorDeviceId,
+        p_recipient_device_id: body.recipientDeviceId,
+        p_client_sequence: body.clientSequence,
+        p_encrypted_payload: body.encryptedPayload,
+        p_payload_hash: body.payloadHash,
+        p_signature: body.signature,
+      });
+    }
     return this.callRpc('spicesync_append_event', {
       p_couple_id: coupleId,
       p_event_id: body.eventId,

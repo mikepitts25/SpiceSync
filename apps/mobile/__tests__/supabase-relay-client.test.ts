@@ -158,6 +158,117 @@ describe('SupabaseRelayClient', () => {
     );
   });
 
+  it('registers replacement keys and maps the recovery cursor', async () => {
+    const supabase = makeSupabaseMock();
+    supabase.rpc.mockResolvedValueOnce({
+      data: {
+        couple: {
+          coupleId: 'cpl_1',
+          memberADeviceId: 'dev_new',
+          memberBDeviceId: 'dev_partner',
+          memberAPublicKey: 'enc_new',
+          memberBPublicKey: 'enc_partner',
+          memberASigningPublicKey: 'sign_new',
+          memberBSigningPublicKey: 'sign_partner',
+          memberAKeyVersion: 2,
+          memberBKeyVersion: 1,
+          createdAt: 1770000000,
+          revokedAt: null,
+        },
+        recoveryCursor: 42,
+        myDeviceId: 'dev_new',
+        myKeyVersion: 2,
+        partnerKeyVersion: 1,
+      },
+      error: null,
+    });
+
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
+
+    await expect(
+      client.recoverDevice({
+        deviceId: 'dev_new',
+        encryptionPublicKey: 'enc_new',
+        signingPublicKey: 'sign_new',
+      })
+    ).resolves.toMatchObject({
+      couple: { coupleId: 'cpl_1' },
+      recoveryCursor: 42,
+    });
+
+    expect(supabase.rpc).toHaveBeenCalledWith(
+      'spicesync_register_or_recover_device',
+      {
+        p_device_id: 'dev_new',
+        p_encryption_public_key: 'enc_new',
+        p_signing_public_key: 'sign_new',
+      }
+    );
+  });
+
+  it('maps an owned device revocation RPC', async () => {
+    const supabase = makeSupabaseMock();
+    supabase.rpc.mockResolvedValueOnce({ data: null, error: null });
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
+
+    await expect(client.revokeDevice('dev_old')).resolves.toBeUndefined();
+
+    expect(supabase.rpc).toHaveBeenCalledWith('spicesync_revoke_device', {
+      p_device_id: 'dev_old',
+    });
+  });
+
+  it('uses recipient-bound append RPCs when an event names its encryption target', async () => {
+    const supabase = makeSupabaseMock();
+    supabase.rpc.mockResolvedValueOnce({
+      data: {
+        serverSequence: 12,
+        eventId: 'evt_1',
+        coupleId: 'cpl_1',
+        authorDeviceId: 'dev_a',
+        recipientDeviceId: 'dev_b',
+        clientSequence: 3,
+        encryptedPayload: 'ciphertext',
+        payloadHash: 'hash',
+        signature: 'sig',
+        createdAt: 1770000001,
+        expiresAt: null,
+      },
+      error: null,
+    });
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
+
+    await client.appendEvent('cpl_1', {
+      eventId: 'evt_1',
+      authorDeviceId: 'dev_a',
+      recipientDeviceId: 'dev_b',
+      clientSequence: 3,
+      encryptedPayload: 'ciphertext',
+      payloadHash: 'hash',
+      signature: 'sig',
+    });
+
+    expect(supabase.rpc).toHaveBeenCalledWith('spicesync_append_event_v2', {
+      p_couple_id: 'cpl_1',
+      p_event_id: 'evt_1',
+      p_author_device_id: 'dev_a',
+      p_recipient_device_id: 'dev_b',
+      p_client_sequence: 3,
+      p_encrypted_payload: 'ciphertext',
+      p_payload_hash: 'hash',
+      p_signature: 'sig',
+    });
+  });
+
   it('maps append/list/revoke RPC calls to the existing relay API shape', async () => {
     const supabase = makeSupabaseMock();
     supabase.rpc

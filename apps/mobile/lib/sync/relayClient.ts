@@ -5,6 +5,8 @@ import type {
   CoupleResponse,
   CreateInviteRequest,
   CreateInviteResponse,
+  DeviceRecoveryRequest,
+  DeviceRecoveryResponse,
   InviteResponse,
   ListEventsResponse,
   SyncEventResponse,
@@ -20,6 +22,8 @@ export type RelayTransport = {
   ): Promise<AcceptInviteResponse>;
   getCouple(coupleId: string): Promise<CoupleResponse>;
   findCoupleForDevice(deviceId: string): Promise<CoupleResponse | null>;
+  recoverDevice(body: DeviceRecoveryRequest): Promise<DeviceRecoveryResponse>;
+  revokeDevice(deviceId: string): Promise<void>;
   appendEvent(
     coupleId: string,
     body: AppendEventRequest

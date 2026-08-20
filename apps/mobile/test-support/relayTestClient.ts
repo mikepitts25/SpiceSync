@@ -6,6 +6,8 @@ import type {
   CoupleResponse,
   CreateInviteRequest,
   CreateInviteResponse,
+  DeviceRecoveryRequest,
+  DeviceRecoveryResponse,
   InviteResponse,
   ListEventsResponse,
   SyncEventResponse,
@@ -52,6 +54,16 @@ export class RelayTestClient implements RelayTransport {
   findCoupleForDevice(deviceId: string): Promise<CoupleResponse | null> {
     return this.request(`/couples/by-device/${encodeURIComponent(deviceId)}`, {
       method: 'GET',
+    });
+  }
+
+  recoverDevice(body: DeviceRecoveryRequest): Promise<DeviceRecoveryResponse> {
+    return this.request('/devices/recover', { method: 'POST', body });
+  }
+
+  revokeDevice(deviceId: string): Promise<void> {
+    return this.request(`/devices/${encodeURIComponent(deviceId)}/revoke`, {
+      method: 'POST',
     });
   }
 

@@ -5,7 +5,9 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 export type CoupleLink = {
   coupleId: string;
   myDeviceId: string;
+  myKeyVersion?: number;
   partnerDeviceId: string;
+  partnerKeyVersion?: number;
   partnerSigningPublicKey: string;
   partnerEncryptionPublicKey: string;
   partnerProfileName?: string | null;
@@ -13,33 +15,62 @@ export type CoupleLink = {
   linkedAt: number;
   lastPulledServerSequence: number;
   lastSyncedAt: number | null;
+  requiresProfileConfirmation?: boolean;
   status: 'active' | 'unlinked';
 };
 
+export type SecurityNotice = {
+  kind: 'partner-device-restored';
+  occurredAt: number;
+  acknowledged: boolean;
+  partnerName: string | null;
+};
+
+type CoupleLinkInput = Omit<
+  CoupleLink,
+  'myKeyVersion' | 'partnerKeyVersion' | 'requiresProfileConfirmation'
+> &
+  Partial<
+    Pick<
+      CoupleLink,
+      'myKeyVersion' | 'partnerKeyVersion' | 'requiresProfileConfirmation'
+    >
+  >;
+
 type CoupleLinkState = {
   link: CoupleLink | null;
+  securityNotice: SecurityNotice | null;
   pendingInviteId: string | null;
   pendingInviteExpiresAt: number | null;
   coupleRecoveryEnabled: boolean;
-  setLink: (link: CoupleLink) => void;
+  setLink: (link: CoupleLinkInput) => void;
   setPendingInvite: (inviteId: string, expiresAt?: number) => void;
   clearPendingInvite: () => void;
   unlink: () => void;
   clear: () => void;
   updateCursor: (serverSequence: number) => void;
   markSynced: (at: number) => void;
+  setSecurityNotice: (notice: SecurityNotice | null) => void;
+  acknowledgeSecurityNotice: () => void;
 };
 
 export const useCoupleLinkStore = create<CoupleLinkState>()(
   persist(
     (set, get) => ({
       link: null,
+      securityNotice: null,
       pendingInviteId: null,
       pendingInviteExpiresAt: null,
       coupleRecoveryEnabled: true,
       setLink: (link) =>
         set({
-          link,
+          link: {
+            ...link,
+            myKeyVersion: link.myKeyVersion ?? 1,
+            partnerKeyVersion: link.partnerKeyVersion ?? 1,
+            requiresProfileConfirmation:
+              link.requiresProfileConfirmation ?? false,
+          },
           pendingInviteId: null,
           pendingInviteExpiresAt: null,
           coupleRecoveryEnabled: true,
@@ -63,6 +94,7 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
       clear: () =>
         set({
           link: null,
+          securityNotice: null,
           pendingInviteId: null,
           pendingInviteExpiresAt: null,
           coupleRecoveryEnabled: false,
@@ -77,6 +109,12 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
         const current = get().link;
         if (!current) return;
         set({ link: { ...current, lastSyncedAt: at } });
+      },
+      setSecurityNotice: (securityNotice) => set({ securityNotice }),
+      acknowledgeSecurityNotice: () => {
+        const current = get().securityNotice;
+        if (!current || current.acknowledged) return;
+        set({ securityNotice: { ...current, acknowledged: true } });
       },
     }),
     {

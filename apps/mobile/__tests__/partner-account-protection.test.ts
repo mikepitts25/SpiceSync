@@ -10,13 +10,14 @@ const partnerSyncPath = path.join(
 );
 
 describe('grandfathered partner connection protection', () => {
-  it('offers account protection for an existing anonymous remote connection without invoking recovery', () => {
+  it('registers the current device after protecting an existing anonymous remote connection', () => {
     const partnerSync = fs.readFileSync(partnerSyncPath, 'utf8');
 
     expect(partnerSync).toContain('PartnerAccountGate');
     expect(partnerSync).toContain('getSnapshot()');
     expect(partnerSync).toContain("accountStatus === 'anonymous'");
     expect(partnerSync).toContain('handleProtectionComplete');
-    expect(partnerSync).not.toContain('recoverPermanentAccount');
+    expect(partnerSync).toContain('recoverPermanentAccount');
+    expect(partnerSync).toContain('requireProfileConfirmation: false');
   });
 });
