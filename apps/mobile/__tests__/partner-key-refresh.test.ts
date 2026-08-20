@@ -88,6 +88,19 @@ function couple(overrides: Record<string, unknown> = {}) {
   };
 }
 
+type Deferred<T> = {
+  promise: Promise<T>;
+  resolve: (value: T) => void;
+};
+
+function deferred<T>(): Deferred<T> {
+  let resolve: (value: T) => void = () => undefined;
+  const promise = new Promise<T>((complete) => {
+    resolve = complete;
+  });
+  return { promise, resolve };
+}
+
 describe('partner key refresh', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -261,6 +274,63 @@ describe('partner key refresh', () => {
         kind: 'partner-device-restored',
         acknowledged: false,
         partnerName: 'Sam',
+      },
+    });
+  });
+
+  it('discards an older metadata response after a newer key rotation wins', async () => {
+    useCoupleLinkStore.getState().setLink({
+      coupleId: 'couple-1',
+      myDeviceId: 'dev_me',
+      myKeyVersion: 1,
+      partnerDeviceId: 'dev_partner_old',
+      partnerKeyVersion: 1,
+      partnerSigningPublicKey: 'old-signing-key',
+      partnerEncryptionPublicKey: 'old-encryption-key',
+      partnerProfileName: 'Sam',
+      linkedAt: 1700,
+      lastPulledServerSequence: 0,
+      lastSyncedAt: null,
+      status: 'active',
+    });
+    const older = deferred<ReturnType<typeof couple>>();
+    const newer = deferred<ReturnType<typeof couple>>();
+    mockRelay.getCouple
+      .mockReturnValueOnce(older.promise)
+      .mockReturnValueOnce(newer.promise);
+
+    const olderRefresh = refreshCoupleMetadata();
+    const newerRefresh = refreshCoupleMetadata();
+    newer.resolve(
+      couple({
+        memberBDeviceId: 'dev_partner_new',
+        memberBPublicKey: 'new-encryption-key',
+        memberBSigningPublicKey: 'new-signing-key',
+        memberBKeyVersion: 2,
+      })
+    );
+    await expect(newerRefresh).resolves.toBe('partner-key-changed');
+
+    older.resolve(
+      couple({
+        memberBDeviceId: 'dev_partner_old',
+        memberBPublicKey: 'old-encryption-key',
+        memberBSigningPublicKey: 'old-signing-key',
+        memberBKeyVersion: 1,
+      })
+    );
+    await expect(olderRefresh).resolves.toBe('unchanged');
+
+    expect(useCoupleLinkStore.getState()).toMatchObject({
+      link: {
+        partnerDeviceId: 'dev_partner_new',
+        partnerKeyVersion: 2,
+        partnerEncryptionPublicKey: 'new-encryption-key',
+        partnerSigningPublicKey: 'new-signing-key',
+      },
+      securityNotice: {
+        kind: 'partner-device-restored',
+        acknowledged: false,
       },
     });
   });

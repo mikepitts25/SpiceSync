@@ -245,6 +245,13 @@ async function applyServerEvents(
     if (event.serverSequence > lastSequence)
       lastSequence = event.serverSequence;
     if (event.authorDeviceId === myDeviceId) continue;
+    if (
+      event.recipientDeviceId !== null &&
+      event.recipientDeviceId !== undefined &&
+      event.recipientDeviceId !== myDeviceId
+    ) {
+      continue;
+    }
     if (sha256Base64(event.encryptedPayload) !== event.payloadHash) continue;
     if (!verifyEventSignature(link.partnerSigningPublicKey, event)) continue;
     try {
@@ -301,18 +308,37 @@ export async function syncOnce(): Promise<{
 export { refreshCoupleMetadata } from './coupleLink';
 
 let intervalHandle: ReturnType<typeof setInterval> | null = null;
+let scheduledSync: Promise<unknown> | null = null;
+let loopGeneration = 0;
+
+function runScheduledSync(generation: number): void {
+  if (generation !== loopGeneration || scheduledSync) return;
+
+  const run = syncOnce().catch(() => undefined);
+  scheduledSync = run;
+  run
+    .finally(() => {
+      if (generation === loopGeneration && scheduledSync === run) {
+        scheduledSync = null;
+      }
+    })
+    .catch(() => undefined);
+}
 
 export function startSyncLoop(intervalMs: number = 45000): void {
   stopSyncLoop();
-  void syncOnce().catch(() => undefined);
+  const generation = loopGeneration;
+  runScheduledSync(generation);
   intervalHandle = setInterval(() => {
-    void syncOnce().catch(() => undefined);
+    runScheduledSync(generation);
   }, intervalMs);
 }
 
 export function stopSyncLoop(): void {
+  loopGeneration += 1;
   if (intervalHandle) {
     clearInterval(intervalHandle);
     intervalHandle = null;
   }
+  scheduledSync = null;
 }

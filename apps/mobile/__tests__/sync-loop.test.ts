@@ -14,7 +14,61 @@ import { usePartnerVotesStore } from '../lib/sync/partnerVotes';
 import { RelayTestClient } from '../test-support/relayTestClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
 import { useRevealConsentStore } from '../lib/sync/revealConsent';
-import { flushPending, pullPartnerEvents } from '../lib/sync/syncLoop';
+import {
+  flushPending,
+  pullPartnerEvents,
+  startSyncLoop,
+  stopSyncLoop,
+} from '../lib/sync/syncLoop';
+
+type Deferred<T> = {
+  promise: Promise<T>;
+  resolve: (value: T) => void;
+};
+
+function deferred<T>(): Deferred<T> {
+  let resolve: (value: T) => void = () => undefined;
+  const promise = new Promise<T>((complete) => {
+    resolve = complete;
+  });
+  return { promise, resolve };
+}
+
+async function settleAsyncWork(): Promise<void> {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+}
+
+function activeLink(partnerEncryptionPublicKey: string) {
+  return {
+    coupleId: 'couple-1',
+    myDeviceId: 'dev_me',
+    partnerDeviceId: 'dev_partner',
+    partnerSigningPublicKey: 'partner-signing-key',
+    partnerEncryptionPublicKey,
+    linkedAt: Date.now(),
+    lastPulledServerSequence: 0,
+    lastSyncedAt: null,
+    status: 'active' as const,
+  };
+}
+
+function refreshedCouple(partnerEncryptionPublicKey: string) {
+  return {
+    coupleId: 'couple-1',
+    memberADeviceId: 'dev_me',
+    memberBDeviceId: 'dev_partner',
+    memberAPublicKey: 'my-encryption-key',
+    memberBPublicKey: partnerEncryptionPublicKey,
+    memberASigningPublicKey: 'my-signing-key',
+    memberBSigningPublicKey: 'partner-signing-key',
+    memberAKeyVersion: 1,
+    memberBKeyVersion: 1,
+    createdAt: 1700,
+    revokedAt: null,
+  };
+}
 
 function signEnvelope(
   signing: { privateKey: Uint8Array },
@@ -86,6 +140,11 @@ describe('sync loop', () => {
     useRevealConsentStore.setState({ local: {}, partner: {} });
     _resetCacheForTests();
     _resetRelayClientForTests();
+  });
+
+  afterEach(() => {
+    stopSyncLoop();
+    jest.useRealTimers();
   });
 
   it('encrypts, signs, and uploads a recipient-bound pending event', async () => {
@@ -280,13 +339,14 @@ describe('sync loop', () => {
             clientSequence: 1,
             encryptedPayload,
             payloadHash,
-            // A legacy-shaped signature proves the recipient check is a
-            // required gate rather than an accidental signature failure.
+            // This must be a valid v2 signature for dev_other: rejecting it
+            // therefore proves the recipient gate, not signature failure.
             signature: signEnvelope(
               partnerSigning,
               plainEvent.eventId,
               1,
-              payloadHash
+              payloadHash,
+              'dev_other'
             ),
             createdAt: 1700,
             expiresAt: null,
@@ -303,6 +363,96 @@ describe('sync loop', () => {
     expect(
       usePartnerVotesStore.getState().byCardId['pair:wrong-recipient']
     ).toBeUndefined();
+  });
+
+  it('does not overlap scheduled sync ticks while a refresh is in flight', async () => {
+    jest.useFakeTimers();
+    const partnerEncryption = generateEncryptionKeypair();
+    const refresh = deferred<{
+      ok: boolean;
+      json: () => Promise<Record<string, unknown>>;
+    }>();
+    const fetchMock = jest.fn().mockReturnValue(refresh.promise);
+    _resetRelayClientForTests(
+      new RelayTestClient(
+        'https://relay.test',
+        fetchMock as unknown as (
+          input: string,
+          init?: RequestInit
+        ) => Promise<Response>
+      )
+    );
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(partnerEncryption.publicKey)));
+
+    startSyncLoop(50);
+    await settleAsyncWork();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    jest.advanceTimersByTime(200);
+    await settleAsyncWork();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    refresh.resolve({
+      ok: true,
+      json: async () =>
+        refreshedCouple(encodeBase64(partnerEncryption.publicKey)),
+    });
+    await settleAsyncWork();
+  });
+
+  it('keeps a restarted loop in flight when the stopped loop completes late', async () => {
+    jest.useFakeTimers();
+    const partnerEncryption = generateEncryptionKeypair();
+    const firstRefresh = deferred<{
+      ok: boolean;
+      json: () => Promise<Record<string, unknown>>;
+    }>();
+    const secondRefresh = deferred<{
+      ok: boolean;
+      json: () => Promise<Record<string, unknown>>;
+    }>();
+    const fetchMock = jest
+      .fn()
+      .mockReturnValueOnce(firstRefresh.promise)
+      .mockReturnValueOnce(secondRefresh.promise);
+    _resetRelayClientForTests(
+      new RelayTestClient(
+        'https://relay.test',
+        fetchMock as unknown as (
+          input: string,
+          init?: RequestInit
+        ) => Promise<Response>
+      )
+    );
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(partnerEncryption.publicKey)));
+
+    startSyncLoop(50);
+    await settleAsyncWork();
+    stopSyncLoop();
+    startSyncLoop(50);
+    await settleAsyncWork();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+
+    firstRefresh.resolve({
+      ok: true,
+      json: async () =>
+        refreshedCouple(encodeBase64(partnerEncryption.publicKey)),
+    });
+    await settleAsyncWork();
+    jest.advanceTimersByTime(50);
+    await settleAsyncWork();
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    secondRefresh.resolve({
+      ok: true,
+      json: async () =>
+        refreshedCouple(encodeBase64(partnerEncryption.publicKey)),
+    });
+    await settleAsyncWork();
   });
 
   it('pulls partner events, decrypts them, and applies', async () => {

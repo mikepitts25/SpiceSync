@@ -177,6 +177,12 @@ export async function refreshCoupleMetadata(): Promise<
 > {
   const current = useCoupleLinkStore.getState().link;
   if (!current || current.status !== 'active') return 'unchanged';
+  const capturedPartner = {
+    deviceId: current.partnerDeviceId,
+    encryptionPublicKey: current.partnerEncryptionPublicKey,
+    signingPublicKey: current.partnerSigningPublicKey,
+    keyVersion: current.partnerKeyVersion ?? 1,
+  };
 
   const couple = await getRelayClient().getCouple(current.coupleId);
   if (!isValidCoupleResponse(couple, current)) return 'unchanged';
@@ -215,6 +221,7 @@ export async function refreshCoupleMetadata(): Promise<
   const partnerVersionChanged =
     (current.partnerKeyVersion ?? 1) !== partnerKeyVersion;
 
+  let applied = false;
   useCoupleLinkStore.setState((state) => {
     const latest = state.link;
     if (
@@ -227,6 +234,16 @@ export async function refreshCoupleMetadata(): Promise<
     }
 
     const latestPartnerVersion = latest.partnerKeyVersion ?? 1;
+    const partnerSnapshotIsCurrent =
+      latest.partnerDeviceId === capturedPartner.deviceId &&
+      latest.partnerEncryptionPublicKey ===
+        capturedPartner.encryptionPublicKey &&
+      latest.partnerSigningPublicKey === capturedPartner.signingPublicKey &&
+      latestPartnerVersion === capturedPartner.keyVersion;
+    if (!partnerSnapshotIsCurrent || partnerKeyVersion < latestPartnerVersion) {
+      return {};
+    }
+
     const nextLink: CoupleLink = {
       ...latest,
       myKeyVersion,
@@ -239,6 +256,7 @@ export async function refreshCoupleMetadata(): Promise<
       partnerProfileAvatar:
         partnerProfileAvatar ?? latest.partnerProfileAvatar ?? null,
     };
+    applied = true;
     return {
       link: nextLink,
       securityNotice:
@@ -253,6 +271,7 @@ export async function refreshCoupleMetadata(): Promise<
     };
   });
 
+  if (!applied) return 'unchanged';
   return partnerMetadataChanged || partnerVersionChanged
     ? 'partner-key-changed'
     : 'unchanged';
