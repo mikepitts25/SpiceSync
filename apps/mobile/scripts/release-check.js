@@ -8,6 +8,7 @@ const {
   collectProductionSocialRecoveryErrors,
   isPartnerSyncEnabled,
 } = require('./release-check-config');
+const { resolveEasBuildProfile } = require('./release-check-eas-profile');
 
 const mobileRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(mobileRoot, '..', '..');
@@ -17,8 +18,6 @@ const adminTestFiles = fs
   .filter((fileName) => fileName.endsWith('.test.js'))
   .sort()
   .map((fileName) => path.join(adminTestDir, fileName));
-const EAS_ENVIRONMENTS = new Set(['development', 'preview', 'production']);
-const TEST_EAS_CONFIG_PATH_ENV = 'RELEASE_CHECK_EAS_JSON_PATH';
 
 function run(label, command, args, cwd = mobileRoot) {
   console.log(`\n==> ${label}`);
@@ -105,19 +104,8 @@ function readResolvedExpoConfig() {
   return configFactory();
 }
 
-function readEasBuildProfiles(environment) {
-  const testEasConfigPath = environment[TEST_EAS_CONFIG_PATH_ENV]?.trim();
-  if (
-    testEasConfigPath &&
-    (environment.RELEASE_CHECK_TEST_CHILD !== '1' ||
-      environment.NODE_ENV !== 'test')
-  ) {
-    throw new Error(
-      `${TEST_EAS_CONFIG_PATH_ENV} is only supported by test subprocesses. Refusing to skip social-recovery preflight.`
-    );
-  }
-
-  const easConfigPath = testEasConfigPath || path.join(mobileRoot, 'eas.json');
+function readEasBuildProfiles() {
+  const easConfigPath = path.join(mobileRoot, 'eas.json');
   let easJson;
   try {
     easJson = JSON.parse(fs.readFileSync(easConfigPath, 'utf8'));
@@ -126,100 +114,15 @@ function readEasBuildProfiles(environment) {
       `Unable to read EAS build profiles from ${easConfigPath}. Refusing to skip social-recovery preflight.`
     );
   }
-  const buildProfiles = easJson.build;
-
-  if (
-    !buildProfiles ||
-    typeof buildProfiles !== 'object' ||
-    Array.isArray(buildProfiles)
-  ) {
-    throw new Error(
-      'eas.json must define build profiles. Refusing to skip social-recovery preflight.'
-    );
-  }
-
-  return buildProfiles;
-}
-
-function assertValidEasEnvironment(profileName, easEnvironment) {
-  if (
-    typeof easEnvironment !== 'string' ||
-    !EAS_ENVIRONMENTS.has(easEnvironment)
-  ) {
-    throw new Error(
-      `EAS build profile "${profileName}" environment must be one of development, preview, or production. Refusing to skip social-recovery preflight.`
-    );
-  }
-}
-
-function resolveEasEnvironment(resolvedProfile) {
-  if (resolvedProfile.environment !== undefined) {
-    assertValidEasEnvironment('resolved', resolvedProfile.environment);
-    return resolvedProfile.environment;
-  }
-
-  if (resolvedProfile.distribution === 'store') return 'production';
-  if (resolvedProfile.developmentClient === true) return 'development';
-  return 'preview';
-}
-
-function resolveEasBuildProfile(profileName, environment) {
-  const buildProfiles = readEasBuildProfiles(environment);
-  const profileChain = [];
-  const visitedProfiles = new Set();
-  let currentProfileName = profileName;
-
-  while (currentProfileName) {
-    if (visitedProfiles.has(currentProfileName)) {
-      throw new Error(
-        `EAS build profile inheritance cycle: ${[
-          ...profileChain,
-          currentProfileName,
-        ].join(' -> ')}. Refusing to skip social-recovery preflight.`
-      );
-    }
-    visitedProfiles.add(currentProfileName);
-
-    const profile = buildProfiles[currentProfileName];
-    if (!profile || typeof profile !== 'object' || Array.isArray(profile)) {
-      throw new Error(
-        `EAS build profile "${currentProfileName}" is missing. Refusing to skip social-recovery preflight.`
-      );
-    }
-    profileChain.push(currentProfileName);
-
-    if (profile.environment !== undefined) {
-      assertValidEasEnvironment(currentProfileName, profile.environment);
-    }
-    if (
-      profile.extends !== undefined &&
-      (typeof profile.extends !== 'string' || !profile.extends.trim())
-    ) {
-      throw new Error(
-        `EAS build profile "${currentProfileName}" has an invalid extends value. Refusing to skip social-recovery preflight.`
-      );
-    }
-    currentProfileName = profile.extends?.trim() || '';
-  }
-
-  const resolvedProfile = profileChain
-    .reverse()
-    .reduce((resolvedProfile, currentName) => {
-      return { ...resolvedProfile, ...buildProfiles[currentName] };
-    }, {});
-
-  return {
-    ...resolvedProfile,
-    environment: resolveEasEnvironment(resolvedProfile),
-  };
+  return easJson.build;
 }
 
 function isEasProductionEnvironmentProfile(environment) {
-  const profileName = environment.EAS_BUILD_PROFILE?.trim();
-  if (!profileName) return false;
+  const profileName = environment.EAS_BUILD_PROFILE;
+  if (profileName === undefined) return false;
 
   return (
-    resolveEasBuildProfile(profileName, environment).environment ===
+    resolveEasBuildProfile(readEasBuildProfiles(), profileName).environment ===
     'production'
   );
 }

@@ -68,14 +68,18 @@ eas env:exec production 'npm run release:check -- --require-social-recovery' --n
 IDs, the Apple capability/plugin, `spicesync` and generated Google iOS callback
 schemes, and the fixed production iOS/Android IDs. The check enables that same
 required mode automatically whenever the selected `EAS_BUILD_PROFILE` resolves
-through `eas.json` inheritance to `environment: production`—including the
-checked-in `testflight` profile that extends `production`. Missing, invalid, or
-cyclic supplied profiles fail closed rather than falling back to baseline mode.
-When a valid resolved profile omits `environment`, the check follows Expo's
-current documented build defaults: `distribution: "store"` is production,
-`developmentClient: true` is development, and all other valid profiles are
-preview. This preserves the checked-in `preview`/`development` baseline modes
-without treating an invalid environment value as preview.
+through the checked-in `apps/mobile/eas.json` inheritance chain to
+`environment: production`—including the checked-in `testflight` profile that
+extends `production`. The executable never accepts an environment or CLI path
+override for that file. Missing, invalid, or cyclic supplied profiles fail
+closed rather than falling back to baseline mode. When a valid resolved profile
+omits `environment`, the production-safe gate resolves `developmentClient:
+true` to development; otherwise `distribution: "internal"` to preview; and
+otherwise `distribution: "store"` or the omitted/default store distribution to
+production. Explicit `environment` remains authoritative, but malformed
+`developmentClient` or `distribution` fields still fail closed. This preserves
+the checked-in `preview`/`development` baseline modes without treating corrupt
+build fields as preview.
 Without either signal, the baseline `npm run release:check` remains valid
 offline and reports social recovery as not required only when both relay
 variables are absent. Blank, placeholder, malformed, and incomplete values do
