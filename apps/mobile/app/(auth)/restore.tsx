@@ -12,6 +12,8 @@ import type { ProviderCredential } from '../../lib/auth/types';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { recoverPermanentAccount } from '../../lib/sync/inviteFlow';
+import { startSyncLoop } from '../../lib/sync/syncLoop';
+import { startVoteSync, useVoteSyncStore } from '../../lib/sync/voteSync';
 import { ui } from '../../lib/i18n/uiLiteral';
 
 function getErrorMessage(error: unknown): string {
@@ -74,6 +76,20 @@ export default function RestoreAccountScreen() {
         profileCount: useProfilesStore.getState().getProfiles().length,
         requiresConfirmation: link?.requiresProfileConfirmation ?? true,
       });
+
+      // Signing back into the same account recovers a link that needs no
+      // confirmation, so the confirm-profile screen that normally restarts sync
+      // is skipped. Resume here instead, or votes stay unsent until an AppState
+      // transition happens to restart the subscription.
+      if (destination === '/(tabs)/deck') {
+        const activeProfileId =
+          useProfilesStore.getState().getActiveProfileId() ?? null;
+        useVoteSyncStore.getState().setLocalProfileId(activeProfileId);
+        await startVoteSync(activeProfileId);
+        if (!isCurrentSession(sessionId)) return;
+        startSyncLoop();
+      }
+
       router.replace(destination as never);
     } catch (restoreError) {
       if (isCurrentSession(sessionId)) {

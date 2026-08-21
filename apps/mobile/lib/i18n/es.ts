@@ -153,6 +153,10 @@ export const es: Translations = {
     sessionCopy:
       'Cerrar sesión solo termina la sesión remota. Tus perfiles, votos, ajustes y claves del dispositivo permanecen aquí.',
     signOut: 'Cerrar sesión',
+    signedOutTitle: 'Tu sesión está cerrada',
+    signedOutCopy:
+      'La conexión con tu pareja está en pausa en este dispositivo. Vuelve a iniciar sesión con la misma cuenta para reanudar la sincronización.',
+    signInAndResume: 'Iniciar sesión y reanudar',
     signOutConfirmTitle: '¿Cerrar sesión?',
     signOutConfirmBody:
       'Esto termina la sesión remota en este dispositivo. Tus datos locales permanecen aquí.',

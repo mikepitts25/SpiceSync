@@ -62,6 +62,9 @@ export default function AccountSettingsScreen() {
   const latestSyncAt = useCoupleLinkStore(
     (state) => state.link?.lastSyncedAt ?? null
   );
+  const hasPausedLink = useCoupleLinkStore(
+    (state) => state.link?.status === 'active'
+  );
   const [snapshot, setSnapshot] = useState<AccountSnapshot | null>(null);
   const [identityCreatedAt, setIdentityCreatedAt] = useState<number | null>(
     null
@@ -227,6 +230,10 @@ export default function AccountSettingsScreen() {
   const actionPending = pendingAction !== null;
   const deletionUnavailable =
     snapshot?.status !== 'permanent' || deletionProviderUnavailable;
+  // A signed-out device keeps its link and pauses sync. Linking a provider onto
+  // a session that does not exist is not the way back; restoring the account is.
+  const isSignedOut =
+    snapshot !== null && snapshot.status === 'local-only' && hasPausedLink;
 
   return (
     <SafeAreaView
@@ -248,6 +255,23 @@ export default function AccountSettingsScreen() {
           lastLocalSyncAt={latestSyncAt}
           deviceAddedAt={identityCreatedAt}
         />
+
+        {isSignedOut ? (
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>{t.settings.signedOutTitle}</Text>
+            <Text style={styles.cardCopy}>{t.settings.signedOutCopy}</Text>
+            <Pressable
+              accessibilityRole="button"
+              disabled={actionPending}
+              onPress={() => router.push('/(auth)/restore')}
+              style={[styles.secondaryAction, actionPending && styles.disabled]}
+            >
+              <Text style={styles.secondaryActionText}>
+                {t.settings.signInAndResume}
+              </Text>
+            </Pressable>
+          </View>
+        ) : null}
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>{t.settings.linkedProviders}</Text>

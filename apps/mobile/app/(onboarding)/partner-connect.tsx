@@ -35,7 +35,10 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { getAccountService } from '../../lib/auth/accountService';
 import { useShallow } from 'zustand/react/shallow';
 import { useProfilesStore } from '../../lib/state/profiles';
-import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
+import {
+  hasPendingRecoveryConfirmation,
+  useCoupleLinkStore,
+} from '../../lib/sync/coupleLink';
 import {
   acceptInvite,
   buildInviteShareContent,
@@ -124,6 +127,7 @@ export default function PartnerConnect() {
   const [acceptError, setAcceptError] = useState<string | null>(null);
   const [lookupRetryKey, setLookupRetryKey] = useState(0);
   const [accountGateVisible, setAccountGateVisible] = useState(false);
+  const [recoveryRequired, setRecoveryRequired] = useState(false);
   const [deferredRemoteAction, setDeferredRemoteAction] =
     useState<DeferredRemoteAction | null>(null);
   const remoteActionInFlightRef = useRef(false);
@@ -210,10 +214,22 @@ export default function PartnerConnect() {
 
   const runAfterPermanentAccount = useCallback(async (action: RemoteAction) => {
     if (remoteActionInFlightRef.current) return;
+    // Recovery must resolve before a new relationship replaces the state it is
+    // waiting on. Checked before and after the account gate, because cancelling
+    // the gate and retrying otherwise reaches create/accept with a permanent
+    // but unrecovered session.
+    if (hasPendingRecoveryConfirmation()) {
+      setRecoveryRequired(true);
+      return;
+    }
     remoteActionInFlightRef.current = true;
     setIsConnecting(true);
     try {
       await getAccountService().requirePermanentUser();
+      if (hasPendingRecoveryConfirmation()) {
+        setRecoveryRequired(true);
+        return;
+      }
       await action();
     } catch (error) {
       if (isAccountRequired(error)) {
@@ -350,7 +366,19 @@ export default function PartnerConnect() {
           { paddingBottom: insets.bottom + 28 },
         ]}
       >
-        {accountGateVisible ? (
+        {recoveryRequired ? (
+          <RecoveryCard
+            title={ui('Finish restoring your account')}
+            body={ui(
+              'This account has a connection waiting to be restored. Finish restoring it before creating or accepting a new partner connection.'
+            )}
+            primaryLabel={ui('Restore account')}
+            onPrimary={() => router.push('/(auth)/restore')}
+            onLocalProfile={handleLocalProfile}
+          />
+        ) : null}
+
+        {!recoveryRequired && accountGateVisible ? (
           <PartnerAccountGate
             intent="protect"
             onComplete={handleAccountGateComplete}
@@ -358,7 +386,7 @@ export default function PartnerConnect() {
           />
         ) : null}
 
-        {!accountGateVisible && mode === 'menu' ? (
+        {!recoveryRequired && !accountGateVisible && mode === 'menu' ? (
           <MenuContent
             myProfileName={myProfileName}
             myProfileAvatar={myProfileAvatar}
@@ -370,7 +398,9 @@ export default function PartnerConnect() {
           />
         ) : null}
 
-        {!accountGateVisible && mode === 'remote-create' ? (
+        {!recoveryRequired &&
+        !accountGateVisible &&
+        mode === 'remote-create' ? (
           <RemoteCreateContent
             invite={pendingInvite}
             myProfileName={myProfileName}
@@ -385,7 +415,7 @@ export default function PartnerConnect() {
           />
         ) : null}
 
-        {!accountGateVisible && mode === 'remote-paste' ? (
+        {!recoveryRequired && !accountGateVisible && mode === 'remote-paste' ? (
           <PasteInviteContent
             value={inviteLinkInput}
             pasteError={pasteError}
@@ -398,7 +428,9 @@ export default function PartnerConnect() {
           />
         ) : null}
 
-        {!accountGateVisible && mode === 'remote-accept' ? (
+        {!recoveryRequired &&
+        !accountGateVisible &&
+        mode === 'remote-accept' ? (
           <RemoteAcceptContent
             remoteInvite={remoteInvite}
             lookupError={lookupError}

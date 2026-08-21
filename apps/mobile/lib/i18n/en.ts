@@ -151,6 +151,10 @@ export const en = {
     sessionCopy:
       'Signing out only ends the remote session. Your profiles, votes, settings, and device keys stay on this device.',
     signOut: 'Sign out',
+    signedOutTitle: 'You are signed out',
+    signedOutCopy:
+      'Your partner connection is paused on this device. Sign back in with the same account to resume syncing.',
+    signInAndResume: 'Sign in and resume sync',
     signOutConfirmTitle: 'Sign out?',
     signOutConfirmBody:
       'This ends the remote sign-in session on this device. Your local data stays here.',

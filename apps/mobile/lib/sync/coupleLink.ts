@@ -137,6 +137,23 @@ export function getActiveRemoteSyncOwnership(): ActiveRemoteSyncOwnership | null
 }
 
 /**
+ * Recovery state that must be resolved before a new relationship may be
+ * created or accepted. An account switch records the pending confirmation
+ * owner, and an active link may itself still require confirmation. Creating or
+ * accepting while either is outstanding would replace the state recovery is
+ * waiting on, so every remote relationship entry point must check this — a
+ * permanent-account check alone is not sufficient, because the switched-to
+ * account is itself permanent.
+ */
+export function hasPendingRecoveryConfirmation(): boolean {
+  const state = useCoupleLinkStore.getState();
+  return (
+    state.pendingProfileConfirmationOwnerUserId !== null ||
+    state.link?.requiresProfileConfirmation === true
+  );
+}
+
+/**
  * A confirmation release is intentionally not an automatic-loop trigger.
  * The confirmation screen owns that handoff and starts the loop only after
  * its awaited local vote bootstrap has succeeded.
@@ -218,7 +235,8 @@ function mergePersistedCoupleLinkState(
     remoteSyncPauseReason:
       link && !link.ownerUserId
         ? 'auth-required'
-        : (persisted.remoteSyncPauseReason ?? currentState.remoteSyncPauseReason),
+        : (persisted.remoteSyncPauseReason ??
+          currentState.remoteSyncPauseReason),
     profileConfirmationInProgress: null,
   };
 }
