@@ -91,6 +91,13 @@ export default function PartnerConnect() {
   }>();
 
   const coupleLink = useCoupleLinkStore((state) => state.link);
+  // Subscribed rather than latched, so the notice clears on its own once
+  // recovery completes and the user returns to this still-mounted screen.
+  const recoveryPending = useCoupleLinkStore(
+    (state) =>
+      state.pendingProfileConfirmationOwnerUserId !== null ||
+      state.link?.requiresProfileConfirmation === true
+  );
   const { profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
       profiles: state.getProfiles(),
@@ -127,7 +134,7 @@ export default function PartnerConnect() {
   const [acceptError, setAcceptError] = useState<string | null>(null);
   const [lookupRetryKey, setLookupRetryKey] = useState(0);
   const [accountGateVisible, setAccountGateVisible] = useState(false);
-  const [recoveryRequired, setRecoveryRequired] = useState(false);
+  const [recoveryBlocked, setRecoveryBlocked] = useState(false);
   const [deferredRemoteAction, setDeferredRemoteAction] =
     useState<DeferredRemoteAction | null>(null);
   const remoteActionInFlightRef = useRef(false);
@@ -219,7 +226,7 @@ export default function PartnerConnect() {
     // the gate and retrying otherwise reaches create/accept with a permanent
     // but unrecovered session.
     if (hasPendingRecoveryConfirmation()) {
-      setRecoveryRequired(true);
+      setRecoveryBlocked(true);
       return;
     }
     remoteActionInFlightRef.current = true;
@@ -227,7 +234,7 @@ export default function PartnerConnect() {
     try {
       await getAccountService().requirePermanentUser();
       if (hasPendingRecoveryConfirmation()) {
-        setRecoveryRequired(true);
+        setRecoveryBlocked(true);
         return;
       }
       await action();
@@ -353,6 +360,10 @@ export default function PartnerConnect() {
     setAccountGateVisible(false);
     setMode('menu');
   }, []);
+
+  // Shown only when the user actually attempted a blocked action and recovery
+  // is still outstanding.
+  const recoveryRequired = recoveryBlocked && recoveryPending;
 
   return (
     <SafeAreaView

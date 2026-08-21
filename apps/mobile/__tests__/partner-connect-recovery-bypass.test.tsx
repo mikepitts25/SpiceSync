@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
+import { act, fireEvent, render } from '@testing-library/react-native';
 
 const mockRequirePermanentUser = jest.fn();
 const mockCreateInvite = jest.fn();
@@ -136,6 +136,25 @@ describe('PartnerConnect pending-recovery enforcement', () => {
     await screen.findByText('Finish restoring your account');
     expect(screen.queryByText('Create invite link')).toBeNull();
     expect(mockCreateInvite).not.toHaveBeenCalled();
+  });
+
+  it('clears the notice once recovery resolves', async () => {
+    const screen = render(<PartnerConnect />);
+
+    fireEvent.press(screen.getByText('Create invite link'));
+    await screen.findByText('Finish restoring your account');
+
+    // Recovery completed elsewhere while this screen stayed mounted.
+    await act(async () => {
+      useCoupleLinkStore.setState({
+        pendingProfileConfirmationOwnerUserId: null,
+        remoteSyncPauseReason: null,
+      });
+    });
+
+    // The screen must not stay stuck on the notice.
+    await screen.findByText('Create invite link');
+    expect(screen.queryByText('Finish restoring your account')).toBeNull();
   });
 
   it('blocks accepting a pasted invite while recovery confirmation is pending', async () => {
