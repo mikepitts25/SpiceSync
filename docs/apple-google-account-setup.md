@@ -64,6 +64,26 @@ cd apps/mobile
 eas env:exec production 'npm run release:check -- --require-social-recovery' --non-interactive
 ```
 
+EAS Build also runs the config-only form automatically from the
+`eas-build-pre-install` lifecycle hook. That fail-fast hook prevents an invalid
+remote build from consuming build time, but it does not replace the full manual
+preflight above, which also runs the test and TypeScript suites.
+
+This repository checks in `ios/` and `android/`, so EAS Build deliberately does
+not run Expo Prebuild. After changing a native config plugin or the production
+Google iOS client ID, regenerate iOS locally with the real production
+environment, inspect the native diff, and refresh the CocoaPods lockfile:
+
+```sh
+eas env:exec production 'CI=1 npx expo prebuild --platform ios --no-install' --non-interactive
+npx pod-install ios
+```
+
+The required release check reads the checked-in `Info.plist` and entitlements.
+It fails until the Apple Sign-In entitlement and the reverse Google iOS client
+ID scheme are present in the native project. Never generate or commit a fake
+Google callback scheme to make this check pass.
+
 `--require-social-recovery` requires every relay variable, both Google client
 IDs, the Apple capability/plugin, `spicesync` and generated Google iOS callback
 schemes, and the fixed production iOS/Android IDs. The check enables that same

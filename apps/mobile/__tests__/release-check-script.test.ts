@@ -1,4 +1,5 @@
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { spawnSync } from 'child_process';
 
@@ -29,6 +30,10 @@ type ExpoReleaseConfig = {
 
 type ReleaseEnvironment = Record<string, string | undefined>;
 type EASBuildProfiles = Record<string, unknown>;
+type CheckedInNativeIosConfig = {
+  infoPlist: string;
+  entitlements: string;
+};
 type ProcessResult = {
   error: Error | undefined;
   output: string;
@@ -39,12 +44,21 @@ type ReleaseCheckConfig = {
   collectProductionSocialRecoveryErrors(input: {
     environment: ReleaseEnvironment;
     expoConfig: ExpoReleaseConfig;
+    nativeIosConfig?: CheckedInNativeIosConfig | null;
+    requireSocialRecovery?: boolean;
   }): string[];
+  readCheckedInNativeIosConfig?: (
+    root: string
+  ) => CheckedInNativeIosConfig | null;
 };
 
 function runReleaseCheck(
   environment: ReleaseEnvironment,
-  expoConfig: ExpoReleaseConfig
+  expoConfig: ExpoReleaseConfig,
+  options: {
+    nativeIosConfig?: CheckedInNativeIosConfig | null;
+    requireSocialRecovery?: boolean;
+  } = {}
 ): { stderr: string } {
   // This is a pure fixture seam: it exercises exactly the validation used by
   // the executable release check without spawning the whole mobile suite.
@@ -54,6 +68,7 @@ function runReleaseCheck(
     stderr: collectProductionSocialRecoveryErrors({
       environment,
       expoConfig,
+      ...options,
     }).join('\n'),
   };
 }
@@ -93,6 +108,30 @@ function runReleaseCheckExecutable(
     encoding: 'utf8',
     env: isolatedEnvironment,
     timeout: 2000,
+  });
+  return {
+    error: result.error,
+    output: `${result.stdout ?? ''}${result.stderr ?? ''}`,
+    status: result.status,
+  };
+}
+
+function runEasPreInstallHook(
+  environment: ReleaseEnvironment
+): ProcessResult {
+  const isolatedEnvironment: NodeJS.ProcessEnv = {
+    ...process.env,
+  };
+  for (const name of socialRecoveryEnvironmentNames) {
+    delete isolatedEnvironment[name];
+  }
+  Object.assign(isolatedEnvironment, environment);
+
+  const result = spawnSync('npm', ['run', 'eas-build-pre-install', '--silent'], {
+    cwd: mobileRoot,
+    encoding: 'utf8',
+    env: isolatedEnvironment,
+    timeout: 5000,
   });
   return {
     error: result.error,
@@ -216,12 +255,149 @@ describe('release check command', () => {
 
     expect(result.stderr).toBe('');
   });
+
+  it('rejects checked-in iOS projects that omit native social-auth wiring', () => {
+    const result = runReleaseCheck(
+      productionSocialRecoveryEnvironment(),
+      productionExpoConfig(),
+      {
+        requireSocialRecovery: true,
+        nativeIosConfig: {
+          infoPlist: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict>
+              <key>CFBundleURLTypes</key>
+              <array><dict><key>CFBundleURLSchemes</key><array>
+                <string>spicesync</string>
+              </array></dict></array>
+            </dict></plist>`,
+          entitlements: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict></dict></plist>`,
+        },
+      }
+    );
+
+    expect(result.stderr).toContain(
+      'checked-in iOS entitlements must enable Sign in with Apple'
+    );
+    expect(result.stderr).toContain(
+      'checked-in iOS Info.plist must register Google callback scheme'
+    );
+  });
+
+  it('does not accept an unrelated Default value as the Apple entitlement', () => {
+    const result = runReleaseCheck(
+      productionSocialRecoveryEnvironment(),
+      productionExpoConfig(),
+      {
+        requireSocialRecovery: true,
+        nativeIosConfig: {
+          infoPlist: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict><key>CFBundleURLTypes</key><array><dict>
+              <key>CFBundleURLSchemes</key><array>
+                <string>com.googleusercontent.apps.123456789012-iosclient</string>
+              </array>
+            </dict></array></dict></plist>`,
+          entitlements: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict>
+              <key>com.apple.developer.applesignin</key><array/>
+              <key>unrelated</key><array><string>Default</string></array>
+            </dict></plist>`,
+        },
+      }
+    );
+
+    expect(result.stderr).toContain(
+      'checked-in iOS entitlements must enable Sign in with Apple'
+    );
+  });
+
+  it('does not accept the Google callback value outside URL schemes', () => {
+    const result = runReleaseCheck(
+      productionSocialRecoveryEnvironment(),
+      productionExpoConfig(),
+      {
+        requireSocialRecovery: true,
+        nativeIosConfig: {
+          infoPlist: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict>
+              <key>UnrelatedValue</key>
+              <string>com.googleusercontent.apps.123456789012-iosclient</string>
+              <key>CFBundleURLTypes</key><array><dict>
+                <key>CFBundleURLSchemes</key><array>
+                  <string>spicesync</string>
+                </array>
+              </dict></array>
+            </dict></plist>`,
+          entitlements: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict>
+              <key>com.apple.developer.applesignin</key>
+              <array><string>Default</string></array>
+            </dict></plist>`,
+        },
+      }
+    );
+
+    expect(result.stderr).toContain(
+      'checked-in iOS Info.plist must register Google callback scheme'
+    );
+  });
+
+  it('reads checked-in native iOS release files for executable validation', () => {
+    const fixtureRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'spicesync-native-release-')
+    );
+    const nativeDirectory = path.join(fixtureRoot, 'ios', 'SpiceSync');
+    fs.mkdirSync(nativeDirectory, { recursive: true });
+    fs.writeFileSync(path.join(nativeDirectory, 'Info.plist'), 'plist-fixture');
+    fs.writeFileSync(
+      path.join(nativeDirectory, 'SpiceSync.entitlements'),
+      'entitlements-fixture'
+    );
+
+    try {
+      const releaseConfig = require('../scripts/release-check-config.js') as ReleaseCheckConfig;
+      const nativeIosConfig = releaseConfig.readCheckedInNativeIosConfig
+        ? releaseConfig.readCheckedInNativeIosConfig(fixtureRoot)
+        : null;
+
+      expect(nativeIosConfig).toEqual({
+        infoPlist: 'plist-fixture',
+        entitlements: 'entitlements-fixture',
+      });
+    } finally {
+      fs.rmSync(fixtureRoot, { recursive: true, force: true });
+    }
+  });
 });
 
 const executableDescribe =
   process.env.RELEASE_CHECK_TEST_CHILD === '1' ? describe.skip : describe;
 
 executableDescribe('release check executable preflight', () => {
+  it('runs the required TestFlight preflight from the EAS pre-install hook', () => {
+    const result = runEasPreInstallHook({
+      ...productionSocialRecoveryEnvironment(),
+      EAS_BUILD_PROFILE: 'testflight',
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.output).toContain(
+      'checked-in iOS Info.plist must register Google callback scheme'
+    );
+    expect(result.output).not.toContain(
+      'checked-in iOS entitlements must enable Sign in with Apple'
+    );
+  });
+
+  it('keeps the EAS pre-install hook available to preview builds', () => {
+    const result = runEasPreInstallHook({ EAS_BUILD_PROFILE: 'preview' });
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(0);
+    expect(result.output).toContain('Release configuration preflight passed.');
+  });
+
   it('fails required social recovery mode when every required input is absent', () => {
     const result = runReleaseCheckExecutable(['--require-social-recovery'], {});
 
@@ -415,16 +591,18 @@ executableDescribe('release check executable preflight', () => {
     expect(result.output).toContain('not a raw *.supabase.co/functions/v1 URL');
   });
 
-  it('passes a production-shaped fixture through the inherited TestFlight profile', () => {
+  it('blocks TestFlight while checked-in native iOS auth wiring is stale', () => {
     const result = runReleaseCheckExecutable(['--config-only'], {
       ...productionSocialRecoveryEnvironment(),
       EAS_BUILD_PROFILE: 'testflight',
     });
 
-    expect(result.status).toBe(0);
+    expect(result.status).toBe(1);
     expect(result.output).toContain(
-      'Social recovery public mobile configuration OK.'
+      'checked-in iOS Info.plist must register Google callback scheme'
     );
-    expect(result.output).toContain('Release configuration preflight passed.');
+    expect(result.output).not.toContain(
+      'checked-in iOS entitlements must enable Sign in with Apple'
+    );
   });
 });
