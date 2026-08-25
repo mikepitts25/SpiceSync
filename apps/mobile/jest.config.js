@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'react-native',
   moduleNameMapper: {
-    '^(?:\\.\\.?/)+(?:lib/sync/)?crypto$': '<rootDir>/lib/sync/crypto.ts',
+    '^(?:\\.\\.?/)+(?:(?:lib/)?sync/)?crypto$': '<rootDir>/lib/sync/crypto.ts',
     '^@react-native-async-storage/async-storage$':
       '@react-native-async-storage/async-storage/jest/async-storage-mock',
     '^expo-secure-store$': '<rootDir>/__mocks__/expo-secure-store.js',
