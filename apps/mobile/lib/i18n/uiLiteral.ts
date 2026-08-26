@@ -3,6 +3,56 @@ import { en } from './en';
 import { es } from './es';
 
 const supplementalSpanish: Record<string, string> = {
+  // Encrypted backup
+  'Encrypted backup': 'Copia de seguridad cifrada',
+  'Save or restore your data': 'Guarda o restaura tus datos',
+  'Backups are encrypted on this device. Only your recovery phrase can open one, and nobody can recover it for you if it is lost.':
+    'Las copias de seguridad se cifran en este dispositivo. Solo tu frase de recuperación puede abrirlas y nadie podrá recuperarla por ti si la pierdes.',
+  'Create a backup': 'Crear una copia de seguridad',
+  'Create backup': 'Crear copia de seguridad',
+  'Encrypting...': 'Cifrando...',
+  'This creates an encrypted copy of your profiles, votes, and progress. Your partner link and purchases are not included.':
+    'Esto crea una copia cifrada de tus perfiles, votos y progreso. No incluye tu vínculo de pareja ni tus compras.',
+  'Your recovery phrase': 'Tu frase de recuperación',
+  'Write these words down now. They are shown once and are not stored anywhere.':
+    'Anota estas palabras ahora. Se muestran una sola vez y no se guardan en ningún lugar.',
+  'Copy recovery phrase': 'Copiar frase de recuperación',
+  'Copy encrypted backup': 'Copiar copia de seguridad cifrada',
+  'Your encrypted backup is on the clipboard. Paste it somewhere safe.':
+    'Tu copia de seguridad cifrada está en el portapapeles. Pégala en un lugar seguro.',
+  'Store your recovery phrase separately from the backup itself.':
+    'Guarda tu frase de recuperación por separado de la copia de seguridad.',
+  'Restore a backup': 'Restaurar una copia de seguridad',
+  'Restore backup': 'Restaurar copia de seguridad',
+  'Decrypting...': 'Descifrando...',
+  'Recovery phrase': 'Frase de recuperación',
+  'Enter your 12 words, separated by spaces':
+    'Escribe tus 12 palabras, separadas por espacios',
+  'Paste the encrypted backup here': 'Pega aquí la copia de seguridad cifrada',
+  'Paste backup': 'Pegar copia de seguridad',
+  Paste: 'Pegar',
+  'Restore complete': 'Restauración completada',
+  Restored: 'Restaurado',
+  'Some items were skipped because backups may not restore them.':
+    'Se omitieron algunos elementos porque las copias de seguridad no pueden restaurarlos.',
+  'Restart the app to finish loading everything.':
+    'Reinicia la app para terminar de cargar todo.',
+  'Backup failed': 'Error en la copia de seguridad',
+  'Something went wrong while creating the backup. Please try again.':
+    'Algo salió mal al crear la copia de seguridad. Inténtalo de nuevo.',
+  'Something went wrong while restoring. Please try again.':
+    'Algo salió mal al restaurar. Inténtalo de nuevo.',
+  'Enter your recovery phrase.': 'Escribe tu frase de recuperación.',
+  'A recovery phrase has this many words:':
+    'Una frase de recuperación tiene esta cantidad de palabras:',
+  'These words are not part of a recovery phrase:':
+    'Estas palabras no forman parte de una frase de recuperación:',
+  'That phrase does not open this backup, or the backup has been altered.':
+    'Esa frase no abre esta copia de seguridad, o la copia fue alterada.',
+  'This backup opened but its contents are not readable.':
+    'Esta copia de seguridad se abrió, pero su contenido no se puede leer.',
+  'That does not look like a SpiceSync backup.':
+    'Esto no parece una copia de seguridad de SpiceSync.',
   'Browse list screen': 'Pantalla de exploración',
   'Tier:': 'Nivel:',
   'Intensity:': 'Intensidad:',

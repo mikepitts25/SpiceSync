@@ -119,12 +119,12 @@ describe('backup crypto', () => {
   it('rejects malformed salt and nonce lengths', () => {
     const envelope = encryptBackup(PHRASE, 'secret', FAST_ITERATIONS);
 
-    expect(() =>
-      decryptBackup(PHRASE, { ...envelope, salt: 'AAAA' })
-    ).toThrow(BackupFormatError);
-    expect(() =>
-      decryptBackup(PHRASE, { ...envelope, nonce: 'AAAA' })
-    ).toThrow(BackupFormatError);
+    expect(() => decryptBackup(PHRASE, { ...envelope, salt: 'AAAA' })).toThrow(
+      BackupFormatError
+    );
+    expect(() => decryptBackup(PHRASE, { ...envelope, nonce: 'AAAA' })).toThrow(
+      BackupFormatError
+    );
   });
 
   it('requires a passphrase to encrypt', () => {

@@ -84,7 +84,9 @@ function deriveKey(
  * KDF parameters cannot be downgraded without invalidating the tag.
  */
 function headerAad(iterations: number): Uint8Array {
-  return utf8ToBytes(`${BACKUP_FORMAT}:pbkdf2-sha256:${iterations}:aes-256-gcm`);
+  return utf8ToBytes(
+    `${BACKUP_FORMAT}:pbkdf2-sha256:${iterations}:aes-256-gcm`
+  );
 }
 
 export function encryptBackup(

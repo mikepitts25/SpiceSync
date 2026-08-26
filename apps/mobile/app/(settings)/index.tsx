@@ -21,6 +21,7 @@ import {
   Info,
   Link as LinkIcon,
   Lock,
+  Save,
   ShieldCheck,
   Star,
   Trophy,
@@ -332,6 +333,14 @@ export default function SettingsScreen() {
                   })
                 : router.push('/(settings)/profiles')
             }
+          />
+          <SectionRow
+            icon={Save}
+            label={ui('Encrypted backup')}
+            value={ui('Save or restore your data')}
+            tint={COLORS.maybe}
+            badgeBg="rgba(245,158,11,0.12)"
+            onPress={() => router.push('/(settings)/backup')}
             last
           />
         </SettingsSection>
