@@ -23,6 +23,21 @@ The checked-in production identity is deliberately fixed:
 | Google iOS callback scheme | `com.googleusercontent.apps.<Google iOS client-ID prefix>`; `app.config.js` derives it from `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` |
 | EAS build profile | `production`, which already selects EAS environment `production` |
 
+The production provider metadata verified on 2026-08-26 is:
+
+| Item | Production value |
+| --- | --- |
+| Supabase project | `gewxwyvjcdplbdkygnib` |
+| Supabase OAuth callback | `https://gewxwyvjcdplbdkygnib.supabase.co/auth/v1/callback` |
+| Apple team | `33YM89B48D` |
+| Apple native App ID | `com.spicesync.app` |
+| Apple Services ID | `com.spicesync.app.auth` |
+
+The Apple Services-ID client-secret JWT must never exceed Apple's six-month
+maximum lifetime and must be rotated before expiry. Keep its signing `.p8`
+private key and every OAuth secret outside git; only the public identifiers and
+the reversed Google iOS URL scheme belong in the checked-in app metadata.
+
 The native flows use `signInWithIdToken` and `linkIdentity` with native
 credentials. They do not use a browser `signInWithOAuth` callback today. Keep
 the `spicesync` scheme and generated Google reverse-client-ID scheme registered

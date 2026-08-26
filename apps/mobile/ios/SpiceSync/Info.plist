@@ -37,6 +37,12 @@
 				<string>exp+spicesync</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.156418719237-i7olfgc8f0jb6mnd8f89ipbvijjicpp0</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
