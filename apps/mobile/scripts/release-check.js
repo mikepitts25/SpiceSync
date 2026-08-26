@@ -7,6 +7,7 @@ const path = require('path');
 const {
   collectProductionSocialRecoveryErrors,
   isPartnerSyncEnabled,
+  readCheckedInNativeIosConfig,
 } = require('./release-check-config');
 const { resolveEasBuildProfile } = require('./release-check-eas-profile');
 
@@ -172,6 +173,7 @@ function assertSocialRecoveryConfig({ requireSocialRecovery }) {
   const errors = collectProductionSocialRecoveryErrors({
     environment: process.env,
     expoConfig: readResolvedExpoConfig(),
+    nativeIosConfig: readCheckedInNativeIosConfig(mobileRoot),
     requireSocialRecovery,
   });
   if (errors.length > 0) {

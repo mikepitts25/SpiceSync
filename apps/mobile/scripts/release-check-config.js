@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const EXPECTED_APPLICATION_ID = 'com.spicesync.app';
 const EXPECTED_APP_SCHEME = 'spicesync';
 const GOOGLE_CLIENT_ID_SUFFIX = '.apps.googleusercontent.com';
@@ -68,6 +71,52 @@ function hasGoogleIosRedirectScheme(expoConfig, expectedScheme) {
   );
 }
 
+function hasPlistString(plistContents, value) {
+  if (typeof plistContents !== 'string') return false;
+  const escapedValue = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`<string>\\s*${escapedValue}\\s*</string>`).test(
+    plistContents
+  );
+}
+
+function hasAppleSignInEntitlement(entitlements) {
+  if (typeof entitlements !== 'string') return false;
+  const appleEntitlement = entitlements.match(
+    /<key>\s*com\.apple\.developer\.applesignin\s*<\/key>\s*<array>([\s\S]*?)<\/array>/
+  );
+  return Boolean(
+    appleEntitlement && hasPlistString(appleEntitlement[1], 'Default')
+  );
+}
+
+function hasPlistUrlScheme(infoPlist, expectedScheme) {
+  if (typeof infoPlist !== 'string') return false;
+  const urlSchemeArrays = infoPlist.matchAll(
+    /<key>\s*CFBundleURLSchemes\s*<\/key>\s*<array>([\s\S]*?)<\/array>/g
+  );
+  return Array.from(urlSchemeArrays).some((match) =>
+    hasPlistString(match[1], expectedScheme)
+  );
+}
+
+function readCheckedInNativeIosConfig(mobileRoot) {
+  const iosRoot = path.join(mobileRoot, 'ios');
+  if (!fs.existsSync(iosRoot)) return null;
+
+  const nativeRoot = path.join(iosRoot, 'SpiceSync');
+  const infoPlistPath = path.join(nativeRoot, 'Info.plist');
+  const entitlementsPath = path.join(nativeRoot, 'SpiceSync.entitlements');
+
+  return {
+    infoPlist: fs.existsSync(infoPlistPath)
+      ? fs.readFileSync(infoPlistPath, 'utf8')
+      : '',
+    entitlements: fs.existsSync(entitlementsPath)
+      ? fs.readFileSync(entitlementsPath, 'utf8')
+      : '',
+  };
+}
+
 function isPartnerSyncEnabled(environment) {
   return Boolean(
     clean(environment.EXPO_PUBLIC_SUPABASE_URL) ||
@@ -103,6 +152,7 @@ function isEasProductionBuild(environment) {
 function collectProductionSocialRecoveryErrors({
   environment,
   expoConfig,
+  nativeIosConfig = null,
   requireSocialRecovery = false,
 }) {
   const socialRecoveryRequired =
@@ -168,6 +218,22 @@ function collectProductionSocialRecoveryErrors({
     );
   }
 
+  if (socialRecoveryRequired && nativeIosConfig) {
+    if (!hasAppleSignInEntitlement(nativeIosConfig.entitlements)) {
+      errors.push(
+        'The checked-in iOS entitlements must enable Sign in with Apple before a production build.'
+      );
+    }
+    if (
+      expectedScheme &&
+      !hasPlistUrlScheme(nativeIosConfig.infoPlist, expectedScheme)
+    ) {
+      errors.push(
+        `The checked-in iOS Info.plist must register Google callback scheme ${expectedScheme} before a production build.`
+      );
+    }
+  }
+
   if (socialRecoveryRequired) {
     if (!isManagedDeletionUrl(environment.SPICESYNC_ACCOUNT_DELETION_URL)) {
       errors.push(
@@ -188,4 +254,5 @@ module.exports = {
   collectProductionSocialRecoveryErrors,
   isEasProductionBuild,
   isPartnerSyncEnabled,
+  readCheckedInNativeIosConfig,
 };
