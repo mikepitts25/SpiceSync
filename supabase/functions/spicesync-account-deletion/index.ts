@@ -9,6 +9,7 @@ const MAX_FORM_BODY_BYTES = 2048;
 const REQUEST_REFERENCE_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
 const UNSAFE_CONTACT_CHARACTER =
   /[\u0000-\u001F\u007F-\u009F\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/u;
+export const GATEWAY_HEADER = "x-spicesync-gateway";
 
 export interface DeletionRequest {
   contact: string;
@@ -16,6 +17,7 @@ export interface DeletionRequest {
 }
 
 export interface DeletionPageDependencies {
+  gatewaySecret: string;
   insertDeletionRequest(
     request: DeletionRequest,
   ): Promise<{ requestId: string }>;
@@ -25,6 +27,9 @@ export async function handleDeletionPage(
   request: Request,
   dependencies = createDeletionPageDependencies(),
 ): Promise<Response> {
+  if (!(await hasValidGatewaySecret(request, dependencies.gatewaySecret))) {
+    return textResponse(request, 403, "Forbidden");
+  }
   if (!isAllowedCorsOrigin(request)) {
     return textResponse(request, 403, "Forbidden");
   }
@@ -86,6 +91,27 @@ export async function handleDeletionPage(
   return confirmationResponse(request, requestId, deletionRequest.contact);
 }
 
+export async function hasValidGatewaySecret(
+  request: Request,
+  expectedSecret: string,
+): Promise<boolean> {
+  const suppliedSecret = request.headers.get(GATEWAY_HEADER);
+  if (suppliedSecret === null || suppliedSecret.length === 0) return false;
+
+  const encoder = new TextEncoder();
+  const [suppliedDigest, expectedDigest] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(suppliedSecret)),
+    crypto.subtle.digest("SHA-256", encoder.encode(expectedSecret)),
+  ]);
+  const suppliedBytes = new Uint8Array(suppliedDigest);
+  const expectedBytes = new Uint8Array(expectedDigest);
+  let mismatch = suppliedBytes.length ^ expectedBytes.length;
+  for (let index = 0; index < suppliedBytes.length; index += 1) {
+    mismatch |= suppliedBytes[index] ^ expectedBytes[index];
+  }
+  return mismatch === 0;
+}
+
 export function createDeletionPageDependencies(): DeletionPageDependencies {
   const client = createClient(
     requiredEnvironment("SUPABASE_URL"),
@@ -99,6 +125,7 @@ export function createDeletionPageDependencies(): DeletionPageDependencies {
     },
   );
   return {
+    gatewaySecret: requiredEnvironment("SPICESYNC_DELETION_GATEWAY_SECRET"),
     async insertDeletionRequest(request) {
       const { data, error } = await client.from(
         "spicesync_account_deletion_requests",
