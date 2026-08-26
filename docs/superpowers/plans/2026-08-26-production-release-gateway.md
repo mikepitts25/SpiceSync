@@ -183,6 +183,20 @@
 
 ### Task 2: Implement the Cloudflare Account-Deletion Gateway
 
+> **Approved production amendment (2026-08-26):** Live tests showed that the
+> account's native `RateLimit` bindings did not enforce even diagnostic limits.
+> Replace every `FORM_RATE_LIMITER`/`SUBMIT_RATE_LIMITER` design and code sample
+> below with one SQLite Durable Object binding named `RATE_LIMITER`. Partition
+> objects by an HMAC-SHA-256 digest of method plus trusted
+> `cf-connecting-ip`, using `GATEWAY_SHARED_SECRET` with a domain-separated
+> message; never use the raw IP as the durable name. The object enforces fixed
+> 60-second windows at 30 GETs and 5 POSTs, and returns the remaining integer
+> `Retry-After` from 1 through 60. Regenerate `worker-configuration.d.ts` with
+> `npm run types`. Durable Object lifecycle migrations cannot be rolled back to
+> a pre-migration version: recover forward while retaining the class, migration,
+> and binding, or disable the public route while repairing it. This amendment
+> is authoritative wherever the earlier Task 2 examples conflict with it.
+
 **Files:**
 - Create: `infra/account-deletion-gateway/.gitignore`
 - Create: `infra/account-deletion-gateway/package.json`
@@ -867,7 +881,7 @@
 
   Expected: Supabase reports the function deployed; Wrangler reports `spicesync-account-deletion-gateway` deployed and prints one stable `workers.dev` URL. Record the URL locally as `GATEWAY_BASE_URL` without adding a trailing slash.
 
-  If either deploy or any verification in Steps 4–6 fails, leave the EAS release gate closed. Roll back an existing Worker with `npx wrangler rollback "$PREVIOUS_WORKER_DEPLOYMENT_ID"`; for a failed first deployment, disable its `workers.dev` route in Cloudflare. Keep the hardened Supabase origin closed while repairing the Worker rather than redeploying the previously public origin. Rotate both copies of the shared secret after any suspected exposure. Never use `git reset`, overwrite the active working tree, or expose the secret during rollback.
+  If either deploy or any verification in Steps 4–6 fails, leave the EAS release gate closed. Because the SQLite Durable Object migration cannot roll back to a pre-migration deployment, deploy a forward fix that retains the class, migration, and binding; if safe forward recovery is not ready, disable the `workers.dev` route in Cloudflare. Keep the hardened Supabase origin closed while repairing the Worker rather than redeploying the previously public origin. Rotate both copies of the shared secret after any suspected exposure. Never use `git reset`, overwrite the active working tree, or expose the secret during rollback.
 
 - [ ] **Step 4: Prove the raw Supabase origin is closed**
 
@@ -913,7 +927,7 @@
   for request_number in {1..31}; do curl --silent --output /dev/null --write-out '%{http_code}\n' "$GATEWAY_BASE_URL/account-deletion"; done
   ```
 
-  Expected: at least one response is `429`, its headers include `Retry-After: 60`, and the origin remains healthy afterward. In Cloudflare Workers Observability and the `spicesync_account_deletion_gateway` Analytics Engine dataset, confirm `allowed` and `rate_limited` events exist and contain only event, method, status, and timestamp fields. Search Worker logs for `release-verification`, `x-spicesync-gateway`, and `cf-connecting-ip`; all three searches must return zero matching log payloads.
+  Expected: exactly 30 responses are `200`, the 31st is `429`, its headers include an integer `Retry-After` from 1 through 60, and the origin remains healthy afterward. Repeat with POST and expect exactly five `202` responses followed by `429`. In Cloudflare Workers Observability and the `spicesync_account_deletion_gateway` Analytics Engine dataset, confirm `allowed` and `rate_limited` events exist and contain only event, method, status, and timestamp fields. Search Worker logs for `release-verification`, `x-spicesync-gateway`, and `cf-connecting-ip`; all three searches must return zero matching log payloads.
 
   Configure a Cloudflare notification rule for Worker error-rate alerts on `spicesync-account-deletion-gateway`. If the account plan exposes no Worker error notification type, treat monitoring as incomplete and stop before setting the release-verification flag; do not silently downgrade the approved design.
 
@@ -1099,6 +1113,6 @@
   }
   NODE
   ```
-- [ ] Verify type/name consistency across tasks: `x-spicesync-gateway`, `SPICESYNC_DELETION_GATEWAY_SECRET`, `GATEWAY_SHARED_SECRET`, `FORM_RATE_LIMITER`, `SUBMIT_RATE_LIMITER`, `SECURITY_EVENTS`, and `handleGatewayRequest` must have exactly one spelling each.
+- [ ] Verify type/name consistency across tasks: `x-spicesync-gateway`, `SPICESYNC_DELETION_GATEWAY_SECRET`, `GATEWAY_SHARED_SECRET`, `RATE_LIMITER`, `SECURITY_EVENTS`, and `handleGatewayRequest` must have exactly one spelling each.
 - [ ] Verify the plan contains no credential values, sample private keys, Apple client-secret JWTs, or commands that print secret stores.
 - [ ] Run `git diff --check` before committing this plan.

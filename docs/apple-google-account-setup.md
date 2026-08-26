@@ -322,6 +322,31 @@ is available. The in-app Account settings delete path and this external URL are
 both required for an app that offers account creation; see [Google Play's
 current policy guidance](https://support.google.com/googleplay/android-developer/answer/13327111).
 
+### Production deletion gateway record
+
+The production gateway was deployed and verified on 2026-08-26:
+
+| Item | Production value |
+| --- | --- |
+| Worker | `spicesync-account-deletion-gateway` |
+| Public deletion URL | `https://spicesync-account-deletion-gateway.spicesync-account-deletion-gateway.workers.dev/account-deletion` |
+| Rate control | SQLite Durable Object fixed windows keyed by trusted connecting IP and method: 30 GET/minute and 5 POST/minute |
+| Security events | Cloudflare Worker Observability plus Analytics Engine dataset `spicesync_account_deletion_gateway` |
+
+The Supabase `spicesync-account-deletion` Function remains private origin
+infrastructure protected by the shared gateway secret; it is not a public
+deletion URL. Live verification produced 30 successful GETs followed by a 429,
+and five successful POSTs followed by a 429, with `Retry-After` set to the
+remaining fixed-window duration.
+
+Inspect operational logs under **Workers & Pages →
+spicesync-account-deletion-gateway → Observability** and aggregate security
+events under **Analytics Engine → spicesync_account_deletion_gateway**. The
+account exposes **Notifications → Log Explorer → Scheduled Query Results**, but
+Log Explorer log storage is a paid add-on on this account. A scheduled-query
+alert therefore remains a release blocker until the add-on is purchased or an
+explicitly approved no-cost monitoring destination is configured.
+
 ## Operational security settings
 
 - CORS is intentionally fixed to `https://spicesync.app` in

@@ -8,13 +8,9 @@ jest.mock('../lib/sync/supabaseConfig', () => ({
   isSupabaseRelayConfigured: jest.fn(),
 }));
 
-jest.mock(
-  '../lib/sync/supabaseClient',
-  () => ({
-    getConfiguredSupabaseRelayClient: jest.fn(),
-  }),
-  { virtual: true }
-);
+jest.mock('../lib/sync/supabaseClient', () => ({
+  getConfiguredSupabaseRelayClient: jest.fn(),
+}));
 
 describe('relay transport selection', () => {
   beforeEach(() => {

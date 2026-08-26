@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
+import * as gatewayModule from "../src/index";
 import {
   type Env,
   type GatewayRuntime,
@@ -10,9 +11,26 @@ const PUBLIC_URL = "https://gateway.example/account-deletion";
 const ORIGIN_URL =
   "https://gewxwyvjcdplbdkygnib.supabase.co/functions/v1/spicesync-account-deletion";
 
+type ConsumeFixedWindow = (
+  state: { windowStart: number; count: number } | undefined,
+  limit: number,
+  now: number,
+) => {
+  state: { windowStart: number; count: number };
+  success: boolean;
+  retryAfter: number;
+};
+
+function fixedWindowCounter(): ConsumeFixedWindow | undefined {
+  return (gatewayModule as unknown as {
+    consumeFixedWindow?: ConsumeFixedWindow;
+  }).consumeFixedWindow;
+}
+
 interface FixtureOptions {
   fetch?: (request: Request) => Promise<Response>;
   formAllowed?: boolean;
+  limiterFetch?: (request: Request) => Promise<Response>;
   submitAllowed?: boolean;
 }
 
@@ -20,14 +38,23 @@ function fixture(options: FixtureOptions = {}): {
   env: Env;
   runtime: GatewayRuntime;
 } {
-  const limiter = (success: boolean) => ({
-    limit: vi.fn(async () => ({ success })),
-  }) as unknown as RateLimit;
+  const defaultLimiterFetch = async (request: Request) => {
+    const { limit } = await request.json<{ limit: number }>();
+    return Response.json({
+      success: limit === 5
+        ? (options.submitAllowed ?? true)
+        : (options.formAllowed ?? true),
+      retryAfter: 60,
+    });
+  };
+  const limiterFetch = vi.fn(options.limiterFetch ?? defaultLimiterFetch);
   const env: Env = {
     UPSTREAM_URL: ORIGIN_URL,
     GATEWAY_SHARED_SECRET: "test-gateway-secret",
-    FORM_RATE_LIMITER: limiter(options.formAllowed ?? true),
-    SUBMIT_RATE_LIMITER: limiter(options.submitAllowed ?? true),
+    RATE_LIMITER: {
+      idFromName: vi.fn(() => "rate-id"),
+      get: vi.fn(() => ({ fetch: limiterFetch })),
+    } as unknown as DurableObjectNamespace,
     SECURITY_EVENTS: {
       writeDataPoint: vi.fn(),
     } as unknown as AnalyticsEngineDataset,
@@ -40,6 +67,72 @@ function fixture(options: FixtureOptions = {}): {
 }
 
 describe("account deletion gateway", () => {
+  it("deterministically denies the request after the fixed-window limit", () => {
+    const consume = fixedWindowCounter();
+    expect(consume).toBeTypeOf("function");
+    if (!consume) return;
+
+    const first = consume(undefined, 2, 1_000);
+    const second = consume(first.state, 2, 2_000);
+    const denied = consume(second.state, 2, 3_000);
+
+    expect(first.success).toBe(true);
+    expect(second.success).toBe(true);
+    expect(denied).toEqual({
+      state: { windowStart: 0, count: 2 },
+      success: false,
+      retryAfter: 57,
+    });
+  });
+
+  it("starts a fresh count at the next minute boundary", () => {
+    const consume = fixedWindowCounter();
+    expect(consume).toBeTypeOf("function");
+    if (!consume) return;
+
+    const result = consume({ windowStart: 0, count: 30 }, 30, 60_000);
+
+    expect(result).toEqual({
+      state: { windowStart: 60_000, count: 1 },
+      success: true,
+      retryAfter: 60,
+    });
+  });
+
+  it("persists the count through the Durable Object storage path", async () => {
+    const values = new Map<string, unknown>();
+    const ctx = {
+      storage: {
+        get: vi.fn(async (key: string) => values.get(key)),
+        put: vi.fn(async (key: string, value: unknown) => {
+          values.set(key, value);
+        }),
+      },
+    } as unknown as DurableObjectState;
+    const limiter = new gatewayModule.DeletionRateLimiter(ctx);
+    const consume = (now: number) => limiter.fetch(new Request(
+      "https://rate-limiter.internal/consume",
+      {
+        method: "POST",
+        body: JSON.stringify({ limit: 2, now }),
+      },
+    ));
+
+    expect(await (await consume(1_000)).json()).toEqual({
+      success: true,
+      retryAfter: 59,
+    });
+    expect(await (await consume(2_000)).json()).toEqual({
+      success: true,
+      retryAfter: 58,
+    });
+    expect(await (await consume(3_000)).json()).toEqual({
+      success: false,
+      retryAfter: 57,
+    });
+    expect(values.get("state")).toEqual({ windowStart: 0, count: 2 });
+  });
+
   it("injects origin authentication and removes spoofable headers", async () => {
     let forwarded: Request | undefined;
     const { env, runtime } = fixture({
@@ -157,6 +250,65 @@ describe("account deletion gateway", () => {
 
     expect(response.status).toBe(429);
     expect(response.headers.get("retry-after")).toBe("60");
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("uses one privacy-safe deterministic limiter key per method and IP", async () => {
+    const fetch = vi.fn(async () => new Response("ok"));
+    const limiterFetch = vi.fn(async (_request: Request) =>
+      Response.json({ success: false, retryAfter: 23 }));
+    const idFromName = vi.fn((_name: string) => "stable-rate-id");
+    const get = vi.fn(() => ({ fetch: limiterFetch }));
+    const { env: legacyEnv, runtime } = fixture({ fetch });
+    const env = {
+      ...legacyEnv,
+      RATE_LIMITER: { idFromName, get },
+    } as unknown as Env;
+
+    const request = () => new Request(PUBLIC_URL, {
+      method: "POST",
+      headers: {
+        "cf-connecting-ip": "203.0.113.10",
+        "content-type": "application/x-www-form-urlencoded",
+      },
+      body: "provider=google&contact=person%40example.test",
+    });
+    const response = await handleGatewayRequest(request(), env, runtime);
+    await handleGatewayRequest(request(), env, runtime);
+
+    const firstKey = idFromName.mock.calls[0]?.[0];
+    expect(firstKey).toMatch(/^[a-f0-9]{64}$/);
+    expect(firstKey).not.toContain("203.0.113.10");
+    expect(idFromName.mock.calls[1]?.[0]).toBe(firstKey);
+    expect(get).toHaveBeenNthCalledWith(1, "stable-rate-id");
+    const limiterRequest = limiterFetch.mock.calls[0]?.[0];
+    expect(await limiterRequest?.json()).toEqual({
+      limit: 5,
+      now: 1_787_699_200_000,
+    });
+    expect(response.status).toBe(429);
+    expect(response.headers.get("retry-after")).toBe("23");
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["throws", async () => { throw new Error("limiter offline"); }],
+    ["returns an error", async () => new Response("error", { status: 500 })],
+    ["returns malformed JSON", async () => Response.json({ success: "yes" })],
+  ])("fails closed with a no-store 503 when the limiter %s", async (_label, limiterFetch) => {
+    const fetch = vi.fn();
+    const { env, runtime } = fixture({ fetch, limiterFetch });
+
+    const response = await handleGatewayRequest(
+      new Request(PUBLIC_URL, {
+        headers: { "cf-connecting-ip": "203.0.113.10" },
+      }),
+      env,
+      runtime,
+    );
+
+    expect(response.status).toBe(503);
+    expect(response.headers.get("cache-control")).toBe("no-store");
     expect(fetch).not.toHaveBeenCalled();
   });
 
