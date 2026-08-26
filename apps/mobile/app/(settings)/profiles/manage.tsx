@@ -78,7 +78,7 @@ export default function ManageProfileScreen() {
 
     Alert.alert(
       ui('Delete profile?'),
-      `${ui('This permanently removes')} ${profile.displayName ?? profile.name} ${ui('and their data.')}`,
+      `${ui('This permanently removes')} ${profile.displayName ?? profile.name} ${ui('and their data. An encrypted backup made before now can restore them.')}`,
       [
         { text: ui('Cancel'), style: 'cancel' },
         {

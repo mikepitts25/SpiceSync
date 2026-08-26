@@ -8,6 +8,7 @@ import {
   HeartHandshake,
   Link2Off,
   RotateCcw,
+  Save,
   ShieldCheck,
   Trash2,
 } from 'lucide-react-native';
@@ -74,37 +75,46 @@ export default function PrivacySafetyScreen() {
     );
   }, []);
 
+  const runResetApp = useCallback(async () => {
+    setResetting(true);
+    try {
+      await resetAppOnDevice();
+      router.replace('/welcome');
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : ui('Could not reset this device.');
+      Alert.alert(ui('Reset failed'), message);
+    } finally {
+      setResetting(false);
+    }
+  }, [router]);
+
   const confirmResetApp = useCallback(() => {
     if (resetting) return;
+    // A reset is unrecoverable unless the user has a backup, and they are
+    // unlikely to remember the feature exists at the moment they need it.
+    // Offering the detour here is the only point where it still helps.
     Alert.alert(
       ui('Reset app on this device?'),
       ui(
-        'This removes profiles, votes, partner sync state, pending sync events, and age verification from this device. This cannot be undone.'
+        'This removes profiles, votes, partner sync state, pending sync events, and age verification from this device. This cannot be undone unless you have an encrypted backup.'
       ),
       [
         { text: ui('Cancel'), style: 'cancel' },
         {
+          text: ui('Back up first'),
+          onPress: () => router.push('/(settings)/backup'),
+        },
+        {
           text: ui('Reset device'),
           style: 'destructive',
-          onPress: async () => {
-            setResetting(true);
-            try {
-              await resetAppOnDevice();
-              router.replace('/welcome');
-            } catch (error) {
-              const message =
-                error instanceof Error
-                  ? error.message
-                  : ui('Could not reset this device.');
-              Alert.alert(ui('Reset failed'), message);
-            } finally {
-              setResetting(false);
-            }
-          },
+          onPress: runResetApp,
         },
       ]
     );
-  }, [resetting, router]);
+  }, [resetting, router, runResetApp]);
 
   return (
     <SafeAreaView
@@ -157,6 +167,14 @@ export default function PrivacySafetyScreen() {
         </SettingsSection>
 
         <SettingsSection title={ui('DATA CONTROLS')}>
+          <SectionRow
+            icon={Save}
+            label={ui('Encrypted backup')}
+            value={ui('Save or restore your data')}
+            tint={COLORS.maybe}
+            badgeBg="rgba(245,158,11,0.12)"
+            onPress={() => router.push('/(settings)/backup')}
+          />
           <SectionRow
             icon={Trash2}
             label={ui('Clear my votes')}
