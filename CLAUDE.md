@@ -53,7 +53,7 @@ apps/mobile/
 |---|---|
 | `(onboarding)` | Age gate, brand intro, privacy, profile creation, partner invite |
 | `(tabs)` | Main tab navigator: browse, deck, matches, conversation, game, kinks |
-| `(settings)` | Profiles, achievements, export, notifications, love-languages |
+| `(settings)` | Profiles, achievements, encrypted backup, notifications, love-languages, privacy & safety |
 | `(game)` | Custom deck builder, draw, complete screens |
 | `(conversation)` | Conversation starters: date-night, kink-topics |
 | `(matches)` | Match results, date-night view, kink topics |
@@ -95,6 +95,8 @@ apps/mobile/
 - **`lib/gamePlayerFilter.ts`** — Filters game cards by player count: explicit `minPlayers`/`maxPlayers` flags win; unflagged intimate/physical cards stay couple-only, flirty categories carry 3–4 player games.
 - **`lib/gameSession.ts`** — Turn engine (solo/couple/group), mode-scaled consequence pool with EN/ES text on each template, and heat-round prompts for 3–4 player games.
 - **`lib/kinks/starterPack.ts`** — Curated 15-kink starter pack served to fresh profiles on the deck until they've cast that many votes (or skipped).
+- **`lib/backup/`** — Local encrypted backup. `backupCrypto.ts` does AES-256-GCM with PBKDF2-HMAC-SHA256 (210k iterations), binding the KDF params as GCM additional authenticated data so iteration count cannot be downgraded. `recoveryPhrase.ts` generates 12-word phrases from a 256-word list (8 bits/word; the list order is load-bearing — reordering it invalidates every existing phrase). `snapshot.ts` holds the **allowlist** that decides what leaves the device; `rehydrate.ts` re-reads restored keys into the live zustand stores; `backupFlow.ts` orchestrates create/restore for the UI.
+  - **Adding a persisted store?** `snapshot.ts` is allowlist-only, and a drift-guard test fails until the new store's key is listed in either `BACKUP_ALLOWLIST` or `BACKUP_EXCLUSIONS`. Backups must never carry device sync identity, the partner link, relay cursors, purchase entitlement, or profile PINs.
 
 ### Data Files
 

@@ -38,6 +38,12 @@ export default function PrivacyPolicyScreen() {
           )}
         </Section>
 
+        <Section title={ui('Encrypted Backups')}>
+          {ui(
+            ' You can create an encrypted backup of your profiles, votes, and progress. The backup is encrypted on your device with a recovery phrase that is shown to you once and is never sent anywhere or stored by SpiceSync. Only that phrase can open the backup, and if it is lost the backup cannot be recovered by us or anyone else. Backups are never uploaded automatically; the file goes wherever you choose to put it, and you are responsible for keeping it safe. Backups deliberately exclude your device sync identity, your partner link, your purchase entitlement, and any profile PINs. '
+          )}
+        </Section>
+
         <Section title={ui('Partner Sync')}>
           {ui(
             ' Invite links contain a temporary secret used to link two devices. The relay stores invite status, linked device IDs, optional profile display metadata, and encrypted sync payloads. It does not receive the plaintext contents of your votes. '
@@ -58,7 +64,7 @@ export default function PrivacyPolicyScreen() {
 
         <Section title={ui('Data Deletion')}>
           {ui(
-            " Account deletion removes your SpiceSync authentication account, the provider email or identifier stored with it, account-associated device and couple metadata, invitations, and encrypted relay events. In-app deletion is immediate after fresh provider verification; manually verified requests are completed within 30 days. A manual request record retains the submitted provider, contact, status, and timestamps to process and document the request. Only the current device is cleared after in-app deletion; local copies on other devices remain until you reset or uninstall SpiceSync there. Reinstalling does not restore local profiles, votes, or history after deletion. Account deletion and store subscription cancellation are separate; SpiceSync currently offers lifetime access, not a subscription. Unlinking a partner revokes the connection, but clearing or uninstalling the app does not automatically delete relay records. "
+            ' Account deletion removes your SpiceSync authentication account, the provider email or identifier stored with it, account-associated device and couple metadata, invitations, and encrypted relay events. In-app deletion is immediate after fresh provider verification; manually verified requests are completed within 30 days. A manual request record retains the submitted provider, contact, status, and timestamps to process and document the request. Only the current device is cleared after in-app deletion; local copies on other devices remain until you reset or uninstall SpiceSync there. Reinstalling does not restore local profiles, votes, or history after deletion, unless you restore an encrypted backup you made yourself beforehand. Account deletion and store subscription cancellation are separate; SpiceSync currently offers lifetime access, not a subscription. Unlinking a partner revokes the connection, but clearing or uninstalling the app does not automatically delete relay records. '
           )}
         </Section>
 
