@@ -36,6 +36,7 @@ import {
   SHADOWS,
 } from '../../constants/theme';
 import { SpiceSyncLogo } from '../../components/app-chrome';
+import { OnboardingAccountProtection } from '../../components/auth/OnboardingAccountProtection';
 import { interpolate, useTranslation } from '../../lib/i18n';
 import { ui } from '../../lib/i18n/uiLiteral';
 import {
@@ -90,15 +91,19 @@ export default function WelcomeFlow() {
   };
 
   const handleAgeGateAccept = () => {
+    completeAgeGateAcceptance({
+      confirmAge: () => setAgeConfirmed(true),
+      waitForPersistence: waitForSettingsPersistence,
+      navigate: () => transitionTo('account'),
+    }).catch(() => undefined);
+  };
+
+  const handleWelcomeComplete = () => {
     const destination = getWelcomeCompletionDestination(
       hydrated,
       hasActiveProfile
     );
-    completeAgeGateAcceptance({
-      confirmAge: () => setAgeConfirmed(true),
-      waitForPersistence: waitForSettingsPersistence,
-      navigate: () => router.replace(destination),
-    }).catch(() => undefined);
+    router.replace(destination);
   };
 
   // Progress dots
@@ -159,6 +164,13 @@ export default function WelcomeFlow() {
                 inline
               />
             }
+          />
+        );
+      case 'account':
+        return (
+          <OnboardingAccountProtection
+            onComplete={handleWelcomeComplete}
+            onRestore={() => router.push('/(auth)/restore')}
           />
         );
       default:

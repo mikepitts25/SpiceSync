@@ -3,6 +3,7 @@ import TestRenderer from 'react-test-renderer';
 import { Text } from 'react-native';
 
 import WelcomeFlow from '../app/welcome/WelcomeFlow';
+import { useSettings } from '../lib/state/useStore';
 
 const mockRouter = { push: jest.fn(), replace: jest.fn() };
 
@@ -32,10 +33,11 @@ describe('welcome age gate layout', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.useFakeTimers();
+    useSettings.setState({ ageConfirmed: false, language: 'en' });
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
+    jest.clearAllTimers();
     jest.useRealTimers();
   });
 
@@ -48,9 +50,9 @@ describe('welcome age gate layout', () => {
       const button = tree!.root
         .findAll((candidate) => candidate.props.accessibilityRole === 'button')
         .find((candidate) =>
-          candidate.findAllByType(Text).some((text) =>
-            text.props.children === label
-          )
+          candidate
+            .findAllByType(Text)
+            .some((text) => text.props.children === label)
         );
       if (!button) {
         throw new Error(`Could not find welcome button: ${label}`);
@@ -106,5 +108,70 @@ describe('welcome age gate layout', () => {
     });
 
     expect(mockRouter.push).toHaveBeenCalledWith('/(auth)/restore');
+  });
+
+  it('offers account protection after age confirmation before completing onboarding', async () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<WelcomeFlow />);
+    });
+    const pressButton = async (label: string) => {
+      const button = tree!.root
+        .findAll((candidate) => candidate.props.accessibilityRole === 'button')
+        .find((candidate) =>
+          candidate
+            .findAllByType(Text)
+            .some((text) => text.props.children === label)
+        );
+      if (!button) {
+        throw new Error(`Could not find welcome button: ${label}`);
+      }
+      await TestRenderer.act(async () => {
+        button.props.onPress();
+        jest.advanceTimersByTime(500);
+        await Promise.resolve();
+      });
+    };
+
+    await pressButton('Get Started');
+    await pressButton('Continue');
+    await pressButton('Continue');
+    await pressButton('Continue');
+
+    TestRenderer.act(() => {
+      for (const checkbox of tree!.root.findAll(
+        (candidate) =>
+          candidate.props.accessibilityRole === 'checkbox' &&
+          typeof candidate.props.onPress === 'function'
+      )) {
+        checkbox.props.onPress();
+      }
+    });
+    await pressButton("I'm 18 or Older");
+    await TestRenderer.act(async () => {
+      await Promise.resolve();
+    });
+    TestRenderer.act(() => {
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(
+      tree!.root
+        .findAllByType(Text)
+        .some((text) => text.props.children === 'Protect your account')
+    ).toBe(true);
+    expect(
+      tree!.root
+        .findAllByType(Text)
+        .some((text) => text.props.children === 'Continue with Google')
+    ).toBe(true);
+    expect(mockRouter.replace).not.toHaveBeenCalled();
+
+    await pressButton('Not now');
+
+    expect(mockRouter.replace).toHaveBeenCalledWith({
+      pathname: '/(settings)/profiles/new',
+      params: { from: 'welcome' },
+    });
   });
 });

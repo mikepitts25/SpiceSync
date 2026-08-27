@@ -7,13 +7,14 @@ import { en } from '../lib/i18n/en';
 import { es } from '../lib/i18n/es';
 
 describe('welcome onboarding content', () => {
-  it('uses a five-screen flow without a redundant privacy slide', () => {
+  it('finishes with optional account protection after the age gate', () => {
     expect(WELCOME_SCREEN_ORDER).toEqual([
       'brand',
       'explore',
       'answer',
       'overlap',
       'agegate',
+      'account',
     ]);
   });
 

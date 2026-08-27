@@ -157,6 +157,16 @@ const supplementalSpanish: Record<string, string> = {
   'Continue with Apple': 'Continuar con Apple',
   'Continuing...': 'Continuando...',
   'Not now': 'Ahora no',
+  'Protect your account': 'Protege tu cuenta',
+  'Optional: continue with Apple or Google so you can recover your account and protected partner connection on another device.':
+    'Opcional: continúa con Apple o Google para recuperar tu cuenta y tu conexión de pareja protegida en otro dispositivo.',
+  'Your private profiles, votes, and history stay on this device.':
+    'Tus perfiles privados, votos e historial permanecen en este dispositivo.',
+  'Already have an account? Restore it': '¿Ya tienes una cuenta? Restáurala',
+  'This sign-in already belongs to an existing account. Restore it instead.':
+    'Este inicio de sesión ya pertenece a una cuenta existente. Restáurala en su lugar.',
+  'Could not protect your account. Try again.':
+    'No se pudo proteger tu cuenta. Inténtalo de nuevo.',
   'Your existing account': 'Tu cuenta existente',
   'Sign into existing account': 'Iniciar sesión en una cuenta existente',
   'This sign-in uses a new credential and switches to the account that already uses this provider.':

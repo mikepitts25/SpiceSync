@@ -4,12 +4,13 @@ export const WELCOME_SCREEN_ORDER = [
   'answer',
   'overlap',
   'agegate',
+  'account',
 ] as const;
 
 export type WelcomeScreenId = (typeof WELCOME_SCREEN_ORDER)[number];
 export type WelcomeValueScreenId = Exclude<
   WelcomeScreenId,
-  'brand' | 'agegate'
+  'brand' | 'agegate' | 'account'
 >;
 export type WelcomeIllustration = 'cards' | 'privateVotes' | 'overlap';
 
