@@ -343,9 +343,10 @@ Inspect operational logs under **Workers & Pages →
 spicesync-account-deletion-gateway → Observability** and aggregate security
 events under **Analytics Engine → spicesync_account_deletion_gateway**. The
 account exposes **Notifications → Log Explorer → Scheduled Query Results**, but
-Log Explorer log storage is a paid add-on on this account. A scheduled-query
-alert therefore remains a release blocker until the add-on is purchased or an
-explicitly approved no-cost monitoring destination is configured.
+Log Explorer log storage is a paid add-on on this account. On 2026-08-27 the
+owner explicitly approved omitting that paid alert from the TestFlight release.
+Privacy-safe Worker telemetry remains enabled; automated notification is
+deferred and should be reassessed before public production launch.
 
 ## Operational security settings
 

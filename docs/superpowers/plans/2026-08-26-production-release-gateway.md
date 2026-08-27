@@ -27,6 +27,13 @@
 - Do not delete or overwrite unrelated working-tree changes. Use `apply_patch` for repository file edits.
 - Completion means App Store Connect accepted the archive and the build appears in TestFlight as processing or available; an EAS upload attempt alone is not completion.
 
+> **Approved TestFlight monitoring amendment (2026-08-27):** The account's
+> scheduled Log Explorer alert requires a paid add-on. The owner explicitly
+> approved leaving that alert out for the current TestFlight release. Keep
+> privacy-safe Worker telemetry enabled and retain the verified deterministic
+> limiter; automated error notification is deferred and is not a Task 6 build
+> blocker. Reassess monitoring before public production launch.
+
 ---
 
 ### Task 1: Reject Direct Traffic at the Supabase Origin
@@ -929,7 +936,11 @@
 
   Expected: exactly 30 responses are `200`, the 31st is `429`, its headers include an integer `Retry-After` from 1 through 60, and the origin remains healthy afterward. Repeat with POST and expect exactly five `202` responses followed by `429`. In Cloudflare Workers Observability and the `spicesync_account_deletion_gateway` Analytics Engine dataset, confirm `allowed` and `rate_limited` events exist and contain only event, method, status, and timestamp fields. Search Worker logs for `release-verification`, `x-spicesync-gateway`, and `cf-connecting-ip`; all three searches must return zero matching log payloads.
 
-  Configure a Cloudflare notification rule for Worker error-rate alerts on `spicesync-account-deletion-gateway`. If the account plan exposes no Worker error notification type, treat monitoring as incomplete and stop before setting the release-verification flag; do not silently downgrade the approved design.
+  A scheduled Log Explorer alert was evaluated but requires a paid add-on on
+  this account. Per the approved TestFlight monitoring amendment above, leave
+  the paid alert unconfigured for this TestFlight release. Confirm privacy-safe
+  telemetry remains enabled and reassess automated notification before public
+  production launch.
 
 - [ ] **Step 7: Publish the verified public URL to EAS production**
 
@@ -1094,7 +1105,7 @@
 
 ## Final Self-Review Gate
 
-- [ ] Map every section of `docs/superpowers/specs/2026-08-26-production-release-gateway-design.md` to Tasks 1–6: origin lock, managed gateway, abuse control, privacy-safe monitoring/alerting, Google, Apple, native scheme, EAS values, simulator validation, release check, build, submission, and TestFlight acceptance must all be covered.
+- [ ] Map every section of `docs/superpowers/specs/2026-08-26-production-release-gateway-design.md` to Tasks 1–6: origin lock, managed gateway, abuse control, privacy-safe telemetry, the approved TestFlight alert deferral, Google, Apple, native scheme, EAS values, simulator validation, release check, build, submission, and TestFlight acceptance must all be covered.
 - [ ] Run the following placeholder scan; expected output is empty:
 
   ```bash
