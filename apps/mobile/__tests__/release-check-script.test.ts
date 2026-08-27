@@ -311,6 +311,34 @@ describe('release check command', () => {
     );
   });
 
+  it('rejects the remote-push entitlement when the release has only local notifications', () => {
+    const result = runReleaseCheck(
+      productionSocialRecoveryEnvironment(),
+      productionExpoConfig(),
+      {
+        requireSocialRecovery: true,
+        nativeIosConfig: {
+          infoPlist: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict><key>CFBundleURLTypes</key><array><dict>
+              <key>CFBundleURLSchemes</key><array>
+                <string>com.googleusercontent.apps.123456789012-iosclient</string>
+              </array>
+            </dict></array></dict></plist>`,
+          entitlements: `<?xml version="1.0" encoding="UTF-8"?>
+            <plist><dict>
+              <key>aps-environment</key><string>development</string>
+              <key>com.apple.developer.applesignin</key>
+              <array><string>Default</string></array>
+            </dict></plist>`,
+        },
+      }
+    );
+
+    expect(result.stderr).toContain(
+      'checked-in iOS entitlements must not request remote push notifications'
+    );
+  });
+
   it('does not accept the Google callback value outside URL schemes', () => {
     const result = runReleaseCheck(
       productionSocialRecoveryEnvironment(),

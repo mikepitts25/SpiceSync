@@ -89,6 +89,13 @@ function hasAppleSignInEntitlement(entitlements) {
   );
 }
 
+function hasRemotePushEntitlement(entitlements) {
+  return (
+    typeof entitlements === 'string' &&
+    /<key>\s*aps-environment\s*<\/key>/.test(entitlements)
+  );
+}
+
 function hasPlistUrlScheme(infoPlist, expectedScheme) {
   if (typeof infoPlist !== 'string') return false;
   const urlSchemeArrays = infoPlist.matchAll(
@@ -219,6 +226,11 @@ function collectProductionSocialRecoveryErrors({
   }
 
   if (socialRecoveryRequired && nativeIosConfig) {
+    if (hasRemotePushEntitlement(nativeIosConfig.entitlements)) {
+      errors.push(
+        'The checked-in iOS entitlements must not request remote push notifications; SpiceSync currently schedules local notifications only.'
+      );
+    }
     if (!hasAppleSignInEntitlement(nativeIosConfig.entitlements)) {
       errors.push(
         'The checked-in iOS entitlements must enable Sign in with Apple before a production build.'
