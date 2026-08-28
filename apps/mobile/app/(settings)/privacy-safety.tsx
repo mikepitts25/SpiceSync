@@ -16,7 +16,7 @@ import {
 import { BackHeader, SectionRow } from '../../components/app-chrome';
 import {
   clearActiveProfileVotes,
-  disconnectRemotePartnerLocal,
+  disconnectRemotePartner,
   resetAppOnDevice,
 } from '../../lib/safety/localDataControls';
 import { COLORS, SHADOWS } from '../../constants/theme';
@@ -56,7 +56,7 @@ export default function PrivacySafetyScreen() {
     Alert.alert(
       ui('Disconnect remote partner?'),
       ui(
-        'This clears the remote partner link, partner votes, reveal consent, and pending sync events from this device.'
+        'This ends the connection for both of you. It clears the remote partner link, partner votes, reveal consent, and pending sync events from this device, and tells your partner the connection has ended.'
       ),
       [
         { text: ui('Cancel'), style: 'cancel' },
@@ -64,11 +64,21 @@ export default function PrivacySafetyScreen() {
           text: ui('Disconnect'),
           style: 'destructive',
           onPress: () => {
-            disconnectRemotePartnerLocal();
-            Alert.alert(
-              ui('Partner disconnected'),
-              ui('Remote sync data was cleared.')
-            );
+            disconnectRemotePartner().then((outcome) => {
+              // The local disconnect always succeeded by this point. Only the
+              // partner-facing half can fail, so say which one the user got
+              // rather than implying the partner has already been told.
+              Alert.alert(
+                ui('Partner disconnected'),
+                outcome.notifiedPartner || outcome.revokedCouple
+                  ? ui(
+                      'Remote sync data was cleared and your partner has been disconnected.'
+                    )
+                  : ui(
+                      'Remote sync data was cleared on this device. We could not reach the server, so your partner may still show as connected until their app syncs.'
+                    )
+              );
+            });
           },
         },
       ]

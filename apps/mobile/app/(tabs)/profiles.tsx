@@ -109,10 +109,6 @@ export default function ProfilesHubScreen() {
               selected
             />
             <Text style={styles.profileName}>{myName}</Text>
-            <View style={styles.activeNowRow}>
-              <View style={styles.activeNowDot} />
-              <Text style={styles.activeNowText}>{ui('Active now')}</Text>
-            </View>
             {currentStreak > 0 && (
               <View style={styles.streakBadge}>
                 <Text style={styles.streakText}>
@@ -319,22 +315,6 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center',
     marginTop: 2,
-  },
-  activeNowRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  activeNowDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-    backgroundColor: COLORS.yes,
-  },
-  activeNowText: {
-    color: COLORS.textPrimary,
-    fontSize: 16,
-    fontWeight: '600',
   },
   streakBadge: {
     backgroundColor: 'rgba(0,0,0,0.22)',

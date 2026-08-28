@@ -9,11 +9,7 @@ export type MyVotesFilter =
   | 'hard_no'
   | 'legacy_no';
 
-export type MyVotesSort =
-  | 'default'
-  | 'title'
-  | 'intensity_asc'
-  | 'intensity_desc';
+export type MyVotesSort = 'default' | 'title' | 'intensity_asc';
 
 export type MyVoteListItem = {
   kink: {
@@ -36,17 +32,18 @@ function compareTitles(a: MyVoteListItem, b: MyVoteListItem): number {
   return a.kink.title.localeCompare(b.kink.title);
 }
 
-function compareIntensity(
-  a: MyVoteListItem,
-  b: MyVoteListItem,
-  direction: 1 | -1
-): number {
+/**
+ * Order by intensity, lowest first, with title as the tie-break so equal
+ * levels keep a stable, readable order. Items with no intensity sort last
+ * rather than being treated as level zero.
+ */
+function compareIntensity(a: MyVoteListItem, b: MyVoteListItem): number {
   const aIntensity = a.kink.intensityScale;
   const bIntensity = b.kink.intensityScale;
   if (aIntensity === undefined)
     return bIntensity === undefined ? compareTitles(a, b) : 1;
   if (bIntensity === undefined) return -1;
-  return (aIntensity - bIntensity) * direction || compareTitles(a, b);
+  return aIntensity - bIntensity || compareTitles(a, b);
 }
 
 export function buildMyVotesView<T extends MyVoteListItem>(
@@ -75,9 +72,7 @@ export function buildMyVotesView<T extends MyVoteListItem>(
   if (sort === 'title') {
     visible.sort(compareTitles);
   } else if (sort === 'intensity_asc') {
-    visible.sort((a, b) => compareIntensity(a, b, 1));
-  } else if (sort === 'intensity_desc') {
-    visible.sort((a, b) => compareIntensity(a, b, -1));
+    visible.sort(compareIntensity);
   }
 
   return {

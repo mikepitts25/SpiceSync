@@ -48,9 +48,15 @@ describe('MyVotesControls', () => {
     ).toBeDefined();
     expect(
       tree!.root.findByProps({
-        accessibilityLabel: 'Sort votes: Intensity high to low',
+        accessibilityLabel: 'Sort votes: Intensity low to high',
       })
     ).toBeDefined();
+    // High to low was removed; only the ascending intensity sort is offered.
+    expect(
+      tree!.root.findAllByProps({
+        accessibilityLabel: 'Sort votes: Intensity high to low',
+      })
+    ).toHaveLength(0);
   });
 
   it('reports filter and sort selections to the screen', () => {

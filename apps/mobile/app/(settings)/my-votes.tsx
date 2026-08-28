@@ -262,14 +262,23 @@ function VoteRow({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${kink.title}, ${ui('voted')} ${ui(vote)}. ${ui('Tap to change.')}`}
+      accessibilityLabel={`${kink.title}, ${
+        kink.intensityScale ? `${ui('level')} ${kink.intensityScale}, ` : ''
+      }${ui('voted')} ${ui(vote)}. ${ui('Tap to change.')}`}
       onPress={onPress}
       style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
     >
       <View style={styles.rowLeft}>
-        <Text style={styles.rowCategory}>
-          {kink.category?.toUpperCase() ?? ui('GENERAL')}
-        </Text>
+        <View style={styles.rowMetaRow}>
+          <Text style={styles.rowCategory}>
+            {kink.category?.toUpperCase() ?? ui('GENERAL')}
+          </Text>
+          {kink.intensityScale ? (
+            <Text style={styles.rowLevel}>
+              {ui('LVL')} {kink.intensityScale}
+            </Text>
+          ) : null}
+        </View>
         <Text style={styles.rowTitle} numberOfLines={1}>
           {kink.title}
         </Text>
@@ -370,11 +379,23 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 3,
   },
+  rowMetaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   rowCategory: {
     color: COLORS.textMuted,
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 1.2,
+    flexShrink: 1,
+  },
+  rowLevel: {
+    color: COLORS.pink,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.6,
   },
   rowTitle: {
     color: COLORS.textPrimary,

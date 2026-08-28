@@ -27,7 +27,6 @@ const SORT_OPTIONS: readonly { id: MyVotesSort; label: string }[] = [
   { id: 'default', label: 'Default' },
   { id: 'title', label: 'A to Z' },
   { id: 'intensity_asc', label: 'Intensity low to high' },
-  { id: 'intensity_desc', label: 'Intensity high to low' },
 ];
 
 export function MyVotesControls({

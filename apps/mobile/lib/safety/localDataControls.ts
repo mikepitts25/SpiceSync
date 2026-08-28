@@ -14,6 +14,10 @@ import { useShareCodes } from '../state/shareCodes';
 import { useStarterPackStore } from '../state/starterPack';
 import { useSettings } from '../state/useStore';
 import { useCoupleLinkStore } from '../sync/coupleLink';
+import {
+  notifyPartnerOfDisconnect,
+  type RemoteDisconnectOutcome,
+} from '../sync/disconnectPartner';
 import { useEventQueueStore } from '../sync/eventQueue';
 import { clearIdentity } from '../sync/identity';
 import { usePartnerVotesStore } from '../sync/partnerVotes';
@@ -41,6 +45,33 @@ export function disconnectRemotePartnerLocal(): void {
   usePartnerVotesStore.getState().reset();
   useRevealConsentStore.getState().reset();
   useEventQueueStore.getState().reset();
+}
+
+/**
+ * Disconnect a remote partner on both devices.
+ *
+ * The local-only variant above is retained for the paths that genuinely mean
+ * "forget this device's copy" (a device reset, an account wipe) and must not
+ * touch a relationship the user may still have on another device. A user
+ * pressing Disconnect means the relationship, not this copy of it, so the
+ * partner is notified first — see `notifyPartnerOfDisconnect` for why the
+ * ordering here cannot be rearranged.
+ *
+ * The local teardown runs unconditionally: if the relay is unreachable the
+ * user is still disconnected here, and the returned outcome reports whether
+ * the partner's device was actually reached.
+ */
+export async function disconnectRemotePartner(): Promise<RemoteDisconnectOutcome> {
+  let outcome: RemoteDisconnectOutcome = {
+    notifiedPartner: false,
+    revokedCouple: false,
+  };
+  try {
+    outcome = await notifyPartnerOfDisconnect();
+  } finally {
+    disconnectRemotePartnerLocal();
+  }
+  return outcome;
 }
 
 /**
