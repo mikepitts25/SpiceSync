@@ -46,8 +46,14 @@ import {
   useMatchPlansStore,
 } from '../../lib/state/matchPlans';
 import { useViewedMatchesStore } from '../../lib/match/viewedMatches';
-import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
+import {
+  isCoupleLinkSyncable,
+  useCoupleLinkStore,
+} from '../../lib/sync/coupleLink';
+import { useEventQueueStore } from '../../lib/sync/eventQueue';
 import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
+import { syncNow, type SyncResult } from '../../lib/sync/syncLoop';
+import { startVoteSync } from '../../lib/sync/voteSync';
 import {
   requestRevealUnlock,
   useRevealConsentStore,
@@ -64,6 +70,7 @@ import {
 } from '../../components/matches/MatchBuckets';
 import { MatchDetailPanel } from '../../components/matches/MatchDetailPanel';
 import { MatchFilters } from '../../components/matches/MatchFilters';
+import { MatchSyncStatus } from '../../components/matches/MatchSyncStatus';
 import { HiddenPrivacyTile } from '../../components/matches/HiddenPrivacyTile';
 import type {
   BucketId,
@@ -112,6 +119,9 @@ export default function MatchesScreen() {
   const [roleFilter, setRoleFilter] = useState<MatchRoleFilter>('all');
   const [selectedBucket, setSelectedBucket] = useState<BucketId | null>(null);
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
+  const [refreshingMatches, setRefreshingMatches] = useState(false);
+  const [refreshResult, setRefreshResult] = useState<SyncResult | null>(null);
+  const [refreshError, setRefreshError] = useState(false);
   const [completedPlanSteps, setCompletedPlanSteps] = useState<
     Record<string, true>
   >({});
@@ -178,6 +188,12 @@ export default function MatchesScreen() {
   );
 
   const remotePartnerVotes = usePartnerVotesStore((state) => state.byCardId);
+  const partnerAnsweredCount = usePartnerVotesStore(
+    (state) => state.answeredCount
+  );
+  const pendingUploadCount = useEventQueueStore(
+    (state) => state.pending.length
+  );
   const partnerVotes = useMemo(() => {
     if (!isRemotePartner) return localPartnerVotes;
     return Object.fromEntries(
@@ -497,6 +513,35 @@ export default function MatchesScreen() {
     Alert.alert(t.matches.hiddenTitle, t.matches.hiddenInfo);
   }, [t.matches.hiddenInfo, t.matches.hiddenTitle]);
 
+  const handleRefreshMatches = useCallback(async () => {
+    if (
+      !activeId ||
+      !isCoupleLinkSyncable(useCoupleLinkStore.getState().link)
+    ) {
+      setRefreshError(true);
+      setRefreshResult(null);
+      return;
+    }
+
+    setRefreshingMatches(true);
+    setRefreshError(false);
+    setRefreshResult(null);
+    try {
+      await startVoteSync(activeId);
+      const result = await syncNow();
+      if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
+        throw new Error('Partner sync paused');
+      }
+      setRefreshResult(result);
+      setRefreshError(result.failed > 0);
+    } catch {
+      setRefreshError(true);
+      setRefreshResult(null);
+    } finally {
+      setRefreshingMatches(false);
+    }
+  }, [activeId]);
+
   if (!hydrated || !activeId) {
     return null;
   }
@@ -633,9 +678,6 @@ export default function MatchesScreen() {
                   <View style={styles.partnerLabels}>
                     <Text style={styles.partnerLabel}>{t.matches.you}</Text>
                     <Text style={styles.partnerLabel}>
-                      {t.matches.lastSynced}
-                    </Text>
-                    <Text style={styles.partnerLabel}>
                       {isRemotePartner
                         ? (coupleLink?.partnerProfileName ??
                           t.deck.partnerFallback)
@@ -674,6 +716,23 @@ export default function MatchesScreen() {
                   ) : null}
                 </View>
               </View>
+
+              {isRemotePartner ? (
+                <MatchSyncStatus
+                  syncable={isCoupleLinkSyncable(coupleLink)}
+                  lastSyncedAt={coupleLink?.lastSyncedAt ?? null}
+                  pendingCount={pendingUploadCount}
+                  partnerResponseCount={Math.max(
+                    partnerAnsweredCount,
+                    Object.keys(remotePartnerVotes).length
+                  )}
+                  refreshing={refreshingMatches}
+                  result={refreshResult}
+                  error={refreshError}
+                  onRefresh={() => void handleRefreshMatches()}
+                  labels={t.matches}
+                />
+              ) : null}
 
               <BucketOverview
                 buckets={buckets}

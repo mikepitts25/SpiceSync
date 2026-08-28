@@ -22,6 +22,7 @@ const socialRecoveryEnvironmentNames = [
 ];
 
 type ExpoReleaseConfig = {
+  icon?: string;
   scheme?: string;
   ios?: { bundleIdentifier?: string; usesAppleSignIn?: boolean };
   android?: { package?: string };
@@ -41,6 +42,10 @@ type ProcessResult = {
 };
 
 type ReleaseCheckConfig = {
+  collectAppIconSyncErrors?(input: {
+    mobileRoot: string;
+    expoConfig: ExpoReleaseConfig;
+  }): string[];
   collectProductionSocialRecoveryErrors(input: {
     environment: ReleaseEnvironment;
     expoConfig: ExpoReleaseConfig;
@@ -116,9 +121,7 @@ function runReleaseCheckExecutable(
   };
 }
 
-function runEasPreInstallHook(
-  environment: ReleaseEnvironment
-): ProcessResult {
+function runEasPreInstallHook(environment: ReleaseEnvironment): ProcessResult {
   const isolatedEnvironment: NodeJS.ProcessEnv = {
     ...process.env,
   };
@@ -127,12 +130,16 @@ function runEasPreInstallHook(
   }
   Object.assign(isolatedEnvironment, environment);
 
-  const result = spawnSync('npm', ['run', 'eas-build-pre-install', '--silent'], {
-    cwd: mobileRoot,
-    encoding: 'utf8',
-    env: isolatedEnvironment,
-    timeout: 5000,
-  });
+  const result = spawnSync(
+    'npm',
+    ['run', 'eas-build-pre-install', '--silent'],
+    {
+      cwd: mobileRoot,
+      encoding: 'utf8',
+      env: isolatedEnvironment,
+      timeout: 5000,
+    }
+  );
   return {
     error: result.error,
     output: `${result.stdout ?? ''}${result.stderr ?? ''}`,
@@ -383,7 +390,8 @@ describe('release check command', () => {
     );
 
     try {
-      const releaseConfig = require('../scripts/release-check-config.js') as ReleaseCheckConfig;
+      const releaseConfig =
+        require('../scripts/release-check-config.js') as ReleaseCheckConfig;
       const nativeIosConfig = releaseConfig.readCheckedInNativeIosConfig
         ? releaseConfig.readCheckedInNativeIosConfig(fixtureRoot)
         : null;
@@ -392,6 +400,50 @@ describe('release check command', () => {
         infoPlist: 'plist-fixture',
         entitlements: 'entitlements-fixture',
       });
+    } finally {
+      fs.rmSync(fixtureRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('rejects a checked-in iOS app icon that differs from the Expo source', () => {
+    const fixtureRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'spicesync-app-icon-')
+    );
+    const expoIconPath = path.join(fixtureRoot, 'assets', 'icon.png');
+    const nativeIconDirectory = path.join(
+      fixtureRoot,
+      'ios',
+      'SpiceSync',
+      'Images.xcassets',
+      'AppIcon.appiconset'
+    );
+    fs.mkdirSync(path.dirname(expoIconPath), { recursive: true });
+    fs.mkdirSync(nativeIconDirectory, { recursive: true });
+    fs.writeFileSync(expoIconPath, 'approved-flame-icon');
+    fs.writeFileSync(
+      path.join(nativeIconDirectory, 'placeholder.png'),
+      'stale-placeholder-icon'
+    );
+    fs.writeFileSync(
+      path.join(nativeIconDirectory, 'Contents.json'),
+      JSON.stringify({
+        images: [{ filename: 'placeholder.png', idiom: 'universal' }],
+        info: { version: 1, author: 'expo' },
+      })
+    );
+
+    try {
+      const releaseConfig =
+        require('../scripts/release-check-config.js') as ReleaseCheckConfig;
+
+      expect(
+        releaseConfig.collectAppIconSyncErrors?.({
+          mobileRoot: fixtureRoot,
+          expoConfig: { icon: './assets/icon.png' },
+        })
+      ).toEqual([
+        'The checked-in iOS AppIcon must match the Expo icon at ./assets/icon.png.',
+      ]);
     } finally {
       fs.rmSync(fixtureRoot, { recursive: true, force: true });
     }

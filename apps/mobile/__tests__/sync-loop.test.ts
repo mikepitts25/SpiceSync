@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { computeActionBuckets } from '../lib/match/actionBuckets';
 import { decodeBase64, encodeBase64 } from '../lib/sync/base64';
 import { useCoupleLinkStore } from '../lib/sync/coupleLink';
 import {
@@ -26,6 +27,7 @@ import {
   refreshCoupleMetadata,
   startSyncLoop,
   stopSyncLoop,
+  syncNow,
   syncOnce,
 } from '../lib/sync/syncLoop';
 
@@ -447,9 +449,11 @@ describe('sync loop', () => {
       .mockResolvedValue({ serverSequence: 1 });
     _resetRelayClientForTests({
       appendEvent,
-      getCouple: jest.fn().mockResolvedValue(
-        refreshedCouple(encodeBase64(partnerEncryption.publicKey))
-      ),
+      getCouple: jest
+        .fn()
+        .mockResolvedValue(
+          refreshedCouple(encodeBase64(partnerEncryption.publicKey))
+        ),
     } as unknown as RelayTransport);
 
     await expect(flushPending()).resolves.toEqual({ uploaded: 1, failed: 0 });
@@ -476,14 +480,18 @@ describe('sync loop', () => {
       answeredCount: 1,
       updatedAt: 1,
     })!;
-    const appendEvent = jest.fn().mockRejectedValue(
-      new RelayHttpError(409, 'CLIENT_UPGRADE_REQUIRED', 'upgrade')
-    );
+    const appendEvent = jest
+      .fn()
+      .mockRejectedValue(
+        new RelayHttpError(409, 'CLIENT_UPGRADE_REQUIRED', 'upgrade')
+      );
     _resetRelayClientForTests({
       appendEvent,
-      getCouple: jest.fn().mockResolvedValue(
-        refreshedCouple(encodeBase64(partnerEncryption.publicKey))
-      ),
+      getCouple: jest
+        .fn()
+        .mockResolvedValue(
+          refreshedCouple(encodeBase64(partnerEncryption.publicKey))
+        ),
     } as unknown as RelayTransport);
 
     await expect(flushPending()).resolves.toEqual({ uploaded: 0, failed: 1 });
@@ -857,6 +865,168 @@ describe('sync loop', () => {
     expect(useCoupleLinkStore.getState().link?.lastPulledServerSequence).toBe(
       4
     );
+  });
+
+  it('records a successful relay poll even when there are no new events', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(partnerEncryption.publicKey)));
+
+    const beforePoll = Date.now();
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ events: [], cursor: 0 }),
+    });
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock as any)
+    );
+
+    await expect(pullPartnerEvents()).resolves.toEqual({ applied: 0 });
+    expect(
+      useCoupleLinkStore.getState().link?.lastSyncedAt
+    ).toBeGreaterThanOrEqual(beforePoll);
+  });
+
+  it('turns matching local and downloaded partner votes into a match', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+    useCoupleLinkStore.getState().setLink({
+      ...activeLink(encodeBase64(partnerEncryption.publicKey)),
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
+    });
+
+    const plainEvent = {
+      schemaVersion: 1 as const,
+      eventType: 'vote.upsert' as const,
+      eventId: 'evt_shared_yes',
+      authorDeviceId: 'dev_partner',
+      cardId: 'shared-card',
+      vote: 'yes' as const,
+      updatedAt: 2_000,
+    };
+    const { encryptedPayload, payloadHash } = encryptForPartner(
+      partnerEncryption.privateKey,
+      myEncryption.publicKey,
+      JSON.stringify(plainEvent)
+    );
+    _resetRelayClientForTests(
+      new RelayTestClient(
+        'https://relay.test',
+        jest.fn().mockResolvedValue({
+          ok: true,
+          json: async () => ({
+            events: [
+              {
+                serverSequence: 8,
+                eventId: plainEvent.eventId,
+                coupleId: 'couple-1',
+                authorDeviceId: 'dev_partner',
+                clientSequence: 1,
+                encryptedPayload,
+                payloadHash,
+                signature: signEnvelope(
+                  partnerSigning,
+                  plainEvent.eventId,
+                  1,
+                  payloadHash
+                ),
+                createdAt: 2_000,
+                expiresAt: null,
+              },
+            ],
+            cursor: 8,
+          }),
+        }) as any
+      )
+    );
+
+    await expect(pullPartnerEvents()).resolves.toEqual({ applied: 1 });
+    const downloaded = usePartnerVotesStore.getState().byCardId;
+    const matches = computeActionBuckets({
+      kinks: [
+        {
+          id: 'shared-card',
+          title: 'Shared activity',
+          category: 'Basics',
+          intensityScale: 1,
+          tier: 'soft',
+          tags: [],
+        },
+      ],
+      mine: { 'shared-card': 'yes' },
+      theirs: Object.fromEntries(
+        Object.entries(downloaded).map(([cardId, record]) => [
+          cardId,
+          record.vote,
+        ])
+      ),
+    });
+
+    expect(matches.readyNow.map((match) => match.id)).toEqual(['shared-card']);
+  });
+
+  it('manual sync retries pending votes immediately despite automatic backoff', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+    useCoupleLinkStore
+      .getState()
+      .setLink(activeLink(encodeBase64(partnerEncryption.publicKey)));
+
+    const queued = useEventQueueStore.getState().enqueue({
+      schemaVersion: 1,
+      eventType: 'vote.upsert',
+      authorDeviceId: 'dev_me',
+      cardId: 'card-manual-retry',
+      vote: 'yes',
+      updatedAt: 1,
+    });
+    useEventQueueStore.setState({
+      pending: [
+        {
+          ...queued!,
+          attempts: 4,
+          nextAttemptAt: Date.now() + 300_000,
+          lastError: 'offline',
+        },
+      ],
+    });
+
+    const fetchMock = jest
+      .fn()
+      .mockImplementation(async (url: string, init?: RequestInit) => {
+        if (url.endsWith('/couples/couple-1')) {
+          return {
+            ok: true,
+            json: async () =>
+              refreshedCouple(encodeBase64(partnerEncryption.publicKey)),
+          };
+        }
+        if (init?.method === 'POST' && url.endsWith('/events')) {
+          return {
+            ok: true,
+            json: async () => ({ serverSequence: 1, eventId: queued!.eventId }),
+          };
+        }
+        return {
+          ok: true,
+          json: async () => ({ events: [], cursor: 1 }),
+        };
+      });
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock as any)
+    );
+
+    await expect(syncNow()).resolves.toMatchObject({ uploaded: 1, failed: 0 });
+    expect(useEventQueueStore.getState().pending).toEqual([]);
   });
 
   it('pulls partner reveal unlock consent and applies it', async () => {

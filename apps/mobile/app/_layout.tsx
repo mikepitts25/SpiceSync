@@ -159,10 +159,7 @@ export default function RootLayout() {
     const recoverPartnerLink = async (discoverExisting: boolean = false) => {
       if (cancelled || recoveryInFlight) return;
       const linkState = useCoupleLinkStore.getState();
-      if (
-        linkState.link?.status === 'active' &&
-        !!linkState.link.ownerUserId
-      ) {
+      if (linkState.link?.status === 'active' && !!linkState.link.ownerUserId) {
         return;
       }
       if (!linkState.pendingInviteId && !discoverExisting) return;
@@ -218,7 +215,7 @@ export default function RootLayout() {
         shouldStartRemoteSyncForLinkTransition(previousState.link, state.link)
       ) {
         startSyncLoop();
-      } else {
+      } else if (!isCoupleLinkSyncable(state.link)) {
         stopSyncLoop();
       }
     });

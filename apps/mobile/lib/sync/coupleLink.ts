@@ -162,9 +162,7 @@ export function shouldStartRemoteSyncForLinkTransition(
   previous: CoupleLink | null | undefined,
   next: CoupleLink | null | undefined
 ): boolean {
-  return (
-    isCoupleLinkSyncable(next) && previous?.requiresProfileConfirmation !== true
-  );
+  return isCoupleLinkSyncable(next) && previous?.status !== 'active';
 }
 
 /**

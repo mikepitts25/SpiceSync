@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const {
+  collectAppIconSyncErrors,
   collectProductionSocialRecoveryErrors,
   isPartnerSyncEnabled,
   readCheckedInNativeIosConfig,
@@ -70,6 +71,23 @@ function assertExpoConfig() {
   console.log(
     `Config OK: ${iosBundleIdentifier}, ${androidPackage}, ${easProjectId}`
   );
+}
+
+function assertAppIconSync() {
+  console.log('\n==> App icon sync');
+  const errors = collectAppIconSyncErrors({
+    mobileRoot,
+    expoConfig: readResolvedExpoConfig(),
+  });
+  if (errors.length > 0) {
+    throw new Error(
+      `App icon release configuration failed:\n${errors
+        .map((error) => `- ${error}`)
+        .join('\n')}`
+    );
+  }
+
+  console.log('Expo and checked-in iOS app icons match.');
 }
 
 function assertTestFlightConfig() {
@@ -191,6 +209,7 @@ const options = readCommandOptions();
 
 if (options.configOnly) {
   assertExpoConfig();
+  assertAppIconSync();
   assertTestFlightConfig();
   assertSocialRecoveryConfig(options);
   console.log('\nRelease configuration preflight passed.');
@@ -202,5 +221,6 @@ run('Admin content QA tests', 'node', ['--test', ...adminTestFiles], repoRoot);
 run('Mobile Jest suite', 'npm', ['test', '--', '--runInBand']);
 run('TypeScript check', 'npx', ['tsc', '-p', 'tsconfig.json', '--noEmit']);
 assertExpoConfig();
+assertAppIconSync();
 assertTestFlightConfig();
 console.log('\nRelease check passed.');

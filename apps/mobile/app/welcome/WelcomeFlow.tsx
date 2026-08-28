@@ -289,7 +289,7 @@ function BrandScreen({
           <Text style={styles.primaryButtonText}>{copy.getStarted}</Text>
         </Pressable>
         <Pressable
-          style={styles.secondaryButton}
+          style={[styles.secondaryButton, styles.standaloneSecondaryButton]}
           onPress={onRestore}
           accessibilityRole="button"
         >
@@ -1114,6 +1114,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
     alignItems: 'center',
+  },
+  standaloneSecondaryButton: {
+    flex: 0,
+    width: '100%',
   },
   secondaryButtonText: {
     fontFamily: FONTS.medium,

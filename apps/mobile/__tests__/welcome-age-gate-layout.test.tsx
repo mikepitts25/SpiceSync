@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 import WelcomeFlow from '../app/welcome/WelcomeFlow';
 import { useSettings } from '../lib/state/useStore';
@@ -172,6 +172,29 @@ describe('welcome age gate layout', () => {
     expect(mockRouter.replace).toHaveBeenCalledWith({
       pathname: '/(settings)/profiles/new',
       params: { from: 'welcome' },
+    });
+  });
+
+  it('keeps the standalone restore action intrinsically sized', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<WelcomeFlow />);
+    });
+    const restoreButton = tree!.root
+      .findAll((candidate) => candidate.props.accessibilityRole === 'button')
+      .find((candidate) =>
+        candidate
+          .findAllByType(Text)
+          .some((text) => text.props.children === 'Restore existing account')
+      );
+
+    if (!restoreButton) {
+      throw new Error('Could not find account restoration button');
+    }
+
+    expect(StyleSheet.flatten(restoreButton.props.style)).toMatchObject({
+      flex: 0,
+      width: '100%',
     });
   });
 });
