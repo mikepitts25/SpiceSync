@@ -17,8 +17,18 @@ export type PartnerVoteRecord = {
 type PartnerVotesState = {
   byCardId: Record<string, PartnerVoteRecord>;
   answeredCount: number;
+  lastSnapshotVersion: number;
+  lastSnapshotAuthorDeviceId: string | null;
+  lastSnapshotReceivedAt: number | null;
   applyVote: (record: PartnerVoteRecord) => void;
   setAnsweredCount: (count: number, updatedAt: number) => void;
+  replaceSnapshot: (snapshot: {
+    authorDeviceId: string;
+    snapshotVersion: number;
+    answeredCount: number;
+    votes: Record<string, PartnerVoteRecord>;
+    receivedAt: number;
+  }) => void;
   reset: () => void;
 };
 
@@ -27,6 +37,9 @@ export const usePartnerVotesStore = create<PartnerVotesState>()(
     (set, get) => ({
       byCardId: {},
       answeredCount: 0,
+      lastSnapshotVersion: 0,
+      lastSnapshotAuthorDeviceId: null,
+      lastSnapshotReceivedAt: null,
       applyVote: (record) => {
         const existing = get().byCardId[record.cardId];
         if (existing && existing.updatedAt >= record.updatedAt) return;
@@ -39,7 +52,22 @@ export const usePartnerVotesStore = create<PartnerVotesState>()(
           answeredCount: Math.max(state.answeredCount, count),
         }));
       },
-      reset: () => set({ byCardId: {}, answeredCount: 0 }),
+      replaceSnapshot: (snapshot) =>
+        set({
+          byCardId: snapshot.votes,
+          answeredCount: snapshot.answeredCount,
+          lastSnapshotVersion: snapshot.snapshotVersion,
+          lastSnapshotAuthorDeviceId: snapshot.authorDeviceId,
+          lastSnapshotReceivedAt: snapshot.receivedAt,
+        }),
+      reset: () =>
+        set({
+          byCardId: {},
+          answeredCount: 0,
+          lastSnapshotVersion: 0,
+          lastSnapshotAuthorDeviceId: null,
+          lastSnapshotReceivedAt: null,
+        }),
     }),
     {
       name: 'spicesync-partner-votes',
