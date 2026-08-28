@@ -1,5 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
+import fs from 'fs';
+import path from 'path';
 
 import ProfileAvatarIcon from '../components/ProfileAvatarIcon';
 import {
@@ -9,6 +11,8 @@ import {
   isProfileAvatarId,
   normalizeProfileAvatar,
 } from '../src/constants/emojis';
+
+const { PNG } = require('pngjs');
 
 function findImageSource(node: React.ReactNode): unknown {
   if (!React.isValidElement(node)) {
@@ -84,5 +88,39 @@ describe('profile avatars', () => {
         findImageSource(ProfileAvatarIcon({ avatar, size: 64 }))
       ).toBeTruthy();
     });
+  });
+
+  it('keeps the full handcuffs artwork inside its transparent space', () => {
+    const assetPath = path.join(__dirname, '../assets/avatars/handcuffs.png');
+    const image = PNG.sync.read(fs.readFileSync(assetPath));
+    const gutter = 8;
+
+    const edgeAlpha = (x: number, y: number) =>
+      image.data[(image.width * y + x) * 4 + 3];
+
+    for (let y = 0; y < image.height; y += 1) {
+      for (let x = 0; x < gutter; x += 1) {
+        expect(edgeAlpha(x, y)).toBe(0);
+        expect(edgeAlpha(image.width - 1 - x, y)).toBe(0);
+      }
+    }
+
+    let artworkLeft = image.width;
+    for (let y = 0; y < image.height; y += 1) {
+      for (let x = 0; x < image.width; x += 1) {
+        if (edgeAlpha(x, y) > gutter) {
+          artworkLeft = Math.min(artworkLeft, x);
+        }
+      }
+    }
+
+    let pixelsOnLeftEdge = 0;
+    for (let y = 0; y < image.height; y += 1) {
+      if (edgeAlpha(artworkLeft, y) > gutter) {
+        pixelsOnLeftEdge += 1;
+      }
+    }
+
+    expect(pixelsOnLeftEdge).toBeLessThan(32);
   });
 });
