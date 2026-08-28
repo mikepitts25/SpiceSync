@@ -144,7 +144,7 @@ select is(
 );
 select is(
   public.spicesync_get_vote_snapshot('cpl_snapshot_test')->'snapshot',
-  null::jsonb,
+  'null'::jsonb,
   'ciphertext for the prior recipient key is no longer returned'
 );
 
