@@ -8,8 +8,11 @@ import type {
   DeviceRecoveryRequest,
   DeviceRecoveryResponse,
   InviteResponse,
+  GetVoteSnapshotResponse,
   ListEventsResponse,
+  PutVoteSnapshotRequest,
   SyncEventResponse,
+  VoteSnapshotResponse,
 } from './relayTypes';
 import { RelayHttpError } from './relayClient';
 
@@ -165,6 +168,28 @@ export class SupabaseRelayClient {
     });
   }
 
+  putVoteSnapshot(
+    coupleId: string,
+    body: PutVoteSnapshotRequest
+  ): Promise<VoteSnapshotResponse> {
+    return this.callRpc('spicesync_put_vote_snapshot', {
+      p_couple_id: coupleId,
+      p_author_device_id: body.authorDeviceId,
+      p_recipient_device_id: body.recipientDeviceId,
+      p_request_generation: body.requestGeneration,
+      p_snapshot_version: body.snapshotVersion,
+      p_encrypted_payload: body.encryptedPayload,
+      p_payload_hash: body.payloadHash,
+      p_signature: body.signature,
+    });
+  }
+
+  getVoteSnapshot(coupleId: string): Promise<GetVoteSnapshotResponse> {
+    return this.callRpc('spicesync_get_vote_snapshot', {
+      p_couple_id: coupleId,
+    });
+  }
+
   revokeCouple(
     coupleId: string
   ): Promise<{ coupleId: string; revokedAt: number | null }> {
@@ -195,10 +220,15 @@ export class SupabaseRelayClient {
     await this.ensureSession();
     const { data, error } = await this.supabase.rpc<T>(functionName, args);
     if (error) {
+      const message = error.message || 'Supabase relay request failed';
+      const semanticCode =
+        error.code === 'P0001' && /^[A-Z][A-Z0-9_]+$/.test(message.trim())
+          ? message.trim()
+          : error.code || 'SUPABASE_RPC_ERROR';
       throw new RelayHttpError(
         400,
-        error.code || 'SUPABASE_RPC_ERROR',
-        error.message || 'Supabase relay request failed'
+        semanticCode,
+        message
       );
     }
     return data;

@@ -9,7 +9,10 @@ import type {
   DeviceRecoveryResponse,
   InviteResponse,
   ListEventsResponse,
+  GetVoteSnapshotResponse,
+  PutVoteSnapshotRequest,
   SyncEventResponse,
+  VoteSnapshotResponse,
 } from './relayTypes';
 
 export type RelayTransport = {
@@ -32,6 +35,11 @@ export type RelayTransport = {
     coupleId: string,
     afterServerSequence: number
   ): Promise<ListEventsResponse>;
+  putVoteSnapshot(
+    coupleId: string,
+    body: PutVoteSnapshotRequest
+  ): Promise<VoteSnapshotResponse>;
+  getVoteSnapshot(coupleId: string): Promise<GetVoteSnapshotResponse>;
   revokeCouple(
     coupleId: string
   ): Promise<{ coupleId: string; revokedAt: number | null }>;

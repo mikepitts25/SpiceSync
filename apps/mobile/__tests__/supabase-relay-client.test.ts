@@ -376,4 +376,88 @@ describe('SupabaseRelayClient', () => {
       message: 'Invite expired',
     } satisfies Partial<RelayHttpError>);
   });
+
+  it('maps encrypted vote snapshot put/get RPCs', async () => {
+    const supabase = makeSupabaseMock();
+    const snapshot = {
+      coupleId: 'cpl_1',
+      authorDeviceId: 'dev_a',
+      recipientDeviceId: 'dev_b',
+      requestGeneration: 3,
+      snapshotVersion: 9,
+      encryptedPayload: 'ciphertext',
+      payloadHash: 'hash',
+      signature: 'signature',
+      createdAt: 1770000000,
+      updatedAt: 1770000001,
+    };
+    supabase.rpc
+      .mockResolvedValueOnce({ data: snapshot, error: null })
+      .mockResolvedValueOnce({
+        data: {
+          snapshot,
+          myRequestGeneration: 3,
+          partnerRequestGeneration: 4,
+        },
+        error: null,
+      });
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
+
+    await expect(
+      client.putVoteSnapshot('cpl_1', {
+        authorDeviceId: 'dev_a',
+        recipientDeviceId: 'dev_b',
+        requestGeneration: 3,
+        snapshotVersion: 9,
+        encryptedPayload: 'ciphertext',
+        payloadHash: 'hash',
+        signature: 'signature',
+      })
+    ).resolves.toEqual(snapshot);
+    await expect(client.getVoteSnapshot('cpl_1')).resolves.toEqual({
+      snapshot,
+      myRequestGeneration: 3,
+      partnerRequestGeneration: 4,
+    });
+
+    expect(supabase.rpc).toHaveBeenNthCalledWith(
+      1,
+      'spicesync_put_vote_snapshot',
+      {
+        p_couple_id: 'cpl_1',
+        p_author_device_id: 'dev_a',
+        p_recipient_device_id: 'dev_b',
+        p_request_generation: 3,
+        p_snapshot_version: 9,
+        p_encrypted_payload: 'ciphertext',
+        p_payload_hash: 'hash',
+        p_signature: 'signature',
+      }
+    );
+    expect(supabase.rpc).toHaveBeenNthCalledWith(
+      2,
+      'spicesync_get_vote_snapshot',
+      { p_couple_id: 'cpl_1' }
+    );
+  });
+
+  it('normalizes semantic P0001 relay errors by message', async () => {
+    const supabase = makeSupabaseMock();
+    supabase.rpc.mockResolvedValueOnce({
+      data: null,
+      error: { code: 'P0001', message: 'RECIPIENT_KEY_CHANGED' },
+    });
+    const client = new SupabaseRelayClient(
+      supabase,
+      jest.fn().mockResolvedValue('user-1')
+    );
+
+    await expect(client.getInvite('inv_old')).rejects.toMatchObject({
+      code: 'RECIPIENT_KEY_CHANGED',
+      message: 'RECIPIENT_KEY_CHANGED',
+    });
+  });
 });

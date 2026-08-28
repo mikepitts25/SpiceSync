@@ -118,6 +118,28 @@ export type ListEventsResponse = {
   cursor: number;
 };
 
+export type PutVoteSnapshotRequest = {
+  authorDeviceId: string;
+  recipientDeviceId: string;
+  requestGeneration: number;
+  snapshotVersion: number;
+  encryptedPayload: string;
+  payloadHash: string;
+  signature: string;
+};
+
+export type VoteSnapshotResponse = PutVoteSnapshotRequest & {
+  coupleId: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
+export type GetVoteSnapshotResponse = {
+  snapshot: VoteSnapshotResponse | null;
+  myRequestGeneration: number;
+  partnerRequestGeneration: number;
+};
+
 export type RelayErrorBody = {
   error?: {
     code?: string;
