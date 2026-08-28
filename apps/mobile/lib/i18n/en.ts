@@ -386,6 +386,10 @@ export const en = {
       '{{pending}} waiting to send • {{received}} partner responses synced',
     syncComplete: 'Refresh complete: {{uploaded}} sent • {{applied}} received',
     syncFailed: 'Could not reach partner sync. Try again.',
+    syncWaiting:
+      'Your votes were sent. Waiting for your partner to open SpiceSync.',
+    syncRejected:
+      'Partner data could not be verified. No matches were changed.',
     syncPaused: 'Partner sync is paused. Open Partner Sync to resume.',
     shareResults: 'Share Results',
     shareMessage:

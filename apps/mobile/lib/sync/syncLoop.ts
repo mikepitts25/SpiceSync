@@ -22,6 +22,13 @@ import { getRelayClient } from './relayConfig';
 import { useRevealConsentStore } from './revealConsent';
 import type { SyncEventResponse } from './relayTypes';
 import { isReadiness, readinessToVote } from '../votes/rolePreferences';
+import { useVotesStore } from '../../src/stores/votes';
+import { useProfilesStore } from '../state/profiles';
+import {
+  buildEncryptedVoteSnapshot,
+  validateAndDecryptVoteSnapshot,
+} from './voteSnapshot';
+import { useVoteSnapshotState } from './voteSnapshotState';
 
 function signaturePayload(
   eventId: string,
@@ -387,14 +394,146 @@ export async function pullPartnerEvents(): Promise<{ applied: number }> {
   return { applied };
 }
 
+export type VoteSnapshotSyncResult = {
+  published: boolean;
+  received: boolean;
+  status: 'received' | 'waiting' | 'rejected' | 'unavailable';
+  error?: string;
+};
+
+function isSnapshotRecipientChanged(error: unknown): boolean {
+  return (
+    error instanceof RelayHttpError &&
+    (error.code === 'RECIPIENT_KEY_CHANGED' ||
+      error.code === 'SNAPSHOT_REQUEST_CHANGED')
+  );
+}
+
+async function publishVoteSnapshot(
+  localProfileId: string,
+  partnerRequestGeneration: number
+): Promise<boolean> {
+  const relay = getRelayClient();
+  if (!relay.putVoteSnapshot) return false;
+  const link = useCoupleLinkStore.getState().link;
+  if (!isCoupleLinkSyncable(link)) return false;
+  const id = await getIdentityIfExists();
+  if (!id || !isCurrentSyncableCoupleLink(link)) return false;
+  const snapshotVersion = useVoteSnapshotState
+    .getState()
+    .reserveVersion(link.coupleId, link.myDeviceId);
+  const body = buildEncryptedVoteSnapshot({
+    coupleId: link.coupleId,
+    authorDeviceId: link.myDeviceId,
+    recipientDeviceId: link.partnerDeviceId,
+    requestGeneration: partnerRequestGeneration,
+    snapshotVersion,
+    updatedAt: Date.now(),
+    votes: useVotesStore.getState().votesByProfile[localProfileId] ?? {},
+    authorEncryptionPrivateKey: id.encryptionPrivateKey,
+    authorSigningPrivateKey: id.signingPrivateKey,
+    recipientEncryptionPublicKey: decodeBase64(link.partnerEncryptionPublicKey),
+  });
+  if (!isCurrentSyncableCoupleLink(link)) return false;
+  const stored = await relay.putVoteSnapshot(link.coupleId, body);
+  return (
+    isCurrentSyncableCoupleLink(link) &&
+    stored.authorDeviceId === body.authorDeviceId &&
+    stored.recipientDeviceId === body.recipientDeviceId &&
+    stored.requestGeneration === body.requestGeneration &&
+    stored.snapshotVersion === body.snapshotVersion
+  );
+}
+
+export async function syncVoteSnapshots(
+  localProfileId: string
+): Promise<VoteSnapshotSyncResult> {
+  const relay = getRelayClient();
+  if (
+    typeof relay.getVoteSnapshot !== 'function' ||
+    typeof relay.putVoteSnapshot !== 'function'
+  ) {
+    return { published: false, received: false, status: 'unavailable' };
+  }
+  let link = useCoupleLinkStore.getState().link;
+  if (!isCoupleLinkSyncable(link)) {
+    return { published: false, received: false, status: 'unavailable' };
+  }
+
+  let preflight = await relay.getVoteSnapshot(link.coupleId);
+  let published = false;
+  try {
+    published = await publishVoteSnapshot(
+      localProfileId,
+      preflight.partnerRequestGeneration
+    );
+  } catch (error) {
+    if (!isSnapshotRecipientChanged(error)) throw error;
+    await refreshCoupleMetadata();
+    link = useCoupleLinkStore.getState().link;
+    if (!isCoupleLinkSyncable(link)) {
+      return { published: false, received: false, status: 'unavailable' };
+    }
+    preflight = await relay.getVoteSnapshot(link.coupleId);
+    published = await publishVoteSnapshot(
+      localProfileId,
+      preflight.partnerRequestGeneration
+    );
+  }
+
+  link = useCoupleLinkStore.getState().link;
+  if (!isCoupleLinkSyncable(link)) {
+    return { published, received: false, status: 'unavailable' };
+  }
+  const incoming = await relay.getVoteSnapshot(link.coupleId);
+  if (!incoming.snapshot) {
+    useCoupleLinkStore.getState().markSynced(Date.now());
+    return { published, received: false, status: 'waiting' };
+  }
+  const id = await getIdentityIfExists();
+  if (!id || !isCurrentSyncableCoupleLink(link)) {
+    return { published, received: false, status: 'unavailable' };
+  }
+  try {
+    const decoded = validateAndDecryptVoteSnapshot({
+      coupleId: link.coupleId,
+      myDeviceId: link.myDeviceId,
+      partnerDeviceId: link.partnerDeviceId,
+      snapshot: incoming.snapshot,
+      myEncryptionPrivateKey: id.encryptionPrivateKey,
+      partnerEncryptionPublicKey: decodeBase64(link.partnerEncryptionPublicKey),
+      partnerSigningPublicKey: decodeBase64(link.partnerSigningPublicKey),
+      receivedAt: Date.now(),
+    });
+    if (!isCurrentSyncableCoupleLink(link)) {
+      return { published, received: false, status: 'unavailable' };
+    }
+    usePartnerVotesStore.getState().replaceSnapshot({
+      ...decoded,
+      receivedAt: Date.now(),
+    });
+    useCoupleLinkStore.getState().markSynced(Date.now());
+    return { published, received: true, status: 'received' };
+  } catch (error) {
+    return {
+      published,
+      received: false,
+      status: 'rejected',
+      error: error instanceof Error ? error.message : 'Snapshot rejected',
+    };
+  }
+}
+
 export type SyncResult = {
   uploaded: number;
   failed: number;
   applied: number;
+  snapshot?: VoteSnapshotSyncResult;
 };
 
 export async function syncOnce(options?: {
   forcePending?: boolean;
+  localProfileId?: string | null;
 }): Promise<SyncResult> {
   if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
     return { uploaded: 0, failed: 0, applied: 0 };
@@ -405,6 +544,29 @@ export async function syncOnce(options?: {
   if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
     return { uploaded: 0, failed: 0, applied: 0 };
   }
+  const localProfileId =
+    options?.localProfileId ??
+    useProfilesStore.getState().getActiveProfileId() ??
+    null;
+  let snapshot: VoteSnapshotSyncResult | undefined;
+  if (localProfileId) {
+    try {
+      const snapshotResult = await syncVoteSnapshots(localProfileId);
+      // Test transports and rolling-release legacy transports may not expose
+      // the new mailbox yet. Preserve the established result shape until the
+      // capability is actually available.
+      if (snapshotResult.status !== 'unavailable' || snapshotResult.error) {
+        snapshot = snapshotResult;
+      }
+    } catch (error) {
+      snapshot = {
+        published: false,
+        received: false,
+        status: 'unavailable',
+        error: error instanceof Error ? error.message : 'Snapshot unavailable',
+      };
+    }
+  }
   const flushResult = await flushPending(
     Date.now(),
     true,
@@ -414,7 +576,7 @@ export async function syncOnce(options?: {
     return { uploaded: 0, failed: 0, applied: 0 };
   }
   const pullResult = await pullPartnerEvents();
-  return { ...flushResult, applied: pullResult.applied };
+  return { ...flushResult, applied: pullResult.applied, snapshot };
 }
 
 export { refreshCoupleMetadata } from './coupleLink';
@@ -423,13 +585,15 @@ let intervalHandle: ReturnType<typeof setInterval> | null = null;
 let scheduledSync: Promise<unknown> | null = null;
 let loopGeneration = 0;
 
-export async function syncNow(): Promise<SyncResult> {
+export async function syncNow(
+  localProfileId?: string | null
+): Promise<SyncResult> {
   const activeSync = scheduledSync;
   if (activeSync) {
     await activeSync.catch(() => undefined);
   }
 
-  const run = syncOnce({ forcePending: true });
+  const run = syncOnce({ forcePending: true, localProfileId });
   scheduledSync = run;
   try {
     return await run;

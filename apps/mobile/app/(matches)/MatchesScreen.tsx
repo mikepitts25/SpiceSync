@@ -532,7 +532,11 @@ export default function MatchesScreen() {
         throw new Error('Partner sync paused');
       }
       setRefreshResult(result);
-      setRefreshError(result.failed > 0);
+      setRefreshError(
+        result.failed > 0 ||
+          result.snapshot?.status === 'rejected' ||
+          result.snapshot?.status === 'unavailable'
+      );
     } catch {
       setRefreshError(true);
       setRefreshResult(null);

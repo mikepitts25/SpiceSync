@@ -18,6 +18,9 @@ const labels = {
     '{{pending}} waiting to send • {{received}} partner responses synced',
   syncComplete: 'Refresh complete: {{uploaded}} sent • {{applied}} received',
   syncFailed: 'Could not reach partner sync. Try again.',
+  syncWaiting:
+    'Your votes were sent. Waiting for your partner to open SpiceSync.',
+  syncRejected: 'Partner data could not be verified. No matches were changed.',
   syncPaused: 'Partner sync is paused. Open Partner Sync to resume.',
 };
 
@@ -85,5 +88,75 @@ describe('MatchSyncStatus', () => {
       tree!.root.findByProps({ accessibilityLabel: 'Refresh matches' }).props
         .disabled
     ).toBe(true);
+  });
+
+  it('distinguishes waiting for a partner snapshot from a completed exchange', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <MatchSyncStatus
+          syncable
+          lastSyncedAt={Date.now()}
+          pendingCount={0}
+          partnerResponseCount={0}
+          refreshing={false}
+          result={{
+            uploaded: 0,
+            failed: 0,
+            applied: 0,
+            snapshot: {
+              published: true,
+              received: false,
+              status: 'waiting',
+            },
+          }}
+          error={false}
+          onRefresh={jest.fn()}
+          labels={labels}
+        />
+      );
+    });
+
+    expect(
+      tree!.root.findByProps({
+        children:
+          'Your votes were sent. Waiting for your partner to open SpiceSync.',
+      })
+    ).toBeDefined();
+  });
+
+  it('reports rejected partner data instead of claiming refresh completed', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <MatchSyncStatus
+          syncable
+          lastSyncedAt={Date.now()}
+          pendingCount={0}
+          partnerResponseCount={1}
+          refreshing={false}
+          result={{
+            uploaded: 0,
+            failed: 0,
+            applied: 0,
+            snapshot: {
+              published: true,
+              received: false,
+              status: 'rejected',
+            },
+          }}
+          error
+          onRefresh={jest.fn()}
+          labels={labels}
+        />
+      );
+    });
+
+    expect(
+      tree!.root.findByProps({
+        children:
+          'Partner data could not be verified. No matches were changed.',
+      })
+    ).toBeDefined();
   });
 });

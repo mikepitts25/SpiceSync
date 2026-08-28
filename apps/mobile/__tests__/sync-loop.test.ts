@@ -981,7 +981,7 @@ describe('sync loop', () => {
     expect(matches.readyNow.map((match) => match.id)).toEqual(['shared-card']);
   });
 
-  it('manual vote refresh resends the full local snapshot and receives partner votes in one pass', async () => {
+  it('manual vote refresh still receives partner state when the legacy queue cannot enqueue', async () => {
     const mySigning = generateSigningKeypair();
     const myEncryption = generateEncryptionKeypair();
     const partnerSigning = generateSigningKeypair();
@@ -1061,24 +1061,25 @@ describe('sync loop', () => {
       new RelayTestClient('https://relay.test', fetchMock as any)
     );
 
+    const originalEnqueue = useEventQueueStore.getState().enqueue;
+    useEventQueueStore.setState({ enqueue: () => null });
+
     await expect(refreshVoteSync('profile-1')).resolves.toEqual({
-      uploaded: 2,
+      uploaded: 0,
       failed: 0,
       applied: 1,
     });
+    useEventQueueStore.setState({ enqueue: originalEnqueue });
     expect(useEventQueueStore.getState().pending).toEqual([]);
     expect(
       usePartnerVotesStore.getState().byCardId['shared-card']
     ).toMatchObject({ vote: 'yes' });
+    expect(relayCalls.some((call) => call.includes('POST'))).toBe(false);
     expect(
-      relayCalls.findIndex(
-        (call) => call.includes('POST') && call.endsWith('/events')
-      )
-    ).toBeLessThan(
-      relayCalls.findIndex(
+      relayCalls.some(
         (call) => call.includes('GET') && call.includes('/events?after=')
       )
-    );
+    ).toBe(true);
   });
 
   it('manual sync retries pending votes immediately despite automatic backoff', async () => {

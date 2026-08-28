@@ -364,9 +364,6 @@ export async function refreshVoteSync(
   if (!refreshContext) {
     throw new Error('Partner vote sync is unavailable');
   }
-  const hasCurrentVotes =
-    Object.keys(useVotesStore.getState().votesByProfile[localProfileId] ?? {})
-      .length > 0;
   let snapshotQueued = await startVoteSync(localProfileId);
   if (!isCurrentVoteEnqueueContext(refreshContext)) {
     throw new Error('Vote sync context changed during refresh');
@@ -377,10 +374,10 @@ export async function refreshVoteSync(
   if (!isCurrentVoteEnqueueContext(refreshContext)) {
     throw new Error('Vote sync context changed during refresh');
   }
-  if (hasCurrentVotes && !snapshotQueued) {
-    throw new Error('Unable to queue the current vote snapshot');
-  }
-  return syncNow();
+  // The event queue remains a best-effort compatibility path for older app
+  // versions. The authoritative encrypted snapshot below must still run when
+  // that legacy queue is unavailable, otherwise refresh can never self-heal.
+  return syncNow(localProfileId);
 }
 
 export function stopVoteSync(): void {

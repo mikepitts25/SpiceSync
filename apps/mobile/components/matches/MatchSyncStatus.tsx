@@ -19,6 +19,8 @@ export type MatchSyncLabels = {
   syncSummary: string;
   syncComplete: string;
   syncFailed: string;
+  syncWaiting: string;
+  syncRejected: string;
   syncPaused: string;
 };
 
@@ -64,16 +66,22 @@ export function MatchSyncStatus({
   labels,
 }: MatchSyncStatusProps) {
   const disabled = !syncable || refreshing;
+  const snapshotStatus = result?.snapshot?.status;
   const detail = !syncable
     ? labels.syncPaused
-    : error
-      ? labels.syncFailed
-      : result
-        ? interpolate(labels.syncComplete, {
-            uploaded: result.uploaded,
-            applied: result.applied,
-          })
-        : null;
+    : snapshotStatus === 'rejected'
+      ? labels.syncRejected
+      : error
+        ? labels.syncFailed
+        : snapshotStatus === 'waiting'
+          ? labels.syncWaiting
+          : result
+            ? interpolate(labels.syncComplete, {
+                uploaded: result.snapshot?.published ? 1 : result.uploaded,
+                applied: result.snapshot?.received ? 1 : result.applied,
+              })
+            : null;
+  const detailIsError = error || snapshotStatus === 'rejected';
 
   return (
     <View
@@ -107,7 +115,9 @@ export function MatchSyncStatus({
         })}
       </Text>
       {detail ? (
-        <Text style={[styles.detail, error && styles.error]}>{detail}</Text>
+        <Text style={[styles.detail, detailIsError && styles.error]}>
+          {detail}
+        </Text>
       ) : null}
     </View>
   );

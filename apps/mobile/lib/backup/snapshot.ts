@@ -60,6 +60,7 @@ export const BACKUP_EXCLUSIONS: Readonly<Record<string, string>> = {
   'spicesync-couple-link': 'device-bound partner link',
   'spicesync-sync-queue': 'in-flight relay transport state',
   'spicesync-vote-sync': 'relay cursor state',
+  'spicesync-vote-snapshot-sync': 'device-bound snapshot sequence state',
   'spicesync-partner-votes': "partner's data, re-synced from partner",
   'spicesync-reveal-consent': 'consent must be re-granted, never restored',
 

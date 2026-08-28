@@ -35,11 +35,11 @@ export type RelayTransport = {
     coupleId: string,
     afterServerSequence: number
   ): Promise<ListEventsResponse>;
-  putVoteSnapshot(
+  putVoteSnapshot?(
     coupleId: string,
     body: PutVoteSnapshotRequest
   ): Promise<VoteSnapshotResponse>;
-  getVoteSnapshot(coupleId: string): Promise<GetVoteSnapshotResponse>;
+  getVoteSnapshot?(coupleId: string): Promise<GetVoteSnapshotResponse>;
   revokeCouple(
     coupleId: string
   ): Promise<{ coupleId: string; revokedAt: number | null }>;

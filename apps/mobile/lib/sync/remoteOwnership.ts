@@ -3,6 +3,7 @@ import { useEventQueueStore, type QuarantineReason } from './eventQueue';
 import { usePartnerVotesStore } from './partnerVotes';
 import { useRevealConsentStore } from './revealConsent';
 import { stopVoteSync, useVoteSyncStore } from './voteSync';
+import { useVoteSnapshotState } from './voteSnapshotState';
 
 type RemoteResetReason = Extract<
   RemoteStateNotice['kind'],
@@ -25,6 +26,7 @@ export function clearRemoteOwnedState(
   usePartnerVotesStore.getState().reset();
   useRevealConsentStore.getState().reset();
   useVoteSyncStore.getState().reset();
+  useVoteSnapshotState.getState().reset();
   useCoupleLinkStore.getState().clearRemoteState(
     {
       kind: reason,

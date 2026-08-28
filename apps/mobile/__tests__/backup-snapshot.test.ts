@@ -53,6 +53,7 @@ describe('backup allowlist', () => {
       'spicesync-couple-link',
       'spicesync-sync-queue',
       'spicesync-vote-sync',
+      'spicesync-vote-snapshot-sync',
       'spicesync-partner-votes',
       'spicesync-reveal-consent',
     ]) {

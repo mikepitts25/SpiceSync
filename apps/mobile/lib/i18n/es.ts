@@ -395,6 +395,10 @@ export const es: Translations = {
     syncComplete:
       'Actualización completa: {{uploaded}} enviadas • {{applied}} recibidas',
     syncFailed: 'No se pudo sincronizar con tu pareja. Inténtalo de nuevo.',
+    syncWaiting:
+      'Tus votos se enviaron. Esperando a que tu pareja abra SpiceSync.',
+    syncRejected:
+      'No se pudieron verificar los datos de tu pareja. No se cambiaron las coincidencias.',
     syncPaused:
       'La sincronización está pausada. Abre Sincronización de pareja para reanudarla.',
     shareResults: 'Compartir resultados',
