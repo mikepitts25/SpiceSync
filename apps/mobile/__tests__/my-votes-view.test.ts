@@ -104,17 +104,4 @@ describe('buildMyVotesView', () => {
       'unknown-intensity',
     ]);
   });
-
-  it('sorts intensity high to low and leaves missing intensity last', () => {
-    const result = buildMyVotesView(ITEMS, 'all', 'intensity_desc');
-
-    expect(ids(result.items)).toEqual([
-      'yes',
-      'hard-no',
-      'not-now',
-      'legacy-no',
-      'curious',
-      'unknown-intensity',
-    ]);
-  });
 });

@@ -235,7 +235,8 @@ const supplementalSpanish: Record<string, string> = {
   Default: 'Predeterminado',
   'A to Z': 'De A a Z',
   'Intensity low to high': 'Intensidad de menor a mayor',
-  'Intensity high to low': 'Intensidad de mayor a menor',
+  LVL: 'NIV',
+  level: 'nivel',
   vote: 'voto',
   votes: 'votos',
   'Tap any card to review or change your vote':
@@ -387,7 +388,6 @@ const supplementalSpanish: Record<string, string> = {
   'Swipe More': 'Votar más',
   'See Matches': 'Ver coincidencias',
   'Play Game': 'Jugar',
-  'Active now': 'Activo ahora',
   'day streak': 'días de racha',
   'Remote sync active · matches stay private':
     'Sincronización remota activa · las coincidencias siguen privadas',
