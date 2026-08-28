@@ -397,7 +397,7 @@ export async function pullPartnerEvents(): Promise<{ applied: number }> {
 export type VoteSnapshotSyncResult = {
   published: boolean;
   received: boolean;
-  status: 'received' | 'waiting' | 'rejected' | 'unavailable';
+  status: 'received' | 'unchanged' | 'waiting' | 'rejected' | 'unavailable';
   error?: string;
 };
 
@@ -523,7 +523,7 @@ export async function syncVoteSnapshots(
     if (!isCurrentSyncableCoupleLink(link)) {
       return { published, received: false, status: 'unavailable' };
     }
-    usePartnerVotesStore.getState().replaceSnapshot({
+    const replaced = usePartnerVotesStore.getState().replaceSnapshot({
       ...decoded,
       receivedAt: Date.now(),
     });
@@ -536,7 +536,11 @@ export async function syncVoteSnapshots(
       };
     }
     useCoupleLinkStore.getState().markSynced(Date.now());
-    return { published, received: true, status: 'received' };
+    return {
+      published,
+      received: replaced,
+      status: replaced ? 'received' : 'unchanged',
+    };
   } catch (error) {
     return {
       published,
