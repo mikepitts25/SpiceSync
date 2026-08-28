@@ -10,7 +10,8 @@ export type IdTokenCredentialPayload = {
 
 function readClaims(token: string): Record<string, unknown> | null {
   const parts = token.split('.');
-  if (parts.length < 2 || !parts[1]) return null;
+  if (parts.length !== 3 || parts.some((part) => part.length === 0))
+    return null;
   try {
     const claims = JSON.parse(bytesToUtf8(decodeBase64(parts[1])));
     return claims && typeof claims === 'object' && !Array.isArray(claims)

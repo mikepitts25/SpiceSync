@@ -16,6 +16,7 @@ import type {
 import { syncVoteSnapshots } from '../lib/sync/syncLoop';
 import { buildEncryptedVoteSnapshot } from '../lib/sync/voteSnapshot';
 import { useVotesStore } from '../src/stores/votes';
+import { useVoteSnapshotState } from '../lib/sync/voteSnapshotState';
 
 const callOrder: string[] = [];
 const mockRelay = {
@@ -133,6 +134,7 @@ describe('vote snapshot convergence', () => {
     });
     useVotesStore.setState({ votesByProfile: {} });
     usePartnerVotesStore.getState().reset();
+    useVoteSnapshotState.getState().reset();
     mockRelay.getVoteSnapshot.mockImplementation(async () => {
       callOrder.push('get');
       return {
@@ -154,6 +156,10 @@ describe('vote snapshot convergence', () => {
     );
   });
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('publishes an empty complete snapshot before the authoritative fetch', async () => {
     await expect(syncVoteSnapshots('profile-me')).resolves.toMatchObject({
       published: true,
@@ -173,6 +179,39 @@ describe('vote snapshot convergence', () => {
       votes: [],
       answeredCount: 0,
       recipientDeviceId: 'dev_partner',
+    });
+  });
+
+  it('advances above the relay version after local version state is lost', async () => {
+    jest.spyOn(Date, 'now').mockReturnValue(1_000);
+    mockRelay.getVoteSnapshot.mockResolvedValue({
+      snapshot: null,
+      myRequestGeneration: 2,
+      partnerRequestGeneration: 3,
+      mySnapshotVersion: 9_000,
+    });
+
+    await syncVoteSnapshots('profile-me');
+
+    expect(mockRelay.putVoteSnapshot.mock.calls[0][1].snapshotVersion).toBe(
+      9_001
+    );
+  });
+
+  it('reports publication failure instead of claiming votes were sent', async () => {
+    mockRelay.putVoteSnapshot.mockImplementation(async (_coupleId, body) => ({
+      coupleId: 'cpl_1',
+      ...body,
+      snapshotVersion: body.snapshotVersion + 1,
+      createdAt: 1,
+      updatedAt: 1,
+    }));
+
+    await expect(syncVoteSnapshots('profile-me')).resolves.toMatchObject({
+      published: false,
+      received: false,
+      status: 'unavailable',
+      error: expect.any(String),
     });
   });
 

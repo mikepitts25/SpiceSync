@@ -138,6 +138,8 @@ export type GetVoteSnapshotResponse = {
   snapshot: VoteSnapshotResponse | null;
   myRequestGeneration: number;
   partnerRequestGeneration: number;
+  /** Added with snapshot v1; absent only on rolling-release legacy relays. */
+  mySnapshotVersion?: number | null;
 };
 
 export type RelayErrorBody = {

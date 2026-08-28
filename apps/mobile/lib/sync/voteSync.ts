@@ -232,6 +232,21 @@ function canEnqueueVotes(
 
 let unsubscribe: (() => void) | null = null;
 let lastSnapshot: VotesByProfile = {};
+let snapshotPublishTimer: ReturnType<typeof setTimeout> | null = null;
+
+function scheduleAuthoritativeVoteSnapshot(profileId: string): void {
+  if (snapshotPublishTimer) clearTimeout(snapshotPublishTimer);
+  snapshotPublishTimer = setTimeout(() => {
+    snapshotPublishTimer = null;
+    if (
+      useVoteSyncStore.getState().localProfileId !== profileId ||
+      !canEnqueueVotes(useCoupleLinkStore.getState().link, profileId)
+    ) {
+      return;
+    }
+    syncNow(profileId).catch(() => undefined);
+  }, 300);
+}
 
 export async function bootstrapCurrentVotes(
   options?: VoteSyncStartOptions
@@ -344,6 +359,9 @@ export async function startVoteSync(
           () => undefined
         );
       }
+      // Full snapshots are authoritative and cover removals that the legacy
+      // upsert-only stream cannot express. Coalesce rapid swipes into one run.
+      scheduleAuthoritativeVoteSnapshot(localProfileId);
     });
   }
   const bootstrapped = await bootstrapCurrentVotes(options);
@@ -384,6 +402,10 @@ export function stopVoteSync(): void {
   if (unsubscribe) {
     unsubscribe();
     unsubscribe = null;
+  }
+  if (snapshotPublishTimer) {
+    clearTimeout(snapshotPublishTimer);
+    snapshotPublishTimer = null;
   }
 }
 

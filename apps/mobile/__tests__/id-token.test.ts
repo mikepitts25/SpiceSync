@@ -58,5 +58,12 @@ describe('native ID token credential payloads', () => {
         nonce: 'raw-nonce',
       })
     ).toThrow('invalid ID token');
+    expect(() =>
+      credentialPayloadForIdToken({
+        provider: 'apple',
+        token: `${token({ nonce: 'claim' })}.extra`,
+        nonce: 'raw-nonce',
+      })
+    ).toThrow('invalid ID token');
   });
 });

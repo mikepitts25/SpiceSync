@@ -137,7 +137,12 @@ begin
   end if;
   if p_snapshot_version is null or p_snapshot_version < 1
     or length(coalesce(p_encrypted_payload, '')) = 0
-    or length(trim(coalesce(p_signature, ''))) = 0 then
+    or octet_length(p_encrypted_payload) > 2097152
+    or length(coalesce(p_payload_hash, '')) > 512
+    or length(trim(coalesce(p_signature, ''))) = 0
+    or length(p_signature) > 512
+    or length(p_author_device_id) > 255
+    or length(p_recipient_device_id) > 255 then
     raise exception 'Invalid snapshot input' using errcode = '22023';
   end if;
   if encode(extensions.digest(p_encrypted_payload, 'sha256'), 'base64') <> p_payload_hash then
@@ -209,6 +214,7 @@ declare
   v_my_device_id text;
   v_my_request_generation integer;
   v_partner_request_generation integer;
+  v_my_snapshot_version bigint := null;
   v_snapshot public.spicesync_vote_snapshots%rowtype;
   v_snapshot_json jsonb := null;
 begin
@@ -244,10 +250,17 @@ begin
     v_snapshot_json := public.spicesync_vote_snapshot_json(v_snapshot);
   end if;
 
+  select snapshot.snapshot_version into v_my_snapshot_version
+  from public.spicesync_vote_snapshots as snapshot
+  where snapshot.couple_id = p_couple_id
+    and snapshot.author_user_id = v_user_id
+    and snapshot.author_device_id = v_my_device_id;
+
   return jsonb_build_object(
     'snapshot', v_snapshot_json,
     'myRequestGeneration', v_my_request_generation,
-    'partnerRequestGeneration', v_partner_request_generation
+    'partnerRequestGeneration', v_partner_request_generation,
+    'mySnapshotVersion', v_my_snapshot_version
   );
 end;
 $$;

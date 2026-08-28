@@ -58,6 +58,7 @@ describe('encrypted vote snapshots', () => {
 
     expect(decoded).toEqual({
       authorDeviceId: 'dev_a',
+      requestGeneration: 3,
       snapshotVersion: 9,
       answeredCount: 2,
       votes: {
@@ -138,6 +139,7 @@ describe('encrypted vote snapshots', () => {
 
     usePartnerVotesStore.getState().replaceSnapshot({
       authorDeviceId: 'dev_partner',
+      requestGeneration: 2,
       snapshotVersion: 7,
       answeredCount: 0,
       votes: {},
@@ -149,7 +151,50 @@ describe('encrypted vote snapshots', () => {
       answeredCount: 0,
       lastSnapshotVersion: 7,
       lastSnapshotAuthorDeviceId: 'dev_partner',
+      lastSnapshotRequestGeneration: 2,
       lastSnapshotReceivedAt: 200,
     });
+  });
+
+  it('does not let a delayed older snapshot overwrite newer partner votes', () => {
+    const store = usePartnerVotesStore.getState();
+    expect(
+      store.replaceSnapshot({
+        authorDeviceId: 'dev_partner',
+        requestGeneration: 4,
+        snapshotVersion: 12,
+        answeredCount: 1,
+        votes: {
+          new_card: {
+            cardId: 'new_card',
+            vote: 'yes',
+            updatedAt: 12,
+            receivedAt: 12,
+          },
+        },
+        receivedAt: 12,
+      })
+    ).toBe(true);
+    expect(
+      usePartnerVotesStore.getState().replaceSnapshot({
+        authorDeviceId: 'dev_partner',
+        requestGeneration: 4,
+        snapshotVersion: 11,
+        answeredCount: 1,
+        votes: {
+          stale_card: {
+            cardId: 'stale_card',
+            vote: 'yes',
+            updatedAt: 11,
+            receivedAt: 13,
+          },
+        },
+        receivedAt: 13,
+      })
+    ).toBe(false);
+    expect(usePartnerVotesStore.getState().byCardId).toHaveProperty('new_card');
+    expect(usePartnerVotesStore.getState().byCardId).not.toHaveProperty(
+      'stale_card'
+    );
   });
 });

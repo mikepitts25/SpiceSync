@@ -125,6 +125,46 @@ describe('MatchSyncStatus', () => {
     ).toBeDefined();
   });
 
+  it('never says votes were sent when snapshot publication was not confirmed', () => {
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(
+        <MatchSyncStatus
+          syncable
+          lastSyncedAt={null}
+          pendingCount={0}
+          partnerResponseCount={0}
+          refreshing={false}
+          result={{
+            uploaded: 0,
+            failed: 0,
+            applied: 0,
+            snapshot: {
+              published: false,
+              received: false,
+              status: 'waiting',
+            },
+          }}
+          error
+          onRefresh={jest.fn()}
+          labels={labels}
+        />
+      );
+    });
+
+    expect(
+      tree!.root.findByProps({
+        children: 'Could not reach partner sync. Try again.',
+      })
+    ).toBeDefined();
+    expect(
+      tree!.root.findAllByProps({
+        children:
+          'Your votes were sent. Waiting for your partner to open SpiceSync.',
+      })
+    ).toHaveLength(0);
+  });
+
   it('reports rejected partner data instead of claiming refresh completed', () => {
     let tree: TestRenderer.ReactTestRenderer;
     TestRenderer.act(() => {

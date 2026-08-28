@@ -5,10 +5,7 @@ import {
 import { isAuthSessionMissingError } from '@supabase/supabase-js';
 import { clearForgottenDeviceState } from '../safety/localDataControls';
 import { clearIdentity, getIdentityIfExists } from '../sync/identity';
-import {
-  isCoupleLinkSyncable,
-  useCoupleLinkStore,
-} from '../sync/coupleLink';
+import { isCoupleLinkSyncable, useCoupleLinkStore } from '../sync/coupleLink';
 import { clearRemoteOwnedState } from '../sync/remoteOwnership';
 import { startSyncLoop, stopSyncLoop } from '../sync/syncLoop';
 import {
@@ -148,19 +145,13 @@ function reauthenticationPayload(input: ProviderCredential): {
   access_token?: string;
   nonce?: string;
 } {
-  if (input.provider === 'apple') {
-    return {
-      provider: 'apple',
-      token: input.token,
-      nonce: input.nonce,
-    };
-  }
-
-  return {
-    provider: 'google',
-    token: input.token,
-    access_token: input.accessToken,
-  };
+  const payload = credentialPayloadForIdToken({
+    ...input,
+    // Apple authorization codes are consumed only by the deletion function.
+    authorizationCode: undefined,
+  });
+  if (input.provider === 'apple') delete payload.access_token;
+  return payload;
 }
 
 function throwForAuthError(error: AuthError, fallbackCode: string): never {

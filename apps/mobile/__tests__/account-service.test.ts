@@ -276,7 +276,11 @@ describe('AccountService', () => {
 
   it('does not mistake network or validation failures for a missing session', async () => {
     for (const error of [
-      { name: 'AuthRetryableFetchError', code: 'network_error', message: 'offline' },
+      {
+        name: 'AuthRetryableFetchError',
+        code: 'network_error',
+        message: 'offline',
+      },
       { name: 'AuthApiError', code: 'validation_failed', message: 'invalid' },
     ]) {
       mockClient.auth.getUser.mockResolvedValueOnce({
@@ -477,7 +481,10 @@ describe('AccountService', () => {
     });
     expect(useEventQueueStore.getState().pending).toEqual([]);
     expect(useEventQueueStore.getState().quarantined).toEqual([
-      expect.objectContaining({ eventId: 'old-plaintext', reason: 'account-switched' }),
+      expect.objectContaining({
+        eventId: 'old-plaintext',
+        reason: 'account-switched',
+      }),
     ]);
     expect(usePartnerVotesStore.getState()).toMatchObject({
       byCardId: {},
@@ -741,9 +748,10 @@ describe('AccountService', () => {
     });
 
     await expect(service.getDeletionProvider()).resolves.toBe('apple');
+    const appleToken = idToken({ sub: 'user-1', nonce: 'hashed-nonce' });
     await service.deleteAccount({
       provider: 'apple',
-      token: 'fresh-apple-id-token',
+      token: appleToken,
       nonce: 'fresh-raw-nonce',
       authorizationCode: 'one-time-apple-code',
     });
@@ -752,7 +760,7 @@ describe('AccountService', () => {
       mockDeletionReauthClient.auth.signInWithIdToken
     ).toHaveBeenCalledWith({
       provider: 'apple',
-      token: 'fresh-apple-id-token',
+      token: appleToken,
       nonce: 'fresh-raw-nonce',
     });
     expect(
@@ -773,6 +781,41 @@ describe('AccountService', () => {
     );
     expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
     expect(mockClient.functions.invoke).not.toHaveBeenCalled();
+  });
+
+  it('omits an Apple nonce during deletion when the returned token has no nonce claim', async () => {
+    mockClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'apple') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.getUser.mockResolvedValue({
+      data: { user: permanentUser('user-1', 'apple') },
+      error: null,
+    });
+    mockDeletionReauthClient.auth.signInWithIdToken.mockResolvedValue({
+      data: { session: { access_token: 'fresh-bearer' } },
+      error: null,
+    });
+    mockDeletionReauthClient.functions.invoke.mockResolvedValue({
+      data: '',
+      error: null,
+      response: { status: 204 },
+    });
+    const appleToken = idToken({ sub: 'user-1' });
+
+    await service.deleteAccount({
+      provider: 'apple',
+      token: appleToken,
+      nonce: 'raw-that-must-not-be-forwarded',
+      authorizationCode: 'one-time-apple-code',
+    });
+
+    expect(
+      mockDeletionReauthClient.auth.signInWithIdToken
+    ).toHaveBeenCalledWith({
+      provider: 'apple',
+      token: appleToken,
+    });
   });
 
   it('uses a fresh Google credential for a Google-only account without signing out before server confirmation', async () => {
@@ -830,8 +873,11 @@ describe('AccountService', () => {
     );
     expect(mockClient.auth.signOut).not.toHaveBeenCalled();
     expect(mockClient.auth.signInWithIdToken).not.toHaveBeenCalled();
-    expect(mockClient.functions.invoke.mock.invocationCallOrder[0]).toBeLessThan(
-      mockDeletionReauthClient.auth.signInWithIdToken.mock.invocationCallOrder[0]
+    expect(
+      mockClient.functions.invoke.mock.invocationCallOrder[0]
+    ).toBeLessThan(
+      mockDeletionReauthClient.auth.signInWithIdToken.mock
+        .invocationCallOrder[0]
     );
   });
 
@@ -841,10 +887,14 @@ describe('AccountService', () => {
       error: null,
     });
 
-    await expect(service.deleteAccount(googleCredential())).rejects.toMatchObject({
+    await expect(
+      service.deleteAccount(googleCredential())
+    ).rejects.toMatchObject({
       code: 'GOOGLE_CHALLENGE_REQUIRED',
     });
-    expect(mockDeletionReauthClient.auth.signInWithIdToken).not.toHaveBeenCalled();
+    expect(
+      mockDeletionReauthClient.auth.signInWithIdToken
+    ).not.toHaveBeenCalled();
     expect(mockDeletionReauthClient.functions.invoke).not.toHaveBeenCalled();
   });
 
@@ -1041,8 +1091,6 @@ describe('AccountService', () => {
     ).rejects.toMatchObject({ code: 'ACCOUNT_DELETION_FAILED' });
     await expect(
       service.deleteAccount(googleCredential(), googleDeletionProof())
-    ).rejects.toThrow(
-      'offline'
-    );
+    ).rejects.toThrow('offline');
   });
 });

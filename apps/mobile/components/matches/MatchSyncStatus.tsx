@@ -73,7 +73,7 @@ export function MatchSyncStatus({
       ? labels.syncRejected
       : error
         ? labels.syncFailed
-        : snapshotStatus === 'waiting'
+        : snapshotStatus === 'waiting' && result?.snapshot?.published
           ? labels.syncWaiting
           : result
             ? interpolate(labels.syncComplete, {

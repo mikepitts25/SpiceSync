@@ -411,7 +411,8 @@ function isSnapshotRecipientChanged(error: unknown): boolean {
 
 async function publishVoteSnapshot(
   localProfileId: string,
-  partnerRequestGeneration: number
+  partnerRequestGeneration: number,
+  minimumSnapshotVersion: number
 ): Promise<boolean> {
   const relay = getRelayClient();
   if (!relay.putVoteSnapshot) return false;
@@ -419,9 +420,13 @@ async function publishVoteSnapshot(
   if (!isCoupleLinkSyncable(link)) return false;
   const id = await getIdentityIfExists();
   if (!id || !isCurrentSyncableCoupleLink(link)) return false;
+  if (!useVoteSnapshotState.persist.hasHydrated()) {
+    await useVoteSnapshotState.persist.rehydrate();
+  }
+  if (!isCurrentSyncableCoupleLink(link)) return false;
   const snapshotVersion = useVoteSnapshotState
     .getState()
-    .reserveVersion(link.coupleId, link.myDeviceId);
+    .reserveVersion(link.coupleId, link.myDeviceId, minimumSnapshotVersion);
   const body = buildEncryptedVoteSnapshot({
     coupleId: link.coupleId,
     authorDeviceId: link.myDeviceId,
@@ -465,7 +470,8 @@ export async function syncVoteSnapshots(
   try {
     published = await publishVoteSnapshot(
       localProfileId,
-      preflight.partnerRequestGeneration
+      preflight.partnerRequestGeneration,
+      preflight.mySnapshotVersion ?? 0
     );
   } catch (error) {
     if (!isSnapshotRecipientChanged(error)) throw error;
@@ -477,7 +483,8 @@ export async function syncVoteSnapshots(
     preflight = await relay.getVoteSnapshot(link.coupleId);
     published = await publishVoteSnapshot(
       localProfileId,
-      preflight.partnerRequestGeneration
+      preflight.partnerRequestGeneration,
+      preflight.mySnapshotVersion ?? 0
     );
   }
 
@@ -487,6 +494,14 @@ export async function syncVoteSnapshots(
   }
   const incoming = await relay.getVoteSnapshot(link.coupleId);
   if (!incoming.snapshot) {
+    if (!published) {
+      return {
+        published: false,
+        received: false,
+        status: 'unavailable',
+        error: 'Your vote snapshot was not accepted',
+      };
+    }
     useCoupleLinkStore.getState().markSynced(Date.now());
     return { published, received: false, status: 'waiting' };
   }
@@ -512,6 +527,14 @@ export async function syncVoteSnapshots(
       ...decoded,
       receivedAt: Date.now(),
     });
+    if (!published) {
+      return {
+        published: false,
+        received: true,
+        status: 'unavailable',
+        error: 'Partner votes were received, but your votes were not sent',
+      };
+    }
     useCoupleLinkStore.getState().markSynced(Date.now());
     return { published, received: true, status: 'received' };
   } catch (error) {

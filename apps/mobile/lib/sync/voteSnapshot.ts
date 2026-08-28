@@ -179,6 +179,7 @@ function decodePlainSnapshot(value: unknown): PlainVoteSnapshot {
 
 export type DecryptedVoteSnapshot = {
   authorDeviceId: string;
+  requestGeneration: number;
   snapshotVersion: number;
   answeredCount: number;
   votes: Record<string, PartnerVoteRecord>;
@@ -244,9 +245,7 @@ export function validateAndDecryptVoteSnapshot(input: {
       {
         cardId: vote.cardId,
         vote: vote.vote,
-        ...(vote.pairPreference
-          ? { pairPreference: vote.pairPreference }
-          : {}),
+        ...(vote.pairPreference ? { pairPreference: vote.pairPreference } : {}),
         ...(vote.readiness ? { readiness: vote.readiness } : {}),
         updatedAt: decoded.updatedAt,
         receivedAt: input.receivedAt,
@@ -255,6 +254,7 @@ export function validateAndDecryptVoteSnapshot(input: {
   );
   return {
     authorDeviceId: decoded.authorDeviceId,
+    requestGeneration: decoded.requestGeneration,
     snapshotVersion: decoded.snapshotVersion,
     answeredCount: decoded.answeredCount,
     votes,

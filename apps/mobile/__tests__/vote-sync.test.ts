@@ -13,6 +13,7 @@ import {
   useVoteSyncStore,
 } from '../lib/sync/voteSync';
 import { useVotesStore } from '../src/stores/votes';
+import * as syncLoop from '../lib/sync/syncLoop';
 
 function memoryDeps() {
   const secure = new Map<string, string>();
@@ -74,6 +75,31 @@ describe('vote sync', () => {
 
   afterEach(() => {
     _resetForTests();
+    jest.useRealTimers();
+    jest.restoreAllMocks();
+  });
+
+  it('coalesces vote changes into an authoritative snapshot sync promptly', async () => {
+    jest.useFakeTimers();
+    const syncNow = jest
+      .spyOn(syncLoop, 'syncNow')
+      .mockResolvedValue({ uploaded: 0, failed: 0, applied: 0 });
+    await startVoteSync('profile-1');
+
+    useVotesStore.setState({
+      votesByProfile: { 'profile-1': { card_1: 'yes' } },
+    });
+    useVotesStore.setState({
+      votesByProfile: { 'profile-1': { card_1: 'maybe' } },
+    });
+
+    jest.advanceTimersByTime(299);
+    await Promise.resolve();
+    expect(syncNow).not.toHaveBeenCalled();
+    jest.advanceTimersByTime(1);
+    await Promise.resolve();
+    expect(syncNow).toHaveBeenCalledTimes(1);
+    expect(syncNow).toHaveBeenCalledWith('profile-1');
   });
 
   it('queues votes that already existed when the couple linked', async () => {
