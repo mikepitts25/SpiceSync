@@ -20,7 +20,7 @@ import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 import { getAccountService } from '../../lib/auth/accountService';
 import type { AccountStatus } from '../../lib/auth/types';
 import { useTranslation } from '../../lib/i18n';
-import { disconnectRemotePartnerLocal } from '../../lib/safety/localDataControls';
+import { disconnectRemotePartner } from '../../lib/safety/localDataControls';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useEventQueueStore } from '../../lib/sync/eventQueue';
@@ -96,7 +96,7 @@ export default function PartnerSyncScreen() {
     Alert.alert(
       ui('Disconnect remote partner?'),
       ui(
-        "This clears the partner link, partner votes, reveal consent, and pending sync events from this device. It does not delete anything from your partner's device."
+        "This ends the connection for both of you. It clears the partner link, partner votes, reveal consent, and pending sync events from this device, and tells your partner's device the connection has ended. It does not delete their local votes or profiles."
       ),
       [
         { text: ui('Cancel'), style: 'cancel' },
@@ -104,8 +104,9 @@ export default function PartnerSyncScreen() {
           text: ui('Disconnect'),
           style: 'destructive',
           onPress: () => {
-            disconnectRemotePartnerLocal();
-            router.replace('/(tabs)/profiles');
+            disconnectRemotePartner().finally(() => {
+              router.replace('/(tabs)/profiles');
+            });
           },
         },
       ]

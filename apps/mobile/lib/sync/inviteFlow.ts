@@ -6,6 +6,7 @@ import { randomBytes, sha256Base64 } from './crypto';
 import { getOrCreateIdentity } from './identity';
 import type { ParsedInviteUrl } from './inviteUrl';
 import { getRelayClient } from './relayConfig';
+import { restoreOwnProfileFromCouple } from './restoreOwnProfile';
 import type { DeviceRecoveryResponse } from './relayTypes';
 
 export { parseInviteUrl } from './inviteUrl';
@@ -391,5 +392,9 @@ export async function recoverPermanentAccount(
           accountSwitchNeedsConfirmation ||
           (options.requireProfileConfirmation ?? false)
   );
+  // Recovering the link is not enough to get the user back to where they were:
+  // a fresh install has no local profile, and without one the caller routes to
+  // name-and-avatar creation for an identity the couple record already holds.
+  await restoreOwnProfileFromCouple(response.couple, response.myDeviceId);
   return { kind: 'recovered', ...result };
 }

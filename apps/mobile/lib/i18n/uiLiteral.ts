@@ -522,20 +522,22 @@ const supplementalSpanish: Record<string, string> = {
   'Choose or create a profile before clearing votes.':
     'Elige o crea un perfil antes de borrar votos.',
   'Disconnect remote partner?': '¿Desconectar la pareja remota?',
-  'This clears the remote partner link, partner votes, reveal consent, and pending sync events from this device.':
-    'Esto borra de este dispositivo el vínculo remoto, los votos de la pareja, el consentimiento para revelar y los eventos de sincronización pendientes.',
+  'This ends the connection for both of you. It clears the remote partner link, partner votes, reveal consent, and pending sync events from this device, and tells your partner the connection has ended.':
+    'Esto termina la conexión para ambos. Borra de este dispositivo el vínculo remoto, los votos de la pareja, el consentimiento para revelar y los eventos de sincronización pendientes, y avisa a tu pareja de que la conexión terminó.',
   Disconnect: 'Desconectar',
   'Partner disconnected': 'Pareja desconectada',
-  'Remote sync data was cleared.':
-    'Se borraron los datos de sincronización remota.',
+  'Remote sync data was cleared and your partner has been disconnected.':
+    'Se borraron los datos de sincronización remota y tu pareja fue desconectada.',
+  'Remote sync data was cleared on this device. We could not reach the server, so your partner may still show as connected until their app syncs.':
+    'Se borraron los datos de sincronización remota en este dispositivo. No pudimos conectar con el servidor, así que tu pareja podría seguir apareciendo como conectada hasta que su app se sincronice.',
   'Reset app on this device?': '¿Restablecer la app en este dispositivo?',
   'This removes profiles, votes, partner sync state, pending sync events, and age verification from this device. This cannot be undone.':
     'Esto elimina del dispositivo perfiles, votos, el estado de sincronización, eventos pendientes y la verificación de edad. No se puede deshacer.',
   'Reset device': 'Restablecer dispositivo',
   'Could not reset this device.': 'No se pudo restablecer este dispositivo.',
   'Reset failed': 'Falló el restablecimiento',
-  "This clears the partner link, partner votes, reveal consent, and pending sync events from this device. It does not delete anything from your partner's device.":
-    'Esto borra de este dispositivo el vínculo, los votos de la pareja, el consentimiento para revelar y los eventos pendientes. No elimina nada del dispositivo de tu pareja.',
+  "This ends the connection for both of you. It clears the partner link, partner votes, reveal consent, and pending sync events from this device, and tells your partner's device the connection has ended. It does not delete their local votes or profiles.":
+    'Esto termina la conexión para ambos. Borra de este dispositivo el vínculo, los votos de la pareja, el consentimiento para revelar y los eventos pendientes, y avisa al dispositivo de tu pareja de que la conexión terminó. No elimina sus votos ni perfiles locales.',
   'All filters': 'Todos los filtros',
   'active filter': 'filtro activo',
   'active filters': 'filtros activos',

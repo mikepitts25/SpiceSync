@@ -5,6 +5,8 @@ import { useEventQueueStore } from '../lib/sync/eventQueue';
 import { usePartnerVotesStore } from '../lib/sync/partnerVotes';
 import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import { recoverPermanentAccount } from '../lib/sync/inviteFlow';
+import { getRecoveryDestination } from '../lib/auth/recoveryRouting';
+import { useProfilesStore } from '../lib/state/profiles';
 
 const COUPLE_LINK_STORAGE_KEY = 'spicesync-couple-link';
 
@@ -78,6 +80,13 @@ describe('durable account recovery', () => {
     } as never);
     usePartnerVotesStore.setState({ byCardId: {}, answeredCount: 0 });
     useRevealConsentStore.setState({ local: {}, partner: {} });
+    // A restore onto a fresh install: no local profiles exist yet.
+    useProfilesStore.setState({
+      profiles: [],
+      activeProfileId: null,
+      currentUserId: null,
+      hydrated: true,
+    });
     mockRequirePermanentUser.mockResolvedValue('user-a');
     mockGetOrCreateIdentity.mockResolvedValue({
       identity: {
@@ -430,5 +439,25 @@ describe('durable account recovery', () => {
       partnerEncryptionPublicKey: 'enc_partner',
       partnerSigningPublicKey: 'sign_partner',
     });
+  });
+
+  it('restores the local profile so recovery skips name and avatar entry', async () => {
+    mockRelay.recoverDevice.mockResolvedValue(recoveryResponse());
+
+    await recoverPermanentAccount({ requireProfileConfirmation: true });
+
+    // Recovering the link used to leave profileCount at 0, which routed the
+    // user into profile creation for a name and avatar the relay already had.
+    const profiles = useProfilesStore.getState().getProfiles();
+    expect(profiles).toHaveLength(1);
+    expect(profiles[0].name).toBe('Alex');
+
+    const link = useCoupleLinkStore.getState().link;
+    expect(
+      getRecoveryDestination({
+        profileCount: profiles.length,
+        requiresConfirmation: link?.requiresProfileConfirmation ?? true,
+      })
+    ).toBe('/(auth)/confirm-profile');
   });
 });
