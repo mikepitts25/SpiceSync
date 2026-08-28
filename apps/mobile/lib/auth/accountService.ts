@@ -23,6 +23,7 @@ import type {
   AccountSnapshot,
   ProviderCredential,
 } from './types';
+import { credentialPayloadForIdToken } from './idToken';
 
 type AuthError = {
   code?: string;
@@ -139,15 +140,6 @@ function toProviders(
     }
   }
   return [...providers];
-}
-
-function credentialPayload(input: ProviderCredential) {
-  return {
-    provider: input.provider,
-    token: input.token,
-    access_token: input.accessToken ?? input.authorizationCode,
-    nonce: input.nonce,
-  };
 }
 
 function reauthenticationPayload(input: ProviderCredential): {
@@ -357,7 +349,7 @@ export class AccountService implements AccountServiceLike {
   async linkProvider(input: ProviderCredential): Promise<AccountSnapshot> {
     const previousUserId = await this.ensureAnonymousUser();
     const { error } = await this.client.auth.linkIdentity(
-      credentialPayload(input)
+      credentialPayloadForIdToken(input)
     );
     if (error) throwForAuthError(error, 'ACCOUNT_LINK_FAILED');
 
@@ -380,7 +372,7 @@ export class AccountService implements AccountServiceLike {
     const previousOwnerUserId =
       useCoupleLinkStore.getState().link?.ownerUserId ?? previous.userId;
     const { error } = await this.client.auth.signInWithIdToken(
-      credentialPayload(input)
+      credentialPayloadForIdToken(input)
     );
     if (error) throwForAuthError(error, 'ACCOUNT_SIGN_IN_FAILED');
 

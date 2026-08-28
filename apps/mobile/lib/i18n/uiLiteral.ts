@@ -173,6 +173,8 @@ const supplementalSpanish: Record<string, string> = {
     'Este inicio de sesión usa una credencial nueva y cambia a la cuenta que ya usa este proveedor.',
   'Could not protect your connection.': 'No se pudo proteger tu conexión.',
   'Could not restore your account.': 'No se pudo restaurar tu cuenta.',
+  'Could not restore your account. Try again.':
+    'No se pudo restaurar tu cuenta. Inténtalo de nuevo.',
   'Restore existing account': 'Restaurar cuenta existente',
   'Welcome back': 'Te damos la bienvenida de nuevo',
   'Sign in with the account you used before to restore your partner connection.':

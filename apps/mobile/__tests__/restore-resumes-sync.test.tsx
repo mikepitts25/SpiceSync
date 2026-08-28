@@ -162,4 +162,24 @@ describe('restore resumes sync without confirmation', () => {
     // The confirmation screen owns that handoff after its vote bootstrap.
     expect(mockStartSyncLoop).not.toHaveBeenCalled();
   });
+
+  it('does not expose raw provider or Supabase errors during restore', async () => {
+    mockSignIn.mockRejectedValueOnce(
+      new Error(
+        'Passed nonce and nonce in id_token should either both exist or not.'
+      )
+    );
+    const screen = render(<RestoreScreen />);
+
+    fireEvent.press(screen.getByText('Continue with Apple'));
+
+    expect(
+      await screen.findByText('Could not restore your account. Try again.')
+    ).toBeTruthy();
+    expect(
+      screen.queryByText(
+        'Passed nonce and nonce in id_token should either both exist or not.'
+      )
+    ).toBeNull();
+  });
 });

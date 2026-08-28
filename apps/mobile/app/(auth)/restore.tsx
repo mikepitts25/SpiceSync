@@ -16,10 +16,8 @@ import { startSyncLoop } from '../../lib/sync/syncLoop';
 import { startVoteSync, useVoteSyncStore } from '../../lib/sync/voteSync';
 import { ui } from '../../lib/i18n/uiLiteral';
 
-function getErrorMessage(error: unknown): string {
-  return error instanceof Error && error.message
-    ? error.message
-    : ui('Could not restore your account.');
+function getErrorMessage(): string {
+  return ui('Could not restore your account. Try again.');
 }
 
 function isProviderCancellation(error: unknown): boolean {
@@ -91,9 +89,9 @@ export default function RestoreAccountScreen() {
       }
 
       router.replace(destination as never);
-    } catch (restoreError) {
+    } catch {
       if (isCurrentSession(sessionId)) {
-        setError(getErrorMessage(restoreError));
+        setError(getErrorMessage());
       }
     } finally {
       if (isCurrentSession(sessionId)) {
@@ -120,7 +118,7 @@ export default function RestoreAccountScreen() {
 
   const handleProviderError = (providerError: unknown) => {
     if (!mountedRef.current || isProviderCancellation(providerError)) return;
-    setError(getErrorMessage(providerError));
+    setError(getErrorMessage());
   };
 
   const isBusy = isRestoring || isProviderOperationPending;

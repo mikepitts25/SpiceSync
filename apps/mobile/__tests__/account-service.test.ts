@@ -5,6 +5,7 @@ import { useCoupleLinkStore } from '../lib/sync/coupleLink';
 import { useEventQueueStore } from '../lib/sync/eventQueue';
 import { usePartnerVotesStore } from '../lib/sync/partnerVotes';
 import { useRevealConsentStore } from '../lib/sync/revealConsent';
+import { encodeBase64Url, utf8ToBytes } from '../lib/sync/base64';
 
 const mockClient = {
   auth: {
@@ -72,6 +73,14 @@ function googleCredential(): ProviderCredential {
     token: 'id-token',
     accessToken: 'native-access-token',
   };
+}
+
+function idToken(claims: Record<string, unknown>): string {
+  return [
+    encodeBase64Url(utf8ToBytes(JSON.stringify({ alg: 'none' }))),
+    encodeBase64Url(utf8ToBytes(JSON.stringify(claims))),
+    'signature',
+  ].join('.');
 }
 
 function googleDeletionProof() {
@@ -154,16 +163,17 @@ describe('AccountService', () => {
       });
     mockClient.auth.linkIdentity.mockResolvedValue({ data: {}, error: null });
 
+    const appleToken = idToken({ sub: 'apple-user', nonce: 'hashed' });
     await expect(
       service.linkProvider({
         provider: 'apple',
-        token: 'id-token',
+        token: appleToken,
         nonce: 'raw',
       })
     ).resolves.toMatchObject({ status: 'permanent', userId: 'user-1' });
     expect(mockClient.auth.linkIdentity).toHaveBeenCalledWith({
       provider: 'apple',
-      token: 'id-token',
+      token: appleToken,
       access_token: undefined,
       nonce: 'raw',
     });
@@ -181,16 +191,17 @@ describe('AccountService', () => {
       });
     mockClient.auth.linkIdentity.mockResolvedValue({ data: {}, error: null });
 
+    const appleToken = idToken({ sub: 'apple-user', nonce: 'hashed' });
     await service.linkProvider({
       provider: 'apple',
-      token: 'apple-id-token',
+      token: appleToken,
       authorizationCode: 'apple-authorization-code',
       nonce: 'raw-nonce',
     });
 
     expect(mockClient.auth.linkIdentity).toHaveBeenCalledWith({
       provider: 'apple',
-      token: 'apple-id-token',
+      token: appleToken,
       access_token: 'apple-authorization-code',
       nonce: 'raw-nonce',
     });
@@ -231,7 +242,6 @@ describe('AccountService', () => {
       provider: 'google',
       token: 'id-token',
       access_token: 'native-access-token',
-      nonce: undefined,
     });
   });
 
@@ -368,7 +378,7 @@ describe('AccountService', () => {
 
     await service.linkProvider({
       provider: 'apple',
-      token: 'apple-token',
+      token: idToken({ sub: 'apple-user', nonce: 'hashed' }),
       nonce: 'nonce',
     });
 
