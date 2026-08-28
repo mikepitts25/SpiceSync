@@ -243,6 +243,15 @@ export async function recoverGrandfatheredCouple(): Promise<AcceptInviteResult |
   const ownerUserId = await getAccountService().ensureAnonymousUser();
   const { identity } = await getOrCreateIdentity();
   const couple = await getRelayClient().findCoupleForDevice(identity.deviceId);
+
+  // This legacy lookup can overlap a durable provider-account recovery. Do
+  // not let its older response replace the newer owned link or clear the
+  // profile-confirmation pause that durable recovery just established.
+  const latest = useCoupleLinkStore.getState();
+  if (!latest.coupleRecoveryEnabled) return null;
+  if (latest.link?.status === 'active' && latest.link.ownerUserId) {
+    return { coupleId: latest.link.coupleId };
+  }
   if (!couple) return null;
 
   const isMemberA = couple.memberADeviceId === identity.deviceId;

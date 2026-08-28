@@ -19,6 +19,14 @@ import { sha256Base64 } from '../lib/sync/crypto';
 
 const mockEnsureAnonymousUser = jest.fn();
 
+function deferred<T>() {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((complete) => {
+    resolve = complete;
+  });
+  return { promise, resolve };
+}
+
 jest.mock('../lib/auth/accountService', () => ({
   getAccountService: () => ({
     ensureAnonymousUser: mockEnsureAnonymousUser,
@@ -356,6 +364,61 @@ describe('invite flow', () => {
       coupleId: 'cpl_recovered',
       partnerDeviceId: 'dev_partner',
       partnerProfileName: 'Partner',
+    });
+  });
+
+  it('does not overwrite durable account recovery that completes while legacy recovery is in flight', async () => {
+    const { identity } = await getOrCreateIdentity();
+    const legacyResponse = deferred<Response>();
+    const requestStarted = deferred<void>();
+    const fetchMock = jest.fn(
+      (_input: string, _init?: RequestInit): Promise<Response> => {
+        requestStarted.resolve();
+        return legacyResponse.promise;
+      }
+    );
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock)
+    );
+
+    const legacyRecovery = recoverExistingCouple();
+    await requestStarted.promise;
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    useCoupleLinkStore.getState().setLink({
+      coupleId: 'cpl_durable',
+      ownerUserId: 'apple-user',
+      myDeviceId: identity.deviceId,
+      partnerDeviceId: 'durable-partner',
+      partnerSigningPublicKey: 'durable-signing-key',
+      partnerEncryptionPublicKey: 'durable-encryption-key',
+      linkedAt: 2,
+      lastPulledServerSequence: 7,
+      lastSyncedAt: null,
+      requiresProfileConfirmation: true,
+      status: 'active',
+    });
+
+    legacyResponse.resolve({
+      json: async () => ({
+        coupleId: 'cpl_legacy',
+        memberADeviceId: identity.deviceId,
+        memberBDeviceId: 'legacy-partner',
+        memberAPublicKey: identity.encryptionPublicKey,
+        memberBPublicKey: 'legacy-encryption-key',
+        memberASigningPublicKey: identity.signingPublicKey,
+        memberBSigningPublicKey: 'legacy-signing-key',
+        createdAt: 1,
+        revokedAt: null,
+      }),
+    } as Response);
+
+    await legacyRecovery;
+
+    expect(useCoupleLinkStore.getState().link).toMatchObject({
+      coupleId: 'cpl_durable',
+      ownerUserId: 'apple-user',
+      requiresProfileConfirmation: true,
     });
   });
 

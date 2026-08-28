@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { BackHeader } from '../../components/app-chrome';
 import { SafeAreaView } from '../../components/SafeAreaView';
 import { COLORS, FONTS } from '../../constants/theme';
+import { getRecoveryDestination } from '../../lib/auth/recoveryRouting';
 import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { startSyncLoop } from '../../lib/sync/syncLoop';
@@ -22,14 +23,23 @@ export default function ConfirmProfileScreen() {
     link?.status === 'active' && link.requiresProfileConfirmation === true;
 
   useEffect(() => {
-    if (!profilesHydrated || !requiresConfirmation || profiles.length > 0) {
-      return;
-    }
-    router.replace({
-      pathname: '/(settings)/profiles/new',
-      params: { from: 'account-recovery' },
+    if (!profilesHydrated || link?.status !== 'active') return;
+
+    const destination = getRecoveryDestination({
+      profileCount: profiles.length,
+      requiresConfirmation,
     });
-  }, [profiles.length, profilesHydrated, requiresConfirmation, router]);
+    if (destination !== '/(auth)/confirm-profile' && !isConfirming) {
+      router.replace(destination as never);
+    }
+  }, [
+    isConfirming,
+    link?.status,
+    profiles.length,
+    profilesHydrated,
+    requiresConfirmation,
+    router,
+  ]);
 
   const confirmRecoveredProfile = async (profileId: string) => {
     setError(null);

@@ -172,6 +172,18 @@ describe('account recovery routing', () => {
     });
   });
 
+  it('still creates a local profile when recovery no longer needs confirmation', () => {
+    expect(
+      getRecoveryDestination({
+        profileCount: 0,
+        requiresConfirmation: false,
+      })
+    ).toEqual({
+      pathname: '/(settings)/profiles/new',
+      params: { from: 'account-recovery' },
+    });
+  });
+
   it('routes populated devices to explicit profile confirmation', () => {
     expect(
       getRecoveryDestination({
@@ -312,6 +324,27 @@ describe('account recovery routing', () => {
         pathname: '/(settings)/profiles/new',
         params: { from: 'account-recovery' },
       })
+    );
+  });
+
+  it('leaves profile confirmation when confirmation is no longer required', async () => {
+    useProfilesStore.setState({
+      profiles: [profile('profile-1', 'Alex')],
+      activeProfileId: 'profile-1',
+      currentUserId: 'profile-1',
+      hydrated: true,
+    });
+    useCoupleLinkStore.setState({
+      link: {
+        ...activeRecoveryLink(),
+        requiresProfileConfirmation: false,
+      },
+    });
+
+    render(<ConfirmProfileScreen />);
+
+    await waitFor(() =>
+      expect(mockRouter.replace).toHaveBeenCalledWith('/(tabs)/deck')
     );
   });
 
