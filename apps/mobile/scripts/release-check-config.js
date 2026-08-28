@@ -117,6 +117,58 @@ function readCheckedInNativeIosConfig(mobileRoot) {
   };
 }
 
+function collectAppIconSyncErrors({ mobileRoot, expoConfig }) {
+  const iosRoot = path.join(mobileRoot, 'ios');
+  if (!fs.existsSync(iosRoot)) return [];
+
+  const configuredIcon = clean(expoConfig.icon);
+  if (!configuredIcon) {
+    return ['Expo configuration must define an app icon.'];
+  }
+
+  const expoIconPath = path.resolve(mobileRoot, configuredIcon);
+  const nativeIconDirectory = path.join(
+    iosRoot,
+    'SpiceSync',
+    'Images.xcassets',
+    'AppIcon.appiconset'
+  );
+  const contentsPath = path.join(nativeIconDirectory, 'Contents.json');
+
+  if (!fs.existsSync(expoIconPath)) {
+    return [`The configured Expo icon does not exist at ${configuredIcon}.`];
+  }
+  if (!fs.existsSync(contentsPath)) {
+    return ['The checked-in iOS AppIcon asset catalog is missing.'];
+  }
+
+  let contents;
+  try {
+    contents = JSON.parse(fs.readFileSync(contentsPath, 'utf8'));
+  } catch {
+    return ['The checked-in iOS AppIcon Contents.json is not valid JSON.'];
+  }
+
+  const nativeIconFileName = contents.images?.find(
+    (image) => typeof image.filename === 'string' && image.filename.trim()
+  )?.filename;
+  if (!nativeIconFileName) {
+    return ['The checked-in iOS AppIcon catalog does not name an icon file.'];
+  }
+
+  const nativeIconPath = path.join(nativeIconDirectory, nativeIconFileName);
+  if (
+    !fs.existsSync(nativeIconPath) ||
+    !fs.readFileSync(nativeIconPath).equals(fs.readFileSync(expoIconPath))
+  ) {
+    return [
+      `The checked-in iOS AppIcon must match the Expo icon at ${configuredIcon}.`,
+    ];
+  }
+
+  return [];
+}
+
 function isPartnerSyncEnabled(environment) {
   return Boolean(
     clean(environment.EXPO_PUBLIC_SUPABASE_URL) ||
@@ -251,6 +303,7 @@ function collectProductionSocialRecoveryErrors({
 }
 
 module.exports = {
+  collectAppIconSyncErrors,
   collectProductionSocialRecoveryErrors,
   isEasProductionBuild,
   isPartnerSyncEnabled,
