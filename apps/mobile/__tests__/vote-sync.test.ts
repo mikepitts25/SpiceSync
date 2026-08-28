@@ -7,6 +7,8 @@ import {
 } from '../lib/sync/identity';
 import {
   _resetForTests,
+  enqueueCurrentVoteSnapshot,
+  refreshVoteSync,
   startVoteSync,
   useVoteSyncStore,
 } from '../lib/sync/voteSync';
@@ -111,6 +113,133 @@ describe('vote sync', () => {
     const queuedCount = payloads.length;
     await expect(startVoteSync()).resolves.toBe(false);
     expect(useEventQueueStore.getState().pending).toHaveLength(queuedCount);
+  });
+
+  it('rebuilds the current vote snapshot when bootstrap is marked complete but the queue is empty', async () => {
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': {
+          'card-yes': 'yes',
+          'card-maybe': 'maybe',
+        },
+      },
+    });
+    useVoteSyncStore.setState({
+      localProfileId: 'profile-1',
+      bootstrappedCoupleId: 'couple-1',
+      bootstrappedProfileId: 'profile-1',
+      bootstrapVersion: 2,
+    });
+
+    await expect(enqueueCurrentVoteSnapshot('profile-1')).resolves.toBe(true);
+
+    expect(
+      useEventQueueStore.getState().pending.map((event) => event.payload)
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          eventType: 'vote.upsert',
+          cardId: 'card-yes',
+          vote: 'yes',
+        }),
+        expect.objectContaining({
+          eventType: 'vote.upsert',
+          cardId: 'card-maybe',
+          vote: 'maybe',
+        }),
+        expect.objectContaining({
+          eventType: 'progress.snapshot',
+          answeredCount: 2,
+        }),
+      ])
+    );
+    expect(useEventQueueStore.getState().pending).toHaveLength(3);
+  });
+
+  it('does not rebuild a vote snapshot while partner sync is awaiting profile confirmation', async () => {
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': { 'card-private': 'yes' },
+      },
+    });
+    useCoupleLinkStore.setState({
+      link: {
+        ...useCoupleLinkStore.getState().link!,
+        requiresProfileConfirmation: true,
+      },
+    });
+
+    await expect(enqueueCurrentVoteSnapshot('profile-1')).resolves.toBe(false);
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+  });
+
+  it('does not refresh a stale snapshot after the active profile and couple change while identity loads', async () => {
+    const persistedIdentity = memoryDeps();
+    _resetCacheForTests();
+    setIdentityDeps(persistedIdentity);
+    const { identity } = await getOrCreateIdentity();
+    useCoupleLinkStore.getState().setLink({
+      ...useCoupleLinkStore.getState().link!,
+      myDeviceId: identity.deviceId,
+    });
+    _resetCacheForTests();
+
+    let releaseIdentityReads: () => void = () => undefined;
+    const identityReadGate = new Promise<void>((resolve) => {
+      releaseIdentityReads = resolve;
+    });
+    setIdentityDeps({
+      secureStore: {
+        ...persistedIdentity.secureStore,
+        getItemAsync: async (key: string) => {
+          await identityReadGate;
+          return persistedIdentity.secureStore.getItemAsync(key);
+        },
+      },
+      asyncStorage: {
+        ...persistedIdentity.asyncStorage,
+        getItem: async (key: string) => {
+          await identityReadGate;
+          return persistedIdentity.asyncStorage.getItem(key);
+        },
+      },
+    });
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': { 'card-from-old-profile': 'yes' },
+        'profile-2': { 'card-from-new-profile': 'maybe' },
+      },
+    });
+
+    const refreshing = refreshVoteSync('profile-1');
+    await Promise.resolve();
+    useCoupleLinkStore.getState().setLink({
+      ...useCoupleLinkStore.getState().link!,
+      coupleId: 'couple-2',
+      ownerUserId: 'user-2',
+      partnerDeviceId: 'dev_partner_2',
+    });
+    useVoteSyncStore.getState().setLocalProfileId('profile-2');
+    releaseIdentityReads();
+
+    await expect(refreshing).rejects.toThrow();
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+    expect(useVoteSyncStore.getState().localProfileId).toBe('profile-2');
+  });
+
+  it('reports failure when the persisted identity cannot enqueue for the active device', async () => {
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': { 'card-device-mismatch': 'yes' },
+      },
+    });
+    useCoupleLinkStore.getState().setLink({
+      ...useCoupleLinkStore.getState().link!,
+      myDeviceId: 'dev_replaced',
+    });
+
+    await expect(enqueueCurrentVoteSnapshot('profile-1')).resolves.toBe(false);
+    expect(useEventQueueStore.getState().pending).toEqual([]);
   });
 
   it('never revalidates matching persisted votes during a paused recovery handoff', async () => {

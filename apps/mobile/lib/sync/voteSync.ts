@@ -16,10 +16,12 @@ import {
 } from '../votes/rolePreferences';
 import {
   getActiveRemoteSyncOwnership,
+  type ActiveRemoteSyncOwnership,
   useCoupleLinkStore,
 } from './coupleLink';
 import { useEventQueueStore } from './eventQueue';
 import { getIdentityIfExists } from './identity';
+import { syncNow, type SyncResult } from './syncLoop';
 
 const CURRENT_BOOTSTRAP_VERSION = 2;
 
@@ -38,6 +40,11 @@ type VoteSyncStartOptions = {
   allowPendingProfileConfirmation?: boolean;
   /** @deprecated Confirmation must be completed before any enqueue. */
   revalidateRecoveredBootstrap?: boolean;
+};
+
+type VoteEnqueueContext = {
+  profileId: string;
+  ownership: ActiveRemoteSyncOwnership;
 };
 
 export const useVoteSyncStore = create<VoteSyncState>()(
@@ -107,51 +114,111 @@ async function enqueueVoteChanges(
     readiness?: Readiness;
   }[],
   answeredCount?: number,
-  options?: VoteSyncStartOptions
+  options?: VoteSyncStartOptions,
+  expectedContext?: VoteEnqueueContext
 ): Promise<boolean> {
   if (changes.length === 0 && answeredCount === undefined) return false;
-  const link = useCoupleLinkStore.getState().link;
-  const profileId = useVoteSyncStore.getState().localProfileId;
-  if (!canEnqueueVotes(link, profileId, options)) {
+  const context =
+    expectedContext ??
+    captureVoteEnqueueContext(
+      useVoteSyncStore.getState().localProfileId,
+      options
+    );
+  if (!context) {
     return false;
   }
   const id = await getIdentityIfExists();
-  if (!id) return false;
-  // The recovery state can change while identity material is loading. Check
-  // it again before mutating the durable event queue.
   if (
-    !canEnqueueVotes(
-      useCoupleLinkStore.getState().link,
-      useVoteSyncStore.getState().localProfileId,
-      options
-    )
+    !id ||
+    id.identity.deviceId !== context.ownership.authorDeviceId ||
+    !isCurrentVoteEnqueueContext(context, options)
   ) {
     return false;
   }
+  // The recovery state can change while identity material is loading. Check
+  // it again before mutating the durable event queue.
   const queue = useEventQueueStore.getState();
+  const queuedEventIds: string[] = [];
+  const rollbackQueuedEvents = () => {
+    for (const eventId of queuedEventIds) {
+      queue.removeEvent(eventId);
+    }
+  };
   const updatedAt = Date.now();
   for (const change of changes) {
-    queue.enqueue({
+    const queued = queue.enqueue({
       schemaVersion: 1,
       eventType: 'vote.upsert',
-      authorDeviceId: id.identity.deviceId,
+      authorDeviceId: context.ownership.authorDeviceId,
       cardId: change.cardId,
       vote: change.vote,
       pairPreference: change.pairPreference,
       readiness: change.readiness,
       updatedAt,
     });
+    if (!queued) {
+      rollbackQueuedEvents();
+      return false;
+    }
+    queuedEventIds.push(queued.eventId);
   }
   if (answeredCount !== undefined) {
-    queue.enqueue({
+    const queued = queue.enqueue({
       schemaVersion: 1,
       eventType: 'progress.snapshot',
-      authorDeviceId: id.identity.deviceId,
+      authorDeviceId: context.ownership.authorDeviceId,
       answeredCount,
       updatedAt,
     });
+    if (!queued) {
+      rollbackQueuedEvents();
+      return false;
+    }
+    queuedEventIds.push(queued.eventId);
+  }
+  if (!isCurrentVoteEnqueueContext(context, options)) {
+    rollbackQueuedEvents();
+    return false;
   }
   return true;
+}
+
+function sameOwnership(
+  left: ActiveRemoteSyncOwnership,
+  right: ActiveRemoteSyncOwnership
+): boolean {
+  return (
+    left.ownerUserId === right.ownerUserId &&
+    left.coupleId === right.coupleId &&
+    left.authorDeviceId === right.authorDeviceId &&
+    left.recipientDeviceId === right.recipientDeviceId
+  );
+}
+
+function captureVoteEnqueueContext(
+  profileId: string | null,
+  options?: VoteSyncStartOptions
+): VoteEnqueueContext | null {
+  if (
+    !canEnqueueVotes(useCoupleLinkStore.getState().link, profileId, options)
+  ) {
+    return null;
+  }
+  const ownership = getActiveRemoteSyncOwnership();
+  return ownership && profileId ? { profileId, ownership } : null;
+}
+
+function isCurrentVoteEnqueueContext(
+  expected: VoteEnqueueContext,
+  options?: VoteSyncStartOptions
+): boolean {
+  if (useVoteSyncStore.getState().localProfileId !== expected.profileId) {
+    return false;
+  }
+  const current = captureVoteEnqueueContext(expected.profileId, options);
+  return (
+    current !== null && sameOwnership(current.ownership, expected.ownership)
+  );
 }
 
 function canEnqueueVotes(
@@ -172,16 +239,12 @@ export async function bootstrapCurrentVotes(
   const link = useCoupleLinkStore.getState().link;
   const syncState = useVoteSyncStore.getState();
   const profileId = syncState.localProfileId;
+  const context = captureVoteEnqueueContext(profileId, options);
   const hasCurrentBootstrapMarker =
     syncState.bootstrappedCoupleId === link?.coupleId &&
     syncState.bootstrappedProfileId === profileId &&
     syncState.bootstrapVersion === CURRENT_BOOTSTRAP_VERSION;
-  if (
-    !link ||
-    !profileId ||
-    !canEnqueueVotes(link, profileId, options) ||
-    hasCurrentBootstrapMarker
-  ) {
+  if (!link || !profileId || !context || hasCurrentBootstrapMarker) {
     return false;
   }
 
@@ -194,12 +257,57 @@ export async function bootstrapCurrentVotes(
   const queued = await enqueueVoteChanges(
     diffVotes(undefined, votes),
     Object.keys(votes).length,
-    options
+    options,
+    context
   );
-  if (queued) {
-    useVoteSyncStore.getState().markBootstrapped(link.coupleId, profileId);
+  if (queued && isCurrentVoteEnqueueContext(context, options)) {
+    useVoteSyncStore
+      .getState()
+      .markBootstrapped(context.ownership.coupleId, profileId);
   }
   return queued;
+}
+
+/**
+ * Rebuilds a complete outgoing snapshot from the active profile's persisted
+ * votes. Unlike bootstrapCurrentVotes, this intentionally ignores the
+ * one-time bootstrap marker so a manual refresh can repair a lost or expired
+ * relay delivery.
+ */
+export async function enqueueCurrentVoteSnapshot(
+  localProfileId?: string | null
+): Promise<boolean> {
+  const profileId =
+    localProfileId === undefined
+      ? useVoteSyncStore.getState().localProfileId
+      : localProfileId;
+  if (!profileId || useVoteSyncStore.getState().localProfileId !== profileId) {
+    return false;
+  }
+  const context = captureVoteEnqueueContext(profileId);
+  if (!context) {
+    return false;
+  }
+  return enqueueVoteSnapshotForContext(context);
+}
+
+async function enqueueVoteSnapshotForContext(
+  context: VoteEnqueueContext
+): Promise<boolean> {
+  if (!isCurrentVoteEnqueueContext(context)) {
+    return false;
+  }
+  const votes =
+    useVotesStore.getState().votesByProfile[context.profileId] ?? {};
+  if (Object.keys(votes).length === 0) {
+    return false;
+  }
+  return enqueueVoteChanges(
+    diffVotes(undefined, votes),
+    Object.keys(votes).length,
+    undefined,
+    context
+  );
 }
 
 export async function startVoteSync(
@@ -242,6 +350,37 @@ export async function startVoteSync(
   if (bootstrapped) return true;
 
   return false;
+}
+
+/** Sends the current local vote snapshot first, then pulls partner events. */
+export async function refreshVoteSync(
+  localProfileId: string
+): Promise<SyncResult> {
+  if (!canEnqueueVotes(useCoupleLinkStore.getState().link, localProfileId)) {
+    throw new Error('Partner vote sync is unavailable');
+  }
+  useVoteSyncStore.getState().setLocalProfileId(localProfileId);
+  const refreshContext = captureVoteEnqueueContext(localProfileId);
+  if (!refreshContext) {
+    throw new Error('Partner vote sync is unavailable');
+  }
+  const hasCurrentVotes =
+    Object.keys(useVotesStore.getState().votesByProfile[localProfileId] ?? {})
+      .length > 0;
+  let snapshotQueued = await startVoteSync(localProfileId);
+  if (!isCurrentVoteEnqueueContext(refreshContext)) {
+    throw new Error('Vote sync context changed during refresh');
+  }
+  if (!snapshotQueued) {
+    snapshotQueued = await enqueueVoteSnapshotForContext(refreshContext);
+  }
+  if (!isCurrentVoteEnqueueContext(refreshContext)) {
+    throw new Error('Vote sync context changed during refresh');
+  }
+  if (hasCurrentVotes && !snapshotQueued) {
+    throw new Error('Unable to queue the current vote snapshot');
+  }
+  return syncNow();
 }
 
 export function stopVoteSync(): void {

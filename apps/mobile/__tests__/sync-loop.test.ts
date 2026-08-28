@@ -22,6 +22,11 @@ import { RelayHttpError, type RelayTransport } from '../lib/sync/relayClient';
 import { _resetRelayClientForTests } from '../lib/sync/relayConfig';
 import { useRevealConsentStore } from '../lib/sync/revealConsent';
 import {
+  _resetForTests as resetVoteSyncForTests,
+  refreshVoteSync,
+  useVoteSyncStore,
+} from '../lib/sync/voteSync';
+import {
   flushPending,
   pullPartnerEvents,
   refreshCoupleMetadata,
@@ -30,6 +35,7 @@ import {
   syncNow,
   syncOnce,
 } from '../lib/sync/syncLoop';
+import { useVotesStore } from '../src/stores/votes';
 
 type Deferred<T> = {
   promise: Promise<T>;
@@ -145,6 +151,8 @@ function buildIdentityDeps(
 
 describe('sync loop', () => {
   beforeEach(() => {
+    resetVoteSyncForTests();
+    useVotesStore.setState({ votesByProfile: {} });
     useEventQueueStore.setState({
       pending: [],
       quarantined: [],
@@ -163,6 +171,7 @@ describe('sync loop', () => {
   });
 
   afterEach(() => {
+    resetVoteSyncForTests();
     stopSyncLoop();
     jest.useRealTimers();
   });
@@ -970,6 +979,106 @@ describe('sync loop', () => {
     });
 
     expect(matches.readyNow.map((match) => match.id)).toEqual(['shared-card']);
+  });
+
+  it('manual vote refresh resends the full local snapshot and receives partner votes in one pass', async () => {
+    const mySigning = generateSigningKeypair();
+    const myEncryption = generateEncryptionKeypair();
+    const partnerSigning = generateSigningKeypair();
+    const partnerEncryption = generateEncryptionKeypair();
+    setIdentityDeps(buildIdentityDeps(mySigning, myEncryption, 'dev_me'));
+    useCoupleLinkStore.getState().setLink({
+      ...activeLink(encodeBase64(partnerEncryption.publicKey)),
+      partnerSigningPublicKey: encodeBase64(partnerSigning.publicKey),
+    });
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-1': { 'shared-card': 'yes' },
+      },
+    });
+    useVoteSyncStore.setState({
+      localProfileId: 'profile-1',
+      bootstrappedCoupleId: 'couple-1',
+      bootstrappedProfileId: 'profile-1',
+      bootstrapVersion: 2,
+    });
+
+    const partnerEvent = {
+      schemaVersion: 1 as const,
+      eventType: 'vote.upsert' as const,
+      eventId: 'evt_partner_refresh_vote',
+      authorDeviceId: 'dev_partner',
+      cardId: 'shared-card',
+      vote: 'yes' as const,
+      updatedAt: 2_000,
+    };
+    const { encryptedPayload, payloadHash } = encryptForPartner(
+      partnerEncryption.privateKey,
+      myEncryption.publicKey,
+      JSON.stringify(partnerEvent)
+    );
+    const relayCalls: string[] = [];
+    const fetchMock = jest
+      .fn()
+      .mockImplementation(async (url: string, init?: RequestInit) => {
+        relayCalls.push(`${init?.method ?? 'GET'} ${url}`);
+        if (url.endsWith('/couples/couple-1')) {
+          throw new Error('metadata refresh unavailable');
+        }
+        if (init?.method === 'POST' && url.endsWith('/events')) {
+          return {
+            ok: true,
+            json: async () => ({ serverSequence: 10 }),
+          };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            events: [
+              {
+                serverSequence: 12,
+                eventId: partnerEvent.eventId,
+                coupleId: 'couple-1',
+                authorDeviceId: 'dev_partner',
+                clientSequence: 1,
+                encryptedPayload,
+                payloadHash,
+                signature: signEnvelope(
+                  partnerSigning,
+                  partnerEvent.eventId,
+                  1,
+                  payloadHash
+                ),
+                createdAt: 2_000,
+                expiresAt: null,
+              },
+            ],
+            cursor: 12,
+          }),
+        };
+      });
+    _resetRelayClientForTests(
+      new RelayTestClient('https://relay.test', fetchMock as any)
+    );
+
+    await expect(refreshVoteSync('profile-1')).resolves.toEqual({
+      uploaded: 2,
+      failed: 0,
+      applied: 1,
+    });
+    expect(useEventQueueStore.getState().pending).toEqual([]);
+    expect(
+      usePartnerVotesStore.getState().byCardId['shared-card']
+    ).toMatchObject({ vote: 'yes' });
+    expect(
+      relayCalls.findIndex(
+        (call) => call.includes('POST') && call.endsWith('/events')
+      )
+    ).toBeLessThan(
+      relayCalls.findIndex(
+        (call) => call.includes('GET') && call.includes('/events?after=')
+      )
+    );
   });
 
   it('manual sync retries pending votes immediately despite automatic backoff', async () => {

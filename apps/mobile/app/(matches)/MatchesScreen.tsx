@@ -52,8 +52,8 @@ import {
 } from '../../lib/sync/coupleLink';
 import { useEventQueueStore } from '../../lib/sync/eventQueue';
 import { usePartnerVotesStore } from '../../lib/sync/partnerVotes';
-import { syncNow, type SyncResult } from '../../lib/sync/syncLoop';
-import { startVoteSync } from '../../lib/sync/voteSync';
+import type { SyncResult } from '../../lib/sync/syncLoop';
+import { refreshVoteSync } from '../../lib/sync/voteSync';
 import {
   requestRevealUnlock,
   useRevealConsentStore,
@@ -527,8 +527,7 @@ export default function MatchesScreen() {
     setRefreshError(false);
     setRefreshResult(null);
     try {
-      await startVoteSync(activeId);
-      const result = await syncNow();
+      const result = await refreshVoteSync(activeId);
       if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
         throw new Error('Partner sync paused');
       }
