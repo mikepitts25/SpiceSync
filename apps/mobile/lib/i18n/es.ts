@@ -381,7 +381,22 @@ export const es: Translations = {
     noTabMatches: 'Aún no hay {{tab}}',
     matchCount: '{{count}} coincidencias',
     you: 'Tú',
-    lastSynced: 'Última sincronización: ahora',
+    lastSynced: 'Última sincronización: {{time}}',
+    neverSynced: 'Nunca',
+    justNow: 'Ahora',
+    minutesAgo: 'Hace {{count}} min',
+    hoursAgo: 'Hace {{count}} h',
+    daysAgo: 'Hace {{count}} d',
+    refreshMatches: 'Actualizar coincidencias',
+    refreshingMatches: 'Actualizando…',
+    syncStatusAccessibility: 'Estado de sincronización de votos',
+    syncSummary:
+      '{{pending}} pendientes de envío • {{received}} respuestas sincronizadas',
+    syncComplete:
+      'Actualización completa: {{uploaded}} enviadas • {{applied}} recibidas',
+    syncFailed: 'No se pudo sincronizar con tu pareja. Inténtalo de nuevo.',
+    syncPaused:
+      'La sincronización está pausada. Abre Sincronización de pareja para reanudarla.',
     shareResults: 'Compartir resultados',
     shareMessage:
       'Resultados de SpiceSync: {{yes}} coincidencias de sí mutuo y {{maybe}} de tal vez mutuo.',

@@ -237,12 +237,13 @@ async function uploadPendingWithSafeUpgradeRetry(
 
 export async function flushPending(
   now: number = Date.now(),
-  metadataWasRefreshed: boolean = false
+  metadataWasRefreshed: boolean = false,
+  forcePending: boolean = false
 ): Promise<{ uploaded: number; failed: number }> {
   const link = useCoupleLinkStore.getState().link;
   if (!isCoupleLinkSyncable(link)) return { uploaded: 0, failed: 0 };
   const queue = useEventQueueStore.getState();
-  const due = queue.dueEvents(now);
+  const due = forcePending ? [...queue.pending] : queue.dueEvents(now);
   if (due.length > 0 && !metadataWasRefreshed) {
     // An unavailable metadata endpoint must not alter the established queue
     // scheduling semantics. The append path still has its one safe retry.
@@ -371,7 +372,10 @@ export async function pullPartnerEvents(): Promise<{ applied: number }> {
     link.lastPulledServerSequence
   );
   if (!isCurrentSyncableCoupleLink(link)) return { applied: 0 };
-  if (response.events.length === 0) return { applied: 0 };
+  if (response.events.length === 0) {
+    useCoupleLinkStore.getState().markSynced(Date.now());
+    return { applied: 0 };
+  }
   const { applied, lastSequence } = await applyServerEvents(
     response.events,
     id.identity.deviceId,
@@ -383,11 +387,15 @@ export async function pullPartnerEvents(): Promise<{ applied: number }> {
   return { applied };
 }
 
-export async function syncOnce(): Promise<{
+export type SyncResult = {
   uploaded: number;
   failed: number;
   applied: number;
-}> {
+};
+
+export async function syncOnce(options?: {
+  forcePending?: boolean;
+}): Promise<SyncResult> {
   if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
     return { uploaded: 0, failed: 0, applied: 0 };
   }
@@ -397,7 +405,11 @@ export async function syncOnce(): Promise<{
   if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
     return { uploaded: 0, failed: 0, applied: 0 };
   }
-  const flushResult = await flushPending(Date.now(), true);
+  const flushResult = await flushPending(
+    Date.now(),
+    true,
+    options?.forcePending === true
+  );
   if (!isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
     return { uploaded: 0, failed: 0, applied: 0 };
   }
@@ -410,6 +422,23 @@ export { refreshCoupleMetadata } from './coupleLink';
 let intervalHandle: ReturnType<typeof setInterval> | null = null;
 let scheduledSync: Promise<unknown> | null = null;
 let loopGeneration = 0;
+
+export async function syncNow(): Promise<SyncResult> {
+  const activeSync = scheduledSync;
+  if (activeSync) {
+    await activeSync.catch(() => undefined);
+  }
+
+  const run = syncOnce({ forcePending: true });
+  scheduledSync = run;
+  try {
+    return await run;
+  } finally {
+    if (scheduledSync === run) {
+      scheduledSync = null;
+    }
+  }
+}
 
 function runScheduledSync(generation: number): void {
   if (

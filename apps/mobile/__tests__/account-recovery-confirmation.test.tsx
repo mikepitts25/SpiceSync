@@ -148,4 +148,27 @@ describe('recovered profile confirmation', () => {
       })
     ).toBe(false);
   });
+
+  it('does not restart remote sync for routine updates to an active link', () => {
+    const current = {
+      ...recoveryLink(),
+      requiresProfileConfirmation: false,
+      lastPulledServerSequence: 4,
+      lastSyncedAt: 1_700_000_000_000,
+    };
+    useCoupleLinkStore.setState({
+      link: current,
+      authenticatedUserId: current.ownerUserId,
+      remoteSyncPauseReason: null,
+      pendingProfileConfirmationOwnerUserId: null,
+    });
+
+    expect(
+      shouldStartRemoteSyncForLinkTransition(current, {
+        ...current,
+        lastPulledServerSequence: 5,
+        lastSyncedAt: 1_700_000_001_000,
+      })
+    ).toBe(false);
+  });
 });
