@@ -47,6 +47,7 @@ import {
 } from '../../lib/state/matchPlans';
 import { useViewedMatchesStore } from '../../lib/match/viewedMatches';
 import {
+  isCoupleLinkBoundToProfile,
   isCoupleLinkSyncable,
   useCoupleLinkStore,
 } from '../../lib/sync/coupleLink';
@@ -96,7 +97,6 @@ export default function MatchesScreen() {
   const language = useSettingsStore((state) => state.language);
   const { t } = useTranslation();
   const coupleLink = useCoupleLinkStore((state) => state.link);
-  const isRemotePartner = coupleLink?.status === 'active';
 
   const { hydrated, activeId, profiles } = useProfilesStore(
     useShallow((state) => ({
@@ -105,6 +105,7 @@ export default function MatchesScreen() {
       profiles: state.getProfiles(),
     }))
   );
+  const isRemotePartner = isCoupleLinkBoundToProfile(coupleLink, activeId);
 
   const [partnerPickerOpen, setPartnerPickerOpen] = useState(false);
   const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(

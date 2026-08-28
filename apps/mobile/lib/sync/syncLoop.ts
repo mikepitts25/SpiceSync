@@ -23,7 +23,6 @@ import { useRevealConsentStore } from './revealConsent';
 import type { SyncEventResponse } from './relayTypes';
 import { isReadiness, readinessToVote } from '../votes/rolePreferences';
 import { useVotesStore } from '../../src/stores/votes';
-import { useProfilesStore } from '../state/profiles';
 import {
   buildEncryptedVoteSnapshot,
   validateAndDecryptVoteSnapshot,
@@ -461,7 +460,7 @@ export async function syncVoteSnapshots(
     return { published: false, received: false, status: 'unavailable' };
   }
   let link = useCoupleLinkStore.getState().link;
-  if (!isCoupleLinkSyncable(link)) {
+  if (!isCoupleLinkSyncable(link) || link.localProfileId !== localProfileId) {
     return { published: false, received: false, status: 'unavailable' };
   }
 
@@ -573,7 +572,7 @@ export async function syncOnce(options?: {
   }
   const localProfileId =
     options?.localProfileId ??
-    useProfilesStore.getState().getActiveProfileId() ??
+    useCoupleLinkStore.getState().link?.localProfileId ??
     null;
   let snapshot: VoteSnapshotSyncResult | undefined;
   if (localProfileId) {

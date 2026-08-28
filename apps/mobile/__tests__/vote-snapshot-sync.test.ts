@@ -122,6 +122,7 @@ describe('vote snapshot convergence', () => {
       link: {
         coupleId: 'cpl_1',
         ownerUserId: 'user-me',
+        localProfileId: 'profile-me',
         myDeviceId: 'dev_me',
         partnerDeviceId: 'dev_partner',
         partnerEncryptionPublicKey: encodeBase64(partnerEncryption.publicKey),
@@ -180,6 +181,22 @@ describe('vote snapshot convergence', () => {
       answeredCount: 0,
       recipientDeviceId: 'dev_partner',
     });
+  });
+
+  it('does not publish an unrelated active profile into the bound relationship', async () => {
+    useVotesStore.setState({
+      votesByProfile: {
+        'profile-me': { preserved_card: 'yes' },
+        'profile-new': {},
+      },
+    });
+
+    await expect(syncVoteSnapshots('profile-new')).resolves.toMatchObject({
+      published: false,
+      received: false,
+      status: 'unavailable',
+    });
+    expect(mockRelay.putVoteSnapshot).not.toHaveBeenCalled();
   });
 
   it('advances above the relay version after local version state is lost', async () => {

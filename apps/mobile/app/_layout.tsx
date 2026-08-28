@@ -156,6 +156,18 @@ export default function RootLayout() {
     let cancelled = false;
     let recoveryInFlight = false;
 
+    const getBoundRemoteProfileId = (): string | null => {
+      const linkState = useCoupleLinkStore.getState();
+      const activeProfileId =
+        useProfilesStore.getState().getActiveProfileId() ?? null;
+      if (!linkState.link?.localProfileId) {
+        const legacyProfileId =
+          useVoteSyncStore.getState().localProfileId ?? activeProfileId;
+        if (legacyProfileId) linkState.bindLocalProfile(legacyProfileId);
+      }
+      return useCoupleLinkStore.getState().link?.localProfileId ?? null;
+    };
+
     const recoverPartnerLink = async (discoverExisting: boolean = false) => {
       if (cancelled || recoveryInFlight) return;
       const linkState = useCoupleLinkStore.getState();
@@ -170,9 +182,7 @@ export default function RootLayout() {
           : await recoverExistingCouple();
         if (!result || cancelled) return;
         await useProfilesStore.getState().hydrate();
-        const activeProfileId =
-          useProfilesStore.getState().getActiveProfileId() ?? null;
-        await startVoteSync(activeProfileId);
+        await startVoteSync(getBoundRemoteProfileId());
         if (isCoupleLinkSyncable(useCoupleLinkStore.getState().link)) {
           startSyncLoop();
         }
@@ -196,9 +206,7 @@ export default function RootLayout() {
         bindLegacyPendingToPersistedLink();
         await bootstrapAccountState();
         if (cancelled) return;
-        const activeProfileId =
-          useProfilesStore.getState().getActiveProfileId() ?? null;
-        await startVoteSync(activeProfileId);
+        await startVoteSync(getBoundRemoteProfileId());
         const link = useCoupleLinkStore.getState().link;
         if (isCoupleLinkSyncable(link)) startSyncLoop();
         return recoverPartnerLink(true);
@@ -225,9 +233,7 @@ export default function RootLayout() {
         recoverPartnerLink(true).catch(() => undefined);
         const current = useCoupleLinkStore.getState().link;
         if (isCoupleLinkSyncable(current)) {
-          const activeProfileId =
-            useProfilesStore.getState().getActiveProfileId() ?? null;
-          startVoteSync(activeProfileId)
+          startVoteSync(getBoundRemoteProfileId())
             .then(() => syncOnce())
             .catch(() => undefined);
         }

@@ -56,6 +56,7 @@ describe('vote sync', () => {
       link: {
         coupleId: 'couple-1',
         ownerUserId: 'user-1',
+        localProfileId: 'profile-1',
         myDeviceId: identity.deviceId,
         partnerDeviceId: 'dev_partner',
         partnerSigningPublicKey: 'partner_signing_key',
@@ -407,7 +408,7 @@ describe('vote sync', () => {
     expect(useVoteSyncStore.getState().bootstrappedCoupleId).toBeNull();
   });
 
-  it('bootstraps the active profile again when profiles change within a couple', async () => {
+  it('does not bootstrap another local profile into the bound relationship', async () => {
     useVotesStore.setState({
       votesByProfile: {
         'profile-1': { 'card-one': 'yes' },
@@ -429,7 +430,7 @@ describe('vote sync', () => {
             event.payload.eventType === 'vote.upsert' &&
             event.payload.cardId === 'card-two'
         )
-    ).toBe(true);
+    ).toBe(false);
   });
 
   it('can initialize the local profile while starting vote sync', async () => {

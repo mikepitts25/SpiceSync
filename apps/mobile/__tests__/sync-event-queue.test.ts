@@ -51,6 +51,7 @@ beforeEach(() => {
     link: {
       coupleId: 'couple-1',
       ownerUserId: 'user-a',
+      localProfileId: 'profile-a',
       myDeviceId: 'dev_a',
       partnerDeviceId: 'dev_partner',
       partnerSigningPublicKey: 'sign',
@@ -113,7 +114,9 @@ describe('event queue', () => {
       answeredCount: 1,
       updatedAt: 1,
     };
-    useCoupleLinkStore.setState({ remoteSyncPauseReason: 'signed-out' } as never);
+    useCoupleLinkStore.setState({
+      remoteSyncPauseReason: 'signed-out',
+    } as never);
     expect(useEventQueueStore.getState().enqueue(input)).toBeNull();
 
     useCoupleLinkStore.setState({
@@ -203,6 +206,7 @@ describe('event queue', () => {
       link: {
         coupleId: 'couple-1',
         ownerUserId: 'user-a',
+        localProfileId: 'profile-a',
         myDeviceId: identity.deviceId,
         partnerDeviceId: 'dev_partner',
         partnerSigningPublicKey: 'sign',

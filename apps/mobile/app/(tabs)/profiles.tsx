@@ -65,6 +65,12 @@ export default function ProfilesHubScreen() {
   const coupleLink = useCoupleLinkStore((state) =>
     state.link?.status === 'active' ? state.link : null
   );
+  const linkedProfile = useMemo(
+    () =>
+      profiles.find((profile) => profile.id === coupleLink?.localProfileId) ??
+      null,
+    [coupleLink?.localProfileId, profiles]
+  );
 
   const currentStreak = useStreakStore((state) => state.currentStreak);
 
@@ -77,6 +83,8 @@ export default function ProfilesHubScreen() {
     activeProfile?.displayName ?? activeProfile?.name ?? t.kinks.noProfile;
   const partnerName = coupleLink?.partnerProfileName ?? 'Remote partner';
   const partnerAvatar = coupleLink?.partnerProfileAvatar ?? null;
+  const linkedProfileName =
+    linkedProfile?.displayName ?? linkedProfile?.name ?? myName;
 
   return (
     <SafeAreaView
@@ -225,15 +233,15 @@ export default function ProfilesHubScreen() {
           {coupleLink ? (
             <View style={styles.partnerCentered}>
               <CoupleAvatarPair
-                firstAvatar={activeProfile?.emoji}
+                firstAvatar={linkedProfile?.emoji}
                 secondAvatar={partnerAvatar}
                 size={PARTNER_AVATAR_SIZE}
-                accessibilityLabel={`${myName} ${ui('and')} ${partnerName}`}
+                accessibilityLabel={`${linkedProfileName} ${ui('and')} ${partnerName}`}
                 testID="profiles-active-couple"
               />
 
               <Text style={styles.partnerCoupledName}>
-                {myName} & {partnerName}
+                {linkedProfileName} & {partnerName}
               </Text>
 
               <View style={styles.syncedBadge}>

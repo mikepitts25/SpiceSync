@@ -60,6 +60,7 @@ function activeLink(partnerEncryptionPublicKey: string) {
   return {
     coupleId: 'couple-1',
     ownerUserId: 'user-me',
+    localProfileId: 'profile-1',
     myDeviceId: 'dev_me',
     partnerDeviceId: 'dev_partner',
     partnerSigningPublicKey: 'partner-signing-key',

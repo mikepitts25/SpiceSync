@@ -8,6 +8,8 @@ import type { CoupleResponse } from './relayTypes';
 export type CoupleLink = {
   coupleId: string;
   ownerUserId: string;
+  /** The one local profile whose votes belong to this remote relationship. */
+  localProfileId?: string | null;
   myDeviceId: string;
   myKeyVersion?: number;
   partnerDeviceId: string;
@@ -77,6 +79,7 @@ type CoupleLinkState = {
   beginProfileConfirmation: (profileId: string) => boolean;
   cancelProfileConfirmation: (profileId?: string) => void;
   confirmLocalProfile: (profileId: string) => boolean;
+  bindLocalProfile: (profileId: string) => boolean;
   setPendingInvite: (inviteId: string, expiresAt?: number) => void;
   clearPendingInvite: () => void;
   unlink: () => void;
@@ -114,6 +117,18 @@ export function isCoupleLinkSyncable(
     state.remoteSyncPauseReason === null &&
     state.pendingProfileConfirmationOwnerUserId === null &&
     state.authenticatedUserId === link.ownerUserId
+  );
+}
+
+export function isCoupleLinkBoundToProfile(
+  link: CoupleLink | null | undefined,
+  profileId: string | null | undefined
+): link is CoupleLink {
+  return (
+    link?.status === 'active' &&
+    typeof profileId === 'string' &&
+    profileId.length > 0 &&
+    link.localProfileId === profileId
   );
 }
 
@@ -222,6 +237,7 @@ function mergePersistedCoupleLinkState(
             partnerKeyVersion: savedLink.partnerKeyVersion ?? 1,
             requiresProfileConfirmation:
               savedLink.requiresProfileConfirmation ?? false,
+            localProfileId: savedLink.localProfileId ?? null,
           }
         : currentState.link;
 
@@ -260,6 +276,7 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
             partnerKeyVersion: link.partnerKeyVersion ?? 1,
             requiresProfileConfirmation:
               link.requiresProfileConfirmation ?? false,
+            localProfileId: link.localProfileId ?? null,
           },
           authenticatedUserId: link.ownerUserId,
           remoteSyncPauseReason:
@@ -334,11 +351,29 @@ export const useCoupleLinkStore = create<CoupleLinkState>()(
           return false;
         }
         set({
-          link: { ...current, requiresProfileConfirmation: false },
+          link: {
+            ...current,
+            localProfileId: profileId,
+            requiresProfileConfirmation: false,
+          },
           profileConfirmationInProgress: null,
           pendingProfileConfirmationOwnerUserId: null,
           remoteSyncPauseReason: null,
         });
+        return true;
+      },
+      bindLocalProfile: (profileId) => {
+        const current = get().link;
+        if (
+          !profileId ||
+          !current ||
+          current.status !== 'active' ||
+          current.requiresProfileConfirmation === true ||
+          current.localProfileId
+        ) {
+          return false;
+        }
+        set({ link: { ...current, localProfileId: profileId } });
         return true;
       },
       setPendingInvite: (inviteId, expiresAt) =>

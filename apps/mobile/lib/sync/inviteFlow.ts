@@ -7,6 +7,7 @@ import { getOrCreateIdentity } from './identity';
 import type { ParsedInviteUrl } from './inviteUrl';
 import { getRelayClient } from './relayConfig';
 import { restoreOwnProfileFromCouple } from './restoreOwnProfile';
+import { useProfilesStore } from '../state/profiles';
 import type { DeviceRecoveryResponse } from './relayTypes';
 
 export { parseInviteUrl } from './inviteUrl';
@@ -154,6 +155,7 @@ export async function acceptInvite(
   useCoupleLinkStore.getState().setLink({
     coupleId: result.coupleId,
     ownerUserId,
+    localProfileId: useProfilesStore.getState().getActiveProfileId() ?? null,
     myDeviceId: identity.deviceId,
     myKeyVersion: isMemberA
       ? (result.memberAKeyVersion ?? 1)
@@ -211,6 +213,7 @@ export async function finalizePendingInvite(
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
     ownerUserId,
+    localProfileId: useProfilesStore.getState().getActiveProfileId() ?? null,
     myDeviceId: identity.deviceId,
     myKeyVersion: isMemberA
       ? (couple.memberAKeyVersion ?? 1)
@@ -276,6 +279,7 @@ export async function recoverGrandfatheredCouple(): Promise<AcceptInviteResult |
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
     ownerUserId,
+    localProfileId: useProfilesStore.getState().getActiveProfileId() ?? null,
     myDeviceId: identity.deviceId,
     myKeyVersion: isMemberA
       ? (couple.memberAKeyVersion ?? 1)
@@ -304,7 +308,8 @@ export const recoverExistingCouple = recoverGrandfatheredCouple;
 function restoreCoupleLink(
   response: DeviceRecoveryResponse,
   ownerUserId: string,
-  requireProfileConfirmation: boolean
+  requireProfileConfirmation: boolean,
+  localProfileId: string | null
 ): AcceptInviteResult {
   const couple = response.couple;
   if (!couple) {
@@ -335,6 +340,7 @@ function restoreCoupleLink(
   useCoupleLinkStore.getState().setLink({
     coupleId: couple.coupleId,
     ownerUserId,
+    localProfileId: requireProfileConfirmation ? null : localProfileId,
     myDeviceId: response.myDeviceId,
     myKeyVersion: response.myKeyVersion,
     partnerDeviceId,
@@ -390,7 +396,10 @@ export async function recoverPermanentAccount(
       ? false
       : relationshipChanged ||
           accountSwitchNeedsConfirmation ||
-          (options.requireProfileConfirmation ?? false)
+          (options.requireProfileConfirmation ?? false),
+    previous.link?.localProfileId ??
+      useProfilesStore.getState().getActiveProfileId() ??
+      null
   );
   // Recovering the link is not enough to get the user back to where they were:
   // a fresh install has no local profile, and without one the caller routes to

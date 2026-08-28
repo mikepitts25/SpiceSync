@@ -74,6 +74,7 @@ describe('Profiles hub avatar sizing', () => {
       link: {
         coupleId: 'couple-1',
         ownerUserId: 'user-1',
+        localProfileId: 'profile-1',
         myDeviceId: 'device-a',
         partnerDeviceId: 'device-b',
         partnerSigningPublicKey: 'signing-key',
@@ -99,5 +100,26 @@ describe('Profiles hub avatar sizing', () => {
       .map((avatar) => avatar.props.size);
 
     expect(avatarSizes).toEqual([76, 68, 58, 52, 52]);
+  });
+
+  it('keeps the partner relationship labeled with its bound profile after switching profiles', () => {
+    useProfilesStore.setState({
+      activeProfileId: 'profile-2',
+      currentUserId: 'profile-2',
+    });
+
+    let tree: TestRenderer.ReactTestRenderer;
+    TestRenderer.act(() => {
+      tree = TestRenderer.create(<ProfilesHubScreen />);
+    });
+
+    const renderedText = tree!.root
+      .findAllByType(require('react-native').Text)
+      .map((node) => node.props.children)
+      .flat(Infinity)
+      .join(' ')
+      .replace(/\s+/g, ' ');
+    expect(renderedText).toContain('Mike & Remote partner');
+    expect(renderedText).not.toContain('Sam & Remote partner');
   });
 });

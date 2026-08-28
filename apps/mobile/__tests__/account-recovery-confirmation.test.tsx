@@ -107,6 +107,9 @@ describe('recovered profile confirmation', () => {
     expect(
       useCoupleLinkStore.getState().link?.requiresProfileConfirmation
     ).toBe(false);
+    expect(useCoupleLinkStore.getState().link?.localProfileId).toBe(
+      'profile-1'
+    );
     expect(mockStartSyncLoop).not.toHaveBeenCalled();
     expect(mockRouter.replace).not.toHaveBeenCalled();
 

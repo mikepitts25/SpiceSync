@@ -226,7 +226,7 @@ function canEnqueueVotes(
   profileId: string | null,
   _options?: VoteSyncStartOptions
 ): boolean {
-  if (!link || !profileId) return false;
+  if (!link || !profileId || link.localProfileId !== profileId) return false;
   return getActiveRemoteSyncOwnership() !== null;
 }
 

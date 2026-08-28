@@ -7,7 +7,10 @@ import { useShallow } from 'zustand/react/shallow';
 import { useKinks } from '../data';
 import { computeActionBuckets } from './actionBuckets';
 import { useProfilesStore } from '../state/profiles';
-import { useCoupleLinkStore } from '../sync/coupleLink';
+import {
+  isCoupleLinkBoundToProfile,
+  useCoupleLinkStore,
+} from '../sync/coupleLink';
 import { usePartnerVotesStore } from '../sync/partnerVotes';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore, type KinkVote } from '../../src/stores/votes';
@@ -15,7 +18,6 @@ import { useVotesStore, type KinkVote } from '../../src/stores/votes';
 export function useReadyNowCount(): number {
   const language = useSettingsStore((state) => state.language);
   const coupleLink = useCoupleLinkStore((state) => state.link);
-  const isRemotePartner = coupleLink?.status === 'active';
   const { profiles, activeProfileId } = useProfilesStore(
     useShallow((state) => ({
       profiles: state.getProfiles(),
@@ -23,6 +25,10 @@ export function useReadyNowCount(): number {
     }))
   );
   const activeKey = activeProfileId ? String(activeProfileId) : null;
+  const isRemotePartner = isCoupleLinkBoundToProfile(
+    coupleLink,
+    activeProfileId
+  );
   const partnerKey = useMemo(() => {
     const partner = profiles.find((profile) => profile.id !== activeProfileId);
     return partner ? String(partner.id) : null;
