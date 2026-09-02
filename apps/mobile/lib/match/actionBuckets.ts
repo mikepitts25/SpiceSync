@@ -22,9 +22,22 @@ import {
   type VoteValue,
 } from '../votes/rolePreferences';
 import type { RiskLevel, Tier } from '../data';
+import { interpolate } from '../i18n';
+import { en } from '../i18n/en';
+import { es } from '../i18n/es';
 import { getCounterpartIds } from './counterpartMatches';
-import { getKinkGuidance, type GuidanceSource } from '../kinks/guidance';
+import {
+  getKinkGuidance,
+  type GuidanceLanguage,
+  type GuidanceSource,
+} from '../kinks/guidance';
 import { describeRoleCompatibility } from './experience';
+
+const TABLE = { en, es };
+
+function copyFor(language: GuidanceLanguage) {
+  return TABLE[language].matchExplanation;
+}
 
 export type ActionKink = GuidanceSource & {
   slug?: string;
@@ -270,56 +283,76 @@ export type MatchExplanation = {
   consentPrompts: string[];
 };
 
-const READINESS_LABEL: Record<Readiness, string> = {
-  yes: 'yes',
-  curious: 'curious',
-  not_now: 'not right now',
-  hard_no: 'a hard no',
-};
-
-function headlineFor(item: ActionMatchItem): string {
-  if (item.reasons.includes('hard_no')) {
-    return 'This stays private unless you both choose otherwise.';
+function readinessLabel(
+  readiness: Readiness,
+  t: ReturnType<typeof copyFor>
+): string {
+  switch (readiness) {
+    case 'yes':
+      return t.readinessYes;
+    case 'curious':
+      return t.readinessCurious;
+    case 'not_now':
+      return t.readinessNotNow;
+    case 'hard_no':
+      return t.readinessHardNo;
   }
-  if (item.reasons.includes('timing')) {
-    const who =
-      item.myReadiness === 'not_now'
-        ? 'You said not right now'
-        : 'Your partner said not right now';
-    return `${who} — a gentle, no-pressure conversation topic for later.`;
-  }
-  if (item.reasons.includes('roles')) {
-    return 'You are both interested, but your role preferences need a conversation.';
-  }
-  if (item.reasons.includes('risk_prep')) {
-    return 'You are both interested — review the prep and safety notes together before trying it.';
-  }
-  if (item.myReadiness === 'yes' && item.partnerReadiness === 'yes') {
-    return 'You both said yes — ready when you are.';
-  }
-  if (item.myReadiness === 'curious' && item.partnerReadiness === 'curious') {
-    return 'You are both curious — explore it together at your own pace.';
-  }
-  return `You said ${READINESS_LABEL[item.myReadiness]} and your partner said ${READINESS_LABEL[item.partnerReadiness]} — a good one to talk about.`;
 }
 
-function intensityRiskNote(item: ActionMatchItem): string {
+function headlineFor(
+  item: ActionMatchItem,
+  language: GuidanceLanguage
+): string {
+  const t = copyFor(language);
+  if (item.reasons.includes('hard_no')) {
+    return t.headlineHardNo;
+  }
+  if (item.reasons.includes('timing')) {
+    return item.myReadiness === 'not_now'
+      ? t.headlineNotNowMe
+      : t.headlineNotNowPartner;
+  }
+  if (item.reasons.includes('roles')) {
+    return t.headlineRoles;
+  }
+  if (item.reasons.includes('risk_prep')) {
+    return t.headlineRiskPrep;
+  }
+  if (item.myReadiness === 'yes' && item.partnerReadiness === 'yes') {
+    return t.headlineMutualYes;
+  }
+  if (item.myReadiness === 'curious' && item.partnerReadiness === 'curious') {
+    return t.headlineMutualCurious;
+  }
+  return interpolate(t.headlineTalkAbout, {
+    mine: readinessLabel(item.myReadiness, t),
+    partner: readinessLabel(item.partnerReadiness, t),
+  });
+}
+
+function intensityRiskNote(
+  item: ActionMatchItem,
+  language: GuidanceLanguage
+): string {
+  const t = copyFor(language);
   const intensity = item.intensityScale
-    ? `Intensity level ${item.intensityScale} of 3.`
-    : 'Intensity level not set.';
+    ? interpolate(t.intensityLevel, { level: item.intensityScale })
+    : t.intensityNotSet;
   if (item.riskLevel === 'high') {
-    return `${intensity} Higher risk — plan prep, safety, and aftercare before starting.`;
+    return interpolate(t.riskHigh, { intensity });
   }
   if (item.riskLevel === 'medium') {
-    return `${intensity} Moderate risk — agree on limits and a stop signal first.`;
+    return interpolate(t.riskMedium, { intensity });
   }
-  return `${intensity} Lower risk — still check in with each other as you go.`;
+  return interpolate(t.riskLow, { intensity });
 }
 
 export function explainMatch(
   item: ActionMatchItem,
-  kink?: ActionKink
+  kink?: ActionKink,
+  language: GuidanceLanguage = 'en'
 ): MatchExplanation {
+  const t = copyFor(language);
   const guidance = getKinkGuidance(
     kink ?? {
       id: item.id,
@@ -329,16 +362,17 @@ export function explainMatch(
       intensityScale: item.intensityScale,
       tier: item.tier,
       riskLevel: item.riskLevel,
-    }
+    },
+    language
   );
 
   return {
-    headline: headlineFor(item),
-    roleNote: describeRoleCompatibility(item),
-    intensityRiskNote: intensityRiskNote(item),
+    headline: headlineFor(item, language),
+    roleNote: describeRoleCompatibility(item, language),
+    intensityRiskNote: intensityRiskNote(item, language),
     conversationStarter:
       guidance.consentPrompts[0] ??
-      `What does a good version of "${item.title}" look like for each of you?`,
+      interpolate(t.conversationStarterFallback, { title: item.title }),
     prep: guidance.prep,
     safetyNotes: guidance.safetyNotes,
     aftercare: guidance.aftercare,

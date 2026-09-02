@@ -157,7 +157,10 @@ export async function resetAppOnDevice(): Promise<void> {
   useMatchPlansStore.setState({ plansByKinkId: {} });
   useStarterPackStore.setState({ dismissedByProfile: {} });
   useShareCodes.setState({ myCodes: [], scannedCodes: [] });
-  useViewedMatchesStore.setState({ viewedIds: {} });
+  useViewedMatchesStore.setState({
+    viewedIds: {},
+    seenReadyIdsByProfile: {},
+  });
   useConversationStore.setState({
     favorites: [],
     history: [],

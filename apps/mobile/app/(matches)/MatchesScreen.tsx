@@ -19,7 +19,7 @@ import {
   Share2,
   Sparkles,
 } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
 import {
@@ -128,6 +128,9 @@ export default function MatchesScreen() {
   >({});
   const viewedIdsRecord = useViewedMatchesStore((state) => state.viewedIds);
   const markViewed = useViewedMatchesStore((state) => state.markViewed);
+  const acknowledgeReadyMatches = useViewedMatchesStore(
+    (state) => state.acknowledgeReadyMatches
+  );
 
   const partners = useMemo(() => {
     if (!activeId) return [] as Profile[];
@@ -243,6 +246,17 @@ export default function MatchesScreen() {
   // partialYesMaybe unlock. Mutual-yes rows are always visible, as before.
   const readyNow = actionBuckets.readyNow;
 
+  useFocusEffect(
+    useCallback(() => {
+      if (activeKey) {
+        acknowledgeReadyMatches(
+          activeKey,
+          readyNow.map((item) => item.id)
+        );
+      }
+    }, [acknowledgeReadyMatches, activeKey, readyNow])
+  );
+
   const visibleCurious = useMemo(
     () =>
       actionBuckets.curiousTogether.filter((item) =>
@@ -316,9 +330,13 @@ export default function MatchesScreen() {
   const selectedExplanation = useMemo(
     () =>
       selectedMatch
-        ? explainMatch(selectedMatch, kinksById[selectedMatch.id])
+        ? explainMatch(
+            selectedMatch,
+            kinksById[selectedMatch.id],
+            language === 'es' ? 'es' : 'en'
+          )
         : null,
-    [kinksById, selectedMatch]
+    [kinksById, language, selectedMatch]
   );
 
   const plansByKinkId = useMatchPlansStore((state) => state.plansByKinkId);

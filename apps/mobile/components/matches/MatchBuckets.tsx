@@ -9,6 +9,8 @@ import {
 
 import { describeRoleCompatibility } from '../../lib/match/experience';
 import { interpolate } from '../../lib/i18n';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 import { COLORS, SHADOWS } from '../../constants/theme';
 import {
   bucketToneColors,
@@ -45,6 +47,7 @@ function MatchRow({
   item: MatchItem;
   onSelect?: (item: MatchItem) => void;
 }) {
+  const language = useSettingsStore((state) => state.language);
   return (
     <Pressable
       style={styles.resultRow}
@@ -65,7 +68,10 @@ function MatchRow({
         <View style={styles.resultBadgeRow}>
           {item.category ? (
             <Text style={styles.resultCategory} numberOfLines={1}>
-              {item.category}
+              {formatKinkCategory(
+                item.category,
+                language === 'es' ? 'es' : 'en'
+              )}
             </Text>
           ) : null}
           {item.intensityScale ? (
@@ -80,7 +86,7 @@ function MatchRow({
         </View>
         {item.pairMode ? (
           <Text style={styles.resultRole} numberOfLines={1}>
-            {describeRoleCompatibility(item)}
+            {describeRoleCompatibility(item, language === 'es' ? 'es' : 'en')}
           </Text>
         ) : null}
       </View>

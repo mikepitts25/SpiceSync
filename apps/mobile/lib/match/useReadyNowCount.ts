@@ -6,6 +6,10 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { useKinks } from '../data';
 import { computeActionBuckets } from './actionBuckets';
+import {
+  countUnseenReadyMatches,
+  useViewedMatchesStore,
+} from './viewedMatches';
 import { useProfilesStore } from '../state/profiles';
 import {
   isCoupleLinkBoundToProfile,
@@ -40,6 +44,10 @@ export function useReadyNowCount(): number {
     ])
   );
   const remotePartnerVotes = usePartnerVotesStore((state) => state.byCardId);
+  const seenReadyIds = useViewedMatchesStore(
+    (state) =>
+      (activeKey && state.seenReadyIdsByProfile[activeKey]) || undefined
+  );
   const { kinks } = useKinks(language === 'es' ? 'es' : 'en');
 
   return useMemo(() => {
@@ -61,6 +69,14 @@ export function useReadyNowCount(): number {
     if (!mine || !theirs) return 0;
     if (!Object.keys(mine).length || !Object.keys(theirs).length) return 0;
 
-    return computeActionBuckets({ kinks, mine, theirs }).readyNow.length;
-  }, [isRemotePartner, remotePartnerVotes, localTheirs, mine, kinks]);
+    const readyNow = computeActionBuckets({ kinks, mine, theirs }).readyNow;
+    return countUnseenReadyMatches(readyNow, seenReadyIds);
+  }, [
+    isRemotePartner,
+    remotePartnerVotes,
+    localTheirs,
+    mine,
+    kinks,
+    seenReadyIds,
+  ]);
 }

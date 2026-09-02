@@ -99,6 +99,84 @@ describe('explainMatch', () => {
   });
 });
 
+describe('explainMatch in Spanish', () => {
+  it('translates the headline, risk note, and guidance for a mutual yes', () => {
+    const item = firstItem(
+      { 'pair:massage': { value: 'yes', pairPreference: 'give' } },
+      { 'pair:massage': { value: 'yes', pairPreference: 'receive' } }
+    );
+    const explanation = explainMatch(item, kinks[0], 'es');
+
+    // Regression for the match detail screen rendering English sentences
+    // inside an otherwise-translated Spanish UI (aftercare headline, role
+    // note, intensity note, prep/safety/aftercare checklists, and the
+    // conversation-starter fallback all used to be hardcoded English).
+    expect(explanation.headline).toBe(
+      'Ambos dijeron que sí — listos cuando quieran.'
+    );
+    expect(explanation.roleNote).toBe(
+      'Tú elegiste Dar; tu pareja eligió Recibir.'
+    );
+    expect(explanation.intensityRiskNote).toContain(
+      'Nivel de intensidad 2 de 3'
+    );
+    expect(explanation.intensityRiskNote).toContain('Riesgo moderado');
+    expect(explanation.prep).toEqual([
+      'Hablen primero: qué quiere cada uno y qué queda fuera de la mesa.',
+      'Acuerden una palabra de seguridad o una señal clara de alto antes de empezar.',
+      'Reúnan con anticipación lo que necesiten para poder estar presentes.',
+    ]);
+  });
+
+  it('translates the timing-mismatch headline', () => {
+    const item = firstItem(
+      { 'pair:massage': { value: 'no', readiness: 'not_now' } },
+      { 'pair:massage': 'yes' }
+    );
+    const explanation = explainMatch(item, kinks[0], 'es');
+
+    expect(explanation.headline).toContain('Dijiste que ahora no');
+    expect(explanation.headline).toContain('sin presión');
+  });
+
+  it('translates the high-risk prep warning', () => {
+    const item = firstItem({ risky: 'yes' }, { risky: 'yes' });
+    const explanation = explainMatch(item, kinks[1], 'es');
+
+    expect(explanation.headline).toContain(
+      'preparación y las notas de seguridad'
+    );
+    expect(explanation.intensityRiskNote).toContain('Riesgo alto');
+    expect(
+      explanation.safetyNotes.some((note) => note.includes('riesgo'))
+    ).toBe(true);
+  });
+
+  it('falls back to a translated conversation starter when no consent prompt is authored', () => {
+    const item = firstItem(
+      { 'pair:massage': { value: 'yes', pairPreference: 'give' } },
+      { 'pair:massage': { value: 'yes', pairPreference: 'receive' } }
+    );
+    const explanation = explainMatch(item, kinks[0], 'es');
+
+    expect(explanation.conversationStarter).toBe(
+      '¿Cómo se vería una buena versión de "Massage" para cada uno de ustedes?'
+    );
+  });
+
+  it('still defaults to English when no language is passed, preserving existing callers', () => {
+    const item = firstItem(
+      { 'pair:massage': { value: 'yes', pairPreference: 'give' } },
+      { 'pair:massage': { value: 'yes', pairPreference: 'receive' } }
+    );
+    const explanation = explainMatch(item, kinks[0]);
+
+    expect(explanation.headline).toBe(
+      'You both said yes — ready when you are.'
+    );
+  });
+});
+
 describe('getKinkGuidance defaults', () => {
   it('derives risk from tags, tier, and intensity', () => {
     expect(

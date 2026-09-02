@@ -435,6 +435,94 @@ export const en = {
     nextSessionStrip: 'Planned for next session',
   },
 
+  // Match explanation copy — built by lib/match/actionBuckets.ts,
+  // lib/match/experience.ts, and lib/kinks/guidance.ts, which are plain
+  // functions with no React context, so they take a language code and read
+  // from this table directly rather than through the `t`/`ui()` hooks.
+  matchExplanation: {
+    headlineHardNo: 'This stays private unless you both choose otherwise.',
+    headlineNotNowMe:
+      'You said not right now — a gentle, no-pressure conversation topic for later.',
+    headlineNotNowPartner:
+      'Your partner said not right now — a gentle, no-pressure conversation topic for later.',
+    headlineRoles:
+      'You are both interested, but your role preferences need a conversation.',
+    headlineRiskPrep:
+      'You are both interested — review the prep and safety notes together before trying it.',
+    headlineMutualYes: 'You both said yes — ready when you are.',
+    headlineMutualCurious:
+      'You are both curious — explore it together at your own pace.',
+    headlineTalkAbout:
+      'You said {{mine}} and your partner said {{partner}} — a good one to talk about.',
+    readinessYes: 'yes',
+    readinessCurious: 'curious',
+    readinessNotNow: 'not right now',
+    readinessHardNo: 'a hard no',
+    intensityLevel: 'Intensity level {{level}} of 3.',
+    intensityNotSet: 'Intensity level not set.',
+    riskHigh:
+      '{{intensity}} Higher risk — plan prep, safety, and aftercare before starting.',
+    riskMedium:
+      '{{intensity}} Moderate risk — agree on limits and a stop signal first.',
+    riskLow:
+      '{{intensity}} Lower risk — still check in with each other as you go.',
+    conversationStarterFallback:
+      'What does a good version of "{{title}}" look like for each of you?',
+    roleSharedInterest: 'Shared interest.',
+    roleGive: 'Give',
+    roleReceive: 'Receive',
+    roleBoth: 'Both',
+    roleBothChoseBoth: 'You both chose Both.{{counterpart}}',
+    roleChoseEach:
+      'You chose {{mine}}; partner chose {{partner}}.{{counterpart}}',
+    roleMatchedWith: ' Partner matched with {{title}}.',
+    prepTalkFirst:
+      'Talk it through first: what each of you wants, and what is off the table.',
+    prepSafeword: 'Agree on a safeword or clear stop signal before you begin.',
+    prepGather:
+      'Gather anything you need ahead of time so you can stay present.',
+    prepLearnBasics:
+      'Learn the basics from a trusted resource before trying this, and plan an easy way out of any position or restraint.',
+    prepAnalLube: 'Plan for plenty of lubricant and a slow, gradual pace.',
+    prepBondageShears: 'Keep safety shears or a quick release within reach.',
+    safetyPauseAnytime:
+      'Either of you can pause or stop at any time, no reason needed.',
+    safetyStartBelow:
+      'Start well below the level you think you can handle and build up.',
+    safetyRealRisk:
+      'This carries real physical or emotional risk. Keep communication open the whole time and never leave a restrained partner alone.',
+    safetyStrongFeelings:
+      'Strong feelings can surface afterwards. Plan a gentle check-in for the next day too.',
+    aftercareCheckIn:
+      'Check in: water, warmth, closeness, or quiet time — whatever you each need.',
+    aftercareTalkAbout:
+      'Talk about what felt good and what you would change next time.',
+    aftercareWatchForDrop:
+      'Watch for delayed drop over the next day or two and be extra kind to each other.',
+    consentGoodVersion:
+      'What does a good version of "{{title}}" look like for each of you?',
+    consentWantToStop:
+      'What would make either of you want to stop or slow down?',
+    consentCheckIn: 'How will you check in with each other while you try it?',
+    planBoundariesTitle: 'Set boundaries',
+    planBoundariesBody:
+      'Name hard limits, soft limits, safewords, and what either of you can pause or skip.',
+    planPrepareTitle: 'Prepare the space',
+    planPrepareBody:
+      'Gather anything needed, remove distractions, and agree on privacy before starting.',
+    planStartTitle: 'Start the match',
+    planStartBody:
+      'Try {{title}} at {{intensity}}. Start slower than you think you need and build only with clear consent.',
+    planStartIntensityLevel: 'level {{level}}',
+    planStartIntensityDefault: 'your agreed level',
+    planCheckInTitle: 'Check in',
+    planCheckInBody:
+      'Pause after a few minutes and ask what feels good, what should change, and whether to continue.',
+    planAftercareTitle: 'Aftercare',
+    planAftercareBody:
+      'End with water, closeness, reassurance, cleanup, or quiet time based on what you both need.',
+  },
+
   // Love Languages
   loveLanguages: {
     title: 'Love Languages',

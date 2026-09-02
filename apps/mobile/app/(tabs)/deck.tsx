@@ -73,6 +73,7 @@ import {
 } from '../../lib/kinks/starterPack';
 import { useStarterPackStore } from '../../lib/state/starterPack';
 import { interpolate as interpolateI18n, useTranslation } from '../../lib/i18n';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
 import { playGameSound } from '../../lib/gameSounds';
 import {
   COLORS,
@@ -170,7 +171,7 @@ function KinkCardFrame({
   pairPreference,
   onPairPreferenceChange,
 }: KinkCardFrameProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const tierColor = item.tier
     ? (TIER_COLORS[item.tier] ?? COLORS.pink)
     : COLORS.pink;
@@ -193,7 +194,10 @@ function KinkCardFrame({
       <View style={styles.cardInner}>
         <View style={styles.cardTopRow}>
           <Text style={styles.categoryLabel}>
-            {(item.category || 'Sensation').toUpperCase()}
+            {formatKinkCategory(
+              item.category || 'sensory',
+              language
+            ).toUpperCase()}
           </Text>
           <IntensityDots value={item.intensityScale ?? 1} color={tierColor} />
         </View>

@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react-native';
 
 import type { ActionMatchItem } from '../../lib/match/actionBuckets';
 import { COLORS } from '../../constants/theme';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
 
 export type MatchItem = ActionMatchItem;
 
@@ -52,8 +53,11 @@ export function bucketToneColors(tone: BucketTone): {
   };
 }
 
-export function formatMatchMeta(item: MatchItem): string {
-  const parts = [item.category];
+export function formatMatchMeta(
+  item: MatchItem,
+  language: 'en' | 'es' = 'en'
+): string {
+  const parts = [formatKinkCategory(item.category, language)];
   if (item.intensityScale) {
     parts.push(`L${item.intensityScale}`);
   }

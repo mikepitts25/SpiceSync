@@ -446,6 +446,93 @@ export const es: Translations = {
     backToCategories: 'Todas las categorías',
   },
 
+  matchExplanation: {
+    headlineHardNo:
+      'Esto se mantiene privado a menos que ambos decidan lo contrario.',
+    headlineNotNowMe:
+      'Dijiste que ahora no — un tema de conversación tranquilo y sin presión para más adelante.',
+    headlineNotNowPartner:
+      'Tu pareja dijo que ahora no — un tema de conversación tranquilo y sin presión para más adelante.',
+    headlineRoles:
+      'A ambos les interesa, pero sus preferencias de rol necesitan una conversación.',
+    headlineRiskPrep:
+      'A ambos les interesa — revisen juntos la preparación y las notas de seguridad antes de intentarlo.',
+    headlineMutualYes: 'Ambos dijeron que sí — listos cuando quieran.',
+    headlineMutualCurious:
+      'Ambos sienten curiosidad — explórenlo juntos a su propio ritmo.',
+    headlineTalkAbout:
+      'Tú dijiste {{mine}} y tu pareja dijo {{partner}} — algo bueno para conversar.',
+    readinessYes: 'sí',
+    readinessCurious: 'curiosidad',
+    readinessNotNow: 'ahora no',
+    readinessHardNo: 'un no rotundo',
+    intensityLevel: 'Nivel de intensidad {{level}} de 3.',
+    intensityNotSet: 'Nivel de intensidad no definido.',
+    riskHigh:
+      '{{intensity}} Riesgo alto — planeen la preparación, la seguridad y los cuidados posteriores antes de empezar.',
+    riskMedium:
+      '{{intensity}} Riesgo moderado — acuerden límites y una señal de alto antes de empezar.',
+    riskLow:
+      '{{intensity}} Riesgo bajo — de todas formas, revisen cómo se sienten mientras avanzan.',
+    conversationStarterFallback:
+      '¿Cómo se vería una buena versión de "{{title}}" para cada uno de ustedes?',
+    roleSharedInterest: 'Interés compartido.',
+    roleGive: 'Dar',
+    roleReceive: 'Recibir',
+    roleBoth: 'Ambos',
+    roleBothChoseBoth: 'Ambos eligieron Ambos.{{counterpart}}',
+    roleChoseEach:
+      'Tú elegiste {{mine}}; tu pareja eligió {{partner}}.{{counterpart}}',
+    roleMatchedWith: ' La pareja coincidió con {{title}}.',
+    prepTalkFirst:
+      'Hablen primero: qué quiere cada uno y qué queda fuera de la mesa.',
+    prepSafeword:
+      'Acuerden una palabra de seguridad o una señal clara de alto antes de empezar.',
+    prepGather:
+      'Reúnan con anticipación lo que necesiten para poder estar presentes.',
+    prepLearnBasics:
+      'Aprendan lo básico de una fuente confiable antes de intentarlo, y planeen una salida fácil de cualquier posición o atadura.',
+    prepAnalLube: 'Prevean suficiente lubricante y un ritmo lento y gradual.',
+    prepBondageShears:
+      'Mantengan tijeras de seguridad o una liberación rápida al alcance de la mano.',
+    safetyPauseAnytime:
+      'Cualquiera de los dos puede pausar o detenerse en cualquier momento, sin necesidad de dar una razón.',
+    safetyStartBelow:
+      'Empiecen muy por debajo del nivel que creen poder manejar y suban poco a poco.',
+    safetyRealRisk:
+      'Esto conlleva un riesgo físico o emocional real. Mantengan la comunicación abierta todo el tiempo y nunca dejen solo a un compañero atado.',
+    safetyStrongFeelings:
+      'Después pueden surgir emociones intensas. Planeen también un momento para hablar con calma al día siguiente.',
+    aftercareCheckIn:
+      'Revisen cómo están: agua, calidez, cercanía o tiempo tranquilo — lo que cada uno necesite.',
+    aftercareTalkAbout:
+      'Hablen sobre qué se sintió bien y qué cambiarían la próxima vez.',
+    aftercareWatchForDrop:
+      'Estén atentos a un bajón emocional retrasado durante el día o dos siguientes y sean extra amables el uno con el otro.',
+    consentGoodVersion:
+      '¿Cómo se vería una buena versión de "{{title}}" para cada uno de ustedes?',
+    consentWantToStop:
+      '¿Qué haría que alguno de los dos quisiera detenerse o bajar el ritmo?',
+    consentCheckIn: '¿Cómo se comunicarán entre ustedes mientras lo intentan?',
+    planBoundariesTitle: 'Establecer límites',
+    planBoundariesBody:
+      'Nombren límites duros, límites blandos, palabras de seguridad y qué puede pausar o saltarse cualquiera de los dos.',
+    planPrepareTitle: 'Preparar el espacio',
+    planPrepareBody:
+      'Reúnan lo necesario, eliminen distracciones y acuerden privacidad antes de empezar.',
+    planStartTitle: 'Comenzar la coincidencia',
+    planStartBody:
+      'Prueben {{title}} en {{intensity}}. Empiecen más despacio de lo que creen necesitar y avancen solo con consentimiento claro.',
+    planStartIntensityLevel: 'nivel {{level}}',
+    planStartIntensityDefault: 'el nivel que acordaron',
+    planCheckInTitle: 'Revisar cómo van',
+    planCheckInBody:
+      'Hagan una pausa después de unos minutos y pregunten qué se siente bien, qué debería cambiar y si seguir adelante.',
+    planAftercareTitle: 'Cuidados posteriores',
+    planAftercareBody:
+      'Terminen con agua, cercanía, tranquilidad, limpieza o tiempo en silencio según lo que ambos necesiten.',
+  },
+
   // Love Languages
   loveLanguages: {
     title: 'Lenguajes del amor',

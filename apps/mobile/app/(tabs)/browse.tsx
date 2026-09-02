@@ -33,6 +33,7 @@ import { useSettingsStore } from '../../src/stores/settingsStore';
 import { useVotesStore, type VoteValue } from '../../src/stores/votes';
 import { voteValue } from '../../lib/votes/rolePreferences';
 import { useTranslation } from '../../lib/i18n';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
 import { COLORS, GRADIENTS, SHADOWS } from '../../constants/theme';
 
 const TIER_OPTIONS: { label: string; value: Tier | null }[] = [
@@ -135,10 +136,9 @@ export default function BrowseScreen() {
         <View style={styles.itemLeft}>
           <View style={styles.itemMetaRow}>
             <Text style={[styles.itemCategory, { color: tierColor }]}>
-              {(
-                item.category ||
-                item.tier ||
-                t.browse.activityFallback
+              {(item.category
+                ? formatKinkCategory(item.category, language)
+                : item.tier || t.browse.activityFallback
               ).toUpperCase()}
             </Text>
             <IntensityDots value={item.intensityScale ?? 1} color={tierColor} />
@@ -238,7 +238,9 @@ export default function BrowseScreen() {
                     active && styles.categoryChipTextActive,
                   ]}
                 >
-                  {item ?? t.browse.allCategory}
+                  {item
+                    ? formatKinkCategory(item, language)
+                    : t.browse.allCategory}
                 </Text>
               </Pressable>
             );

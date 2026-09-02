@@ -28,6 +28,7 @@ import { getKinkConversationTopics } from '../../data/kinkConversationTopics';
 import { getTopicsForKink } from '../../data/kink_conversation_topics';
 import { useKinks } from '../../lib/data';
 import { useSettingsStore } from '../../src/stores/settingsStore';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
 
 import { ui } from '../../lib/i18n/uiLiteral';
 
@@ -263,7 +264,7 @@ export default function KinkTopicsScreen() {
               )}
               <View style={styles.categoryBadge}>
                 <Text style={styles.categoryBadgeText}>
-                  {kink.category.replace(/_/g, ' ')}
+                  {formatKinkCategory(kink.category, language)}
                 </Text>
               </View>
             </View>

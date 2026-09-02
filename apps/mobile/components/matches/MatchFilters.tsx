@@ -7,6 +7,8 @@ import type {
   MatchVisibilityFilter,
 } from '../../lib/match/experience';
 import { COLORS } from '../../constants/theme';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 
 import { ui } from '../../lib/i18n/uiLiteral';
 
@@ -52,6 +54,7 @@ export function MatchFilters({
   onRoleChange: (value: MatchRoleFilter) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const language = useSettingsStore((state) => state.language);
   const activeFilterCount = [
     visibility !== 'all',
     category !== 'all',
@@ -66,7 +69,7 @@ export function MatchFilters({
         )}`;
   const categoryOptions = categories.map((item) => ({
     id: item,
-    label: item === 'all' ? 'All categories' : item,
+    label: formatKinkCategory(item, language === 'es' ? 'es' : 'en'),
   }));
 
   return (

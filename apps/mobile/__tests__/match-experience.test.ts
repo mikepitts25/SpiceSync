@@ -71,6 +71,49 @@ describe('match experience helpers', () => {
     expect(plan[2].body).toContain('level 2');
   });
 
+  it('explains paired role compatibility in Spanish', () => {
+    // Regression: the match detail screen showed this sentence in English
+    // even with the app set to Spanish.
+    expect(describeRoleCompatibility(baseMatch, 'es')).toBe(
+      'Tú elegiste Dar; tu pareja eligió Recibir.'
+    );
+    expect(
+      describeRoleCompatibility(
+        {
+          ...baseMatch,
+          myPairPreference: 'both',
+          partnerPairPreference: 'both',
+        },
+        'es'
+      )
+    ).toBe('Ambos eligieron Ambos.');
+    expect(
+      describeRoleCompatibility(
+        {
+          ...baseMatch,
+          pairMode: false,
+          myPairPreference: undefined,
+          partnerPairPreference: undefined,
+        },
+        'es'
+      )
+    ).toBe('Interés compartido.');
+  });
+
+  it('creates a Spanish try-tonight plan for a match', () => {
+    const plan = createMatchPlan(baseMatch, 'es');
+
+    expect(plan.map((step) => step.title)).toEqual([
+      'Establecer límites',
+      'Preparar el espacio',
+      'Comenzar la coincidencia',
+      'Revisar cómo van',
+      'Cuidados posteriores',
+    ]);
+    expect(plan[2].body).toContain('Massage');
+    expect(plan[2].body).toContain('nivel 2');
+  });
+
   it('filters matches by unseen state, category, intensity, and paired role', () => {
     const items: MatchExperienceItem[] = [
       baseMatch,

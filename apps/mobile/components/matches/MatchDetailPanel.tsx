@@ -15,6 +15,7 @@ import type { MatchExplanation } from '../../lib/match/actionBuckets';
 import type { MatchPlan } from '../../lib/state/matchPlans';
 import { interpolate, type useTranslation } from '../../lib/i18n';
 import { COLORS, SHADOWS } from '../../constants/theme';
+import { useSettingsStore } from '../../src/stores/settingsStore';
 import {
   formatMatchMeta,
   voteLabel,
@@ -51,6 +52,7 @@ export function MatchDetailPanel({
   t: ReturnType<typeof useTranslation>['t'];
 }) {
   const [noteDraft, setNoteDraft] = useState(plan?.note ?? '');
+  const language = useSettingsStore((state) => state.language);
 
   useEffect(() => {
     setNoteDraft(plan?.note ?? '');
@@ -66,7 +68,10 @@ export function MatchDetailPanel({
       <View style={styles.detailHeader}>
         <View style={styles.detailTitleCopy}>
           <Text style={styles.detailEyebrow}>
-            {formatMatchMeta(item).toUpperCase()}
+            {formatMatchMeta(
+              item,
+              language === 'es' ? 'es' : 'en'
+            ).toUpperCase()}
           </Text>
           <Text style={styles.detailTitle}>{item.title}</Text>
         </View>

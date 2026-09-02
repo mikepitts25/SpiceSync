@@ -3,6 +3,17 @@
 // intensity, and tags. Pure and side-effect free so match explanations and
 // tests can rely on it directly.
 import type { ExperienceLevel, RiskLevel, Tier, TrustLevel } from '../data';
+import { interpolate } from '../i18n';
+import { en } from '../i18n/en';
+import { es } from '../i18n/es';
+
+export type GuidanceLanguage = 'en' | 'es';
+
+const TABLE = { en, es };
+
+function copyFor(language: GuidanceLanguage) {
+  return TABLE[language].matchExplanation;
+}
 
 export type GuidanceSource = {
   id: string;
@@ -117,94 +128,97 @@ export function deriveExperienceLevel(source: GuidanceSource): ExperienceLevel {
   return 'beginner';
 }
 
-function defaultPrep(source: GuidanceSource, risk: RiskLevel): string[] {
-  const prep = [
-    'Talk it through first: what each of you wants, and what is off the table.',
-    'Agree on a safeword or clear stop signal before you begin.',
-  ];
+function defaultPrep(
+  source: GuidanceSource,
+  risk: RiskLevel,
+  language: GuidanceLanguage
+): string[] {
+  const t = copyFor(language);
+  const prep = [t.prepTalkFirst, t.prepSafeword];
   if (risk !== 'low') {
-    prep.push(
-      'Gather anything you need ahead of time so you can stay present.'
-    );
+    prep.push(t.prepGather);
   }
   if (risk === 'high') {
-    prep.push(
-      'Learn the basics from a trusted resource before trying this, and plan an easy way out of any position or restraint.'
-    );
+    prep.push(t.prepLearnBasics);
   }
   const tags = lowerTags(source);
   if (tags.includes('anal')) {
-    prep.push('Plan for plenty of lubricant and a slow, gradual pace.');
+    prep.push(t.prepAnalLube);
   }
   if (tags.some((tag) => ['bondage', 'restraint', 'rope'].includes(tag))) {
-    prep.push('Keep safety shears or a quick release within reach.');
+    prep.push(t.prepBondageShears);
   }
   return prep;
 }
 
-function defaultSafetyNotes(source: GuidanceSource, risk: RiskLevel): string[] {
-  const notes = [
-    'Either of you can pause or stop at any time, no reason needed.',
-  ];
+function defaultSafetyNotes(
+  source: GuidanceSource,
+  risk: RiskLevel,
+  language: GuidanceLanguage
+): string[] {
+  const t = copyFor(language);
+  const notes = [t.safetyPauseAnytime];
   if (risk === 'medium') {
-    notes.push(
-      'Start well below the level you think you can handle and build up.'
-    );
+    notes.push(t.safetyStartBelow);
   }
   if (risk === 'high') {
-    notes.push(
-      'This carries real physical or emotional risk. Keep communication open the whole time and never leave a restrained partner alone.'
-    );
+    notes.push(t.safetyRealRisk);
   }
   const tags = lowerTags(source);
   if (tags.some((tag) => EMOTIONAL_RISK_TAGS.has(tag))) {
-    notes.push(
-      'Strong feelings can surface afterwards. Plan a gentle check-in for the next day too.'
-    );
+    notes.push(t.safetyStrongFeelings);
   }
   return notes;
 }
 
-function defaultAftercare(source: GuidanceSource, risk: RiskLevel): string[] {
-  const aftercare = [
-    'Check in: water, warmth, closeness, or quiet time — whatever you each need.',
-  ];
+function defaultAftercare(
+  source: GuidanceSource,
+  risk: RiskLevel,
+  language: GuidanceLanguage
+): string[] {
+  const t = copyFor(language);
+  const aftercare = [t.aftercareCheckIn];
   if (risk !== 'low') {
-    aftercare.push(
-      'Talk about what felt good and what you would change next time.'
-    );
+    aftercare.push(t.aftercareTalkAbout);
   }
   if (risk === 'high') {
-    aftercare.push(
-      'Watch for delayed drop over the next day or two and be extra kind to each other.'
-    );
+    aftercare.push(t.aftercareWatchForDrop);
   }
   return aftercare;
 }
 
-function defaultConsentPrompts(source: GuidanceSource): string[] {
+function defaultConsentPrompts(
+  source: GuidanceSource,
+  language: GuidanceLanguage
+): string[] {
+  const t = copyFor(language);
   return [
-    `What does a good version of "${source.title}" look like for each of you?`,
-    'What would make either of you want to stop or slow down?',
-    'How will you check in with each other while you try it?',
+    interpolate(t.consentGoodVersion, { title: source.title }),
+    t.consentWantToStop,
+    t.consentCheckIn,
   ];
 }
 
-export function getKinkGuidance(source: GuidanceSource): KinkGuidance {
+export function getKinkGuidance(
+  source: GuidanceSource,
+  language: GuidanceLanguage = 'en'
+): KinkGuidance {
   const riskLevel = deriveRiskLevel(source);
   return {
     riskLevel,
     trustLevel: deriveTrustLevel(source),
     experienceLevel: deriveExperienceLevel(source),
-    prep: source.prep?.length ? source.prep : defaultPrep(source, riskLevel),
+    prep: source.prep?.length
+      ? source.prep
+      : defaultPrep(source, riskLevel, language),
     safetyNotes: source.safetyNotes?.length
       ? source.safetyNotes
-      : defaultSafetyNotes(source, riskLevel),
+      : defaultSafetyNotes(source, riskLevel, language),
     aftercare: source.aftercare?.length
       ? source.aftercare
-      : defaultAftercare(source, riskLevel),
+      : defaultAftercare(source, riskLevel, language),
     consentPrompts: source.consentPrompts?.length
       ? source.consentPrompts
-      : defaultConsentPrompts(source),
+      : defaultConsentPrompts(source, language),
   };
 }

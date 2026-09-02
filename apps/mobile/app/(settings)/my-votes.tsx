@@ -29,6 +29,7 @@ import {
   type MyVotesSort,
 } from '../../lib/votes/myVotesView';
 import { COLORS } from '../../constants/theme';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
 
 import { ui } from '../../lib/i18n/uiLiteral';
 
@@ -155,6 +156,7 @@ export default function MyVotesScreen() {
             kink={item.kink}
             vote={item.vote}
             readiness={item.readiness}
+            language={language}
             onPress={() => setSelected(item)}
           />
         )}
@@ -181,7 +183,10 @@ export default function MyVotesScreen() {
             {selected && (
               <>
                 <Text style={styles.sheetCategory}>
-                  {selected.kink.category?.toUpperCase() ?? ui('GENERAL')}
+                  {(selected.kink.category
+                    ? formatKinkCategory(selected.kink.category, language)
+                    : ui('GENERAL')
+                  ).toUpperCase()}
                 </Text>
                 <Text style={styles.sheetTitle}>{selected.kink.title}</Text>
                 {selected.kink.description ? (
@@ -252,11 +257,13 @@ function VoteRow({
   kink,
   vote,
   readiness,
+  language,
   onPress,
 }: {
   kink: KinkItem;
   vote: VoteValue;
   readiness?: Readiness;
+  language: 'en' | 'es';
   onPress: () => void;
 }) {
   return (
@@ -271,7 +278,10 @@ function VoteRow({
       <View style={styles.rowLeft}>
         <View style={styles.rowMetaRow}>
           <Text style={styles.rowCategory}>
-            {kink.category?.toUpperCase() ?? ui('GENERAL')}
+            {(kink.category
+              ? formatKinkCategory(kink.category, language)
+              : ui('GENERAL')
+            ).toUpperCase()}
           </Text>
           {kink.intensityScale ? (
             <Text style={styles.rowLevel}>

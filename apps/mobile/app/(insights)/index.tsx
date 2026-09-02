@@ -11,6 +11,7 @@ import { useProfilesStore } from '../../lib/state/profiles';
 import { useCoupleLinkStore } from '../../lib/sync/coupleLink';
 import { useSettingsStore } from '../../src/stores/settingsStore';
 import { PremiumGate } from '../../components/PremiumGate';
+import { formatKinkCategory } from '../../lib/i18n/kinkCategories';
 
 import { ui } from '../../lib/i18n/uiLiteral';
 
@@ -201,7 +202,9 @@ function InsightsDashboard() {
                     <Text style={styles.categoryRankText}>#{index + 1}</Text>
                   </View>
                   <View style={styles.categoryInfo}>
-                    <Text style={styles.categoryName}>{cat.name}</Text>
+                    <Text style={styles.categoryName}>
+                      {formatKinkCategory(cat.name, language)}
+                    </Text>
                     <Text style={styles.categoryStats}>
                       {cat.yes}
                       {ui(' of ')}

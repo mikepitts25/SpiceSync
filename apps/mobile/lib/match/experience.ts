@@ -1,5 +1,15 @@
 import type { Tier } from '../data';
 import type { PairPreference, VoteValue } from '../votes/rolePreferences';
+import { interpolate } from '../i18n';
+import { en } from '../i18n/en';
+import { es } from '../i18n/es';
+import type { GuidanceLanguage } from '../kinks/guidance';
+
+const TABLE = { en, es };
+
+function copyFor(language: GuidanceLanguage) {
+  return TABLE[language].matchExplanation;
+}
 
 export type MatchRoleFilter = 'all' | 'paired' | 'give' | 'receive' | 'both';
 export type MatchVisibilityFilter = 'all' | 'unseen';
@@ -35,55 +45,74 @@ export type MatchFilterState = {
   viewedIds?: Set<string>;
 };
 
-const roleLabel = (role: PairPreference): string =>
-  role === 'give' ? 'Give' : role === 'receive' ? 'Receive' : 'Both';
+const roleLabel = (
+  role: PairPreference,
+  t: ReturnType<typeof copyFor>
+): string =>
+  role === 'give'
+    ? t.roleGive
+    : role === 'receive'
+      ? t.roleReceive
+      : t.roleBoth;
 
-export function describeRoleCompatibility(item: MatchExperienceItem): string {
-  if (!item.pairMode) return 'Shared interest.';
+export function describeRoleCompatibility(
+  item: MatchExperienceItem,
+  language: GuidanceLanguage = 'en'
+): string {
+  const t = copyFor(language);
+  if (!item.pairMode) return t.roleSharedInterest;
 
   const mine = item.myPairPreference ?? 'both';
   const partner = item.partnerPairPreference ?? 'both';
   const counterpart = item.matchedWithTitle
-    ? ` Partner matched with ${item.matchedWithTitle}.`
+    ? interpolate(t.roleMatchedWith, { title: item.matchedWithTitle })
     : '';
 
   if (mine === 'both' && partner === 'both') {
-    return `You both chose Both.${counterpart}`;
+    return interpolate(t.roleBothChoseBoth, { counterpart });
   }
 
-  return `You chose ${roleLabel(mine)}; partner chose ${roleLabel(partner)}.${counterpart}`;
+  return interpolate(t.roleChoseEach, {
+    mine: roleLabel(mine, t),
+    partner: roleLabel(partner, t),
+    counterpart,
+  });
 }
 
-export function createMatchPlan(item: MatchExperienceItem): MatchPlanStep[] {
+export function createMatchPlan(
+  item: MatchExperienceItem,
+  language: GuidanceLanguage = 'en'
+): MatchPlanStep[] {
+  const t = copyFor(language);
   const intensity = item.intensityScale
-    ? `level ${item.intensityScale}`
-    : 'your agreed level';
+    ? interpolate(t.planStartIntensityLevel, { level: item.intensityScale })
+    : t.planStartIntensityDefault;
 
   return [
     {
       id: 'boundaries',
-      title: 'Set boundaries',
-      body: 'Name hard limits, soft limits, safewords, and what either of you can pause or skip.',
+      title: t.planBoundariesTitle,
+      body: t.planBoundariesBody,
     },
     {
       id: 'prepare',
-      title: 'Prepare the space',
-      body: 'Gather anything needed, remove distractions, and agree on privacy before starting.',
+      title: t.planPrepareTitle,
+      body: t.planPrepareBody,
     },
     {
       id: 'start',
-      title: 'Start the match',
-      body: `Try ${item.title} at ${intensity}. Start slower than you think you need and build only with clear consent.`,
+      title: t.planStartTitle,
+      body: interpolate(t.planStartBody, { title: item.title, intensity }),
     },
     {
       id: 'check-in',
-      title: 'Check in',
-      body: 'Pause after a few minutes and ask what feels good, what should change, and whether to continue.',
+      title: t.planCheckInTitle,
+      body: t.planCheckInBody,
     },
     {
       id: 'aftercare',
-      title: 'Aftercare',
-      body: 'End with water, closeness, reassurance, cleanup, or quiet time based on what you both need.',
+      title: t.planAftercareTitle,
+      body: t.planAftercareBody,
     },
   ];
 }
